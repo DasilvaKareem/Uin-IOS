@@ -22,8 +22,8 @@ class feed: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-           updateusers()
+       
+        updateusers()
         refresher = UIRefreshControl()
         refresher.attributedTitle = NSAttributedString(string: "Bruh let me refresh")
         refresher.addTarget(self, action: "refresh", forControlEvents: UIControlEvents.ValueChanged)

@@ -97,14 +97,30 @@ class eventMake: UIViewController {
     
         @IBAction func makeEvent(sender: AnyObject) {
             
-            if (eventTitle.text == "" || eventSum.text == "") {
+     
+           var allError = ""
+            
+            if eventTitle.text == "" {
                 
-                eventTitle.placeholder = "Enter the Event Title"
-               
+                allError = "Enter a Title for your Event"
                 
             }
             
-            else{
+            if eventSum.text == ""{
+                
+                allError = "Enter a location for your Event"
+            }
+            
+            if dateStr.isEmpty && dateTime.isEmpty {
+                
+                
+                allError = "Enter a time and date"
+                
+                
+            }
+            println(allError)
+            
+            if allError == "" {
                 
             var empty = ""
             var event = PFObject(className: "event")
@@ -148,6 +164,11 @@ class eventMake: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        if PFUser.currentUser() == nil{
+            
+            self.performSegueWithIdentifier("register", sender: self)
+            
+        }
         // Do any additional setup after loading the view.
     }
 

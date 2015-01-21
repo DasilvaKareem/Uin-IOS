@@ -25,7 +25,6 @@
 		28277E671A4B1186001CCB02 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 28277E661A4B1186001CCB02 /* libsqlite3.dylib */; };
 		28277E6E1A4B161C001CCB02 /* UInProto.m in Sources */ = {isa = PBXBuildFile; fileRef = 28277E6D1A4B161C001CCB02 /* UInProto.m */; };
 		28277E701A4B1685001CCB02 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28277E6F1A4B1685001CCB02 /* SystemConfiguration.framework */; };
-		28277E731A4B1769001CCB02 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28277E711A4B1769001CCB02 /* Bolts.framework */; };
 		28277E761A4B1804001CCB02 /* SignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28277E751A4B1804001CCB02 /* SignIn.swift */; };
 		28277E781A4B1D0E001CCB02 /* register.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28277E771A4B1D0E001CCB02 /* register.swift */; };
 		28E653F51A5607CA006E76E5 /* sideview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E653F41A5607CA006E76E5 /* sideview.swift */; };
@@ -76,7 +75,6 @@
 		28277E6C1A4B161B001CCB02 /* UinProto2-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UinProto2-Bridging-Header.h"; sourceTree = "<group>"; };
 		28277E6D1A4B161C001CCB02 /* UInProto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UInProto.m; sourceTree = "<group>"; };
 		28277E6F1A4B1685001CCB02 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		28277E711A4B1769001CCB02 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = ../../Bolts.framework; sourceTree = "<group>"; };
 		28277E751A4B1804001CCB02 /* SignIn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignIn.swift; sourceTree = "<group>"; };
 		28277E771A4B1D0E001CCB02 /* register.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = register.swift; sourceTree = "<group>"; };
 		28E653F41A5607CA006E76E5 /* sideview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = sideview.swift; sourceTree = "<group>"; };
@@ -102,7 +100,6 @@
 				28277E621A4B1175001CCB02 /* CoreLocation.framework in Frameworks */,
 				28277E5E1A4B1175001CCB02 /* Security.framework in Frameworks */,
 				28277E641A4B1175001CCB02 /* CFNetwork.framework in Frameworks */,
-				28277E731A4B1769001CCB02 /* Bolts.framework in Frameworks */,
 				28277E611A4B1175001CCB02 /* libz.dylib in Frameworks */,
 				28277E631A4B1175001CCB02 /* CoreGraphics.framework in Frameworks */,
 				28277E701A4B1685001CCB02 /* SystemConfiguration.framework in Frameworks */,
@@ -162,7 +159,6 @@
 			children = (
 				28277E341A4B115E001CCB02 /* AppDelegate.swift */,
 				28277E751A4B1804001CCB02 /* SignIn.swift */,
-				28277E711A4B1769001CCB02 /* Bolts.framework */,
 				28277E381A4B115E001CCB02 /* Main.storyboard */,
 				28E654811A60C1AD006E76E5 /* eventMake.swift */,
 				28E6547F1A60B9FC006E76E5 /* eventFeedViewController.swift */,
