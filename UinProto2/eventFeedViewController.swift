@@ -8,6 +8,8 @@
 
 import UIKit
 
+
+
 class eventFeedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     
@@ -116,6 +118,8 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         cell.eventName.text = eventNamed[indexPath.row]
         
         
+        
+     
         
         return cell
         

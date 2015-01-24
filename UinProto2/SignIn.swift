@@ -16,7 +16,7 @@ class SignIn: UIViewController {
     
     @IBOutlet weak var password: UITextField!
     
-    var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
+
     
     func displayAlert(title:String, error:String) {
         
@@ -55,13 +55,7 @@ class SignIn: UIViewController {
         
             else {
             
-            activityIndicator = UIActivityIndicatorView(frame: CGRectMake(0, 0, 50, 50))
-            activityIndicator.center = self.view.center
-            activityIndicator.hidesWhenStopped = true
-            activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
-            view.addSubview(activityIndicator)
-            activityIndicator.startAnimating()
-            UIApplication.sharedApplication().beginIgnoringInteractionEvents()
+        
 
             PFUser.logInWithUsernameInBackground(username.text, password:password.text) {
                 (user: PFUser!, loginError: NSError!) -> Void in
@@ -70,7 +64,7 @@ class SignIn: UIViewController {
                 
                 if loginError == nil {
                     
-                    self.performSegueWithIdentifier("jump", sender: "self")
+                    self.performSegueWithIdentifier("login", sender: "self")
                     
                 }
                 else{
