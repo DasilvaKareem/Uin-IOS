@@ -113,7 +113,6 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         }
         
         cell.people.text = eventTitle[indexPath.row]
-        cell.date.text = eventDate[indexPath.row]
         cell.time.text = eventTime[indexPath.row]
         cell.eventName.text = eventNamed[indexPath.row]
         
