@@ -16,6 +16,21 @@ class SignIn: UIViewController {
     
     @IBOutlet weak var password: UITextField!
     
+    var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
+    
+    func displayAlert(title:String, error:String) {
+        
+        var alert = UIAlertController(title: title, message: error, preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { action in
+            
+            self.dismissViewControllerAnimated(true, completion: nil)
+            
+        }))
+        
+        self.presentViewController(alert, animated: true, completion: nil)
+        
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -32,9 +47,22 @@ class SignIn: UIViewController {
             error = "You did not enter a username or password"
             
         }
-        
-        if error == "" {
+        if error != "" {
             
+            displayAlert("Error in Form", error: error)
+            
+        }
+        
+            else {
+            
+            activityIndicator = UIActivityIndicatorView(frame: CGRectMake(0, 0, 50, 50))
+            activityIndicator.center = self.view.center
+            activityIndicator.hidesWhenStopped = true
+            activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
+            view.addSubview(activityIndicator)
+            activityIndicator.startAnimating()
+            UIApplication.sharedApplication().beginIgnoringInteractionEvents()
+
             PFUser.logInWithUsernameInBackground(username.text, password:password.text) {
                 (user: PFUser!, loginError: NSError!) -> Void in
                 
@@ -57,7 +85,7 @@ class SignIn: UIViewController {
     override func viewDidAppear(animated: Bool) {
         if PFUser.currentUser() != nil {
             
-            self.performSegueWithIdentifier("jump", sender: self)
+            //self.performSegueWithIdentifier("login", sender: self)
             
         }
         

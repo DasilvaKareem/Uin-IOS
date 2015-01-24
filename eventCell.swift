@@ -18,6 +18,7 @@ class eventCell: UITableViewCell {
     
     @IBOutlet weak var food: UIImageView!
     
+
     
     @IBOutlet weak var paid: UIImageView!
     

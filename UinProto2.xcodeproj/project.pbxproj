@@ -29,7 +29,6 @@
 		28277E781A4B1D0E001CCB02 /* register.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28277E771A4B1D0E001CCB02 /* register.swift */; };
 		28E653F51A5607CA006E76E5 /* sideview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E653F41A5607CA006E76E5 /* sideview.swift */; };
 		28E653F71A5B73ED006E76E5 /* profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E653F61A5B73ED006E76E5 /* profile.swift */; };
-		28E6547E1A60B9C8006E76E5 /* eventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E6547D1A60B9C8006E76E5 /* eventCell.swift */; };
 		28E654801A60B9FC006E76E5 /* eventFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E6547F1A60B9FC006E76E5 /* eventFeedViewController.swift */; };
 		28E654821A60C1AD006E76E5 /* eventMake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E654811A60C1AD006E76E5 /* eventMake.swift */; };
 		28E654851A63C2B5006E76E5 /* oncampusIcon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 28E654831A63C2B5006E76E5 /* oncampusIcon@3x.png */; };
@@ -39,6 +38,8 @@
 		28F8364D1A4FB3E400F45A0B /* feed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F8364C1A4FB3E400F45A0B /* feed.swift */; };
 		6107097D1A7028C4000ED950 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6107097C1A7028C4000ED950 /* Bolts.framework */; };
 		6107097F1A7028DD000ED950 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6107097E1A7028DD000ED950 /* Parse.framework */; };
+		610709841A71D624000ED950 /* eventProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610709831A71D624000ED950 /* eventProfile.swift */; };
+		61C8C3BF1A7417D4002FA19D /* eventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E6547D1A60B9C8006E76E5 /* eventCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -89,6 +90,7 @@
 		28F8364C1A4FB3E400F45A0B /* feed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = feed.swift; sourceTree = "<group>"; };
 		6107097C1A7028C4000ED950 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		6107097E1A7028DD000ED950 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
+		610709831A71D624000ED950 /* eventProfile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = eventProfile.swift; path = ../eventProfile.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -158,7 +160,9 @@
 			isa = PBXGroup;
 			children = (
 				28277E341A4B115E001CCB02 /* AppDelegate.swift */,
+				610709831A71D624000ED950 /* eventProfile.swift */,
 				28277E751A4B1804001CCB02 /* SignIn.swift */,
+				28277E771A4B1D0E001CCB02 /* register.swift */,
 				28277E381A4B115E001CCB02 /* Main.storyboard */,
 				28E654811A60C1AD006E76E5 /* eventMake.swift */,
 				28E6547F1A60B9FC006E76E5 /* eventFeedViewController.swift */,
@@ -167,7 +171,6 @@
 				280E6BB01A4FCF190094A008 /* ViewController.swift */,
 				28F8364C1A4FB3E400F45A0B /* feed.swift */,
 				28F8364A1A4FB25D00F45A0B /* customcell.swift */,
-				28277E771A4B1D0E001CCB02 /* register.swift */,
 				28277E6D1A4B161C001CCB02 /* UInProto.m */,
 				28E654871A63C2DA006E76E5 /* foodIcon@3x.png */,
 				28E654841A63C2B5006E76E5 /* freeIcon@3x.png */,
@@ -308,6 +311,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				61C8C3BF1A7417D4002FA19D /* eventCell.swift in Sources */,
 				28E653F71A5B73ED006E76E5 /* profile.swift in Sources */,
 				28E654801A60B9FC006E76E5 /* eventFeedViewController.swift in Sources */,
 				28F8364B1A4FB25D00F45A0B /* customcell.swift in Sources */,
@@ -315,7 +319,7 @@
 				28F8364D1A4FB3E400F45A0B /* feed.swift in Sources */,
 				28277E6E1A4B161C001CCB02 /* UInProto.m in Sources */,
 				28277E761A4B1804001CCB02 /* SignIn.swift in Sources */,
-				28E6547E1A60B9C8006E76E5 /* eventCell.swift in Sources */,
+				610709841A71D624000ED950 /* eventProfile.swift in Sources */,
 				28277E781A4B1D0E001CCB02 /* register.swift in Sources */,
 				280E6BB11A4FCF190094A008 /* ViewController.swift in Sources */,
 				28E654821A60C1AD006E76E5 /* eventMake.swift in Sources */,
