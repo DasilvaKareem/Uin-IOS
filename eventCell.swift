@@ -8,7 +8,7 @@
 
 import UIKit
 
-import EventKit
+
 
 class eventCell: UITableViewCell {
 
