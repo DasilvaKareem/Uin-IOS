@@ -26,8 +26,7 @@ class register: UIViewController {
         var alert = UIAlertController(title: title, message: error, preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { action in
             
-           // self.dismissViewControllerAnimated(true, completion: nil)
-            
+                      
             
             
         }))

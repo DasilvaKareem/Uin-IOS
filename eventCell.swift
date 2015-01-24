@@ -8,6 +8,8 @@
 
 import UIKit
 
+import EventKit
+
 class eventCell: UITableViewCell {
 
     @IBOutlet weak var eventName: UILabel!
@@ -28,6 +30,9 @@ class eventCell: UITableViewCell {
     @IBOutlet weak var time: UILabel!
     
     @IBOutlet weak var date: UILabel!
+    
+    
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()
