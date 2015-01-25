@@ -94,6 +94,14 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             
             
         }
+        else{
+            
+            cell.location.image = UIImage(named: "offCampus@3x.png")
+            
+            cell.onCampusText.text = "Off-Campus"
+            cell.onCampusText.textColor = UIColor.lightGrayColor()
+            
+        }
         
         if food[indexPath.row] == true {
             
@@ -102,12 +110,31 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             
             
             
+            
+        }
+        else{
+            
+            cell.food.image = UIImage(named: "noFood@3x.png")
+            
+            cell.foodText.text = "No Food"
+            cell.foodText.textColor = UIColor.lightGrayColor()
+            
+            
         }
         if paid[indexPath.row] == false {
             
             
             cell.paid.image = UIImage(named: "freeicon@3x.png")
             
+            
+            
+        }
+        else{
+            
+            cell.paid.image = UIImage(named: "noFree@3x.png")
+            
+            cell.costText.text = "Not Free"
+            cell.costText.textColor = UIColor.lightGrayColor()
             
             
         }

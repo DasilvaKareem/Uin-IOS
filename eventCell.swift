@@ -12,6 +12,12 @@ import UIKit
 
 class eventCell: UITableViewCell {
 
+    @IBOutlet weak var foodText: UILabel!
+    
+    @IBOutlet weak var costText: UILabel!
+    
+    @IBOutlet weak var onCampusText: UILabel!
+    
     @IBOutlet weak var eventName: UILabel!
     
    

@@ -86,21 +86,15 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="27p-qg-Mn0" id="s9d-qn-nSd">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="freeIcon@3x.png" translatesAutoresizingMaskIntoConstraints="NO" id="KGh-BB-NXN">
-                                                    <rect key="frame" x="106" y="0.0" width="19" height="28"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KGh-BB-NXN">
+                                                    <rect key="frame" x="189" y="3" width="10" height="19"/>
                                                 </imageView>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="foodIcon@3x.png" translatesAutoresizingMaskIntoConstraints="NO" id="7SK-Wp-1t7">
-                                                    <rect key="frame" x="167" y="2" width="13" height="23"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7SK-Wp-1t7">
+                                                    <rect key="frame" x="104" y="3" width="19" height="19"/>
                                                 </imageView>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="oncampusIcon@3x.png" translatesAutoresizingMaskIntoConstraints="NO" id="vZq-fa-3vg">
-                                                    <rect key="frame" x="8" y="3" width="15" height="21"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vZq-fa-3vg">
+                                                    <rect key="frame" x="8" y="3" width="15" height="19"/>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Organization Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M3M-rB-J8M">
-                                                    <rect key="frame" x="8" y="50" width="206" height="20"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Time" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FuD-Ix-6Ww">
                                                     <rect key="frame" x="244" y="49" width="68" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -117,35 +111,50 @@
                                                     </connections>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="On-Campus" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7uT-eY-0YS">
-                                                    <rect key="frame" x="27" y="3" width="57" height="21"/>
+                                                    <rect key="frame" x="28" y="3" width="68" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Free" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ful-ef-m3V">
-                                                    <rect key="frame" x="128" y="3" width="57" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ful-ef-m3V">
+                                                    <rect key="frame" x="123" y="22" width="57" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Food" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6f7-Kq-eOm">
-                                                    <rect key="frame" x="188" y="3" width="57" height="21"/>
+                                                    <rect key="frame" x="208" y="3" width="57" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Event Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="5" translatesAutoresizingMaskIntoConstraints="NO" id="8vT-Cq-pRM">
-                                                    <rect key="frame" x="8" y="26" width="237" height="24"/>
+                                                    <rect key="frame" x="8" y="25" width="237" height="24"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Free" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0cW-qw-nOz">
+                                                    <rect key="frame" x="128" y="5" width="43" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Organization Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M3M-rB-J8M">
+                                                    <rect key="frame" x="8" y="47" width="206" height="20"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="costText" destination="0cW-qw-nOz" id="gVn-JH-Ulc"/>
                                             <outlet property="eventName" destination="8vT-Cq-pRM" id="90h-5w-0er"/>
                                             <outlet property="food" destination="KGh-BB-NXN" id="YDX-5A-fpa"/>
+                                            <outlet property="foodText" destination="6f7-Kq-eOm" id="rCn-EW-9B1"/>
                                             <outlet property="location" destination="vZq-fa-3vg" id="GvA-uo-CtQ"/>
+                                            <outlet property="onCampusText" destination="7uT-eY-0YS" id="05v-LQ-Jb8"/>
                                             <outlet property="paid" destination="7SK-Wp-1t7" id="REC-OY-EWz"/>
                                             <outlet property="people" destination="M3M-rB-J8M" id="DOX-uo-Ud1"/>
                                             <outlet property="time" destination="FuD-Ix-6Ww" id="ydM-5D-rRS"/>
@@ -159,10 +168,17 @@
                             </tableView>
                             <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0wG-vJ-nVN">
                                 <rect key="frame" x="0.0" y="14" width="320" height="44"/>
+                                <color key="barTintColor" red="0.25490196079999999" green="0.56862745100000001" blue="0.77647058820000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <textAttributes key="titleTextAttributes">
+                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </textAttributes>
                                 <items>
-                                    <navigationItem title="Title" id="oBB-Py-WQP">
-                                        <barButtonItem key="leftBarButtonItem" title="Logout" id="Iw4-e4-lxq"/>
-                                        <barButtonItem key="rightBarButtonItem" title="Item" systemItem="compose" id="CiI-vb-O6Q">
+                                    <navigationItem title="Events" id="oBB-Py-WQP">
+                                        <barButtonItem key="leftBarButtonItem" title="Logout" id="Iw4-e4-lxq">
+                                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" image="createEvent" style="plain" id="CiI-vb-O6Q">
+                                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <connections>
                                                 <segue destination="wj6-a8-ugv" kind="show" identifier="" id="EpO-cp-p6l"/>
                                             </connections>
@@ -189,7 +205,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gUf-sa-8yM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1661" y="661"/>
+            <point key="canvasLocation" x="-1661" y="655"/>
         </scene>
         <!--Item-->
         <scene sceneID="mxh-Zb-eyh">
@@ -515,11 +531,9 @@
     </scenes>
     <resources>
         <image name="addToCalendar" width="49" height="49"/>
-        <image name="foodIcon@3x.png" width="36" height="57"/>
-        <image name="freeIcon@3x.png" width="63" height="57"/>
+        <image name="createEvent" width="25" height="29"/>
         <image name="noEventFeed" width="31" height="33"/>
         <image name="noProfileFeed" width="27" height="33"/>
-        <image name="oncampusIcon@3x.png" width="51" height="57"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="nGZ-DB-eDP"/>
