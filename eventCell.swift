@@ -28,6 +28,7 @@ class eventCell: UITableViewCell {
     
 
 
+    @IBOutlet weak var poop: UIButton!
     
     @IBOutlet weak var paid: UIImageView!
     

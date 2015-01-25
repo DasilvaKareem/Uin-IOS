@@ -144,15 +144,6 @@
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gNG-eJ-j8Y">
-                                                    <rect key="frame" x="271" y="-1" width="50" height="50"/>
-                                                    <state key="normal" image="addToCalendar">
-                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                    </state>
-                                                    <connections>
-                                                        <action selector="eventMake:" destination="27p-qg-Mn0" eventType="touchUpInside" id="2bE-FO-149"/>
-                                                    </connections>
-                                                </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="On-Campus" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7uT-eY-0YS">
                                                     <rect key="frame" x="28" y="3" width="68" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
@@ -189,6 +180,12 @@
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zMe-Q6-Io3">
+                                                    <rect key="frame" x="255" y="5" width="46" height="30"/>
+                                                    <state key="normal" title="Button">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                </button>
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
@@ -200,6 +197,7 @@
                                             <outlet property="onCampusText" destination="7uT-eY-0YS" id="05v-LQ-Jb8"/>
                                             <outlet property="paid" destination="7SK-Wp-1t7" id="REC-OY-EWz"/>
                                             <outlet property="people" destination="M3M-rB-J8M" id="DOX-uo-Ud1"/>
+                                            <outlet property="poop" destination="zMe-Q6-Io3" id="rki-fI-tAO"/>
                                             <outlet property="time" destination="FuD-Ix-6Ww" id="ydM-5D-rRS"/>
                                         </connections>
                                     </tableViewCell>
@@ -545,7 +543,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="addToCalendar" width="49" height="49"/>
         <image name="createEvent" width="25" height="29"/>
         <image name="noEventFeed" width="31" height="33"/>
         <image name="noProfileFeed" width="27" height="33"/>
