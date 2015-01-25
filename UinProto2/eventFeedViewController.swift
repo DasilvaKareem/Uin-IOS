@@ -28,7 +28,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.navigationController?.navigationBar.barTintColor = UIColor.blackColor()
         var que = PFQuery(className: "event")
         que.orderByAscending("dateTime")
         que.findObjectsInBackgroundWithBlock{

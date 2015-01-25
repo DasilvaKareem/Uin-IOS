@@ -31,6 +31,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         orgName.text = PFUser.currentUser().username
         var que = PFQuery(className: "event")
         que.orderByAscending("dateTime")
