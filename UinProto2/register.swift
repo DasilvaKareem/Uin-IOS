@@ -60,13 +60,7 @@ class register: UIViewController {
             
         else {
             
-            activityIndicator = UIActivityIndicatorView(frame: CGRectMake(0, 0, 50, 50))
-            activityIndicator.center = self.view.center
-            activityIndicator.hidesWhenStopped = true
-            activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
-            view.addSubview(activityIndicator)
-            activityIndicator.startAnimating()
-            UIApplication.sharedApplication().beginIgnoringInteractionEvents()
+
 
             
             var user = PFUser()
@@ -82,7 +76,7 @@ class register: UIViewController {
                 
                 if registerError == nil {
                     
-                    self.performSegueWithIdentifier("jump", sender: self)
+                    self.performSegueWithIdentifier("registerS", sender: self)
                     
                 }
                 

@@ -34,6 +34,12 @@ class SignIn: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        username.attributedPlaceholder = NSAttributedString(string:"USERNAME",
+            attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
+        
+        password.attributedPlaceholder = NSAttributedString(string:"PASSWORD",
+            attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
+        
         // Do any additional setup after loading the view.
         
     }
