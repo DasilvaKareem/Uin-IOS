@@ -8,7 +8,7 @@
 
 import UIKit
 
-
+import EventKit
 
 class eventFeedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
@@ -22,6 +22,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     var eventNamed = [String]()
     var eventTime = [String]()
     var eventDate = [String]()
+    var eventNS = [NSDate]()
     
     
     
@@ -40,6 +41,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                 for object in objects{
                     
                     println(object.objectId)
+                    self.eventNS.append(object["dateTime"] as NSDate)
                     self.eventTitle.append(object["sum"] as String)
                     self.eventDate.append(object["date"] as String)
                     self.eventTime.append(object["time"] as String)
@@ -83,9 +85,18 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         
     }
     
+
+ 
+   
+   
+        
+    
+    
+    var number = [Int]()
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
         // Puts the data in a cell
         var cell:eventCell = tableView.dequeueReusableCellWithIdentifier("cell2") as eventCell
+        
         if onsite[indexPath.row] == true {
             
             
@@ -142,15 +153,44 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         cell.people.text = eventTitle[indexPath.row]
         cell.time.text = eventTime[indexPath.row]
         cell.eventName.text = eventNamed[indexPath.row]
-        
-        
-        
-     
+        cell.poop.tag = indexPath.row
+       cell.poop.addTarget(self, action: "followButton:", forControlEvents: UIControlEvents.TouchUpInside)
+   
+  
+       
         
         return cell
         
+        
     }
 
+ 
+    
+    func followButton(sender: AnyObject){
+        // Puts the data in a cell
+        
+        
+        var eventStore : EKEventStore = EKEventStore()
+        
+        eventStore.requestAccessToEntityType(EKEntityTypeEvent, completion: {
+            granted, error in
+            if (granted) && (error == nil) {
+                println("granted \(granted)")
+                println("error  \(error)")
+                
+                var event:EKEvent = EKEvent(eventStore: eventStore)
+                event.title = self.eventNamed[sender.tag]
+                event.startDate = self.eventNS[sender.tag]
+                event.endDate = self.eventNS[sender.tag]
+                //event.notes = self.eventTitle[sender.tag]
+                event.location = self.eventTitle[sender.tag]
+                event.calendar = eventStore.defaultCalendarForNewEvents
+                eventStore.saveEvent(event, span: EKSpanThisEvent, error: nil)
+                println("Saved Event")
+            }
+        })
+        
+    }
     
 
 }
