@@ -169,7 +169,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     func followButton(sender: AnyObject){
         // Puts the data in a cell
         
-        
+        var events = PFObject(className: "")
         var eventStore : EKEventStore = EKEventStore()
         
         eventStore.requestAccessToEntityType(EKEntityTypeEvent, completion: {
