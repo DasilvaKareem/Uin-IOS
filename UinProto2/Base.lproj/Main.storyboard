@@ -205,6 +205,9 @@
                                     <navigationItem title="Events" id="oBB-Py-WQP">
                                         <barButtonItem key="leftBarButtonItem" title="Logout" id="Iw4-e4-lxq">
                                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <connections>
+                                                <action selector="logout:" destination="Fbc-Ey-Gr7" id="ZDg-jO-YTW"/>
+                                            </connections>
                                         </barButtonItem>
                                         <barButtonItem key="rightBarButtonItem" image="createEvent" style="plain" id="CiI-vb-O6Q">
                                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -222,11 +225,12 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
                         <outlet property="theFeed" destination="qcV-YZ-zmg" id="cMD-DZ-Qlz"/>
+                        <segue destination="6lS-Ca-3sI" kind="show" identifier="logout" id="nBa-mX-Hhc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gUf-sa-8yM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1661" y="681"/>
+            <point key="canvasLocation" x="-1667" y="681"/>
         </scene>
         <!--Item-->
         <scene sceneID="mxh-Zb-eyh">
@@ -584,6 +588,7 @@
         <image name="uinLogo" width="596" height="596"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="nBa-mX-Hhc"/>
         <segue reference="Ey9-Bb-gh3"/>
     </inferredMetricsTieBreakers>
 </document>

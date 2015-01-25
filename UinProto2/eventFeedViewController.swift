@@ -24,6 +24,11 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     var eventDate = [String]()
     var eventNS = [NSDate]()
     
+    @IBAction func logout(sender: AnyObject) {
+        
+        PFUser.logOut()
+        self.performSegueWithIdentifier("logout", sender: self)
+    }
     
     
     override func viewDidLoad() {
