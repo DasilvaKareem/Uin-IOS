@@ -110,6 +110,8 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             
             
             cell.location.image = UIImage(named: "oncampusicon@3x.png")
+            cell.onCampusText.text = "On-Campus"
+            cell.onCampusText.textColor = UIColor.darkGrayColor()
             
             
             
@@ -127,8 +129,8 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             
             
             cell.food.image = UIImage(named: "foodicon@3x.png")
-            
-            
+            cell.foodText.text = "Food"
+            cell.foodText.textColor = UIColor.darkGrayColor()
             
             
         }
@@ -145,7 +147,8 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             
             
             cell.paid.image = UIImage(named: "freeicon@3x.png")
-            
+            cell.costText.text = "Free"
+            cell.costText.textColor = UIColor.darkGrayColor()
             
             
         }
