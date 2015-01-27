@@ -23,6 +23,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     var eventTime = [String]()
     var eventDate = [String]()
     var eventNS = [NSDate]()
+    var usernames = [String]()
     
     @IBAction func logout(sender: AnyObject) {
         
@@ -32,6 +33,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return UIStatusBarStyle.LightContent
+        
     }
 
     
@@ -50,6 +52,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                 for object in objects{
                     
                     println(object.objectId)
+                    self.usernames.append(object["user"] as String)
                     self.eventNS.append(object["dateTime"] as NSDate)
                     self.eventTitle.append(object["sum"] as String)
                     self.eventDate.append(object["date"] as String)
@@ -180,15 +183,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
   
     
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-       
-    
-        self.performSegueWithIdentifier("example", sender: self)
-       
-        
-     
-        
-    }
+
 
  
     
@@ -224,19 +219,48 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
    override func prepareForSegue(segue:UIStoryboardSegue, sender: AnyObject?){
+
+        
         
         if segue.identifier == "example" {
             var secondViewController : postEvent = segue.destinationViewController as postEvent
             
-            //secondViewController.data = self.dataArray.objectAtIndex(indexPath.row)
-            //secondViewController.storeTitle = eventTitle[indexPath.row]
-            secondViewController.storeTitle = "hey"
+            println("hey")
+            //secondViewController.storeTitle = eventTitle[sender?.tag!]
             
+            secondViewController.storeTitle = "jhey"
+            
+            var indexPath = theFeed.indexPathForSelectedRow() //get index of data for selected row
+            var thenum = indexPath?.row
+            secondViewController.storeLocation = eventTitle[thenum!]
+            secondViewController.storeTitle = eventNamed[thenum!]
+            secondViewController.storeTime = eventTime[thenum!]
+            secondViewController.storeDate = eventDate[thenum!]
+            secondViewController.onsite = onsite[thenum!]
+            secondViewController.cost = food[thenum!]
+            secondViewController.food = food[thenum!]
+            secondViewController.users = usernames[thenum!]
             
             
         }
+    
+    
+    
     }
-    
-    
+   
+     /*func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        func prepareForSegue(segue:UIStoryboardSegue, sender:AnyObject?){
+                if segue.identifier == "example"{
+                    
+                    println("HEY")
+            }
+            
+            
+        }
+        
+    }
+  
+    */
 
 }

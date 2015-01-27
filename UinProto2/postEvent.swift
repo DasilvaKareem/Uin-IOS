@@ -20,7 +20,17 @@ class postEvent: UIViewController {
     
     @IBOutlet weak var date: UILabel!
  
-    @IBOutlet weak var eventSum: UILabel!
+    @IBOutlet weak var isFood: UIImageView!
+    
+    
+    @IBOutlet weak var isSite: UIImageView!
+    
+    
+    @IBOutlet weak var username: UILabel!
+    
+    @IBOutlet weak var isPaid: UIImageView!
+  
+    var users = String()
     
     var storeTitle = String()
     
@@ -32,13 +42,92 @@ class postEvent: UIViewController {
     
     var storeSum = String()
     
+    var data = Int()
+    
+    var onsite = Bool()
+    
+    var food = Bool()
+    
+    var  cost = Bool()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-       eventTitle.text = storeTitle
+       location.text = storeLocation
+        
+        eventTitle.text = storeTitle
+        
+        username.text = users
+        
+        time.text = storeTime
+        
+        date.text = storeDate
+        putIcons()
+        
+    
         //self.example.text = self.data
         // Do any additional setup after loading the view.
+    }
+    
+    func putIcons(){
+        
+        
+        if  onsite == true {
+            
+            
+            isSite.image = UIImage(named: "oncampusicon@3x.png")
+         
+            
+            
+            
+        }
+        else{
+            
+            isSite.image = UIImage(named: "offCampus@3x.png")
+            
+   
+            
+        }
+        
+        if food == true {
+            
+            
+            isFood.image = UIImage(named: "foodicon@3x.png")
+           
+            
+            
+        }
+        else{
+            
+            isFood.image = UIImage(named: "noFood@3x.png")
+            
+        
+            
+            
+        }
+        if cost == false {
+            
+            
+            isPaid.image = UIImage(named: "freeicon@3x.png")
+           
+            
+            
+        }
+        else{
+            
+            isPaid.image = UIImage(named: "noFree@3x.png")
+            
+            
+        }
+        
+        
+        
+        
+        
+        
+        
+        
+        
     }
 
     override func didReceiveMemoryWarning() {
