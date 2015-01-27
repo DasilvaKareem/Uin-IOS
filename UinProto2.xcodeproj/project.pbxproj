@@ -38,6 +38,7 @@
 		28F8364D1A4FB3E400F45A0B /* feed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F8364C1A4FB3E400F45A0B /* feed.swift */; };
 		6107097D1A7028C4000ED950 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6107097C1A7028C4000ED950 /* Bolts.framework */; };
 		6107097F1A7028DD000ED950 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6107097E1A7028DD000ED950 /* Parse.framework */; };
+		618CE0141A76F4A400FF493C /* postEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618CE0131A76F4A400FF493C /* postEvent.swift */; };
 		61C8C3BF1A7417D4002FA19D /* eventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E6547D1A60B9C8006E76E5 /* eventCell.swift */; };
 		61D597701A7499CB009A4ECE /* NewProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613069F11A745289001CAF4F /* NewProfile.swift */; };
 		9C77F93D1A7468A600CAF42B /* noFood@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C77F93A1A7468A600CAF42B /* noFood@3x.png */; };
@@ -94,6 +95,7 @@
 		6107097C1A7028C4000ED950 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		6107097E1A7028DD000ED950 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		613069F11A745289001CAF4F /* NewProfile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewProfile.swift; path = ../NewProfile.swift; sourceTree = "<group>"; };
+		618CE0131A76F4A400FF493C /* postEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = postEvent.swift; sourceTree = "<group>"; };
 		9C77F93A1A7468A600CAF42B /* noFood@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "noFood@3x.png"; sourceTree = "<group>"; };
 		9C77F93B1A7468A600CAF42B /* noFree@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "noFree@3x.png"; sourceTree = "<group>"; };
 		9C77F93C1A7468A600CAF42B /* offCampus@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "offCampus@3x.png"; sourceTree = "<group>"; };
@@ -172,6 +174,7 @@
 				28277E381A4B115E001CCB02 /* Main.storyboard */,
 				28E654811A60C1AD006E76E5 /* eventMake.swift */,
 				28E6547F1A60B9FC006E76E5 /* eventFeedViewController.swift */,
+				618CE0131A76F4A400FF493C /* postEvent.swift */,
 				28E653F61A5B73ED006E76E5 /* profile.swift */,
 				28E653F41A5607CA006E76E5 /* sideview.swift */,
 				280E6BB01A4FCF190094A008 /* ViewController.swift */,
@@ -329,6 +332,7 @@
 				28E654801A60B9FC006E76E5 /* eventFeedViewController.swift in Sources */,
 				28F8364B1A4FB25D00F45A0B /* customcell.swift in Sources */,
 				28E653F51A5607CA006E76E5 /* sideview.swift in Sources */,
+				618CE0141A76F4A400FF493C /* postEvent.swift in Sources */,
 				28F8364D1A4FB3E400F45A0B /* feed.swift in Sources */,
 				28277E6E1A4B161C001CCB02 /* UInProto.m in Sources */,
 				28277E761A4B1804001CCB02 /* SignIn.swift in Sources */,

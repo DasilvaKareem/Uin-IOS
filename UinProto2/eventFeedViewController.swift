@@ -30,9 +30,14 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         self.performSegueWithIdentifier("logout", sender: self)
     }
     
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return UIStatusBarStyle.LightContent
+    }
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
+     
         var que = PFQuery(className: "event")
         que.orderByAscending("dateTime")
         que.findObjectsInBackgroundWithBlock{
@@ -167,15 +172,31 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         
         
     }
+    
+    
+  
+    
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+       
+    
+        self.performSegueWithIdentifier("example", sender: self)
+       
+        
+     
+        
+    }
 
  
     
     func followButton(sender: AnyObject){
         // Puts the data in a cell
         
-        var events = PFObject(className: "")
-        var eventStore : EKEventStore = EKEventStore()
+
         
+    
+        var eventStore : EKEventStore = EKEventStore()
+       
         eventStore.requestAccessToEntityType(EKEntityTypeEvent, completion: {
             granted, error in
             if (granted) && (error == nil) {
@@ -183,7 +204,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                 println("error  \(error)")
                 
                 var event:EKEvent = EKEvent(eventStore: eventStore)
-                event.title = self.eventNamed[sender.tag]
+               event.title = self.eventNamed[sender.tag]
                 event.startDate = self.eventNS[sender.tag]
                 event.endDate = self.eventNS[sender.tag]
                 //event.notes = self.eventTitle[sender.tag]
@@ -194,7 +215,25 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             }
         })
         
+   
+        
+        
     }
+    
+   override func prepareForSegue(segue:UIStoryboardSegue, sender: AnyObject?){
+        
+        if segue.identifier == "example" {
+            var secondViewController : postEvent = segue.destinationViewController as postEvent
+            
+            //secondViewController.data = self.dataArray.objectAtIndex(indexPath.row)
+            //secondViewController.storeTitle = eventTitle[indexPath.row]
+            secondViewController.storeTitle = "hey"
+            
+            
+            
+        }
+    }
+    
     
 
 }

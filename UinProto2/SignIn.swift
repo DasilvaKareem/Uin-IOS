@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SignIn: UIViewController {
+class SignIn: UIViewController, UITextFieldDelegate {
     
     
     @IBOutlet weak var username: UITextField!
@@ -16,7 +16,19 @@ class SignIn: UIViewController {
     
     @IBOutlet weak var password: UITextField!
     
-
+    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+        
+        self.view.endEditing(true)
+        
+    }
+    
+    func textFieldShouldReturn(textField: UITextField!) -> Bool {
+        
+        textField.resignFirstResponder()
+        
+        return true
+        
+    }
     
     func displayAlert(title:String, error:String) {
         
