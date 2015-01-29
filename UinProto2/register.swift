@@ -38,14 +38,26 @@ class register: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        username.attributedPlaceholder = NSAttributedString(string:"USERNAME",
+            attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
+        
+        password.attributedPlaceholder = NSAttributedString(string:"PASSWORD",
+            attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
+        
+        email.attributedPlaceholder = NSAttributedString(string:"EMAIL",
+            attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
+
 
         // Do any additional setup after loading the view.
     }
+    
 
     
     @IBAction func register(sender: AnyObject) {
         
-        var error = ""
+        
+        var error = "Please enter a proper Username or Password"
         
         if username.text == "" || password.text == "" {
             
@@ -55,7 +67,7 @@ class register: UIViewController {
         
         if error != ""{
             
-            displayAlert("Error in Form", error: error)
+            displayAlert("Oops!", error: error)
         }
             
         else {
