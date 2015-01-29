@@ -18,6 +18,8 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var theFeed: UITableView!
     
+    //Decalres all the arrays that hold the data
+    
     var onsite = [Bool]()
     var paid = [Bool]()
     var food = [Bool]()
@@ -32,10 +34,16 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //Queries all the events and puts into the arrays above
+        
         orgName.text = PFUser.currentUser().username
+        
         var que = PFQuery(className: "event")
+        
         que.orderByAscending("dateTime")
+        
         que.whereKey("user", equalTo: PFUser.currentUser().username)
+        
         que.findObjectsInBackgroundWithBlock{
         
             (objects:[AnyObject]!,eventError:NSError!) -> Void in
@@ -47,13 +55,21 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
                     
                     println(object.objectId)
                     self.eventNS.append(object["dateTime"] as NSDate)
+                    
                     self.eventTitle.append(object["sum"] as String)
+                    
                     self.eventDate.append(object["date"] as String)
+                    
                     self.eventTime.append(object["time"] as String)
+                    
                     self.food.append(object["food"] as Bool)
+                    
                     self.paid.append(object["paid"] as Bool)
+                    
                     self.onsite.append(object["location"] as Bool)
+                    
                     self.eventNamed.append(object["title"] as String)
+                    
                     self.theFeed.reloadData()
                     
                     
@@ -99,7 +115,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     var number = [Int]()
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
-        // Puts the data in a cell
+        // Puts the all the data in the cell using indexpath
         var cell:eventCell = tableView.dequeueReusableCellWithIdentifier("cell2") as eventCell
         
         if onsite[indexPath.row] == true {
@@ -172,7 +188,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     
     func followButton(sender: AnyObject){
-        // Puts the data in a cell
+        //ADDS THE Event to the calendar
         
         
         var eventStore : EKEventStore = EKEventStore()
@@ -196,6 +212,46 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         })
         
     }
+    
+    override func prepareForSegue(segue:UIStoryboardSegue, sender: AnyObject?){
+        
+        
+        //Creates the variables for the post Event cell
+        if segue.identifier == "example" {
+            var secondViewController : postEvent = segue.destinationViewController as postEvent
+            
+            println("hey")
+           
+            
+        
+            //Get the index path
+            var indexPath = theFeed.indexPathForSelectedRow()
+            
+            var thenum = indexPath?.row
+            
+            secondViewController.storeLocation = eventTitle[thenum!]
+            
+            secondViewController.storeTitle = eventNamed[thenum!]
+            
+            secondViewController.storeTime = eventTime[thenum!]
+            
+            secondViewController.storeDate = eventDate[thenum!]
+            
+            secondViewController.onsite = onsite[thenum!]
+            
+            secondViewController.cost = food[thenum!]
+            
+            secondViewController.food = food[thenum!]
+            
+           // secondViewController.users = usernames[thenum!]
+            
+            
+        }
+        
+        
+        
+    }
+
     
     
 }

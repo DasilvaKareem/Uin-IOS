@@ -69,6 +69,12 @@ class postEvent: UIViewController {
         // Do any additional setup after loading the view.
     }
     
+    @IBAction func backbutton(sender: AnyObject) {
+        
+        self.performSegueWithIdentifier("backing", sender: self)
+    }
+    
+    
     func putIcons(){
         
         

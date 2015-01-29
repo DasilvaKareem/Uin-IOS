@@ -33,13 +33,14 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return UIStatusBarStyle.BlackOpaque
+      
         
     }
-
     
+
     override func viewDidLoad() {
         super.viewDidLoad()
-     
+        navigationController?.navigationBar.barTintColor = UIColor.redColor()
         var que = PFQuery(className: "event")
         que.orderByAscending("dateTime")
         que.findObjectsInBackgroundWithBlock{
@@ -192,7 +193,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         
 
         
-    
+        var thePoop = PFObject(className: "thePoop")
         var eventStore : EKEventStore = EKEventStore()
        
         eventStore.requestAccessToEntityType(EKEntityTypeEvent, completion: {
@@ -210,6 +211,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                 event.calendar = eventStore.defaultCalendarForNewEvents
                 eventStore.saveEvent(event, span: EKSpanThisEvent, error: nil)
                 println("Saved Event")
+                
             }
         })
         

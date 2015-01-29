@@ -47,21 +47,30 @@ class register: UIViewController {
         
         email.attributedPlaceholder = NSAttributedString(string:"EMAIL",
             attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
+        
+        password2.attributedPlaceholder = NSAttributedString(string:"Confirm Password",
+            attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
 
 
         // Do any additional setup after loading the view.
     }
     
 
+    @IBOutlet weak var password2: UITextField!
     
     @IBAction func register(sender: AnyObject) {
         
         
-        var error = "Please enter a proper Username or Password"
+        var error = ""
         
         if username.text == "" || password.text == "" {
             
             error = "You did not enter a username or password"
+            
+        }
+        if password.text != password2.text {
+            
+            error = "Passwords do not match"
             
         }
         
