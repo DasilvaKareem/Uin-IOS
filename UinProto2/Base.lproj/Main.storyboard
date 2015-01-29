@@ -324,7 +324,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5rQ-t6-Cuv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1667" y="1503"/>
+            <point key="canvasLocation" x="-1007" y="1397"/>
         </scene>
         <!--Profile View-->
         <scene sceneID="mxh-Zb-eyh">
@@ -424,6 +424,7 @@
                                             <outlet property="people" destination="HcQ-Rx-vTL" id="fwn-b3-Xik"/>
                                             <outlet property="poop" destination="rRe-im-Kdz" id="iZ6-X6-1Gr"/>
                                             <outlet property="time" destination="WYr-6e-ekS" id="VBB-vL-DG1"/>
+                                            <segue destination="y9y-G9-w9b" kind="show" id="lCN-Lr-0iM"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -696,6 +697,7 @@
         <image name="uinLogo" width="596" height="596"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="lCN-Lr-0iM"/>
         <segue reference="nGZ-DB-eDP"/>
         <segue reference="UWg-ZO-xAy"/>
     </inferredMetricsTieBreakers>
