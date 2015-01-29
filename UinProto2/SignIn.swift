@@ -41,6 +41,10 @@ class SignIn: UIViewController, UITextFieldDelegate {
         
         self.presentViewController(alert, animated: true, completion: nil)
         
+        func preferredStatusBarStyle() -> UIStatusBarStyle {
+            return UIStatusBarStyle.Default
+        }
+        
     }
     
     override func viewDidLoad() {
@@ -62,12 +66,12 @@ class SignIn: UIViewController, UITextFieldDelegate {
         
         if username.text == "" || password.text == "" {
             
-            error = "You did not enter a username or password"
+            error = "Please enter a proper Username and Password"
             
         }
         if error != "" {
             
-            displayAlert("Error in Form", error: error)
+            displayAlert("Oops!", error: error)
             
         }
         

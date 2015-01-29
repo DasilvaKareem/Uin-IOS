@@ -32,7 +32,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.LightContent
+        return UIStatusBarStyle.BlackOpaque
         
     }
 
