@@ -38,6 +38,7 @@ class register: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
         
         username.attributedPlaceholder = NSAttributedString(string:"USERNAME",
             attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
