@@ -30,6 +30,11 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     var eventNS = [NSDate]()
     
     
+    @IBAction func logout(sender: AnyObject) {
+        
+        PFUser.logOut()
+        self.performSegueWithIdentifier("logout", sender: self)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

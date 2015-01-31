@@ -53,6 +53,8 @@ class postEvent: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+       
+        
        location.text = storeLocation
         
         eventTitle.text = storeTitle
@@ -69,11 +71,7 @@ class postEvent: UIViewController {
         // Do any additional setup after loading the view.
     }
     
-    @IBAction func backbutton(sender: AnyObject) {
-        
-        self.performSegueWithIdentifier("backing", sender: self)
-    }
-    
+   
     
     func putIcons(){
         

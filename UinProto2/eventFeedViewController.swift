@@ -31,16 +31,14 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         self.performSegueWithIdentifier("logout", sender: self)
     }
     
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.BlackOpaque
-      
-        
-    }
+
     
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.navigationBar.barTintColor = UIColor.redColor()
+        
+        navigationController?.navigationBar.barTintColor = UIColor.blueColor()
+        
         var que = PFQuery(className: "event")
         que.orderByAscending("dateTime")
         que.findObjectsInBackgroundWithBlock{
