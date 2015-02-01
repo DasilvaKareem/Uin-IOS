@@ -1,5 +1,5 @@
 //
-//  subscriberlist.swift
+//  subscriptions.swift
 //  UinProto2
 //
 //  Created by Kareem Dasilva on 2/1/15.
@@ -8,15 +8,15 @@
 
 import UIKit
 
-class subscriberlist: UITableViewController {
-
+class subscriptions: UITableViewController {
+    
     var folusernames = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         var followque = PFQuery(className: "subs")
-        followque.whereKey("following", equalTo: PFUser.currentUser().username)
+        followque.whereKey("follower", equalTo: PFUser.currentUser().username)
         followque.orderByAscending("createdAt")
         followque.findObjectsInBackgroundWithBlock{
             
@@ -28,7 +28,7 @@ class subscriberlist: UITableViewController {
                 
                 for object in objects{
                     
-                    self.folusernames.append(object["follower"] as String)
+                    self.folusernames.append(object["following"] as String)
                     //change "following" to "subscribers" and "follower" to "Subscribed to"
                     
                     self.tableView.reloadData()
@@ -42,34 +42,34 @@ class subscriberlist: UITableViewController {
         }
         
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
     // MARK: - Table view data source
-
+    
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-      
-         return 1
+        
+        return 1
     }
-
+    
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-     
+        
         return folusernames.count
-
+        
     }
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        let cell:FollowCell = self.tableView.dequeueReusableCellWithIdentifier("cell3") as FollowCell
+         let cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "cell4")
         
-        cell.username.text = folusernames[indexPath.row]
+        cell.textLabel?.text = folusernames[indexPath.row]
         
         return cell
         
     }
-
- 
-
+    
+    
+    
 }
