@@ -144,6 +144,26 @@ class postEvent: UIViewController {
         
         
     }
+    override func prepareForSegue(segue:UIStoryboardSegue, sender: AnyObject?){
+        
+        
+        
+        if segue.identifier == "gotoprofile" {
+            var theotherprofile:userprofile = segue.destinationViewController as userprofile
+            
+            
+            theotherprofile.theUser = users
+            
+            
+            
+            
+            
+            
+        }
+        
+        
+        
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
