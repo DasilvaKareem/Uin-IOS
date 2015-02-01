@@ -106,7 +106,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         
     
     
-    var number = [Int]()
+  
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
         // Puts the data in a cell
         var cell:eventCell = tableView.dequeueReusableCellWithIdentifier("cell2") as eventCell

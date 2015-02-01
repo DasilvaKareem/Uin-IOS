@@ -29,13 +29,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     var eventDate = [String]()
     var eventNS = [NSDate]()
     
-    
-    @IBAction func logout(sender: AnyObject) {
-        
-        PFUser.logOut()
-        self.performSegueWithIdentifier("logout", sender: self)
-    }
-    
+  
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -93,6 +87,12 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
     
     
+    @IBAction func logout(sender: AnyObject) {
+        
+        PFUser.logOut()
+        self.performSegueWithIdentifier("logout", sender: self)
+    
+    }
     
     
     

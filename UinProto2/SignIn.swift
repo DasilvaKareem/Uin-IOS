@@ -98,7 +98,7 @@ class SignIn: UIViewController, UITextFieldDelegate {
         
     }
     
-    override func viewDidAppear(animated: Bool) {
+   override func viewDidAppear(animated: Bool) {
         if PFUser.currentUser() != nil {
             
             self.performSegueWithIdentifier("login", sender: self)
@@ -106,7 +106,7 @@ class SignIn: UIViewController, UITextFieldDelegate {
         }
         
     }
-    
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
