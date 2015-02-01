@@ -13,11 +13,37 @@ class userprofile: UIViewController {
     
     @IBOutlet weak var username: UILabel!
     
+    var theUser = String()
+    
+    
+    @IBOutlet weak var subbutton: UIButton!
     
     @IBAction func subscribe(sender: AnyObject) {
         
         
-    
+        var subscribe = PFObject(className: "subs")
+        subscribe["follower"] = PFUser.currentUser().username
+        subscribe["following"] = theUser
+        subscribe.saveInBackgroundWithBlock{
+            
+            
+            (success:Bool!,subError:NSError!) -> Void in
+            
+            
+            if (subError == nil){
+                
+                
+                println("Saved")
+                
+                
+                
+            }
+            
+            
+            
+            
+            
+        }
         
         
         
@@ -25,7 +51,14 @@ class userprofile: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        username.text = theUser
+        if PFUser.currentUser().username == theUser {
+            
+            
+            
+            
+            
+        }
         // Do any additional setup after loading the view.
     }
 
