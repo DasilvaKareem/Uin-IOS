@@ -22,11 +22,22 @@ class postEvent: UIViewController {
  
     @IBOutlet weak var isFood: UIImageView!
     
+    @IBAction func gotoProfile(sender: AnyObject) {
+        
+        self.performSegueWithIdentifier("gotoprofile", sender: self)
+        
+    }
+    
+    
+    
+    @IBOutlet weak var username: UIButton!
+   
+
     
     @IBOutlet weak var isSite: UIImageView!
     
     
-    @IBOutlet weak var username: UILabel!
+ 
     
     @IBOutlet weak var isPaid: UIImageView!
   
@@ -53,13 +64,13 @@ class postEvent: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-       
+       username.setTitle(users, forState: UIControlState.Normal)
         
        location.text = storeLocation
         
         eventTitle.text = storeTitle
         
-        username.text = users
+       
         
         time.text = storeTime
         
