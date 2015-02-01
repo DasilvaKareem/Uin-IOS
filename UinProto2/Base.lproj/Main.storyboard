@@ -81,7 +81,7 @@
                         <viewControllerLayoutGuide type="bottom" id="NGa-PQ-DkW"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Vnr-f1-ehy">
-                        <rect key="frame" x="0.0" y="64" width="320" height="460"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="460"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="71" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="qcV-YZ-zmg">
@@ -179,7 +179,7 @@
                                             <outlet property="people" destination="M3M-rB-J8M" id="DOX-uo-Ud1"/>
                                             <outlet property="poop" destination="zMe-Q6-Io3" id="rki-fI-tAO"/>
                                             <outlet property="time" destination="FuD-Ix-6Ww" id="ydM-5D-rRS"/>
-                                            <segue destination="y9y-G9-w9b" kind="show" id="KSo-z6-X5f"/>
+                                            <segue destination="y9y-G9-w9b" kind="show" identifier="example" id="KSo-z6-X5f"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -191,7 +191,8 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Title" id="qUO-yY-h7T">
+                    <navigationItem key="navigationItem" title="Events" id="qUO-yY-h7T">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="tiu-E2-9ee"/>
                         <barButtonItem key="rightBarButtonItem" image="createEvent" id="ivc-Ob-uhg">
                             <connections>
                                 <segue destination="wj6-a8-ugv" kind="presentation" id="McZ-lE-5gv"/>
@@ -218,7 +219,7 @@
                         <viewControllerLayoutGuide type="bottom" id="IfG-kR-wUr"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="CEs-PO-XVe">
-                        <rect key="frame" x="0.0" y="64" width="320" height="460"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="460"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="event title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BTs-Tc-lLL">
@@ -307,7 +308,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5rQ-t6-Cuv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1001" y="1553"/>
+            <point key="canvasLocation" x="-1001" y="1462"/>
         </scene>
         <!--Profile View-->
         <scene sceneID="mxh-Zb-eyh">
@@ -658,7 +659,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="O56-JJ-UaT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2502" y="681"/>
+            <point key="canvasLocation" x="-2566" y="681"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="ubz-rF-dLN">
@@ -678,10 +679,48 @@
             </objects>
             <point key="canvasLocation" x="-2115" y="681"/>
         </scene>
+        <!--Userprofile-->
+        <scene sceneID="lmG-qq-5zj">
+            <objects>
+                <viewController id="Odt-cu-E3D" customClass="userprofile" customModule="UinProto2" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="XIt-g2-8ai"/>
+                        <viewControllerLayoutGuide type="bottom" id="t3i-Hn-Tn1"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="jlg-2I-n3c">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Username" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="onC-f9-Zl1">
+                                <rect key="frame" x="86" y="85" width="149" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AXL-tR-A4g">
+                                <rect key="frame" x="125" y="174" width="70" height="32"/>
+                                <state key="normal" title="Subscribe">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="subscribe:" destination="Odt-cu-E3D" eventType="touchUpInside" id="sss-eH-E94"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <connections>
+                        <outlet property="username" destination="onC-f9-Zl1" id="rOe-Yd-S86"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pLK-ob-fYj" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1561" y="1462"/>
+        </scene>
         <!--Events-->
         <scene sceneID="Qf9-WI-FPH">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="0Zw-Oh-hP1" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" toolbarHidden="NO" id="1XT-mx-Dvp" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Events" image="noEventFeed" id="YmU-M6-suO"/>
                     <toolbarItems/>
@@ -695,6 +734,7 @@
                         <segue destination="Fbc-Ey-Gr7" kind="relationship" relationship="rootViewController" id="1IQ-if-Dau"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0Zw-Oh-hP1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1561" y="681"/>
         </scene>
@@ -713,8 +753,8 @@
         <image name="uinLogo" width="596" height="596"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="EEz-vF-POL"/>
-        <segue reference="nGZ-DB-eDP"/>
-        <segue reference="lCN-Lr-0iM"/>
+        <segue reference="UWg-ZO-xAy"/>
+        <segue reference="iev-7x-rXk"/>
+        <segue reference="KSo-z6-X5f"/>
     </inferredMetricsTieBreakers>
 </document>
