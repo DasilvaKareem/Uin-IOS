@@ -37,7 +37,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationController?.navigationBar.barTintColor = UIColor.blueColor()
+        navigationController?.navigationBar.barTintColor = UIColor(red:1.0, green:0.0,blue:0.0,alpha:1.0)
         
         var que = PFQuery(className: "event")
         que.orderByAscending("dateTime")

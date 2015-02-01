@@ -49,7 +49,7 @@ class register: UIViewController {
         email.attributedPlaceholder = NSAttributedString(string:"EMAIL",
             attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
         
-        password2.attributedPlaceholder = NSAttributedString(string:"Confirm Password",
+        cpassword.attributedPlaceholder = NSAttributedString(string:"Confirm Password",
             attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
 
 
@@ -57,7 +57,8 @@ class register: UIViewController {
     }
     
 
-    @IBOutlet weak var password2: UITextField!
+    @IBOutlet weak var cpassword: UITextField!
+
     
     @IBAction func register(sender: AnyObject) {
         
@@ -69,7 +70,7 @@ class register: UIViewController {
             error = "You did not enter a username or password"
             
         }
-        if password.text != password2.text {
+        if password.text != cpassword.text {
             
             error = "Passwords do not match"
             
