@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
        
      
-         Parse.setApplicationId("2FO7MjJC9k1kB5VyEQakMQFNw6QQ8YreXFPe4Sl2", clientKey: "5HfjThALrUtxznMMC0R1UtmlmRxb2XaBdy5QN47N")
+         Parse.setApplicationId("xEk0BIl2EyPBYEcWEz8SIHykycv4Yh0CfoYM2OOv", clientKey: "9p0BTN0Fm2mSr1LwEBPk7pJ21NGv2PfM58WJcmmy")
         // Override point for customization after application launch.
         return true
     }
