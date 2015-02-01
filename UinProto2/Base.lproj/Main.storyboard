@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6221" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="6lS-Ca-3sI">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="6lS-Ca-3sI">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6213"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
     <scenes>
         <!--Sign In-->
@@ -318,7 +318,9 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Event View" id="m2o-Rp-rn9"/>
+                    <navigationItem key="navigationItem" title="Event View" id="m2o-Rp-rn9">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="N5d-6y-Z6T"/>
+                    </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
                         <outlet property="date" destination="tsK-Ib-iSC" id="Ssx-eX-BEe"/>
@@ -474,7 +476,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Your Profile" id="HCv-Ak-H18">
+                    <navigationItem key="navigationItem" title="Profile" id="HCv-Ak-H18">
                         <barButtonItem key="leftBarButtonItem" title="Logout" id="fwd-8K-iEr">
                             <connections>
                                 <action selector="logout:" destination="dhD-3B-zOl" id="Z7C-bp-qf8"/>
@@ -492,32 +494,32 @@
             </objects>
             <point key="canvasLocation" x="-1316" y="1273"/>
         </scene>
-        <!--Subscriberlist-->
+        <!--Subscribers-->
         <scene sceneID="xWk-fV-q66">
             <objects>
                 <tableViewController id="v6I-ex-zDy" customClass="subscriberlist" customModule="UinProto2" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="53" sectionHeaderHeight="22" sectionFooterHeight="22" id="nYO-jI-vfb">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="79" sectionHeaderHeight="22" sectionFooterHeight="22" id="nYO-jI-vfb">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell3" rowHeight="53" id="Ibm-2h-LEn" customClass="FollowCell" customModule="UinProto2" customModuleProvider="target">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell3" rowHeight="79" id="Ibm-2h-LEn" customClass="FollowCell" customModule="UinProto2" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Ibm-2h-LEn" id="WVh-bc-kbe">
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Xb4-vC-MGE">
-                                            <rect key="frame" x="184" y="13" width="123" height="29"/>
+                                        <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="1" translatesAutoresizingMaskIntoConstraints="NO" id="Xb4-vC-MGE">
+                                            <rect key="frame" x="74" y="37" width="173" height="29"/>
                                             <segments>
-                                                <segment title="First"/>
-                                                <segment title="Second"/>
+                                                <segment title="Member"/>
+                                                <segment title="Non-Member"/>
                                             </segments>
                                         </segmentedControl>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Username" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a0h-ez-khy">
-                                            <rect key="frame" x="16" y="16" width="121" height="21"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Username" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a0h-ez-khy">
+                                            <rect key="frame" x="100" y="8" width="121" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
@@ -532,11 +534,14 @@
                             <outlet property="delegate" destination="v6I-ex-zDy" id="yjB-ik-Wf0"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" title="Subscribers" id="GaU-av-19J">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="Rqo-p5-fVN"/>
+                    </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UWH-K3-qfm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-743" y="1280"/>
+            <point key="canvasLocation" x="-743" y="1279"/>
         </scene>
         <!--Time-->
         <scene sceneID="PWJ-hT-IUl">
@@ -870,7 +875,9 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Profile" id="ZRG-fF-hGj"/>
+                    <navigationItem key="navigationItem" title="Profile" id="ZRG-fF-hGj">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="10T-92-dBn"/>
+                    </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
                         <outlet property="subbutton" destination="AXL-tR-A4g" id="Cx0-8g-kdT"/>
@@ -941,6 +948,6 @@
     <inferredMetricsTieBreakers>
         <segue reference="Ey9-Bb-gh3"/>
         <segue reference="UWg-ZO-xAy"/>
-        <segue reference="2cc-bx-MDG"/>
+        <segue reference="N9C-e9-guL"/>
     </inferredMetricsTieBreakers>
 </document>
