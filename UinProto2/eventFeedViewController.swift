@@ -37,6 +37,8 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     override func viewDidLoad() {
         super.viewDidLoad()
         
+
+        
         navigationController?.navigationBar.barTintColor = UIColor(red:60.0/255.0, green:144.0/255.0,blue:201.0/250.0,alpha:1.0)
         
         
