@@ -44,6 +44,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         
         var que = PFQuery(className: "event")
         que.orderByAscending("dateTime")
+        que.whereKey("public", equalTo: true)
         que.findObjectsInBackgroundWithBlock{
             
             (objects:[AnyObject]!,eventError:NSError!) -> Void in

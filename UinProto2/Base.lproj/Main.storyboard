@@ -591,7 +591,8 @@
         <!--Time-->
         <scene sceneID="PWJ-hT-IUl">
             <objects>
-                <viewController id="PXW-Fu-aak" sceneMemberID="viewController">
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Q3Y-PT-aTN" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController id="PXW-Fu-aak" customClass="datepickers" customModule="UinProto2" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="oXp-ut-l5C"/>
                         <viewControllerLayoutGuide type="bottom" id="l6e-eq-QFI"/>
@@ -608,6 +609,9 @@
                                 <date key="date" timeIntervalSinceReferenceDate="444513197.65842301">
                                     <!--2015-02-01 19:53:17 +0000-->
                                 </date>
+                                <connections>
+                                    <action selector="theDatePicker:" destination="PXW-Fu-aak" eventType="valueChanged" id="NHt-7H-weQ"/>
+                                </connections>
                             </datePicker>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="start time" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X2l-LE-SPD">
                                 <rect key="frame" x="106" y="78" width="198" height="21"/>
@@ -635,6 +639,9 @@
                                 <date key="date" timeIntervalSinceReferenceDate="444513197.65842301">
                                     <!--2015-02-01 19:53:17 +0000-->
                                 </date>
+                                <connections>
+                                    <action selector="thesecondDate:" destination="PXW-Fu-aak" eventType="valueChanged" id="jcq-Sa-heL"/>
+                                </connections>
                             </datePicker>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Starts At" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kb1-kQ-trd">
                                 <rect key="frame" x="16" y="75" width="77" height="24"/>
@@ -645,14 +652,21 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Time" id="pu5-On-b0I"/>
+                    <navigationItem key="navigationItem" title="Time" id="pu5-On-b0I">
+                        <barButtonItem key="leftBarButtonItem" id="mOx-DK-JQv"/>
+                    </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <connections>
+                        <outlet property="datepicker1" destination="U00-uj-lTV" id="LOF-6o-a7M"/>
+                        <outlet property="datepicker2" destination="LgX-SX-Xes" id="B4z-qh-HuD"/>
+                        <outlet property="endTime" destination="Wx9-dg-f0w" id="nkc-aT-1eS"/>
+                        <outlet property="startTIme" destination="X2l-LE-SPD" id="MgK-dt-9bG"/>
+                    </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Q3Y-PT-aTN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2393" y="1953"/>
+            <point key="canvasLocation" x="-2393" y="2122"/>
         </scene>
         <!--Post Event-->
         <scene sceneID="aea-01-uUH">
@@ -682,26 +696,15 @@
                                     <action selector="location:" destination="wj6-a8-ugv" eventType="valueChanged" id="wvi-Qq-SmW"/>
                                 </connections>
                             </segmentedControl>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Usx-ZG-3UU">
-                                <rect key="frame" x="16" y="375" width="288" height="29"/>
-                                <segments>
-                                    <segment title="Food"/>
-                                    <segment title="No Food"/>
-                                </segments>
-                                <color key="tintColor" red="0.88627450980392153" green="0.2627450980392157" blue="0.25098039215686274" alpha="1" colorSpace="calibratedRGB"/>
-                                <connections>
-                                    <action selector="isFood:" destination="wj6-a8-ugv" eventType="valueChanged" id="zRa-Mp-zF5"/>
-                                </connections>
-                            </segmentedControl>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="1" translatesAutoresizingMaskIntoConstraints="NO" id="RLM-dx-cX8">
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" selected="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="RLM-dx-cX8">
                                 <rect key="frame" x="16" y="419" width="288" height="29"/>
                                 <segments>
-                                    <segment title="Private"/>
                                     <segment title="Public"/>
+                                    <segment title="Private"/>
                                 </segments>
                                 <color key="tintColor" red="1" green="0.77647058823529413" blue="0.14509803921568626" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
-                                    <action selector="isFood:" destination="wj6-a8-ugv" eventType="valueChanged" id="m3e-bW-Ac6"/>
+                                    <action selector="publicEvent:" destination="wj6-a8-ugv" eventType="valueChanged" id="uPV-SE-FVv"/>
                                 </connections>
                             </segmentedControl>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="UnY-8W-YbY">
@@ -764,9 +767,20 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <state key="normal" title="Change Times"/>
                                 <connections>
-                                    <segue destination="PXW-Fu-aak" kind="show" identifier="eventback" id="tiT-cV-cNT"/>
+                                    <segue destination="PXW-Fu-aak" kind="show" identifier="datepicker" id="tiT-cV-cNT"/>
                                 </connections>
                             </button>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Usx-ZG-3UU">
+                                <rect key="frame" x="16" y="375" width="288" height="29"/>
+                                <segments>
+                                    <segment title="Food"/>
+                                    <segment title="No Food"/>
+                                </segments>
+                                <color key="tintColor" red="0.88627450980392153" green="0.2627450980392157" blue="0.25098039215686274" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <action selector="isFood:" destination="wj6-a8-ugv" eventType="valueChanged" id="zRa-Mp-zF5"/>
+                                </connections>
+                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -774,14 +788,16 @@
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
+                        <outlet property="end" destination="Z3v-fg-pRK" id="tUM-c8-Exd"/>
                         <outlet property="eventSum" destination="bfI-Bv-w4D" id="Dfr-Iq-rhf"/>
                         <outlet property="eventTitle" destination="aSK-x0-fwL" id="6y1-5n-jNT"/>
-                        <segue destination="RUy-yJ-wXV" kind="show" identifier="eventback" id="0t0-sB-Jv5"/>
+                        <outlet property="start" destination="cie-fb-jN5" id="WG6-Nn-yDi"/>
+                        <segue destination="RUy-yJ-wXV" kind="showDetail" identifier="eventback" id="0t0-sB-Jv5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ang-Fv-bga" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2393" y="1273"/>
+            <point key="canvasLocation" x="-2817" y="1151"/>
         </scene>
         <!--Register-->
         <scene sceneID="TSO-JA-XuC">
@@ -991,8 +1007,8 @@
         <image name="uinLogo" width="596" height="596"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Ey9-Bb-gh3"/>
-        <segue reference="UWg-ZO-xAy"/>
+        <segue reference="0t0-sB-Jv5"/>
         <segue reference="N9C-e9-guL"/>
+        <segue reference="EEz-vF-POL"/>
     </inferredMetricsTieBreakers>
 </document>
