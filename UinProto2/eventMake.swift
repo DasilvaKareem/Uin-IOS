@@ -9,13 +9,28 @@
 import UIKit
 
 
-class eventMake: UIViewController {
+class eventMake: UIViewController, UITextFieldDelegate {
     var dateTime = String()
     var dateStr = String()
     var orderDate = NSDate()
     var endDate = NSDate()
     var startTime = String()
     var endTime = String()
+    
+    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+        
+        self.view.endEditing(true)
+        
+    }
+    
+    func textFieldShouldReturn(textField: UITextField!) -> Bool {
+        
+        textField.resignFirstResponder()
+        
+        return true
+        
+    }
+
     
     @IBOutlet weak var eventTitle: UITextField!
     
