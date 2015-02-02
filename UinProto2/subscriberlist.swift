@@ -9,8 +9,9 @@
 import UIKit
 
 class subscriberlist: UITableViewController {
-
+    var objectId = [String]()
     var folusernames = [String]()
+    var folmembers = [Bool]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,7 +28,8 @@ class subscriberlist: UITableViewController {
                 
                 
                 for object in objects{
-                    
+                    self.objectId.append(object.objectId as String)
+                    self.folmembers.append(object["member"] as Bool)
                     self.folusernames.append(object["follower"] as String)
                     //change "following" to "subscribers" and "follower" to "Subscribed to"
                     
@@ -64,12 +66,67 @@ class subscriberlist: UITableViewController {
         
         let cell:FollowCell = self.tableView.dequeueReusableCellWithIdentifier("cell3") as FollowCell
         
+        
+        
+        cell.member.tag = indexPath.row
+        
         cell.username.text = folusernames[indexPath.row]
+        
+        cell.member.addTarget(self, action: "switchmember:", forControlEvents: UIControlEvents.ValueChanged)
         
         return cell
         
     }
+    var member = Bool()
+    
+    func switchmember(sender: UISegmentedControl) {
+        
+    
+        
+        switch sender.selectedSegmentIndex {
+        case 0:
+            member = true
+        case 1:
+            member = false
+    
+        default:
+            member = false
+            break;
+        }  //Switch
+        
+        var membersave = PFQuery(className:"subs")
+        membersave.getObjectInBackgroundWithId(objectId[sender.tag]) {
+            (result: PFObject!, error: NSError!) -> Void in
+            if error == nil {
+                
+                 result["member"] = self.member
+                result.saveInBackgroundWithBlock{
+                    
+                    (succeeded: Bool!, registerError: NSError!) -> Void in
+                    
+                    if registerError == nil {
+                        
+                        println("Worked!")
+                        
+                    }
+                    
+                }
 
+                    
+                    
+                    
+    
+            } else {
+               
+                NSLog("%@", error)
+            
+            }
+        }
+    
+    
+        println(member)
+        println(objectId[sender.tag])
  
 
+    }
 }

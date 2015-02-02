@@ -45,6 +45,9 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         var que = PFQuery(className: "event")
         que.orderByAscending("dateTime")
         que.whereKey("public", equalTo: true)
+       
+       
+        
         que.findObjectsInBackgroundWithBlock{
             
             (objects:[AnyObject]!,eventError:NSError!) -> Void in
@@ -69,7 +72,41 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                     
                 }
             }
-        }              // Do any additional setup after loading the view.
+        }
+        
+      
+        
+        var pubQue = PFQuery(className: "subs")
+        pubQue.whereKey("follower", equalTo: PFUser.currentUser().username)
+        pubQue.whereKey("member", equalTo: true)
+        var superQue = PFQuery(className: "event")
+        superQue.whereKey("user", matchesKey: "following", inQuery:pubQue)
+        
+        superQue.findObjectsInBackgroundWithBlock{
+            
+            (objects:[AnyObject]!,eventError:NSError!) -> Void in
+            
+            if eventError == nil {
+                
+                
+                for object in objects{
+                    
+                    println(object.objectId)
+                    self.usernames.append(object["user"] as String)
+                    self.eventNS.append(object["dateTime"] as NSDate)
+                    self.eventTitle.append(object["sum"] as String)
+                    self.eventDate.append(object["date"] as String)
+                    self.eventTime.append(object["time"] as String)
+                    self.food.append(object["food"] as Bool)
+                    self.paid.append(object["paid"] as Bool)
+                    self.onsite.append(object["location"] as Bool)
+                    self.eventNamed.append(object["title"] as String)
+                    self.theFeed.reloadData()
+                    
+                    
+                }
+            }
+        }
           }
     
     

@@ -13,10 +13,13 @@ class FollowCell: UITableViewCell {
     
     @IBOutlet var username: UILabel!
     
+    @IBOutlet var member: UISegmentedControl!
     
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        
+        
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
