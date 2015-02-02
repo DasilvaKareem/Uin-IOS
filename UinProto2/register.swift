@@ -8,7 +8,7 @@
 
 import UIKit
 
-class register: UIViewController {
+class register: UIViewController, UITextFieldDelegate {
 
     
     @IBOutlet weak var username: UITextField!
@@ -18,6 +18,20 @@ class register: UIViewController {
     
     
     @IBOutlet weak var email: UITextField!
+    
+    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+        
+        self.view.endEditing(true)
+        
+    }
+    
+    func textFieldShouldReturn(textField: UITextField!) -> Bool {
+        
+        textField.resignFirstResponder()
+        
+        return true
+        
+    }
     
     var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
     
