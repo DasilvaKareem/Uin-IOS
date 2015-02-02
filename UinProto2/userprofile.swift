@@ -22,6 +22,7 @@ class userprofile: UIViewController {
         
         
         var subscribe = PFObject(className: "subs")
+        subscribe["member"] = false
         subscribe["follower"] = PFUser.currentUser().username
         subscribe["following"] = theUser
         subscribe.saveInBackgroundWithBlock{
