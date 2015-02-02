@@ -13,37 +13,54 @@ class eventMake: UIViewController {
     var dateTime = String()
     var dateStr = String()
     var orderDate = NSDate()
+    var endDate = NSDate()
+    var startTime = String()
+    var endTime = String()
+    
     @IBOutlet weak var eventTitle: UITextField!
     
     
     @IBOutlet weak var eventSum: UITextField!
     
     
-    @IBOutlet weak var date: UIDatePicker!
-    
-    @IBAction func datePicker(sender: UIDatePicker) {
-        
-        var dateFormatter = NSDateFormatter()
-            dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
-        var dateTimeformat = NSDateFormatter()
-            dateTimeformat.timeStyle = NSDateFormatterStyle.ShortStyle
-       
-        dateTime = dateTimeformat.stringFromDate(date.date)
-        dateStr = dateFormatter.stringFromDate(date.date)
-        orderDate = date.date
-        
-        println(orderDate)
-        println(dateStr)
-        println(dateTime)
-        
-    }
-
    
+    @IBOutlet var start: UILabel!
+    
+
+    @IBOutlet var end: UILabel!
+
+    var eventPublic:Bool = true
     var onsite:Bool = true
     
     var food:Bool = true
     
     var paid:Bool = false
+    
+    
+   
+    
+    @IBAction func publicEvent(sender: UISegmentedControl) {
+        
+        if UISegmentedControlNoSegment == 1 {
+            
+            eventPublic = true
+            
+            
+        }
+        
+        else {
+            
+            
+            eventPublic = false
+        }
+
+        
+        
+        
+    }
+    
+    
+    
     
     @IBAction func location(sender: UISegmentedControl) {
         
@@ -113,13 +130,7 @@ class eventMake: UIViewController {
                 allError = "Enter a location for your Event"
             }
             
-            if dateStr.isEmpty && dateTime.isEmpty {
-                
-                
-                allError = "Enter a time and date"
-                
-                
-            }
+        
             println(allError)
             
             if allError == "" {
@@ -127,9 +138,11 @@ class eventMake: UIViewController {
             var empty = ""
             var event = PFObject(className: "event")
             println(dateStr)
-            event["dateTime"] = orderDate
-            event["time"] = dateTime as String
-            event["date"] = dateStr as String
+            event["public"] = eventPublic
+            event["endTime"] = orderDate1
+            event["dateTime"] = orderDate2
+            event["time"] = dateTime1 as String
+            event["date"] = dateStr1 as String
             event["food"] = food
             event["paid"] = paid
             event["location"] = onsite
@@ -163,9 +176,29 @@ class eventMake: UIViewController {
         
     }
     
+  override func viewDidAppear(animated: Bool) {
+       start.text = startString
+        end.text = endString
+    
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+       
+       
+        
+       // if start.text != "start time" {
+            
+        
+            
+      //  }
+        
+      //  if end.text != "end time" {
+            
+            end.text = endTime
+       // }
+        
         if PFUser.currentUser() == nil{
             
             self.performSegueWithIdentifier("register", sender: self)
