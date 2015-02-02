@@ -63,7 +63,7 @@ class register: UIViewController, UITextFieldDelegate {
         email.attributedPlaceholder = NSAttributedString(string:"EMAIL",
             attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
         
-        cpassword.attributedPlaceholder = NSAttributedString(string:"Confirm Password",
+        cpassword.attributedPlaceholder = NSAttributedString(string:"CONFIRM PASSWORD",
             attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
 
 
