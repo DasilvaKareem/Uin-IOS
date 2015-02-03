@@ -73,7 +73,7 @@ class userprofile: UIViewController {
                     
                     if object != nil{
                         
-                        object["member"] = false
+                        object.delete()
                         
                         println(object["member"])
                         
