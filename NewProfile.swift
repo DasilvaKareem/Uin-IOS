@@ -12,9 +12,14 @@ import EventKit
 
 class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
+    
+
     @IBOutlet weak var orgName: UILabel!
     
     
+    @IBOutlet var subscribers: UIButton!
+    
+
     
     @IBOutlet weak var theFeed: UITableView!
     
@@ -32,52 +37,83 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
   
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        subticker()
+        eventList()
         //Queries all the events and puts into the arrays above
-        
-        orgName.text = PFUser.currentUser().username
-        
-        var que = PFQuery(className: "event")
-        
-        que.orderByAscending("dateTime")
-        
-        que.whereKey("user", equalTo: PFUser.currentUser().username)
-        
-        que.findObjectsInBackgroundWithBlock{
-        
-            (objects:[AnyObject]!,eventError:NSError!) -> Void in
+
+    }
+    func subticker(){
+        var amountofsubs = [String]()
+        var convert = String(amountofsubs.count)
+        var getNumberList = PFQuery(className:"subs")
+        getNumberList.whereKey("following", equalTo: PFUser.currentUser().username)
+        getNumberList.findObjectsInBackgroundWithBlock{
             
-            if eventError == nil {
+            (objects:[AnyObject]!, folError:NSError!) -> Void in
+            
+            
+            if folError == nil {
                 
                 
                 for object in objects{
                     
-                    println(object.objectId)
-                    self.eventNS.append(object["dateTime"] as NSDate)
-                    
-                    self.eventTitle.append(object["sum"] as String)
-                    
-                    self.eventDate.append(object["date"] as String)
-                    
-                    self.eventTime.append(object["time"] as String)
-                    
-                    self.food.append(object["food"] as Bool)
-                    
-                    self.paid.append(object["paid"] as Bool)
-                    
-                    self.onsite.append(object["location"] as Bool)
-                    
-                    self.eventNamed.append(object["title"] as String)
-                    
-                    self.theFeed.reloadData()
-                    
+                    amountofsubs.append(object["follower"] as String)
                     
                 }
+                
             }
-        }              // Do any additional setup after loading the view.
+            
+            
+        }
+        subscribers.setTitle("HEY", forState: UIControlState.Normal)
+        println(convert)
+        
     }
     
+
     
+    func eventList(){
+    orgName.text = PFUser.currentUser().username
+    
+    var que = PFQuery(className: "event")
+    
+    que.orderByAscending("dateTime")
+    
+    que.whereKey("user", equalTo: PFUser.currentUser().username)
+    
+    que.findObjectsInBackgroundWithBlock{
+    
+    (objects:[AnyObject]!,eventError:NSError!) -> Void in
+    
+    if eventError == nil {
+    
+    
+    for object in objects{
+    
+   
+    self.eventNS.append(object["dateTime"] as NSDate)
+    
+    self.eventTitle.append(object["sum"] as String)
+    
+    self.eventDate.append(object["date"] as String)
+    
+    self.eventTime.append(object["time"] as String)
+    
+    self.food.append(object["food"] as Bool)
+    
+    self.paid.append(object["paid"] as Bool)
+    
+    self.onsite.append(object["location"] as Bool)
+    
+    self.eventNamed.append(object["title"] as String)
+    
+    self.theFeed.reloadData()
+    
+    
+                    }
+                }
+            }
+        }
     
     
     override func didReceiveMemoryWarning() {

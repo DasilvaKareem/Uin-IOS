@@ -70,6 +70,7 @@ class datepickers: UIViewController {
         
         
         
+        datepicker2.minimumDate = orderDate1
         
         var dateFormatter = NSDateFormatter()
         dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
@@ -87,6 +88,8 @@ class datepickers: UIViewController {
         
         
     }
+    
+
 
     
 

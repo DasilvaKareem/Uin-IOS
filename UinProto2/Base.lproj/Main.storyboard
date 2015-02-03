@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="6lS-Ca-3sI">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6221" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="6lS-Ca-3sI">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6213"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -679,6 +679,7 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
                         <outlet property="orgName" destination="zw1-Xl-Oxl" id="9y0-xI-qMz"/>
+                        <outlet property="subscribers" destination="5Rc-ID-1Nz" id="kaF-eL-rdD"/>
                         <outlet property="theFeed" destination="78k-yf-mMp" id="4lS-Gd-Qty"/>
                         <segue destination="6lS-Ca-3sI" kind="showDetail" identifier="logout" id="EEz-vF-POL"/>
                     </connections>
@@ -1032,7 +1033,7 @@
                                     </mask>
                                 </variation>
                             </view>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="USERNAME" textAlignment="center" minimumFontSize="17" background="loginFormBackground" translatesAutoresizingMaskIntoConstraints="NO" id="zYY-dd-FIE">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="USERNAME" textAlignment="center" minimumFontSize="17" background="loginFormBackground" translatesAutoresizingMaskIntoConstraints="NO" id="zYY-dd-FIE">
                                 <rect key="frame" x="0.0" y="234" width="321" height="59"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="zYY-dd-FIE" secondAttribute="height" multiplier="321:59" id="ia3-fu-yFy"/>
@@ -1051,7 +1052,7 @@
                                     </mask>
                                 </variation>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="PASSWORD" textAlignment="center" minimumFontSize="17" background="loginFormBackground" translatesAutoresizingMaskIntoConstraints="NO" id="cvz-gp-bui">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="PASSWORD" textAlignment="center" minimumFontSize="17" background="loginFormBackground" translatesAutoresizingMaskIntoConstraints="NO" id="cvz-gp-bui">
                                 <rect key="frame" x="-1" y="350" width="321" height="59"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="cvz-gp-bui" secondAttribute="height" multiplier="321:59" id="Rck-pj-pes"/>
@@ -1102,13 +1103,13 @@
                                     <segue destination="6lS-Ca-3sI" kind="show" id="6hY-wJ-ibE"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Create Account" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AiV-5l-bF9">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Create Account" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AiV-5l-bF9">
                                 <rect key="frame" x="66" y="197" width="189" height="29"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="uinLogo" translatesAutoresizingMaskIntoConstraints="NO" id="TyK-pV-bUh">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="uinLogo" translatesAutoresizingMaskIntoConstraints="NO" id="TyK-pV-bUh">
                                 <rect key="frame" x="94" y="57" width="132" height="132"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="132" id="Jxm-Ng-8WW"/>
@@ -1127,7 +1128,7 @@
                                     </mask>
                                 </variation>
                             </imageView>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="EMAIL" textAlignment="center" minimumFontSize="17" background="loginFormBackground" translatesAutoresizingMaskIntoConstraints="NO" id="IQo-Pb-sop">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="EMAIL" textAlignment="center" minimumFontSize="17" background="loginFormBackground" translatesAutoresizingMaskIntoConstraints="NO" id="IQo-Pb-sop">
                                 <rect key="frame" x="0.0" y="292" width="321" height="59"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="IQo-Pb-sop" secondAttribute="height" multiplier="321:59" id="466-Ww-yKv"/>
@@ -1188,12 +1189,12 @@
                                 <exclude reference="ewp-vF-0bn"/>
                             </mask>
                             <mask key="constraints">
-                                <exclude reference="euM-Jl-32a"/>
-                                <exclude reference="x3l-O1-0du"/>
                                 <exclude reference="JAS-wY-e2m"/>
                                 <exclude reference="i1M-vR-OKW"/>
                                 <exclude reference="mh7-y9-MPf"/>
                                 <exclude reference="xjS-Ye-Adt"/>
+                                <exclude reference="euM-Jl-32a"/>
+                                <exclude reference="x3l-O1-0du"/>
                                 <exclude reference="2FZ-Og-RxU"/>
                                 <exclude reference="MFB-fQ-cnk"/>
                                 <exclude reference="Pu4-Ol-uq8"/>
@@ -1222,12 +1223,12 @@
                                 <include reference="ewp-vF-0bn"/>
                             </mask>
                             <mask key="constraints">
-                                <include reference="euM-Jl-32a"/>
-                                <include reference="x3l-O1-0du"/>
                                 <include reference="JAS-wY-e2m"/>
                                 <include reference="i1M-vR-OKW"/>
                                 <include reference="mh7-y9-MPf"/>
                                 <include reference="xjS-Ye-Adt"/>
+                                <include reference="euM-Jl-32a"/>
+                                <include reference="x3l-O1-0du"/>
                                 <include reference="2FZ-Og-RxU"/>
                                 <include reference="MFB-fQ-cnk"/>
                                 <exclude reference="Pu4-Ol-uq8"/>
@@ -1309,7 +1310,8 @@
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AXL-tR-A4g">
                                 <rect key="frame" x="0.0" y="185" width="320" height="59"/>
-                                <state key="normal" image="subscribeButton">
+                                <state key="normal" title="Subscribe">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -1386,14 +1388,13 @@
         <image name="noEventFeed" width="31" height="33"/>
         <image name="noProfileFeed" width="27" height="33"/>
         <image name="sendCreateLongBar" width="417" height="78"/>
-        <image name="subscribeButton" width="421" height="78"/>
         <image name="subscribersButton" width="210" height="78"/>
         <image name="subscriptionsButton" width="210" height="78"/>
         <image name="uinLogo" width="596" height="596"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="N9C-e9-guL"/>
-        <segue reference="iev-7x-rXk"/>
-        <segue reference="6hY-wJ-ibE"/>
+        <segue reference="2cc-bx-MDG"/>
+        <segue reference="0t0-sB-Jv5"/>
+        <segue reference="EEz-vF-POL"/>
     </inferredMetricsTieBreakers>
 </document>
