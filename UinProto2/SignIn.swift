@@ -48,7 +48,11 @@ class SignIn: UIViewController, UITextFieldDelegate {
     }
     
     override func viewDidLoad() {
+        
+       
+        
         super.viewDidLoad()
+        
         
         username.attributedPlaceholder = NSAttributedString(string:"USERNAME",
             attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
@@ -99,12 +103,14 @@ class SignIn: UIViewController, UITextFieldDelegate {
     }
     
    override func viewDidAppear(animated: Bool) {
-        if PFUser.currentUser() != nil {
-            
-            self.performSegueWithIdentifier("login", sender: self)
-            
-        }
+    
+    if PFUser.currentUser() != nil {
         
+        self.performSegueWithIdentifier("login", sender: self)
+        
+    }
+  
+    
     }
 
     override func didReceiveMemoryWarning() {
