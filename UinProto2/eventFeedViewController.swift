@@ -4,10 +4,9 @@
 //
 //  Created by Kareem Dasilva on 1/9/15.
 //  Copyright (c) 2015 Kareem Dasilva. All rights reserved.
-//
+//  This is the main feed for the appilcation
 
 import UIKit
-
 import EventKit
 
 class eventFeedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
@@ -15,6 +14,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     
     @IBOutlet weak var theFeed: UITableView!
     
+    var refresher: UIRefreshControl!
     var onsite = [Bool]()
     var paid = [Bool]()
     var food = [Bool]()
@@ -30,24 +30,27 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         PFUser.logOut()
         self.performSegueWithIdentifier("logout", sender: self)
     }
-    
-
-    
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-
-        
+        updateFeed()
+        //Changes the navbar color
         navigationController?.navigationBar.barTintColor = UIColor(red:60.0/255.0, green:144.0/255.0,blue:201.0/250.0,alpha:1.0)
         
+        //Addes pull to refresh
+         refresher = UIRefreshControl()
+        refresher.attributedTitle = NSAttributedString(string: "Pul to refresh")
+        refresher.addTarget(self, action: "refresh", forControlEvents: UIControlEvents.ValueChanged)
+        self.tableView.addSubview(refresher)
         
-        var que = PFQuery(className: "event")
+        //Queries all the events (Should move to seperate function)
+       
+     }
+     func updateFeed(){
+     
+      var que = PFQuery(className: "event")
         que.orderByAscending("dateTime")
         que.whereKey("public", equalTo: true)
-       
-       
-        
         que.findObjectsInBackgroundWithBlock{
             
             (objects:[AnyObject]!,eventError:NSError!) -> Void in
@@ -71,23 +74,20 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                     
                     
                 }
+                self.refresher.endRefreshing()
             }
         }
-        
-      
-        
+    
         var pubQue = PFQuery(className: "subs")
         pubQue.whereKey("follower", equalTo: PFUser.currentUser().username)
         pubQue.whereKey("member", equalTo: true)
         var superQue = PFQuery(className: "event")
         superQue.whereKey("user", matchesKey: "following", inQuery:pubQue)
-        
         superQue.findObjectsInBackgroundWithBlock{
             
             (objects:[AnyObject]!,eventError:NSError!) -> Void in
             
             if eventError == nil {
-                
                 
                 for object in objects{
                     
@@ -103,24 +103,23 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                     self.eventNamed.append(object["title"] as String)
                     self.theFeed.reloadData()
                     
-                    
                 }
-            }
+                self.refresher.endRefreshing()
+             }
         }
-          }
+     }
+     
+     func refresh() {
+     
+     updateFeed()
     
-    
-    
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
         
     }
-    
-    
-  
-    
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Potentially incomplete method implementation.
@@ -136,33 +135,21 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         return eventNamed.count
         
     }
-    
 
- 
-   
-   
-        
-    
-    
-  
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
         // Puts the data in a cell
         var cell:eventCell = tableView.dequeueReusableCellWithIdentifier("cell2") as eventCell
         
         if onsite[indexPath.row] == true {
-            
-            
+        
             cell.location.image = UIImage(named: "oncampusicon@3x.png")
             cell.onCampusText.text = "On-Campus"
             cell.onCampusText.textColor = UIColor.darkGrayColor()
-            
-            
             
         }
         else{
             
             cell.location.image = UIImage(named: "offCampus@3x.png")
-            
             cell.onCampusText.text = "Off-Campus"
             cell.onCampusText.textColor = UIColor.lightGrayColor()
             
@@ -170,38 +157,30 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         
         if food[indexPath.row] == true {
             
-            
             cell.food.image = UIImage(named: "foodicon@3x.png")
             cell.foodText.text = "Food"
             cell.foodText.textColor = UIColor.darkGrayColor()
-            
             
         }
         else{
             
             cell.food.image = UIImage(named: "noFood@3x.png")
-            
             cell.foodText.text = "No Food"
             cell.foodText.textColor = UIColor.lightGrayColor()
-            
-            
+
         }
         if paid[indexPath.row] == false {
-            
-            
+        
             cell.paid.image = UIImage(named: "freeicon@3x.png")
             cell.costText.text = "Free"
             cell.costText.textColor = UIColor.darkGrayColor()
-            
             
         }
         else{
             
             cell.paid.image = UIImage(named: "noFree@3x.png")
-            
             cell.costText.text = "Not Free"
             cell.costText.textColor = UIColor.lightGrayColor()
-            
             
         }
         
@@ -210,31 +189,14 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         cell.eventName.text = eventNamed[indexPath.row]
         cell.poop.tag = indexPath.row
        cell.poop.addTarget(self, action: "followButton:", forControlEvents: UIControlEvents.TouchUpInside)
-   
   
-       
-        
         return cell
-        
-        
     }
-    
-    
-  
-    
-    
-
-
- 
     
     func followButton(sender: AnyObject){
         // Puts the data in a cell
-        
-
-        
         var thePoop = PFObject(className: "thePoop")
         var eventStore : EKEventStore = EKEventStore()
-       
         eventStore.requestAccessToEntityType(EKEntityTypeEvent, completion: {
             granted, error in
             if (granted) && (error == nil) {
@@ -253,16 +215,10 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                 
             }
         })
-        
-   
-        
-        
     }
     
    override func prepareForSegue(segue:UIStoryboardSegue, sender: AnyObject?){
 
-        
-        
         if segue.identifier == "example" {
             var secondViewController : postEvent = segue.destinationViewController as postEvent
             
@@ -284,24 +240,5 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             
             
         }
-    
-    
-    
     }
-   
-     /*func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
-        func prepareForSegue(segue:UIStoryboardSegue, sender:AnyObject?){
-                if segue.identifier == "example"{
-                    
-                    println("HEY")
-            }
-            
-            
-        }
-        
-    }
-  
-    */
-
 }
