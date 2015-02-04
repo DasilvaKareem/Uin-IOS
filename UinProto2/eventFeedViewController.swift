@@ -51,8 +51,17 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
       var que = PFQuery(className: "event")
         que.orderByAscending("dateTime")
         que.whereKey("public", equalTo: true)
+        self.eventTitle.removeAll(keepCapacity: true)
+        self.eventNamed.removeAll(keepCapacity: true)
+        self.eventTime.removeAll(keepCapacity: true)
+        self.eventDate.removeAll(keepCapacity: true)
+        self.usernames.removeAll(keepCapacity: true)
+        self.eventNS.removeAll(keepCapacity: true)
+        self.paid.removeAll(keepCapacity: true)
+        self.food.removeAll(keepCapacity: true)
+        self.onsite.removeAll(keepCapacity: true)
+        
         que.findObjectsInBackgroundWithBlock{
-            
             (objects:[AnyObject]!,eventError:NSError!) -> Void in
             
             if eventError == nil {
@@ -62,7 +71,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                     
                     println(object.objectId)
                     self.usernames.append(object["user"] as String)
-                    self.eventNS.append(object["dateTime"] as NSDate)
+                  //  self.eventNS.append(object["dateTime"] as NSDate)
                     self.eventTitle.append(object["sum"] as String)
                     self.eventDate.append(object["date"] as String)
                     self.eventTime.append(object["time"] as String)
@@ -74,8 +83,9 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                     
                     
                 }
-                self.refresher.endRefreshing()
+               
             }
+             self.refresher.endRefreshing()
         }
     
         var pubQue = PFQuery(className: "subs")
@@ -104,8 +114,9 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                     self.theFeed.reloadData()
                     
                 }
-                self.refresher.endRefreshing()
+                
              }
+             self.refresher.endRefreshing()
         }
      }
      

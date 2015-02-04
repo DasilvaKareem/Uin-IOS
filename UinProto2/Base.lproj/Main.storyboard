@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="6lS-Ca-3sI">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6221" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="6lS-Ca-3sI">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6213"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -265,7 +265,7 @@
                         <viewControllerLayoutGuide type="bottom" id="NGa-PQ-DkW"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Vnr-f1-ehy">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="71" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="qcV-YZ-zmg">
@@ -498,7 +498,7 @@
                         <viewControllerLayoutGuide type="bottom" id="IfG-kR-wUr"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="CEs-PO-XVe">
-                        <rect key="frame" x="0.0" y="64" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="64" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="event title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BTs-Tc-lLL">
@@ -719,12 +719,12 @@
                                     </mask>
                                     <mask key="constraints">
                                         <exclude reference="urg-FA-jyw"/>
-                                        <exclude reference="Bma-B9-xPY"/>
-                                        <exclude reference="s5R-qX-6xJ"/>
-                                        <exclude reference="yJe-NM-fha"/>
                                         <exclude reference="Km9-hO-sAQ"/>
                                         <exclude reference="R7j-6v-TDR"/>
                                         <exclude reference="jnc-NA-mEx"/>
+                                        <exclude reference="Bma-B9-xPY"/>
+                                        <exclude reference="s5R-qX-6xJ"/>
+                                        <exclude reference="yJe-NM-fha"/>
                                         <exclude reference="4kr-Vc-sL5"/>
                                         <exclude reference="5ou-AC-H2U"/>
                                         <exclude reference="GDK-fd-SJV"/>
@@ -741,12 +741,12 @@
                                     </mask>
                                     <mask key="constraints">
                                         <exclude reference="urg-FA-jyw"/>
-                                        <exclude reference="Bma-B9-xPY"/>
-                                        <include reference="s5R-qX-6xJ"/>
-                                        <include reference="yJe-NM-fha"/>
                                         <include reference="Km9-hO-sAQ"/>
                                         <include reference="R7j-6v-TDR"/>
                                         <include reference="jnc-NA-mEx"/>
+                                        <exclude reference="Bma-B9-xPY"/>
+                                        <include reference="s5R-qX-6xJ"/>
+                                        <include reference="yJe-NM-fha"/>
                                         <include reference="4kr-Vc-sL5"/>
                                         <include reference="5ou-AC-H2U"/>
                                         <include reference="GDK-fd-SJV"/>
@@ -933,7 +933,7 @@
                         <viewControllerLayoutGuide type="bottom" id="4QU-XF-3Bb"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="xoV-4e-2KR">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="exampleProfile" translatesAutoresizingMaskIntoConstraints="NO" id="VaR-AQ-PDO">
@@ -1518,7 +1518,7 @@
             <objects>
                 <tableViewController id="v6I-ex-zDy" customClass="subscriberlist" customModule="UinProto2" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="74" sectionHeaderHeight="22" sectionFooterHeight="22" id="nYO-jI-vfb">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -1598,7 +1598,7 @@
             <objects>
                 <tableViewController id="fMo-zE-e7p" customClass="subscriptions" customModule="UinProto2" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="adZ-dP-244">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -1637,7 +1637,7 @@
                         <viewControllerLayoutGuide type="bottom" id="l6e-eq-QFI"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="hB8-29-bSF">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="inputForm" translatesAutoresizingMaskIntoConstraints="NO" id="XPg-OO-xXQ">
@@ -1880,7 +1880,7 @@
                         <viewControllerLayoutGuide type="bottom" id="cX0-aj-hNb"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="O12-Oh-blq">
-                        <rect key="frame" x="0.0" y="64" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="64" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Name it Something Catchy" textAlignment="center" minimumFontSize="17" background="inputForm" translatesAutoresizingMaskIntoConstraints="NO" id="aSK-x0-fwL">
@@ -2615,10 +2615,10 @@
                         <viewControllerLayoutGuide type="bottom" id="t3i-Hn-Tn1"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="jlg-2I-n3c">
-                        <rect key="frame" x="0.0" y="64" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="64" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="username" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="onC-f9-Zl1">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="username" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="onC-f9-Zl1">
                                 <rect key="frame" x="84" y="64" width="220" height="68"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="220" id="AbD-hB-a5h"/>
@@ -2640,7 +2640,7 @@
                                     </mask>
                                 </variation>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="exampleProfile" translatesAutoresizingMaskIntoConstraints="NO" id="1wD-ZK-FCF">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="exampleProfile" translatesAutoresizingMaskIntoConstraints="NO" id="1wD-ZK-FCF">
                                 <rect key="frame" x="16" y="72" width="60" height="60"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="60" id="B7B-Mw-Bvg"/>
@@ -2659,7 +2659,7 @@
                                     </mask>
                                 </variation>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AXL-tR-A4g">
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AXL-tR-A4g">
                                 <rect key="frame" x="0.0" y="185" width="320" height="59"/>
                                 <state key="normal" title="Subscribe">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -2684,20 +2684,20 @@
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
-                                <exclude reference="m35-XN-hrD"/>
-                                <exclude reference="oWe-SO-7vg"/>
                                 <exclude reference="agQ-MZ-kHY"/>
                                 <exclude reference="yOY-fd-rE2"/>
+                                <exclude reference="m35-XN-hrD"/>
+                                <exclude reference="oWe-SO-7vg"/>
                                 <exclude reference="S8w-2R-ojH"/>
                                 <exclude reference="lEK-q7-Hp5"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
                             <mask key="constraints">
-                                <include reference="m35-XN-hrD"/>
-                                <include reference="oWe-SO-7vg"/>
                                 <include reference="agQ-MZ-kHY"/>
                                 <include reference="yOY-fd-rE2"/>
+                                <include reference="m35-XN-hrD"/>
+                                <include reference="oWe-SO-7vg"/>
                                 <include reference="S8w-2R-ojH"/>
                                 <include reference="lEK-q7-Hp5"/>
                             </mask>
