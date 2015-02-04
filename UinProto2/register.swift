@@ -8,51 +8,35 @@
 
 import UIKit
 
-class register: UIViewController, UITextFieldDelegate {
-
-    
-    @IBOutlet weak var username: UITextField!
-    
-    
-    @IBOutlet weak var password: UITextField!
-    
-    
-    @IBOutlet weak var email: UITextField!
-    
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
-        
-        self.view.endEditing(true)
-        
-    }
-    
-    func textFieldShouldReturn(textField: UITextField!) -> Bool {
-        
-        textField.resignFirstResponder()
-        
-        return true
-        
-    }
+class register: UIViewController, UITextFieldDelegate{
+    @IBOutlet var username: UITextField!
+    @IBOutlet var email: UITextField!
+    @IBOutlet var password: UITextField!
+    @IBOutlet var cpassword: UITextField!
     
     var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
     
-    func displayAlert(title:String, error:String) {
-        
+    
+    override func touchesBegan(touches: NSSet, withEvent event: UIEvent){
+        self.view.endEditing(true)
+    }
+    
+    func textFieldShouldReturn(textField: UITextField!) -> Bool{
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    func displayAlert(title:String, error:String){
         var alert = UIAlertController(title: title, message: error, preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { action in
-            
-                      
-            
             
         }))
         
         self.presentViewController(alert, animated: true, completion: nil)
-        
     }
     
-    
-    override func viewDidLoad() {
+    override func viewDidLoad(){
         super.viewDidLoad()
-
         
         username.attributedPlaceholder = NSAttributedString(string:"USERNAME",
             attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
@@ -65,78 +49,45 @@ class register: UIViewController, UITextFieldDelegate {
         
         cpassword.attributedPlaceholder = NSAttributedString(string:"CONFIRM PASSWORD",
             attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
-
-
+        
         // Do any additional setup after loading the view.
     }
     
-
-    @IBOutlet weak var cpassword: UITextField!
-
-    
-    @IBAction func register(sender: AnyObject) {
-        
-        
+    @IBAction func register(sender: AnyObject){
         var error = ""
         
-        if username.text == "" || password.text == "" {
-            
+        if (username.text == "" || password.text == ""){
             error = "You did not enter a username or password"
-            
         }
-        if password.text != cpassword.text {
-            
+        if (password.text != cpassword.text){
             error = "Passwords do not match"
-            
         }
         
-        if error != ""{
-            
+        if (error != ""){
             displayAlert("Oops!", error: error)
         }
-            
-        else {
-            
-
-
-            
+        else{
             var user = PFUser()
-            
             user.username = username.text
-            
             user.password = password.text
-            
             user.email = email.text
             
-            user.signUpInBackgroundWithBlock {
+            user.signUpInBackgroundWithBlock{
                 (succeeded: Bool!, registerError: NSError!) -> Void in
-                
-                if registerError == nil {
-                    
-                    self.performSegueWithIdentifier("registerS", sender: self)
-                    
-                }
+                    if registerError == nil{
+                        self.performSegueWithIdentifier("registerS", sender: self)
+                    }
                 
             }
-            
         }
-        
     }
     
-
-    
-    
-
-    
-    override func didReceiveMemoryWarning() {
+    override func didReceiveMemoryWarning(){
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    override func viewDidAppear(animated: Bool) {
-        
+    
+    override func viewDidAppear(animated: Bool){
         
     }
-
-  
-
 }
