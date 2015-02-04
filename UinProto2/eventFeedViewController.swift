@@ -41,8 +41,8 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
          refresher = UIRefreshControl()
         refresher.attributedTitle = NSAttributedString(string: "Pul to refresh")
         refresher.addTarget(self, action: "refresh", forControlEvents: UIControlEvents.ValueChanged)
-        self.tableView.addSubview(refresher)
-        
+        self.theFeed.addSubview(refresher)
+    
         //Queries all the events (Should move to seperate function)
        
      }
