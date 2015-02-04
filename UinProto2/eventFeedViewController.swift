@@ -14,6 +14,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     
     @IBOutlet weak var theFeed: UITableView!
     
+    var refresher: UIRefreshControl!
     var onsite = [Bool]()
     var paid = [Bool]()
     var food = [Bool]()
@@ -32,12 +33,22 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        updateFeed()
         //Changes the navbar color
         navigationController?.navigationBar.barTintColor = UIColor(red:60.0/255.0, green:144.0/255.0,blue:201.0/250.0,alpha:1.0)
         
+        //Addes pull to refresh
+         refresher = UIRefreshControl()
+        refresher.attributedTitle = NSAttributedString(string: "Bruh let me refresh")
+        refresher.addTarget(self, action: "refresh", forControlEvents: UIControlEvents.ValueChanged)
+        self.tableView.addSubview(refresher)
+        
         //Queries all the events (Should move to seperate function)
-        var que = PFQuery(className: "event")
+       
+     }
+     func updateFeed(){
+     
+      var que = PFQuery(className: "event")
         que.orderByAscending("dateTime")
         que.whereKey("public", equalTo: true)
         que.findObjectsInBackgroundWithBlock{
@@ -91,11 +102,20 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                     self.eventNamed.append(object["title"] as String)
                     self.theFeed.reloadData()
                     
-                    
                 }
+                self.refresher.endRefreshing()
              }
         }
+     
+     
+     
      }
+     
+     func refresh() {
+     
+     updateusers()
+    
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
