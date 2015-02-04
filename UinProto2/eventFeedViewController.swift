@@ -39,7 +39,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         
         //Addes pull to refresh
          refresher = UIRefreshControl()
-        refresher.attributedTitle = NSAttributedString(string: "Bruh let me refresh")
+        refresher.attributedTitle = NSAttributedString(string: "Pul to refresh")
         refresher.addTarget(self, action: "refresh", forControlEvents: UIControlEvents.ValueChanged)
         self.tableView.addSubview(refresher)
         
@@ -74,6 +74,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                     
                     
                 }
+                self.refresher.endRefreshing()
             }
         }
     
@@ -106,14 +107,11 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                 self.refresher.endRefreshing()
              }
         }
-     
-     
-     
      }
      
      func refresh() {
      
-     updateusers()
+     updateFeed()
     
     }
     
