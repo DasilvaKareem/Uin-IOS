@@ -16,8 +16,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
-
-    
+        // changes text color in tab bar
+        UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.lightGrayColor()], forState:.Normal)
+        UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.whiteColor()], forState:.Selected)
+        
+        // changes tabBarItem color in tab bar
+        UITabBar.appearance().selectedImageTintColor = UIColor.whiteColor()
+        
+        //changes tabBarController background image
+        UITabBar.appearance().backgroundImage = UIImage (named:"tabBarBackground.png")
+        // changes color of tabBar
+        //   UITabBar.appearance().barTintColor = UIColor.blackColor()
+        
         
      
          Parse.setApplicationId("xEk0BIl2EyPBYEcWEz8SIHykycv4Yh0CfoYM2OOv", clientKey: "9p0BTN0Fm2mSr1LwEBPk7pJ21NGv2PfM58WJcmmy")

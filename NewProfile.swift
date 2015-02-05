@@ -43,6 +43,9 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         //Queries all the events and puts into the arrays above
         
                 navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
+        
+        var nav = self.navigationController?.navigationBar
+        nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()];
 
     }
     func subticker(){

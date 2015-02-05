@@ -35,10 +35,16 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+
 
         updateFeed()
         //Changes the navbar background
         navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
+        
+        // Changes text color on navbar
+        var nav = self.navigationController?.navigationBar
+        nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()];
 
         
         //Adds pull to refresh
@@ -176,7 +182,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         
         if food[indexPath.row] == true {
             
-           // cell.foodIcon.image = UIImage(named: "yesFood.png")
+            cell.foodIcon.image = UIImage(named: "yesFood.png")
             cell.foodText.text = "Food"
             cell.foodText.textColor = UIColor.darkGrayColor()
             println("yo")
