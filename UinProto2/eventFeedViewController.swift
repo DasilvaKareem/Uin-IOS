@@ -25,6 +25,8 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     var eventDate = [String]()
     var usernames = [String]()
     
+    
+    
     @IBAction func logout(sender: AnyObject) {
         
         PFUser.logOut()
@@ -161,6 +163,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             cell.onCampusIcon.image = UIImage(named: "onCampus.png")
             cell.onCampusText.text = "On-Campus"
             cell.onCampusText.textColor = UIColor.darkGrayColor()
+            println("yo")
             
         }
         else{
@@ -176,6 +179,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             cell.foodIcon.image = UIImage(named: "yesFood.png")
             cell.foodText.text = "Food"
             cell.foodText.textColor = UIColor.darkGrayColor()
+            println("yo")
             
         }
         else{
@@ -190,6 +194,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             cell.freeIcon.image = UIImage(named: "yesFree.png")
             cell.costText.text = "Free"
             cell.costText.textColor = UIColor.darkGrayColor()
+            println("yo")
             
         }
         else{
@@ -211,7 +216,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func followButton(sender: AnyObject){
         // Puts the data in a cell
-        
+        var que = PFQuery(className: "events")
         var eventStore : EKEventStore = EKEventStore()
         eventStore.requestAccessToEntityType(EKEntityTypeEvent, completion: {
             granted, error in
@@ -248,7 +253,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             secondViewController.storeLocation = eventTitle[thenum!]
             secondViewController.storeTitle = eventNamed[thenum!]
             secondViewController.storeStartTime = eventStartTime[thenum!]
-            secondViewController.storeEndTime = eventEndTime[thenum!]
+            //secondViewController.storeEndTime = eventEndTime[thenum!]
             secondViewController.storeDate = eventDate[thenum!]
             secondViewController.onsite = onsite[thenum!]
             secondViewController.cost = food[thenum!]
