@@ -37,6 +37,9 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         super.viewDidLoad()
         
 
+        //var eventsItem = tabBarItem?[0] as UITabBarItem
+        //eventsItem.selectedImage = UIImage(named: "addToCalendar.png")
+
 
         updateFeed()
         //Changes the navbar background

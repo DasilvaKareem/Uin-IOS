@@ -18,15 +18,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // changes text color in tab bar
         UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.lightGrayColor()], forState:.Normal)
-        UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.whiteColor()], forState:.Selected)
+        UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor(red: 83.0/255.0, green: 155.0/255.0, blue: 204.0/255.0, alpha: 1.0)], forState:.Selected)
         
         // changes tabBarItem color in tab bar
-        UITabBar.appearance().selectedImageTintColor = UIColor.whiteColor()
+        UITabBar.appearance().selectedImageTintColor = UIColor(red: 83.0/255.0, green: 155.0/255.0, blue: 204.0/255.0, alpha: 1.0)
         
         //changes tabBarController background image
         UITabBar.appearance().backgroundImage = UIImage (named:"tabBarBackground.png")
-        // changes color of tabBar
-        //   UITabBar.appearance().barTintColor = UIColor.blackColor()
+        //changes color of tabBar
+        //UITabBar.appearance().barTintColor = UIColor(red: 52.0/255.0, green: 126.0/255.0, blue: 187.0/255.0, alpha: 1.0)
+        
+        
         
         
      
