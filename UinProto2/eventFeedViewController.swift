@@ -19,13 +19,14 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     var paid = [Bool]()
     var food = [Bool]()
     var eventTitle = [String]()
-    var eventNamed = [String]()
+    var eventlocation = [String]()
     var eventStartTime = [String]()
     var eventEndTime = [String]()
-    var eventDate = [String]()
+    var eventStartDate = [String]()
+    var eventEndDate = [String]()
     var usernames = [String]()
     
-    var kareem = "Hello world"
+   
     
     @IBAction func logout(sender: AnyObject) {
         
@@ -62,10 +63,11 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
      func updateFeed(){
         self.usernames.removeAll(keepCapacity: true)
         self.eventTitle.removeAll(keepCapacity: true)
-        self.eventNamed.removeAll(keepCapacity: true)
+        self.eventlocation.removeAll(keepCapacity: true)
         self.eventEndTime.removeAll(keepCapacity: true)
         self.eventStartTime.removeAll(keepCapacity: true)
-        self.eventDate.removeAll(keepCapacity: true)
+        self.eventStartDate.removeAll(keepCapacity: true)
+        self.eventEndDate.removeAll(keepCapacity: true)
         self.usernames.removeAll(keepCapacity: true)
         self.paid.removeAll(keepCapacity: true)
         self.food.removeAll(keepCapacity: true)
@@ -88,13 +90,14 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                     println(object.objectId)
                     self.usernames.append(object["user"] as String)
                     self.eventTitle.append(object["sum"] as String)
-                    self.eventDate.append(object["date"] as String)
-                    self.eventStartTime.append(object["time"] as String)
-                   // self.eventEndTime.append(object["endTimeFormat"] as String)
+                    self.eventStartDate.append(object["startdate"] as String)
+                    self.eventEndDate.append(object["endDate"] as String)
+                    self.eventStartTime.append(object["starttime"] as String)
+                    self.eventEndTime.append(object["endTime"] as String)
                    self.food.append(object["food"] as Bool)
                     self.paid.append(object["paid"] as Bool)
                    self.onsite.append(object["location"] as Bool)
-                    self.eventNamed.append(object["title"] as String)
+                    self.eventlocation.append(object["title"] as String)
                     self.theFeed.reloadData()
                     
                     
@@ -121,12 +124,12 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                     self.usernames.append(object["user"] as String)
                
                     self.eventTitle.append(object["sum"] as String)
-                    self.eventDate.append(object["date"] as String)
+                    self.eventEndDate.append(object["enddate"] as String)
                     self.eventStartTime.append(object["time"] as String)
                     self.food.append(object["food"] as Bool)
                     self.paid.append(object["paid"] as Bool)
                     self.onsite.append(object["location"] as Bool)
-                    self.eventNamed.append(object["title"] as String)
+                    self.eventlocation.append(object["title"] as String)
                     self.theFeed.reloadData()
                     
                 }
@@ -159,7 +162,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
         
-        return eventNamed.count
+        return eventlocation.count
         
     }
 
@@ -216,7 +219,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         
         cell.people.text = usernames[indexPath.row]
         cell.time.text = eventStartTime[indexPath.row]
-        cell.eventName.text = eventNamed[indexPath.row]
+        cell.eventName.text = eventlocation[indexPath.row]
         cell.poop.tag = indexPath.row
        cell.poop.addTarget(self, action: "followButton:", forControlEvents: UIControlEvents.TouchUpInside)
   
@@ -234,7 +237,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                 println("error  \(error)")
                 
                 var event:EKEvent = EKEvent(eventStore: eventStore)
-               event.title = self.eventNamed[sender.tag]
+                event.title = self.eventlocation[sender.tag]
                 
              
                 //event.notes = self.eventTitle[sender.tag]
@@ -252,18 +255,17 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         if segue.identifier == "example" {
             var secondViewController : postEvent = segue.destinationViewController as postEvent
             
-    
-            //secondViewController.storeTitle = eventTitle[sender?.tag!]
             
-            secondViewController.storeTitle = "hey"
+           
             
             var indexPath = theFeed.indexPathForSelectedRow() //get index of data for selected row
             var thenum = indexPath?.row
             secondViewController.storeLocation = eventTitle[thenum!]
-            secondViewController.storeTitle = eventNamed[thenum!]
+            secondViewController.storeTitle = eventlocation[thenum!]
             secondViewController.storeStartTime = eventStartTime[thenum!]
-            //secondViewController.storeEndTime = eventEndTime[thenum!]
-            secondViewController.storeDate = eventDate[thenum!]
+            secondViewController.storeEndTime = eventEndTime[thenum!]
+            secondViewController.storeDate = eventStartDate[thenum!]
+            secondViewController.storeEndDate = eventEndDate[thenum!]
             secondViewController.onsite = onsite[thenum!]
             secondViewController.cost = food[thenum!]
             secondViewController.food = food[thenum!]

@@ -10,6 +10,7 @@ import UIKit
 
 class postEvent: UIViewController {
     
+    @IBOutlet var endDate: UILabel!
     @IBOutlet weak var eventTitle: UILabel!
     @IBOutlet weak var location: UILabel!
     @IBOutlet var startTime: UILabel!
@@ -30,6 +31,7 @@ class postEvent: UIViewController {
     var storeLocation = String()
     var storeStartTime = String()
     var storeEndTime = String()
+    var storeEndDate = String()
     var storeDate = String()
     var storeSum = String()
     var data = Int()
@@ -41,7 +43,7 @@ class postEvent: UIViewController {
         super.viewDidLoad()
         
        username.setTitle(users, forState: UIControlState.Normal)
-        
+        endDate.text = storeEndDate
        location.text = storeLocation
         eventTitle.text = storeTitle
         startTime.text = storeStartTime

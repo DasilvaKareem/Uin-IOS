@@ -24,6 +24,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
     var eventTime = [String]()
     var eventDate = [String]()
     var eventNS = [NSDate]()
+    var usernames = [String]()
     
     
     @IBOutlet weak var subbutton: UIButton!
@@ -126,13 +127,15 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 for object in objects{
                     
                     
-                    self.eventNS.append(object["dateTime"] as NSDate)
+                     self.usernames.append(object["user"] as String)
+                    
+                //    self.eventNS.append(object["startEvent"] as NSDate)
                     
                     self.eventTitle.append(object["sum"] as String)
                     
-                    self.eventDate.append(object["date"] as String)
+                    self.eventDate.append(object["startdate"] as String)
                     
-                    self.eventTime.append(object["time"] as String)
+                    self.eventTime.append(object["starttime"] as String)
                     
                     self.food.append(object["food"] as Bool)
                     
@@ -279,7 +282,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
             
         }
         
-        cell.people.text = eventTitle[indexPath.row]
+        cell.people.text = usernames[indexPath.row]
         cell.time.text = eventTime[indexPath.row]
         cell.eventName.text = eventNamed[indexPath.row]
         cell.poop.tag = indexPath.row
