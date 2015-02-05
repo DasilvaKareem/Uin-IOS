@@ -176,7 +176,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         
         if food[indexPath.row] == true {
             
-            cell.foodIcon.image = UIImage(named: "yesFood.png")
+           // cell.foodIcon.image = UIImage(named: "yesFood.png")
             cell.foodText.text = "Food"
             cell.foodText.textColor = UIColor.darkGrayColor()
             println("yo")
