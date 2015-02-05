@@ -24,6 +24,9 @@ class profile: UIViewController,UINavigationControllerDelegate, UIImagePickerCon
         photoSelected = true
         
         profilePic.image = UIImage(named: "315px-Blank_woman_placeholder.svg")
+        
+        var nav = self.navigationController?.navigationBar
+        nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()];
 
         // Do any additional setup after loading the view.
     }
