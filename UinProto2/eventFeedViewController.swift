@@ -205,7 +205,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             
         }
         
-        cell.people.text = eventTitle[indexPath.row]
+        cell.people.text = usernames[indexPath.row]
         cell.time.text = eventStartTime[indexPath.row]
         cell.eventName.text = eventNamed[indexPath.row]
         cell.poop.tag = indexPath.row
@@ -243,7 +243,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         if segue.identifier == "example" {
             var secondViewController : postEvent = segue.destinationViewController as postEvent
             
-            println("hey")
+    
             //secondViewController.storeTitle = eventTitle[sender?.tag!]
             
             secondViewController.storeTitle = "hey"
