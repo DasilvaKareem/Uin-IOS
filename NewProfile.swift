@@ -185,8 +185,6 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
             cell.foodIcon.image = UIImage(named: "foodicon@3x.png")
             
             
-            
-            
         }
         else{
             
