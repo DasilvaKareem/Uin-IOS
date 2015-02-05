@@ -12,7 +12,8 @@ class postEvent: UIViewController {
     
     @IBOutlet weak var eventTitle: UILabel!
     @IBOutlet weak var location: UILabel!
-    @IBOutlet weak var time: UILabel!
+    @IBOutlet var startTime: UILabel!
+    @IBOutlet var endTime: UILabel!
     @IBOutlet weak var date: UILabel!
     @IBOutlet weak var isFood: UIImageView!
     @IBOutlet weak var username: UIButton!
@@ -27,7 +28,8 @@ class postEvent: UIViewController {
     var users = String()
     var storeTitle = String()
     var storeLocation = String()
-    var storeTime = String()
+    var storeStartTime = String()
+    var storeEndTime = String()
     var storeDate = String()
     var storeSum = String()
     var data = Int()
@@ -42,7 +44,8 @@ class postEvent: UIViewController {
         
        location.text = storeLocation
         eventTitle.text = storeTitle
-        time.text = storeTime
+        startTime.text = storeStartTime
+        endTime.text = storeEndTime
         date.text = storeDate
         putIcons()
   

@@ -832,6 +832,10 @@
                                 <exclude reference="sUo-LT-wYp"/>
                             </mask>
                             <mask key="constraints">
+                                <exclude reference="SOk-et-sdk"/>
+                                <exclude reference="Z9c-iW-QnE"/>
+                                <exclude reference="bcM-do-lFY"/>
+                                <exclude reference="ojk-Ul-FPf"/>
                                 <exclude reference="CSS-Yj-Eot"/>
                                 <exclude reference="jBX-QO-HjI"/>
                                 <exclude reference="cyl-St-Lcw"/>
@@ -859,10 +863,6 @@
                                 <exclude reference="a39-l6-AKo"/>
                                 <exclude reference="grD-QN-YtB"/>
                                 <exclude reference="ddm-Yh-CRq"/>
-                                <exclude reference="SOk-et-sdk"/>
-                                <exclude reference="Z9c-iW-QnE"/>
-                                <exclude reference="bcM-do-lFY"/>
-                                <exclude reference="ojk-Ul-FPf"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
@@ -870,6 +870,10 @@
                                 <include reference="sUo-LT-wYp"/>
                             </mask>
                             <mask key="constraints">
+                                <include reference="SOk-et-sdk"/>
+                                <include reference="Z9c-iW-QnE"/>
+                                <include reference="bcM-do-lFY"/>
+                                <include reference="ojk-Ul-FPf"/>
                                 <include reference="CSS-Yj-Eot"/>
                                 <include reference="jBX-QO-HjI"/>
                                 <include reference="cyl-St-Lcw"/>
@@ -897,10 +901,6 @@
                                 <include reference="a39-l6-AKo"/>
                                 <include reference="grD-QN-YtB"/>
                                 <include reference="ddm-Yh-CRq"/>
-                                <include reference="SOk-et-sdk"/>
-                                <include reference="Z9c-iW-QnE"/>
-                                <include reference="bcM-do-lFY"/>
-                                <include reference="ojk-Ul-FPf"/>
                             </mask>
                         </variation>
                     </view>
@@ -910,12 +910,13 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
                         <outlet property="date" destination="tsK-Ib-iSC" id="Ssx-eX-BEe"/>
+                        <outlet property="endTime" destination="7Kb-uf-CDW" id="mB0-0M-CKY"/>
                         <outlet property="eventTitle" destination="BTs-Tc-lLL" id="65U-qN-ayu"/>
                         <outlet property="isFood" destination="gGR-lF-G3t" id="B9W-oF-4QE"/>
                         <outlet property="isPaid" destination="MIg-rS-88A" id="mlD-iL-c6N"/>
                         <outlet property="isSite" destination="QKs-Cl-h33" id="SuW-Vg-uaC"/>
                         <outlet property="location" destination="I5Y-h5-d5d" id="qVf-Fh-mBn"/>
-                        <outlet property="time" destination="2Qw-DU-Fez" id="Et2-n4-k1j"/>
+                        <outlet property="startTime" destination="2Qw-DU-Fez" id="BPa-IQ-2TT"/>
                         <outlet property="username" destination="N98-dl-EA5" id="5MS-0h-BYj"/>
                         <segue destination="Odt-cu-E3D" kind="show" identifier="gotoprofile" id="Icg-Rt-Vk3"/>
                     </connections>
@@ -1657,7 +1658,7 @@
                                     </mask>
                                 </variation>
                             </imageView>
-                            <datePicker contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="U00-uj-lTV">
+                            <datePicker contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="15" translatesAutoresizingMaskIntoConstraints="NO" id="U00-uj-lTV">
                                 <rect key="frame" x="0.0" y="104" width="320" height="162"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="U00-uj-lTV" secondAttribute="height" multiplier="160:81" id="llB-06-KEs"/>
@@ -1747,7 +1748,7 @@
                                     <rect key="frame" x="122" y="75" width="77" height="24"/>
                                 </variation>
                             </label>
-                            <datePicker contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="LgX-SX-Xes">
+                            <datePicker contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="15" translatesAutoresizingMaskIntoConstraints="NO" id="LgX-SX-Xes">
                                 <rect key="frame" x="0.0" y="321" width="320" height="162"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="LgX-SX-Xes" secondAttribute="height" multiplier="160:81" id="pcm-vG-W30"/>
@@ -2212,6 +2213,11 @@
                                 <exclude reference="w5p-mU-rEg"/>
                             </mask>
                             <mask key="constraints">
+                                <exclude reference="VH8-yp-4CA"/>
+                                <exclude reference="cyf-Ng-oc4"/>
+                                <exclude reference="jfM-kL-zaB"/>
+                                <exclude reference="jxw-ix-ShG"/>
+                                <exclude reference="qUK-D7-l1a"/>
                                 <exclude reference="0jQ-NU-MUN"/>
                                 <exclude reference="3Vn-tH-rNu"/>
                                 <exclude reference="UKy-lo-MkH"/>
@@ -2240,11 +2246,6 @@
                                 <exclude reference="owJ-4h-LJ2"/>
                                 <exclude reference="tEm-DX-L0X"/>
                                 <exclude reference="RRM-fz-8Ff"/>
-                                <exclude reference="VH8-yp-4CA"/>
-                                <exclude reference="cyf-Ng-oc4"/>
-                                <exclude reference="jfM-kL-zaB"/>
-                                <exclude reference="jxw-ix-ShG"/>
-                                <exclude reference="qUK-D7-l1a"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
@@ -2252,6 +2253,11 @@
                                 <include reference="w5p-mU-rEg"/>
                             </mask>
                             <mask key="constraints">
+                                <include reference="VH8-yp-4CA"/>
+                                <exclude reference="cyf-Ng-oc4"/>
+                                <include reference="jfM-kL-zaB"/>
+                                <include reference="jxw-ix-ShG"/>
+                                <exclude reference="qUK-D7-l1a"/>
                                 <include reference="0jQ-NU-MUN"/>
                                 <include reference="3Vn-tH-rNu"/>
                                 <include reference="UKy-lo-MkH"/>
@@ -2280,11 +2286,6 @@
                                 <include reference="owJ-4h-LJ2"/>
                                 <include reference="tEm-DX-L0X"/>
                                 <include reference="RRM-fz-8Ff"/>
-                                <include reference="VH8-yp-4CA"/>
-                                <exclude reference="cyf-Ng-oc4"/>
-                                <include reference="jfM-kL-zaB"/>
-                                <include reference="jxw-ix-ShG"/>
-                                <exclude reference="qUK-D7-l1a"/>
                             </mask>
                         </variation>
                     </view>
@@ -2716,7 +2717,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pLK-ob-fYj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1605" y="2721"/>
+            <point key="canvasLocation" x="-1625" y="2893"/>
         </scene>
         <!--Events-->
         <scene sceneID="TSZ-Vn-d3L">

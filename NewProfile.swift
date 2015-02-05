@@ -37,6 +37,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
   
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         subticker()
         eventList()
         //Queries all the events and puts into the arrays above
@@ -274,7 +275,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
             
             secondViewController.storeTitle = eventNamed[thenum!]
             
-            secondViewController.storeTime = eventTime[thenum!]
+            secondViewController.storeStartTime = eventTime[thenum!]
             
             secondViewController.storeDate = eventDate[thenum!]
             
