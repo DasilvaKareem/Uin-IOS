@@ -67,7 +67,7 @@ class postEvent: UIViewController {
         else{
             isFood.image = UIImage(named: "noFood.png")
         }
-        if cost == false {
+        if cost == true {
             isPaid.image = UIImage(named: "yesFree.png")
         }
         else{

@@ -165,14 +165,14 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         if onsite[indexPath.row] == true {
             
             
-            cell.onCampusIcon.image = UIImage(named: "oncampusicon@3x.png")
+            cell.onCampusIcon.image = UIImage(named: "onCampus.png")
             
             
             
         }
         else{
             
-            cell.onCampusIcon.image = UIImage(named: "offCampus@3x.png")
+            cell.onCampusIcon.image = UIImage(named: "offCampus.png")
             
             cell.onCampusText.text = "Off-Campus"
             cell.onCampusText.textColor = UIColor.lightGrayColor()
@@ -182,30 +182,30 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         if food[indexPath.row] == true {
             
             
-            cell.foodIcon.image = UIImage(named: "foodicon@3x.png")
+            cell.foodIcon.image = UIImage(named: "yesFood.png")
             
             
         }
         else{
             
-            cell.foodIcon.image = UIImage(named: "noFood@3x.png")
+            cell.foodIcon.image = UIImage(named: "noFood.png")
             
             cell.foodText.text = "No Food"
             cell.foodText.textColor = UIColor.lightGrayColor()
             
             
         }
-        if paid[indexPath.row] == false {
+        if paid[indexPath.row] == true {
             
             
-            cell.freeIcon.image = UIImage(named: "freeicon@3x.png")
+            cell.freeIcon.image = UIImage(named: "yesFree.png")
             
             
             
         }
         else{
             
-            cell.freeIcon.image = UIImage(named: "noFree@3x.png")
+            cell.freeIcon.image = UIImage(named: "noFree.png")
             
             cell.costText.text = "Not Free"
             cell.costText.textColor = UIColor.lightGrayColor()
