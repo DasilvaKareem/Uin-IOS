@@ -153,13 +153,15 @@ class eventMake: UIViewController, UITextFieldDelegate {
             var empty = ""
             var event = PFObject(className: "event")
             println(dateStr)
-            event["public"] = eventPublic
-            event["endDate"] = orderDate1
-            event["dateTime"] = orderDate2
-            event["time"] = dateTime1 as String
-            event["date"] = dateStr1 as String
-            event["eventTime"] = dateTime2 as String
             
+            event["StartEvent"] = orderDate1
+            event["EndEvent"] = orderDate2
+            event["starttime"] = dateTime1 as String
+            event["startdate"] = dateStr1 as String
+            event["endTime"] = dateTime2 as String
+            event["endDate"] = dateStr2 as String
+            event["eventTime"] = dateTime2 as String
+            event["public"] = eventPublic
             event["food"] = food
             event["paid"] = paid
             event["location"] = onsite

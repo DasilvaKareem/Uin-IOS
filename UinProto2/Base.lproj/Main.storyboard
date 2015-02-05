@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="6lS-Ca-3sI">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6221" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="6lS-Ca-3sI">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6213"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -901,6 +901,7 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
                         <outlet property="date" destination="tsK-Ib-iSC" id="Ssx-eX-BEe"/>
+                        <outlet property="endDate" destination="tbA-5J-boH" id="0yx-Op-w6l"/>
                         <outlet property="endTime" destination="7Kb-uf-CDW" id="mB0-0M-CKY"/>
                         <outlet property="eventTitle" destination="BTs-Tc-lLL" id="65U-qN-ayu"/>
                         <outlet property="isFood" destination="gGR-lF-G3t" id="B9W-oF-4QE"/>
@@ -2431,7 +2432,7 @@
                                     <action selector="subscribe:" destination="Odt-cu-E3D" eventType="touchUpInside" id="sss-eH-E94"/>
                                 </connections>
                             </button>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="70" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="wOP-nY-VgG">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="70" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="wOP-nY-VgG">
                                 <rect key="frame" x="0.0" y="319" width="414" height="368"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -2549,14 +2550,14 @@
                                                     <exclude reference="sA2-dz-VZX"/>
                                                     <exclude reference="zdL-1i-15b"/>
                                                     <exclude reference="zp2-aj-0Cf"/>
-                                                    <exclude reference="Ksq-9t-kFy"/>
-                                                    <exclude reference="d7H-9U-G6X"/>
-                                                    <exclude reference="kWm-Vp-cD0"/>
-                                                    <exclude reference="mEw-YZ-Bex"/>
                                                     <exclude reference="A4p-y4-xDR"/>
                                                     <exclude reference="JmX-fD-uNd"/>
                                                     <exclude reference="t3i-ya-mnz"/>
                                                     <exclude reference="zZv-dE-Nve"/>
+                                                    <exclude reference="Ksq-9t-kFy"/>
+                                                    <exclude reference="d7H-9U-G6X"/>
+                                                    <exclude reference="kWm-Vp-cD0"/>
+                                                    <exclude reference="mEw-YZ-Bex"/>
                                                 </mask>
                                             </variation>
                                             <variation key="heightClass=regular-widthClass=compact">
@@ -2569,14 +2570,14 @@
                                                     <include reference="sA2-dz-VZX"/>
                                                     <include reference="zdL-1i-15b"/>
                                                     <include reference="zp2-aj-0Cf"/>
-                                                    <include reference="Ksq-9t-kFy"/>
-                                                    <include reference="d7H-9U-G6X"/>
-                                                    <include reference="kWm-Vp-cD0"/>
-                                                    <include reference="mEw-YZ-Bex"/>
                                                     <include reference="A4p-y4-xDR"/>
                                                     <include reference="JmX-fD-uNd"/>
                                                     <include reference="t3i-ya-mnz"/>
                                                     <include reference="zZv-dE-Nve"/>
+                                                    <include reference="Ksq-9t-kFy"/>
+                                                    <include reference="d7H-9U-G6X"/>
+                                                    <include reference="kWm-Vp-cD0"/>
+                                                    <include reference="mEw-YZ-Bex"/>
                                                 </mask>
                                             </variation>
                                         </tableViewCellContentView>
@@ -2619,10 +2620,10 @@
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
-                                <exclude reference="m35-XN-hrD"/>
-                                <exclude reference="oWe-SO-7vg"/>
                                 <exclude reference="agQ-MZ-kHY"/>
                                 <exclude reference="yOY-fd-rE2"/>
+                                <exclude reference="m35-XN-hrD"/>
+                                <exclude reference="oWe-SO-7vg"/>
                                 <exclude reference="S8w-2R-ojH"/>
                                 <exclude reference="lEK-q7-Hp5"/>
                                 <exclude reference="7TG-oT-6UO"/>
@@ -2637,10 +2638,10 @@
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
                             <mask key="constraints">
-                                <include reference="m35-XN-hrD"/>
-                                <include reference="oWe-SO-7vg"/>
                                 <include reference="agQ-MZ-kHY"/>
                                 <include reference="yOY-fd-rE2"/>
+                                <include reference="m35-XN-hrD"/>
+                                <include reference="oWe-SO-7vg"/>
                                 <include reference="S8w-2R-ojH"/>
                                 <include reference="lEK-q7-Hp5"/>
                                 <include reference="7TG-oT-6UO"/>
@@ -2668,7 +2669,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pLK-ob-fYj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1605" y="3001"/>
+            <point key="canvasLocation" x="-1605" y="2998"/>
         </scene>
         <!--Events-->
         <scene sceneID="TSZ-Vn-d3L">
