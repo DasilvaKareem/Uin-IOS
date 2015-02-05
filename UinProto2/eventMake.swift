@@ -154,10 +154,12 @@ class eventMake: UIViewController, UITextFieldDelegate {
             var event = PFObject(className: "event")
             println(dateStr)
             event["public"] = eventPublic
-            event["endTime"] = orderDate1
+            event["endDate"] = orderDate1
             event["dateTime"] = orderDate2
             event["time"] = dateTime1 as String
             event["date"] = dateStr1 as String
+            event["eventTime"] = dateTime2 as String
+            
             event["food"] = food
             event["paid"] = paid
             event["location"] = onsite
@@ -191,28 +193,29 @@ class eventMake: UIViewController, UITextFieldDelegate {
         
     }
     
-  override func viewDidAppear(animated: Bool) {
-       start.text = startString
-        end.text = endString
-    
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if (startString == ""){
+            
+            start.text = "Start Time"
+            
+        }
+        else {
+            start.text = startString
+            
+            
+        }
+        if (endString == "") {
+            
+            end.text = "End Time"
+            
+        }
+        else {
+            end.text = endString
+        }
        
-       
-        
-       // if start.text != "start time" {
-            
-        
-            
-      //  }
-        
-      //  if end.text != "end time" {
-            
-            end.text = endTime
-       // }
         
         if PFUser.currentUser() == nil{
             

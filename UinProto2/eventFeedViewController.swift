@@ -20,9 +20,9 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     var food = [Bool]()
     var eventTitle = [String]()
     var eventNamed = [String]()
-    var eventTime = [String]()
+    var eventStartTime = [String]()
+    var eventEndTime = [String]()
     var eventDate = [String]()
-    var eventNS = [NSDate]()
     var usernames = [String]()
     
     @IBAction func logout(sender: AnyObject) {
@@ -33,6 +33,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
         updateFeed()
         //Changes the navbar background
         navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
@@ -44,23 +45,26 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         refresher.addTarget(self, action: "refresh", forControlEvents: UIControlEvents.ValueChanged)
         self.theFeed.addSubview(refresher)
     
-        //Queries all the events (Should move to seperate function)
+       
        
      }
      func updateFeed(){
-     
-      var que = PFQuery(className: "event")
-        que.orderByAscending("dateTime")
-        que.whereKey("public", equalTo: true)
+        self.usernames.removeAll(keepCapacity: true)
         self.eventTitle.removeAll(keepCapacity: true)
         self.eventNamed.removeAll(keepCapacity: true)
-        self.eventTime.removeAll(keepCapacity: true)
+        self.eventEndTime.removeAll(keepCapacity: true)
+        self.eventStartTime.removeAll(keepCapacity: true)
         self.eventDate.removeAll(keepCapacity: true)
         self.usernames.removeAll(keepCapacity: true)
-        self.eventNS.removeAll(keepCapacity: true)
         self.paid.removeAll(keepCapacity: true)
         self.food.removeAll(keepCapacity: true)
         self.onsite.removeAll(keepCapacity: true)
+        
+      var que = PFQuery(className: "event")
+        que.orderByAscending("dateTime")
+        que.whereKey("public", equalTo: true)
+        
+     
         
         que.findObjectsInBackgroundWithBlock{
             (objects:[AnyObject]!,eventError:NSError!) -> Void in
@@ -72,10 +76,10 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                     
                     println(object.objectId)
                     self.usernames.append(object["user"] as String)
-                  //  self.eventNS.append(object["dateTime"] as NSDate)
                     self.eventTitle.append(object["sum"] as String)
                     self.eventDate.append(object["date"] as String)
-                    self.eventTime.append(object["time"] as String)
+                    self.eventStartTime.append(object["time"] as String)
+                   // self.eventEndTime.append(object["endTimeFormat"] as String)
                    self.food.append(object["food"] as Bool)
                     self.paid.append(object["paid"] as Bool)
                    self.onsite.append(object["location"] as Bool)
@@ -104,10 +108,10 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                     
                     println(object.objectId)
                     self.usernames.append(object["user"] as String)
-                    self.eventNS.append(object["dateTime"] as NSDate)
+               
                     self.eventTitle.append(object["sum"] as String)
                     self.eventDate.append(object["date"] as String)
-                    self.eventTime.append(object["time"] as String)
+                    self.eventStartTime.append(object["time"] as String)
                     self.food.append(object["food"] as Bool)
                     self.paid.append(object["paid"] as Bool)
                     self.onsite.append(object["location"] as Bool)
@@ -197,7 +201,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         }
         
         cell.people.text = eventTitle[indexPath.row]
-        cell.time.text = eventTime[indexPath.row]
+        cell.time.text = eventStartTime[indexPath.row]
         cell.eventName.text = eventNamed[indexPath.row]
         cell.poop.tag = indexPath.row
        cell.poop.addTarget(self, action: "followButton:", forControlEvents: UIControlEvents.TouchUpInside)
@@ -207,7 +211,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func followButton(sender: AnyObject){
         // Puts the data in a cell
-        var thePoop = PFObject(className: "thePoop")
+        
         var eventStore : EKEventStore = EKEventStore()
         eventStore.requestAccessToEntityType(EKEntityTypeEvent, completion: {
             granted, error in
@@ -217,8 +221,8 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                 
                 var event:EKEvent = EKEvent(eventStore: eventStore)
                event.title = self.eventNamed[sender.tag]
-                event.startDate = self.eventNS[sender.tag]
-                event.endDate = self.eventNS[sender.tag]
+                
+             
                 //event.notes = self.eventTitle[sender.tag]
                 event.location = self.eventTitle[sender.tag]
                 event.calendar = eventStore.defaultCalendarForNewEvents
@@ -243,7 +247,8 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             var thenum = indexPath?.row
             secondViewController.storeLocation = eventTitle[thenum!]
             secondViewController.storeTitle = eventNamed[thenum!]
-            secondViewController.storeTime = eventTime[thenum!]
+            secondViewController.storeStartTime = eventStartTime[thenum!]
+            secondViewController.storeEndTime = eventEndTime[thenum!]
             secondViewController.storeDate = eventDate[thenum!]
             secondViewController.onsite = onsite[thenum!]
             secondViewController.cost = food[thenum!]
