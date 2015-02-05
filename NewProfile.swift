@@ -76,7 +76,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 }
               
              
-                self.subscribers.setTitle("Subscriber \(amountofsubs.count)", forState: UIControlState.Normal)
+                self.subscribers.setTitle("\(amountofsubs.count) Subscriber ", forState: UIControlState.Normal)
             }
             
             
@@ -102,7 +102,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 }
                 
                 
-                self.subscription.setTitle("Subscriptions \(amountofScript.count)", forState: UIControlState.Normal)
+                self.subscription.setTitle("\(amountofScript.count) Subscriptions ", forState: UIControlState.Normal)
             }
             
             
