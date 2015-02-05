@@ -8,14 +8,22 @@
 
 import UIKit
 
-class userprofile: UIViewController {
+class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     
     @IBOutlet weak var username: UILabel!
     
+    @IBOutlet var theFeed: UITableView!
     var theUser = String()
-    
     var memberStatus = [Bool]()
+    var onsite = [Bool]()
+    var paid = [Bool]()
+    var food = [Bool]()
+    var eventTitle = [String]()
+    var eventNamed = [String]()
+    var eventTime = [String]()
+    var eventDate = [String]()
+    var eventNS = [NSDate]()
     
     
     @IBOutlet weak var subbutton: UIButton!
@@ -98,8 +106,66 @@ class userprofile: UIViewController {
         }
     }
     
+    func eventList(){
+      
         
+        var que = PFQuery(className: "event")
+        
+        que.orderByAscending("dateTime")
+        
+        que.whereKey("user", equalTo: theUser)
+     
+        
+        que.findObjectsInBackgroundWithBlock{
+            
+            (objects:[AnyObject]!,eventError:NSError!) -> Void in
+            
+            if eventError == nil {
+                
+                
+                for object in objects{
+                    
+                    
+                    self.eventNS.append(object["dateTime"] as NSDate)
+                    
+                    self.eventTitle.append(object["sum"] as String)
+                    
+                    self.eventDate.append(object["date"] as String)
+                    
+                    self.eventTime.append(object["time"] as String)
+                    
+                    self.food.append(object["food"] as Bool)
+                    
+                    self.paid.append(object["paid"] as Bool)
+                    
+                    self.onsite.append(object["location"] as Bool)
+                    
+                    self.eventNamed.append(object["title"] as String)
+                    
+                    self.theFeed.reloadData()
+                    
+                    
+                }
+            }
+        }
+    }
     
+    
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        // #warning Potentially incomplete method implementation.
+        // Return the number of sections.
+        return 1
+        
+    }
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        // #warning Incomplete method implementation.
+        // Return the number of rows in the section.
+        
+        return eventNamed.count
+        
+    }
+
     
     func ChangeSub(){
         
@@ -135,6 +201,7 @@ class userprofile: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        eventList()
         ChangeSub()
         username.text = theUser
         if PFUser.currentUser().username ==  theUser  {
@@ -157,14 +224,119 @@ class userprofile: UIViewController {
     }
     
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
+        // Puts the all the data in the cell using indexpath
+        var cell:eventCell = tableView.dequeueReusableCellWithIdentifier("cell2") as eventCell
+        
+        if onsite[indexPath.row] == true {
+            
+            
+            cell.onCampusIcon.image = UIImage(named: "onCampus.png")
+            
+            
+            
+        }
+        else{
+            
+            cell.onCampusIcon.image = UIImage(named: "offCampus.png")
+            
+            cell.onCampusText.text = "Off-Campus"
+            cell.onCampusText.textColor = UIColor.lightGrayColor()
+            
+        }
+        
+        if food[indexPath.row] == true {
+            
+            
+            cell.foodIcon.image = UIImage(named: "yesFood.png")
+            
+            
+        }
+        else{
+            
+            cell.foodIcon.image = UIImage(named: "noFood.png")
+            
+            cell.foodText.text = "No Food"
+            cell.foodText.textColor = UIColor.lightGrayColor()
+            
+            
+        }
+        if paid[indexPath.row] == true {
+            
+            
+            cell.freeIcon.image = UIImage(named: "yesFree.png")
+            
+            
+            
+        }
+        else{
+            
+            cell.freeIcon.image = UIImage(named: "noFree.png")
+            
+            cell.costText.text = "Not Free"
+            cell.costText.textColor = UIColor.lightGrayColor()
+            
+            
+        }
+        
+        cell.people.text = eventTitle[indexPath.row]
+        cell.time.text = eventTime[indexPath.row]
+        cell.eventName.text = eventNamed[indexPath.row]
+        cell.poop.tag = indexPath.row
+        cell.poop.addTarget(self, action: "followButton:", forControlEvents: UIControlEvents.TouchUpInside)
+        
+        
+        
+        
+        return cell
+        
+        
     }
-    */
-
+    
+    
+    
+    override func prepareForSegue(segue:UIStoryboardSegue, sender: AnyObject?){
+        
+        
+        //Creates the variables for the post Event cell
+        if segue.identifier == "example" {
+            var secondViewController : postEvent = segue.destinationViewController as postEvent
+            
+            println("hey")
+            
+            
+            
+            //Get the index path
+            var indexPath = theFeed.indexPathForSelectedRow()
+            
+            var thenum = indexPath?.row
+            
+            secondViewController.storeLocation = eventTitle[thenum!]
+            
+            secondViewController.storeTitle = eventNamed[thenum!]
+            
+            secondViewController.storeStartTime = eventTime[thenum!]
+            
+            secondViewController.storeDate = eventDate[thenum!]
+            
+            secondViewController.onsite = onsite[thenum!]
+            
+            secondViewController.cost = food[thenum!]
+            
+            secondViewController.food = food[thenum!]
+            
+            // secondViewController.users = usernames[thenum!]
+            
+            
+        }
+        
+        
+        
+    }
+    
+    
+    
 }
+
+
+

@@ -20,6 +20,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet var subscribers: UIButton!
     
 
+    @IBOutlet var subscription: UIButton!
     
     @IBOutlet weak var theFeed: UITableView!
     
@@ -34,10 +35,15 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     var eventDate = [String]()
     var eventNS = [NSDate]()
     
-  
+ 
+    override func viewDidAppear(animated: Bool) {
+        subticker()
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        println("loaded")
         subticker()
         eventList()
         //Queries all the events and puts into the arrays above
@@ -48,9 +54,9 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()];
 
     }
+    
     func subticker(){
         var amountofsubs = [String]()
-        var convert = String(amountofsubs.count)
         var getNumberList = PFQuery(className:"subs")
         getNumberList.whereKey("following", equalTo: PFUser.currentUser().username)
         getNumberList.findObjectsInBackgroundWithBlock{
@@ -65,14 +71,45 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
                     
                     amountofsubs.append(object["follower"] as String)
                     
+                    
+                    
                 }
-                
+              
+             
+                self.subscribers.setTitle("Subscriber \(amountofsubs.count)", forState: UIControlState.Normal)
             }
             
             
         }
-        subscribers.setTitle("Subscribers", forState: UIControlState.Normal)
-        println(convert)
+        
+        var amountofScript = [String]()
+        var getNumberList2 = PFQuery(className: "subs")
+        getNumberList2.whereKey("follower", equalTo: PFUser.currentUser().username)
+        getNumberList2.findObjectsInBackgroundWithBlock{
+            
+            (objects:[AnyObject]!, folError:NSError!) -> Void in
+            
+            
+            if folError == nil {
+                
+                
+                for object in objects{
+                    
+                    amountofScript.append(object["following"] as String)
+                    
+                    
+                    
+                }
+                
+                
+                self.subscription.setTitle("Subscriptions \(amountofScript.count)", forState: UIControlState.Normal)
+            }
+            
+            
+        }
+        
+       
+        
         
     }
     
