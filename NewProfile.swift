@@ -40,6 +40,8 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         subticker()
         eventList()
         //Queries all the events and puts into the arrays above
+        
+                navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
 
     }
     func subticker(){
@@ -65,7 +67,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
             
             
         }
-        subscribers.setTitle("HEY", forState: UIControlState.Normal)
+        subscribers.setTitle("Subscribers", forState: UIControlState.Normal)
         println(convert)
         
     }

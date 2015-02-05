@@ -34,10 +34,11 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     override func viewDidLoad() {
         super.viewDidLoad()
         updateFeed()
-        //Changes the navbar color
-        navigationController?.navigationBar.barTintColor = UIColor(red:60.0/255.0, green:144.0/255.0,blue:201.0/250.0,alpha:1.0)
+        //Changes the navbar background
+        navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
+        tabBarController?.tabBar
         
-        //Addes pull to refresh
+        //Adds pull to refresh
          refresher = UIRefreshControl()
         refresher.attributedTitle = NSAttributedString(string: "Pul to refresh")
         refresher.addTarget(self, action: "refresh", forControlEvents: UIControlEvents.ValueChanged)
