@@ -252,10 +252,8 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         if segue.identifier == "example" {
             var secondViewController : postEvent = segue.destinationViewController as postEvent
             
-    
-            //secondViewController.storeTitle = eventTitle[sender?.tag!]
             
-            secondViewController.storeTitle = "hey"
+           
             
             var indexPath = theFeed.indexPathForSelectedRow() //get index of data for selected row
             var thenum = indexPath?.row
