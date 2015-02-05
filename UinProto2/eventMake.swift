@@ -193,29 +193,48 @@ class eventMake: UIViewController, UITextFieldDelegate {
         
     }
     
+  override func viewDidAppear(animated: Bool) {
+    if (startString == ""){
+        
+        start.text = "Start Time"
+    
+    }
+    else {
+          start.text = startString
+        
+        
+    }
+    if (endString == "") {
+        
+        end.text = "End Time"
+        
+    }
+    else {
+        end.text = endString
+    }
+    
+    
+    
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if (startString == ""){
-            
-            start.text = "Start Time"
-            
-        }
-        else {
-            start.text = startString
-            
-            
-        }
-        if (endString == "") {
-            
-            end.text = "End Time"
-            
-        }
-        else {
-            end.text = endString
-        }
        
+       start.text = "Start Time"
+        
+        end.text = "End Time"
+        
+       // if start.text != "start time" {
+            
+        
+            
+      //  }
+        
+      //  if end.text != "end time" {
+            
+        
+       // }
         
         if PFUser.currentUser() == nil{
             

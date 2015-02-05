@@ -25,6 +25,8 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     var eventDate = [String]()
     var usernames = [String]()
     
+    
+    
     @IBAction func logout(sender: AnyObject) {
         
         PFUser.logOut()
@@ -159,14 +161,15 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         
         if onsite[indexPath.row] == true {
         
-            cell.location.image = UIImage(named: "oncampusicon@3x.png")
+            cell.location.image = UIImage(named: "oncampusicon@3x")
             cell.onCampusText.text = "On-Campus"
             cell.onCampusText.textColor = UIColor.darkGrayColor()
+            println("yo")
             
         }
         else{
             
-            cell.location.image = UIImage(named: "offCampus@3x.png")
+            cell.location.image = UIImage(named: "offCampus@3x")
             cell.onCampusText.text = "Off-Campus"
             cell.onCampusText.textColor = UIColor.lightGrayColor()
             
@@ -174,28 +177,30 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         
         if food[indexPath.row] == true {
             
-            cell.food.image = UIImage(named: "foodicon@3x.png")
+            cell.food.image = UIImage(named: "foodicon@3x")
             cell.foodText.text = "Food"
             cell.foodText.textColor = UIColor.darkGrayColor()
+            println("yo")
             
         }
         else{
             
-            cell.food.image = UIImage(named: "noFood@3x.png")
+            cell.food.image = UIImage(named: "noFood@3x")
             cell.foodText.text = "No Food"
             cell.foodText.textColor = UIColor.lightGrayColor()
 
         }
         if paid[indexPath.row] == false {
         
-            cell.paid.image = UIImage(named: "freeicon@3x.png")
+            cell.paid.image = UIImage(named: "freeicon@3x")
             cell.costText.text = "Free"
             cell.costText.textColor = UIColor.darkGrayColor()
+            println("yo")
             
         }
         else{
             
-            cell.paid.image = UIImage(named: "noFree@3x.png")
+            cell.paid.image = UIImage(named: "noFree@3x")
             cell.costText.text = "Not Free"
             cell.costText.textColor = UIColor.lightGrayColor()
             
@@ -212,7 +217,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func followButton(sender: AnyObject){
         // Puts the data in a cell
-        
+        var que = PFQuery(className: "events")
         var eventStore : EKEventStore = EKEventStore()
         eventStore.requestAccessToEntityType(EKEntityTypeEvent, completion: {
             granted, error in
@@ -249,7 +254,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             secondViewController.storeLocation = eventTitle[thenum!]
             secondViewController.storeTitle = eventNamed[thenum!]
             secondViewController.storeStartTime = eventStartTime[thenum!]
-            secondViewController.storeEndTime = eventEndTime[thenum!]
+            //secondViewController.storeEndTime = eventEndTime[thenum!]
             secondViewController.storeDate = eventDate[thenum!]
             secondViewController.onsite = onsite[thenum!]
             secondViewController.cost = food[thenum!]
