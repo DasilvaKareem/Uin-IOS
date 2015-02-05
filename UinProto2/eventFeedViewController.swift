@@ -25,7 +25,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     var eventDate = [String]()
     var usernames = [String]()
     
-    
+    var kareem = "Hello world"
     
     @IBAction func logout(sender: AnyObject) {
         
