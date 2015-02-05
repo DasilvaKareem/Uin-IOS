@@ -21,23 +21,25 @@ class eventCell: UITableViewCell {
     @IBOutlet weak var eventName: UILabel!
     
    
-    @IBOutlet weak var location: UIImageView!
+    @IBOutlet weak var onCampusIcon: UIImageView!
+
  
-    
-    @IBOutlet weak var food: UIImageView!
+    @IBOutlet weak var freeIcon: UIImageView!
     
 
+    @IBOutlet weak var foodIcon: UIImageView!
+    
+    
 
     @IBOutlet weak var poop: UIButton!
     
-    @IBOutlet weak var paid: UIImageView!
+
     
     @IBOutlet weak var people: UILabel!
     
     
     @IBOutlet weak var time: UILabel!
     
-    @IBOutlet weak var date: UILabel!
     
     
     

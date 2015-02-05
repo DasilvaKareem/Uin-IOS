@@ -315,9 +315,6 @@
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7SK-Wp-1t7">
                                                     <rect key="frame" x="104" y="3" width="19" height="19"/>
                                                 </imageView>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vZq-fa-3vg">
-                                                    <rect key="frame" x="8" y="3" width="15" height="19"/>
-                                                </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ful-ef-m3V">
                                                     <rect key="frame" x="123" y="22" width="57" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
@@ -382,6 +379,9 @@
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vZq-fa-3vg">
+                                                    <rect key="frame" x="8" y="3" width="15" height="19"/>
+                                                </imageView>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="bottomMargin" secondItem="M3M-rB-J8M" secondAttribute="bottom" id="3II-3U-9de">
@@ -427,11 +427,11 @@
                                         <connections>
                                             <outlet property="costText" destination="0cW-qw-nOz" id="gVn-JH-Ulc"/>
                                             <outlet property="eventName" destination="8vT-Cq-pRM" id="90h-5w-0er"/>
-                                            <outlet property="food" destination="KGh-BB-NXN" id="YDX-5A-fpa"/>
+                                            <outlet property="foodIcon" destination="KGh-BB-NXN" id="kfu-rN-AAy"/>
                                             <outlet property="foodText" destination="6f7-Kq-eOm" id="rCn-EW-9B1"/>
-                                            <outlet property="location" destination="vZq-fa-3vg" id="GvA-uo-CtQ"/>
+                                            <outlet property="freeIcon" destination="7SK-Wp-1t7" id="YFX-5n-e22"/>
+                                            <outlet property="onCampusIcon" destination="vZq-fa-3vg" id="Vf4-nc-ut1"/>
                                             <outlet property="onCampusText" destination="7uT-eY-0YS" id="05v-LQ-Jb8"/>
-                                            <outlet property="paid" destination="7SK-Wp-1t7" id="REC-OY-EWz"/>
                                             <outlet property="people" destination="M3M-rB-J8M" id="DOX-uo-Ud1"/>
                                             <outlet property="poop" destination="zMe-Q6-Io3" id="rki-fI-tAO"/>
                                             <outlet property="time" destination="FuD-Ix-6Ww" id="ydM-5D-rRS"/>
@@ -449,8 +449,10 @@
                         <constraints>
                             <constraint firstAttribute="centerY" secondItem="qcV-YZ-zmg" secondAttribute="centerY" id="1lc-RE-roC"/>
                             <constraint firstAttribute="centerX" secondItem="qcV-YZ-zmg" secondAttribute="centerX" id="ORF-j9-wGC"/>
+                            <constraint firstAttribute="centerY" secondItem="qcV-YZ-zmg" secondAttribute="centerY" id="POC-kW-Xau"/>
                             <constraint firstAttribute="trailing" secondItem="qcV-YZ-zmg" secondAttribute="trailing" id="cEX-lL-rua"/>
                             <constraint firstItem="NGa-PQ-DkW" firstAttribute="top" secondItem="qcV-YZ-zmg" secondAttribute="bottom" id="kXV-e7-ggA"/>
+                            <constraint firstAttribute="centerX" secondItem="qcV-YZ-zmg" secondAttribute="centerX" id="oHQ-nZ-kQt"/>
                             <constraint firstItem="qcV-YZ-zmg" firstAttribute="top" secondItem="Vnr-f1-ehy" secondAttribute="top" id="oQ1-Uf-guY"/>
                             <constraint firstItem="qcV-YZ-zmg" firstAttribute="leading" secondItem="Vnr-f1-ehy" secondAttribute="leading" id="yGH-5o-NzW"/>
                         </constraints>
@@ -458,7 +460,9 @@
                             <mask key="constraints">
                                 <exclude reference="1lc-RE-roC"/>
                                 <exclude reference="ORF-j9-wGC"/>
+                                <exclude reference="POC-kW-Xau"/>
                                 <exclude reference="cEX-lL-rua"/>
+                                <exclude reference="oHQ-nZ-kQt"/>
                                 <exclude reference="oQ1-Uf-guY"/>
                                 <exclude reference="yGH-5o-NzW"/>
                                 <exclude reference="kXV-e7-ggA"/>
@@ -468,7 +472,9 @@
                             <mask key="constraints">
                                 <include reference="1lc-RE-roC"/>
                                 <include reference="ORF-j9-wGC"/>
+                                <include reference="POC-kW-Xau"/>
                                 <include reference="cEX-lL-rua"/>
+                                <include reference="oHQ-nZ-kQt"/>
                                 <include reference="oQ1-Uf-guY"/>
                                 <include reference="yGH-5o-NzW"/>
                                 <include reference="kXV-e7-ggA"/>

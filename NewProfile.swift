@@ -165,14 +165,14 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         if onsite[indexPath.row] == true {
             
             
-            cell.location.image = UIImage(named: "oncampusicon@3x.png")
+            cell.onCampusIcon.image = UIImage(named: "oncampusicon@3x.png")
             
             
             
         }
         else{
             
-            cell.location.image = UIImage(named: "offCampus@3x.png")
+            cell.onCampusIcon.image = UIImage(named: "offCampus@3x.png")
             
             cell.onCampusText.text = "Off-Campus"
             cell.onCampusText.textColor = UIColor.lightGrayColor()
@@ -182,7 +182,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         if food[indexPath.row] == true {
             
             
-            cell.food.image = UIImage(named: "foodicon@3x.png")
+            cell.foodIcon.image = UIImage(named: "foodicon@3x.png")
             
             
             
@@ -190,7 +190,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         }
         else{
             
-            cell.food.image = UIImage(named: "noFood@3x.png")
+            cell.foodIcon.image = UIImage(named: "noFood@3x.png")
             
             cell.foodText.text = "No Food"
             cell.foodText.textColor = UIColor.lightGrayColor()
@@ -200,14 +200,14 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         if paid[indexPath.row] == false {
             
             
-            cell.paid.image = UIImage(named: "freeicon@3x.png")
+            cell.freeIcon.image = UIImage(named: "freeicon@3x.png")
             
             
             
         }
         else{
             
-            cell.paid.image = UIImage(named: "noFree@3x.png")
+            cell.freeIcon.image = UIImage(named: "noFree@3x.png")
             
             cell.costText.text = "Not Free"
             cell.costText.textColor = UIColor.lightGrayColor()

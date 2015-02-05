@@ -55,23 +55,23 @@ class postEvent: UIViewController {
         
         
         if  onsite == true {
-            isSite.image = UIImage(named: "oncampusicon@3x.png")
+            isSite.image = UIImage(named: "onCampus.png")
         }
         else{
-            isSite.image = UIImage(named: "offCampus@3x.png")
+            isSite.image = UIImage(named: "offCampus.png")
         }
      
         if food == true {
-            isFood.image = UIImage(named: "foodicon@3x.png")
+            isFood.image = UIImage(named: "yesFood.png")
         }
         else{
-            isFood.image = UIImage(named: "noFood@3x.png")
+            isFood.image = UIImage(named: "noFood.png")
         }
         if cost == false {
-            isPaid.image = UIImage(named: "freeicon@3x.png")
+            isPaid.image = UIImage(named: "yesFree.png")
         }
         else{
-            isPaid.image = UIImage(named: "noFree@3x.png")
+            isPaid.image = UIImage(named: "noFree.png")
        }
     }
     override func prepareForSegue(segue:UIStoryboardSegue, sender: AnyObject?){

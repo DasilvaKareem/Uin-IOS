@@ -37,11 +37,11 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         updateFeed()
         //Changes the navbar background
         navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
-        tabBarController?.tabBar
+
         
         //Adds pull to refresh
          refresher = UIRefreshControl()
-        refresher.attributedTitle = NSAttributedString(string: "Pul to refresh")
+        refresher.attributedTitle = NSAttributedString(string: "Pull to refresh")
         refresher.addTarget(self, action: "refresh", forControlEvents: UIControlEvents.ValueChanged)
         self.theFeed.addSubview(refresher)
     
@@ -158,14 +158,14 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         
         if onsite[indexPath.row] == true {
         
-            cell.location.image = UIImage(named: "oncampusicon@3x.png")
+            cell.onCampusIcon.image = UIImage(named: "onCampus.png")
             cell.onCampusText.text = "On-Campus"
             cell.onCampusText.textColor = UIColor.darkGrayColor()
             
         }
         else{
             
-            cell.location.image = UIImage(named: "offCampus@3x.png")
+            cell.onCampusIcon.image = UIImage(named: "offCampus.png")
             cell.onCampusText.text = "Off-Campus"
             cell.onCampusText.textColor = UIColor.lightGrayColor()
             
@@ -173,28 +173,28 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         
         if food[indexPath.row] == true {
             
-            cell.food.image = UIImage(named: "foodicon@3x.png")
+            cell.foodIcon.image = UIImage(named: "yesFood.png")
             cell.foodText.text = "Food"
             cell.foodText.textColor = UIColor.darkGrayColor()
             
         }
         else{
             
-            cell.food.image = UIImage(named: "noFood@3x.png")
+            cell.foodIcon.image = UIImage(named: "noFood.png")
             cell.foodText.text = "No Food"
             cell.foodText.textColor = UIColor.lightGrayColor()
 
         }
         if paid[indexPath.row] == false {
         
-            cell.paid.image = UIImage(named: "freeicon@3x.png")
+            cell.freeIcon.image = UIImage(named: "yesFree.png")
             cell.costText.text = "Free"
             cell.costText.textColor = UIColor.darkGrayColor()
             
         }
         else{
             
-            cell.paid.image = UIImage(named: "noFree@3x.png")
+            cell.freeIcon.image = UIImage(named: "noFree.png")
             cell.costText.text = "Not Free"
             cell.costText.textColor = UIColor.lightGrayColor()
             
@@ -241,7 +241,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             println("hey")
             //secondViewController.storeTitle = eventTitle[sender?.tag!]
             
-            secondViewController.storeTitle = "jhey"
+            secondViewController.storeTitle = "hey"
             
             var indexPath = theFeed.indexPathForSelectedRow() //get index of data for selected row
             var thenum = indexPath?.row
