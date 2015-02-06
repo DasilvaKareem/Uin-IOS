@@ -144,13 +144,28 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
      updateFeed()
     
     }
-    
+    var sectionsInTable = [String]()
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
         
     }
+    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        
+        var mo = "karee"
+        return mo
+        
+    }
     
+    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        
+        
+    let cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "Cell")
+        
+       cell.textLabel?.text = "heyy"
+        
+    return cell
+    }
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Potentially incomplete method implementation.
         // Return the number of sections.
