@@ -124,8 +124,8 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                     self.usernames.append(object["user"] as String)
                
                     self.eventTitle.append(object["sum"] as String)
-                    self.eventEndDate.append(object["enddate"] as String)
-                    self.eventStartTime.append(object["time"] as String)
+                    self.eventEndDate.append(object["endDate"] as String)
+                    self.eventStartTime.append(object["starttime"] as String)
                     self.food.append(object["food"] as Bool)
                     self.paid.append(object["paid"] as Bool)
                     self.onsite.append(object["location"] as Bool)
