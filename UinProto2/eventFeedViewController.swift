@@ -87,6 +87,8 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                 
                 for object in objects{
                     
+                    println("Type: \(_stdlib_getTypeName(object))")
+                    
                     println(object.objectId)
                     self.usernames.append(object["user"] as String)
                     self.eventTitle.append(object["sum"] as String)

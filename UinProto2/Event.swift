@@ -14,26 +14,26 @@ public class Event{
     private var paid: Bool
     private var food: Bool
     private var title: String
+    private var author: String
     private var location: String
     private var startDate: String
     private var endDate: String
     private var startTime: String
     private var endTime: String
-    private var author: String
     
     
     //Initialiser
-    init(){
-        onCampus = false
-        paid = false
-        food = false
-        title = ""
-        location = ""
-        startDate = ""
-        endDate = ""
-        startTime = ""
-        endTime = ""
-        author = ""
+    init(object: PFObject){
+        onCampus = object["location"] as Bool
+        paid = object["paid"] as Bool
+        food = object["food"] as Bool
+        title = object["sum"] as String
+        author = object["user"] as String
+        location = object["title"] as String
+        startDate = object["startdate"] as String
+        endDate = object["endDate"] as String
+        startTime = object["starttime"] as String
+        endTime = object["endTime"] as String
     }
     
     //Setters
@@ -73,10 +73,6 @@ public class Event{
         self.endTime = endTime
     }
     
-    func setAuthor(author: String){
-        self.author = author
-    }
-    
     //Getters
     public func getOnCampus() -> Bool{
         return onCampus
@@ -92,6 +88,10 @@ public class Event{
     
     public func getTitle() -> String{
         return title
+    }
+    
+    public func getAuthor() -> String{
+        return author
     }
     
     public func getLocation() -> String{
@@ -112,9 +112,5 @@ public class Event{
     
     public func getEndTime() -> String{
         return endTime
-    }
-    
-    public func getAuthor() -> String{
-        return author
     }
 }
