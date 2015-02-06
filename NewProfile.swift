@@ -12,16 +12,9 @@ import EventKit
 
 class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
-    
-
     @IBOutlet weak var orgName: UILabel!
-    
-    
     @IBOutlet var subscribers: UIButton!
-    
-
     @IBOutlet var subscription: UIButton!
-    
     @IBOutlet weak var theFeed: UITableView!
     
     //Decalres all the arrays that hold the data
@@ -37,19 +30,19 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     var usernames = [String]()
  
     override func viewDidAppear(animated: Bool) {
+    
+        //Loads subsciption again
         subticker()
     }
     
     
     override func viewDidLoad() {
+    
         super.viewDidLoad()
-        println("loaded")
         subticker()
         eventList()
-        //Queries all the events and puts into the arrays above
-        
-                navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
-        
+        //Changes elements of navbar
+         navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
         var nav = self.navigationController?.navigationBar
         nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()];
 
@@ -62,26 +55,15 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         getNumberList.findObjectsInBackgroundWithBlock{
             
             (objects:[AnyObject]!, folError:NSError!) -> Void in
-            
-            
             if folError == nil {
-                
-                
                 for object in objects{
-                    
                     amountofsubs.append(object["follower"] as String)
-                    
-                    
-                    
                 }
-              
-             
                 self.subscribers.setTitle("\(amountofsubs.count) Subscriber ", forState: UIControlState.Normal)
             }
-            
-            
         }
         
+        // Get amount of subsription
         var amountofScript = [String]()
         var getNumberList2 = PFQuery(className: "subs")
         getNumberList2.whereKey("follower", equalTo: PFUser.currentUser().username)
@@ -89,28 +71,13 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
             
             (objects:[AnyObject]!, folError:NSError!) -> Void in
             
-            
             if folError == nil {
-                
-                
                 for object in objects{
-                    
                     amountofScript.append(object["following"] as String)
-                    
-                    
-                    
                 }
-                
-                
                 self.subscription.setTitle("\(amountofScript.count) Subscriptions ", forState: UIControlState.Normal)
             }
-            
-            
         }
-        
-       
-        
-        
     }
     
 
@@ -118,14 +85,11 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     func eventList(){
     orgName.text = PFUser.currentUser().username
     
+    // queries the event feed should only query public event
     var que = PFQuery(className: "event")
-    
     que.orderByAscending("dateTime")
-    
     que.whereKey("user", equalTo: PFUser.currentUser().username)
-    
     que.findObjectsInBackgroundWithBlock{
-    
     (objects:[AnyObject]!,eventError:NSError!) -> Void in
     
     if eventError == nil {
@@ -152,8 +116,6 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     self.eventNamed.append(object["title"] as String)
     
     self.theFeed.reloadData()
-    
-    
                     }
                 }
             }
@@ -165,7 +127,6 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         // Dispose of any resources that can be recreated.
         
     }
-    
     
     @IBAction func logout(sender: AnyObject) {
         
@@ -191,14 +152,6 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         
     }
     
-    
-    
-    
-    
-    
-    
-    
-    var number = [Int]()
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
         // Puts the all the data in the cell using indexpath
         var cell:eventCell = tableView.dequeueReusableCellWithIdentifier("cell2") as eventCell
@@ -214,7 +167,6 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         else{
             
             cell.onCampusIcon.image = UIImage(named: "offCampus.png")
-            
             cell.onCampusText.text = "Off-Campus"
             cell.onCampusText.textColor = UIColor.lightGrayColor()
             
@@ -222,32 +174,23 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         
         if food[indexPath.row] == true {
             
-            
             cell.foodIcon.image = UIImage(named: "yesFood.png")
-            
             
         }
         else{
             
             cell.foodIcon.image = UIImage(named: "noFood.png")
-            
             cell.foodText.text = "No Food"
             cell.foodText.textColor = UIColor.lightGrayColor()
-            
-            
+
         }
         if paid[indexPath.row] == true {
             
-            
             cell.freeIcon.image = UIImage(named: "yesFree.png")
-            
-            
-            
         }
         else{
             
             cell.freeIcon.image = UIImage(named: "noFree.png")
-            
             cell.costText.text = "Not Free"
             cell.costText.textColor = UIColor.lightGrayColor()
             
@@ -259,10 +202,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         cell.eventName.text = eventNamed[indexPath.row]
         cell.poop.tag = indexPath.row
         cell.poop.addTarget(self, action: "followButton:", forControlEvents: UIControlEvents.TouchUpInside)
-        
-        
-        
-        
+    
         return cell
         
         
@@ -302,39 +242,18 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         //Creates the variables for the post Event cell
         if segue.identifier == "example" {
             var secondViewController : postEvent = segue.destinationViewController as postEvent
-            
-            println("hey")
-           
-            
         
             //Get the index path
             var indexPath = theFeed.indexPathForSelectedRow()
-            
             var thenum = indexPath?.row
-            
             secondViewController.storeLocation = eventTitle[thenum!]
-            
             secondViewController.storeTitle = eventNamed[thenum!]
-            
             secondViewController.storeStartTime = eventTime[thenum!]
-            
             secondViewController.storeDate = eventDate[thenum!]
-            
             secondViewController.onsite = onsite[thenum!]
-            
             secondViewController.cost = food[thenum!]
-            
             secondViewController.food = food[thenum!]
-            
-           // secondViewController.users = usernames[thenum!]
-            
-            
+            secondViewController.users = usernames[thenum!]
         }
-        
-        
-        
     }
-
-    
-    
 }
