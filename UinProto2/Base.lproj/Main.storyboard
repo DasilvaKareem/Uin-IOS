@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="6lS-Ca-3sI">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6221" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="6lS-Ca-3sI">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6213"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -442,6 +442,7 @@
                                             <outlet property="poop" destination="PBM-DB-py7" id="KVZ-bs-X4d"/>
                                             <outlet property="privateImage" destination="FGo-EL-Bbl" id="XpZ-Rc-2Vh"/>
                                             <outlet property="time" destination="AVg-sW-Elq" id="x8N-gJ-ziQ"/>
+                                            <segue destination="y9y-G9-w9b" kind="show" identifier="example" id="BRG-i8-aJG"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -928,7 +929,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5rQ-t6-Cuv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1605" y="2073"/>
+            <point key="canvasLocation" x="-1599" y="2293"/>
         </scene>
         <!--Profile View-->
         <scene sceneID="mxh-Zb-eyh">
@@ -1224,6 +1225,7 @@
                                             <outlet property="people" destination="Nxw-Sl-2Ks" id="gbf-Iz-m8A"/>
                                             <outlet property="poop" destination="l26-nf-u4z" id="Kev-k8-TUr"/>
                                             <outlet property="time" destination="mmS-l6-dbo" id="dRs-rK-yd3"/>
+                                            <segue destination="y9y-G9-w9b" kind="show" identifier="example" id="mO8-g4-kG9"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -1333,7 +1335,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ulb-Ir-F0E" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-781.5" y="1274.25"/>
+            <point key="canvasLocation" x="-905" y="1319"/>
         </scene>
         <!--Subscribers-->
         <scene sceneID="xWk-fV-q66">
@@ -2762,15 +2764,15 @@
                                 <nil key="highlightedColor"/>
                                 <variation key="default">
                                     <mask key="constraints">
-                                        <exclude reference="fQ7-Xu-nmK"/>
                                         <exclude reference="Udg-fv-n01"/>
+                                        <exclude reference="fQ7-Xu-nmK"/>
                                     </mask>
                                 </variation>
                                 <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
                                     <rect key="frame" x="8" y="30" width="237" height="24"/>
                                     <mask key="constraints">
-                                        <include reference="fQ7-Xu-nmK"/>
                                         <include reference="Udg-fv-n01"/>
+                                        <include reference="fQ7-Xu-nmK"/>
                                     </mask>
                                 </variation>
                             </label>
@@ -2842,9 +2844,9 @@
                         <variation key="default">
                             <mask key="constraints">
                                 <exclude reference="bwV-i4-mkV"/>
+                                <exclude reference="Ccb-eA-8qr"/>
                                 <exclude reference="hIe-0w-lrl"/>
                                 <exclude reference="m3Q-tF-sgl"/>
-                                <exclude reference="Ccb-eA-8qr"/>
                                 <exclude reference="Dy1-Bl-Slo"/>
                                 <exclude reference="htS-QD-6Gn"/>
                                 <exclude reference="TgB-up-wjV"/>
@@ -2854,9 +2856,9 @@
                         <variation key="heightClass=regular-widthClass=compact">
                             <mask key="constraints">
                                 <include reference="bwV-i4-mkV"/>
+                                <include reference="Ccb-eA-8qr"/>
                                 <include reference="hIe-0w-lrl"/>
                                 <include reference="m3Q-tF-sgl"/>
-                                <include reference="Ccb-eA-8qr"/>
                                 <include reference="Dy1-Bl-Slo"/>
                                 <include reference="htS-QD-6Gn"/>
                                 <include reference="TgB-up-wjV"/>
@@ -2897,8 +2899,9 @@
         <image name="uinLogo" width="596" height="596"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="EEz-vF-POL"/>
         <segue reference="0t0-sB-Jv5"/>
-        <segue reference="UWg-ZO-xAy"/>
+        <segue reference="mO8-g4-kG9"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>
