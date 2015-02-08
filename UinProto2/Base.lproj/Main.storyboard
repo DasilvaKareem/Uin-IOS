@@ -313,7 +313,8 @@
                                                             <exclude reference="XIB-FR-7yY"/>
                                                         </mask>
                                                     </variation>
-                                                    <variation key="heightClass=regular-widthClass=compact">
+                                                    <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                                        <rect key="frame" x="8" y="31" width="237" height="24"/>
                                                         <mask key="constraints">
                                                             <include reference="2uX-5G-boI"/>
                                                             <include reference="XIB-FR-7yY"/>
@@ -337,6 +338,9 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
+                                                    <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                                        <rect key="frame" x="278" y="53" width="34" height="18"/>
+                                                    </variation>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Food" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6f7-Kq-eOm">
                                                     <rect key="frame" x="207" y="3" width="57" height="21"/>
@@ -349,6 +353,9 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
+                                                    <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                                        <rect key="frame" x="8" y="56" width="57" height="15"/>
+                                                    </variation>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vZq-fa-3vg">
                                                     <rect key="frame" x="8" y="3" width="15" height="19"/>
@@ -358,6 +365,9 @@
                                                     <state key="normal" image="addToCalendar">
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
+                                                    <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                                        <rect key="frame" x="271" y="1" width="49" height="49"/>
+                                                    </variation>
                                                 </button>
                                             </subviews>
                                             <constraints>
@@ -428,6 +438,7 @@
                             <constraint firstAttribute="centerX" secondItem="qcV-YZ-zmg" secondAttribute="centerX" id="ORF-j9-wGC"/>
                             <constraint firstAttribute="centerY" secondItem="qcV-YZ-zmg" secondAttribute="centerY" id="POC-kW-Xau"/>
                             <constraint firstAttribute="trailing" secondItem="qcV-YZ-zmg" secondAttribute="trailing" id="cEX-lL-rua"/>
+                            <constraint firstAttribute="centerX" secondItem="qcV-YZ-zmg" secondAttribute="centerX" id="kAP-Ft-ozm"/>
                             <constraint firstItem="NGa-PQ-DkW" firstAttribute="top" secondItem="qcV-YZ-zmg" secondAttribute="bottom" id="kXV-e7-ggA"/>
                             <constraint firstAttribute="centerX" secondItem="qcV-YZ-zmg" secondAttribute="centerX" id="oHQ-nZ-kQt"/>
                             <constraint firstItem="qcV-YZ-zmg" firstAttribute="top" secondItem="Vnr-f1-ehy" secondAttribute="top" id="oQ1-Uf-guY"/>
@@ -440,6 +451,7 @@
                                 <exclude reference="ORF-j9-wGC"/>
                                 <exclude reference="POC-kW-Xau"/>
                                 <exclude reference="cEX-lL-rua"/>
+                                <exclude reference="kAP-Ft-ozm"/>
                                 <exclude reference="oHQ-nZ-kQt"/>
                                 <exclude reference="oQ1-Uf-guY"/>
                                 <exclude reference="yGH-5o-NzW"/>
@@ -453,6 +465,7 @@
                                 <include reference="ORF-j9-wGC"/>
                                 <include reference="POC-kW-Xau"/>
                                 <include reference="cEX-lL-rua"/>
+                                <include reference="kAP-Ft-ozm"/>
                                 <include reference="oHQ-nZ-kQt"/>
                                 <include reference="oQ1-Uf-guY"/>
                                 <include reference="yGH-5o-NzW"/>
@@ -479,7 +492,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gUf-sa-8yM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1384" y="1281"/>
+            <point key="canvasLocation" x="-1554" y="1278.75"/>
         </scene>
         <!--Event View-->
         <scene sceneID="thA-zf-fYh">
@@ -2722,7 +2735,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="0t0-sB-Jv5"/>
-        <segue reference="EEz-vF-POL"/>
+        <segue reference="UWg-ZO-xAy"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>
