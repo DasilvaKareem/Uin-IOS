@@ -26,6 +26,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     var eventEndDate = [String]()
     var usernames = [String]()
     var objectID = [String]()
+    var publicPost = [Bool]()
     
    
     
@@ -75,6 +76,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         self.paid.removeAll(keepCapacity: true)
         self.food.removeAll(keepCapacity: true)
         self.onsite.removeAll(keepCapacity: true)
+        self.publicPost.removeAll(keepCapacity: true)
         
         //adds content to the array
       var que = PFQuery(className: "event")
@@ -92,6 +94,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                 for object in objects{
                     
                     
+                    self.publicPost.append(object["public"] as Bool)
                     self.objectID.append(object.objectId as String)
                     self.usernames.append(object["user"] as String)
                     self.eventTitle.append(object["sum"] as String)
@@ -104,6 +107,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                    self.onsite.append(object["location"] as Bool)
                     self.eventlocation.append(object["title"] as String)
                     self.theFeed.reloadData()
+            
                     
                     
                 }
@@ -126,6 +130,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                 for object in objects{
                     
                     println(object.objectId)
+                    self.publicPost.append(object["public"] as Bool)
                     self.objectID.append(object.objectId as String)
                     self.usernames.append(object["user"] as String)
                     self.eventTitle.append(object["sum"] as String)
@@ -239,6 +244,10 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             
         }
         
+        if publicPost[indexPath.row] != true {
+            
+            cell.privateImage.image = UIImage(named: "privateEvent.png")
+        }
         cell.people.text = usernames[indexPath.row]
         cell.time.text = eventStartTime[indexPath.row]
         cell.eventName.text = eventlocation[indexPath.row]

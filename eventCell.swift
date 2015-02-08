@@ -20,6 +20,7 @@ class eventCell: UITableViewCell {
     
     @IBOutlet weak var eventName: UILabel!
     
+    @IBOutlet weak var privateImage: UIImageView!
    
     @IBOutlet weak var onCampusIcon: UIImageView!
 
