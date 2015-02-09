@@ -74,15 +74,15 @@ public class Event{
     }
     
     //Getters
-    public func getOnCampus() -> Bool{
+    public func isOnCampus() -> Bool{
         return onCampus
     }
     
-    public func getPaid() -> Bool{
+    public func isPaid() -> Bool{
         return paid
     }
     
-    public func getFood() -> Bool{
+    public func hasFood() -> Bool{
         return food
     }
     
