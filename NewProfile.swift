@@ -57,7 +57,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     func subticker(){
         var amountofsubs = [String]()
-        var getNumberList = PFQuery(className:"subs")
+        var getNumberList = PFQuery(className:"Subs")
         getNumberList.whereKey("following", equalTo: PFUser.currentUser().username)
         getNumberList.findObjectsInBackgroundWithBlock{
             
@@ -83,7 +83,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         }
         
         var amountofScript = [String]()
-        var getNumberList2 = PFQuery(className: "subs")
+        var getNumberList2 = PFQuery(className: "Subs")
         getNumberList2.whereKey("follower", equalTo: PFUser.currentUser().username)
         getNumberList2.findObjectsInBackgroundWithBlock{
             

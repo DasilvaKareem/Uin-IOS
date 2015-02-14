@@ -151,13 +151,13 @@ class eventMake: UIViewController, UITextFieldDelegate {
             if allError == "" {
                 
             var empty = ""
-            var event = PFObject(className: "event")
+            var event = PFObject(className: "Event")
             println(dateStr)
             
-            event["StartEvent"] = orderDate1
-            event["EndEvent"] = orderDate2
-            event["starttime"] = dateTime1 as String
-            event["startdate"] = dateStr1 as String
+            event["startEvent"] = orderDate1
+            event["endEvent"] = orderDate2
+            event["startTime"] = dateTime1 as String
+            event["startDate"] = dateStr1 as String
             event["endTime"] = dateTime2 as String
             event["endDate"] = dateStr2 as String
             event["eventTime"] = dateTime2 as String
@@ -165,15 +165,30 @@ class eventMake: UIViewController, UITextFieldDelegate {
             event["food"] = food
             event["paid"] = paid
             event["location"] = onsite
-            event["sum"] = eventSum.text
-            event["title"] = eventTitle.text
-            event["user"] = PFUser.currentUser().username
+            event["eventLocation"] = eventSum.text
+            event["eventTitle"] = eventTitle.text
+            event["author"] = PFUser.currentUser().username
             event.saveInBackgroundWithBlock{
             
                 (success:Bool!,eventError:NSError!) -> Void in
             
                 if (eventError == nil){
-                
+                    
+                    
+                    var push = PFPush()
+                    push.setChannel(PFUser.currentUser().username)
+                    push.setMessage("\(PFUser.currentUser().username) created an event")
+                    push.sendPushInBackgroundWithBlock{
+                        (success: Bool!, error:NSError!) -> Void in
+                        
+                        if error == nil {
+                            
+                            println("success")
+                            
+                        }
+                        
+                        
+                    }
                     self.performSegueWithIdentifier("eventback", sender: self)
                     println("it worked")
                 

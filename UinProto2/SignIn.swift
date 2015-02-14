@@ -48,9 +48,7 @@ class SignIn: UIViewController, UITextFieldDelegate {
     }
     
     override func viewDidLoad() {
-        
-       
-        
+
         super.viewDidLoad()
         
         
@@ -60,6 +58,8 @@ class SignIn: UIViewController, UITextFieldDelegate {
         password.attributedPlaceholder = NSAttributedString(string:"PASSWORD",
             attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
         
+    
+     
         // Do any additional setup after loading the view.
         
     }
@@ -90,6 +90,7 @@ class SignIn: UIViewController, UITextFieldDelegate {
                 
                 if loginError == nil {
                     
+                
                     self.performSegueWithIdentifier("login", sender: "self")
                     
                 }
@@ -109,7 +110,7 @@ class SignIn: UIViewController, UITextFieldDelegate {
         self.performSegueWithIdentifier("login", sender: self)
         
     }
-  
+
     
     }
 

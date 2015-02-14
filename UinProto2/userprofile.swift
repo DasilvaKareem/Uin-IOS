@@ -31,7 +31,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
     
     @IBAction func subscribe(sender: AnyObject) {
         
-        var que = PFQuery(className: "subs")
+        var que = PFQuery(className: "Subs")
         
         que.whereKey("follower", equalTo:PFUser.currentUser().username)
         que.whereKey("following", equalTo: theUser)
@@ -42,7 +42,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
             
             if object == nil {
             
-            var subscribe = PFObject(className: "subs")
+            var subscribe = PFObject(className: "Subs")
             subscribe["member"] = false
             subscribe["follower"] = PFUser.currentUser().username
             subscribe["following"] = self.theUser
@@ -53,6 +53,16 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 
                 
                 if (subError == nil){
+                    
+                    
+                   
+                    let currentInstallation = PFInstallation.currentInstallation()
+                    
+                    currentInstallation.addUniqueObject(self.theUser, forKey: "channels")
+                    currentInstallation.save()
+                    var push = PFPush()
+                   // push.setChannel = ("")
+                    
                     
                     
                     self.subbutton.setTitle("Unsubscribe", forState: UIControlState.Normal)
@@ -71,7 +81,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 
                 
                 
-                var unsub = PFQuery(className: "subs")
+                var unsub = PFQuery(className: "Subs")
                 
                 unsub.whereKey("follower", equalTo:PFUser.currentUser().username)
                 unsub.whereKey("following", equalTo: self.theUser)
@@ -83,6 +93,10 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                     if object != nil{
                         
                         object.delete()
+                        
+                        let currentInstallation = PFInstallation.currentInstallation()
+                        currentInstallation.removeObject(self.theUser, forKey: "channels")
+                        currentInstallation.save()
                         
                         println(object["member"])
                         
@@ -172,7 +186,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
     
     func ChangeSub(){
         
-        var que = PFQuery(className: "subs")
+        var que = PFQuery(className: "Subs")
         
         que.whereKey("follower", equalTo:PFUser.currentUser().username)
         que.whereKey("following", equalTo: theUser)
