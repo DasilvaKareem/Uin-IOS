@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6214" systemVersion="14A314h" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6207"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -11,31 +11,86 @@
             <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="  Copyright (c) 2014 Kareem Dasilva. All rights reserved." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="8ie-xW-0ye">
-                    <rect key="frame" x="20" y="439" width="441" height="21"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UinProto2" textAlignment="center" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" minimumFontSize="18" translatesAutoresizingMaskIntoConstraints="NO" id="kId-c2-rCX">
-                    <rect key="frame" x="20" y="140" width="441" height="43"/>
-                    <fontDescription key="fontDescription" type="boldSystem" pointSize="36"/>
-                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background" translatesAutoresizingMaskIntoConstraints="NO" id="6gU-Oo-hMH">
+                    <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="6gU-Oo-hMH" secondAttribute="height" multiplier="9:16" id="1VF-pf-ZIX"/>
+                    </constraints>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="1VF-pf-ZIX"/>
+                        </mask>
+                    </variation>
+                    <variation key="heightClass=regular-widthClass=compact">
+                        <mask key="constraints">
+                            <include reference="1VF-pf-ZIX"/>
+                        </mask>
+                    </variation>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="uinLogo" translatesAutoresizingMaskIntoConstraints="NO" id="mgW-Uv-AaR">
+                    <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UIN" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pnP-q2-Cbm">
+                    <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="41"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="kId-c2-rCX" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="bottom" multiplier="1/3" constant="1" id="5cJ-9S-tgC"/>
-                <constraint firstAttribute="centerX" secondItem="kId-c2-rCX" secondAttribute="centerX" id="Koa-jz-hwk"/>
-                <constraint firstAttribute="bottom" secondItem="8ie-xW-0ye" secondAttribute="bottom" constant="20" id="Kzo-t9-V3l"/>
-                <constraint firstItem="8ie-xW-0ye" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" symbolic="YES" id="MfP-vx-nX0"/>
-                <constraint firstAttribute="centerX" secondItem="8ie-xW-0ye" secondAttribute="centerX" id="ZEH-qu-HZ9"/>
-                <constraint firstItem="kId-c2-rCX" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" symbolic="YES" id="fvb-Df-36g"/>
+                <constraint firstItem="6gU-Oo-hMH" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="2Em-bC-vd1"/>
+                <constraint firstItem="6gU-Oo-hMH" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="CaW-Pb-Dzx"/>
+                <constraint firstItem="pnP-q2-Cbm" firstAttribute="top" secondItem="mgW-Uv-AaR" secondAttribute="bottom" constant="-45" id="U4e-G3-ID7"/>
+                <constraint firstAttribute="bottom" secondItem="6gU-Oo-hMH" secondAttribute="bottom" id="Wra-pe-cxf"/>
+                <constraint firstAttribute="trailing" secondItem="6gU-Oo-hMH" secondAttribute="trailing" id="ZGb-Sf-xud"/>
+                <constraint firstAttribute="centerX" secondItem="pnP-q2-Cbm" secondAttribute="centerX" id="ZGq-UL-GzC"/>
+                <constraint firstAttribute="centerY" secondItem="mgW-Uv-AaR" secondAttribute="centerY" id="bKm-PP-Z53">
+                    <variation key="heightClass=regular-widthClass=compact" constant="100"/>
+                </constraint>
+                <constraint firstAttribute="centerX" secondItem="mgW-Uv-AaR" secondAttribute="centerX" id="ghD-fI-sjk"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
-            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="548" y="455"/>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
+            <variation key="default">
+                <mask key="subviews">
+                    <exclude reference="6gU-Oo-hMH"/>
+                    <exclude reference="mgW-Uv-AaR"/>
+                    <exclude reference="pnP-q2-Cbm"/>
+                </mask>
+                <mask key="constraints">
+                    <exclude reference="2Em-bC-vd1"/>
+                    <exclude reference="CaW-Pb-Dzx"/>
+                    <exclude reference="Wra-pe-cxf"/>
+                    <exclude reference="ZGb-Sf-xud"/>
+                    <exclude reference="bKm-PP-Z53"/>
+                    <exclude reference="ghD-fI-sjk"/>
+                    <exclude reference="U4e-G3-ID7"/>
+                    <exclude reference="ZGq-UL-GzC"/>
+                </mask>
+            </variation>
+            <variation key="heightClass=regular-widthClass=compact">
+                <mask key="subviews">
+                    <include reference="6gU-Oo-hMH"/>
+                    <include reference="mgW-Uv-AaR"/>
+                    <include reference="pnP-q2-Cbm"/>
+                </mask>
+                <mask key="constraints">
+                    <include reference="2Em-bC-vd1"/>
+                    <include reference="CaW-Pb-Dzx"/>
+                    <include reference="Wra-pe-cxf"/>
+                    <include reference="ZGb-Sf-xud"/>
+                    <include reference="bKm-PP-Z53"/>
+                    <include reference="ghD-fI-sjk"/>
+                    <include reference="U4e-G3-ID7"/>
+                    <include reference="ZGq-UL-GzC"/>
+                </mask>
+            </variation>
+            <point key="canvasLocation" x="537" y="537"/>
         </view>
     </objects>
+    <resources>
+        <image name="background" width="416" height="737"/>
+        <image name="uinLogo" width="218" height="230"/>
+    </resources>
 </document>
