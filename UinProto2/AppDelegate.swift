@@ -44,11 +44,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     func application( application: UIApplication!, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData! ) {
-    
-        println("Success")
+        
         let installation = PFInstallation.currentInstallation()
         installation.setDeviceTokenFromData(deviceToken)
         installation.save()
+
+        println("Success")
+    
         
         
     }

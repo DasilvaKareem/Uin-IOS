@@ -174,6 +174,23 @@ class eventMake: UIViewController, UITextFieldDelegate {
             
                 if (eventError == nil){
                     
+                    var notify = PFObject(className: "Notification")
+                    notify["sender"] = PFUser.currentUser().username
+                    notify["receiver"] = PFUser.currentUser().username
+                    notify["type"] =  "event"
+                    notify.saveInBackgroundWithBlock({
+                        
+                        (success:Bool!, notifyError: NSError!) -> Void in
+                        
+                        if notifyError == nil {
+                            
+                            println("notifcation has been saved")
+                            
+                        }
+                        
+                        
+                    })
+
                     
                     var push = PFPush()
                     push.setChannel(PFUser.currentUser().username)

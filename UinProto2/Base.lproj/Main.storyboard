@@ -578,7 +578,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gUf-sa-8yM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1554" y="1274.25"/>
+            <point key="canvasLocation" x="-1490" y="1298"/>
         </scene>
         <!--Event View-->
         <scene sceneID="thA-zf-fYh">
@@ -1401,7 +1401,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ulb-Ir-F0E" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-905" y="1319"/>
+            <point key="canvasLocation" x="-905" y="1298"/>
         </scene>
         <!--Subscribers-->
         <scene sceneID="xWk-fV-q66">
@@ -2451,6 +2451,7 @@
                     <connections>
                         <segue destination="2Nb-sI-luP" kind="relationship" relationship="viewControllers" id="rKV-5a-0hr"/>
                         <segue destination="VYX-Te-eji" kind="relationship" relationship="viewControllers" id="wAn-gQ-pyn"/>
+                        <segue destination="paS-ca-QYZ" kind="relationship" relationship="viewControllers" id="VFB-jP-dJ1"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="r4p-Rz-dgO" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2949,6 +2950,60 @@
             </objects>
             <point key="canvasLocation" x="-904.5" y="562.5"/>
         </scene>
+        <!--Notifications View-->
+        <scene sceneID="d0P-Zu-y5t">
+            <objects>
+                <tableViewController id="Jmg-T4-Y6o" customClass="notificationsView" customModule="UinProto2" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="z0l-re-tqW">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" textLabel="Msz-NP-YGC" style="IBUITableViewCellStyleDefault" id="FeY-NV-WxP" customClass="eventMakeCell" customModule="UinProto2" customModuleProvider="target">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="FeY-NV-WxP" id="MG8-qM-2mn">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Msz-NP-YGC">
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="Jmg-T4-Y6o" id="lJ4-ze-cay"/>
+                            <outlet property="delegate" destination="Jmg-T4-Y6o" id="HNT-2C-YbK"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="y5V-bI-YSW"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="m5K-aA-srI" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-269" y="1299"/>
+        </scene>
+        <!--Item-->
+        <scene sceneID="ip5-Z6-jFf">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="paS-ca-QYZ" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="6Eh-yO-2AZ"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="HHk-HB-wDk">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Jmg-T4-Y6o" kind="relationship" relationship="rootViewController" id="hbu-f0-qrU"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8dx-fP-2YY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-279" y="553"/>
+        </scene>
     </scenes>
     <resources>
         <image name="addToCalendar" width="49" height="49"/>
@@ -2967,8 +3022,8 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="0t0-sB-Jv5"/>
-        <segue reference="BRG-i8-aJG"/>
-        <segue reference="UWg-ZO-xAy"/>
+        <segue reference="mO8-g4-kG9"/>
+        <segue reference="EEz-vF-POL"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>

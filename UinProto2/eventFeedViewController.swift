@@ -355,7 +355,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             if (granted) && (error == nil) {
                 println("granted \(granted)")
                 println("error  \(error)")
-               /* var going = PFObject(className: "GoingEvent")
+               var going = PFObject(className: "GoingEvent")
                 going["user"] = PFUser.currentUser().username
                 going["event"] = self.eventTitle[sender.tag]
                 going["author"] = self.usernames[sender.tag]
@@ -371,7 +371,24 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                     
                     }
                 }
-                */
+                var notify = PFObject(className: "Notification")
+                notify["sender"] = PFUser.currentUser().username
+                notify["receiver"] = PFUser.currentUser().username
+                notify["type"] =  "calendar"
+                notify.saveInBackgroundWithBlock({
+                    
+                    (success:Bool!, notifyError: NSError!) -> Void in
+                    
+                    if notifyError == nil {
+                        
+                        println("notifcation has been saved")
+                        
+                    }
+                    
+                    
+                })
+
+
                 var hosted = "Hosted by \(self.usernames[sender.tag])"
                 var event:EKEvent = EKEvent(eventStore: eventStore)
                 event.title = self.eventTitle[sender.tag]
