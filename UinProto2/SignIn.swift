@@ -51,6 +51,10 @@ class SignIn: UIViewController, UITextFieldDelegate {
 
         super.viewDidLoad()
         
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name:UIKeyboardWillShowNotification, object: nil);
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillHide:"), name:UIKeyboardWillHideNotification, object: nil);
+    
+        
         
         username.attributedPlaceholder = NSAttributedString(string:"USERNAME",
             attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
@@ -62,6 +66,18 @@ class SignIn: UIViewController, UITextFieldDelegate {
      
         // Do any additional setup after loading the view.
         
+    }
+    
+    func keyboardWillShow(sender: NSNotification) {
+        
+        self.view.frame.origin.y = -85
+        
+
+    }
+    func keyboardWillHide(sender: NSNotification) {
+        
+        
+        self.view.frame.origin.y = 0.0
     }
     
     @IBAction func signin(sender: AnyObject) {

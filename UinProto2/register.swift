@@ -52,6 +52,9 @@ class register: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name:UIKeyboardWillShowNotification, object: nil);
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillHide:"), name:UIKeyboardWillHideNotification, object: nil);
 
         
         username.attributedPlaceholder = NSAttributedString(string:"USERNAME",
@@ -69,6 +72,18 @@ class register: UIViewController, UITextFieldDelegate {
 
         // Do any additional setup after loading the view.
     }
+    
+    func keyboardWillShow(sender: NSNotification) {
+        
+        self.view.frame.origin.y = -150
+    }
+    func keyboardWillHide(sender: NSNotification) {
+        
+        
+        self.view.frame.origin.y = 0.0
+    }
+    
+
     
 
     @IBOutlet weak var cpassword: UITextField!
