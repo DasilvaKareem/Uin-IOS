@@ -72,7 +72,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         
         //adds content to the array
       var que = PFQuery(className: "Event")
-        que.orderByDescending("startEvent")
+        que.orderByAscending("startEvent")
         que.whereKey("public", equalTo: true)
         
      
@@ -138,6 +138,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         var pubQue = PFQuery(className: "subs")
         pubQue.whereKey("follower", equalTo: PFUser.currentUser().username)
         pubQue.whereKey("member", equalTo: true)
+        pubQue.orderByAscending("startEvent")
         var superQue = PFQuery(className: "Event")
         superQue.whereKey("user", matchesKey: "following", inQuery:pubQue)
         superQue.findObjectsInBackgroundWithBlock{
@@ -228,13 +229,20 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    /*func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
        
         return sectionNames[section]
             
     }
+    */
+    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        
+        var cell:dateCell = tableView.dequeueReusableCellWithIdentifier("dateCell") as dateCell
 
+        cell.dateItem.text = sectionNames[section]
+        return cell
+    }
   
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Potentially incomplete method implementation.

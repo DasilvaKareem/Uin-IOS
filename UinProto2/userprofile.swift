@@ -42,17 +42,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
             
             if object == nil {
 
-        
-            var subscribe = PFObject(className: "Subs")
-            subscribe["member"] = false
-            subscribe["follower"] = PFUser.currentUser().username
-            subscribe["following"] = self.theUser
-            subscribe.saveInBackgroundWithBlock{
-                
-                
-                (success:Bool!,subError:NSError!) -> Void in
-                
-                /* var currentInstallation = PFInstallation.currentInstallation()
+                var currentInstallation = PFInstallation.currentInstallation()
                 currentInstallation["user"] = PFUser.currentUser().username
                 currentInstallation["userId"] = PFUser.currentUser().objectId
                 currentInstallation.addUniqueObject(self.theUser, forKey: "channels")
@@ -74,11 +64,35 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                     
                     
                 })
-                */
-                
-                
+            var subscribe = PFObject(className: "Subs")
+                var push = PFPush()
+                var pfque = PFInstallation.query()
+                pfque.whereKey("user", equalTo: self.theUser)
+                pfque.whereKey("channels", equalTo: self.theUser)
+                push.setQuery(pfque)
+                push.setMessage("please show up")
+                push.sendPushInBackgroundWithBlock({
+                    
+                    (success:Bool!, pushError: NSError!) -> Void in
+                    
+                    if pushError == nil {
+                        
+                        println("IT WORKED")
+                        
+                    }
+                    
+                })
+
+            subscribe["member"] = false
+            subscribe["follower"] = PFUser.currentUser().username
+            subscribe["following"] = self.theUser
+            subscribe.saveInBackgroundWithBlock{
+                        
+                (success:Bool!,subError:NSError!) -> Void in
+ 
                 if (subError == nil){
-                
+                    
+                    
                     var notify = PFObject(className: "Notification")
                     notify["sender"] = PFUser.currentUser().username
                     notify["receiver"] = self.theUser
