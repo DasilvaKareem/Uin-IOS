@@ -41,7 +41,8 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
             (object:PFObject!, error: NSError!) -> Void in
             
             if object == nil {
-            
+
+        
             var subscribe = PFObject(className: "Subs")
             subscribe["member"] = false
             subscribe["follower"] = PFUser.currentUser().username

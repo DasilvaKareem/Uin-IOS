@@ -58,7 +58,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application( application: UIApplication!, didFailToRegisterForRemoteNotificationsWithError error: NSError! ) {
         
         println("Fail!")
-        
+        let data = [
+            "alert" : "The Mets scored! The game is now tied 1-1!",
+            "badge" : "Increment",
+            "sounds" : "cheering.caf"
+        ]
     }
    
 
@@ -77,7 +81,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidBecomeActive(application: UIApplication) {
-        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+       
+        let install = PFInstallation.currentInstallation()
+        if install.badge != 0 {
+            
+            install.badge = 0
+            install.save()
+            
+        }
+        
+        
     }
 
     func applicationWillTerminate(application: UIApplication) {

@@ -373,7 +373,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                 }
                 var notify = PFObject(className: "Notification")
                 notify["sender"] = PFUser.currentUser().username
-                notify["receiver"] = PFUser.currentUser().username
+                notify["receiver"] = self.usernames[sender.tag]
                 notify["type"] =  "calendar"
                 notify.saveInBackgroundWithBlock({
                     

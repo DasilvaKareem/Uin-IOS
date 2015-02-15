@@ -14,11 +14,56 @@ class notificationsView: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-       /* var eventQuery = PFQuery(className: "Notifications")
-        var eventQuerysub = PFQuery(className: "Subs")
-        eventQuerysub.whereKey("follower", equalTo: PFUser.currentUser().username)
-        eventQuery.whereKey("type", equalTo: "event")
-       */
+
+        var folusernames = [String]()
+        var followque = PFQuery(className: "Subs")
+        followque.whereKey("follower", equalTo: PFUser.currentUser().username)
+        followque.findObjectsInBackgroundWithBlock{
+            
+            (objects:[AnyObject]!, folError:NSError!) -> Void in
+            
+            
+            if folError == nil {
+                
+                
+                for object in objects{
+                    println("it worked")
+                    folusernames.append(object["following"] as String)
+                    
+                    
+                }
+                println(folusernames)
+                var eventQuery = PFQuery(className: "Notification")
+                eventQuery.whereKey("type", equalTo: "event" )
+                eventQuery.whereKey("sender", containedIn: folusernames)
+                eventQuery.findObjectsInBackgroundWithBlock({
+                    (objects:[AnyObject]!,eventError:NSError!) -> Void in
+                    println("it queryed")
+                    if eventError == nil {
+                        
+                        for object in objects {
+                            println(object.objectId)
+                            var current = object["sender"]
+                            var eventnote = "\(current) has made an event"
+                            self.notes.append(eventnote as String)
+                            self.tableView.reloadData()
+                        }
+                        
+                    }
+                    
+                    
+                    
+                })
+                
+            }
+            
+            
+        }
+        
+   
+       
+
+
        
        
         var subQuery = PFQuery(className: "Notification")
@@ -31,11 +76,10 @@ class notificationsView: UITableViewController {
             if subError == nil {
                 
                 for object in objects {
-                    println(object.objectId)
+                   // println(object.objectId)
                     var current = object["sender"]
                     var subnote = "\(current) has subscribed to you"
                     self.notes.append(subnote as String)
-              
                     self.tableView.reloadData()
                 }
                 
@@ -46,7 +90,28 @@ class notificationsView: UITableViewController {
         })
         
      
-        //var calendarQuery = PFQuery(className: "Notifications")
+        var calendarQuery = PFQuery(className: "Notification")
+        calendarQuery.whereKey("receiver", equalTo: PFUser.currentUser().username)
+        calendarQuery.whereKey("type", equalTo: "calendar")
+        calendarQuery.findObjectsInBackgroundWithBlock({
+            (objects:[AnyObject]!, calendarError:NSError!) -> Void in
+            
+            if calendarError == nil {
+                
+                for object in objects {
+                    
+                    var current = object["sender"]
+                    var calendarNote = "\(current) has added your Event to their calendar"
+                    self.notes.append(calendarNote as String)
+                    self.tableView.reloadData()
+                    
+                }
+                
+            }
+            
+            
+        })
+        
         
         var memberQuery = PFQuery(className: "Notification")
         memberQuery.whereKey("receiver", equalTo: PFUser.currentUser().username)
@@ -58,7 +123,7 @@ class notificationsView: UITableViewController {
             if subError == nil {
                 
                 for object in objects {
-                    println(object.objectId)
+                   // println(object.objectId)
                     var current = object["sender"]
                        var membernote = "\(current) changed your member status"
                     self.notes.append(membernote as String)
@@ -101,6 +166,7 @@ class notificationsView: UITableViewController {
      
         
         cell.textLabel?.text = notes[indexPath.row]
+        
         return cell
     }
     

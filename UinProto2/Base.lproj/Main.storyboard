@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="6lS-Ca-3sI">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6221" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="6lS-Ca-3sI">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6213"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -673,7 +673,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gUf-sa-8yM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1490" y="1298"/>
+            <point key="canvasLocation" x="-1554" y="1318.5"/>
         </scene>
         <!--Event View-->
         <scene sceneID="thA-zf-fYh">
@@ -1490,7 +1490,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ulb-Ir-F0E" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-905" y="1298"/>
+            <point key="canvasLocation" x="-834" y="1318.5"/>
         </scene>
         <!--Subscribers-->
         <scene sceneID="xWk-fV-q66">
@@ -2290,11 +2290,11 @@
                                         <exclude reference="WJW-vQ-wex"/>
                                     </mask>
                                     <mask key="constraints">
+                                        <exclude reference="4c4-ay-xIB"/>
                                         <exclude reference="Cpa-Io-dmA"/>
                                         <exclude reference="Peu-W2-l7I"/>
                                         <exclude reference="RNe-cv-l8T"/>
                                         <exclude reference="g8p-ba-NsX"/>
-                                        <exclude reference="4c4-ay-xIB"/>
                                     </mask>
                                 </variation>
                                 <variation key="heightClass=regular-widthClass=compact">
@@ -2303,11 +2303,11 @@
                                         <include reference="WJW-vQ-wex"/>
                                     </mask>
                                     <mask key="constraints">
+                                        <include reference="4c4-ay-xIB"/>
                                         <include reference="Cpa-Io-dmA"/>
                                         <include reference="Peu-W2-l7I"/>
                                         <include reference="RNe-cv-l8T"/>
                                         <include reference="g8p-ba-NsX"/>
-                                        <include reference="4c4-ay-xIB"/>
                                     </mask>
                                 </variation>
                             </view>
@@ -2446,18 +2446,18 @@
                                 <exclude reference="ewp-vF-0bn"/>
                             </mask>
                             <mask key="constraints">
-                                <exclude reference="euM-Jl-32a"/>
-                                <exclude reference="x3l-O1-0du"/>
+                                <exclude reference="B6x-3q-tFq"/>
+                                <exclude reference="xGN-m7-h2q"/>
+                                <exclude reference="7mB-8c-7MC"/>
+                                <exclude reference="b0q-b0-cQi"/>
+                                <exclude reference="h4V-ww-LRg"/>
+                                <exclude reference="15X-Zx-P0X"/>
                                 <exclude reference="JAS-wY-e2m"/>
                                 <exclude reference="i1M-vR-OKW"/>
                                 <exclude reference="mh7-y9-MPf"/>
                                 <exclude reference="xjS-Ye-Adt"/>
-                                <exclude reference="7mB-8c-7MC"/>
-                                <exclude reference="b0q-b0-cQi"/>
-                                <exclude reference="h4V-ww-LRg"/>
-                                <exclude reference="B6x-3q-tFq"/>
-                                <exclude reference="xGN-m7-h2q"/>
-                                <exclude reference="15X-Zx-P0X"/>
+                                <exclude reference="euM-Jl-32a"/>
+                                <exclude reference="x3l-O1-0du"/>
                                 <exclude reference="Yvl-SM-qZF"/>
                                 <exclude reference="mP0-za-VSL"/>
                                 <exclude reference="Sml-ji-qdp"/>
@@ -2478,18 +2478,18 @@
                                 <include reference="ewp-vF-0bn"/>
                             </mask>
                             <mask key="constraints">
-                                <include reference="euM-Jl-32a"/>
-                                <include reference="x3l-O1-0du"/>
+                                <include reference="B6x-3q-tFq"/>
+                                <include reference="xGN-m7-h2q"/>
+                                <include reference="7mB-8c-7MC"/>
+                                <include reference="b0q-b0-cQi"/>
+                                <include reference="h4V-ww-LRg"/>
+                                <include reference="15X-Zx-P0X"/>
                                 <include reference="JAS-wY-e2m"/>
                                 <include reference="i1M-vR-OKW"/>
                                 <include reference="mh7-y9-MPf"/>
                                 <include reference="xjS-Ye-Adt"/>
-                                <include reference="7mB-8c-7MC"/>
-                                <include reference="b0q-b0-cQi"/>
-                                <include reference="h4V-ww-LRg"/>
-                                <include reference="B6x-3q-tFq"/>
-                                <include reference="xGN-m7-h2q"/>
-                                <include reference="15X-Zx-P0X"/>
+                                <include reference="euM-Jl-32a"/>
+                                <include reference="x3l-O1-0du"/>
                                 <include reference="Yvl-SM-qZF"/>
                                 <include reference="mP0-za-VSL"/>
                                 <include reference="Sml-ji-qdp"/>
@@ -3041,7 +3041,7 @@
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Msz-NP-YGC">
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
@@ -3096,10 +3096,9 @@
         <image name="uinLogo" width="218" height="230"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="UWg-ZO-xAy"/>
+        <segue reference="EEz-vF-POL"/>
         <segue reference="0t0-sB-Jv5"/>
         <segue reference="mO8-g4-kG9"/>
-        <segue reference="EEz-vF-POL"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>
