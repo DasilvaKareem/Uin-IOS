@@ -43,7 +43,7 @@ class notificationsView: UITableViewController {
                         
                         for object in objects {
                             println(object.objectId)
-                            var current = object["sender"]
+                            var current = object["sender"] as String
                             var eventnote = "\(current) has made an event"
                             self.notes.append(eventnote as String)
                             self.tableView.reloadData()
@@ -77,7 +77,7 @@ class notificationsView: UITableViewController {
                 
                 for object in objects {
                    // println(object.objectId)
-                    var current = object["sender"]
+                    var current = object["sender"] as String
                     var subnote = "\(current) has subscribed to you"
                     self.notes.append(subnote as String)
                     self.tableView.reloadData()
@@ -100,7 +100,7 @@ class notificationsView: UITableViewController {
                 
                 for object in objects {
                     
-                    var current = object["sender"]
+                    var current = object["sender"] as String
                     var calendarNote = "\(current) has added your Event to their calendar"
                     self.notes.append(calendarNote as String)
                     self.tableView.reloadData()
