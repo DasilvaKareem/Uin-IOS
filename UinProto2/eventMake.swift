@@ -131,7 +131,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
     
         @IBAction func makeEvent(sender: AnyObject) {
             
-     
+            var userFollowers = [String]()
            var allError = ""
             
             if eventTitle.text == "" {
@@ -149,10 +149,8 @@ class eventMake: UIViewController, UITextFieldDelegate {
             println(allError)
             
             if allError == "" {
-                
-            var empty = ""
             var event = PFObject(className: "Event")
-            println(dateStr)
+            
             
             event["startEvent"] = orderDate1
             event["endEvent"] = orderDate2
@@ -174,40 +172,44 @@ class eventMake: UIViewController, UITextFieldDelegate {
             
                 if (eventError == nil){
                     
+           
                     
-                    var push = PFPush()
+                    var push =  PFPush()
                     push.setChannel(PFUser.currentUser().username)
-                    push.setMessage("\(PFUser.currentUser().username) created an event")
-                    push.sendPushInBackgroundWithBlock{
-                        (success: Bool!, error:NSError!) -> Void in
+                    push.setMessage("This is the push message")
+                    push.sendPushInBackgroundWithBlock({
                         
-                        if error == nil {
+                        (success: Bool!, pushError: NSError!) -> Void in
+                        if pushError == nil {
                             
-                            println("success")
+                            println("the push was sent")
                             
                         }
                         
                         
-                    }
+                        
+                    })
+                    
+                            var notify = PFObject(className: "Notification")
+                            notify["sender"] = PFUser.currentUser().username
+                            notify["receiver"] = PFUser.currentUser().username
+                            notify["type"] =  "event"
+                            notify.saveInBackgroundWithBlock({
+                                (success:Bool!, notifyError: NSError!) -> Void in
+                                if notifyError == nil {
+                                    println("notifcation has been saved")
+                                }
+                                else {
+                                    println("fail")
+                                }
+                            })
                     self.performSegueWithIdentifier("eventback", sender: self)
                     println("it worked")
-                
-                
-                
+
+                    }
                 }
-                
-                else {
-                
-                    println("nah")
-                
-                }
-            
-            
-            
+ 
             }
-        
-            }
-        
     }
     
   override func viewDidAppear(animated: Bool) {

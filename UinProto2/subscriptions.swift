@@ -15,7 +15,7 @@ class subscriptions: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        var followque = PFQuery(className: "subs")
+        var followque = PFQuery(className: "Subs")
         followque.whereKey("follower", equalTo: PFUser.currentUser().username)
         followque.orderByAscending("createdAt")
         followque.findObjectsInBackgroundWithBlock{

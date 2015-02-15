@@ -72,7 +72,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         
         //adds content to the array
       var que = PFQuery(className: "Event")
-        que.orderByDescending("startEvent")
+        que.orderByAscending("startEvent")
         que.whereKey("public", equalTo: true)
         
      
@@ -138,6 +138,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         var pubQue = PFQuery(className: "subs")
         pubQue.whereKey("follower", equalTo: PFUser.currentUser().username)
         pubQue.whereKey("member", equalTo: true)
+        pubQue.orderByAscending("startEvent")
         var superQue = PFQuery(className: "Event")
         superQue.whereKey("user", matchesKey: "following", inQuery:pubQue)
         superQue.findObjectsInBackgroundWithBlock{
@@ -228,13 +229,20 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    /*func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
        
         return sectionNames[section]
             
     }
+    */
+    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        
+        var cell:dateCell = tableView.dequeueReusableCellWithIdentifier("dateCell") as dateCell
 
+        cell.dateItem.text = sectionNames[section]
+        return cell
+    }
   
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Potentially incomplete method implementation.
@@ -355,7 +363,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             if (granted) && (error == nil) {
                 println("granted \(granted)")
                 println("error  \(error)")
-               /* var going = PFObject(className: "GoingEvent")
+               var going = PFObject(className: "GoingEvent")
                 going["user"] = PFUser.currentUser().username
                 going["event"] = self.eventTitle[sender.tag]
                 going["author"] = self.usernames[sender.tag]
@@ -371,7 +379,24 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                     
                     }
                 }
-                */
+                var notify = PFObject(className: "Notification")
+                notify["sender"] = PFUser.currentUser().username
+                notify["receiver"] = self.usernames[sender.tag]
+                notify["type"] =  "calendar"
+                notify.saveInBackgroundWithBlock({
+                    
+                    (success:Bool!, notifyError: NSError!) -> Void in
+                    
+                    if notifyError == nil {
+                        
+                        println("notifcation has been saved")
+                        
+                    }
+                    
+                    
+                })
+
+
                 var hosted = "Hosted by \(self.usernames[sender.tag])"
                 var event:EKEvent = EKEvent(eventStore: eventStore)
                 event.title = self.eventTitle[sender.tag]

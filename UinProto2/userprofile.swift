@@ -41,33 +41,76 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
             (object:PFObject!, error: NSError!) -> Void in
             
             if object == nil {
-            
+
+                var currentInstallation = PFInstallation.currentInstallation()
+                currentInstallation["user"] = PFUser.currentUser().username
+                currentInstallation["userId"] = PFUser.currentUser().objectId
+                currentInstallation.addUniqueObject(self.theUser, forKey: "channels")
+                currentInstallation.saveInBackgroundWithBlock({
+                    
+                    (success:Bool!, saveerror: NSError!) -> Void in
+                    
+                    if saveerror == nil {
+                        
+                        println("it worked")
+                        
+                    }
+                        
+                    else {
+                        
+                        println("It didnt work")
+                        
+                    }
+                    
+                    
+                })
             var subscribe = PFObject(className: "Subs")
+                var push = PFPush()
+                var pfque = PFInstallation.query()
+                pfque.whereKey("user", equalTo: self.theUser)
+                pfque.whereKey("channels", equalTo: self.theUser)
+                push.setQuery(pfque)
+                push.setMessage("please show up")
+                push.sendPushInBackgroundWithBlock({
+                    
+                    (success:Bool!, pushError: NSError!) -> Void in
+                    
+                    if pushError == nil {
+                        
+                        println("IT WORKED")
+                        
+                    }
+                    
+                })
+
             subscribe["member"] = false
             subscribe["follower"] = PFUser.currentUser().username
             subscribe["following"] = self.theUser
             subscribe.saveInBackgroundWithBlock{
-                
-                
+                        
                 (success:Bool!,subError:NSError!) -> Void in
-                
-                
+ 
                 if (subError == nil){
                     
                     
-                   
-                    let currentInstallation = PFInstallation.currentInstallation()
-                    
-                    currentInstallation.addUniqueObject(self.theUser, forKey: "channels")
-                    currentInstallation.save()
-                    var push = PFPush()
-                   // push.setChannel = ("")
-                    
-                    
+                    var notify = PFObject(className: "Notification")
+                    notify["sender"] = PFUser.currentUser().username
+                    notify["receiver"] = self.theUser
+                    notify["type"] =  "sub"
+                    notify.saveInBackgroundWithBlock({
+                        
+                        (success:Bool!, notifyError: NSError!) -> Void in
+                        
+                        if notifyError == nil {
+                            
+                            println("notifcation has been saved")
+                            
+                        }
+                        
+                        
+                    })
                     
                     self.subbutton.setTitle("Unsubscribe", forState: UIControlState.Normal)
-                    
-                    
                     
                 }
                 
@@ -94,9 +137,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                         
                         object.delete()
                         
-                        let currentInstallation = PFInstallation.currentInstallation()
-                        currentInstallation.removeObject(self.theUser, forKey: "channels")
-                        currentInstallation.save()
+            
                         
                         println(object["member"])
                         

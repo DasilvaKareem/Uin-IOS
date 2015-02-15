@@ -16,7 +16,7 @@ class subscriberlist: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        var followque = PFQuery(className: "subs")
+        var followque = PFQuery(className: "Subs")
         followque.whereKey("following", equalTo: PFUser.currentUser().username)
         followque.orderByAscending("createdAt")
         followque.findObjectsInBackgroundWithBlock{
@@ -94,7 +94,7 @@ class subscriberlist: UITableViewController {
             break;
         }  //Switch
         
-        var membersave = PFQuery(className:"subs")
+        var membersave = PFQuery(className:"Subs")
         membersave.getObjectInBackgroundWithId(objectId[sender.tag]) {
             (result: PFObject!, error: NSError!) -> Void in
             if error == nil {
@@ -105,7 +105,23 @@ class subscriberlist: UITableViewController {
                     (succeeded: Bool!, registerError: NSError!) -> Void in
                     
                     if registerError == nil {
-                        
+                        var notify = PFObject(className: "Notification")
+                        notify["sender"] = PFUser.currentUser().username
+                        notify["receiver"] = self.folusernames[sender.tag]
+                        notify["type"] =  "member"
+                        notify.saveInBackgroundWithBlock({
+                            
+                            (success:Bool!, notifyError: NSError!) -> Void in
+                            
+                            if notifyError == nil {
+                                
+                                println("notifcation has been saved")
+                                
+                            }
+                            
+                            
+                        })
+
                         println("Worked!")
                         
                     }
