@@ -38,11 +38,21 @@ class eventMake: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var eventSum: UITextField!
     
     
-   
-    @IBOutlet var start: UILabel!
-    
+    @IBAction func startAction(sender: AnyObject) {
+        
+        self.performSegueWithIdentifier("sendtodate", sender: self)
+    }
 
-    @IBOutlet var end: UILabel!
+    @IBAction func endAction(sender: AnyObject) {
+        
+        self.performSegueWithIdentifier("sendtodate", sender: self)
+    }
+@IBOutlet var start: UIButton!
+
+
+   
+@IBOutlet var end: UIButton!
+  
 
     var eventPublic:Bool = true
     var onsite:Bool = true
@@ -215,21 +225,21 @@ class eventMake: UIViewController, UITextFieldDelegate {
   override func viewDidAppear(animated: Bool) {
     if (startString == ""){
         
-        start.text = "Start Time"
+        start.setTitle("Start Time", forState: UIControlState.Normal)
     
     }
     else {
-          start.text = startString
+        start.setTitle(startString, forState: UIControlState.Normal)
         
         
     }
     if (endString == "") {
         
-        end.text = "End Time"
+        end.setTitle("End Time", forState: UIControlState.Normal)
         
     }
     else {
-        end.text = endString
+        end.setTitle(endString, forState: UIControlState.Normal)
     }
     
     
@@ -240,9 +250,9 @@ class eventMake: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         
        
-       start.text = "Start Time"
+       start.setTitle("Start Time", forState: UIControlState.Normal)
         
-        end.text = "End Time"
+        end.setTitle("End Time", forState: UIControlState.Normal)
         
        // if start.text != "start time" {
             
