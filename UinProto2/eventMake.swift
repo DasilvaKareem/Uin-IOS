@@ -65,20 +65,16 @@ class eventMake: UIViewController, UITextFieldDelegate {
    
     
     @IBAction func publicEvent(sender: UISegmentedControl) {
-        
-        if UISegmentedControlNoSegment == 1 {
-            
+        switch sender.selectedSegmentIndex {
+        case 0:
             eventPublic = true
-            
-            
-        }
-        
-        else {
-            
-            
+        case 1:
             eventPublic = false
-        }
-
+            
+        default:
+            eventPublic = false
+            break;
+        }  //Switch
         
         
         
@@ -89,53 +85,48 @@ class eventMake: UIViewController, UITextFieldDelegate {
     
     @IBAction func location(sender: UISegmentedControl) {
         
-        if UISegmentedControlNoSegment == 1 {
-            
+        switch sender.selectedSegmentIndex {
+        case 0:
             onsite = true
-            
-            
-        }
-        else {
-            
+        case 1:
             onsite = false
             
-        }
-        
+        default:
+            onsite = false
+            break;
+        }  //Switch
     
         }
    
     
     @IBAction func isFood(sender: UISegmentedControl) {
         
-        if UISegmentedControlNoSegment == 1 {
-            
+        switch sender.selectedSegmentIndex {
+        case 0:
             food = true
-            
-        }
-        else {
-            
+        case 1:
             food = false
             
-        }
-        
+        default:
+            food = false
+            break;
+        }  //Switch
         
     }
    
    
     @IBAction func isPaid(sender: UISegmentedControl) {
         
-        
-        if UISegmentedControlNoSegment == 1 {
-            
+        switch sender.selectedSegmentIndex {
+        case 0:
+            paid = true
+        case 1:
             paid = false
             
-        }
-        else {
-            
-            paid = true
-            
-        }
-        
+        default:
+            paid = false
+            break;
+        }  //Switch
         
     }
     

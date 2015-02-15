@@ -55,7 +55,6 @@ class postEvent: UIViewController {
     
     func putIcons(){
         
-        
         if  onsite == true {
             isSite.image = UIImage(named: "onCampus.png")
         }

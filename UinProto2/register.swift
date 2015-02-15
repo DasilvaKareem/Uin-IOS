@@ -131,6 +131,29 @@ class register: UIViewController, UITextFieldDelegate {
                     self.performSegueWithIdentifier("registerS", sender: self)
                     
                 }
+                else {
+                    println(registerError.code)
+                    switch registerError.code {
+                    
+                    case 125:
+                        self.displayAlert("Oops!", error: "wrong Email")
+                    
+                    case 100:
+                        self.displayAlert("Oops!", error: "No internet")
+                        
+                    case 203:
+                        self.displayAlert("Oops", error: "Email Taken")
+                        
+                    case 202:
+                        self.displayAlert("Oops!", error: "Username taken")
+   
+                    default:
+                        self.displayAlert("Oops!", error: "Failure")
+                    }
+                    
+                    
+                    
+                }
                 
             }
             

@@ -112,8 +112,25 @@ class SignIn: UIViewController, UITextFieldDelegate {
                     
                 }
                 else{
-                    
-                    println(loginError)
+                    println(loginError.code)
+                    switch loginError.code {
+                        
+                    case 125:
+                        self.displayAlert("Oops!", error: "wrong Email")
+                        
+                    case 100:
+                        self.displayAlert("Oops!", error: "No internet")
+                        
+                    case 203:
+                        self.displayAlert("Oops", error: "Email Taken")
+                        
+                    case 202:
+                        self.displayAlert("Oops!", error: "Username taken")
+                        
+                    default:
+                        self.displayAlert("Oops!", error: "Wrong username and password")
+                    }
+
                 }
             }
         }
