@@ -20,7 +20,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background" translatesAutoresizingMaskIntoConstraints="NO" id="lP3-YR-TzH">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="background" translatesAutoresizingMaskIntoConstraints="NO" id="lP3-YR-TzH">
                                 <rect key="frame" x="0.0" y="0.0" width="416" height="737"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="lP3-YR-TzH" secondAttribute="height" multiplier="325:576" id="yVT-nv-0Um"/>
@@ -2141,6 +2141,7 @@
                                 </constraints>
                                 <variation key="default">
                                     <mask key="constraints">
+                                        <exclude reference="Ebd-Xe-aEi"/>
                                         <exclude reference="IVi-Ic-PIR"/>
                                         <exclude reference="VCa-vm-48m"/>
                                         <exclude reference="ay1-6E-S1X"/>
@@ -2185,6 +2186,7 @@
                             <constraint firstItem="bfI-Bv-w4D" firstAttribute="leading" secondItem="O12-Oh-blq" secondAttribute="leading" id="G3e-6t-ggo"/>
                             <constraint firstItem="aSK-x0-fwL" firstAttribute="top" secondItem="Mye-hQ-2ah" secondAttribute="bottom" constant="13" id="JQW-XF-dPk"/>
                             <constraint firstAttribute="centerX" secondItem="J43-Jj-cCa" secondAttribute="centerX" id="LHf-Co-h9x"/>
+                            <constraint firstItem="w5p-mU-rEg" firstAttribute="top" secondItem="WKr-2x-8WE" secondAttribute="bottom" constant="8" id="Onn-Wv-JXA"/>
                             <constraint firstItem="w5p-mU-rEg" firstAttribute="trailing" secondItem="O12-Oh-blq" secondAttribute="trailingMargin" id="SoI-jE-gZL"/>
                             <constraint firstAttribute="centerX" secondItem="bfI-Bv-w4D" secondAttribute="centerX" id="Svb-vo-56b"/>
                             <constraint firstItem="dPr-M7-oyf" firstAttribute="top" secondItem="w5p-mU-rEg" secondAttribute="bottom" constant="8" id="UmA-2D-Al5"/>
@@ -2199,7 +2201,6 @@
                             <constraint firstItem="J43-Jj-cCa" firstAttribute="top" secondItem="bfI-Bv-w4D" secondAttribute="bottom" constant="21" id="mNd-aw-dBu"/>
                             <constraint firstItem="bfI-Bv-w4D" firstAttribute="top" secondItem="aSK-x0-fwL" secondAttribute="bottom" constant="8" id="uzy-Gy-81T"/>
                         </constraints>
-                        <variation key="heightClass=regular-widthClass=compact"/>
                     </view>
                     <navigationItem key="navigationItem" title="Your Event" id="Rb6-uL-Ugq">
                         <barButtonItem key="backBarButtonItem" title="Event" id="esc-vW-LFo"/>
@@ -2232,7 +2233,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background" translatesAutoresizingMaskIntoConstraints="NO" id="N8L-tI-dGL">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="background" translatesAutoresizingMaskIntoConstraints="NO" id="N8L-tI-dGL">
                                 <rect key="frame" x="-1" y="-4" width="416" height="744"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="N8L-tI-dGL" secondAttribute="height" multiplier="207:370" id="gXq-at-bVY"/>
