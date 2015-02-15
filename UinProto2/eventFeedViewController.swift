@@ -411,6 +411,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                 
             }
         })
+    updateFeed()
     }
     
    override func prepareForSegue(segue:UIStoryboardSegue, sender: AnyObject?){

@@ -29,6 +29,7 @@ class SignIn: UIViewController, UITextFieldDelegate {
         return true
         
     }
+ 
     
     func displayAlert(title:String, error:String) {
         
@@ -50,8 +51,9 @@ class SignIn: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
 
         super.viewDidLoad()
-        
-        
+       // NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name:UIKeyboardWillShowNotification, object: nil);
+        //NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillHide:"), name:UIKeyboardWillHideNotification, object: nil);
+    
         username.attributedPlaceholder = NSAttributedString(string:"USERNAME",
             attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
         
