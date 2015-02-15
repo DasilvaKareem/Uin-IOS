@@ -2054,11 +2054,14 @@
                                     <action selector="endAction:" destination="wj6-a8-ugv" eventType="touchUpInside" id="GxY-tj-ieR"/>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="w5p-mU-rEg">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="w5p-mU-rEg">
+                                <rect key="frame" x="16" y="278" width="382" height="325"/>
                                 <subviews>
-                                    <segmentedControl opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="kz3-zF-mkl">
-                                        <rect key="frame" x="16" y="283" width="288" height="29"/>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="kz3-zF-mkl">
+                                        <rect key="frame" x="47" y="23" width="288" height="29"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="288" id="vjL-Wc-d8c"/>
+                                        </constraints>
                                         <segments>
                                             <segment title="On Campus"/>
                                             <segment title="Off-Campus"/>
@@ -2068,19 +2071,11 @@
                                             <action selector="location:" destination="wj6-a8-ugv" eventType="valueChanged" id="wvi-Qq-SmW"/>
                                         </connections>
                                     </segmentedControl>
-                                    <segmentedControl opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" selected="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="RLM-dx-cX8">
-                                        <rect key="frame" x="16" y="419" width="288" height="29"/>
-                                        <segments>
-                                            <segment title="Public"/>
-                                            <segment title="Private"/>
-                                        </segments>
-                                        <color key="tintColor" red="1" green="0.77647058823529413" blue="0.14509803921568626" alpha="1" colorSpace="calibratedRGB"/>
-                                        <connections>
-                                            <action selector="publicEvent:" destination="wj6-a8-ugv" eventType="valueChanged" id="uPV-SE-FVv"/>
-                                        </connections>
-                                    </segmentedControl>
-                                    <segmentedControl opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="UnY-8W-YbY">
-                                        <rect key="frame" x="16" y="329" width="288" height="29"/>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="UnY-8W-YbY">
+                                        <rect key="frame" x="47" y="71" width="288" height="29"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="288" id="ltC-eb-4Yn"/>
+                                        </constraints>
                                         <segments>
                                             <segment title="Free"/>
                                             <segment title="Not Free"/>
@@ -2090,8 +2085,11 @@
                                             <action selector="isPaid:" destination="wj6-a8-ugv" eventType="valueChanged" id="xJ1-rx-an0"/>
                                         </connections>
                                     </segmentedControl>
-                                    <segmentedControl opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Usx-ZG-3UU">
-                                        <rect key="frame" x="16" y="375" width="288" height="29"/>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Usx-ZG-3UU">
+                                        <rect key="frame" x="47" y="119" width="288" height="29"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="288" id="Fll-2F-xKf"/>
+                                        </constraints>
                                         <segments>
                                             <segment title="Food"/>
                                             <segment title="No Food"/>
@@ -2101,21 +2099,44 @@
                                             <action selector="isFood:" destination="wj6-a8-ugv" eventType="valueChanged" id="zRa-Mp-zF5"/>
                                         </connections>
                                     </segmentedControl>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="RLM-dx-cX8">
+                                        <rect key="frame" x="47" y="167" width="288" height="29"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="288" id="UB9-dg-eAS"/>
+                                        </constraints>
+                                        <segments>
+                                            <segment title="Public"/>
+                                            <segment title="Private"/>
+                                        </segments>
+                                        <color key="tintColor" red="1" green="0.77647058823529413" blue="0.14509803921568626" alpha="1" colorSpace="calibratedRGB"/>
+                                        <connections>
+                                            <action selector="publicEvent:" destination="wj6-a8-ugv" eventType="valueChanged" id="uPV-SE-FVv"/>
+                                        </connections>
+                                    </segmentedControl>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="UnY-8W-YbY" firstAttribute="top" secondItem="kz3-zF-mkl" secondAttribute="bottom" constant="16" id="0LM-UP-C1z"/>
+                                    <constraint firstAttribute="centerX" secondItem="Usx-ZG-3UU" secondAttribute="centerX" id="5fU-C9-MxY"/>
+                                    <constraint firstAttribute="width" secondItem="w5p-mU-rEg" secondAttribute="height" multiplier="382:325" id="Ebd-Xe-aEi"/>
+                                    <constraint firstItem="UnY-8W-YbY" firstAttribute="top" secondItem="kz3-zF-mkl" secondAttribute="bottom" constant="20" id="G7V-DX-B6z"/>
                                     <constraint firstItem="kz3-zF-mkl" firstAttribute="leading" secondItem="w5p-mU-rEg" secondAttribute="leading" constant="63" id="IVi-Ic-PIR"/>
                                     <constraint firstAttribute="centerX" secondItem="Usx-ZG-3UU" secondAttribute="centerX" id="JfW-J7-vpr"/>
+                                    <constraint firstAttribute="centerX" secondItem="RLM-dx-cX8" secondAttribute="centerX" id="M9y-xG-Ox4"/>
                                     <constraint firstItem="Usx-ZG-3UU" firstAttribute="top" secondItem="UnY-8W-YbY" secondAttribute="bottom" constant="18" id="Pah-ec-fru"/>
                                     <constraint firstItem="kz3-zF-mkl" firstAttribute="width" secondItem="UnY-8W-YbY" secondAttribute="width" id="VCa-vm-48m"/>
                                     <constraint firstAttribute="centerX" secondItem="UnY-8W-YbY" secondAttribute="centerX" id="Xzc-QJ-LT5"/>
+                                    <constraint firstItem="kz3-zF-mkl" firstAttribute="top" secondItem="w5p-mU-rEg" secondAttribute="top" constant="23" id="YHz-Ai-sGX"/>
                                     <constraint firstAttribute="trailing" secondItem="kz3-zF-mkl" secondAttribute="trailing" constant="63" id="ay1-6E-S1X"/>
+                                    <constraint firstItem="Usx-ZG-3UU" firstAttribute="top" secondItem="UnY-8W-YbY" secondAttribute="bottom" constant="20" id="eAf-kK-Ihn"/>
                                     <constraint firstItem="RLM-dx-cX8" firstAttribute="top" secondItem="Usx-ZG-3UU" secondAttribute="bottom" constant="18" id="ebm-YA-qi1"/>
+                                    <constraint firstAttribute="centerX" secondItem="UnY-8W-YbY" secondAttribute="centerX" id="eeX-rY-dMO"/>
+                                    <constraint firstAttribute="centerX" secondItem="kz3-zF-mkl" secondAttribute="centerX" id="gvS-lu-84h"/>
                                     <constraint firstItem="Usx-ZG-3UU" firstAttribute="width" secondItem="UnY-8W-YbY" secondAttribute="width" id="ieb-kJ-u3J"/>
                                     <constraint firstItem="kz3-zF-mkl" firstAttribute="top" secondItem="w5p-mU-rEg" secondAttribute="top" constant="77" id="siA-qw-bG0">
                                         <variation key="heightClass=regular-widthClass=compact" constant="10"/>
                                     </constraint>
                                     <constraint firstItem="RLM-dx-cX8" firstAttribute="leading" secondItem="w5p-mU-rEg" secondAttribute="leading" constant="63" id="uri-mT-fRU"/>
+                                    <constraint firstItem="RLM-dx-cX8" firstAttribute="top" secondItem="Usx-ZG-3UU" secondAttribute="bottom" constant="20" id="vRx-dN-daC"/>
                                     <constraint firstAttribute="trailing" secondItem="RLM-dx-cX8" secondAttribute="trailing" constant="63" id="wYH-zF-cTG"/>
                                 </constraints>
                                 <variation key="default">
@@ -2157,16 +2178,20 @@
                             <constraint firstAttribute="trailing" secondItem="WKr-2x-8WE" secondAttribute="trailing" id="32u-uS-hZz"/>
                             <constraint firstItem="aSK-x0-fwL" firstAttribute="leading" secondItem="O12-Oh-blq" secondAttribute="leading" id="APa-SM-wfM"/>
                             <constraint firstItem="cX0-aj-hNb" firstAttribute="top" secondItem="dPr-M7-oyf" secondAttribute="bottom" id="AUp-VJ-PUs"/>
+                            <constraint firstAttribute="centerX" secondItem="w5p-mU-rEg" secondAttribute="centerX" id="Ba2-XB-Jxq"/>
                             <constraint firstAttribute="trailing" secondItem="aSK-x0-fwL" secondAttribute="trailing" id="Bc5-ig-Gec"/>
                             <constraint firstAttribute="trailing" secondItem="dPr-M7-oyf" secondAttribute="trailing" id="DPd-gF-Y61"/>
                             <constraint firstAttribute="centerX" secondItem="aSK-x0-fwL" secondAttribute="centerX" id="EMp-Ps-gcC"/>
                             <constraint firstItem="bfI-Bv-w4D" firstAttribute="leading" secondItem="O12-Oh-blq" secondAttribute="leading" id="G3e-6t-ggo"/>
                             <constraint firstItem="aSK-x0-fwL" firstAttribute="top" secondItem="Mye-hQ-2ah" secondAttribute="bottom" constant="13" id="JQW-XF-dPk"/>
                             <constraint firstAttribute="centerX" secondItem="J43-Jj-cCa" secondAttribute="centerX" id="LHf-Co-h9x"/>
+                            <constraint firstItem="w5p-mU-rEg" firstAttribute="trailing" secondItem="O12-Oh-blq" secondAttribute="trailingMargin" id="SoI-jE-gZL"/>
                             <constraint firstAttribute="centerX" secondItem="bfI-Bv-w4D" secondAttribute="centerX" id="Svb-vo-56b"/>
+                            <constraint firstItem="dPr-M7-oyf" firstAttribute="top" secondItem="w5p-mU-rEg" secondAttribute="bottom" constant="8" id="UmA-2D-Al5"/>
                             <constraint firstItem="dPr-M7-oyf" firstAttribute="leading" secondItem="O12-Oh-blq" secondAttribute="leading" id="V5W-EN-VWe"/>
                             <constraint firstItem="WKr-2x-8WE" firstAttribute="top" secondItem="J43-Jj-cCa" secondAttribute="bottom" constant="8" id="WLQ-4x-5NH"/>
                             <constraint firstItem="J43-Jj-cCa" firstAttribute="leading" secondItem="O12-Oh-blq" secondAttribute="leading" id="Z1f-GL-qro"/>
+                            <constraint firstItem="w5p-mU-rEg" firstAttribute="leading" secondItem="O12-Oh-blq" secondAttribute="leadingMargin" id="ZDL-gl-x8h"/>
                             <constraint firstAttribute="trailing" secondItem="bfI-Bv-w4D" secondAttribute="trailing" id="as1-zK-c8B"/>
                             <constraint firstAttribute="centerX" secondItem="WKr-2x-8WE" secondAttribute="centerX" id="bcg-El-0lQ"/>
                             <constraint firstItem="WKr-2x-8WE" firstAttribute="leading" secondItem="O12-Oh-blq" secondAttribute="leading" id="gIE-cF-Vvx"/>
