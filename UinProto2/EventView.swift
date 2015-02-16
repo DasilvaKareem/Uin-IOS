@@ -70,7 +70,7 @@ class postEvent: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-       
+    
         println(food)
         println(onsite)
         println(cost)
@@ -83,7 +83,11 @@ class postEvent: UIViewController {
         date.text = storeDate
         putIcons()
         checkevent()
-  
+        if PFUser.currentUser().username == users {
+            
+             username.enabled = false
+            
+        }
     }
   
     @IBAction func addtocalendar(sender: AnyObject) {
@@ -143,7 +147,7 @@ class postEvent: UIViewController {
             }
         })
         self.longBar.setImage(UIImage(named: "addedToCalendarLongBar.png"), forState: UIControlState.Normal)
-checkevent()
+
     }
     @IBOutlet var longBar: UIButton!
     

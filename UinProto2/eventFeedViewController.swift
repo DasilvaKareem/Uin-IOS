@@ -45,7 +45,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         //eventsItem.selectedImage = UIImage(named: "addToCalendar.png")
 
     
-
+    
         updateFeed()
         //Changes the navbar background
         navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
