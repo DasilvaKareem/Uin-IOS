@@ -32,12 +32,73 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
     var eventStart = [NSDate]()
     var theUser = String()
     
+    @IBOutlet var subscribers: UILabel!
+    @IBOutlet var subscriptions: UILabel!
     var numSections = 0
     var rowsInSection = [Int]()
     var sectionNames = [String]()
     
     
     @IBOutlet weak var subbutton: UIButton!
+    
+    func subticker(){
+        var amountofsubs = [String]()
+        var getNumberList = PFQuery(className:"Subs")
+        getNumberList.whereKey("following", equalTo: self.theUser)
+        getNumberList.findObjectsInBackgroundWithBlock{
+            
+            (objects:[AnyObject]!, folError:NSError!) -> Void in
+            
+            
+            if folError == nil {
+                
+                
+                for object in objects{
+                    
+                    amountofsubs.append(object["follower"] as String)
+                    
+                    
+                    
+                }
+                
+                
+                self.subscribers.text = " \(amountofsubs.count) SubScribers  "
+            }
+            
+            
+        }
+        
+        var amountofScript = [String]()
+        var getNumberList2 = PFQuery(className: "Subs")
+        getNumberList2.whereKey("follower", equalTo: self.theUser)
+        getNumberList2.findObjectsInBackgroundWithBlock{
+            
+            (objects:[AnyObject]!, folError:NSError!) -> Void in
+            
+            
+            if folError == nil {
+                
+                
+                for object in objects{
+                    
+                    amountofScript.append(object["following"] as String)
+                    
+                    
+                    
+                }
+                
+                
+                self.subscriptions.text = "\(amountofScript.count) Subscriptions "
+            }
+            
+            
+        }
+        
+        
+        
+        
+    }
+
     
     @IBAction func subscribe(sender: AnyObject) {
         
@@ -74,11 +135,12 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                     
                     
                 })
+           
+        
             var subscribe = PFObject(className: "Subs")
                 var push = PFPush()
                 var pfque = PFInstallation.query()
                 pfque.whereKey("user", equalTo: self.theUser)
-                pfque.whereKey("channels", equalTo: self.theUser)
                 push.setQuery(pfque)
                 push.setMessage("please show up")
                 push.sendPushInBackgroundWithBlock({
@@ -353,7 +415,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-      
+        subticker()
         ChangeSub()
         username.text = theUser
         updateFeed()
