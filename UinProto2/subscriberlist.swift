@@ -64,6 +64,7 @@ class subscriberlist: UITableViewController {
     }
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
+        
         let cell:FollowCell = self.tableView.dequeueReusableCellWithIdentifier("cell3") as FollowCell
         
         
@@ -71,6 +72,25 @@ class subscriberlist: UITableViewController {
         cell.member.tag = indexPath.row
         
         cell.username.text = folusernames[indexPath.row]
+        
+        var membersave = PFQuery(className:"Subs")
+        membersave.getObjectInBackgroundWithId(objectId[indexPath.row]) {
+            (result: PFObject!, error: NSError!) -> Void in
+            
+            if error == nil {
+                
+            
+            if result["member"] as Bool == true{
+                
+                cell.member.selectedSegmentIndex = 0
+            }
+            else {
+                
+                cell.member.selectedSegmentIndex = 1
+                
+            }
+        }
+        }
         
         cell.member.addTarget(self, action: "switchmember:", forControlEvents: UIControlEvents.ValueChanged)
         
@@ -81,14 +101,15 @@ class subscriberlist: UITableViewController {
     
     func switchmember(sender: UISegmentedControl) {
         
-    
         
+       
+
         switch sender.selectedSegmentIndex {
         case 0:
             member = true
         case 1:
             member = false
-    
+            
         default:
             member = false
             break;
@@ -98,7 +119,7 @@ class subscriberlist: UITableViewController {
         membersave.getObjectInBackgroundWithId(objectId[sender.tag]) {
             (result: PFObject!, error: NSError!) -> Void in
             if error == nil {
-                
+          
                  result["member"] = self.member
                 result.saveInBackgroundWithBlock{
                     

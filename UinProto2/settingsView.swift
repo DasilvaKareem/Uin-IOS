@@ -18,10 +18,13 @@ class settingsView: UIViewController {
 
     @IBAction func logout(sender: AnyObject) {
         
-        PFUser.logOut()
-        self.performSegueWithIdentifier("logout", sender: self)
+       println("you pressed it")
+   
+        // PFUser.logOut()
+        //  self.performSegueWithIdentifier("logout", sender: self)
 
     }
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
