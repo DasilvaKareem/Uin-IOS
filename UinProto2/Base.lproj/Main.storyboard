@@ -1586,9 +1586,9 @@
                         </variation>
                     </view>
                     <navigationItem key="navigationItem" title="Profile" id="HCv-Ak-H18">
-                        <barButtonItem key="leftBarButtonItem" title="Logout" id="fwd-8K-iEr">
+                        <barButtonItem key="rightBarButtonItem" systemItem="edit" id="q1N-hN-DUr">
                             <connections>
-                                <action selector="logout:" destination="dhD-3B-zOl" id="Z7C-bp-qf8"/>
+                                <segue destination="uvH-iJ-jVE" kind="show" identifier="settings" id="bok-Hz-02y"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -1606,6 +1606,40 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ulb-Ir-F0E" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1032" y="1648"/>
+        </scene>
+        <!--Settings View-->
+        <scene sceneID="cqb-rt-rQI">
+            <objects>
+                <viewController id="uvH-iJ-jVE" customClass="settingsView" customModule="UinProto2" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="ZcF-et-Q2L"/>
+                        <viewControllerLayoutGuide type="bottom" id="GGh-UV-YrV"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Wct-sQ-O9a">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YZ8-Bv-TGs">
+                                <rect key="frame" x="100" y="130" width="92" height="30"/>
+                                <state key="normal" title="Logout">
+                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="logout:" destination="uvH-iJ-jVE" eventType="touchUpInside" id="g5z-2R-BWV"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <connections>
+                        <segue destination="6lS-Ca-3sI" kind="presentation" identifier="logout" id="eEb-gu-TeJ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="71L-vF-8J2" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-459" y="289"/>
         </scene>
         <!--Subscribers-->
         <scene sceneID="xWk-fV-q66">
@@ -3025,7 +3059,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="m5K-aA-srI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-329" y="1666"/>
+            <point key="canvasLocation" x="95" y="1648"/>
         </scene>
         <!--Notifications-->
         <scene sceneID="ip5-Z6-jFf">
@@ -3065,8 +3099,8 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="0t0-sB-Jv5"/>
-        <segue reference="EEz-vF-POL"/>
         <segue reference="tAD-AG-Ttu"/>
+        <segue reference="eEb-gu-TeJ"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>
