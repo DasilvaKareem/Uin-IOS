@@ -442,6 +442,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             secondViewController.cost = paid[index]
             secondViewController.food = food[index]
             secondViewController.users = usernames[index]
+            secondViewController.eventId = objectID[index]
             
             
         }

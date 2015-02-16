@@ -41,10 +41,36 @@ class postEvent: UIViewController {
     var cost = Bool()
     var storeStartDate = NSDate()
     var endStoreDate = NSDate()
+    var eventId = String()
     
-    
+    func checkevent(){
+        var minique = PFQuery(className: "GoingEvent")
+        minique.whereKey("user", equalTo: PFUser.currentUser().username)
+        var minique2 = PFQuery(className: "GoingEvent")
+        minique.whereKey("eventID", equalTo: eventId)
+        
+        minique.getFirstObjectInBackgroundWithBlock{
+            
+            (results:PFObject!, error: NSError!) -> Void in
+            
+            if error == nil {
+                
+                self.longBar.setImage(UIImage(named: "addedToCalendarLongBar.png"), forState: UIControlState.Normal)
+                
+            }   else {
+                
+                
+                self.longBar.setImage(UIImage(named: "addToCalendarLongBar.png"), forState: UIControlState.Normal)
+            }
+            
+            
+        }
+        
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+       
         println(food)
         println(onsite)
         println(cost)
@@ -56,44 +82,11 @@ class postEvent: UIViewController {
         endTime.text = storeEndTime
         date.text = storeDate
         putIcons()
+        checkevent()
   
     }
-    
-    func putIcons(){
-        
-        if  onsite == true {
-            isSite.image = UIImage(named: "onCampus.png")
-        }
-        else{
-            isSite.image = UIImage(named: "offCampus.png")
-        }
-     
-        if food == true {
-            isFood.image = UIImage(named: "yesFood.png")
-        }
-        else{
-            isFood.image = UIImage(named: "noFood.png")
-        }
-        if cost == true {
-            isPaid.image = UIImage(named: "yesFree.png")
-        }
-        else{
-            isPaid.image = UIImage(named: "noFree.png")
-       }
-    }
-    override func prepareForSegue(segue:UIStoryboardSegue, sender: AnyObject?){
- 
-        if segue.identifier == "gotoprofile" {
-            var theotherprofile:userprofile = segue.destinationViewController as userprofile
-            theotherprofile.theUser = users
-      }
-    }
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-   }
+  
     @IBAction func addtocalendar(sender: AnyObject) {
-        
         var eventStore : EKEventStore = EKEventStore()
         eventStore.requestAccessToEntityType(EKEntityTypeEvent, completion: {
             
@@ -149,10 +142,45 @@ class postEvent: UIViewController {
                 
             }
         })
-
-        
-        
+        self.longBar.setImage(UIImage(named: "addedToCalendarLongBar.png"), forState: UIControlState.Normal)
+checkevent()
     }
+    @IBOutlet var longBar: UIButton!
+    
+    func putIcons(){
+        
+        if  onsite == true {
+            isSite.image = UIImage(named: "onCampus.png")
+        }
+        else{
+            isSite.image = UIImage(named: "offCampus.png")
+        }
+     
+        if food == true {
+            isFood.image = UIImage(named: "yesFood.png")
+        }
+        else{
+            isFood.image = UIImage(named: "noFood.png")
+        }
+        if cost == true {
+            isPaid.image = UIImage(named: "yesFree.png")
+        }
+        else{
+            isPaid.image = UIImage(named: "noFree.png")
+       }
+    }
+    override func prepareForSegue(segue:UIStoryboardSegue, sender: AnyObject?){
+ 
+        if segue.identifier == "gotoprofile" {
+            var theotherprofile:userprofile = segue.destinationViewController as userprofile
+            theotherprofile.theUser = users
+      }
+    }
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+   }
+
     
     
 }
