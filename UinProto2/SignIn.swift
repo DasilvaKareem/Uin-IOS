@@ -89,7 +89,7 @@ class SignIn: UIViewController, UITextFieldDelegate {
             
             error = "Please enter a proper Username and Password"
             
-        }-
+        }
         if error != "" {
             
             displayAlert("Oops!", error: error)
