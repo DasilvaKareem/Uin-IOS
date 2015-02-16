@@ -267,9 +267,11 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         
         //println(onsite.count)
         //println(event)
-        
+        println(onsite[event])
+        print(food[event])
+        println(paid[event])
         if onsite[event] == true {
-        
+            
             cell.onCampusIcon.image = UIImage(named: "onCampus.png")
             cell.onCampusText.text = "On-Campus"
             cell.onCampusText.textColor = UIColor.darkGrayColor()
@@ -299,7 +301,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             cell.foodText.textColor = UIColor.lightGrayColor()
 
         }
-        if paid[event] == false {
+        if paid[event] == true {
         
             cell.freeIcon.image = UIImage(named: "yesFree.png")
             cell.costText.text = "Free"
@@ -309,6 +311,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         }
         else{
             
+           
             cell.freeIcon.image = UIImage(named: "noFree.png")
             cell.costText.text = "Not Free"
             cell.costText.textColor = UIColor.lightGrayColor()
@@ -427,15 +430,16 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             var row = indexPath?.row
             
             var index = getEventIndex(section!, row: row!)
-          
-            secondViewController.storeLocation = eventTitle[index]
-            secondViewController.storeTitle = eventlocation[index]
+            secondViewController.storeStartDate = eventStart[index]
+            secondViewController.endStoreDate =  eventEnd[index]
+            secondViewController.storeLocation = eventlocation[index]
+            secondViewController.storeTitle = eventTitle[index]
             secondViewController.storeStartTime = eventStartTime[index]
             secondViewController.storeEndTime = eventEndTime[index]
             secondViewController.storeDate = eventStartDate[index]
             secondViewController.storeEndDate = eventEndDate[index]
             secondViewController.onsite = onsite[index]
-            secondViewController.cost = food[index]
+            secondViewController.cost = paid[index]
             secondViewController.food = food[index]
             secondViewController.users = usernames[index]
             

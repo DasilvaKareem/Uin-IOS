@@ -1017,6 +1017,9 @@
                                         <include reference="dlm-R0-K0X"/>
                                     </mask>
                                 </variation>
+                                <connections>
+                                    <action selector="addtocalendar:" destination="y9y-G9-w9b" eventType="touchUpInside" id="bWg-Ku-w6F"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="end time" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Kb-uf-CDW">
                                 <rect key="frame" x="179" y="400" width="125" height="29"/>
@@ -2183,7 +2186,6 @@
                             <constraint firstItem="J43-Jj-cCa" firstAttribute="top" secondItem="bfI-Bv-w4D" secondAttribute="bottom" constant="21" id="mNd-aw-dBu"/>
                             <constraint firstItem="bfI-Bv-w4D" firstAttribute="top" secondItem="aSK-x0-fwL" secondAttribute="bottom" constant="8" id="uzy-Gy-81T"/>
                         </constraints>
-                        <variation key="heightClass=regular-widthClass=compact"/>
                     </view>
                     <navigationItem key="navigationItem" title="Your Event" id="Rb6-uL-Ugq">
                         <barButtonItem key="backBarButtonItem" title="Event" id="esc-vW-LFo"/>

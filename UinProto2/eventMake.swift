@@ -67,12 +67,12 @@ class eventMake: UIViewController, UITextFieldDelegate {
     @IBAction func publicEvent(sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 0:
-            eventPublic = true
+            self.eventPublic = true
         case 1:
-            eventPublic = false
+            self.eventPublic = false
             
         default:
-            eventPublic = false
+            self.eventPublic = false
             break;
         }  //Switch
         
@@ -87,12 +87,12 @@ class eventMake: UIViewController, UITextFieldDelegate {
         
         switch sender.selectedSegmentIndex {
         case 0:
-            onsite = true
+           self.onsite = true
         case 1:
-            onsite = false
+            self.onsite = false
             
         default:
-            onsite = false
+            self.onsite = false
             break;
         }  //Switch
     
@@ -103,12 +103,12 @@ class eventMake: UIViewController, UITextFieldDelegate {
         
         switch sender.selectedSegmentIndex {
         case 0:
-            food = true
+            self.food = true
         case 1:
-            food = false
+            self.food = false
             
         default:
-            food = false
+            self.food = true
             break;
         }  //Switch
         
@@ -119,12 +119,12 @@ class eventMake: UIViewController, UITextFieldDelegate {
         
         switch sender.selectedSegmentIndex {
         case 0:
-            paid = true
+            self.paid = true
         case 1:
-            paid = false
+            self.paid = false
             
         default:
-            paid = false
+            self.paid = true
             break;
         }  //Switch
         
@@ -161,9 +161,9 @@ class eventMake: UIViewController, UITextFieldDelegate {
             event["endDate"] = dateStr2 as String
             event["eventTime"] = dateTime2 as String
             event["public"] = eventPublic
-            event["food"] = food
-            event["paid"] = paid
-            event["location"] = onsite
+            event["food"] = self.food
+            event["paid"] = self.paid
+            event["location"] = self.onsite
             event["eventLocation"] = eventSum.text
             event["eventTitle"] = eventTitle.text
             event["author"] = PFUser.currentUser().username

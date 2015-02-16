@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import EventKit
 
 class postEvent: UIViewController {
     
@@ -38,10 +39,15 @@ class postEvent: UIViewController {
     var onsite = Bool()
     var food = Bool()
     var cost = Bool()
+    var storeStartDate = NSDate()
+    var endStoreDate = NSDate()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        println(food)
+        println(onsite)
+        println(cost)
        username.setTitle(users, forState: UIControlState.Normal)
         endDate.text = storeEndDate
        location.text = storeLocation
@@ -86,4 +92,67 @@ class postEvent: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
    }
+    @IBAction func addtocalendar(sender: AnyObject) {
+        
+        var eventStore : EKEventStore = EKEventStore()
+        eventStore.requestAccessToEntityType(EKEntityTypeEvent, completion: {
+            
+            granted, error in
+            if (granted) && (error == nil) {
+                println("granted \(granted)")
+                println("error  \(error)")
+                var going = PFObject(className: "GoingEvent")
+                going["user"] = PFUser.currentUser().username
+                going["event"] = self.storeTitle
+                going["author"] = self.users
+                going["added"] = true
+                //going["eventID"] = self.objectID[sender.tag]
+                going.saveInBackgroundWithBlock{
+                    
+                    (succeded:Bool!, savError:NSError!) -> Void in
+                    
+                    if savError == nil {
+                        
+                        println("it worked")
+                        
+                    }
+                }
+                var notify = PFObject(className: "Notification")
+                notify["sender"] = PFUser.currentUser().username
+                notify["receiver"] = self.users
+                notify["type"] =  "calendar"
+                notify.saveInBackgroundWithBlock({
+                    
+                    (success:Bool!, notifyError: NSError!) -> Void in
+                    
+                    if notifyError == nil {
+                        
+                        println("notifcation has been saved")
+                        
+                    }
+                    
+                    
+                })
+                
+                
+                var hosted = "Hosted by \(self.users)"
+                var event:EKEvent = EKEvent(eventStore: eventStore)
+                event.title = self.storeTitle
+                
+                event.startDate = self.storeStartDate
+                event.endDate = self.endStoreDate
+                event.notes = hosted
+                event.location = self.storeLocation
+                event.calendar = eventStore.defaultCalendarForNewEvents
+                eventStore.saveEvent(event, span: EKSpanThisEvent, error: nil)
+                println("Saved Event")
+                
+            }
+        })
+
+        
+        
+    }
+    
+    
 }
