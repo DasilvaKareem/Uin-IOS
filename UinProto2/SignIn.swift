@@ -107,7 +107,27 @@ class SignIn: UIViewController, UITextFieldDelegate {
                 
                 if loginError == nil {
                     
-                
+                    var currentInstallation = PFInstallation.currentInstallation()
+                    currentInstallation["user"] = PFUser.currentUser().username
+                    currentInstallation["userId"] = PFUser.currentUser().objectId
+                    currentInstallation.saveInBackgroundWithBlock({
+                        
+                        (success:Bool!, saveerror: NSError!) -> Void in
+                        
+                        if saveerror == nil {
+                            
+                            println("it worked")
+                            
+                        }
+                            
+                        else {
+                            
+                            println("It didnt work")
+                            
+                        }
+                        
+                        
+                    })
                     self.performSegueWithIdentifier("login", sender: "self")
                     
                 }

@@ -382,6 +382,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                     
                     }
                 }
+                if self.usernames[sender.tag] != PFUser.currentUser().username{
                 var notify = PFObject(className: "Notification")
                 notify["sender"] = PFUser.currentUser().username
                 notify["receiver"] = self.usernames[sender.tag]
@@ -398,7 +399,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                     
                     
                 })
-
+                }
 
                 var hosted = "Hosted by \(self.usernames[sender.tag])"
                 var event:EKEvent = EKEvent(eventStore: eventStore)

@@ -114,8 +114,6 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
             if object == nil {
 
                 var currentInstallation = PFInstallation.currentInstallation()
-                currentInstallation["user"] = PFUser.currentUser().username
-                currentInstallation["userId"] = PFUser.currentUser().objectId
                 currentInstallation.addUniqueObject(self.theUser, forKey: "channels")
                 currentInstallation.saveInBackgroundWithBlock({
                     
@@ -142,7 +140,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 var pfque = PFInstallation.query()
                 pfque.whereKey("user", equalTo: self.theUser)
                 push.setQuery(pfque)
-                push.setMessage("please show up")
+                push.setMessage("\(PFUser.currentUser().username) has subscribed to you ;)")
                 push.sendPushInBackgroundWithBlock({
                     
                     (success:Bool!, pushError: NSError!) -> Void in

@@ -278,11 +278,11 @@
                         <viewControllerLayoutGuide type="bottom" id="NGa-PQ-DkW"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Vnr-f1-ehy">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="672"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView autoresizesSubviews="NO" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="70" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="qcV-YZ-zmg">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="568"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="504"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell autoresizesSubviews="NO" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="dateCell" rowHeight="21" id="k8c-PB-WAY" customClass="dateCell" customModule="UinProto2" customModuleProvider="target">
@@ -2438,7 +2438,7 @@
                                         <tableViewCellContentView key="contentView" autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="R9d-RS-9yg" id="Zvo-1J-6Jz">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="458F2830-B86B-4E67-8CFE-4C2323A2395D" translatesAutoresizingMaskIntoConstraints="NO" id="dUe-8X-1Qd">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="96525F6F-B889-4A79-9067-300C5654C107" translatesAutoresizingMaskIntoConstraints="NO" id="dUe-8X-1Qd">
                                                     <rect key="frame" x="-8" y="2" width="440" height="2"/>
                                                     <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
                                                         <rect key="frame" x="-194" y="0.0" width="614" height="1"/>
@@ -2450,7 +2450,7 @@
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="458F2830-B86B-4E67-8CFE-4C2323A2395D" translatesAutoresizingMaskIntoConstraints="NO" id="ebC-Yp-2Gi">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="96525F6F-B889-4A79-9067-300C5654C107" translatesAutoresizingMaskIntoConstraints="NO" id="ebC-Yp-2Gi">
                                                     <rect key="frame" x="-6" y="21" width="440" height="2"/>
                                                     <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
                                                         <rect key="frame" x="-185" y="21" width="614" height="1"/>
@@ -2738,8 +2738,9 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="2Nb-sI-luP" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Events" image="noEventFeed" id="LaC-qO-lat"/>
                     <toolbarItems/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="FPG-eV-xgI">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="FPG-eV-xgI">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -2758,8 +2759,9 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="VYX-Te-eji" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Profile" image="noProfileFeed" id="Sk1-aA-wC3"/>
                     <toolbarItems/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="SvW-Py-HMR">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="SvW-Py-HMR">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -2909,12 +2911,12 @@
             </objects>
             <point key="canvasLocation" x="-896" y="766"/>
         </scene>
-        <!--Notifications View-->
+        <!--Notifcations ;)-->
         <scene sceneID="d0P-Zu-y5t">
             <objects>
                 <tableViewController id="Jmg-T4-Y6o" customClass="notificationsView" customModule="UinProto2" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="z0l-re-tqW">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="672"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -2941,7 +2943,7 @@
                             <outlet property="delegate" destination="Jmg-T4-Y6o" id="HNT-2C-YbK"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="y5V-bI-YSW"/>
+                    <navigationItem key="navigationItem" title="Notifcations ;)" id="y5V-bI-YSW"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="m5K-aA-srI" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2954,8 +2956,9 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="paS-ca-QYZ" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Notifications" image="noTrendingFeed" id="6Eh-yO-2AZ"/>
                     <toolbarItems/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="HHk-HB-wDk">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="HHk-HB-wDk">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -2970,7 +2973,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="458F2830-B86B-4E67-8CFE-4C2323A2395D" width="421" height="2">
+        <image name="96525F6F-B889-4A79-9067-300C5654C107" width="421" height="2">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw

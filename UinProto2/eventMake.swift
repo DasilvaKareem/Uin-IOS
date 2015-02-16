@@ -177,7 +177,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
                     
                     var push =  PFPush()
                     push.setChannel(PFUser.currentUser().username)
-                    push.setMessage("This is the push message")
+                    push.setMessage("\(PFUser.currentUser().username) has created an Event")
                     push.sendPushInBackgroundWithBlock({
                         
                         (success: Bool!, pushError: NSError!) -> Void in
