@@ -9,9 +9,9 @@
 import UIKit
 
 class subCell: UITableViewCell {
-
-    @IBOutlet var subNotify: UILabel!
    
+    @IBOutlet weak var notifyMessage: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -24,49 +24,4 @@ class subCell: UITableViewCell {
     }
 
 }
-class memberCell: UITableViewCell {
-    
-    @IBOutlet var memberNotify: UILabel!
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-    
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-        
-        // Configure the view for the selected state
-    }
-    
-}
-class eventMakeCell: UITableViewCell {
-    
-    @IBOutlet var eventNotify: UILabel!
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-    
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-        
-        // Configure the view for the selected state
-    }
-    
-}
-class calendarCell: UITableViewCell {
-    
-    @IBOutlet var calendarNotify: UILabel!
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-    
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-        
-        // Configure the view for the selected state
-    }
-    
-}
+

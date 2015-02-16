@@ -11,6 +11,10 @@ import EventKit
 
 class postEvent: UIViewController {
     
+    @IBOutlet weak var foodIcon: UILabel!
+    @IBOutlet weak var freeIcon: UILabel!
+    @IBOutlet weak var onCampusIcon: UILabel!
+    
     @IBOutlet var endDate: UILabel!
     @IBOutlet weak var eventTitle: UILabel!
     @IBOutlet weak var location: UILabel!
@@ -155,22 +159,34 @@ class postEvent: UIViewController {
         
         if  onsite == true {
             isSite.image = UIImage(named: "onCampus.png")
+            onCampusIcon.text = "On-Campus"
+            onCampusIcon.textColor = UIColor.darkGrayColor()
         }
         else{
             isSite.image = UIImage(named: "offCampus.png")
+            onCampusIcon.text = "Off-Campus"
+            onCampusIcon.textColor = UIColor.lightGrayColor()
         }
      
         if food == true {
             isFood.image = UIImage(named: "yesFood.png")
+            foodIcon.text = "Food"
+            foodIcon.textColor = UIColor.darkGrayColor()
         }
         else{
             isFood.image = UIImage(named: "noFood.png")
+            foodIcon.text = "No Food"
+            foodIcon.textColor = UIColor.lightGrayColor()
         }
         if cost == true {
             isPaid.image = UIImage(named: "yesFree.png")
+            freeIcon.text = "Free"
+            freeIcon.textColor = UIColor.darkGrayColor()
         }
         else{
             isPaid.image = UIImage(named: "noFree.png")
+            freeIcon.text = "Not Free"
+            freeIcon.textColor = UIColor.lightGrayColor()
        }
     }
     override func prepareForSegue(segue:UIStoryboardSegue, sender: AnyObject?){
