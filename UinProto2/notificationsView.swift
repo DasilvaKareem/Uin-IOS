@@ -162,10 +162,10 @@ class notificationsView: UITableViewController {
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "Cell")
+        let cell:subCell = tableView.dequeueReusableCellWithIdentifier("Cell") as subCell
      
         
-        cell.textLabel?.text = notes[indexPath.row]
+        cell.notifyMessage.text = notes[indexPath.row]
         
         return cell
     }
