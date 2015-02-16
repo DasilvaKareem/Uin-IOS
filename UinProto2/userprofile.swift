@@ -14,17 +14,22 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
     @IBOutlet weak var username: UILabel!
     
     @IBOutlet var theFeed: UITableView!
-    var theUser = String()
-    var memberStatus = [Bool]()
+    var refresher: UIRefreshControl!
     var onsite = [Bool]()
     var paid = [Bool]()
     var food = [Bool]()
     var eventTitle = [String]()
-    var eventNamed = [String]()
-    var eventTime = [String]()
-    var eventDate = [String]()
-    var eventNS = [NSDate]()
+    var eventlocation = [String]()
+    var eventStartTime = [String]()
+    var eventEndTime = [String]()
+    var eventStartDate = [String]()
+    var eventEndDate = [String]()
     var usernames = [String]()
+    var objectID = [String]()
+    var publicPost = [Bool]()
+    var eventEnd = [NSDate]()
+    var eventStart = [NSDate]()
+
     
     
     @IBOutlet weak var subbutton: UIButton!
