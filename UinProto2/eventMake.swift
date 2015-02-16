@@ -65,20 +65,16 @@ class eventMake: UIViewController, UITextFieldDelegate {
    
     
     @IBAction func publicEvent(sender: UISegmentedControl) {
-        
-        if UISegmentedControlNoSegment == 1 {
+        switch sender.selectedSegmentIndex {
+        case 0:
+            self.eventPublic = true
+        case 1:
+            self.eventPublic = false
             
-            eventPublic = true
-            
-            
-        }
-        
-        else {
-            
-            
-            eventPublic = false
-        }
-
+        default:
+            self.eventPublic = false
+            break;
+        }  //Switch
         
         
         
@@ -89,53 +85,48 @@ class eventMake: UIViewController, UITextFieldDelegate {
     
     @IBAction func location(sender: UISegmentedControl) {
         
-        if UISegmentedControlNoSegment == 1 {
+        switch sender.selectedSegmentIndex {
+        case 0:
+           self.onsite = true
+        case 1:
+            self.onsite = false
             
-            onsite = true
-            
-            
-        }
-        else {
-            
-            onsite = false
-            
-        }
-        
+        default:
+            self.onsite = false
+            break;
+        }  //Switch
     
         }
    
     
     @IBAction func isFood(sender: UISegmentedControl) {
         
-        if UISegmentedControlNoSegment == 1 {
+        switch sender.selectedSegmentIndex {
+        case 0:
+            self.food = true
+        case 1:
+            self.food = false
             
-            food = true
-            
-        }
-        else {
-            
-            food = false
-            
-        }
-        
+        default:
+            self.food = true
+            break;
+        }  //Switch
         
     }
    
    
     @IBAction func isPaid(sender: UISegmentedControl) {
         
-        
-        if UISegmentedControlNoSegment == 1 {
+        switch sender.selectedSegmentIndex {
+        case 0:
+            self.paid = true
+        case 1:
+            self.paid = false
             
-            paid = false
-            
-        }
-        else {
-            
-            paid = true
-            
-        }
-        
+        default:
+            self.paid = true
+            break;
+        }  //Switch
         
     }
     
@@ -170,9 +161,9 @@ class eventMake: UIViewController, UITextFieldDelegate {
             event["endDate"] = dateStr2 as String
             event["eventTime"] = dateTime2 as String
             event["public"] = eventPublic
-            event["food"] = food
-            event["paid"] = paid
-            event["location"] = onsite
+            event["food"] = self.food
+            event["paid"] = self.paid
+            event["location"] = self.onsite
             event["eventLocation"] = eventSum.text
             event["eventTitle"] = eventTitle.text
             event["author"] = PFUser.currentUser().username
