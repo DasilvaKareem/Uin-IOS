@@ -11,6 +11,10 @@ import UIKit
 class notificationsView: UITableViewController {
    
     var notes = [String]()
+    override func viewDidAppear(animated: Bool) {
+        notify()
+        
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,6 +23,12 @@ class notificationsView: UITableViewController {
         // Changes text color on navbar
         var nav = self.navigationController?.navigationBar
         nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()];
+        notify()
+               }
+        
+   
+    func notify(){
+        self.notes.removeAll(keepCapacity: true)
         var folusernames = [String]()
         var followque = PFQuery(className: "Subs")
         followque.whereKey("follower", equalTo: PFUser.currentUser().username)
@@ -29,7 +39,7 @@ class notificationsView: UITableViewController {
             
             if folError == nil {
                 
-                
+   
                 for object in objects{
                     println("it worked")
                     folusernames.append(object["following"] as String)
@@ -63,11 +73,8 @@ class notificationsView: UITableViewController {
                 
             }
             
-            
         }
-        
-   
-       
+
 
 
        

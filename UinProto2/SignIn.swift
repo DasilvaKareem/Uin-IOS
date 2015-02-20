@@ -99,34 +99,57 @@ class SignIn: UIViewController, UITextFieldDelegate {
             else {
             
         
-
+            var subscriptionUsernames = [String]()
             PFUser.logInWithUsernameInBackground(username.text, password:password.text) {
                 (user: PFUser!, loginError: NSError!) -> Void in
                 
                 
-                
+             
                 if loginError == nil {
-                    
-                    var currentInstallation = PFInstallation.currentInstallation()
-                    currentInstallation["user"] = PFUser.currentUser().username
-                    currentInstallation["userId"] = PFUser.currentUser().objectId
-                    currentInstallation.saveInBackgroundWithBlock({
+                  
+                    var query = PFQuery(className: "Subs")
+                    query.whereKey("follower", equalTo: PFUser.currentUser().username)
+                    query.findObjectsInBackgroundWithBlock({
                         
-                        (success:Bool!, saveerror: NSError!) -> Void in
+                        (objects:[AnyObject]!, queError:NSError!) -> Void in
                         
-                        if saveerror == nil {
+                        if queError == nil {
+                            println(subscriptionUsernames)
+                            for object in objects {
+                                
+                                subscriptionUsernames.append(object["following"] as String)
+                                
+                            }
+                            var currentInstallation = PFInstallation.currentInstallation()
+                            currentInstallation["user"] = PFUser.currentUser().username
+                            currentInstallation["userId"] = PFUser.currentUser().objectId
+                            currentInstallation.setValue(subscriptionUsernames, forKey: "channels")
+                            currentInstallation.saveInBackgroundWithBlock({
+                                
+                                (success:Bool!, saveerror: NSError!) -> Void in
+                                
+                                if saveerror == nil {
+                                    
+                                    println("it worked")
+                                    
+                                }
+                                    
+                                else {
+                                    
+                                    println("It didnt work")
+                                    
+                                }
+                                
+                                
+                            })
+                   
                             
-                            println("it worked")
+                        }   else {
+                            
+                            println(queError)
                             
                         }
-                            
-                        else {
-                            
-                            println("It didnt work")
-                            
-                        }
-                        
-                        
+                 
                     })
                     self.performSegueWithIdentifier("login", sender: "self")
                     

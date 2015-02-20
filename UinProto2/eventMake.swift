@@ -16,7 +16,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
     var endDate = NSDate()
     var startTime = String()
     var endTime = String()
-    
+
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         
         self.view.endEditing(true)
@@ -30,6 +30,9 @@ class eventMake: UIViewController, UITextFieldDelegate {
         return true
         
     }
+    
+    
+    
 
     
     @IBOutlet weak var eventTitle: UITextField!
@@ -50,6 +53,10 @@ class eventMake: UIViewController, UITextFieldDelegate {
 @IBOutlet var start: UIButton!
 
 
+    @IBOutlet var onCampus: UISegmentedControl!
+    
+    
+    
    
 @IBOutlet var end: UIButton!
   
@@ -59,20 +66,22 @@ class eventMake: UIViewController, UITextFieldDelegate {
     
     var food:Bool = true
     
-    var paid:Bool = false
+    var paid:Bool = true
     
     
-   
+
     
     @IBAction func publicEvent(sender: UISegmentedControl) {
+       
+        println(eventPublic)
         switch sender.selectedSegmentIndex {
         case 0:
-            self.eventPublic = true
+            eventPublic = true
         case 1:
-            self.eventPublic = false
+          eventPublic = false
             
         default:
-            self.eventPublic = false
+            eventPublic = true
             break;
         }  //Switch
         
@@ -84,15 +93,15 @@ class eventMake: UIViewController, UITextFieldDelegate {
     
     
     @IBAction func location(sender: UISegmentedControl) {
-        
+        println(onsite)
         switch sender.selectedSegmentIndex {
         case 0:
-           self.onsite = true
+           onsite = true
         case 1:
-            self.onsite = false
+            onsite = false
             
         default:
-            self.onsite = false
+            onsite = true
             break;
         }  //Switch
     
@@ -100,15 +109,15 @@ class eventMake: UIViewController, UITextFieldDelegate {
    
     
     @IBAction func isFood(sender: UISegmentedControl) {
-        
+        println(food)
         switch sender.selectedSegmentIndex {
         case 0:
-            self.food = true
+            food = true
         case 1:
-            self.food = false
+            food = false
             
         default:
-            self.food = true
+            food = true
             break;
         }  //Switch
         
@@ -116,15 +125,15 @@ class eventMake: UIViewController, UITextFieldDelegate {
    
    
     @IBAction func isPaid(sender: UISegmentedControl) {
-        
+        println(paid)
         switch sender.selectedSegmentIndex {
         case 0:
-            self.paid = true
+           paid = true
         case 1:
-            self.paid = false
+            paid = false
             
         default:
-            self.paid = true
+            paid = true
             break;
         }  //Switch
         
@@ -161,9 +170,9 @@ class eventMake: UIViewController, UITextFieldDelegate {
             event["endDate"] = dateStr2 as String
             event["eventTime"] = dateTime2 as String
             event["public"] = eventPublic
-            event["food"] = self.food
-            event["paid"] = self.paid
-            event["location"] = self.onsite
+            event["food"] = food
+            event["paid"] = paid
+            event["location"] = onsite
             event["eventLocation"] = eventSum.text
             event["eventTitle"] = eventTitle.text
             event["author"] = PFUser.currentUser().username
@@ -177,7 +186,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
                     
                     var push =  PFPush()
                     push.setChannel(PFUser.currentUser().username)
-                    push.setMessage("\(PFUser.currentUser().username) has created an Event")
+                  //  push.setMessage("\(PFUser.currentUser().username) has created the event "\(self.eventTitle.text)"")
                     push.sendPushInBackgroundWithBlock({
                         
                         (success: Bool!, pushError: NSError!) -> Void in
@@ -213,17 +222,24 @@ class eventMake: UIViewController, UITextFieldDelegate {
             }
     }
     
-  override func viewDidAppear(animated: Bool) {
-    if (startString == ""){
-        
-        start.setTitle("Start Time", forState: UIControlState.Normal)
     
+    @IBAction func deleteEvent(sender: AnyObject) {
+        
+        self.performSegueWithIdentifier("eventback", sender: self)
+        
     }
-    else {
-        start.setTitle(startString, forState: UIControlState.Normal)
+    
+  override func viewDidAppear(animated: Bool) {
+    //if (startString == ""){
+        
+      //  start.setTitle("Start Time", forState: UIControlState.Normal)
+    
+   // }
+    //else {
+        start.setTitle(startTime, forState: UIControlState.Normal)
         
         
-    }
+    //}
     if (endString == "") {
         
         end.setTitle("End Time", forState: UIControlState.Normal)
@@ -239,11 +255,16 @@ class eventMake: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if editing == false {
+           
+            self.navigationItem.rightBarButtonItem = nil
+            
+            
+        }
+      
+     //  start.setTitle("Start Time", forState: UIControlState.Normal)
         
-       
-       start.setTitle("Start Time", forState: UIControlState.Normal)
-        
-        end.setTitle("End Time", forState: UIControlState.Normal)
+       // end.setTitle("End Time", forState: UIControlState.Normal)
         
        // if start.text != "start time" {
             

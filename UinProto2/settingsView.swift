@@ -20,8 +20,8 @@ class settingsView: UIViewController {
         
        println("you pressed it")
    
-        // PFUser.logOut()
-        //  self.performSegueWithIdentifier("logout", sender: self)
+        PFUser.logOut()
+         self.performSegueWithIdentifier("logout", sender: self)
 
     }
 

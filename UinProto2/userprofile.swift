@@ -205,33 +205,34 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                     
                     if object != nil{
                         
+                        
                         object.delete()
-                        
-            
-                        
-                        println(object["member"])
-                        
-                         self.subbutton.setTitle("Subscribe", forState: UIControlState.Normal)
-                        
-                    }
-                    
-                    else {
-                        
+                        var currentInstallation = PFInstallation.currentInstallation()
+                        currentInstallation.removeObject(self.theUser, forKey: "channels")
+                        currentInstallation.saveInBackgroundWithBlock({
+                            
+                            (success:Bool!, pushError: NSError!) -> Void in
+                            
+                            if pushError == nil {
+                                
+                                println("the installtion did remove")
+                                
+                            }
+                            else{
+                                println("the installtion did not remove")
+                            }
+
+                            
+                        })
+       
+                
+            }       else {
                         println("fail")
-                        
                     }
-                    
-                        
-              
-                
-                
-                
+                }
             }
         }
-        
-        }
     }
-    
     func updateFeed(){
         //Removes all leftover content in the array
         
@@ -241,6 +242,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
         var que = PFQuery(className: "Event")
         que.orderByAscending("startEvent")
         que.whereKey("author", equalTo: self.theUser)
+        que.whereKey("public", equalTo: true)
         
         
         

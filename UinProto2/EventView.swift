@@ -31,6 +31,8 @@ class postEvent: UIViewController {
         
     }
     
+    @IBOutlet var theeditButton: UIBarButtonItem!
+    
     var users = String()
     var storeTitle = String()
     var storeLocation = String()
@@ -71,9 +73,17 @@ class postEvent: UIViewController {
         }
         
     }
+
     override func viewDidLoad() {
+       
         super.viewDidLoad()
-        
+        if users != PFUser.currentUser().username{
+            
+            self.navigationItem.rightBarButtonItem = nil
+            
+            
+            
+        }
     
         println(food)
         println(onsite)
@@ -195,12 +205,18 @@ class postEvent: UIViewController {
             var theotherprofile:userprofile = segue.destinationViewController as userprofile
             theotherprofile.theUser = users
       }
+        if segue.identifier == "editEvent" {
+            
+            var editEvent:eventMake = segue.destinationViewController as eventMake
+            editEvent.startTime = storeStartTime
+            //editEvent.end.setTitle(storeEndTime, forState: UIControlState.Normal)
+            editEvent.editing = true
+        }
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
    }
 
-    
     
 }
