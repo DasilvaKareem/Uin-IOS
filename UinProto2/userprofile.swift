@@ -40,9 +40,10 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
     
     
     @IBOutlet weak var subbutton: UIButton!
-    
+     var amountofsubs = [String]()
+       var amountofScript = [String]()
     func subticker(){
-        var amountofsubs = [String]()
+       
         var getNumberList = PFQuery(className:"Subs")
         getNumberList.whereKey("following", equalTo: self.theUser)
         getNumberList.findObjectsInBackgroundWithBlock{
@@ -55,20 +56,20 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 
                 for object in objects{
                     
-                    amountofsubs.append(object["follower"] as String)
+                    self.amountofsubs.append(object["follower"] as String)
                     
                     
                     
                 }
                 
                 
-                self.subscribers.text = " \(amountofsubs.count) SubScribers  "
+                //self.subscribers.text = " \(amountofsubs.count) SubScribers  "
             }
             
             
         }
         
-        var amountofScript = [String]()
+     
         var getNumberList2 = PFQuery(className: "Subs")
         getNumberList2.whereKey("follower", equalTo: self.theUser)
         getNumberList2.findObjectsInBackgroundWithBlock{
@@ -81,14 +82,14 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 
                 for object in objects{
                     
-                    amountofScript.append(object["following"] as String)
+                    self.amountofScript.append(object["following"] as String)
                     
                     
                     
                 }
                 
                 
-                self.subscriptions.text = "\(amountofScript.count) Subscriptions "
+                //self.subscriptions.text = "\(amountofScript.count) Subscriptions "
             }
             
             
@@ -344,6 +345,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
         //Because the loop is broken before a new date is found, that
         //  one needs to be added manually
         rowsInSection.append(i)
+        rowsInSection.insert(0, atIndex: 0)
     }
     
     //Returns the index of the element at the specified section and row
@@ -364,7 +366,17 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
         
     }
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        
+        if  section == 0 {
+            let cell2:profileCell = tableView.dequeueReusableCellWithIdentifier("profile") as profileCell
+            
+            //THIS IS WHERE YOU ARE GOING TO PUT THE LABEL
+            
+            cell2.subscriberTick.text = "\(self.amountofsubs.count)"
+            cell2.subscriptionTick.text = "\(self.amountofScript.count)"
+            
+            return cell2
+        }
+
         var cell:dateCell = tableView.dequeueReusableCellWithIdentifier("dateCell") as dateCell
         
         cell.dateItem.text = sectionNames[section]
@@ -380,6 +392,15 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
         
     }
 
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        
+        if section == 0 {
+            
+            return 100.0
+        }
+        return 200.0
+    }
+    
     
     func ChangeSub(){
         
@@ -420,7 +441,9 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
         username.text = theUser
         updateFeed()
         //Changes the navbar background
-        navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.translucent = true
         // Changes text color on navbar
         var nav = self.navigationController?.navigationBar
         nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()];
@@ -430,7 +453,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
         refresher.attributedTitle = NSAttributedString(string: "Pull to refresh")
         refresher.addTarget(self, action: "refresh", forControlEvents: UIControlEvents.ValueChanged)
         self.theFeed.addSubview(refresher)
-
+        
         
      
 
@@ -444,6 +467,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
         // Puts the data in a cell
+        
         var cell:eventCell = tableView.dequeueReusableCellWithIdentifier("cell2") as eventCell
         
         var event = getEventIndex(indexPath.section, row: indexPath.row)

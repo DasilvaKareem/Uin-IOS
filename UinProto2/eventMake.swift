@@ -18,7 +18,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
     var endTime = String()
 
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
-        
+      
         self.view.endEditing(true)
         
     }
@@ -32,8 +32,16 @@ class eventMake: UIViewController, UITextFieldDelegate {
     }
     
     
+    @IBOutlet var oncampusSegement: UISegmentedControl!
     
 
+    @IBOutlet var freeSegment: UISegmentedControl!
+    
+    
+    @IBOutlet var foodSegement: UISegmentedControl!
+    
+    
+    @IBOutlet var publicSegment: UISegmentedControl!
     
     @IBOutlet weak var eventTitle: UITextField!
     
@@ -61,12 +69,12 @@ class eventMake: UIViewController, UITextFieldDelegate {
 @IBOutlet var end: UIButton!
   
 
-    var eventPublic:Bool = true
-    var onsite:Bool = true
+    var eventPublic:Bool = (Bool)()
+    var onsite:Bool = (Bool)()
     
-    var food:Bool = true
+    var food:Bool = (Bool)()
     
-    var paid:Bool = true
+    var paid:Bool = (Bool)()
     
     
 
@@ -147,12 +155,14 @@ class eventMake: UIViewController, UITextFieldDelegate {
             if eventTitle.text == "" {
                 
                 allError = "Enter a Title for your Event"
+                 println(allError)
                 
             }
             
             if eventSum.text == ""{
                 
                 allError = "Enter a location for your Event"
+                 println(allError)
             }
             
         
@@ -182,11 +192,11 @@ class eventMake: UIViewController, UITextFieldDelegate {
             
                 if (eventError == nil){
                     
-           
+                println("The event was saved")
                     
                     var push =  PFPush()
                     push.setChannel(PFUser.currentUser().username)
-                  //  push.setMessage("\(PFUser.currentUser().username) has created the event "\(self.eventTitle.text)"")
+                   push.setMessage("\(PFUser.currentUser().username) has created the event '\(self.eventTitle.text)'")
                     push.sendPushInBackgroundWithBlock({
                         
                         (success: Bool!, pushError: NSError!) -> Void in
@@ -223,23 +233,24 @@ class eventMake: UIViewController, UITextFieldDelegate {
     }
     
     
-    @IBAction func deleteEvent(sender: AnyObject) {
+    /*(@IBAction func deleteEvent(sender: AnyObject) {
         
         self.performSegueWithIdentifier("eventback", sender: self)
         
     }
+*/
     
   override func viewDidAppear(animated: Bool) {
-    //if (startString == ""){
+   if (startString == ""){
         
-      //  start.setTitle("Start Time", forState: UIControlState.Normal)
+      start.setTitle("Start Time", forState: UIControlState.Normal)
     
-   // }
-    //else {
-        start.setTitle(startTime, forState: UIControlState.Normal)
+  }
+    else {
+        start.setTitle(startString, forState: UIControlState.Normal)
         
         
-    //}
+    }
     if (endString == "") {
         
         end.setTitle("End Time", forState: UIControlState.Normal)
@@ -255,13 +266,45 @@ class eventMake: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         if editing == false {
            
             self.navigationItem.rightBarButtonItem = nil
             
             
         }
-      
+        println("This is a print of the BOOLS")
+        println(onsite)
+        println(food)
+        println(paid)
+        if food == true {
+            println("OK IT WOKRS")
+       foodSegement.selectedSegmentIndex = 1
+            
+        }
+        else {
+            println("FOOD IS NOT TRUE")
+          foodSegement.selectedSegmentIndex = 0
+            
+        }
+        
+        if paid == true {
+            println("OK IT WOKRS")
+           freeSegment.selectedSegmentIndex = 1
+        }
+        else {
+            println("PAID IS NOT TRUE")
+        freeSegment.selectedSegmentIndex = 0
+        }
+        if onsite == true {
+            println("OK IT WOKRS")
+            oncampusSegement.selectedSegmentIndex = 1
+        }
+        else {
+            println("ONSITE is true")
+         oncampusSegement.selectedSegmentIndex = 0
+        }
+        
      //  start.setTitle("Start Time", forState: UIControlState.Normal)
         
        // end.setTitle("End Time", forState: UIControlState.Normal)
