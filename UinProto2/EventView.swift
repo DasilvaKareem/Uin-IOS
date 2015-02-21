@@ -31,6 +31,8 @@ class postEvent: UIViewController {
         
     }
     
+    @IBOutlet var theeditButton: UIBarButtonItem!
+    var profileEditing = false
     var users = String()
     var storeTitle = String()
     var storeLocation = String()
@@ -71,9 +73,49 @@ class postEvent: UIViewController {
         }
         
     }
+    override func viewDidAppear(animated: Bool) {
+        if profileEditing == false {
+            
+            navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
+            
+            // Changes text color on navbar
+            var nav = self.navigationController?.navigationBar
+            nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()];
+            
+            
+        }
+    }
+
     override func viewDidLoad() {
+       
         super.viewDidLoad()
-        
+        if users != PFUser.currentUser().username{
+            
+            self.navigationItem.rightBarButtonItem = nil
+            
+            
+            
+        }
+    
+        if profileEditing == true {
+            
+            navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
+            
+            // Changes text color on navbar
+            var nav = self.navigationController?.navigationBar
+            nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()];
+            
+        }
+        if profileEditing == false {
+            
+            navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
+            
+            // Changes text color on navbar
+            var nav = self.navigationController?.navigationBar
+            nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()];
+
+            
+        }
     
         println(food)
         println(onsite)
@@ -195,12 +237,31 @@ class postEvent: UIViewController {
             var theotherprofile:userprofile = segue.destinationViewController as userprofile
             theotherprofile.theUser = users
       }
+        if segue.identifier == "editEvent" {
+        
+            var editEvent:eventMake = segue.destinationViewController as eventMake
+            editEvent.startTime = storeStartTime
+            //editEvent.end.setTitle(storeEndTime, forState: UIControlState.Normal)
+            editEvent.editing = true
+            startString =  "\(storeDate)  \(storeStartTime)"
+            endString = "\(storeEndDate)  \(storeEndTime)"
+            editEvent.eventTitle.text = storeTitle
+            editEvent.eventSum.text = storeLocation
+            editEvent.onsite =  onsite
+            editEvent.food = food
+            editEvent.paid = cost
+            
+            //Make this into a switch statement later on kareem
+            
+            
+        
+            
+        }
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
    }
 
-    
     
 }

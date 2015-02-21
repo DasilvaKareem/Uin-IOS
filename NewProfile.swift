@@ -16,7 +16,9 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet var orgnName: UILabel!
     
+    @IBOutlet var subTicker: UILabel!
     
+    @IBOutlet var subscriptionTicker: UILabel!
     
     @IBOutlet var subscribers: UIButton!
     
@@ -48,14 +50,17 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     var rowsInSection = [Int]()
     var sectionNames = [String]()
     override func viewDidAppear(animated: Bool) {
-        subticker()
+                  subticker()
     }
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         orgnName.text = PFUser.currentUser().username
+        println()
         println("loaded")
+        println()
+        println()
         subticker()
         updateFeed()
         //Queries all the events and puts into the arrays above
@@ -63,16 +68,26 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         refresher.attributedTitle = NSAttributedString(string: "Pull to refresh")
         refresher.addTarget(self, action: "refresh", forControlEvents: UIControlEvents.ValueChanged)
         self.theFeed.addSubview(refresher)
+//        navigationController?.navigationBarHidden = true
+//        navigationController?.navigationBar.translucent = true
+              //navigationController?.navigationBar.setBackgroundImage(UIImage(named: "transparentNavbarBackground.png"), forBarMetrics: UIBarMetrics.Default)
+        
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.translucent = true
+       
+    
+        
 
-                navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
         
         var nav = self.navigationController?.navigationBar
         nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()];
 
     }
-    
+    var amountofsubs = [String]()
+     var amountofScript = [String]()
     func subticker(){
-        var amountofsubs = [String]()
+        
         var getNumberList = PFQuery(className:"Subs")
         getNumberList.whereKey("following", equalTo: PFUser.currentUser().username)
         getNumberList.findObjectsInBackgroundWithBlock{
@@ -85,20 +100,19 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 
                 for object in objects{
                     
-                    amountofsubs.append(object["follower"] as String)
+                    self.amountofsubs.append(object["follower"] as String)
                     
                     
                     
                 }
               
-             
-                self.subscribers.setTitle("\(amountofsubs.count) Subscriber ", forState: UIControlState.Normal)
+               
             }
             
             
         }
         
-        var amountofScript = [String]()
+       
         var getNumberList2 = PFQuery(className: "Subs")
         getNumberList2.whereKey("follower", equalTo: PFUser.currentUser().username)
         getNumberList2.findObjectsInBackgroundWithBlock{
@@ -111,14 +125,13 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 
                 for object in objects{
                     
-                    amountofScript.append(object["following"] as String)
+                   self.amountofScript.append(object["following"] as String)
                     
                     
                     
                 }
                 
                 
-                self.subscription.setTitle("\(amountofScript.count) Subscriptions ", forState: UIControlState.Normal)
             }
             
             
@@ -197,6 +210,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
   
     }
 
+    @IBOutlet var usernameButton: UIBarButtonItem!
 
     func refresh() {
         updateFeed()
@@ -234,6 +248,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         //Because the loop is broken before a new date is found, that
         //  one needs to be added manually
         rowsInSection.append(i)
+        rowsInSection.insert(0, atIndex: 0)
     }
     
     func getEventIndex(section: Int, row: Int) -> Int{
@@ -253,6 +268,14 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         // Dispose of any resources that can be recreated.
         
     }
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        
+        if section == 0 {
+            
+            return 100.0
+        }
+        return 20.0
+    }
     
     
     @IBAction func logout(sender: AnyObject) {
@@ -271,6 +294,8 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         
     }
     
+
+    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
@@ -280,14 +305,30 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
     
     
+
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+       
         
         var cell:dateCell = tableView.dequeueReusableCellWithIdentifier("dateCell") as dateCell
         
+        if  section == 0 {
+            let cell2:profileCell = tableView.dequeueReusableCellWithIdentifier("profile") as profileCell
+            
+            //THIS IS WHERE YOU ARE GOING TO PUT THE LABEL
+
+            cell2.subscriberTick.text = "\(self.amountofsubs.count)"
+            cell2.subscriptionTick.text = "\(self.amountofScript.count)"
+            
+                return cell2
+        }
+     
+
         cell.dateItem.text = sectionNames[section]
         return cell
     }
+    
+    
     
     
     
@@ -297,6 +338,9 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         // Puts the data in a cell
         var cell:eventCell = tableView.dequeueReusableCellWithIdentifier("cell2") as eventCell
         
+        let cell2 = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "Cell")
+        
+
         var event = getEventIndex(indexPath.section, row: indexPath.row)
         
         //println(onsite.count)
@@ -464,6 +508,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
             var row = indexPath?.row
             
             var index = getEventIndex(section!, row: row!)
+            secondViewController.profileEditing = true
             secondViewController.storeStartDate = eventStart[index]
             secondViewController.endStoreDate =  eventEnd[index]
             secondViewController.storeLocation = eventlocation[index]

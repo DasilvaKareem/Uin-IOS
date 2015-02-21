@@ -11,10 +11,24 @@ import UIKit
 class notificationsView: UITableViewController {
    
     var notes = [String]()
+    override func viewDidAppear(animated: Bool) {
+        notify()
+        
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
+        
+        // Changes text color on navbar
+        var nav = self.navigationController?.navigationBar
+        nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()];
+        notify()
+               }
+        
+   
+    func notify(){
+        self.notes.removeAll(keepCapacity: true)
         var folusernames = [String]()
         var followque = PFQuery(className: "Subs")
         followque.whereKey("follower", equalTo: PFUser.currentUser().username)
@@ -25,7 +39,7 @@ class notificationsView: UITableViewController {
             
             if folError == nil {
                 
-                
+   
                 for object in objects{
                     println("it worked")
                     folusernames.append(object["following"] as String)
@@ -36,6 +50,8 @@ class notificationsView: UITableViewController {
                 var eventQuery = PFQuery(className: "Notification")
                 eventQuery.whereKey("type", equalTo: "event" )
                 eventQuery.whereKey("sender", containedIn: folusernames)
+                eventQuery.orderByDescending("createdAt")
+                eventQuery.limit = 10
                 eventQuery.findObjectsInBackgroundWithBlock({
                     (objects:[AnyObject]!,eventError:NSError!) -> Void in
                     println("it queryed")
@@ -57,11 +73,8 @@ class notificationsView: UITableViewController {
                 
             }
             
-            
         }
-        
-   
-       
+
 
 
        
@@ -69,6 +82,8 @@ class notificationsView: UITableViewController {
         var subQuery = PFQuery(className: "Notification")
         subQuery.whereKey("type", equalTo: "sub")
         subQuery.whereKey("receiver", equalTo: PFUser.currentUser().username)
+        subQuery.orderByDescending("createdAt")
+        subQuery.limit = 10
         subQuery.findObjectsInBackgroundWithBlock({
             
             (objects:[AnyObject]!,subError:NSError!) -> Void in
@@ -93,6 +108,8 @@ class notificationsView: UITableViewController {
         var calendarQuery = PFQuery(className: "Notification")
         calendarQuery.whereKey("receiver", equalTo: PFUser.currentUser().username)
         calendarQuery.whereKey("type", equalTo: "calendar")
+        calendarQuery.orderByDescending("createdAt")
+        calendarQuery.limit = 10
         calendarQuery.findObjectsInBackgroundWithBlock({
             (objects:[AnyObject]!, calendarError:NSError!) -> Void in
             
@@ -124,7 +141,7 @@ class notificationsView: UITableViewController {
                 
                 for object in objects {
                    // println(object.objectId)
-                    var current = object["sender"]
+                    var current = object["sender"] as String
                        var membernote = "\(current) changed your member status"
                     self.notes.append(membernote as String)
                    

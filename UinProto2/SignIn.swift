@@ -99,15 +99,58 @@ class SignIn: UIViewController, UITextFieldDelegate {
             else {
             
         
-
+            var subscriptionUsernames = [String]()
             PFUser.logInWithUsernameInBackground(username.text, password:password.text) {
                 (user: PFUser!, loginError: NSError!) -> Void in
                 
                 
-                
+             
                 if loginError == nil {
-                    
-                
+                  
+                    var query = PFQuery(className: "Subs")
+                    query.whereKey("follower", equalTo: PFUser.currentUser().username)
+                    query.findObjectsInBackgroundWithBlock({
+                        
+                        (objects:[AnyObject]!, queError:NSError!) -> Void in
+                        
+                        if queError == nil {
+                            println(subscriptionUsernames)
+                            for object in objects {
+                                
+                                subscriptionUsernames.append(object["following"] as String)
+                                
+                            }
+                            var currentInstallation = PFInstallation.currentInstallation()
+                            currentInstallation["user"] = PFUser.currentUser().username
+                            currentInstallation["userId"] = PFUser.currentUser().objectId
+                            currentInstallation.setValue(subscriptionUsernames, forKey: "channels")
+                            currentInstallation.saveInBackgroundWithBlock({
+                                
+                                (success:Bool!, saveerror: NSError!) -> Void in
+                                
+                                if saveerror == nil {
+                                    
+                                    println("it worked")
+                                    
+                                }
+                                    
+                                else {
+                                    
+                                    println("It didnt work")
+                                    
+                                }
+                                
+                                
+                            })
+                   
+                            
+                        }   else {
+                            
+                            println(queError)
+                            
+                        }
+                 
+                    })
                     self.performSegueWithIdentifier("login", sender: "self")
                     
                 }

@@ -135,7 +135,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
            
         }
     
-        var pubQue = PFQuery(className: "subs")
+        var pubQue = PFQuery(className: "Subs")
         pubQue.whereKey("follower", equalTo: PFUser.currentUser().username)
         pubQue.whereKey("member", equalTo: true)
         pubQue.orderByAscending("startEvent")
@@ -162,13 +162,13 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                     self.paid.append(object["paid"] as Bool)
                     self.onsite.append(object["location"] as Bool)
                     self.eventlocation.append(object["eventTitle"] as String)
-                    
+                   
                 }
-                
+                self.populateSectionInfo()
+                 self.theFeed.reloadData()
+                self.refresher.endRefreshing()
             }
-            self.populateSectionInfo()
-            self.theFeed.reloadData()
-            self.refresher.endRefreshing()
+           
         }
         
      }
@@ -267,9 +267,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         
         //println(onsite.count)
         //println(event)
-        println(onsite[event])
-        print(food[event])
-        println(paid[event])
+
         if onsite[event] == true {
             
             cell.onCampusIcon.image = UIImage(named: "onCampus.png")
@@ -357,16 +355,77 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
  
     func followButton(sender: AnyObject){
         // Puts the data in a cell
-        
-   
-        var eventStore : EKEventStore = EKEventStore()
-        eventStore.requestAccessToEntityType(EKEntityTypeEvent, completion: {
+    
+        var que = PFQuery(className: "GoingEvent")
+        que.whereKey("user", equalTo: PFUser.currentUser().username)
+        que.whereKey("author", equalTo: self.usernames[sender.tag])
+        que.whereKey("eventID", equalTo:self.objectID[sender.tag])
+        que.getFirstObjectInBackgroundWithBlock({
             
-            granted, error in
-            if (granted) && (error == nil) {
-                println("granted \(granted)")
-                println("error  \(error)")
-               var going = PFObject(className: "GoingEvent")
+            (results:PFObject!, queerror: NSError!) -> Void in
+            
+            
+            if queerror == nil {
+               results.delete()
+                
+                if results != nil {
+                    var eventStore : EKEventStore = EKEventStore()
+                    eventStore.requestAccessToEntityType(EKEntityTypeEvent, completion: {
+                        
+                        granted, error in
+                        if (granted) && (error == nil) {
+                            println("granted \(granted)")
+                            println("error  \(error)")
+                            var hosted = "Hosted by \(self.usernames[sender.tag])"
+                            var event:EKEvent = EKEvent(eventStore: eventStore)
+                            event.title = self.eventTitle[sender.tag]
+                            event.startDate = self.eventStart[sender.tag]
+                            event.endDate = self.eventEnd[sender.tag]
+                            event.notes = hosted
+                            event.location = self.eventlocation[sender.tag]
+                            event.calendar = eventStore.defaultCalendarForNewEvents
+                        }
+                        })
+                    var predicate2 = eventStore.predicateForEventsWithStartDate(self.eventStart[sender.tag], endDate: self.eventEnd[sender.tag], calendars:nil)
+                    var eV = eventStore.eventsMatchingPredicate(predicate2) as [EKEvent]!
+                    println("Result is there")
+                    if eV != nil {
+                        println("EV is not nil")
+                        for i in eV {
+                            println("\(i.title) this is the i.title")
+                            println(self.eventTitle[sender.tag])
+                            if i.title == self.eventTitle[sender.tag]  {
+                                println("removed")
+                                eventStore.removeEvent(i, span: EKSpanThisEvent, error: nil)
+                            }
+                        }
+                    }
+                    self.updateFeed()
+                }
+                
+                
+                
+                
+            } else {
+                println("the object does not exist")
+                var push = PFPush()
+                var pfque = PFInstallation.query()
+                pfque.whereKey("user", equalTo: self.usernames[sender.tag])
+                
+                push.setQuery(pfque)
+                push.setMessage("\(PFUser.currentUser().username) has added your event to their calendar Good job")
+                push.sendPushInBackgroundWithBlock({
+                    
+                    (success:Bool!, pushError: NSError!) -> Void in
+                    
+                    if pushError == nil {
+                        
+                        println("IT WORKED")
+                        
+                    }
+                    
+                })
+                var going = PFObject(className: "GoingEvent")
                 going["user"] = PFUser.currentUser().username
                 going["event"] = self.eventTitle[sender.tag]
                 going["author"] = self.usernames[sender.tag]
@@ -379,10 +438,42 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                     if savError == nil {
                         
                         println("it worked")
-                    
+                        
                     }
                 }
+                var eventStore : EKEventStore = EKEventStore()
+                eventStore.requestAccessToEntityType(EKEntityTypeEvent, completion: {
+                    
+                    granted, error in
+                    if (granted) && (error == nil) {
+                        println("granted \(granted)")
+                        println("error  \(error)")
+                        var hosted = "Hosted by \(self.usernames[sender.tag])"
+                        var event:EKEvent = EKEvent(eventStore: eventStore)
+                        event.title = self.eventTitle[sender.tag]
+                        event.startDate = self.eventStart[sender.tag]
+                        event.endDate = self.eventEnd[sender.tag]
+                        event.notes = hosted
+                        event.location = self.eventlocation[sender.tag]
+                        event.calendar = eventStore.defaultCalendarForNewEvents
+                        eventStore.saveEvent(event, span: EKSpanThisEvent, error: nil)
+                    }
+                })
+                 println("Saved Event")
+                self.updateFeed()
+                
+                
+            }
+        })
+     
+        
+            
+                
+
+                
+              if self.usernames[sender.tag] != PFUser.currentUser().username {
                 var notify = PFObject(className: "Notification")
+                notify["theID"] = self.objectID[sender.tag]
                 notify["sender"] = PFUser.currentUser().username
                 notify["receiver"] = self.usernames[sender.tag]
                 notify["type"] =  "calendar"
@@ -395,27 +486,15 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                         println("notifcation has been saved")
                         
                     }
+                    else{
+                        println(notifyError)
+                    }
                     
                     
                 })
-
-
-                var hosted = "Hosted by \(self.usernames[sender.tag])"
-                var event:EKEvent = EKEvent(eventStore: eventStore)
-                event.title = self.eventTitle[sender.tag]
-                
-                event.startDate = self.eventStart[sender.tag]
-                event.endDate = self.eventEnd[sender.tag]
-                event.notes = hosted
-                event.location = self.eventlocation[sender.tag]
-                event.calendar = eventStore.defaultCalendarForNewEvents
-                eventStore.saveEvent(event, span: EKSpanThisEvent, error: nil)
-                println("Saved Event")
-                
-            }
-        })
-    updateFeed()
+                }
     }
+
     
    override func prepareForSegue(segue:UIStoryboardSegue, sender: AnyObject?){
 
