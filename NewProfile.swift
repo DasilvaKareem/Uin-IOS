@@ -56,7 +56,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        orgnName.text = PFUser.currentUser().username
+        usernameButton.title = PFUser.currentUser().username
         println()
         println("loaded")
         println()
@@ -147,7 +147,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     var que = PFQuery(className: "Event")
     que.orderByAscending("startEvent")
     que.whereKey("author", equalTo: PFUser.currentUser().username)
-    
+
     
     
     que.findObjectsInBackgroundWithBlock{
@@ -180,7 +180,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     self.publicPost.append(object["public"] as Bool)
     self.objectID.append(object.objectId as String)
     self.usernames.append(object["author"] as String)
-    self.eventTitle.append(object["eventLocation"] as String)
+    self.eventTitle.append(object["eventTitle"] as String)
     self.eventStartDate.append(object["startDate"] as String)
     self.eventEndDate.append(object["endDate"] as String)
     self.eventStartTime.append(object["startTime"] as String)
@@ -190,7 +190,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     self.onsite.append(object["location"] as Bool)
     self.eventEnd.append(object["endEvent"] as NSDate)
     self.eventStart.append(object["startEvent"] as NSDate)
-    self.eventlocation.append(object["eventTitle"] as String)
+    self.eventlocation.append(object["eventLocation"] as String)
     
     
     }
@@ -249,6 +249,11 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         //  one needs to be added manually
         rowsInSection.append(i)
         rowsInSection.insert(0, atIndex: 0)
+        rowsInSection.insert(0, atIndex: rowsInSection.count)
+        println()
+         println(numSections)
+        println()
+        println()
     }
     
     func getEventIndex(section: Int, row: Int) -> Int{
@@ -256,7 +261,9 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         for (var i = 0; i < section; i++){
             offset += rowsInSection[i]
         }
+       
         return offset+row
+        
     }
 
 
@@ -268,16 +275,16 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         // Dispose of any resources that can be recreated.
         
     }
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+   func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         
         if section == 0 {
             
             return 100.0
         }
-        return 20.0
+        return 10.0
     }
     
-    
+
     @IBAction func logout(sender: AnyObject) {
         
         PFUser.logOut()
@@ -302,6 +309,31 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         
         return rowsInSection[section]
         
+    }
+    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        var realResult = numSections - 1
+        if section == realResult {
+            
+            return 100.0
+            
+        }
+        return 0.0
+    }
+    
+    func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        var realResult = numSections - 1
+        
+        let cell:footerCell = tableView.dequeueReusableCellWithIdentifier("footer") as footerCell
+        
+        if section == 2 {
+        
+            cell.footerNote.text = "Hey"
+            return cell
+        }
+       
+        
+        
+        return nil
     }
     
     
@@ -331,20 +363,23 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     
     
-    
+    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        var cell:eventCell = tableView.dequeueReusableCellWithIdentifier("cell2") as eventCell
+        
+           cell.backgroundColor = UIColor.whiteColor()
+    }
     
     var number = [Int]()
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
         // Puts the data in a cell
+        
         var cell:eventCell = tableView.dequeueReusableCellWithIdentifier("cell2") as eventCell
-        
-        let cell2 = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "Cell")
-        
-
+     
         var event = getEventIndex(indexPath.section, row: indexPath.row)
         
         //println(onsite.count)
         //println(event)
+        println("HEYRWERDSFDSFSDG")
         println(onsite[event])
         print(food[event])
         println(paid[event])

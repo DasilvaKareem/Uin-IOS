@@ -16,6 +16,8 @@ class eventMake: UIViewController, UITextFieldDelegate {
     var endDate = NSDate()
     var startTime = String()
     var endTime = String()
+    var eventTitlePass = (String)()
+    var eventLocation = (String)()
 
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
       
@@ -69,12 +71,12 @@ class eventMake: UIViewController, UITextFieldDelegate {
 @IBOutlet var end: UIButton!
   
 
-    var eventPublic:Bool = (Bool)()
-    var onsite:Bool = (Bool)()
+    var eventPublic:Bool = true
+    var onsite:Bool = true
     
-    var food:Bool = (Bool)()
+    var food:Bool = true
     
-    var paid:Bool = (Bool)()
+    var paid:Bool = true
     
     
 
@@ -241,6 +243,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
 */
     
   override func viewDidAppear(animated: Bool) {
+    
    if (startString == ""){
         
       start.setTitle("Start Time", forState: UIControlState.Normal)
@@ -270,8 +273,18 @@ class eventMake: UIViewController, UITextFieldDelegate {
         if editing == false {
            
             self.navigationItem.rightBarButtonItem = nil
+           
+         
+         
             
             
+        }
+        else {
+            
+            eventTitle.text = eventTitlePass
+            eventSum.text = eventLocation
+
+        
         }
         println("This is a print of the BOOLS")
         println(onsite)
@@ -279,30 +292,30 @@ class eventMake: UIViewController, UITextFieldDelegate {
         println(paid)
         if food == true {
             println("OK IT WOKRS")
-       foodSegement.selectedSegmentIndex = 1
+       foodSegement.selectedSegmentIndex = 0
             
         }
         else {
             println("FOOD IS NOT TRUE")
-          foodSegement.selectedSegmentIndex = 0
+          foodSegement.selectedSegmentIndex = 1
             
         }
         
         if paid == true {
             println("OK IT WOKRS")
-           freeSegment.selectedSegmentIndex = 1
+           freeSegment.selectedSegmentIndex = 0
         }
         else {
             println("PAID IS NOT TRUE")
-        freeSegment.selectedSegmentIndex = 0
+        freeSegment.selectedSegmentIndex = 1
         }
         if onsite == true {
             println("OK IT WOKRS")
-            oncampusSegement.selectedSegmentIndex = 1
+            oncampusSegement.selectedSegmentIndex = 0
         }
         else {
             println("ONSITE is true")
-         oncampusSegement.selectedSegmentIndex = 0
+         oncampusSegement.selectedSegmentIndex = 1
         }
         
      //  start.setTitle("Start Time", forState: UIControlState.Normal)

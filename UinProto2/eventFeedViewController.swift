@@ -107,7 +107,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                     self.publicPost.append(object["public"] as Bool)
                     self.objectID.append(object.objectId as String)
                     self.usernames.append(object["author"] as String)
-                    self.eventTitle.append(object["eventLocation"] as String)
+                    self.eventTitle.append(object["eventTitle"] as String)
                     self.eventStartDate.append(object["startDate"] as String)
                     self.eventEndDate.append(object["endDate"] as String)
                     self.eventStartTime.append(object["startTime"] as String)
@@ -117,7 +117,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                     self.onsite.append(object["location"] as Bool)
                     self.eventEnd.append(object["endEvent"] as NSDate)
                     self.eventStart.append(object["startEvent"] as NSDate)
-                    self.eventlocation.append(object["eventTitle"] as String)
+                    self.eventlocation.append(object["eventLocation"] as String)
                     
                     
                 }
