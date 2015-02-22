@@ -80,50 +80,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         
         //adds content to the array
  
-        var yourQue = PFQuery(className: "Event")
-        yourQue.whereKey("author" , equalTo:PFUser.currentUser().username)
-        yourQue.findObjectsInBackgroundWithBlock{
-            
-            (objects:[AnyObject]!,eventError:NSError!) -> Void in
-            
-            if eventError == nil {
-                self.onsite.removeAll(keepCapacity: true)
-                self.paid.removeAll(keepCapacity: true)
-                self.food.removeAll(keepCapacity: true)
-                self.eventTitle.removeAll(keepCapacity: true)
-                self.eventlocation.removeAll(keepCapacity: true)
-                self.eventStartTime.removeAll(keepCapacity: true)
-                self.eventEndTime.removeAll(keepCapacity: true)
-                self.eventStartDate.removeAll(keepCapacity: true)
-                self.eventEndDate.removeAll(keepCapacity: true)
-                self.usernames.removeAll(keepCapacity: true)
-                self.objectID.removeAll(keepCapacity: true)
-                self.publicPost.removeAll(keepCapacity: true)
-                self.eventStart.removeAll(keepCapacity: true)
-                self.eventEnd.removeAll(keepCapacity: true)
-                for object in objects{
-                    
-                    println(object.objectId)
-                    self.publicPost.append(object["public"] as Bool)
-                    self.objectID.append(object.objectId as String)
-                    self.usernames.append(object["author"] as String)
-                    self.eventTitle.append(object["eventLocation"] as String)
-                    self.eventStartDate.append(object["startDate"] as String)
-                    self.eventEndDate.append(object["endDate"] as String)
-                    self.eventStartTime.append(object["startTime"] as String)
-                    self.eventEndTime.append(object["endTime"] as String)
-                    self.food.append(object["food"] as Bool)
-                    self.paid.append(object["paid"] as Bool)
-                    self.onsite.append(object["location"] as Bool)
-                    self.eventlocation.append(object["eventTitle"] as String)
-                    
-                }
-            }
-                self.populateSectionInfo()
-                self.theFeed.reloadData()
-                self.refresher.endRefreshing()
-                
-            }
+
         var pubQue = PFQuery(className: "Subs")
         pubQue.whereKey("follower", equalTo: PFUser.currentUser().username)
         pubQue.whereKey("member", equalTo: true)
