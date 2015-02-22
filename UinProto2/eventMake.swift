@@ -151,6 +151,22 @@ class eventMake: UIViewController, UITextFieldDelegate {
         }  //Switch
         
     }
+    func displayAlert(title:String, error:String) {
+        
+        var alert = UIAlertController(title: title, message: error, preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { action in
+            
+        
+            
+        }))
+        
+        self.presentViewController(alert, animated: true, completion: nil)
+        
+        func preferredStatusBarStyle() -> UIStatusBarStyle {
+            return UIStatusBarStyle.Default
+        }
+        
+    }
     
     @IBAction func makeEvent(sender: AnyObject) {
         
@@ -170,8 +186,23 @@ class eventMake: UIViewController, UITextFieldDelegate {
             println(allError)
         }
         
+        if dateTime1 == "" {
+            
+            allError = "Enter a Start Time"
+            
+        }
+        
+        if dateTime2 == ""{
+            allError = "Enter a End Time"
+        }
+        
+      
         
         println(allError)
+        
+ 
+      
+        
         
         if allError == "" {
             
@@ -201,7 +232,29 @@ class eventMake: UIViewController, UITextFieldDelegate {
                             (success:Bool!, error:NSError!) -> Void in
                             
                             if error == nil {
-                                
+                                orderDate1 = NSDate()
+                                orderDate2 = NSDate()
+                                dateTime1 = String()
+                                dateTime2 = String()
+                                dateStr1 = String()
+                                dateStr2 = String()
+                                startString = String()
+                                endString = String()
+                                var push =  PFPush()
+                                push.setChannel(PFUser.currentUser().username)
+                                push.setMessage("\(PFUser.currentUser().username) has edited the event '\(self.eventTitle.text)'")
+                                push.sendPushInBackgroundWithBlock({
+                                    
+                                    (success: Bool!, pushError: NSError!) -> Void in
+                                    if pushError == nil {
+                                        
+                                        println("the push was sent")
+                                        
+                                    }
+                                    
+                                    
+                                    
+                                })
                                 self.performSegueWithIdentifier("eventback", sender: self)
                             }
                             
@@ -270,6 +323,14 @@ class eventMake: UIViewController, UITextFieldDelegate {
                                 println("fail")
                             }
                         })
+                        orderDate1 = NSDate()
+                        orderDate2 = NSDate()
+                        dateTime1 = String()
+                        dateTime2 = String()
+                        dateStr1 = String()
+                        dateStr2 = String()
+                        startString = String()
+                        endString = String()
                         self.performSegueWithIdentifier("eventback", sender: self)
                         println("it worked")
                         
@@ -278,7 +339,12 @@ class eventMake: UIViewController, UITextFieldDelegate {
                 
             }
         }
+        else {
+            
+            displayAlert("Error", error: allError)
+        }
     }
+   
     
     
     /*(@IBAction func deleteEvent(sender: AnyObject) {
@@ -346,6 +412,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.tabBarController?.tabBar.hidden = true
         if editing == false {
             
             self.navigationItem.rightBarButtonItem = nil

@@ -97,6 +97,8 @@ class postEvent: UIViewController {
             
         }
         
+        self.tabBarController?.tabBar.hidden = true
+        
         if profileEditing == true {
             
             navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
