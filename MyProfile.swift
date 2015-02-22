@@ -49,14 +49,25 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     var numSections = 0
     var rowsInSection = [Int]()
     var sectionNames = [String]()
-    override func viewDidAppear(animated: Bool) {
-                  subticker()
+ 
+    
+    
+    // View Life Cycles
+    override func viewWillAppear(animated: Bool) {
+        subticker()
+        updateFeed()
+         self.tabBarController?.tabBar.hidden = false
     }
     
+    override func viewDidDisappear(animated: Bool) {
+        updateFeed()
+        subticker()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         usernameButton.title = PFUser.currentUser().username
+        self.tabBarController?.tabBar.hidden = false
         println()
         println("loaded")
         println()
@@ -96,7 +107,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
             
             
             if folError == nil {
-                
+                self.amountofsubs.removeAll(keepCapacity: true)
                 
                 for object in objects{
                     
@@ -121,7 +132,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
             
             
             if folError == nil {
-                
+                self.amountofScript.removeAll(keepCapacity: true)
                 
                 for object in objects{
                     
@@ -247,9 +258,15 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         }
         //Because the loop is broken before a new date is found, that
         //  one needs to be added manually
+       
         rowsInSection.append(i)
-        rowsInSection.insert(0, atIndex: 0)
-        rowsInSection.insert(0, atIndex: rowsInSection.count)
+         //numSections++
+        if numSections == 0 {
+            
+            numSections++
+        }
+       
+        
         println()
          println(numSections)
         println()
@@ -312,73 +329,46 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         return rowsInSection[section]
         
     }
-   // func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-    //    var realResult = numSections - 1
-    //    if section == realResult {
-            
-      //      return 100.0
-            
-      //  }
-       // return 0.0
-   // }
-    
-    //func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-      //  var realResult = numSections - 1
-        
-      //  let cell:footerCell = tableView.dequeueReusableCellWithIdentifier("footer") as footerCell
-      //
-       // if section == 2 {
-        
-        //    cell.footerNote.text = "Hey"
-        //    return cell
-      //  }
-       
-        
-        
-    //    return nil
-   // }
-    
+ 
     
 
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
        
         
-        var cell:dateCell = tableView.dequeueReusableCellWithIdentifier("dateCell") as dateCell
+       
         
-        if  section == 0 {
-            let cell2:profileCell = tableView.dequeueReusableCellWithIdentifier("profile") as profileCell
-            
-            //THIS IS WHERE YOU ARE GOING TO PUT THE LABEL
-
-            cell2.subscriberTick.text = "\(self.amountofsubs.count)"
-            cell2.subscriptionTick.text = "\(self.amountofScript.count)"
-            
-                return cell2
+        if  section != 0 {
+             var cell:dateCell = tableView.dequeueReusableCellWithIdentifier("dateCell") as dateCell
+            cell.dateItem.text = sectionNames[section]
+            return cell
         }
-     
-
-        cell.dateItem.text = sectionNames[section]
-        return cell
-    }
-    
-    
-    
-    
-    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        var cell:eventCell = tableView.dequeueReusableCellWithIdentifier("cell2") as eventCell
+        let cell2:profileCell = tableView.dequeueReusableCellWithIdentifier("profile") as profileCell
         
-           cell.backgroundColor = UIColor.whiteColor()
+        //THIS IS WHERE YOU ARE GOING TO PUT THE LABEL
+        
+        cell2.subscriberTick.text = "\(self.amountofsubs.count)"
+        cell2.subscriptionTick.text = "\(self.amountofScript.count)"
+        
+        return cell2
+
+      
     }
+    
+    
+    
+    
+
     
     var number = [Int]()
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
         // Puts the data in a cell
         
+    
         var cell:eventCell = tableView.dequeueReusableCellWithIdentifier("cell2") as eventCell
      
         var event = getEventIndex(indexPath.section, row: indexPath.row)
-        
+     
         //println(onsite.count)
         //println(event)
         println("HEYRWERDSFDSFSDG")

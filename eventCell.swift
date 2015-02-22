@@ -13,7 +13,7 @@ import UIKit
 class eventCell: UITableViewCell {
 
     
-    
+
     @IBOutlet var foodText: UILabel!
     @IBOutlet weak var costText: UILabel!
     
