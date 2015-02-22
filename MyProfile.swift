@@ -267,7 +267,9 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
 
 
-
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return 65.0
+    }
     
     
     override func didReceiveMemoryWarning() {
@@ -279,9 +281,9 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         
         if section == 0 {
             
-            return 100.0
+            return 150.0
         }
-        return 10.0
+        return 23.0
     }
     
 
@@ -310,31 +312,31 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         return rowsInSection[section]
         
     }
-    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        var realResult = numSections - 1
-        if section == realResult {
+   // func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+    //    var realResult = numSections - 1
+    //    if section == realResult {
             
-            return 100.0
+      //      return 100.0
             
-        }
-        return 0.0
-    }
+      //  }
+       // return 0.0
+   // }
     
-    func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        var realResult = numSections - 1
+    //func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+      //  var realResult = numSections - 1
         
-        let cell:footerCell = tableView.dequeueReusableCellWithIdentifier("footer") as footerCell
+      //  let cell:footerCell = tableView.dequeueReusableCellWithIdentifier("footer") as footerCell
+      //
+       // if section == 2 {
         
-        if section == 2 {
-        
-            cell.footerNote.text = "Hey"
-            return cell
-        }
+        //    cell.footerNote.text = "Hey"
+        //    return cell
+      //  }
        
         
         
-        return nil
-    }
+    //    return nil
+   // }
     
     
 
