@@ -18,9 +18,10 @@ class eventMake: UIViewController, UITextFieldDelegate {
     var endTime = String()
     var eventTitlePass = (String)()
     var eventLocation = (String)()
-
+    var eventID = (String)()
+    
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
-      
+        
         self.view.endEditing(true)
         
     }
@@ -34,9 +35,11 @@ class eventMake: UIViewController, UITextFieldDelegate {
     }
     
     
+
+    
     @IBOutlet var oncampusSegement: UISegmentedControl!
     
-
+    
     @IBOutlet var freeSegment: UISegmentedControl!
     
     
@@ -55,22 +58,22 @@ class eventMake: UIViewController, UITextFieldDelegate {
         
         self.performSegueWithIdentifier("sendtodate", sender: self)
     }
-
+    
     @IBAction func endAction(sender: AnyObject) {
         
         self.performSegueWithIdentifier("sendtodate", sender: self)
     }
-@IBOutlet var start: UIButton!
-
-
+    @IBOutlet var start: UIButton!
+    
+    
     @IBOutlet var onCampus: UISegmentedControl!
     
     
     
-   
-@IBOutlet var end: UIButton!
-  
-
+    
+    @IBOutlet var end: UIButton!
+    
+    
     var eventPublic:Bool = true
     var onsite:Bool = true
     
@@ -79,16 +82,16 @@ class eventMake: UIViewController, UITextFieldDelegate {
     var paid:Bool = true
     
     
-
+    
     
     @IBAction func publicEvent(sender: UISegmentedControl) {
-       
+        
         println(eventPublic)
         switch sender.selectedSegmentIndex {
         case 0:
             eventPublic = true
         case 1:
-          eventPublic = false
+            eventPublic = false
             
         default:
             eventPublic = true
@@ -106,7 +109,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
         println(onsite)
         switch sender.selectedSegmentIndex {
         case 0:
-           onsite = true
+            onsite = true
         case 1:
             onsite = false
             
@@ -114,9 +117,9 @@ class eventMake: UIViewController, UITextFieldDelegate {
             onsite = true
             break;
         }  //Switch
+        
+    }
     
-        }
-   
     
     @IBAction func isFood(sender: UISegmentedControl) {
         println(food)
@@ -132,13 +135,13 @@ class eventMake: UIViewController, UITextFieldDelegate {
         }  //Switch
         
     }
-   
-   
+    
+    
     @IBAction func isPaid(sender: UISegmentedControl) {
         println(paid)
         switch sender.selectedSegmentIndex {
         case 0:
-           paid = true
+            paid = true
         case 1:
             paid = false
             
@@ -149,140 +152,206 @@ class eventMake: UIViewController, UITextFieldDelegate {
         
     }
     
-        @IBAction func makeEvent(sender: AnyObject) {
-            
-            var userFollowers = [String]()
-           var allError = ""
-            
-            if eventTitle.text == "" {
-                
-                allError = "Enter a Title for your Event"
-                 println(allError)
-                
-            }
-            
-            if eventSum.text == ""{
-                
-                allError = "Enter a location for your Event"
-                 println(allError)
-            }
-            
+    @IBAction func makeEvent(sender: AnyObject) {
         
+        var userFollowers = [String]()
+        var allError = ""
+        
+        if eventTitle.text == "" {
+            
+            allError = "Enter a Title for your Event"
             println(allError)
             
-            if allError == "" {
-                
+        }
+        
+        if eventSum.text == ""{
+            
+            allError = "Enter a location for your Event"
+            println(allError)
+        }
+        
+        
+        println(allError)
+        
+        if allError == "" {
+            
             if editing == true {
-                    var eventQue = PFQuery(className: "Event")
-                  //  eventQue.getObjectInBackgroundWithId(eventID, block: <#PFObjectResultBlock!##(PFObject!, NSError!) -> Void#>)
+                var eventQue = PFQuery(className: "Event")
+                eventQue.getObjectInBackgroundWithId(eventID, block: {
                     
-                }
+                    (eventItem:PFObject!, error:NSError!) -> Void in
+                    
+                    if error == nil {
+                        
+                        eventItem["startEvent"] = orderDate1
+                        eventItem["endEvent"] = orderDate2
+                        eventItem["startTime"] = dateTime1 as String
+                        eventItem["startDate"] = dateStr1 as String
+                        eventItem["endTime"] = dateTime2 as String
+                        eventItem["endDate"] = dateStr2 as String
+                        eventItem["eventTime"] = dateTime2 as String
+                        eventItem["public"] = self.eventPublic
+                        eventItem["food"] = self.food
+                        eventItem["paid"] = self.paid
+                        eventItem["location"] = self.onsite
+                        eventItem["eventLocation"] = self.eventSum.text
+                        eventItem["eventTitle"] = self.eventTitle.text
+                        eventItem["author"] = PFUser.currentUser().username
+                        eventItem.saveInBackgroundWithBlock({
+                            (success:Bool!, error:NSError!) -> Void in
+                            
+                            if error == nil {
+                                
+                                self.performSegueWithIdentifier("eventback", sender: self)
+                            }
+                            
+                            
+                            
+                            
+                        })
+                    }
+                    
+                })
                 
-            var event = PFObject(className: "Event")
-            
-            
-            event["startEvent"] = orderDate1
-            event["endEvent"] = orderDate2
-            event["startTime"] = dateTime1 as String
-            event["startDate"] = dateStr1 as String
-            event["endTime"] = dateTime2 as String
-            event["endDate"] = dateStr2 as String
-            event["eventTime"] = dateTime2 as String
-            event["public"] = eventPublic
-            event["food"] = food
-            event["paid"] = paid
-            event["location"] = onsite
-            event["eventLocation"] = eventSum.text
-            event["eventTitle"] = eventTitle.text
-            event["author"] = PFUser.currentUser().username
-            event.saveInBackgroundWithBlock{
-            
-                (success:Bool!,eventError:NSError!) -> Void in
-            
-                if (eventError == nil){
+            }
+            else {
+                
+                var event = PFObject(className: "Event")
+                
+                
+                event["startEvent"] = orderDate1
+                event["endEvent"] = orderDate2
+                event["startTime"] = dateTime1 as String
+                event["startDate"] = dateStr1 as String
+                event["endTime"] = dateTime2 as String
+                event["endDate"] = dateStr2 as String
+                event["eventTime"] = dateTime2 as String
+                event["public"] = eventPublic
+                event["food"] = food
+                event["paid"] = paid
+                event["location"] = onsite
+                event["eventLocation"] = eventSum.text
+                event["eventTitle"] = eventTitle.text
+                event["author"] = PFUser.currentUser().username
+                event.saveInBackgroundWithBlock{
                     
-                println("The event was saved")
+                    (success:Bool!,eventError:NSError!) -> Void in
                     
-                    var push =  PFPush()
-                    push.setChannel(PFUser.currentUser().username)
-                   push.setMessage("\(PFUser.currentUser().username) has created the event '\(self.eventTitle.text)'")
-                    push.sendPushInBackgroundWithBlock({
+                    if (eventError == nil){
                         
-                        (success: Bool!, pushError: NSError!) -> Void in
-                        if pushError == nil {
+                        println("The event was saved")
+                        
+                        var push =  PFPush()
+                        push.setChannel(PFUser.currentUser().username)
+                        push.setMessage("\(PFUser.currentUser().username) has created the event '\(self.eventTitle.text)'")
+                        push.sendPushInBackgroundWithBlock({
                             
-                            println("the push was sent")
+                            (success: Bool!, pushError: NSError!) -> Void in
+                            if pushError == nil {
+                                
+                                println("the push was sent")
+                                
+                            }
                             
-                        }
+                            
+                            
+                        })
                         
+                        var notify = PFObject(className: "Notification")
+                        notify["sender"] = PFUser.currentUser().username
+                        notify["receiver"] = PFUser.currentUser().username
+                        notify["type"] =  "event"
+                        notify.saveInBackgroundWithBlock({
+                            (success:Bool!, notifyError: NSError!) -> Void in
+                            if notifyError == nil {
+                                println("notifcation has been saved")
+                            }
+                            else {
+                                println("fail")
+                            }
+                        })
+                        self.performSegueWithIdentifier("eventback", sender: self)
+                        println("it worked")
                         
-                        
-                    })
-                    
-                            var notify = PFObject(className: "Notification")
-                            notify["sender"] = PFUser.currentUser().username
-                            notify["receiver"] = PFUser.currentUser().username
-                            notify["type"] =  "event"
-                            notify.saveInBackgroundWithBlock({
-                                (success:Bool!, notifyError: NSError!) -> Void in
-                                if notifyError == nil {
-                                    println("notifcation has been saved")
-                                }
-                                else {
-                                    println("fail")
-                                }
-                            })
-                    self.performSegueWithIdentifier("eventback", sender: self)
-                    println("it worked")
-
                     }
                 }
- 
+                
             }
+        }
     }
     
     
     /*(@IBAction func deleteEvent(sender: AnyObject) {
+    
+    self.performSegueWithIdentifier("eventback", sender: self)
+    
+    }
+    */
+    
+    @IBAction func deleteEvent(sender: AnyObject) {
         
-        self.performSegueWithIdentifier("eventback", sender: self)
+        var alert = UIAlertController(title: "Are you sure", message: "Do you want to delete this event", preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: nil))
+        self.presentViewController(alert, animated: true, completion: nil)
+        alert.addAction(UIAlertAction(title: "Yes", style: .Default, handler: { action in
+            switch action.style{
+            case .Default:
+                var eventQue = PFQuery(className: "Event")
+                eventQue.getObjectInBackgroundWithId(self.eventID, block: {
+                    
+                    (eventItem:PFObject!, error:NSError!) -> Void in
+                    
+                    if error == nil {
+                        
+                        eventItem.delete()
+                        self.performSegueWithIdentifier("eventback", sender: self)
+                        
+                    }
+                })
+                
+            case .Cancel:
+                println("cancel")
+                
+            case .Destructive:
+                println("destructive")
+            }
+        }))
         
     }
-*/
-    
-  override func viewDidAppear(animated: Bool) {
-    
-   if (startString == ""){
+    override func viewDidAppear(animated: Bool) {
         
-      start.setTitle("Start Time", forState: UIControlState.Normal)
-    
-  }
-    else {
-        start.setTitle(startString, forState: UIControlState.Normal)
+        if (startString == ""){
+            
+            start.setTitle("Start Time", forState: UIControlState.Normal)
+            
+        }
+        else {
+            start.setTitle(startString, forState: UIControlState.Normal)
+            
+            
+        }
+        if (endString == "") {
+            
+            end.setTitle("End Time", forState: UIControlState.Normal)
+            
+        }
+        else {
+            end.setTitle(endString, forState: UIControlState.Normal)
+        }
         
         
-    }
-    if (endString == "") {
         
-        end.setTitle("End Time", forState: UIControlState.Normal)
-        
-    }
-    else {
-        end.setTitle(endString, forState: UIControlState.Normal)
-    }
-    
-    
-    
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         if editing == false {
-           
+            
             self.navigationItem.rightBarButtonItem = nil
-           
-         
-         
+            
+            
+            
             
             
         }
@@ -290,8 +359,8 @@ class eventMake: UIViewController, UITextFieldDelegate {
             
             eventTitle.text = eventTitlePass
             eventSum.text = eventLocation
-
-        
+            
+            
         }
         println("This is a print of the BOOLS")
         println(onsite)
@@ -299,22 +368,22 @@ class eventMake: UIViewController, UITextFieldDelegate {
         println(paid)
         if food == true {
             println("OK IT WOKRS")
-       foodSegement.selectedSegmentIndex = 0
+            foodSegement.selectedSegmentIndex = 0
             
         }
         else {
             println("FOOD IS NOT TRUE")
-          foodSegement.selectedSegmentIndex = 1
+            foodSegement.selectedSegmentIndex = 1
             
         }
         
         if paid == true {
             println("OK IT WOKRS")
-           freeSegment.selectedSegmentIndex = 0
+            freeSegment.selectedSegmentIndex = 0
         }
         else {
             println("PAID IS NOT TRUE")
-        freeSegment.selectedSegmentIndex = 1
+            freeSegment.selectedSegmentIndex = 1
         }
         if onsite == true {
             println("OK IT WOKRS")
@@ -322,23 +391,23 @@ class eventMake: UIViewController, UITextFieldDelegate {
         }
         else {
             println("ONSITE is true")
-         oncampusSegement.selectedSegmentIndex = 1
+            oncampusSegement.selectedSegmentIndex = 1
         }
         
-     //  start.setTitle("Start Time", forState: UIControlState.Normal)
+        //  start.setTitle("Start Time", forState: UIControlState.Normal)
         
-       // end.setTitle("End Time", forState: UIControlState.Normal)
+        // end.setTitle("End Time", forState: UIControlState.Normal)
         
-       // if start.text != "start time" {
-            
+        // if start.text != "start time" {
         
-            
-      //  }
         
-      //  if end.text != "end time" {
-            
         
-       // }
+        //  }
+        
+        //  if end.text != "end time" {
+        
+        
+        // }
         
         if PFUser.currentUser() == nil{
             
@@ -347,15 +416,15 @@ class eventMake: UIViewController, UITextFieldDelegate {
         }
         // Do any additional setup after loading the view.
     }
-
-   
+    
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-
-
-
+    
+    
+    
 }

@@ -85,9 +85,9 @@ class postEvent: UIViewController {
             
         }
     }
-
+    
     override func viewDidLoad() {
-       
+        
         super.viewDidLoad()
         if users != PFUser.currentUser().username{
             
@@ -96,7 +96,7 @@ class postEvent: UIViewController {
             
             
         }
-    
+        
         if profileEditing == true {
             
             navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
@@ -113,16 +113,16 @@ class postEvent: UIViewController {
             // Changes text color on navbar
             var nav = self.navigationController?.navigationBar
             nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()];
-
+            
             
         }
-    
+        
         println(food)
         println(onsite)
         println(cost)
-       username.setTitle(users, forState: UIControlState.Normal)
+        username.setTitle(users, forState: UIControlState.Normal)
         endDate.text = storeEndDate
-       location.text = storeLocation
+        location.text = storeLocation
         eventTitle.text = storeTitle
         startTime.text = storeStartTime
         endTime.text = storeEndTime
@@ -131,11 +131,28 @@ class postEvent: UIViewController {
         checkevent()
         if PFUser.currentUser().username == users {
             
-             username.enabled = false
+            username.enabled = false
             
         }
     }
-  
+    
+    func displayAlert(title:String, error:String) {
+        
+        var alert = UIAlertController(title: title, message: error, preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { action in
+            
+            self.dismissViewControllerAnimated(true, completion: nil)
+            
+        }))
+        
+        self.presentViewController(alert, animated: true, completion: nil)
+        
+        func preferredStatusBarStyle() -> UIStatusBarStyle {
+            return UIStatusBarStyle.Default
+        }
+        
+    }
+    
     @IBAction func addtocalendar(sender: AnyObject) {
         var eventStore : EKEventStore = EKEventStore()
         eventStore.requestAccessToEntityType(EKEntityTypeEvent, completion: {
@@ -193,7 +210,7 @@ class postEvent: UIViewController {
             }
         })
         self.longBar.setImage(UIImage(named: "addedToCalendarLongBar.png"), forState: UIControlState.Normal)
-
+        
     }
     @IBOutlet var longBar: UIButton!
     
@@ -209,7 +226,7 @@ class postEvent: UIViewController {
             onCampusIcon.text = "Off-Campus"
             onCampusIcon.textColor = UIColor.lightGrayColor()
         }
-     
+        
         if food == true {
             isFood.image = UIImage(named: "yesFood.png")
             foodIcon.text = "Food"
@@ -229,39 +246,46 @@ class postEvent: UIViewController {
             isPaid.image = UIImage(named: "noFree.png")
             freeIcon.text = "Not Free"
             freeIcon.textColor = UIColor.lightGrayColor()
-       }
+        }
     }
     override func prepareForSegue(segue:UIStoryboardSegue, sender: AnyObject?){
- 
+        
         if segue.identifier == "gotoprofile" {
             var theotherprofile:userprofile = segue.destinationViewController as userprofile
             theotherprofile.theUser = users
-      }
+        }
         if segue.identifier == "editEvent" {
-        
+            
             var editEvent:eventMake = segue.destinationViewController as eventMake
             editEvent.startTime = storeStartTime
             //editEvent.end.setTitle(storeEndTime, forState: UIControlState.Normal)
             editEvent.editing = true
             startString =  "\(storeDate)  \(storeStartTime)"
             endString = "\(storeEndDate)  \(storeEndTime)"
+            dateTime1 = storeStartTime
+            dateTime2 = storeEndTime
+            dateStr1 = storeDate
+            dateStr2 = storeEndDate
+            orderDate1 = storeStartDate
+            orderDate2 = endStoreDate
             editEvent.eventTitlePass = storeTitle
             editEvent.eventLocation = storeLocation
             editEvent.onsite =  onsite
             editEvent.food = food
             editEvent.paid = cost
+            editEvent.eventID = eventId
             
             //Make this into a switch statement later on kareem
             
             
-        
+            
             
         }
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-   }
-
+    }
+    
     
 }
