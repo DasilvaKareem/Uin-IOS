@@ -171,6 +171,13 @@ class eventMake: UIViewController, UITextFieldDelegate {
             println(allError)
             
             if allError == "" {
+                
+            if editing == true {
+                    var eventQue = PFQuery(className: "Event")
+                  //  eventQue.getObjectInBackgroundWithId(eventID, block: <#PFObjectResultBlock!##(PFObject!, NSError!) -> Void#>)
+                    
+                }
+                
             var event = PFObject(className: "Event")
             
             
