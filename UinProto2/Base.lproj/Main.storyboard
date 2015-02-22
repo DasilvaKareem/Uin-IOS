@@ -267,7 +267,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aGL-c4-QKW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1212" y="-1118"/>
+            <point key="canvasLocation" x="-1494" y="-930"/>
         </scene>
         <!--Event Feed-->
         <scene sceneID="x2s-vw-TZy">
@@ -667,7 +667,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gUf-sa-8yM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1732" y="1836"/>
+            <point key="canvasLocation" x="-1710" y="1844"/>
         </scene>
         <!--Event-->
         <scene sceneID="thA-zf-fYh">
@@ -977,7 +977,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5rQ-t6-Cuv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1810" y="2689"/>
+            <point key="canvasLocation" x="-1732" y="2717"/>
         </scene>
         <!--Profile View-->
         <scene sceneID="mxh-Zb-eyh">
@@ -2386,7 +2386,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="O56-JJ-UaT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-693" y="-1118"/>
+            <point key="canvasLocation" x="-975" y="-930"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="ubz-rF-dLN">
@@ -2421,27 +2421,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AXL-tR-A4g">
-                                <rect key="frame" x="0.0" y="173" width="414" height="59"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="AXL-tR-A4g" secondAttribute="height" multiplier="414:59" id="00b-h5-zqB"/>
-                                    <constraint firstAttribute="width" constant="414" id="JWz-nn-pGt"/>
-                                    <constraint firstAttribute="height" constant="59" id="eTc-YR-TgS"/>
-                                </constraints>
-                                <state key="normal" title="Subscribe">
-                                    <color key="titleColor" red="0.1215686351" green="0.7019608021" blue="0.96470594409999999" alpha="1" colorSpace="deviceRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="JWz-nn-pGt"/>
-                                        <exclude reference="eTc-YR-TgS"/>
-                                    </mask>
-                                </variation>
-                                <connections>
-                                    <action selector="subscribe:" destination="Odt-cu-E3D" eventType="touchUpInside" id="sss-eH-E94"/>
-                                </connections>
-                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="username" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="onC-f9-Zl1">
                                 <rect key="frame" x="16" y="72" width="382" height="44"/>
                                 <constraints>
@@ -2785,6 +2764,27 @@
                                     <outlet property="delegate" destination="Odt-cu-E3D" id="QIt-M1-gOb"/>
                                 </connections>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AXL-tR-A4g">
+                                <rect key="frame" x="0.0" y="173" width="414" height="59"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="AXL-tR-A4g" secondAttribute="height" multiplier="414:59" id="00b-h5-zqB"/>
+                                    <constraint firstAttribute="width" constant="414" id="JWz-nn-pGt"/>
+                                    <constraint firstAttribute="height" constant="59" id="eTc-YR-TgS"/>
+                                </constraints>
+                                <state key="normal" title="Subscribe">
+                                    <color key="titleColor" red="0.1215686351" green="0.7019608021" blue="0.96470594409999999" alpha="1" colorSpace="deviceRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="JWz-nn-pGt"/>
+                                        <exclude reference="eTc-YR-TgS"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <action selector="subscribe:" destination="Odt-cu-E3D" eventType="touchUpInside" id="sss-eH-E94"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -2823,7 +2823,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pLK-ob-fYj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1352" y="1982"/>
+            <point key="canvasLocation" x="-1732" y="3560"/>
         </scene>
         <!--Events-->
         <scene sceneID="TSZ-Vn-d3L">
@@ -3094,8 +3094,8 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="rPS-zS-M73"/>
-        <segue reference="Ey9-Bb-gh3"/>
-        <segue reference="eEb-gu-TeJ"/>
+        <segue reference="iev-7x-rXk"/>
+        <segue reference="6hY-wJ-ibE"/>
         <segue reference="tAD-AG-Ttu"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
