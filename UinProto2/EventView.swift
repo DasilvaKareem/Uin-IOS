@@ -245,8 +245,8 @@ class postEvent: UIViewController {
             editEvent.editing = true
             startString =  "\(storeDate)  \(storeStartTime)"
             endString = "\(storeEndDate)  \(storeEndTime)"
-            editEvent.eventTitle.text = storeTitle
-            editEvent.eventSum.text = storeLocation
+            editEvent.eventTitlePass = storeTitle
+            editEvent.eventLocation = storeLocation
             editEvent.onsite =  onsite
             editEvent.food = food
             editEvent.paid = cost
