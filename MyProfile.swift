@@ -310,31 +310,8 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         return rowsInSection[section]
         
     }
-    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        var realResult = numSections - 1
-        if section == realResult {
-            
-            return 100.0
-            
-        }
-        return 0.0
-    }
+
     
-    func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        var realResult = numSections - 1
-        
-        let cell:footerCell = tableView.dequeueReusableCellWithIdentifier("footer") as footerCell
-        
-        if section == 2 {
-        
-            cell.footerNote.text = "Hey"
-            return cell
-        }
-       
-        
-        
-        return nil
-    }
     
     
 

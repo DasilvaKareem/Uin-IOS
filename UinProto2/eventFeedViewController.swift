@@ -322,7 +322,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         }
         cell.people.text = usernames[event]
         cell.time.text = eventStartTime[event]
-        cell.eventName.text = eventlocation[event]
+        cell.eventName.text = eventTitle[event]
         cell.poop.tag = event
         // Mini query to check if event is already saved
         //println(objectID[event])

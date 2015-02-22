@@ -1103,7 +1103,6 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <inset key="separatorInset" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <connections>
                                             <outlet property="dateItem" destination="HNm-zM-TgV" id="DZ9-be-V09"/>
                                         </connections>
@@ -2091,7 +2090,7 @@
                         <barButtonItem key="backBarButtonItem" title="Event" id="esc-vW-LFo"/>
                         <barButtonItem key="rightBarButtonItem" title="Delete" id="0Cj-oe-8FQ">
                             <connections>
-                                <action selector="deleteEvent:" destination="wj6-a8-ugv" id="74M-qG-P1M"/>
+                                <action selector="deleteEvent:" destination="wj6-a8-ugv" id="aJa-EW-2mV"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -3093,10 +3092,10 @@
         <image name="uinLogo" width="218" height="230"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="0t0-sB-Jv5"/>
         <segue reference="rPS-zS-M73"/>
-        <segue reference="Ey9-Bb-gh3"/>
-        <segue reference="eEb-gu-TeJ"/>
         <segue reference="tAD-AG-Ttu"/>
+        <segue reference="eEb-gu-TeJ"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>

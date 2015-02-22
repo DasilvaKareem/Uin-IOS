@@ -135,6 +135,23 @@ class postEvent: UIViewController {
             
         }
     }
+    
+    func displayAlert(title:String, error:String) {
+        
+        var alert = UIAlertController(title: title, message: error, preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { action in
+            
+            self.dismissViewControllerAnimated(true, completion: nil)
+            
+        }))
+        
+        self.presentViewController(alert, animated: true, completion: nil)
+        
+        func preferredStatusBarStyle() -> UIStatusBarStyle {
+            return UIStatusBarStyle.Default
+        }
+        
+    }
   
     @IBAction func addtocalendar(sender: AnyObject) {
         var eventStore : EKEventStore = EKEventStore()
@@ -245,11 +262,18 @@ class postEvent: UIViewController {
             editEvent.editing = true
             startString =  "\(storeDate)  \(storeStartTime)"
             endString = "\(storeEndDate)  \(storeEndTime)"
+            dateTime1 = storeStartTime
+            dateTime2 = storeEndTime
+            dateStr1 = storeDate
+            dateStr2 = storeEndDate
+            orderDate1 = storeStartDate
+            orderDate2 = endStoreDate
             editEvent.eventTitlePass = storeTitle
             editEvent.eventLocation = storeLocation
             editEvent.onsite =  onsite
             editEvent.food = food
             editEvent.paid = cost
+            editEvent.eventID = eventId
             
             //Make this into a switch statement later on kareem
             

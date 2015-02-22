@@ -18,6 +18,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
     var endTime = String()
     var eventTitlePass = (String)()
     var eventLocation = (String)()
+    var eventID = (String)()
 
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
       
@@ -33,6 +34,23 @@ class eventMake: UIViewController, UITextFieldDelegate {
         
     }
     
+    
+    func displayAlert(title:String, error:String) {
+        
+        var alert = UIAlertController(title: title, message: error, preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { action in
+            
+            self.dismissViewControllerAnimated(true, completion: nil)
+            
+        }))
+        
+        self.presentViewController(alert, animated: true, completion: nil)
+        
+        func preferredStatusBarStyle() -> UIStatusBarStyle {
+            return UIStatusBarStyle.Default
+        }
+        
+    }
     
     @IBOutlet var oncampusSegement: UISegmentedControl!
     
@@ -174,9 +192,44 @@ class eventMake: UIViewController, UITextFieldDelegate {
                 
             if editing == true {
                     var eventQue = PFQuery(className: "Event")
-                  //  eventQue.getObjectInBackgroundWithId(eventID, block: <#PFObjectResultBlock!##(PFObject!, NSError!) -> Void#>)
+                eventQue.getObjectInBackgroundWithId(eventID, block: {
                     
+                    (eventItem:PFObject!, error:NSError!) -> Void in
+                    
+                    if error == nil {
+                        
+                        eventItem["startEvent"] = orderDate1
+                        eventItem["endEvent"] = orderDate2
+                        eventItem["startTime"] = dateTime1 as String
+                        eventItem["startDate"] = dateStr1 as String
+                        eventItem["endTime"] = dateTime2 as String
+                        eventItem["endDate"] = dateStr2 as String
+                        eventItem["eventTime"] = dateTime2 as String
+                        eventItem["public"] = self.eventPublic
+                        eventItem["food"] = self.food
+                        eventItem["paid"] = self.paid
+                        eventItem["location"] = self.onsite
+                        eventItem["eventLocation"] = self.eventSum.text
+                        eventItem["eventTitle"] = self.eventTitle.text
+                        eventItem["author"] = PFUser.currentUser().username
+                        eventItem.saveInBackgroundWithBlock({
+                            (success:Bool!, error:NSError!) -> Void in
+                            
+                            if error == nil {
+                                
+                                self.performSegueWithIdentifier("eventback", sender: self)
+                            }
+                                
+                                
+                            
+                            
+                        })
+                    }
+                    
+                })
+                
                 }
+            else {
                 
             var event = PFObject(className: "Event")
             
@@ -238,6 +291,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
                     }
                 }
  
+                }
             }
     }
     
@@ -249,6 +303,36 @@ class eventMake: UIViewController, UITextFieldDelegate {
     }
 */
     
+    @IBAction func deleteEvent(sender: AnyObject) {
+
+        var alert = UIAlertController(title: "Are you sure", message: "Do you want to delete this event", preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: nil))
+        self.presentViewController(alert, animated: true, completion: nil)
+        alert.addAction(UIAlertAction(title: "Yes", style: .Default, handler: { action in
+            switch action.style{
+            case .Default:
+                var eventQue = PFQuery(className: "Event")
+                eventQue.getObjectInBackgroundWithId(self.eventID, block: {
+                    
+                    (eventItem:PFObject!, error:NSError!) -> Void in
+                    
+                    if error == nil {
+                        
+                        eventItem.delete()
+                        self.performSegueWithIdentifier("eventback", sender: self)
+                        
+                    }
+                })
+                
+            case .Cancel:
+                println("cancel")
+                
+            case .Destructive:
+                println("destructive")
+            }
+        }))
+    
+    }
   override func viewDidAppear(animated: Bool) {
     
    if (startString == ""){
