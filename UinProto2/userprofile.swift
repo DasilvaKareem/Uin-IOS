@@ -12,8 +12,9 @@ import EventKit
 class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     
-    @IBOutlet weak var username: UILabel!
+   
     
+    @IBOutlet var username: UIBarButtonItem!
     @IBOutlet var theFeed: UITableView!
     var refresher: UIRefreshControl!
     var onsite = [Bool]()
@@ -31,6 +32,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
     var eventEnd = [NSDate]()
     var eventStart = [NSDate]()
     var theUser = String()
+    var localizedTime = [String]()
     
     @IBOutlet var subscribers: UILabel!
     @IBOutlet var subscriptions: UILabel!
@@ -38,6 +40,36 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
     var rowsInSection = [Int]()
     var sectionNames = [String]()
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.tabBarController?.tabBar.hidden = true
+        subticker()
+        ChangeSub()
+        username.title = theUser
+        updateFeed()
+        //Changes the navbar background
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.translucent = true
+        // Changes text color on navbar
+        var nav = self.navigationController?.navigationBar
+        nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()];
+        
+        //Adds pull to refresh
+        refresher = UIRefreshControl()
+        refresher.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        refresher.addTarget(self, action: "refresh", forControlEvents: UIControlEvents.ValueChanged)
+        self.theFeed.addSubview(refresher)
+        
+        
+        
+        
+        // Do any additional setup after loading the view.
+    }
+    override func viewWillAppear(animated: Bool) {
+     
+    }
+
     
     @IBOutlet weak var subbutton: UIButton!
      var amountofsubs = [String]()
@@ -135,13 +167,13 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                     
                 })
            
-        
+             self.subbutton.setTitle("Unsubscribe", forState: UIControlState.Normal)
             var subscribe = PFObject(className: "Subs")
                 var push = PFPush()
                 var pfque = PFInstallation.query()
                 pfque.whereKey("user", equalTo: self.theUser)
                 push.setQuery(pfque)
-                push.setMessage("\(PFUser.currentUser().username) has subscribed to you ;)")
+                push.setMessage("\(PFUser.currentUser().username) has subscribed to you ")
                 push.sendPushInBackgroundWithBlock({
                     
                     (success:Bool!, pushError: NSError!) -> Void in
@@ -181,7 +213,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                         
                     })
                     
-                    self.subbutton.setTitle("Unsubscribe", forState: UIControlState.Normal)
+                   
                     
                 }
                 
@@ -194,7 +226,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
             else {
                 
                 
-                
+                 self.subbutton.setTitle("subscribe", forState: UIControlState.Normal)
                 var unsub = PFQuery(className: "Subs")
                 
                 unsub.whereKey("follower", equalTo:PFUser.currentUser().username)
@@ -313,6 +345,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
         updateFeed()
     }
     func populateSectionInfo(){
+        var convertedDates = [String]()
         var currentDate = ""
         var i = 0
         
@@ -320,7 +353,22 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
         numSections = 0
         rowsInSection.removeAll(keepCapacity: true)
         sectionNames.removeAll(keepCapacity: true)
-        
+        for i in eventStart {
+            println()
+            println()
+            println()
+            var dateFormatter = NSDateFormatter()
+            dateFormatter.locale = NSLocale.currentLocale()
+            dateFormatter.dateFormat = " EEEE MMM, dd yyyy"
+            var realDate = dateFormatter.stringFromDate(i)
+            var dateFormatter2 = NSDateFormatter()
+            dateFormatter2.timeStyle = NSDateFormatterStyle.ShortStyle
+            var localTime = dateFormatter2.stringFromDate(i)
+            convertedDates.append(realDate)
+            self.localizedTime.append(localTime)
+            
+            
+        }
         //For each date
         for date in eventStartDate{
             //If there is a date change
@@ -344,8 +392,19 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
         }
         //Because the loop is broken before a new date is found, that
         //  one needs to be added manually
+        
         rowsInSection.append(i)
-        rowsInSection.insert(0, atIndex: 0)
+        //numSections++
+        if numSections == 0 {
+            
+            numSections++
+        }
+        
+        
+        println()
+        println(numSections)
+        println()
+        println()
     }
     
     //Returns the index of the element at the specified section and row
@@ -357,6 +416,10 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
         return offset+row
     }
 
+    
+    
+    
+    //DATA SOURCES FOR TABLE VIEW
     
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -398,7 +461,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
             
             return 100.0
         }
-        return 200.0
+        return 40.0
     }
     
     
@@ -434,32 +497,6 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
 
 
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.tabBarController?.tabBar.hidden = true
-        subticker()
-        ChangeSub()
-        username.text = theUser
-        updateFeed()
-        //Changes the navbar background
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
-        self.navigationController?.navigationBar.shadowImage = UIImage()
-        self.navigationController?.navigationBar.translucent = true
-        // Changes text color on navbar
-        var nav = self.navigationController?.navigationBar
-        nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()];
-        
-        //Adds pull to refresh
-        refresher = UIRefreshControl()
-        refresher.attributedTitle = NSAttributedString(string: "Pull to refresh")
-        refresher.addTarget(self, action: "refresh", forControlEvents: UIControlEvents.ValueChanged)
-        self.theFeed.addSubview(refresher)
-        
-        
-     
-
-        // Do any additional setup after loading the view.
-    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

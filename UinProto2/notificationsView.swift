@@ -24,9 +24,10 @@ class notificationsView: UITableViewController {
         notify()
                }
         
-    override func viewWillAppear(animated: Bool) {
-        notify()
-    }
+    override func viewDidDisappear(animated: Bool) {
+    self.notes.removeAll(keepCapacity: true)
+    notify()
+}
     func notify(){
       
         var folusernames = [String]()
@@ -39,7 +40,7 @@ class notificationsView: UITableViewController {
             
             if folError == nil {
                 
-     self.notes.removeAll(keepCapacity: true)
+
                 for object in objects{
                     println("it worked")
                     folusernames.append(object["following"] as String)
@@ -56,7 +57,7 @@ class notificationsView: UITableViewController {
                     (objects:[AnyObject]!,eventError:NSError!) -> Void in
                     println("it queryed")
                     if eventError == nil {
-                         self.notes.removeAll(keepCapacity: true)
+                       
                         for object in objects {
                             println(object.objectId)
                             var current = object["sender"] as String

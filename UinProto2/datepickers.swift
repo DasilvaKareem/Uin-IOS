@@ -43,16 +43,18 @@ self.tabBarController?.tabBar.hidden = true
         
         
         var dateFormatter = NSDateFormatter()
-        dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
-        var dateTimeformat = NSDateFormatter()
-        dateTimeformat.timeStyle = NSDateFormatterStyle.ShortStyle
-        dateTime1 =  dateTimeformat.stringFromDate(datepicker1.date)
+        dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle
         dateStr1 = dateFormatter.stringFromDate(datepicker1.date)
+      
+        var dateTimeformat = NSDateFormatter()
+       dateTimeformat.timeStyle = NSDateFormatterStyle.ShortStyle
+        dateTime1 =  dateTimeformat.stringFromDate(datepicker1.date)
         orderDate1 = datepicker1.date
         startString = dateStr1 + " " + dateTime1
         startTIme.text = startString
-        
-     
+         datepicker2.date = orderDate1
+        endTime.text = startString
+   
 
         
 
@@ -69,16 +71,17 @@ self.tabBarController?.tabBar.hidden = true
     @IBAction func thesecondDate(sender: AnyObject) {
         
         
-        
+       
         datepicker2.minimumDate = orderDate1
-        
+        //startTIme.text = endString
         var dateFormatter = NSDateFormatter()
-        dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
+        dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle
         var dateTimeformat = NSDateFormatter()
         dateTimeformat.timeStyle = NSDateFormatterStyle.ShortStyle
-        
         dateTime2 = dateTimeformat.stringFromDate(datepicker2.date)
+    
         dateStr2 = dateFormatter.stringFromDate(datepicker2.date)
+        
         orderDate2 = datepicker2.date
         endString = dateStr2 + " " + dateTime2
         endTime.text = endString
