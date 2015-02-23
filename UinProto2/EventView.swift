@@ -156,19 +156,88 @@ class postEvent: UIViewController {
     }
     
     @IBAction func addtocalendar(sender: AnyObject) {
-        var eventStore : EKEventStore = EKEventStore()
-        eventStore.requestAccessToEntityType(EKEntityTypeEvent, completion: {
+        
+        var que = PFQuery(className: "GoingEvent")
+        que.whereKey("user", equalTo: PFUser.currentUser().username)
+        que.whereKey("author", equalTo: users)
+        que.whereKey("eventID", equalTo:eventId)
+        que.getFirstObjectInBackgroundWithBlock({
             
-            granted, error in
-            if (granted) && (error == nil) {
-                println("granted \(granted)")
-                println("error  \(error)")
+            (results:PFObject!, queerror: NSError!) -> Void in
+            
+            if queerror == nil {
+              results.delete()
+                if results != nil {
+            var eventStore : EKEventStore = EKEventStore()
+            eventStore.requestAccessToEntityType(EKEntityTypeEvent, completion: {
+                
+                granted, error in
+                if (granted) && (error == nil) {
+                    println("granted \(granted)")
+                    println("error  \(error)")
+                    var hosted = "Hosted by \(self.users)"
+                    var event:EKEvent = EKEvent(eventStore: eventStore)
+                    event.title = self.storeTitle
+                    
+                    event.startDate = self.storeStartDate
+                    event.endDate = self.endStoreDate
+                    event.notes = hosted
+                    event.location = self.storeLocation
+                    event.calendar = eventStore.defaultCalendarForNewEvents
+                    
+                }
+            })
+                    var predicate2 = eventStore.predicateForEventsWithStartDate(self.storeStartDate, endDate: self.endStoreDate, calendars:nil)
+                    var eV = eventStore.eventsMatchingPredicate(predicate2) as [EKEvent]!
+                    println("Result is there")
+                    if eV != nil {
+                           self.longBar.setImage(UIImage(named: "addToCalendarLongBar.png"), forState: UIControlState.Normal)
+                        println("EV is not nil")
+                        for i in eV {
+                            println("\(i.title) this is the i.title")
+                            println(self.storeTitle)
+                            if i.title == self.storeTitle  {
+                               
+                                println("removed")
+                                eventStore.removeEvent(i, span: EKSpanThisEvent, error: nil)
+                            }
+                        }
+                    }
+
+        
+                }
+            }
+            
+            else {
+                   self.longBar.setImage(UIImage(named: "addedToCalendarLongBar.png"), forState: UIControlState.Normal)
+                var eventStore : EKEventStore = EKEventStore()
+                eventStore.requestAccessToEntityType(EKEntityTypeEvent, completion: {
+                    
+                    granted, error in
+                    if (granted) && (error == nil) {
+                 
+                        println("granted \(granted)")
+                        println("error  \(error)")
+                        var hosted = "Hosted by \(self.users)"
+                        var event:EKEvent = EKEvent(eventStore: eventStore)
+                        event.title = self.storeTitle
+                        event.startDate = self.storeStartDate
+                        event.endDate = self.endStoreDate
+                        event.notes = hosted
+                        event.location = self.storeLocation
+                        event.calendar = eventStore.defaultCalendarForNewEvents
+                        eventStore.saveEvent(event, span: EKSpanThisEvent, error: nil)
+                        println("saved")
+                    
+                    }
+                })
+                
                 var going = PFObject(className: "GoingEvent")
                 going["user"] = PFUser.currentUser().username
                 going["event"] = self.storeTitle
                 going["author"] = self.users
                 going["added"] = true
-                //going["eventID"] = self.objectID[sender.tag]
+                going["eventID"] = self.eventId
                 going.saveInBackgroundWithBlock{
                     
                     (succeded:Bool!, savError:NSError!) -> Void in
@@ -179,39 +248,18 @@ class postEvent: UIViewController {
                         
                     }
                 }
-                var notify = PFObject(className: "Notification")
-                notify["sender"] = PFUser.currentUser().username
-                notify["receiver"] = self.users
-                notify["type"] =  "calendar"
-                notify.saveInBackgroundWithBlock({
-                    
-                    (success:Bool!, notifyError: NSError!) -> Void in
-                    
-                    if notifyError == nil {
-                        
-                        println("notifcation has been saved")
-                        
-                    }
-                    
-                    
-                })
-                
-                
-                var hosted = "Hosted by \(self.users)"
-                var event:EKEvent = EKEvent(eventStore: eventStore)
-                event.title = self.storeTitle
-                
-                event.startDate = self.storeStartDate
-                event.endDate = self.endStoreDate
-                event.notes = hosted
-                event.location = self.storeLocation
-                event.calendar = eventStore.defaultCalendarForNewEvents
-                eventStore.saveEvent(event, span: EKSpanThisEvent, error: nil)
-                println("Saved Event")
                 
             }
-        })
-        self.longBar.setImage(UIImage(named: "addedToCalendarLongBar.png"), forState: UIControlState.Normal)
+            
+            
+            })
+        
+            
+        
+        
+        
+        
+      
         
     }
     @IBOutlet var longBar: UIButton!

@@ -2374,26 +2374,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Subsciptions" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0xq-0Z-ivq">
-                                <rect key="frame" x="16" y="127" width="120" height="21"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="21" id="2Uv-DE-aw1"/>
-                                    <constraint firstAttribute="width" constant="120" id="lwL-OT-Hz3"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Subscribers" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bx6-oZ-UQe">
-                                <rect key="frame" x="278" y="124" width="120" height="21"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="21" id="0ze-KD-X6k"/>
-                                    <constraint firstAttribute="width" constant="120" id="2hD-nD-6FO"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="70" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="wOP-nY-VgG">
                                 <rect key="frame" x="0.0" y="240" width="414" height="447"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -2734,10 +2714,8 @@
                         <constraints>
                             <constraint firstItem="wOP-nY-VgG" firstAttribute="leading" secondItem="jlg-2I-n3c" secondAttribute="leading" id="2U3-TQ-vLx"/>
                             <constraint firstItem="AXL-tR-A4g" firstAttribute="leading" secondItem="jlg-2I-n3c" secondAttribute="leading" id="5j4-iV-u4G"/>
-                            <constraint firstItem="0xq-0Z-ivq" firstAttribute="leading" secondItem="jlg-2I-n3c" secondAttribute="leadingMargin" id="Brb-Qq-tLS"/>
                             <constraint firstItem="t3i-Hn-Tn1" firstAttribute="top" secondItem="wOP-nY-VgG" secondAttribute="bottom" id="Djb-4P-dJz"/>
                             <constraint firstItem="wOP-nY-VgG" firstAttribute="top" secondItem="AXL-tR-A4g" secondAttribute="bottom" constant="8" id="Fzd-YU-OiU"/>
-                            <constraint firstItem="Bx6-oZ-UQe" firstAttribute="trailing" secondItem="jlg-2I-n3c" secondAttribute="trailingMargin" id="ZAp-8E-qEu"/>
                             <constraint firstAttribute="trailing" secondItem="wOP-nY-VgG" secondAttribute="trailing" id="eMK-hm-BAz"/>
                             <constraint firstAttribute="trailing" secondItem="AXL-tR-A4g" secondAttribute="trailing" id="peO-Ox-pjY"/>
                             <constraint firstAttribute="centerX" secondItem="AXL-tR-A4g" secondAttribute="centerX" id="tEq-Hy-dcS"/>
@@ -2756,8 +2734,6 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
                         <outlet property="subbutton" destination="AXL-tR-A4g" id="Cx0-8g-kdT"/>
-                        <outlet property="subscribers" destination="Bx6-oZ-UQe" id="4kU-4Z-GvQ"/>
-                        <outlet property="subscriptions" destination="0xq-0Z-ivq" id="aXo-gP-yOH"/>
                         <outlet property="theFeed" destination="wOP-nY-VgG" id="xoJ-Hd-2gD"/>
                         <outlet property="username" destination="O5v-4n-jEW" id="l9Q-tz-DQt"/>
                     </connections>
