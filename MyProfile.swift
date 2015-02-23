@@ -44,7 +44,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     var publicPost = [Bool]()
     var eventEnd = [NSDate]()
     var eventStart = [NSDate]()
-    
+    var localizedTime = [String]()
     
     var numSections = 0
     var rowsInSection = [Int]()
@@ -56,6 +56,10 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     override func viewWillAppear(animated: Bool) {
         subticker()
         updateFeed()
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.translucent = true
+
          self.tabBarController?.tabBar.hidden = false
     }
     
@@ -68,10 +72,6 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         super.viewDidLoad()
         usernameButton.title = PFUser.currentUser().username
         self.tabBarController?.tabBar.hidden = false
-        println()
-        println("loaded")
-        println()
-        println()
         subticker()
         updateFeed()
         //Queries all the events and puts into the arrays above
@@ -227,6 +227,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         updateFeed()
     }
     func populateSectionInfo(){
+        var convertedDates = [String]()
         var currentDate = ""
         var i = 0
         
@@ -234,7 +235,22 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         numSections = 0
         rowsInSection.removeAll(keepCapacity: true)
         sectionNames.removeAll(keepCapacity: true)
-        
+        for i in eventStart {
+            println()
+            println()
+            println()
+            var dateFormatter = NSDateFormatter()
+            dateFormatter.locale = NSLocale.currentLocale()
+            dateFormatter.dateFormat = " EEEE MMM, dd yyyy"
+            var realDate = dateFormatter.stringFromDate(i)
+            var dateFormatter2 = NSDateFormatter()
+            dateFormatter2.timeStyle = NSDateFormatterStyle.ShortStyle
+            var localTime = dateFormatter2.stringFromDate(i)
+            convertedDates.append(realDate)
+            self.localizedTime.append(localTime)
+            
+            
+        }
         //For each date
         for date in eventStartDate{
             //If there is a date change
@@ -428,8 +444,8 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
             cell.privateImage.image = UIImage(named: "privateEvent.png")
         }
         cell.people.text = usernames[event]
-        cell.time.text = eventStartTime[event]
-        cell.eventName.text = eventlocation[event]
+        cell.time.text = localizedTime[event]
+        cell.eventName.text = eventTitle[event]
         cell.poop.tag = event
         // Mini query to check if event is already saved
         //println(objectID[event])
