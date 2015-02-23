@@ -461,7 +461,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
             
             return 150.0
         }
-        return 70.0
+        return 40.0
     }
     
     
