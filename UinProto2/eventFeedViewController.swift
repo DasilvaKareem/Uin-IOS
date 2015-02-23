@@ -130,6 +130,10 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                     
                 }
                 
+                self.populateSectionInfo()
+                self.theFeed.reloadData()
+                self.refresher.endRefreshing()
+                
                 var pubQue = PFQuery(className: "Subs")
                 pubQue.whereKey("follower", equalTo: PFUser.currentUser().username)
                 pubQue.whereKey("member", equalTo: true)
@@ -171,18 +175,60 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                         self.theFeed.reloadData()
                         self.refresher.endRefreshing()
                         
+                        var newQue = PFQuery(className: "Event")
+                        newQue.whereKey("public", equalTo: false)
+                        newQue.whereKey("author", equalTo: PFUser.currentUser().username)
+                        
+                        newQue.findObjectsInBackgroundWithBlock{
+                            (objectss:[AnyObject]!,eventError:NSError!) -> Void in
+                            
+                            print("Refreshing list: ")
+                            
+                            if eventError == nil {
+                                println(objectss.count)
+                                
+                                
+                                for object in objectss{
+                                    
+                                    
+                                    self.publicPost.append(object["public"] as Bool)
+                                    self.objectID.append(object.objectId as String)
+                                    self.usernames.append(object["author"] as String)
+                                    self.eventTitle.append(object["eventTitle"] as String)
+                                    self.eventStartDate.append(object["startDate"] as String)
+                                    self.eventEndDate.append(object["endDate"] as String)
+                                    self.eventStartTime.append(object["startTime"] as String)
+                                    self.eventEndTime.append(object["endTime"] as String)
+                                    self.food.append(object["food"] as Bool)
+                                    self.paid.append(object["paid"] as Bool)
+                                    self.onsite.append(object["location"] as Bool)
+                                    self.eventEnd.append(object["endEvent"] as NSDate)
+                                    self.eventStart.append(object["startEvent"] as NSDate)
+                                    self.eventlocation.append(object["eventLocation"] as String)
+                                    
+                                    
+                                }
+                                
+                                self.populateSectionInfo()
+                                self.theFeed.reloadData()
+                                self.refresher.endRefreshing()
+                                
+                                
+                                
+                            }
+                            else{
+                                println("Something went south: \(eventError) ")
+                            }
+                            
+                        }
+                        
+                        
                     }
                     else{
                         println("Something went south: \(eventError) ")
                     }
                     
                 }
-                
-
-                
-                self.populateSectionInfo()
-                self.theFeed.reloadData()
-                self.refresher.endRefreshing()
                 
             }
             else{
