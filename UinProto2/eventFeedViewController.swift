@@ -30,6 +30,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     var eventEnd = [NSDate]()
     var eventStart = [NSDate]()
     var localizedTime = [String]()
+    var localizedEndTime = [String]()
     
     var numSections = 0
     var rowsInSection = [Int]()
@@ -365,9 +366,8 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         rowsInSection.removeAll(keepCapacity: true)
         sectionNames.removeAll(keepCapacity: true)
         for i in eventStart {
-            println()
-            println()
-            println()
+            
+            
            var dateFormatter = NSDateFormatter()
             dateFormatter.locale = NSLocale.currentLocale()
              dateFormatter.dateFormat = " EEEE MMM, dd yyyy"
@@ -535,7 +535,6 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                 cell.poop.setImage(UIImage(named: "addedToCalendar.png"), forState: UIControlState.Normal)
                 
             }   else {
-                
                 
                 cell.poop.setImage(UIImage(named: "addToCalendar.png"), forState: UIControlState.Normal)
             }
