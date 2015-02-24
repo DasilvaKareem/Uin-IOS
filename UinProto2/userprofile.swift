@@ -598,7 +598,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
         
         if section == 0 {
             
-            return 100.0
+            return 150.0
         }
         return 40.0
     }
