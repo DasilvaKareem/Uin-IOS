@@ -1566,9 +1566,7 @@
                             <outlet property="delegate" destination="v6I-ex-zDy" id="yjB-ik-Wf0"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Subscribers" id="GaU-av-19J">
-                        <barButtonItem key="backBarButtonItem" title="Back" id="Rqo-p5-fVN"/>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Subscribers" id="GaU-av-19J"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UWH-K3-qfm" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2384,21 +2382,36 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="yxE-W3-4ts" id="FxI-Vh-NlP">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fRI-VX-9xy">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fRI-VX-9xy">
                                                     <rect key="frame" x="40" y="30" width="42" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RAX-5w-GVQ">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RAX-5w-GVQ">
                                                     <rect key="frame" x="204" y="30" width="42" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bgg-nQ-Wql">
+                                                    <rect key="frame" x="129" y="26" width="46" height="30"/>
+                                                    <state key="normal" title="Button">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                </button>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="fRI-VX-9xy" firstAttribute="leading" secondItem="FxI-Vh-NlP" secondAttribute="leadingMargin" constant="32" id="96G-N7-fDf"/>
+                                                <constraint firstItem="bgg-nQ-Wql" firstAttribute="centerY" secondItem="FxI-Vh-NlP" secondAttribute="centerY" id="9o0-gQ-klg"/>
+                                                <constraint firstItem="bgg-nQ-Wql" firstAttribute="baseline" secondItem="fRI-VX-9xy" secondAttribute="baseline" id="Mrw-az-V3h"/>
+                                                <constraint firstItem="RAX-5w-GVQ" firstAttribute="baseline" secondItem="bgg-nQ-Wql" secondAttribute="baseline" id="P8a-Yu-KZZ"/>
+                                                <constraint firstItem="RAX-5w-GVQ" firstAttribute="leading" secondItem="bgg-nQ-Wql" secondAttribute="trailing" constant="29" id="oar-nI-3X7"/>
+                                                <constraint firstItem="bgg-nQ-Wql" firstAttribute="leading" secondItem="fRI-VX-9xy" secondAttribute="trailing" constant="47" id="wau-JO-O79"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="subscribe" destination="bgg-nQ-Wql" id="5JX-aq-c2d"/>
                                             <outlet property="subscriberTick" destination="fRI-VX-9xy" id="0qv-8x-bRX"/>
                                             <outlet property="subscriptionTick" destination="RAX-5w-GVQ" id="TAO-MF-yMO"/>
                                         </connections>
@@ -2409,7 +2422,7 @@
                                         <tableViewCellContentView key="contentView" autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="R9d-RS-9yg" id="Zvo-1J-6Jz">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="separator" translatesAutoresizingMaskIntoConstraints="NO" id="dUe-8X-1Qd">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="separator" translatesAutoresizingMaskIntoConstraints="NO" id="dUe-8X-1Qd">
                                                     <rect key="frame" x="-8" y="2" width="440" height="2"/>
                                                     <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
                                                         <rect key="frame" x="-194" y="0.0" width="614" height="1"/>
@@ -2425,7 +2438,7 @@
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="separator" translatesAutoresizingMaskIntoConstraints="NO" id="ebC-Yp-2Gi">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="separator" translatesAutoresizingMaskIntoConstraints="NO" id="ebC-Yp-2Gi">
                                                     <rect key="frame" x="-6" y="21" width="440" height="2"/>
                                                     <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
                                                         <rect key="frame" x="-185" y="21" width="614" height="1"/>
@@ -2433,7 +2446,13 @@
                                                 </imageView>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="ebC-Yp-2Gi" firstAttribute="top" secondItem="Iax-TI-O3e" secondAttribute="bottom" constant="4" id="Bd8-dR-wtU"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="dUe-8X-1Qd" secondAttribute="trailing" constant="-26" id="G2Y-Z6-g0A"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="ebC-Yp-2Gi" secondAttribute="trailing" constant="-28" id="S27-Xx-dB6"/>
                                                 <constraint firstItem="Iax-TI-O3e" firstAttribute="top" secondItem="Zvo-1J-6Jz" secondAttribute="topMargin" constant="-3" id="Seq-2j-Otq"/>
+                                                <constraint firstItem="ebC-Yp-2Gi" firstAttribute="leading" secondItem="Zvo-1J-6Jz" secondAttribute="leadingMargin" constant="-14" id="UNv-s0-mcg"/>
+                                                <constraint firstItem="dUe-8X-1Qd" firstAttribute="leading" secondItem="Zvo-1J-6Jz" secondAttribute="leadingMargin" constant="-16" id="q1S-2X-wFJ"/>
+                                                <constraint firstItem="Iax-TI-O3e" firstAttribute="top" secondItem="dUe-8X-1Qd" secondAttribute="bottom" constant="1" id="r2M-wP-9jB"/>
                                                 <constraint firstAttribute="centerX" secondItem="Iax-TI-O3e" secondAttribute="centerX" id="rKA-SH-I2r"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -2688,37 +2707,12 @@
                                     <outlet property="delegate" destination="Odt-cu-E3D" id="QIt-M1-gOb"/>
                                 </connections>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AXL-tR-A4g">
-                                <rect key="frame" x="0.0" y="173" width="414" height="59"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="AXL-tR-A4g" secondAttribute="height" multiplier="414:59" id="00b-h5-zqB"/>
-                                    <constraint firstAttribute="width" constant="414" id="JWz-nn-pGt"/>
-                                    <constraint firstAttribute="height" constant="59" id="eTc-YR-TgS"/>
-                                </constraints>
-                                <state key="normal" title="Subscribe">
-                                    <color key="titleColor" red="0.1215686351" green="0.7019608021" blue="0.96470594409999999" alpha="1" colorSpace="deviceRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="JWz-nn-pGt"/>
-                                        <exclude reference="eTc-YR-TgS"/>
-                                    </mask>
-                                </variation>
-                                <connections>
-                                    <action selector="subscribe:" destination="Odt-cu-E3D" eventType="touchUpInside" id="sss-eH-E94"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="wOP-nY-VgG" firstAttribute="leading" secondItem="jlg-2I-n3c" secondAttribute="leading" id="2U3-TQ-vLx"/>
-                            <constraint firstItem="AXL-tR-A4g" firstAttribute="leading" secondItem="jlg-2I-n3c" secondAttribute="leading" id="5j4-iV-u4G"/>
                             <constraint firstItem="t3i-Hn-Tn1" firstAttribute="top" secondItem="wOP-nY-VgG" secondAttribute="bottom" id="Djb-4P-dJz"/>
-                            <constraint firstItem="wOP-nY-VgG" firstAttribute="top" secondItem="AXL-tR-A4g" secondAttribute="bottom" constant="8" id="Fzd-YU-OiU"/>
                             <constraint firstAttribute="trailing" secondItem="wOP-nY-VgG" secondAttribute="trailing" id="eMK-hm-BAz"/>
-                            <constraint firstAttribute="trailing" secondItem="AXL-tR-A4g" secondAttribute="trailing" id="peO-Ox-pjY"/>
-                            <constraint firstAttribute="centerX" secondItem="AXL-tR-A4g" secondAttribute="centerX" id="tEq-Hy-dcS"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Profile" id="ZRG-fF-hGj">
@@ -2733,7 +2727,6 @@
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
-                        <outlet property="subbutton" destination="AXL-tR-A4g" id="Cx0-8g-kdT"/>
                         <outlet property="theFeed" destination="wOP-nY-VgG" id="xoJ-Hd-2gD"/>
                         <outlet property="username" destination="O5v-4n-jEW" id="l9Q-tz-DQt"/>
                     </connections>

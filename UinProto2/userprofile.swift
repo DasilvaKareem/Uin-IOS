@@ -43,6 +43,8 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tabBarController?.tabBar.hidden = true
+        self.navigationController?.navigationBar.backIndicatorImage = UIImage(named: "arrowBack.png")
+        
         subticker()
         ChangeSub()
         username.title = theUser
@@ -226,7 +228,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
             else {
                 
                 
-                 self.subbutton.setTitle("subscribe", forState: UIControlState.Normal)
+                // self.subbutton.setTitle("subscribe", forState: UIControlState.Normal)
                 var unsub = PFQuery(className: "Subs")
                 
                 unsub.whereKey("follower", equalTo:PFUser.currentUser().username)
@@ -433,6 +435,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
             let cell2:profileCell = tableView.dequeueReusableCellWithIdentifier("profile") as profileCell
             
             //THIS IS WHERE YOU ARE GOING TO PUT THE LABEL
+            cell2.subscribe.addTarget(self, action: "subbing:", forControlEvents: UIControlEvents.TouchUpInside)
             
             cell2.subscriberTick.text = "\(self.amountofsubs.count)"
             cell2.subscriptionTick.text = "\(self.amountofScript.count)"
@@ -445,7 +448,143 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
         cell.dateItem.text = sectionNames[section]
         return cell
     }
+    
+    func subbing(sender: AnyObject) {
+        var que = PFQuery(className: "Subs")
+        
+        que.whereKey("follower", equalTo:PFUser.currentUser().username)
+        que.whereKey("following", equalTo: theUser)
+        que.getFirstObjectInBackgroundWithBlock{
+            
+            
+            (object:PFObject!, error: NSError!) -> Void in
+            
+            if object == nil {
+                
+                var currentInstallation = PFInstallation.currentInstallation()
+                currentInstallation.addUniqueObject(self.theUser, forKey: "channels")
+                currentInstallation.saveInBackgroundWithBlock({
+                    
+                    (success:Bool!, saveerror: NSError!) -> Void in
+                    
+                    if saveerror == nil {
+                        
+                        println("it worked")
+                        
+                    }
+                        
+                    else {
+                        
+                        println("It didnt work")
+                        
+                    }
+                    
+                    
+                })
+                
+               println("Subscribed to user")
+                var subscribe = PFObject(className: "Subs")
+                var push = PFPush()
+                var pfque = PFInstallation.query()
+                pfque.whereKey("user", equalTo: self.theUser)
+                push.setQuery(pfque)
+                push.setMessage("\(PFUser.currentUser().username) has subscribed to you ")
+                push.sendPushInBackgroundWithBlock({
+                    
+                    (success:Bool!, pushError: NSError!) -> Void in
+                    
+                    if pushError == nil {
+                        
+                        println("IT WORKED")
+                        
+                    }
+                    
+                })
+                
+                subscribe["member"] = false
+                subscribe["follower"] = PFUser.currentUser().username
+                subscribe["following"] = self.theUser
+                subscribe.saveInBackgroundWithBlock{
+                    
+                    (success:Bool!,subError:NSError!) -> Void in
+                    
+                    if (subError == nil){
+                        
+                        
+                        var notify = PFObject(className: "Notification")
+                        notify["sender"] = PFUser.currentUser().username
+                        notify["receiver"] = self.theUser
+                        notify["type"] =  "sub"
+                        notify.saveInBackgroundWithBlock({
+                            
+                            (success:Bool!, notifyError: NSError!) -> Void in
+                            
+                            if notifyError == nil {
+                                
+                                println("notifcation has been saved")
+                                
+                            }
+                            
+                            
+                        })
+                        
+                        
+                        
+                    }
+                    
+                    
+                    
+                }
+                
+            }
+                
+            else {
+                
+                
+                println("USer has unsubscribe")
+                var unsub = PFQuery(className: "Subs")
+                
+                unsub.whereKey("follower", equalTo:PFUser.currentUser().username)
+                unsub.whereKey("following", equalTo: self.theUser)
+                unsub.getFirstObjectInBackgroundWithBlock{
+                    
+                    (object:PFObject!, error: NSError!) -> Void in
+                    
+                    
+                    if object != nil{
+                        
+                        
+                        object.delete()
+                        var currentInstallation = PFInstallation.currentInstallation()
+                        currentInstallation.removeObject(self.theUser, forKey: "channels")
+                        currentInstallation.saveInBackgroundWithBlock({
+                            
+                            (success:Bool!, pushError: NSError!) -> Void in
+                            
+                            if pushError == nil {
+                                
+                                println("the installtion did remove")
+                                
+                            }
+                            else{
+                                println("the installtion did not remove")
+                            }
+                            
+                            
+                        })
+                        
+                        
+                    }       else {
+                        println("fail")
+                    }
+                }
+            }
+        }
 
+        
+        
+        
+    }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
@@ -484,7 +623,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
             
             else {
                 
-               self.subbutton.setTitle("Unsubscribe", forState: UIControlState.Normal)
+               //self.subbutton.setTitle("Unsubscribe", forState: UIControlState.Normal)
                 
             }
             

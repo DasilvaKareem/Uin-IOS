@@ -56,6 +56,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     override func viewWillAppear(animated: Bool) {
         subticker()
         updateFeed()
+ 
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.translucent = true
@@ -72,6 +73,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         super.viewDidLoad()
         usernameButton.title = PFUser.currentUser().username
         self.tabBarController?.tabBar.hidden = false
+           self.navigationController?.navigationBar.backIndicatorImage = UIImage(named: "arrowBack.png")
         subticker()
         updateFeed()
         //Queries all the events and puts into the arrays above
