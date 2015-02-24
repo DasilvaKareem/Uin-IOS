@@ -11,6 +11,7 @@ import UIKit
 class profileCell: UITableViewCell {
 
     
+    @IBOutlet var subscribe: UIButton!
    
     @IBOutlet var subscriptionTick: UILabel!
     @IBOutlet var subscriberTick: UILabel!

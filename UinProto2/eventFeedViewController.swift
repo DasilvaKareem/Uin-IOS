@@ -30,6 +30,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     var eventEnd = [NSDate]()
     var eventStart = [NSDate]()
     var localizedTime = [String]()
+    var localizedEndTime = [String]()
     
     var numSections = 0
     var rowsInSection = [Int]()
@@ -47,6 +48,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         
         
         updateFeed()
+    
         //Changes the navbar background
         navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
         
@@ -65,10 +67,13 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         
         
     }
+    
+  
+ 
     override func viewDidDisappear(animated: Bool) {
         println("View disspear")
         
-        updateFeed()
+              updateFeed()
     }
     override func viewWillAppear(animated: Bool) {
     
@@ -80,11 +85,86 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         println("Before query")
         
         //adds content to the array
-       var que = PFQuery(className: "Event")
+        var que1 = PFQuery(className: "Event")
+        que1.whereKey("public", equalTo: true)
+        
+        var pubQue = PFQuery(className: "Subs")
+        pubQue.whereKey("follower", equalTo: PFUser.currentUser().username)
+        pubQue.whereKey("member", equalTo: true)
+        var superQue = PFQuery(className: "Event")
+        superQue.whereKey("author", matchesKey: "following", inQuery:pubQue)
+        
+        var newQue = PFQuery(className: "Event")
+        newQue.whereKey("public", equalTo: false)
+        newQue.whereKey("author", equalTo: PFUser.currentUser().username)
+        
+    
+        var query = PFQuery.orQueryWithSubqueries([que1, newQue, superQue ])
+        query.orderByAscending("startEvent")
+        query.findObjectsInBackgroundWithBlock {
+            (results: [AnyObject]!, error: NSError!) -> Void in
+            if error == nil {
+                
+                
+               
+                   
+                    
+                    self.onsite.removeAll(keepCapacity: true)
+                    self.paid.removeAll(keepCapacity: true)
+                    self.food.removeAll(keepCapacity: true)
+                    self.eventTitle.removeAll(keepCapacity: true)
+                    self.eventlocation.removeAll(keepCapacity: true)
+                    self.eventStartTime.removeAll(keepCapacity: true)
+                    self.eventEndTime.removeAll(keepCapacity: true)
+                    self.eventStartDate.removeAll(keepCapacity: true)
+                    self.eventEndDate.removeAll(keepCapacity: true)
+                    self.usernames.removeAll(keepCapacity: true)
+                    self.objectID.removeAll(keepCapacity: true)
+                    self.publicPost.removeAll(keepCapacity: true)
+                    self.eventStart.removeAll(keepCapacity: true)
+                    self.eventEnd.removeAll(keepCapacity: true)
+                    self.localizedTime.removeAll(keepCapacity: true)
+                      for object in results{
+                    
+                    
+                    self.publicPost.append(object["public"] as Bool)
+                    self.objectID.append(object.objectId as String)
+                    self.usernames.append(object["author"] as String)
+                    self.eventTitle.append(object["eventTitle"] as String)
+                    self.eventStartDate.append(object["startDate"] as String)
+                    self.eventEndDate.append(object["endDate"] as String)
+                    self.eventStartTime.append(object["startTime"] as String)
+                    self.eventEndTime.append(object["endTime"] as String)
+                    self.food.append(object["food"] as Bool)
+                    self.paid.append(object["paid"] as Bool)
+                    self.onsite.append(object["location"] as Bool)
+                    self.eventEnd.append(object["endEvent"] as NSDate)
+                    self.eventStart.append(object["startEvent"] as NSDate)
+                    self.eventlocation.append(object["eventLocation"] as String)
+                    
+                    
+                    }
+                    self.populateSectionInfo()
+                    self.theFeed.reloadData()
+                    self.refresher.endRefreshing()
+                    
+                }
+                
+                
+            else {
+                
+                println("It failed")
+                
+            }
+        }
+        
+        
+      /*  var que = PFQuery(className: "Event")
         que.orderByAscending("startEvent")
         que.whereKey("public", equalTo: true)
         
         
+       
         
         que.findObjectsInBackgroundWithBlock{
             (objects:[AnyObject]!,eventError:NSError!) -> Void in
@@ -109,7 +189,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                 self.eventStart.removeAll(keepCapacity: true)
                 self.eventEnd.removeAll(keepCapacity: true)
                 
-                for object in objects{
+              /*  for object in objects{
                     
                     
                     self.publicPost.append(object["public"] as Bool)
@@ -129,28 +209,27 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                     
                     
                 }
-                
-                self.populateSectionInfo()
-                self.theFeed.reloadData()
-                self.refresher.endRefreshing()
+                */
+            
                 
                 var pubQue = PFQuery(className: "Subs")
                 pubQue.whereKey("follower", equalTo: PFUser.currentUser().username)
                 pubQue.whereKey("member", equalTo: true)
-                pubQue.orderByAscending("startEvent")
+                
                 var superQue = PFQuery(className: "Event")
+                superQue.orderByAscending("startEvent")
                 superQue.whereKey("author", matchesKey: "following", inQuery:pubQue)
-
+                
                 superQue.findObjectsInBackgroundWithBlock{
-                    (objectss:[AnyObject]!,eventError:NSError!) -> Void in
+                    (object1:[AnyObject]!,eventError:NSError!) -> Void in
                     
                     print("Refreshing list: ")
                     
                     if eventError == nil {
-                        println(objectss.count)
-    
+                        println(object1.count)
                         
-                        for object in objectss{
+                        
+                        /*for object in objectss{
                             
                             
                             self.publicPost.append(object["public"] as Bool)
@@ -170,25 +249,25 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                             
                             
                         }
-                        
-                        self.populateSectionInfo()
-                        self.theFeed.reloadData()
-                        self.refresher.endRefreshing()
+                        */
+                    
+                
                         
                         var newQue = PFQuery(className: "Event")
                         newQue.whereKey("public", equalTo: false)
+                        newQue.orderByAscending("startEvent")
                         newQue.whereKey("author", equalTo: PFUser.currentUser().username)
                         
                         newQue.findObjectsInBackgroundWithBlock{
-                            (objectss:[AnyObject]!,eventError:NSError!) -> Void in
+                            (object2:[AnyObject]!,eventError:NSError!) -> Void in
                             
                             print("Refreshing list: ")
                             
                             if eventError == nil {
-                                println(objectss.count)
+                                println(object2.count)
                                 
                                 
-                                for object in objectss{
+                                /*for object in objectss{
                                     
                                     
                                     self.publicPost.append(object["public"] as Bool)
@@ -208,10 +287,41 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                                     
                                     
                                 }
+                                */
+                          
+                                var mega =   objects + object1 + object2
+                               
                                 
+                     
+                                for object in mega {
+                                    
+                                    self.publicPost.append(object["public"] as Bool)
+                                    self.objectID.append(object.objectId as String)
+                                    self.usernames.append(object["author"] as String)
+                                    self.eventTitle.append(object["eventTitle"] as String)
+                                    self.eventStartDate.append(object["startDate"] as String)
+                                    self.eventEndDate.append(object["endDate"] as String)
+                                    self.eventStartTime.append(object["startTime"] as String)
+                                    self.eventEndTime.append(object["endTime"] as String)
+                                    self.food.append(object["food"] as Bool)
+                                    self.paid.append(object["paid"] as Bool)
+                                    self.onsite.append(object["location"] as Bool)
+                                    self.eventEnd.append(object["endEvent"] as NSDate)
+                                    self.eventStart.append(object["startEvent"] as NSDate)
+                                    self.eventlocation.append(object["eventLocation"] as String)
+                                    
+                                    
+                                }
+                             
+                                 var kareem = self.eventStartTime.sorted{ $0 < $1  }
                                 self.populateSectionInfo()
                                 self.theFeed.reloadData()
                                 self.refresher.endRefreshing()
+                           
+                                println()
+                                println()
+                                println(self.eventStartTime)
+                                println(kareem)
                                 
                                 
                                 
@@ -237,62 +347,10 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             
         }
         
-/*
-        var pubQue = PFQuery(className: "Subs")
-        pubQue.whereKey("follower", equalTo: PFUser.currentUser().username)
-        pubQue.whereKey("member", equalTo: true)
-        pubQue.orderByAscending("startEvent")
-        var superQue = PFQuery(className: "Event")
-      //  superQue.whereKey("author", matchesKey: "following", inQuery:pubQue)
-        superQue.findObjectsInBackgroundWithBlock{
-            
-            (objects:[AnyObject]!,eventError:NSError!) -> Void in
-            
-            if eventError == nil {
-                
-                self.onsite.removeAll(keepCapacity: true)
-                self.paid.removeAll(keepCapacity: true)
-                self.food.removeAll(keepCapacity: true)
-                self.eventTitle.removeAll(keepCapacity: true)
-                self.eventlocation.removeAll(keepCapacity: true)
-                self.eventStartTime.removeAll(keepCapacity: true)
-                self.eventEndTime.removeAll(keepCapacity: true)
-                self.eventStartDate.removeAll(keepCapacity: true)
-                self.eventEndDate.removeAll(keepCapacity: true)
-                self.usernames.removeAll(keepCapacity: true)
-                self.objectID.removeAll(keepCapacity: true)
-                self.publicPost.removeAll(keepCapacity: true)
-                self.eventStart.removeAll(keepCapacity: true)
-                self.eventEnd.removeAll(keepCapacity: true)
-
-                for object in objects{
-                    println(object)
-                    println()
-                    self.publicPost.append(object["public"] as Bool)
-                    self.objectID.append(object.objectId as String)
-                    self.usernames.append(object["author"] as String)
-                    self.eventTitle.append(object["eventTitle"] as String)
-                    self.eventStartDate.append(object["startDate"] as String)
-                    self.eventEndDate.append(object["endDate"] as String)
-                    self.eventStartTime.append(object["startTime"] as String)
-                    self.eventEndTime.append(object["endTime"] as String)
-                    self.food.append(object["food"] as Bool)
-                    self.paid.append(object["paid"] as Bool)
-                    self.onsite.append(object["location"] as Bool)
-                    self.eventlocation.append(object["eventLocation"] as String)
-                    
-                }
-                self.populateSectionInfo()
-                self.theFeed.reloadData()
-               self.refresher.endRefreshing()
-            }
-            
-        }
-*/
-
+   */
+        
         
     }
-    
     func refresh() {
         
         updateFeed()
@@ -308,9 +366,8 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         rowsInSection.removeAll(keepCapacity: true)
         sectionNames.removeAll(keepCapacity: true)
         for i in eventStart {
-            println()
-            println()
-            println()
+            
+            
            var dateFormatter = NSDateFormatter()
             dateFormatter.locale = NSLocale.currentLocale()
              dateFormatter.dateFormat = " EEEE MMM, dd yyyy"
@@ -479,13 +536,12 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                 
             }   else {
                 
-                
                 cell.poop.setImage(UIImage(named: "addToCalendar.png"), forState: UIControlState.Normal)
             }
             
             
         }
-        cell.poop.addTarget(self, action: "followButton:", forControlEvents: UIControlEvents.TouchUpInside)
+        
         
         return cell
     }
@@ -646,9 +702,10 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             })
         }
 
+
     }
     
-    
+
     override func prepareForSegue(segue:UIStoryboardSegue, sender: AnyObject?){
         
         if segue.identifier == "example" {

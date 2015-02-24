@@ -15,7 +15,14 @@ class subscriberlist: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+            self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
+    
+        
+     
+        // Changes text color on navbar
+        var nav = self.navigationController?.navigationBar
+        nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()];
         var followque = PFQuery(className: "Subs")
         followque.whereKey("following", equalTo: PFUser.currentUser().username)
         followque.orderByAscending("createdAt")

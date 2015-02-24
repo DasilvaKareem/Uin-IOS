@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="6lS-Ca-3sI">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6221" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="6lS-Ca-3sI">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6213"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Unknown constraint types" minToolsVersion="5.1"/>
@@ -1593,9 +1593,7 @@
                             <outlet property="delegate" destination="v6I-ex-zDy" id="yjB-ik-Wf0"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Subscribers" id="GaU-av-19J">
-                        <barButtonItem key="backBarButtonItem" title="Back" id="Rqo-p5-fVN"/>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Subscribers" id="GaU-av-19J"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UWH-K3-qfm" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2426,6 +2424,12 @@
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bgg-nQ-Wql">
+                                                    <rect key="frame" x="129" y="26" width="46" height="30"/>
+                                                    <state key="normal" title="Button">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                </button>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="RAX-5w-GVQ" firstAttribute="baseline" secondItem="fRI-VX-9xy" secondAttribute="baseline" id="D2v-U6-mtv"/>
@@ -2435,6 +2439,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="subscribe" destination="bgg-nQ-Wql" id="5JX-aq-c2d"/>
                                             <outlet property="subscriberTick" destination="fRI-VX-9xy" id="0qv-8x-bRX"/>
                                             <outlet property="subscriptionTick" destination="RAX-5w-GVQ" id="TAO-MF-yMO"/>
                                         </connections>
@@ -2730,7 +2735,7 @@
                                     <outlet property="delegate" destination="Odt-cu-E3D" id="QIt-M1-gOb"/>
                                 </connections>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AXL-tR-A4g">
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AXL-tR-A4g">
                                 <rect key="frame" x="0.0" y="173" width="414" height="59"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="AXL-tR-A4g" secondAttribute="height" multiplier="414:59" id="00b-h5-zqB"/>
@@ -2755,12 +2760,8 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="wOP-nY-VgG" firstAttribute="leading" secondItem="jlg-2I-n3c" secondAttribute="leading" id="2U3-TQ-vLx"/>
-                            <constraint firstItem="AXL-tR-A4g" firstAttribute="leading" secondItem="jlg-2I-n3c" secondAttribute="leading" id="5j4-iV-u4G"/>
                             <constraint firstItem="t3i-Hn-Tn1" firstAttribute="top" secondItem="wOP-nY-VgG" secondAttribute="bottom" id="Djb-4P-dJz"/>
-                            <constraint firstItem="wOP-nY-VgG" firstAttribute="top" secondItem="AXL-tR-A4g" secondAttribute="bottom" constant="8" id="Fzd-YU-OiU"/>
                             <constraint firstAttribute="trailing" secondItem="wOP-nY-VgG" secondAttribute="trailing" id="eMK-hm-BAz"/>
-                            <constraint firstAttribute="trailing" secondItem="AXL-tR-A4g" secondAttribute="trailing" id="peO-Ox-pjY"/>
-                            <constraint firstAttribute="centerX" secondItem="AXL-tR-A4g" secondAttribute="centerX" id="tEq-Hy-dcS"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Profile" id="ZRG-fF-hGj">
@@ -2775,7 +2776,6 @@
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
-                        <outlet property="subbutton" destination="AXL-tR-A4g" id="Cx0-8g-kdT"/>
                         <outlet property="theFeed" destination="wOP-nY-VgG" id="xoJ-Hd-2gD"/>
                         <outlet property="username" destination="O5v-4n-jEW" id="l9Q-tz-DQt"/>
                     </connections>
@@ -2803,7 +2803,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Lr4-Hf-e3f" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1481" y="1018"/>
+            <point key="canvasLocation" x="-1553" y="1086"/>
         </scene>
         <!--Profile-->
         <scene sceneID="R4H-LZ-KIz">
@@ -3055,8 +3055,8 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="0t0-sB-Jv5"/>
-        <segue reference="QFL-fF-GRo"/>
-        <segue reference="tAD-AG-Ttu"/>
+        <segue reference="rPS-zS-M73"/>
+        <segue reference="5Y0-YN-TjP"/>
         <segue reference="6hY-wJ-ibE"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
