@@ -241,8 +241,13 @@ class eventMake: UIViewController, UITextFieldDelegate {
                                 startString = String()
                                 endString = String()
                                 var push =  PFPush()
+                                let data = [
+                                    "alert" : "\(PFUser.currentUser().username) has edited the event '\(self.eventTitle.text)'",
+                                    "badge" : "Increment",
+                                    "sound" : "default"
+                                ]
                                 push.setChannel(PFUser.currentUser().username)
-                                push.setMessage("\(PFUser.currentUser().username) has edited the event '\(self.eventTitle.text)'")
+                                push.setData(data)
                                 push.sendPushInBackgroundWithBlock({
                                     
                                     (success: Bool!, pushError: NSError!) -> Void in
@@ -293,10 +298,14 @@ class eventMake: UIViewController, UITextFieldDelegate {
                     if (eventError == nil){
                         
                         println("The event was saved")
-                        
+                        let data = [
+                            "alert" : "\(PFUser.currentUser().username) has created the event '\(self.eventTitle.text)'",
+                            "badge" : "Increment",
+                            "sound" : "default"
+                        ]
                         var push =  PFPush()
                         push.setChannel(PFUser.currentUser().username)
-                        push.setMessage("\(PFUser.currentUser().username) has created the event '\(self.eventTitle.text)'")
+                        push.setData(data)
                         push.sendPushInBackgroundWithBlock({
                             
                             (success: Bool!, pushError: NSError!) -> Void in
@@ -370,6 +379,27 @@ class eventMake: UIViewController, UITextFieldDelegate {
                     if error == nil {
                         
                         eventItem.delete()
+                        let data = [
+                            "alert" : "\(PFUser.currentUser().username) has deleted the event '\(self.eventTitle.text)'",
+                            "badge" : "Increment",
+                            "sound" : "default"
+                        ]
+                        
+                        var push =  PFPush()
+                        push.setChannel(PFUser.currentUser().username)
+                        push.setData(data)
+                        push.sendPushInBackgroundWithBlock({
+                            
+                            (success: Bool!, pushError: NSError!) -> Void in
+                            if pushError == nil {
+                                
+                                println("the push was sent")
+                                
+                            }
+                            
+                            
+                            
+                        })
                         self.performSegueWithIdentifier("eventback", sender: self)
                         
                     }

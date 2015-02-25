@@ -68,7 +68,22 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         
     }
     
-  
+    func displayAlert(title:String, error:String) {
+        
+        var alert = UIAlertController(title: title, message: error, preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { action in
+            
+            
+            
+        }))
+        
+        self.presentViewController(alert, animated: true, completion: nil)
+        
+        func preferredStatusBarStyle() -> UIStatusBarStyle {
+            return UIStatusBarStyle.Default
+        }
+        
+    }
  
     override func viewDidDisappear(animated: Bool) {
         println("View disspear")
@@ -377,18 +392,32 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             
             
         }
-        
+              cell.poop.addTarget(self, action: "followButton:", forControlEvents: UIControlEvents.TouchUpInside)
         
         return cell
     }
 
     func followButton(sender: AnyObject){
         // Puts the data in a cell
+        var first:Bool = false
+        
+       var getFirst = PFUser.query()
+        getFirst.getObjectInBackgroundWithId(PFUser.currentUser().objectId, block: {
+            (results:PFObject!, error: NSError!) -> Void in
+            
+            if error == nil {
+                
+                if results["first"] as Bool == true {
+                    
+                    first = true
+                }
+                
+                
+            }
+            
+        })
+        
       
-        var indexArray:NSMutableArray = []
-        var testSub = sender.tag - 1
-        indexArray.addObject(testSub)
-        indexArray.addObject(sender.tag)
       var que = PFQuery(className: "GoingEvent")
         que.whereKey("user", equalTo: PFUser.currentUser().username)
         que.whereKey("author", equalTo: self.usernames[sender.tag])
@@ -400,7 +429,11 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             
             if queerror == nil {
                 results.delete()
-                
+                if first == true {
+                    
+                    self.displayAlert("Adding to Calendar", error: "This removes it from the calendar")
+                    
+                }
                 if results != nil {
                     var eventStore : EKEventStore = EKEventStore()
                     eventStore.requestAccessToEntityType(EKEntityTypeEvent, completion: {
@@ -467,6 +500,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                 println()
                 println("the object does not exist")
                 var push = PFPush()
+                
                 var pfque = PFInstallation.query()
                 pfque.whereKey("user", equalTo: self.usernames[sender.tag])
                 
@@ -538,8 +572,8 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             })
         }
 
-
-    }
+        }
+    
     
 
     override func prepareForSegue(segue:UIStoryboardSegue, sender: AnyObject?){

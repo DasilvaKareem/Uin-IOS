@@ -123,6 +123,10 @@ class register: UIViewController, UITextFieldDelegate {
             
             user.email = email.text
             
+        
+            
+          
+            
             user.signUpInBackgroundWithBlock {
                 (succeeded: Bool!, registerError: NSError!) -> Void in
                 

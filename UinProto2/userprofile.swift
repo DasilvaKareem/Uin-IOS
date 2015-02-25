@@ -34,6 +34,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
     var theUser = String()
     var localizedTime = [String]()
     var localizedEndTime = [String]()
+    var areSubbed = Bool()
     
     @IBOutlet var subscribers: UILabel!
     @IBOutlet var subscriptions: UILabel!
@@ -44,7 +45,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tabBarController?.tabBar.hidden = true
-        self.navigationController?.navigationBar.backIndicatorImage = UIImage(named: "arrowBack.png")
+        self.navigationController?.navigationBar.backIndicatorImage = nil
         
         subticker()
         ChangeSub()
@@ -77,8 +78,32 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
     @IBOutlet weak var subbutton: UIButton!
      var amountofsubs = [String]()
        var amountofScript = [String]()
+    
+
     func subticker(){
        
+        var que2 = PFQuery(className: "Subs")
+        
+        que2.whereKey("follower", equalTo:PFUser.currentUser().username)
+        que2.whereKey("following", equalTo: theUser)
+        que2.getFirstObjectInBackgroundWithBlock{
+            
+            (object:PFObject!, error: NSError!) -> Void in
+            
+            if error == nil {
+                
+                self.areSubbed = false
+                
+            }
+            
+            else {
+                
+                self.areSubbed = true
+            }
+            
+        }
+
+        
         var getNumberList = PFQuery(className:"Subs")
         getNumberList.whereKey("following", equalTo: self.theUser)
         getNumberList.findObjectsInBackgroundWithBlock{
@@ -131,7 +156,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
         }
         
         
-        
+        println(self.areSubbed)
         
     }
 
@@ -158,6 +183,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                     if saveerror == nil {
                         
                         println("it worked")
+                        self.areSubbed = true
                         
                     }
                         
@@ -251,6 +277,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                             
                             if pushError == nil {
                                 
+                                self.areSubbed = false
                                 println("the installtion did remove")
                                 
                             }
@@ -355,7 +382,10 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
         //Initialisation
         numSections = 0
         rowsInSection.removeAll(keepCapacity: true)
+        rowsInSection.append(0)
         sectionNames.removeAll(keepCapacity: true)
+        self.localizedTime.removeAll(keepCapacity: true)
+        self.localizedEndTime.removeAll(keepCapacity:true)
         for i in eventStart {
             println()
             println()
@@ -372,25 +402,11 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
             
             
         }
-        for i in eventEnd {
-            
-            
-            var dateFormatter2 = NSDateFormatter()
-            dateFormatter2.locale = NSLocale.currentLocale()
-            dateFormatter2.dateFormat = " EEEE MMM, dd yyyy"
-            var realDate2 = dateFormatter2.stringFromDate(i)
-            var dateFormatter3 = NSDateFormatter()
-            dateFormatter3.timeStyle = NSDateFormatterStyle.ShortStyle
-            var localTime = dateFormatter3.stringFromDate(i)
-            
-            self.localizedEndTime.append(localTime)
-            
-            
-        }
-
         //For each date
+        sectionNames.insert("0", atIndex: 0)
         for date in eventStartDate{
             //If there is a date change
+            
             if (currentDate != date){
                 //If the current date is not the init value
                 if (currentDate != ""){
@@ -409,20 +425,45 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
             //The count is incremented
             i++
         }
+        
+        for i in eventEnd {
+            
+            
+            var dateFormatter2 = NSDateFormatter()
+            dateFormatter2.locale = NSLocale.currentLocale()
+            dateFormatter2.dateFormat = " EEEE MMM, dd yyyy"
+            var realDate2 = dateFormatter2.stringFromDate(i)
+            var dateFormatter3 = NSDateFormatter()
+            dateFormatter3.timeStyle = NSDateFormatterStyle.ShortStyle
+            var localTime = dateFormatter3.stringFromDate(i)
+            
+            self.localizedEndTime.append(localTime)
+            
+            
+        }
         //Because the loop is broken before a new date is found, that
         //  one needs to be added manually
         
         rowsInSection.append(i)
-        //numSections++
+        numSections++
+        
         if numSections == 0 {
-            
+            println("Yo")
             numSections++
+        }
+        else {
+            
+            println("Hey it doesnt work")
+            
+            
         }
         
         
+        
         println()
+        println(rowsInSection)
         println(numSections)
-        println()
+        println(sectionNames)
         println()
     }
     
@@ -450,7 +491,16 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if  section == 0 {
             let cell2:profileCell = tableView.dequeueReusableCellWithIdentifier("profile") as profileCell
-            
+            if self.areSubbed == true {
+                
+                //cell2.subscribe.setImage("", forState: UIControlState.Normal)
+                
+            }
+            else {
+                
+                //cell2.subscribe.setImage("", forState: UIControlState.Normal)
+                
+            }
             //THIS IS WHERE YOU ARE GOING TO PUT THE LABEL
             cell2.subscribe.addTarget(self, action: "subbing:", forControlEvents: UIControlEvents.TouchUpInside)
             
@@ -501,11 +551,16 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 
                println("Subscribed to user")
                 var subscribe = PFObject(className: "Subs")
+                let data = [
+                    "alert" : "\(PFUser.currentUser().username) has subscribed to you ",
+                    "badge" : "Increment",
+                    "sound" : "default"
+                ]
                 var push = PFPush()
                 var pfque = PFInstallation.query()
                 pfque.whereKey("user", equalTo: self.theUser)
                 push.setQuery(pfque)
-                push.setMessage("\(PFUser.currentUser().username) has subscribed to you ")
+               push.setData(data)
                 push.sendPushInBackgroundWithBlock({
                     
                     (success:Bool!, pushError: NSError!) -> Void in
@@ -722,6 +777,10 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
         if publicPost[event] != true {
             
             cell.privateImage.image = UIImage(named: "privateEvent.png")
+        }
+        else {
+            
+            cell.privateImage.image = nil
         }
         cell.people.text = usernames[event]
         cell.time.text = eventStartTime[event]

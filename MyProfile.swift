@@ -73,7 +73,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         super.viewDidLoad()
         usernameButton.title = PFUser.currentUser().username
         self.tabBarController?.tabBar.hidden = false
-           self.navigationController?.navigationBar.backIndicatorImage = UIImage(named: "arrowBack.png")
+           self.navigationController?.navigationBar.backIndicatorImage = nil
         subticker()
         updateFeed()
         //Queries all the events and puts into the arrays above
@@ -236,6 +236,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         //Initialisation
         numSections = 0
         rowsInSection.removeAll(keepCapacity: true)
+        rowsInSection.append(0)
         sectionNames.removeAll(keepCapacity: true)
         self.localizedTime.removeAll(keepCapacity: true)
         self.localizedEndTime.removeAll(keepCapacity:true)
@@ -256,8 +257,10 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
             
         }
         //For each date
+        sectionNames.insert("0", atIndex: 0)
         for date in eventStartDate{
             //If there is a date change
+            
             if (currentDate != date){
                 //If the current date is not the init value
                 if (currentDate != ""){
@@ -296,16 +299,25 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         //  one needs to be added manually
        
         rowsInSection.append(i)
-         //numSections++
+         numSections++
+        
         if numSections == 0 {
-            
+            println("Yo")
             numSections++
         }
-       
+        else {
+            
+            println("Hey it doesnt work")
+            
+            
+        }
         
+        
+       
         println()
+        println(rowsInSection)
          println(numSections)
-        println()
+        println(sectionNames)
         println()
     }
     
@@ -321,6 +333,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
 
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        
         return 65.0
     }
     

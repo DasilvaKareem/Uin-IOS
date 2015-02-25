@@ -16,8 +16,7 @@ class subscriptions: UITableViewController {
         super.viewDidLoad()
         navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
 
-        self.navigationController?.navigationItem.leftBarButtonItem?.setBackButtonBackgroundImage(UIImage(named: "arrowBack.png"), forState: UIControlState.Normal, barMetrics: UIBarMetrics.Default)
-                    self.navigationController?.navigationBar.backItem?.backBarButtonItem?.setBackButtonBackgroundImage(UIImage(named: "arrowBack.png"), forState: UIControlState.Normal, barMetrics: UIBarMetrics.Default)
+  self.navigationController?.navigationBar.backIndicatorImage = nil
         // Changes text color on navbar
         var nav = self.navigationController?.navigationBar
         nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()];
