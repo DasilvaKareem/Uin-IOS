@@ -18,7 +18,7 @@ class subscriberlist: UITableViewController {
         
             self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
     
-        
+          self.navigationController?.navigationBar.backIndicatorImage = nil
      
         // Changes text color on navbar
         var nav = self.navigationController?.navigationBar

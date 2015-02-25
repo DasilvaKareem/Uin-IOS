@@ -153,6 +153,10 @@ class notificationsView: UITableViewController {
             }
             
         })
+        
+    //var query = PFQuery.orQueryWithSubqueries([memberQuery, subQuery, calendarQuery, eventQuery])
+        
+     
         //self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.

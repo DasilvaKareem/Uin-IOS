@@ -20,6 +20,65 @@ class settingsView: UIViewController {
 self.tabBarController?.tabBar.hidden = true
         // Do any additional setup after loading the view.
     }
+    
+    func notifyQuery() {
+        
+        var query = PFUser.query()
+        
+        query.getObjectInBackgroundWithId(PFUser.currentUser().objectId, block: {
+            
+            (objects: PFObject!, error: NSError!) -> Void in
+            
+            if error == nil {
+                
+                if objects["push"] as Bool == false {
+                    
+                  
+                }
+                    
+                else {
+                    
+              
+                    
+                }
+                
+            }
+            
+            
+        })
+        
+    }
+
+    
+    func notifyChange() {
+        
+        var query = PFUser.query()
+ 
+        query.getObjectInBackgroundWithId(PFUser.currentUser().objectId, block: {
+            
+            (objects: PFObject!, error: NSError!) -> Void in
+            
+            if error == nil {
+                
+                if objects["push"] as Bool == false {
+                    
+                    objects["push"] = true
+                    objects.save()
+                }
+                
+                else {
+                    
+                    objects["push"] = false
+                    objects.save()
+                    
+                }
+                
+            }
+            
+            
+        })
+        
+    }
 
     @IBAction func logout(sender: AnyObject) {
         
@@ -47,3 +106,5 @@ self.tabBarController?.tabBar.hidden = true
     */
 
 }
+
+

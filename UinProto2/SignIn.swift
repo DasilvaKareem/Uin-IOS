@@ -42,6 +42,7 @@ class SignIn: UIViewController, UITextFieldDelegate {
         
         self.presentViewController(alert, animated: true, completion: nil)
         
+        
         func preferredStatusBarStyle() -> UIStatusBarStyle {
             return UIStatusBarStyle.Default
         }
