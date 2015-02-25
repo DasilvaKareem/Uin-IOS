@@ -33,6 +33,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
     var eventStart = [NSDate]()
     var theUser = String()
     var localizedTime = [String]()
+    var localizedEndTime = [String]()
     
     @IBOutlet var subscribers: UILabel!
     @IBOutlet var subscriptions: UILabel!
@@ -371,6 +372,22 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
             
             
         }
+        for i in eventEnd {
+            
+            
+            var dateFormatter2 = NSDateFormatter()
+            dateFormatter2.locale = NSLocale.currentLocale()
+            dateFormatter2.dateFormat = " EEEE MMM, dd yyyy"
+            var realDate2 = dateFormatter2.stringFromDate(i)
+            var dateFormatter3 = NSDateFormatter()
+            dateFormatter3.timeStyle = NSDateFormatterStyle.ShortStyle
+            var localTime = dateFormatter3.stringFromDate(i)
+            
+            self.localizedEndTime.append(localTime)
+            
+            
+        }
+
         //For each date
         for date in eventStartDate{
             //If there is a date change
@@ -825,6 +842,8 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
             secondViewController.onsite = onsite[index]
             secondViewController.cost = paid[index]
             secondViewController.food = food[index]
+            secondViewController.localStart = localizedTime[index]
+            secondViewController.localEnd = localizedEndTime[index]
             secondViewController.users = usernames[index]
             secondViewController.eventId = objectID[index]
             

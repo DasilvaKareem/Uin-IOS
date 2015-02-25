@@ -45,7 +45,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     var eventEnd = [NSDate]()
     var eventStart = [NSDate]()
     var localizedTime = [String]()
-    
+    var localizedEndTime = [String]()
     var numSections = 0
     var rowsInSection = [Int]()
     var sectionNames = [String]()
@@ -237,6 +237,8 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         numSections = 0
         rowsInSection.removeAll(keepCapacity: true)
         sectionNames.removeAll(keepCapacity: true)
+        self.localizedTime.removeAll(keepCapacity: true)
+        self.localizedEndTime.removeAll(keepCapacity:true)
         for i in eventStart {
             println()
             println()
@@ -273,6 +275,22 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
             }
             //The count is incremented
             i++
+        }
+        
+        for i in eventEnd {
+            
+            
+            var dateFormatter2 = NSDateFormatter()
+            dateFormatter2.locale = NSLocale.currentLocale()
+            dateFormatter2.dateFormat = " EEEE MMM, dd yyyy"
+            var realDate2 = dateFormatter2.stringFromDate(i)
+            var dateFormatter3 = NSDateFormatter()
+            dateFormatter3.timeStyle = NSDateFormatterStyle.ShortStyle
+            var localTime = dateFormatter3.stringFromDate(i)
+            
+            self.localizedEndTime.append(localTime)
+            
+            
         }
         //Because the loop is broken before a new date is found, that
         //  one needs to be added manually
@@ -565,8 +583,11 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
             secondViewController.onsite = onsite[index]
             secondViewController.cost = paid[index]
             secondViewController.food = food[index]
+            secondViewController.localStart = localizedTime[index]
+            secondViewController.localEnd = localizedEndTime[index]
             secondViewController.users = usernames[index]
             secondViewController.eventId = objectID[index]
+            
             
             
         }

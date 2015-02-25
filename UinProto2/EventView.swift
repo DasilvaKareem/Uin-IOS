@@ -48,6 +48,9 @@ class postEvent: UIViewController {
     var storeStartDate = NSDate()
     var endStoreDate = NSDate()
     var eventId = String()
+    var localStart = String()
+    var localEnd = String()
+
     
     func checkevent(){
         var minique = PFQuery(className: "GoingEvent")
@@ -97,6 +100,8 @@ class postEvent: UIViewController {
             
         }
         
+
+        
         self.tabBarController?.tabBar.hidden = true
         
         if profileEditing == true {
@@ -126,8 +131,8 @@ class postEvent: UIViewController {
         endDate.text = storeEndDate
         location.text = storeLocation
         eventTitle.text = storeTitle
-        startTime.text = storeStartTime
-        endTime.text = storeEndTime
+        startTime.text = localStart
+        endTime.text = localEnd
         date.text = storeDate
         putIcons()
         checkevent()
@@ -310,8 +315,8 @@ class postEvent: UIViewController {
             editEvent.startTime = storeStartTime
             //editEvent.end.setTitle(storeEndTime, forState: UIControlState.Normal)
             editEvent.editing = true
-            startString =  "\(storeDate)  \(storeStartTime)"
-            endString = "\(storeEndDate)  \(storeEndTime)"
+            startString =  "\(storeDate)  \(localStart)"
+            endString = "\(storeEndDate)  \(localEnd)"
             dateTime1 = storeStartTime
             dateTime2 = storeEndTime
             dateStr1 = storeDate
