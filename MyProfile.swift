@@ -71,7 +71,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        usernameButton.title = PFUser.currentUser().objectForKey("display") as? String
+        usernameButton.title = PFUser.currentUser().username
         self.tabBarController?.tabBar.hidden = false
            self.navigationController?.navigationBar.backIndicatorImage = nil
         subticker()
