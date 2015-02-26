@@ -68,6 +68,10 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         
     }
     
+    
+    
+    
+    
     func displayAlert(title:String, error:String) {
         
         var alert = UIAlertController(title: title, message: error, preferredStyle: UIAlertControllerStyle.Alert)
@@ -399,7 +403,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
 
     func followButton(sender: AnyObject){
         // Puts the data in a cell
-        var first:Bool = false
+        var first:Bool = Bool()
         
        var getFirst = PFUser.query()
         getFirst.getObjectInBackgroundWithId(PFUser.currentUser().objectId, block: {
@@ -429,9 +433,23 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             
             if queerror == nil {
                 results.delete()
+                println(first)
                 if first == true {
                     
-                    self.displayAlert("Adding to Calendar", error: "This removes it from the calendar")
+                    var getFirst = PFUser.query()
+                    getFirst.getObjectInBackgroundWithId(PFUser.currentUser().objectId, block: {
+                        (results:PFObject!, error: NSError!) -> Void in
+                        
+                        if error == nil {
+                          
+                            results["first"] = false
+                            results.save()
+                            
+                            
+                        }
+                        
+                    })
+                    self.displayAlert("Remove", error: "Tapping the blue checkmark removes an event from your calendar.")
                     
                 }
                 if results != nil {
@@ -444,6 +462,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                             println("error  \(error)")
                             var hosted = "Hosted by \(self.usernames[sender.tag])"
                             var event:EKEvent = EKEvent(eventStore: eventStore)
+                         
                             event.title = self.eventTitle[sender.tag]
                             event.startDate = self.eventStart[sender.tag]
                             event.endDate = self.eventEnd[sender.tag]
@@ -455,7 +474,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                     var predicate2 = eventStore.predicateForEventsWithStartDate(self.eventStart[sender.tag], endDate: self.eventEnd[sender.tag], calendars:nil)
                     var eV = eventStore.eventsMatchingPredicate(predicate2) as [EKEvent]!
                     println("Result is there")
-                    if eV != nil {
+                    if eV != nil { //
                         println("EV is not nil")
                         for i in eV {
                             println("\(i.title) this is the i.title")
@@ -486,6 +505,8 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                         event.startDate = self.eventStart[sender.tag]
                         event.endDate = self.eventEnd[sender.tag]
                         event.notes = hosted
+                        var alarm = EKAlarm(relativeOffset: -3600.00)
+                        event.addAlarm(alarm)
                         event.location = self.eventlocation[sender.tag]
                         event.calendar = eventStore.defaultCalendarForNewEvents
                         eventStore.saveEvent(event, span: EKSpanThisEvent, error: nil)

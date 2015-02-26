@@ -28,17 +28,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //UITabBar.appearance().barTintColor = UIColor(red: 52.0/255.0, green: 126.0/255.0, blue: 187.0/255.0, alpha: 1.0)
         
         
-        
+       
      
          Parse.setApplicationId("xEk0BIl2EyPBYEcWEz8SIHykycv4Yh0CfoYM2OOv", clientKey: "9p0BTN0Fm2mSr1LwEBPk7pJ21NGv2PfM58WJcmmy")
         
-        let userNotificationTypes = (UIUserNotificationType.Alert |
-            UIUserNotificationType.Badge |
-            UIUserNotificationType.Sound);
-        
-        let settings = UIUserNotificationSettings(forTypes: userNotificationTypes, categories: nil)
-        application.registerUserNotificationSettings(settings)
-        application.registerForRemoteNotifications()
+    PFFacebookUtils.initializeFacebook()
         // Override point for customization after application launch.
         return true
     }
@@ -80,7 +74,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidBecomeActive(application: UIApplication) {
-       
+       FBAppCall.handleDidBecomeActiveWithSession(PFFacebookUtils.session())
         let install = PFInstallation.currentInstallation()
         if install.badge != 0 {
             
@@ -95,6 +89,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
+    
+    
+    func application(application: UIApplication, openURL url: NSURL,
+        sourceApplication: NSString, annotation: AnyObject) -> Bool {
+            return FBAppCall.handleOpenURL(url, sourceApplication:sourceApplication,
+                withSession:PFFacebookUtils.session())
+    }
+    
+   
 
 
 }
