@@ -89,6 +89,45 @@ class register: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var cpassword: UITextField!
 
     
+    @IBAction func facebook(sender: AnyObject) {
+        
+        
+        var fbloginView:FBLoginView = FBLoginView(readPermissions: ["email", "public_profile"])
+         var permissions = ["public_profile", "email"]
+        PFFacebookUtils.logInWithPermissions(permissions, block: {
+            (user: PFUser!, error: NSError!) -> Void in
+            if user == nil {
+                NSLog("Uh oh. The user cancelled the Facebook login.")
+                
+                //self.loginCancelledLabel.alpha = 1
+                
+            } else if user.isNew {
+                NSLog("User signed up and logged in through Facebook!")
+                var user = PFUser.currentUser()
+                FBRequestConnection.startForMeWithCompletionHandler({
+                    connection, result, error in
+                    
+                    user.email = result["email"] as String
+                    user["display"] = result["name"] as String
+                    user.save()
+                    
+                    println(result)
+                    
+                    
+                })
+                
+               self.performSegueWithIdentifier("register", sender: self)
+                
+            } else {
+             
+                self.performSegueWithIdentifier("register", sender: self)
+                
+            }
+            
+        })
+
+        
+    }
     @IBAction func register(sender: AnyObject) {
         
         
@@ -119,11 +158,15 @@ class register: UIViewController, UITextFieldDelegate {
             
             user.username = username.text
             
+            user["display"] = username.text
+            
             user.password = password.text
             
             user.email = email.text
             
-        
+            user["push"] = true
+            
+            user["first"] = true
             
           
             

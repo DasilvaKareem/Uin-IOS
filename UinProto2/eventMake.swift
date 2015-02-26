@@ -377,10 +377,10 @@ class eventMake: UIViewController, UITextFieldDelegate {
                     (eventItem:PFObject!, error:NSError!) -> Void in
                     
                     if error == nil {
-                        
+                        var name = PFUser.currentUser().objectForKey("display") as? String
                         eventItem.delete()
                         let data = [
-                            "alert" : "\(PFUser.currentUser().username) has deleted the event '\(self.eventTitle.text)'",
+                            "alert" : "\(name) has deleted the event '\(self.eventTitle.text)'",
                             "badge" : "Increment",
                             "sound" : "default"
                         ]

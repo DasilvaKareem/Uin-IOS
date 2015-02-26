@@ -49,7 +49,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
         
         subticker()
         ChangeSub()
-        username.title = theUser
+        username.title = PFUser.currentUser().objectForKey("display") as? String
         updateFeed()
         //Changes the navbar background
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
