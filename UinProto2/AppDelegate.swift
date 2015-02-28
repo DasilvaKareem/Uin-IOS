@@ -28,10 +28,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //UITabBar.appearance().barTintColor = UIColor(red: 52.0/255.0, green: 126.0/255.0, blue: 187.0/255.0, alpha: 1.0)
         
         
-       
+    
      
          Parse.setApplicationId("xEk0BIl2EyPBYEcWEz8SIHykycv4Yh0CfoYM2OOv", clientKey: "9p0BTN0Fm2mSr1LwEBPk7pJ21NGv2PfM58WJcmmy")
-        
+       
     PFFacebookUtils.initializeFacebook()
         // Override point for customization after application launch.
         return true
