@@ -35,6 +35,9 @@
 		61144F201AA299F50034018A /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61144F1F1AA299F50034018A /* Social.framework */; };
 		61144F221AA29A010034018A /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61144F211AA29A010034018A /* Accounts.framework */; };
 		61268C1E1A910AB300009E07 /* dateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61268C1D1A910AB300009E07 /* dateCell.swift */; };
+		612B71281AA38C350026AD66 /* Podfile.lock in Resources */ = {isa = PBXBuildFile; fileRef = 612B71271AA38C350026AD66 /* Podfile.lock */; };
+		612B712A1AA3940B0026AD66 /* ParseCrashReporting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 612B71291AA3940B0026AD66 /* ParseCrashReporting.framework */; };
+		612B712C1AA3962D0026AD66 /* libstdc++.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 612B712B1AA3962D0026AD66 /* libstdc++.6.dylib */; };
 		6136E5E81A9958C7009503A4 /* footerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6136E5E71A9958C7009503A4 /* footerCell.swift */; };
 		6141F7EE1AA24B1B00602D7A /* loginOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6141F7EC1AA24A5400602D7A /* loginOptions.swift */; };
 		614F49A71A8FFD4300E6245A /* notifcationCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614F49A61A8FFD4300E6245A /* notifcationCells.swift */; };
@@ -103,6 +106,9 @@
 		61144F1F1AA299F50034018A /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		61144F211AA29A010034018A /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		61268C1D1A910AB300009E07 /* dateCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = dateCell.swift; sourceTree = "<group>"; };
+		612B71271AA38C350026AD66 /* Podfile.lock */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile.lock; sourceTree = "<group>"; };
+		612B71291AA3940B0026AD66 /* ParseCrashReporting.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ParseCrashReporting.framework; path = "../../Downloads/parse-library-1.6.1/ParseCrashReporting.framework"; sourceTree = "<group>"; };
+		612B712B1AA3962D0026AD66 /* libstdc++.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.dylib"; path = "usr/lib/libstdc++.6.dylib"; sourceTree = SDKROOT; };
 		613069F11A745289001CAF4F /* MyProfile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MyProfile.swift; path = ../MyProfile.swift; sourceTree = "<group>"; };
 		6136E5E71A9958C7009503A4 /* footerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = footerCell.swift; sourceTree = "<group>"; };
 		6141F7EC1AA24A5400602D7A /* loginOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = loginOptions.swift; sourceTree = "<group>"; };
@@ -127,6 +133,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				612B712C1AA3962D0026AD66 /* libstdc++.6.dylib in Frameworks */,
+				612B712A1AA3940B0026AD66 /* ParseCrashReporting.framework in Frameworks */,
 				61144F221AA29A010034018A /* Accounts.framework in Frameworks */,
 				61144F201AA299F50034018A /* Social.framework in Frameworks */,
 				28277E621A4B1175001CCB02 /* CoreLocation.framework in Frameworks */,
@@ -206,6 +214,7 @@
 				61AFFF521A7EE6A800858273 /* datepickers.swift */,
 				28277E771A4B1D0E001CCB02 /* register.swift */,
 				6141F7EC1AA24A5400602D7A /* loginOptions.swift */,
+				612B71271AA38C350026AD66 /* Podfile.lock */,
 				61AFFF501A7EE2AD00858273 /* subscriptions.swift */,
 				61AFFF4E1A7ED7C400858273 /* subscriberlist.swift */,
 				61BFF8201A8FDF6C00E2D059 /* notificationsView.swift */,
@@ -265,6 +274,8 @@
 		CE893B16E1A0D72BE6FC7F44 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				612B712B1AA3962D0026AD66 /* libstdc++.6.dylib */,
+				612B71291AA3940B0026AD66 /* ParseCrashReporting.framework */,
 				61144F211AA29A010034018A /* Accounts.framework */,
 				61144F1F1AA299F50034018A /* Social.framework */,
 				61144F1D1AA299EC0034018A /* libPods-Mixpanel.a */,
@@ -358,6 +369,7 @@
 			files = (
 				28277E3A1A4B115E001CCB02 /* Main.storyboard in Resources */,
 				28277E3F1A4B115E001CCB02 /* LaunchScreen.xib in Resources */,
+				612B71281AA38C350026AD66 /* Podfile.lock in Resources */,
 				61144F1C1AA299330034018A /* Podfile in Resources */,
 				28277E3C1A4B115E001CCB02 /* Images.xcassets in Resources */,
 			);
@@ -558,7 +570,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "Apple Development IOS Push Services: com.demo.uin";
+				CODE_SIGN_IDENTITY = "Apple Development IOS Push Services: com.official.uin";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -569,6 +581,7 @@
 					"$(PROJECT_DIR)/UinProto2",
 					"/Users/kareemdasilva/Downloads/Uin-master",
 					"$(PROJECT_DIR)",
+					"/Users/kareemdasilva/Downloads/parse-library-1.6.1",
 				);
 				INFOPLIST_FILE = UinProto2/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -590,7 +603,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "Apple Development IOS Push Services: com.demo.uin";
+				CODE_SIGN_IDENTITY = "Apple Development IOS Push Services: com.official.uin";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -601,6 +614,7 @@
 					"$(PROJECT_DIR)/UinProto2",
 					"/Users/kareemdasilva/Downloads/Uin-master",
 					"$(PROJECT_DIR)",
+					"/Users/kareemdasilva/Downloads/parse-library-1.6.1",
 				);
 				INFOPLIST_FILE = UinProto2/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;

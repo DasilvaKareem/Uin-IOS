@@ -173,7 +173,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
             (object:PFObject!, error: NSError!) -> Void in
             
             if object == nil {
-
+                
                 var currentInstallation = PFInstallation.currentInstallation()
                 currentInstallation.addUniqueObject(self.theUser, forKey: "channels")
                 currentInstallation.saveInBackgroundWithBlock({
@@ -181,8 +181,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                     (success:Bool!, saveerror: NSError!) -> Void in
                     
                     if saveerror == nil {
-                        var theMix = Mixpanel.sharedInstance()
-                        theMix.track("Subscribed")
+                
                         println("it worked")
                         self.areSubbed = true
                         
@@ -225,7 +224,8 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
  
                 if (subError == nil){
                     
-                    
+                    var theMix = Mixpanel.sharedInstance()
+                    theMix.track("Subscribed")
                     var notify = PFObject(className: "Notification")
                     notify["sender"] = PFUser.currentUser().username
                     notify["receiver"] = self.theUser
