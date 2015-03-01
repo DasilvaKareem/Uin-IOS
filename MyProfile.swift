@@ -50,6 +50,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     var rowsInSection = [Int]()
     var sectionNames = [String]()
  
+
     
     
     // View Life Cycles
@@ -81,22 +82,19 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         refresher.attributedTitle = NSAttributedString(string: "Pull to refresh")
         refresher.addTarget(self, action: "refresh", forControlEvents: UIControlEvents.ValueChanged)
         self.theFeed.addSubview(refresher)
-//        navigationController?.navigationBarHidden = true
-//        navigationController?.navigationBar.translucent = true
-              //navigationController?.navigationBar.setBackgroundImage(UIImage(named: "transparentNavbarBackground.png"), forBarMetrics: UIBarMetrics.Default)
+
         
+        //Makes Nav Bar Clear
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.translucent = true
-       
-    
         
-
-        
+        //Makes Text in navbar white
         var nav = self.navigationController?.navigationBar
         nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()];
 
     }
+    
     var amountofsubs = [String]()
      var amountofScript = [String]()
     func subticker(){

@@ -73,7 +73,8 @@ class SignIn: UIViewController, UITextFieldDelegate {
                     println(result)
                     self.userFacebook =  result["name"] as String
                     self.emailFacebook = result["email"] as String
-                   
+                    var theMix = Mixpanel.sharedInstance()
+                    theMix.track("Registers with Facebook")
                     self.performSegueWithIdentifier("register", sender: self)
                 })
                 
@@ -82,7 +83,9 @@ class SignIn: UIViewController, UITextFieldDelegate {
             } else {
                 
                 NSLog("User is already signed in with us")
-                
+                var theMix = Mixpanel.sharedInstance()
+                theMix.track("SignIns")
+
                 self.performSegueWithIdentifier("login", sender: self)
             }
             

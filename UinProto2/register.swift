@@ -159,7 +159,8 @@ class register: UIViewController, UITextFieldDelegate {
                     (succeeded: Bool!, registerError: NSError!) -> Void in
                     
                     if registerError == nil {
-                        
+                        var theMix = Mixpanel.sharedInstance()
+                        theMix.track("Registers with Uin")
                         self.performSegueWithIdentifier("registerS", sender: self)
                         
                     }
@@ -206,7 +207,8 @@ class register: UIViewController, UITextFieldDelegate {
                 
                 user["first"] = true
                 
-                
+                var theMix = Mixpanel.sharedInstance()
+                theMix.track("Registers with Facebook")
                 
                 user.saveInBackgroundWithBlock {
                     (succeeded: Bool!, registerError: NSError!) -> Void in

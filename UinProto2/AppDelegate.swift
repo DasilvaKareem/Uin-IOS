@@ -28,9 +28,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //UITabBar.appearance().barTintColor = UIColor(red: 52.0/255.0, green: 126.0/255.0, blue: 187.0/255.0, alpha: 1.0)
         
         
-    
-     
+        Mixpanel.sharedInstanceWithToken("fcf630f4f509d2ddeb0eef355102b65a")
+        
          Parse.setApplicationId("xEk0BIl2EyPBYEcWEz8SIHykycv4Yh0CfoYM2OOv", clientKey: "9p0BTN0Fm2mSr1LwEBPk7pJ21NGv2PfM58WJcmmy")
+        
+        PFAnalytics.trackAppOpenedWithLaunchOptionsInBackground(launchOptions, block: {
+            (success:Bool!, error:NSError!) -> Void in
+            
+            if error == nil {
+                
+                println("Success")
+            }
+            
+            
+        })
        
     PFFacebookUtils.initializeFacebook()
         // Override point for customization after application launch.

@@ -40,13 +40,14 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+ 
         self.tabBarController?.tabBar.hidden = false
         //var eventsItem = tabBarItem?[0] as UITabBarItem
         //eventsItem.selectedImage = UIImage(named: "addToCalendar.png")
         
-        
-        
+ 
+     
+    
         updateFeed()
     
         //Changes the navbar background
@@ -403,6 +404,17 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
 
     func followButton(sender: AnyObject){
         // Puts the data in a cell
+        
+        let dimensions = [
+            // Define ranges to bucket data points into meaningful segments
+            "priceRange": "1000-1500",
+            // Did the user filter the query?
+            "source": "craigslist",
+            // Do searches happen more often on weekdays or weekends?
+            "dayType": "weekday"
+        ]
+        
+   
         var first:Bool = Bool()
         
        var getFirst = PFUser.query()
@@ -480,7 +492,10 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                             println("\(i.title) this is the i.title")
                             println(self.eventTitle[sender.tag])
                             if i.title == self.eventTitle[sender.tag]  {
+                          
                                 println("removed")
+                                var theMix = Mixpanel.sharedInstance()
+                                theMix.track("RemovedFromEvent")
                                 eventStore.removeEvent(i, span: EKSpanThisEvent, error: nil)
                             }
                         }
@@ -510,6 +525,8 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                         event.location = self.eventlocation[sender.tag]
                         event.calendar = eventStore.defaultCalendarForNewEvents
                         eventStore.saveEvent(event, span: EKSpanThisEvent, error: nil)
+                        var theMix = Mixpanel.sharedInstance()
+                        theMix.track("AddedToEvent")
                         println("saved")
                     }
                 })
@@ -604,7 +621,8 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             
             
             
-            
+            var theMix = Mixpanel.sharedInstance()
+            theMix.track("Expaned View")
             var indexPath = theFeed.indexPathForSelectedRow() //get index of data for selected row
             var section = indexPath?.section
             var row = indexPath?.row

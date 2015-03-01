@@ -181,7 +181,8 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                     (success:Bool!, saveerror: NSError!) -> Void in
                     
                     if saveerror == nil {
-                        
+                        var theMix = Mixpanel.sharedInstance()
+                        theMix.track("Subscribed")
                         println("it worked")
                         self.areSubbed = true
                         
@@ -257,7 +258,8 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 
                 // self.subbutton.setTitle("subscribe", forState: UIControlState.Normal)
                 var unsub = PFQuery(className: "Subs")
-                
+                var theMix = Mixpanel.sharedInstance()
+                theMix.track("Unsubscribe")
                 unsub.whereKey("follower", equalTo:PFUser.currentUser().username)
                 unsub.whereKey("following", equalTo: self.theUser)
                 unsub.getFirstObjectInBackgroundWithBlock{
@@ -883,7 +885,8 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
             var secondViewController : postEvent = segue.destinationViewController as postEvent
             
             
-            
+            var theMix = Mixpanel.sharedInstance()
+            theMix.track("Expanded View")
             
             var indexPath = theFeed.indexPathForSelectedRow() //get index of data for selected row
             var section = indexPath?.section
