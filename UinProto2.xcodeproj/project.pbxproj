@@ -12,7 +12,6 @@
 		28277E3C1A4B115E001CCB02 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 28277E3B1A4B115E001CCB02 /* Images.xcassets */; };
 		28277E3F1A4B115E001CCB02 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28277E3D1A4B115E001CCB02 /* LaunchScreen.xib */; };
 		28277E4B1A4B115E001CCB02 /* UinProto2Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28277E4A1A4B115E001CCB02 /* UinProto2Tests.swift */; };
-		28277E5D1A4B1175001CCB02 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28277E541A4B1175001CCB02 /* StoreKit.framework */; };
 		28277E5E1A4B1175001CCB02 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28277E551A4B1175001CCB02 /* Security.framework */; };
 		28277E5F1A4B1175001CCB02 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28277E561A4B1175001CCB02 /* QuartzCore.framework */; };
 		28277E601A4B1175001CCB02 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28277E571A4B1175001CCB02 /* MobileCoreServices.framework */; };
@@ -71,7 +70,6 @@
 		28277E441A4B115E001CCB02 /* UinProto2Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UinProto2Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		28277E491A4B115E001CCB02 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		28277E4A1A4B115E001CCB02 /* UinProto2Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UinProto2Tests.swift; sourceTree = "<group>"; };
-		28277E541A4B1175001CCB02 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		28277E551A4B1175001CCB02 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		28277E561A4B1175001CCB02 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		28277E571A4B1175001CCB02 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
@@ -128,7 +126,6 @@
 				28277E601A4B1175001CCB02 /* MobileCoreServices.framework in Frameworks */,
 				6107097F1A7028DD000ED950 /* Parse.framework in Frameworks */,
 				61B451551A9EB74200285930 /* FacebookSDK.framework in Frameworks */,
-				28277E5D1A4B1175001CCB02 /* StoreKit.framework in Frameworks */,
 				28277E671A4B1186001CCB02 /* libsqlite3.dylib in Frameworks */,
 				28277E5F1A4B1175001CCB02 /* QuartzCore.framework in Frameworks */,
 			);
@@ -159,7 +156,6 @@
 				28277E571A4B1175001CCB02 /* MobileCoreServices.framework */,
 				28277E561A4B1175001CCB02 /* QuartzCore.framework */,
 				28277E551A4B1175001CCB02 /* Security.framework */,
-				28277E541A4B1175001CCB02 /* StoreKit.framework */,
 				28277E6F1A4B1685001CCB02 /* SystemConfiguration.framework */,
 				28277E311A4B115E001CCB02 /* UinProto2 */,
 				28277E471A4B115E001CCB02 /* UinProto2Tests */,
@@ -287,9 +283,15 @@
 					28277E2E1A4B115E001CCB02 = {
 						CreatedOnToolsVersion = 6.2;
 						DevelopmentTeam = C59F79Z942;
+						SystemCapabilities = {
+							com.apple.InAppPurchase = {
+								enabled = 0;
+							};
+						};
 					};
 					28277E431A4B115E001CCB02 = {
 						CreatedOnToolsVersion = 6.2;
+						DevelopmentTeam = C59F79Z942;
 						TestTargetID = 28277E2E1A4B115E001CCB02;
 					};
 				};
@@ -419,7 +421,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Cole Roe (33XBMXDS77)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Cole Roe (33XBMXDS77)";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -439,6 +442,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "650a1d13-c35e-4bf9-b3d0-6bcd20d971f6";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -461,7 +465,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Cole Roe (33XBMXDS77)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Cole Roe (33XBMXDS77)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -474,6 +479,8 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				ONLY_ACTIVE_ARCH = NO;
+				PROVISIONING_PROFILE = "650a1d13-c35e-4bf9-b3d0-6bcd20d971f6";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -484,8 +491,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "Apple Development IOS Push Services: com.demo.uin";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Cole Roe (33XBMXDS77)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Cole Roe (33XBMXDS77)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/TheRaven/.Trash,
@@ -500,7 +507,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "650a1d13-c35e-4bf9-b3d0-6bcd20d971f6";
 				SWIFT_OBJC_BRIDGING_HEADER = "UinProto2/UinProto2-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -511,8 +518,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "Apple Development IOS Push Services: com.demo.uin";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Cole Roe (33XBMXDS77)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Cole Roe (33XBMXDS77)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/TheRaven/.Trash,
@@ -527,7 +534,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "650a1d13-c35e-4bf9-b3d0-6bcd20d971f6";
 				SWIFT_OBJC_BRIDGING_HEADER = "UinProto2/UinProto2-Bridging-Header.h";
 			};
 			name = Release;
@@ -536,6 +543,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Cole Roe (33XBMXDS77)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Cole Roe (33XBMXDS77)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -548,6 +557,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "650a1d13-c35e-4bf9-b3d0-6bcd20d971f6";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/UinProto2.app/UinProto2";
 			};
 			name = Debug;
@@ -556,6 +566,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Cole Roe (33XBMXDS77)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Cole Roe (33XBMXDS77)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -564,6 +576,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "650a1d13-c35e-4bf9-b3d0-6bcd20d971f6";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/UinProto2.app/UinProto2";
 			};
 			name = Release;
