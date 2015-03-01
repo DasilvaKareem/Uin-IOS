@@ -48,23 +48,46 @@ class register: UIViewController, UITextFieldDelegate {
         self.presentViewController(alert, animated: true, completion: nil)
         
     }
-    
+    var userPlace = ""
+    var emailPlace = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if userPlace != "" {
+            username.attributedText = NSAttributedString(string:userPlace,
+                attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
+
+            
+        }
+        else {
+            username.attributedPlaceholder = NSAttributedString(string:"USERNAME",
+                attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
+            
+        }
+        
+        if emailPlace != "" {
+           email.attributedText = NSAttributedString(string:emailPlace,
+                attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
+            
+        }
+        else {
+            
+            email.attributedPlaceholder = NSAttributedString(string:"EMAIL",
+                attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
+        }
+        
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name:UIKeyboardWillShowNotification, object: nil);
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillHide:"), name:UIKeyboardWillHideNotification, object: nil);
 
         
-        username.attributedPlaceholder = NSAttributedString(string:"USERNAME",
-            attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
+    
         
         password.attributedPlaceholder = NSAttributedString(string:"PASSWORD",
             attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
         
-        email.attributedPlaceholder = NSAttributedString(string:"EMAIL",
-            attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
+     
         
         cpassword.attributedPlaceholder = NSAttributedString(string:"CONFIRM PASSWORD",
             attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
@@ -89,45 +112,9 @@ class register: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var cpassword: UITextField!
 
     
-    @IBAction func facebook(sender: AnyObject) {
-        
-        
-        var fbloginView:FBLoginView = FBLoginView(readPermissions: ["email", "public_profile"])
-         var permissions = ["public_profile", "email"]
-        PFFacebookUtils.logInWithPermissions(permissions, block: {
-            (user: PFUser!, error: NSError!) -> Void in
-            if user == nil {
-                NSLog("Uh oh. The user cancelled the Facebook login.")
-                
-                //self.loginCancelledLabel.alpha = 1
-                
-            } else if user.isNew {
-                NSLog("User signed up and logged in through Facebook!")
-                var user = PFUser.currentUser()
-                FBRequestConnection.startForMeWithCompletionHandler({
-                    connection, result, error in
-                    
-                    user.email = result["email"] as String
-                    user["display"] = result["name"] as String
-                    user.save()
-                    
-                    println(result)
-                    
-                    
-                })
-                
-               self.performSegueWithIdentifier("register", sender: self)
-                
-            } else {
-             
-                self.performSegueWithIdentifier("register", sender: self)
-                
-            }
-            
-        })
 
-        
-    }
+
+    
     @IBAction func register(sender: AnyObject) {
         
         
@@ -152,57 +139,115 @@ class register: UIViewController, UITextFieldDelegate {
         else {
             
 
-
-            
-            var user = PFUser()
-            
-            user.username = username.text
-            
-            user["display"] = username.text
-            
-            user.password = password.text
-            
-            user.email = email.text
-            
-            user["push"] = true
-            
-            user["first"] = true
-            
-          
-            
-            user.signUpInBackgroundWithBlock {
-                (succeeded: Bool!, registerError: NSError!) -> Void in
+            if PFUser.currentUser() == nil {
+                var user = PFUser()
+                user.username = username.text
                 
-                if registerError == nil {
+                user["display"] = username.text
+                
+                user.password = password.text
+                
+                user.email = email.text
+                
+                user["push"] = true
+                
+                user["first"] = true
+                
+                
+                
+                user.signUpInBackgroundWithBlock {
+                    (succeeded: Bool!, registerError: NSError!) -> Void in
                     
-                    self.performSegueWithIdentifier("registerS", sender: self)
-                    
-                }
-                else {
-                    println(registerError.code)
-                    switch registerError.code {
-                    
-                    case 125:
-                        self.displayAlert("Oops!", error: "wrong Email")
-                    
-                    case 100:
-                        self.displayAlert("Oops!", error: "No internet")
+                    if registerError == nil {
+                        var theMix = Mixpanel.sharedInstance()
+                        theMix.track("Registers with Uin")
+                        self.performSegueWithIdentifier("registerS", sender: self)
                         
-                    case 203:
-                        self.displayAlert("Oops", error: "Email Taken")
-                        
-                    case 202:
-                        self.displayAlert("Oops!", error: "Username taken")
-   
-                    default:
-                        self.displayAlert("Oops!", error: "Failure")
                     }
-                    
-                    
+                    else {
+                        println(registerError.code)
+                        switch registerError.code {
+                            
+                        case 125:
+                            self.displayAlert("Oops!", error: "wrong Email")
+                            
+                        case 100:
+                            self.displayAlert("Oops!", error: "No internet")
+                            
+                        case 203:
+                            self.displayAlert("Oops", error: "Email Taken")
+                            
+                        case 202:
+                            self.displayAlert("Oops!", error: "Username taken")
+                            
+                        default:
+                            self.displayAlert("Oops!", error: "Failure")
+                        }
+                        
+                        
+                        
+                    }
                     
                 }
                 
             }
+            else {
+                
+                var user = PFUser.currentUser()
+                
+                user.username = username.text
+                
+                user["display"] = username.text
+                
+                user.password = password.text
+                
+                user.email = email.text
+                
+                user["push"] = true
+                
+                user["first"] = true
+                
+                var theMix = Mixpanel.sharedInstance()
+                theMix.track("Registers with Facebook")
+                
+                user.saveInBackgroundWithBlock {
+                    (succeeded: Bool!, registerError: NSError!) -> Void in
+                    
+                    if registerError == nil {
+                        
+                        self.performSegueWithIdentifier("registerS", sender: self)
+                        
+                    }
+                    else {
+                        println(registerError.code)
+                        switch registerError.code {
+                            
+                        case 125:
+                            self.displayAlert("Oops!", error: "wrong Email")
+                            
+                        case 100:
+                            self.displayAlert("Oops!", error: "No internet")
+                            
+                        case 203:
+                            self.displayAlert("Oops", error: "Email Taken")
+                            
+                        case 202:
+                            self.displayAlert("Oops!", error: "Username taken")
+                            
+                        default:
+                            self.displayAlert("Oops!", error: "Failure")
+                        }
+                        
+                        
+                        
+                    }
+                    
+                }
+                
+            }
+            
+         
+         
             
         }
         

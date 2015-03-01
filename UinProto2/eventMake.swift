@@ -257,7 +257,8 @@ class eventMake: UIViewController, UITextFieldDelegate {
                                         
                                     }
                                     
-                                    
+                                    var theMix = Mixpanel.sharedInstance()
+                                    theMix.track("Edited Event")
                                     
                                 })
                                 self.performSegueWithIdentifier("eventback", sender: self)
@@ -318,7 +319,8 @@ class eventMake: UIViewController, UITextFieldDelegate {
                             
                             
                         })
-                        
+                        var theMix = Mixpanel.sharedInstance()
+                        theMix.track("Created an Event")
                         var notify = PFObject(className: "Notification")
                         notify["sender"] = PFUser.currentUser().username
                         notify["receiver"] = PFUser.currentUser().username
@@ -377,10 +379,12 @@ class eventMake: UIViewController, UITextFieldDelegate {
                     (eventItem:PFObject!, error:NSError!) -> Void in
                     
                     if error == nil {
-                        var name = PFUser.currentUser().objectForKey("display") as? String
+                        var theMix = Mixpanel.sharedInstance()
+                        theMix.track("Deleted event")
+                        var name = PFUser.currentUser().username
                         eventItem.delete()
                         let data = [
-                            "alert" : "\(name) has deleted the event '\(self.eventTitle.text)'",
+                            "alert" : "\(PFUser.currentUser().username) has deleted the event '\(self.eventTitle.text)'",
                             "badge" : "Increment",
                             "sound" : "default"
                         ]

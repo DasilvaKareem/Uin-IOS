@@ -1,114 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="6lS-Ca-3sI">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6221" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="6lS-Ca-3sI">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6213"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Unknown constraint types" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
-        <scene sceneID="KN9-pY-VxM">
-            <objects>
-                <viewController id="Nya-fF-oKj" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="v54-qv-Wem"/>
-                        <viewControllerLayoutGuide type="bottom" id="Q60-2q-2bD"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="Yk0-BC-U3J">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background" translatesAutoresizingMaskIntoConstraints="NO" id="ntX-Un-F55">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
-                            </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sign in with Facebook" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nn0-jr-jca">
-                                <rect key="frame" x="122" y="28" width="170" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sign in with Uin" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nh4-XQ-dqO">
-                                <rect key="frame" x="147" y="225" width="120" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rdw-Xo-G56">
-                                <rect key="frame" x="157" y="57" width="100" height="100"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="100" id="Jaa-eT-RD1"/>
-                                    <constraint firstAttribute="width" constant="100" id="eGz-ez-Xq8"/>
-                                </constraints>
-                                <state key="normal" image="facebook">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x5f-9E-izG">
-                                <rect key="frame" x="157" y="254" width="100" height="100"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="100" id="MKc-59-aIn"/>
-                                    <constraint firstAttribute="width" constant="100" id="xZX-ya-4JZ"/>
-                                </constraints>
-                                <state key="normal" image="uinLogin">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="OR" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ph0-Eu-QbU">
-                                <rect key="frame" x="192" y="181" width="30" height="24"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="We recommend creating your own account if you want a unique username (e.g., for your organization)." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ST9-WS-Ho2">
-                                <rect key="frame" x="36" y="362" width="342" height="51"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="342" id="14u-wz-goG"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="14u-wz-goG"/>
-                                    </mask>
-                                </variation>
-                            </label>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="centerX" secondItem="Nn0-jr-jca" secondAttribute="centerX" id="5oM-W0-cos"/>
-                            <constraint firstAttribute="centerX" secondItem="x5f-9E-izG" secondAttribute="centerX" id="AlY-Ln-FIm"/>
-                            <constraint firstItem="ST9-WS-Ho2" firstAttribute="top" secondItem="x5f-9E-izG" secondAttribute="bottom" constant="8" id="JmO-N5-5Xh"/>
-                            <constraint firstAttribute="centerX" secondItem="ST9-WS-Ho2" secondAttribute="centerX" id="Kph-Q0-1O2"/>
-                            <constraint firstItem="rdw-Xo-G56" firstAttribute="top" secondItem="Nn0-jr-jca" secondAttribute="bottom" constant="8" id="Pfv-sT-n5l"/>
-                            <constraint firstItem="Nn0-jr-jca" firstAttribute="top" secondItem="v54-qv-Wem" secondAttribute="bottom" constant="8" id="RRj-zK-ZQf"/>
-                            <constraint firstItem="ST9-WS-Ho2" firstAttribute="leading" secondItem="Yk0-BC-U3J" secondAttribute="leading" constant="36" id="USJ-3T-UHd"/>
-                            <constraint firstAttribute="centerX" secondItem="Ph0-Eu-QbU" secondAttribute="centerX" id="VUn-QE-KxX"/>
-                            <constraint firstItem="Nn0-jr-jca" firstAttribute="leading" secondItem="Yk0-BC-U3J" secondAttribute="leadingMargin" constant="106" id="VWo-dx-LTp"/>
-                            <constraint firstItem="Ph0-Eu-QbU" firstAttribute="top" secondItem="rdw-Xo-G56" secondAttribute="bottom" constant="24" id="WCc-0R-Dpi"/>
-                            <constraint firstAttribute="trailing" secondItem="ntX-Un-F55" secondAttribute="trailing" id="XHg-dd-kCG"/>
-                            <constraint firstAttribute="centerX" secondItem="Nh4-XQ-dqO" secondAttribute="centerX" id="dwn-tp-VGA"/>
-                            <constraint firstItem="ntX-Un-F55" firstAttribute="leading" secondItem="Yk0-BC-U3J" secondAttribute="leading" id="gaQ-JI-bOW"/>
-                            <constraint firstItem="Q60-2q-2bD" firstAttribute="top" secondItem="ntX-Un-F55" secondAttribute="bottom" id="hrd-xK-FGC"/>
-                            <constraint firstItem="ntX-Un-F55" firstAttribute="top" secondItem="Yk0-BC-U3J" secondAttribute="top" id="kXO-4b-uW3"/>
-                            <constraint firstAttribute="centerX" secondItem="rdw-Xo-G56" secondAttribute="centerX" id="pBz-GR-vzF"/>
-                            <constraint firstItem="x5f-9E-izG" firstAttribute="top" secondItem="Nh4-XQ-dqO" secondAttribute="bottom" constant="8" id="w9H-xU-tn0"/>
-                            <constraint firstItem="Nh4-XQ-dqO" firstAttribute="top" secondItem="Ph0-Eu-QbU" secondAttribute="bottom" constant="20" id="wuZ-1N-aj4"/>
-                            <constraint firstAttribute="trailing" secondItem="ST9-WS-Ho2" secondAttribute="trailing" constant="36" id="wvA-oS-Zir"/>
-                        </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="VWo-dx-LTp"/>
-                            </mask>
-                        </variation>
-                    </view>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="YRj-Bb-tCq" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-2125" y="-1130"/>
-        </scene>
         <!--Sign In-->
         <scene sceneID="unY-KK-jvM">
             <objects>
@@ -163,7 +61,7 @@
                                     </mask>
                                 </variation>
                                 <connections>
-                                    <segue destination="JRi-hN-RoR" kind="show" id="EFc-px-I0Q"/>
+                                    <segue destination="JRi-hN-RoR" kind="show" identifier="register" id="FLk-RB-cnt"/>
                                 </connections>
                             </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="PASSWORD" textAlignment="center" minimumFontSize="17" background="loginFormBackground" translatesAutoresizingMaskIntoConstraints="NO" id="guQ-EM-MXg">
@@ -198,26 +96,6 @@
                                     <action selector="signin:" destination="6lS-Ca-3sI" eventType="touchUpInside" id="tv4-mA-bUL"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="USERNAME" textAlignment="center" minimumFontSize="17" background="loginFormBackground" translatesAutoresizingMaskIntoConstraints="NO" id="UtL-Ut-skm">
-                                <rect key="frame" x="0.0" y="286" width="414" height="76"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="UtL-Ut-skm" secondAttribute="height" multiplier="321:59" id="BGF-Xn-SFi"/>
-                                    <constraint firstAttribute="width" secondItem="UtL-Ut-skm" secondAttribute="height" multiplier="321:59" id="kfu-0j-Fxs"/>
-                                </constraints>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                <textInputTraits key="textInputTraits" spellCheckingType="no"/>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="BGF-Xn-SFi"/>
-                                    </mask>
-                                </variation>
-                                <variation key="heightClass=regular-widthClass=compact">
-                                    <mask key="constraints">
-                                        <include reference="BGF-Xn-SFi"/>
-                                    </mask>
-                                </variation>
-                            </textField>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ieX-x0-8CZ" userLabel="logoView">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="238"/>
                                 <subviews>
@@ -248,6 +126,35 @@
                                     </mask>
                                 </variation>
                             </view>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="USERNAME" textAlignment="center" minimumFontSize="17" background="loginFormBackground" translatesAutoresizingMaskIntoConstraints="NO" id="UtL-Ut-skm">
+                                <rect key="frame" x="0.0" y="286" width="414" height="76"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="UtL-Ut-skm" secondAttribute="height" multiplier="321:59" id="BGF-Xn-SFi"/>
+                                    <constraint firstAttribute="width" secondItem="UtL-Ut-skm" secondAttribute="height" multiplier="321:59" id="kfu-0j-Fxs"/>
+                                </constraints>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <textInputTraits key="textInputTraits" spellCheckingType="no"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="BGF-Xn-SFi"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=regular-widthClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="BGF-Xn-SFi"/>
+                                    </mask>
+                                </variation>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nBp-5s-e2m">
+                                <rect key="frame" x="134" y="528" width="148" height="30"/>
+                                <state key="normal" title="Log in with Facebook">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="facebook:" destination="6lS-Ca-3sI" eventType="touchUpInside" id="1i1-b8-lIJ"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -369,7 +276,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aGL-c4-QKW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1602" y="-1130"/>
+            <point key="canvasLocation" x="-2440" y="-2083"/>
         </scene>
         <!--Event Feed-->
         <scene sceneID="x2s-vw-TZy">
@@ -691,7 +598,7 @@
                                             <outlet property="onCampusIcon" destination="PVl-6A-JMq" id="bVg-Yc-EyP"/>
                                             <outlet property="onCampusText" destination="Cl4-5s-ATh" id="kBo-qA-JwZ"/>
                                             <outlet property="people" destination="Fhi-M9-2pY" id="0M4-RJ-cCU"/>
-                                            <outlet property="poop" destination="1QH-D4-qkU" id="jti-ci-J8u"/>
+                                            <outlet property="poop" destination="1QH-D4-qkU" id="OaK-wG-yFi"/>
                                             <outlet property="privateImage" destination="6DV-v7-Ju6" id="L4k-Fq-cdw"/>
                                             <outlet property="time" destination="cLn-9g-WhW" id="GIC-Uk-zv5"/>
                                             <segue destination="y9y-G9-w9b" kind="show" identifier="example" id="5Y0-YN-TjP"/>
@@ -1514,7 +1421,7 @@
                                             <outlet property="onCampusIcon" destination="9ku-OH-eoG" id="PUJ-mO-472"/>
                                             <outlet property="onCampusText" destination="Gjg-pr-fET" id="0XQ-lq-tDQ"/>
                                             <outlet property="people" destination="P75-Hv-y60" id="fvN-BJ-yj5"/>
-                                            <outlet property="poop" destination="hrt-sC-M9f" id="r2Z-2Z-F1G"/>
+                                            <outlet property="poop" destination="hrt-sC-M9f" id="3Ee-Iy-znF"/>
                                             <outlet property="privateImage" destination="B3g-S4-6tX" id="s3g-Ju-0Ma"/>
                                             <outlet property="time" destination="jMb-G6-61V" id="aFL-Kd-gP0"/>
                                             <segue destination="y9y-G9-w9b" kind="show" identifier="example" id="tAD-AG-Ttu"/>
@@ -2593,7 +2500,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="O56-JJ-UaT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1082" y="-1130"/>
+            <point key="canvasLocation" x="-1952" y="-1736"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="ubz-rF-dLN">
@@ -2614,7 +2521,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="r4p-Rz-dgO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1528" y="-167"/>
+            <point key="canvasLocation" x="-1946" y="-590"/>
         </scene>
         <!--Userprofile-->
         <scene sceneID="lmG-qq-5zj">
@@ -2993,7 +2900,7 @@
                                             <outlet property="onCampusIcon" destination="ugd-WI-j4z" id="9qk-em-QoF"/>
                                             <outlet property="onCampusText" destination="TUg-hk-XhM" id="ude-pE-rvg"/>
                                             <outlet property="people" destination="abm-BW-uCi" id="yfv-rK-bCa"/>
-                                            <outlet property="poop" destination="V0a-Tz-rZl" id="AoC-E1-K5H"/>
+                                            <outlet property="poop" destination="V0a-Tz-rZl" id="WZc-gg-Rvc"/>
                                             <outlet property="privateImage" destination="RkG-MN-SHf" id="6aw-SS-RyQ"/>
                                             <outlet property="time" destination="mym-Ji-Cya" id="OSG-jd-aSM"/>
                                             <segue destination="y9y-G9-w9b" kind="show" identifier="example" id="ixO-tF-9sT"/>
@@ -3291,7 +3198,6 @@
         <image name="background" width="416" height="737"/>
         <image name="createAccountButton" width="417" height="78"/>
         <image name="createEvent" width="25" height="29"/>
-        <image name="facebook" width="201" height="202"/>
         <image name="inputForm" width="421" height="73"/>
         <image name="logInButton" width="417" height="78"/>
         <image name="loginFormBackground" width="419" height="72"/>
@@ -3303,12 +3209,11 @@
         <image name="sendCreateLongBar" width="417" height="78"/>
         <image name="separator" width="421" height="2"/>
         <image name="settings" width="30" height="29"/>
-        <image name="uinLogin" width="201" height="201"/>
         <image name="uinLogo" width="218" height="230"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="eEb-gu-TeJ"/>
         <segue reference="iev-7x-rXk"/>
+        <segue reference="6hY-wJ-ibE"/>
         <segue reference="rPS-zS-M73"/>
         <segue reference="ixO-tF-9sT"/>
     </inferredMetricsTieBreakers>

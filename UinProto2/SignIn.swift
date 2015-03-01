@@ -16,6 +16,9 @@ class SignIn: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var password: UITextField!
     
+    var userFacebook = (String)()
+    var emailFacebook = (String)()
+    
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         
         self.view.endEditing(true)
@@ -49,6 +52,48 @@ class SignIn: UIViewController, UITextFieldDelegate {
         
     }
     
+    @IBAction func facebook(sender: AnyObject) {
+        var fbloginView:FBLoginView = FBLoginView(readPermissions: ["email", "public_profile"])
+        var permissions = ["public_profile", "email"]
+        PFFacebookUtils.logInWithPermissions(permissions, block: {
+            (user: PFUser!, error: NSError!) -> Void in
+            if user == nil {
+                NSLog("Uh oh. The user cancelled the Facebook login.")
+                
+                //self.loginCancelledLabel.alpha = 1
+                
+            } else if user.isNew {
+                NSLog("User signed up and logged in through Facebook!")
+                
+                FBRequestConnection.startForMeWithCompletionHandler({
+                    connection, result, error in
+                    
+                    
+                    
+                    println(result)
+                    self.userFacebook =  result["name"] as String
+                    self.emailFacebook = result["email"] as String
+                    var theMix = Mixpanel.sharedInstance()
+                    theMix.track("Registers with Facebook")
+                    self.performSegueWithIdentifier("register", sender: self)
+                })
+                
+                
+                
+            } else {
+                
+                NSLog("User is already signed in with us")
+                var theMix = Mixpanel.sharedInstance()
+                theMix.track("SignIns")
+
+                self.performSegueWithIdentifier("login", sender: self)
+            }
+            
+        })
+
+        
+    }
+ 
     override func viewDidLoad() {
 
         super.viewDidLoad()
@@ -197,7 +242,22 @@ class SignIn: UIViewController, UITextFieldDelegate {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        if segue.identifier == "register" {
+            
+            var create : register = segue.destinationViewController as register
+            
+            if self.emailFacebook != "" {
+                create.emailPlace = self.emailFacebook
+                create.userPlace = self.userFacebook
+                create.editing = true
+                
+            }
+       
+        }
+        
+    }
 
 
 }
