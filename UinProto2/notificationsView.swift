@@ -29,7 +29,7 @@ class notificationsView: UITableViewController {
     notify()
 }
     func notify(){
-      
+        var eventQuery = PFQuery(className: "Notification")
         var folusernames = [String]()
         var followque = PFQuery(className: "Subs")
         followque.whereKey("follower", equalTo: PFUser.currentUser().username)
@@ -40,7 +40,7 @@ class notificationsView: UITableViewController {
             
             if folError == nil {
                 
-
+                
                 for object in objects{
                     println("it worked")
                     folusernames.append(object["following"] as String)
@@ -48,117 +48,93 @@ class notificationsView: UITableViewController {
                     
                 }
                 println(folusernames)
-                var eventQuery = PFQuery(className: "Notification")
+                
                 eventQuery.whereKey("type", equalTo: "event" )
                 eventQuery.whereKey("sender", containedIn: folusernames)
-                eventQuery.orderByDescending("createdAt")
-                eventQuery.limit = 10
-                eventQuery.findObjectsInBackgroundWithBlock({
-                    (objects:[AnyObject]!,eventError:NSError!) -> Void in
-                    println("it queryed")
-                    if eventError == nil {
-                       
-                        for object in objects {
-                            println(object.objectId)
-                            var current = object["sender"] as String
-                            var eventnote = "\(current) has made an event"
-                            self.notes.append(eventnote as String)
-                            self.tableView.reloadData()
-                        }
-                        
-                    }
-                    
-                    
-                    
-                })
+                
                 
             }
             
         }
-
-
-
-       
-       
+        
+        
+        
+        
         var subQuery = PFQuery(className: "Notification")
         subQuery.whereKey("type", equalTo: "sub")
         subQuery.whereKey("receiver", equalTo: PFUser.currentUser().username)
-        subQuery.orderByDescending("createdAt")
-        subQuery.limit = 10
-        subQuery.findObjectsInBackgroundWithBlock({
-            
-            (objects:[AnyObject]!,subError:NSError!) -> Void in
-            println("it queryed")
-            if subError == nil {
-                
-                for object in objects {
-                   // println(object.objectId)
-                    var current = object["sender"] as String
-                    var subnote = "\(current) has subscribed to you"
-                    self.notes.append(subnote as String)
-                    self.tableView.reloadData()
-                }
-                
-                
-            }
-            
-            
-        })
         
-     
+        
+        
+        
         var calendarQuery = PFQuery(className: "Notification")
         calendarQuery.whereKey("receiver", equalTo: PFUser.currentUser().username)
         calendarQuery.whereKey("type", equalTo: "calendar")
-        calendarQuery.orderByDescending("createdAt")
-        calendarQuery.limit = 10
-        calendarQuery.findObjectsInBackgroundWithBlock({
-            (objects:[AnyObject]!, calendarError:NSError!) -> Void in
-            
-            if calendarError == nil {
-                
-                for object in objects {
-                    
-                    var current = object["sender"] as String
-                    var calendarNote = "\(current) has added your Event to their calendar"
-                    self.notes.append(calendarNote as String)
-                    self.tableView.reloadData()
-                    
-                }
-                
-            }
-            
-            
-        })
+        
+        
         
         
         var memberQuery = PFQuery(className: "Notification")
         memberQuery.whereKey("receiver", equalTo: PFUser.currentUser().username)
         memberQuery.whereKey("type", equalTo: "member")
-        memberQuery.findObjectsInBackgroundWithBlock({
-            
+        
+        
+        var query = PFQuery.orQueryWithSubqueries([memberQuery, subQuery, calendarQuery, eventQuery ])
+        query.limit = 20
+        query.orderByAscending("createdAt")
+        query.findObjectsInBackgroundWithBlock({
             (objects:[AnyObject]!,subError:NSError!) -> Void in
             println("it queryed")
             if subError == nil {
                 
                 for object in objects {
-                   // println(object.objectId)
-                    var current = object["sender"] as String
-                       var membernote = "\(current) changed your member status"
-                    self.notes.append(membernote as String)
-                   
-                    self.tableView.reloadData()
+                    println(object.objectId)
+                    
+                    switch object["type"] as String {
+                    case "event":
+                        var current = object["sender"] as String
+                        var eventnote = "\(current) has made an event"
+                        self.notes.append(eventnote as String)
+                        
+                        break
+                    case "calendar":
+                        var current = object["sender"] as String
+                        var eventnote = "\(current) has added your event to their calendar"
+                        self.notes.append(eventnote as String)
+                        
+                        break
+                        
+                    case "sub":
+                        var current = object["sender"] as String
+                        var eventnote = "\(current) has subscribed to you"
+                        self.notes.append(eventnote as String)
+                        
+                        break
+                        
+                    case "member":
+                        var current = object["sender"] as String
+                        var eventnote = "\(current) has change your member status"
+                        self.notes.append(eventnote as String)
+                        
+                        break
+                    default:
+                        println("unknown has happen please refer back to parse database")
+                        break
+                        
+                        
+                    }
+                    
+                    
                 }
-                
+                self.tableView.reloadData()
                 
             }
             
+            
+            
         })
-        
-    //var query = PFQuery.orQueryWithSubqueries([memberQuery, subQuery, calendarQuery, eventQuery])
-        
-     
         //self.clearsSelectionOnViewWillAppear = false
-
+        
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         //self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }

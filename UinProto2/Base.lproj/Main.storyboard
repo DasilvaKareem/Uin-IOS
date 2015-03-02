@@ -2404,7 +2404,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="r4p-Rz-dgO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-896" y="-186"/>
+            <point key="canvasLocation" x="-919" y="-179"/>
         </scene>
         <!--Userprofile-->
         <scene sceneID="lmG-qq-5zj">
@@ -2502,7 +2502,7 @@
                                             <outlet property="subscriptionTick" destination="RAX-5w-GVQ" id="TAO-MF-yMO"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell autoresizesSubviews="NO" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="dateCell" rowHeight="21" id="R9d-RS-9yg" customClass="dateCell" customModule="UinProto2" customModuleProvider="target">
+                                    <tableViewCell autoresizesSubviews="NO" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="dateCell" rowHeight="23" id="R9d-RS-9yg" customClass="dateCell" customModule="UinProto2" customModuleProvider="target">
                                         <rect key="frame" x="10" y="254" width="320" height="72"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="R9d-RS-9yg" id="Zvo-1J-6Jz">
@@ -2515,7 +2515,7 @@
                                                     </variation>
                                                 </imageView>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="separator" translatesAutoresizingMaskIntoConstraints="NO" id="ebC-Yp-2Gi">
-                                                    <rect key="frame" x="-6" y="19" width="440" height="2"/>
+                                                    <rect key="frame" x="-6" y="22" width="440" height="2"/>
                                                     <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
                                                         <rect key="frame" x="-185" y="21" width="614" height="1"/>
                                                     </variation>
@@ -2534,7 +2534,7 @@
                                             <constraints>
                                                 <constraint firstAttribute="trailingMargin" secondItem="dUe-8X-1Qd" secondAttribute="trailing" constant="-26" id="Qnm-Hn-Wai"/>
                                                 <constraint firstItem="Iax-TI-O3e" firstAttribute="top" secondItem="Zvo-1J-6Jz" secondAttribute="topMargin" constant="-3" id="Seq-2j-Otq"/>
-                                                <constraint firstItem="ebC-Yp-2Gi" firstAttribute="top" secondItem="Iax-TI-O3e" secondAttribute="bottom" constant="2" id="X1Q-PS-SZv"/>
+                                                <constraint firstItem="ebC-Yp-2Gi" firstAttribute="top" secondItem="Iax-TI-O3e" secondAttribute="bottom" constant="5" id="X1Q-PS-SZv"/>
                                                 <constraint firstItem="Iax-TI-O3e" firstAttribute="top" secondItem="dUe-8X-1Qd" secondAttribute="bottom" constant="3" id="Xsr-R3-JLh"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="ebC-Yp-2Gi" secondAttribute="trailing" constant="-28" id="cuz-ZL-6kF"/>
                                                 <constraint firstItem="dUe-8X-1Qd" firstAttribute="leading" secondItem="Zvo-1J-6Jz" secondAttribute="leadingMargin" constant="-16" id="k8g-FE-abD"/>
@@ -2806,11 +2806,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="ZRG-fF-hGj">
                         <barButtonItem key="backBarButtonItem" title="Back" id="10T-92-dBn"/>
-                        <barButtonItem key="rightBarButtonItem" title="Username" style="done" id="O5v-4n-jEW">
-                            <connections>
-                                <action selector="subscribe:" destination="Odt-cu-E3D" id="Q5x-8b-zAq"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Username" style="done" id="O5v-4n-jEW"/>
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <nil key="simulatedBottomBarMetrics"/>
@@ -3097,10 +3093,10 @@
         <image name="uinLogo" width="218" height="230"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="rPS-zS-M73"/>
-        <segue reference="iev-7x-rXk"/>
-        <segue reference="eEb-gu-TeJ"/>
         <segue reference="ixO-tF-9sT"/>
+        <segue reference="Ey9-Bb-gh3"/>
+        <segue reference="eEb-gu-TeJ"/>
+        <segue reference="rPS-zS-M73"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>

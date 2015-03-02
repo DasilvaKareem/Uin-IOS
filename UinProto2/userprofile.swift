@@ -49,7 +49,13 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
         
         subticker()
         ChangeSub()
-        username.title = PFUser.currentUser().username
+        println()
+        println()
+        println(self.theUser)
+        username.title = self.theUser
+        println()
+        println()
+        println()
         updateFeed()
         //Changes the navbar background
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
@@ -674,7 +680,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
             
             return 150.0
         }
-        return 20.0
+        return 23.0
     }
     
     
