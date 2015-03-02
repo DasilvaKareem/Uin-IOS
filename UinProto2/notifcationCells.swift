@@ -12,6 +12,8 @@ class subCell: UITableViewCell {
    
     @IBOutlet weak var notifyMessage: UILabel!
     
+    @IBOutlet var timeStamp: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

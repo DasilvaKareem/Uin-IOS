@@ -12,7 +12,8 @@ class notificationsView: UITableViewController {
    
     var notes = [String]()
   
-    
+    var times = [NSDate]()
+    var localTime = [String]()
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tabBarController?.tabBar.hidden = false
@@ -81,7 +82,7 @@ class notificationsView: UITableViewController {
         
         var query = PFQuery.orQueryWithSubqueries([memberQuery, subQuery, calendarQuery, eventQuery ])
         query.limit = 20
-        query.orderByAscending("createdAt")
+        query.orderByDescending("createdAt")
         query.findObjectsInBackgroundWithBlock({
             (objects:[AnyObject]!,subError:NSError!) -> Void in
             println("it queryed")
@@ -89,6 +90,8 @@ class notificationsView: UITableViewController {
                 
                 for object in objects {
                     println(object.objectId)
+                    
+                    self.times.append(object.createdAt)
                     
                     switch object["type"] as String {
                     case "event":
@@ -126,6 +129,19 @@ class notificationsView: UITableViewController {
                     
                     
                 }
+                for i in self.times {
+                    var dateFormatter = NSDateFormatter()
+                    dateFormatter.locale = NSLocale.currentLocale()
+                    dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
+                    var realDate = dateFormatter.stringFromDate(i)
+                    var dateFormatter2 = NSDateFormatter()
+                    dateFormatter2.timeStyle = NSDateFormatterStyle.ShortStyle
+                    var localTime = dateFormatter2.stringFromDate(i)
+                    var date = "\(realDate)  \(localTime)"
+                    self.localTime.append(date)
+                    
+                    
+                }
                 self.tableView.reloadData()
                 
             }
@@ -133,10 +149,6 @@ class notificationsView: UITableViewController {
             
             
         })
-        //self.clearsSelectionOnViewWillAppear = false
-        
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        //self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
 
     override func didReceiveMemoryWarning() {
@@ -162,6 +174,7 @@ class notificationsView: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell:subCell = tableView.dequeueReusableCellWithIdentifier("Cell") as subCell
      
+        cell.timeStamp.text = localTime[indexPath.row]
         
         cell.notifyMessage.text = notes[indexPath.row]
         

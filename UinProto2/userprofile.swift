@@ -169,140 +169,36 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
     
     @IBAction func subscribe(sender: AnyObject) {
         
-        var que = PFQuery(className: "Subs")
-        
-        que.whereKey("follower", equalTo:PFUser.currentUser().username)
-        que.whereKey("following", equalTo: theUser)
-        que.getFirstObjectInBackgroundWithBlock{
-
-        
-            (object:PFObject!, error: NSError!) -> Void in
+    var subQuery = PFQuery(className: "Subs")
+        subQuery.whereKey("following", equalTo: theUser)
+        subQuery.whereKey("follower", equalTo: PFUser.currentUser().username)
+        subQuery.getFirstObjectInBackgroundWithBlock({
             
-            if object == nil {
-
-                var currentInstallation = PFInstallation.currentInstallation()
-                currentInstallation.addUniqueObject(self.theUser, forKey: "channels")
-                currentInstallation.saveInBackgroundWithBlock({
-                    
-                    (success:Bool!, saveerror: NSError!) -> Void in
-                    
-                    if saveerror == nil {
-                        var theMix = Mixpanel.sharedInstance()
-                        theMix.track("Subscribed")
-                        println("it worked")
-                        self.areSubbed = true
-                        
-                    }
-                        
-                    else {
-                        
-                        println("It didnt work")
-                        
-                    }
-                    
-                    
-                })
-           
-             self.subbutton.setTitle("Unsubscribe", forState: UIControlState.Normal)
-            var subscribe = PFObject(className: "Subs")
-                var push = PFPush()
-                var pfque = PFInstallation.query()
-                pfque.whereKey("user", equalTo: self.theUser)
-                push.setQuery(pfque)
-                push.setMessage("\(PFUser.currentUser().username) has subscribed to you ")
-                push.sendPushInBackgroundWithBlock({
-                    
-                    (success:Bool!, pushError: NSError!) -> Void in
-                    
-                    if pushError == nil {
-                        
-                        println("IT WORKED")
-                        
-                    }
-                    
-                })
-
-            subscribe["member"] = false
-            subscribe["follower"] = PFUser.currentUser().username
-            subscribe["following"] = self.theUser
-            subscribe.saveInBackgroundWithBlock{
-                        
-                (success:Bool!,subError:NSError!) -> Void in
- 
-                if (subError == nil){
-                    
-                    
-                    var notify = PFObject(className: "Notification")
-                    notify["sender"] = PFUser.currentUser().username
-                    notify["receiver"] = self.theUser
-                    notify["type"] =  "sub"
-                    notify.saveInBackgroundWithBlock({
-                        
-                        (success:Bool!, notifyError: NSError!) -> Void in
-                        
-                        if notifyError == nil {
-                            
-                            println("notifcation has been saved")
-                            
-                        }
-                        
-                        
-                    })
-                    
-                   
-                    
-                }
+            
+               (results:PFObject!, error: NSError!) -> Void in
+            
+            if error == nil {
                 
+                println("user is alreadt subscribed")
+                results.delete()
+                self.theFeed.reloadData()
                 
-                
-                }
-                
-                }
+            }
             
             else {
                 
-                
-                // self.subbutton.setTitle("subscribe", forState: UIControlState.Normal)
-                var unsub = PFQuery(className: "Subs")
-                var theMix = Mixpanel.sharedInstance()
-                theMix.track("Unsubscribe")
-                unsub.whereKey("follower", equalTo:PFUser.currentUser().username)
-                unsub.whereKey("following", equalTo: self.theUser)
-                unsub.getFirstObjectInBackgroundWithBlock{
-                    
-                    (object:PFObject!, error: NSError!) -> Void in
-                    
-                    
-                    if object != nil{
-                        
-                        
-                        object.delete()
-                        var currentInstallation = PFInstallation.currentInstallation()
-                        currentInstallation.removeObject(self.theUser, forKey: "channels")
-                        currentInstallation.saveInBackgroundWithBlock({
-                            
-                            (success:Bool!, pushError: NSError!) -> Void in
-                            
-                            if pushError == nil {
-                                
-                                self.areSubbed = false
-                                println("the installtion did remove")
-                                
-                            }
-                            else{
-                                println("the installtion did not remove")
-                            }
-
-                            
-                        })
-       
-                
-            }       else {
-                        println("fail")
-                    }
-                }
+                println("User is not subscribed")
+                var subscribe = PFObject(className: "")
+                subscribe["member"] = false
+                subscribe["follower"] = PFUser.currentUser().username
+                subscribe["following"] = self.theUser
+                subscribe.save()
+                self.theFeed.reloadData()
+            
             }
-        }
+            
+            
+        })
     }
     func updateFeed(){
         //Removes all leftover content in the array
@@ -499,16 +395,30 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if  section == 0 {
             let cell2:profileCell = tableView.dequeueReusableCellWithIdentifier("profile") as profileCell
-            if self.areSubbed == true {
+            var que = PFQuery(className: "Subs")
+            
+            que.whereKey("follower", equalTo:PFUser.currentUser().username)
+            que.whereKey("following", equalTo: theUser)
+            que.getFirstObjectInBackgroundWithBlock{
                 
-                //cell2.subscribe.setImage("", forState: UIControlState.Normal)
+                
+                (object:PFObject!, error: NSError!) -> Void in
+                
+                if error == nil {
+                    
+                    cell2.subscribe.setTitle("Unsubscribe", forState: UIControlState.Normal)
+
+                    
+                }
+                else {
+                    
+                     cell2.subscribe.setTitle("Subscribe", forState: UIControlState.Normal)
+                }
+                
                 
             }
-            else {
-                
-                //cell2.subscribe.setImage("", forState: UIControlState.Normal)
-                
-            }
+
+            
             //THIS IS WHERE YOU ARE GOING TO PUT THE LABEL
             cell2.subscribe.addTarget(self, action: "subbing:", forControlEvents: UIControlEvents.TouchUpInside)
             
