@@ -43,6 +43,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
         })
        
+        let userNotificationTypes = (UIUserNotificationType.Alert |
+            UIUserNotificationType.Badge |
+            UIUserNotificationType.Sound);
+        
+        let settings = UIUserNotificationSettings(forTypes: userNotificationTypes, categories: nil)
+        application.registerUserNotificationSettings(settings)
+        application.registerForRemoteNotifications()
+        
     PFFacebookUtils.initializeFacebook()
         // Override point for customization after application launch.
         return true

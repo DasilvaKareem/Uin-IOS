@@ -674,8 +674,10 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
             
             return 150.0
         }
-        return 40.0
+        return 20.0
     }
+    
+    
     
     
     func ChangeSub(){

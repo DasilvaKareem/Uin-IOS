@@ -59,7 +59,7 @@ class SignIn: UIViewController, UITextFieldDelegate {
             (user: PFUser!, error: NSError!) -> Void in
             if user == nil {
                 NSLog("Uh oh. The user cancelled the Facebook login.")
-                
+                println(error)
                 //self.loginCancelledLabel.alpha = 1
                 
             } else if user.isNew {
