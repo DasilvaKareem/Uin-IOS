@@ -10,9 +10,9 @@ import UIKit
 import EventKit
 
 class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource {
-
     
-   
+    
+    
     
     @IBOutlet var username: UIBarButtonItem!
     @IBOutlet var theFeed: UITableView!
@@ -77,17 +77,17 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
         // Do any additional setup after loading the view.
     }
     override func viewWillAppear(animated: Bool) {
-     
+        
     }
-
+    
     
     @IBOutlet weak var subbutton: UIButton!
-     var amountofsubs = [String]()
-       var amountofScript = [String]()
+    var amountofsubs = [String]()
+    var amountofScript = [String]()
     
-
+    
     func subticker(){
-       
+        
         var que2 = PFQuery(className: "Subs")
         
         que2.whereKey("follower", equalTo:PFUser.currentUser().username)
@@ -101,14 +101,14 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 self.areSubbed = false
                 
             }
-            
+                
             else {
                 
                 self.areSubbed = true
             }
             
         }
-
+        
         
         var getNumberList = PFQuery(className:"Subs")
         getNumberList.whereKey("following", equalTo: self.theUser)
@@ -135,7 +135,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
             
         }
         
-     
+        
         var getNumberList2 = PFQuery(className: "Subs")
         getNumberList2.whereKey("follower", equalTo: self.theUser)
         getNumberList2.findObjectsInBackgroundWithBlock{
@@ -165,17 +165,17 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
         println(self.areSubbed)
         
     }
-
+    
     
     @IBAction func subscribe(sender: AnyObject) {
         
-    var subQuery = PFQuery(className: "Subs")
+        var subQuery = PFQuery(className: "Subs")
         subQuery.whereKey("following", equalTo: theUser)
         subQuery.whereKey("follower", equalTo: PFUser.currentUser().username)
         subQuery.getFirstObjectInBackgroundWithBlock({
             
             
-               (results:PFObject!, error: NSError!) -> Void in
+            (results:PFObject!, error: NSError!) -> Void in
             
             if error == nil {
                 
@@ -184,7 +184,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 self.theFeed.reloadData()
                 
             }
-            
+                
             else {
                 
                 println("User is not subscribed")
@@ -194,7 +194,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 subscribe["following"] = self.theUser
                 subscribe.save()
                 self.theFeed.reloadData()
-            
+                
             }
             
             
@@ -379,7 +379,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
         }
         return offset+row
     }
-
+    
     
     
     
@@ -412,13 +412,13 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 }
                 else {
                     
-                     cell2.subscribe.setTitle("Subscribe", forState: UIControlState.Normal)
+                    cell2.subscribe.setTitle("Subscribe", forState: UIControlState.Normal)
                     cell2.subscribe.setTitleColor(UIColor(red: 254.0/255.0, green: 186.0/255.0, blue: 1.0/255.0, alpha: 1.0), forState: UIControlState.Normal)
                 }
                 
                 
             }
-
+            
             
             //THIS IS WHERE YOU ARE GOING TO PUT THE LABEL
             cell2.subscribe.addTarget(self, action: "subbing:", forControlEvents: UIControlEvents.TouchUpInside)
@@ -428,7 +428,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
             
             return cell2
         }
-
+        
         var cell:dateCell = tableView.dequeueReusableCellWithIdentifier("dateCell") as dateCell
         
         cell.dateItem.text = sectionNames[section]
@@ -453,7 +453,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                     
                     if pushError == nil {
                         
-                      
+                        
                         println("the installtion did remove")
                         
                     }
@@ -479,8 +479,8 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                     if saveerror == nil {
                         var theMix = Mixpanel.sharedInstance()
                         theMix.track("Subscribed")
-                  
-                  
+                        
+                        
                     }
                         
                     else {
@@ -548,7 +548,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
         return rowsInSection[section]
         
     }
-
+    
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         
         if section == 0 {
@@ -574,26 +574,26 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
             
             if object == nil{
                 
-               
+                
                 
             }
-            
+                
             else {
                 
-               //self.subbutton.setTitle("Unsubscribe", forState: UIControlState.Normal)
+                //self.subbutton.setTitle("Unsubscribe", forState: UIControlState.Normal)
                 
             }
             
             
         }
-
-
+        
+        
     }
-
-
-
     
-
+    
+    
+    
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
