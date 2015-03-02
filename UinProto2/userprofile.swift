@@ -407,12 +407,13 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 if error == nil {
                     
                     cell2.subscribe.setTitle("Unsubscribe", forState: UIControlState.Normal)
-
+                    cell2.subscribe.setTitleColor(UIColor(red: 65.0/255.0, green: 146.0/255.0, blue: 199.0/255.0, alpha: 1.0), forState: UIControlState.Normal)
                     
                 }
                 else {
                     
                      cell2.subscribe.setTitle("Subscribe", forState: UIControlState.Normal)
+                    cell2.subscribe.setTitleColor(UIColor(red: 254.0/255.0, green: 186.0/255.0, blue: 1.0/255.0, alpha: 1.0), forState: UIControlState.Normal)
                 }
                 
                 
@@ -435,17 +436,40 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
     }
     
     func subbing(sender: AnyObject) {
-        var que = PFQuery(className: "Subs")
-        
-        que.whereKey("follower", equalTo:PFUser.currentUser().username)
-        que.whereKey("following", equalTo: theUser)
-        que.getFirstObjectInBackgroundWithBlock{
+        var subQuery = PFQuery(className: "Subs")
+        subQuery.whereKey("following", equalTo: theUser)
+        subQuery.whereKey("follower", equalTo: PFUser.currentUser().username)
+        subQuery.getFirstObjectInBackgroundWithBlock({
             
             
-            (object:PFObject!, error: NSError!) -> Void in
+            (results:PFObject!, error: NSError!) -> Void in
             
-            if object == nil {
+            if error == nil {
+                var currentInstallation = PFInstallation.currentInstallation()
+                currentInstallation.removeObject(self.theUser, forKey: "channels")
+                currentInstallation.saveInBackgroundWithBlock({
+                    
+                    (success:Bool!, pushError: NSError!) -> Void in
+                    
+                    if pushError == nil {
+                        
+                      
+                        println("the installtion did remove")
+                        
+                    }
+                    else{
+                        println("the installtion did not remove")
+                    }
+                    
+                    
+                })
+                println("user is alreadt subscribed")
+                results.delete()
+                self.theFeed.reloadData()
                 
+            }
+                
+            else {
                 var currentInstallation = PFInstallation.currentInstallation()
                 currentInstallation.addUniqueObject(self.theUser, forKey: "channels")
                 currentInstallation.saveInBackgroundWithBlock({
@@ -453,9 +477,10 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                     (success:Bool!, saveerror: NSError!) -> Void in
                     
                     if saveerror == nil {
-                        
-                        println("it worked")
-                        
+                        var theMix = Mixpanel.sharedInstance()
+                        theMix.track("Subscribed")
+                  
+                  
                     }
                         
                     else {
@@ -467,18 +492,35 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                     
                 })
                 
-               println("Subscribed to user")
                 var subscribe = PFObject(className: "Subs")
-                let data = [
-                    "alert" : "\(PFUser.currentUser().username) has subscribed to you ",
-                    "badge" : "Increment",
-                    "sound" : "default"
-                ]
+                subscribe["member"] = false
+                subscribe["follower"] = PFUser.currentUser().username
+                subscribe["following"] = self.theUser
+                subscribe.save()
+                
+                //The notfications
+                var notify = PFObject(className: "Notification")
+                notify["sender"] = PFUser.currentUser().username
+                notify["receiver"] = self.theUser
+                notify["type"] =  "sub"
+                notify.saveInBackgroundWithBlock({
+                    
+                    (success:Bool!, notifyError: NSError!) -> Void in
+                    
+                    if notifyError == nil {
+                        
+                        println("notifcation has been saved")
+                        
+                    }
+                    
+                    
+                })
+                
                 var push = PFPush()
                 var pfque = PFInstallation.query()
                 pfque.whereKey("user", equalTo: self.theUser)
                 push.setQuery(pfque)
-               push.setData(data)
+                push.setMessage("\(PFUser.currentUser().username) has subscribed to you ")
                 push.sendPushInBackgroundWithBlock({
                     
                     (success:Bool!, pushError: NSError!) -> Void in
@@ -490,89 +532,12 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                     }
                     
                 })
-                
-                subscribe["member"] = false
-                subscribe["follower"] = PFUser.currentUser().username
-                subscribe["following"] = self.theUser
-                subscribe.saveInBackgroundWithBlock{
-                    
-                    (success:Bool!,subError:NSError!) -> Void in
-                    
-                    if (subError == nil){
-                        
-                        
-                        var notify = PFObject(className: "Notification")
-                        notify["sender"] = PFUser.currentUser().username
-                        notify["receiver"] = self.theUser
-                        notify["type"] =  "sub"
-                        notify.saveInBackgroundWithBlock({
-                            
-                            (success:Bool!, notifyError: NSError!) -> Void in
-                            
-                            if notifyError == nil {
-                                
-                                println("notifcation has been saved")
-                                
-                            }
-                            
-                            
-                        })
-                        
-                        
-                        
-                    }
-                    
-                    
-                    
-                }
+                self.theFeed.reloadData()
                 
             }
-                
-            else {
-                
-                
-                println("USer has unsubscribe")
-                var unsub = PFQuery(className: "Subs")
-                
-                unsub.whereKey("follower", equalTo:PFUser.currentUser().username)
-                unsub.whereKey("following", equalTo: self.theUser)
-                unsub.getFirstObjectInBackgroundWithBlock{
-                    
-                    (object:PFObject!, error: NSError!) -> Void in
-                    
-                    
-                    if object != nil{
-                        
-                        
-                        object.delete()
-                        var currentInstallation = PFInstallation.currentInstallation()
-                        currentInstallation.removeObject(self.theUser, forKey: "channels")
-                        currentInstallation.saveInBackgroundWithBlock({
-                            
-                            (success:Bool!, pushError: NSError!) -> Void in
-                            
-                            if pushError == nil {
-                                
-                                println("the installtion did remove")
-                                
-                            }
-                            else{
-                                println("the installtion did not remove")
-                            }
-                            
-                            
-                        })
-                        
-                        
-                    }       else {
-                        println("fail")
-                    }
-                }
-            }
-        }
-
-        
-        
+            
+            
+        })
         
     }
     
