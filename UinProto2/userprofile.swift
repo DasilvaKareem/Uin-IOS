@@ -515,6 +515,8 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                     
                     
                 })
+                var user = PFUser.currentUser()
+               if user["push"] as Bool == true {
                 
                 var push = PFPush()
                 var pfque = PFInstallation.query()
@@ -532,6 +534,10 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                     }
                     
                 })
+                
+                    
+                }
+      
                 self.theFeed.reloadData()
                 
             }

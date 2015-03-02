@@ -538,24 +538,28 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                 println()
                 println()
                 println("the object does not exist")
-                var push = PFPush()
-                
-                var pfque = PFInstallation.query()
-                pfque.whereKey("user", equalTo: self.usernames[sender.tag])
-                
-                push.setQuery(pfque)
-                push.setMessage("\(PFUser.currentUser().username) has added your event to their calendar Good job")
-                push.sendPushInBackgroundWithBlock({
+                var user = PFUser.currentUser()
+                if user["push"] as Bool == true {
+                    var push = PFPush()
                     
-                    (success:Bool!, pushError: NSError!) -> Void in
+                    var pfque = PFInstallation.query()
+                    pfque.whereKey("user", equalTo: self.usernames[sender.tag])
                     
-                    if pushError == nil {
+                    push.setQuery(pfque)
+                    push.setMessage("\(PFUser.currentUser().username) has added your event to their calendar Good job")
+                    push.sendPushInBackgroundWithBlock({
                         
-                        println("IT WORKED")
+                        (success:Bool!, pushError: NSError!) -> Void in
                         
-                    }
-                    
-                })
+                        if pushError == nil {
+                            
+                            println("IT WORKED")
+                            
+                        }
+                        
+                    })
+                }
+        
                 var going = PFObject(className: "GoingEvent")
                 going["user"] = PFUser.currentUser().username
                 going["event"] = self.eventTitle[sender.tag]

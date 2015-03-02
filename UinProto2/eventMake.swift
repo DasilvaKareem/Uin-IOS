@@ -240,27 +240,31 @@ class eventMake: UIViewController, UITextFieldDelegate {
                                 dateStr2 = String()
                                 startString = String()
                                 endString = String()
-                                var push =  PFPush()
-                                let data = [
-                                    "alert" : "\(PFUser.currentUser().username) has edited the event '\(self.eventTitle.text)'",
-                                    "badge" : "Increment",
-                                    "sound" : "default"
-                                ]
-                                push.setChannel(PFUser.currentUser().username)
-                                push.setData(data)
-                                push.sendPushInBackgroundWithBlock({
-                                    
-                                    (success: Bool!, pushError: NSError!) -> Void in
-                                    if pushError == nil {
+                          
+                                var user = PFUser.currentUser()
+                                if user["push"] as Bool == true {
+                                    var push =  PFPush()
+                                    let data = [
+                                        "alert" : "\(PFUser.currentUser().username) has edited the event '\(self.eventTitle.text)'",
+                                        "badge" : "Increment",
+                                        "sound" : "default"
+                                    ]
+                                    push.setChannel(PFUser.currentUser().username)
+                                    push.setData(data)
+                                    push.sendPushInBackgroundWithBlock({
                                         
-                                        println("the push was sent")
+                                        (success: Bool!, pushError: NSError!) -> Void in
+                                        if pushError == nil {
+                                            
+                                            println("the push was sent")
+                                            
+                                        }
                                         
-                                    }
-                                    
-                                    var theMix = Mixpanel.sharedInstance()
-                                    theMix.track("Edited Event")
-                                    
-                                })
+                                        var theMix = Mixpanel.sharedInstance()
+                                        theMix.track("Edited Event")
+                                        
+                                    })                                }
+
                                 self.performSegueWithIdentifier("eventback", sender: self)
                             }
                             
@@ -298,27 +302,39 @@ class eventMake: UIViewController, UITextFieldDelegate {
                     
                     if (eventError == nil){
                         
+                        var user = PFUser.currentUser()
+                        if user["push"] as Bool == true {
+                            var push =  PFPush()
+                            let data = [
+                                "alert" : "\(PFUser.currentUser().username) has edited the event '\(self.eventTitle.text)'",
+                                "badge" : "Increment",
+                                "sound" : "default"
+                            ]
+                            push.setChannel(PFUser.currentUser().username)
+                            push.setData(data)
+                            push.sendPushInBackgroundWithBlock({
+                                
+                                (success: Bool!, pushError: NSError!) -> Void in
+                                if pushError == nil {
+                                    
+                                    println("the push was sent")
+                                    
+                                }
+                                
+                                var theMix = Mixpanel.sharedInstance()
+                                theMix.track("Edited Event")
+                                
+                            })
+                            
+                        }
+                     
                         println("The event was saved")
                         let data = [
                             "alert" : "\(PFUser.currentUser().username) has created the event '\(self.eventTitle.text)'",
                             "badge" : "Increment",
                             "sound" : "default"
                         ]
-                        var push =  PFPush()
-                        push.setChannel(PFUser.currentUser().username)
-                        push.setData(data)
-                        push.sendPushInBackgroundWithBlock({
-                            
-                            (success: Bool!, pushError: NSError!) -> Void in
-                            if pushError == nil {
-                                
-                                println("the push was sent")
-                                
-                            }
-                            
-                            
-                            
-                        })
+             
                         var theMix = Mixpanel.sharedInstance()
                         theMix.track("Created an Event")
                         var notify = PFObject(className: "Notification")
@@ -388,22 +404,27 @@ class eventMake: UIViewController, UITextFieldDelegate {
                             "badge" : "Increment",
                             "sound" : "default"
                         ]
-                        
-                        var push =  PFPush()
-                        push.setChannel(PFUser.currentUser().username)
-                        push.setData(data)
-                        push.sendPushInBackgroundWithBlock({
+                        var user = PFUser.currentUser()
+                        if user["push"] as Bool == true {
                             
-                            (success: Bool!, pushError: NSError!) -> Void in
-                            if pushError == nil {
+                            var push =  PFPush()
+                            push.setChannel(PFUser.currentUser().username)
+                            push.setData(data)
+                            push.sendPushInBackgroundWithBlock({
                                 
-                                println("the push was sent")
+                                (success: Bool!, pushError: NSError!) -> Void in
+                                if pushError == nil {
+                                    
+                                    println("the push was sent")
+                                    
+                                }
                                 
-                            }
-                            
-                            
-                            
-                        })
+                                
+                                
+                            })
+                        }
+                    
+                  
                         self.performSegueWithIdentifier("eventback", sender: self)
                         
                     }

@@ -12,6 +12,18 @@ class settingsView: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        var user = PFUser.currentUser()
+        if user["push"] as Bool == true {
+            
+            notifySlider.setOn(true, animated: true)
+            
+        }   else {
+            
+             notifySlider.setOn(false, animated: true)
+            
+        }
+
+        
         navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
         
         // Changes text color on navbar
@@ -19,6 +31,26 @@ class settingsView: UIViewController {
         nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()];
 self.tabBarController?.tabBar.hidden = true
         // Do any additional setup after loading the view.
+    }
+    
+    @IBOutlet var notifySlider: UISwitch!
+    
+    
+    @IBAction func notifySwitch(sender: AnyObject) {
+        
+        var user = PFUser.currentUser()
+        
+        if user["push"] as Bool == true {
+            
+            user["push"] = false
+            
+        }   else {
+            
+            user["push"] = true
+            
+        }
+        
+        
     }
     
     func notifyQuery() {
