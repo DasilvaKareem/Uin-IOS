@@ -121,6 +121,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     
         var query = PFQuery.orQueryWithSubqueries([que1, superQue, newQue ])
         query.orderByAscending("startEvent")
+        query.whereKey("startEvent", greaterThanOrEqualTo: NSDate())
         query.findObjectsInBackgroundWithBlock {
             (results: [AnyObject]!, error: NSError!) -> Void in
             if error == nil {
