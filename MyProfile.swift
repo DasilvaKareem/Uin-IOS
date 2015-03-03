@@ -30,6 +30,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     //Decalres all the arrays that hold the data
     
     var refresher: UIRefreshControl!
+    var userId = [String]()
     var onsite = [Bool]()
     var paid = [Bool]()
     var food = [Bool]()
@@ -94,28 +95,27 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()];
 
     }
-    
-    var amountofsubs = [String]()
-     var amountofScript = [String]()
+   
+    var amountofsubs = (String)()
+    var amountofScript = (String)()
     func subticker(){
         
         var getNumberList = PFQuery(className:"Subs")
         getNumberList.whereKey("following", equalTo: PFUser.currentUser().username)
-        getNumberList.findObjectsInBackgroundWithBlock{
+        getNumberList.countObjectsInBackgroundWithBlock{
             
-            (objects:[AnyObject]!, folError:NSError!) -> Void in
+            (count:Int32, folError:NSError!) -> Void in
             
             
             if folError == nil {
                 self.amountofsubs.removeAll(keepCapacity: true)
                 
-                for object in objects{
+              self.amountofsubs =  String(count)
+          
+                
                     
-                    self.amountofsubs.append(object["follower"] as String)
                     
-                    
-                    
-                }
+                
               
                
             }
@@ -126,27 +126,27 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
        
         var getNumberList2 = PFQuery(className: "Subs")
         getNumberList2.whereKey("follower", equalTo: PFUser.currentUser().username)
-        getNumberList2.findObjectsInBackgroundWithBlock{
+        getNumberList2.countObjectsInBackgroundWithBlock{
             
-            (objects:[AnyObject]!, folError:NSError!) -> Void in
+            (count:Int32, folError:NSError!) -> Void in
             
             
             if folError == nil {
                 self.amountofScript.removeAll(keepCapacity: true)
                 
-                for object in objects{
-                    
-                   self.amountofScript.append(object["following"] as String)
-                    
-                    
-                    
-                }
+                self.amountofScript =  String(count)
+                
+                
+                
+                
+                
                 
                 
             }
             
             
         }
+
         
        
         
@@ -184,6 +184,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     self.publicPost.removeAll(keepCapacity: true)
     self.eventStart.removeAll(keepCapacity: true)
     self.eventEnd.removeAll(keepCapacity: true)
+    self.userId.removeAll(keepCapacity: true)
     
     for object in objects{
     
@@ -198,6 +199,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     self.eventEndTime.append(object["endTime"] as String)
     self.food.append(object["food"] as Bool)
     self.paid.append(object["paid"] as Bool)
+    self.userId.append(object["userId"] as String)
     self.onsite.append(object["location"] as Bool)
     self.eventEnd.append(object["endEvent"] as NSDate)
     self.eventStart.append(object["startEvent"] as NSDate)
@@ -350,13 +352,6 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         return 23.0
     }
     
-
-    @IBAction func logout(sender: AnyObject) {
-        
-        PFUser.logOut()
-        self.performSegueWithIdentifier("logout", sender: self)
-    
-    }
     
     
     
@@ -394,8 +389,8 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         
         //THIS IS WHERE YOU ARE GOING TO PUT THE LABEL
         
-        cell2.subscriberTick.text = "\(self.amountofsubs.count)"
-        cell2.subscriptionTick.text = "\(self.amountofScript.count)"
+        cell2.subscriberTick.text = amountofsubs
+        cell2.subscriptionTick.text = amountofScript
         
         return cell2
 

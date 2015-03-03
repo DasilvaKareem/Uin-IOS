@@ -50,6 +50,7 @@ class postEvent: UIViewController {
     var eventId = String()
     var localStart = String()
     var localEnd = String()
+    var userId = String()
 
     
     func checkevent(){
@@ -172,6 +173,7 @@ class postEvent: UIViewController {
             
             if queerror == nil {
               results.delete()
+                      self.longBar.setImage(UIImage(named: "addToCalendarLongBar.png"), forState: UIControlState.Normal)
                 if results != nil {
             var eventStore : EKEventStore = EKEventStore()
             eventStore.requestAccessToEntityType(EKEntityTypeEvent, completion: {
@@ -196,7 +198,7 @@ class postEvent: UIViewController {
                     var eV = eventStore.eventsMatchingPredicate(predicate2) as [EKEvent]!
                     println("Result is there")
                     if eV != nil {
-                           self.longBar.setImage(UIImage(named: "addToCalendarLongBar.png"), forState: UIControlState.Normal)
+                     
                         println("EV is not nil")
                         for i in eV {
                             println("\(i.title) this is the i.title")
@@ -308,6 +310,7 @@ class postEvent: UIViewController {
         if segue.identifier == "gotoprofile" {
             var theotherprofile:userprofile = segue.destinationViewController as userprofile
             theotherprofile.theUser = users
+            theotherprofile.userId = userId
         }
         if segue.identifier == "editEvent" {
             

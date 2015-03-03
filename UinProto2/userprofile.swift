@@ -35,6 +35,8 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
     var localizedTime = [String]()
     var localizedEndTime = [String]()
     var areSubbed = Bool()
+    var userId = (String)()
+    var arrayofuser = [String]()
     
     @IBOutlet var subscribers: UILabel!
     @IBOutlet var subscriptions: UILabel!
@@ -46,7 +48,6 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
         super.viewDidLoad()
         self.tabBarController?.tabBar.hidden = true
         self.navigationController?.navigationBar.backIndicatorImage = nil
-        
         subticker()
         ChangeSub()
         println()
@@ -82,54 +83,37 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
     
     
     @IBOutlet weak var subbutton: UIButton!
-    var amountofsubs = [String]()
-    var amountofScript = [String]()
     
-    
+    var amountofsubs = (String)()
+    var amountofScript = (String)()
     func subticker(){
-        
-        var que2 = PFQuery(className: "Subs")
-        
-        que2.whereKey("follower", equalTo:PFUser.currentUser().username)
-        que2.whereKey("following", equalTo: theUser)
-        que2.getFirstObjectInBackgroundWithBlock{
-            
-            (object:PFObject!, error: NSError!) -> Void in
-            
-            if error == nil {
-                
-                self.areSubbed = false
-                
-            }
-                
-            else {
-                
-                self.areSubbed = true
-            }
-            
-        }
-        
         
         var getNumberList = PFQuery(className:"Subs")
         getNumberList.whereKey("following", equalTo: self.theUser)
-        getNumberList.findObjectsInBackgroundWithBlock{
+        getNumberList.countObjectsInBackgroundWithBlock{
             
-            (objects:[AnyObject]!, folError:NSError!) -> Void in
+            (count:Int32, folError:NSError!) -> Void in
             
             
             if folError == nil {
-                
-                
-                for object in objects{
+                self.amountofsubs.removeAll(keepCapacity: true)
+                if count != 0 {
                     
-                    self.amountofsubs.append(object["follower"] as String)
+                         self.amountofsubs =  String(count)
+                }
+                else {
                     
-                    
+                    self.amountofsubs = "0"
                     
                 }
+          
                 
                 
-                //self.subscribers.text = " \(amountofsubs.count) SubScribers  "
+                
+                
+                
+                
+                
             }
             
             
@@ -138,68 +122,42 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
         
         var getNumberList2 = PFQuery(className: "Subs")
         getNumberList2.whereKey("follower", equalTo: self.theUser)
-        getNumberList2.findObjectsInBackgroundWithBlock{
+        getNumberList2.countObjectsInBackgroundWithBlock{
             
-            (objects:[AnyObject]!, folError:NSError!) -> Void in
+            (count:Int32, folError:NSError!) -> Void in
             
             
             if folError == nil {
-                
-                
-                for object in objects{
+                self.amountofScript.removeAll(keepCapacity: true)
+                if count != 0 {
+                       self.amountofScript =  String(count)
                     
-                    self.amountofScript.append(object["following"] as String)
+                }
+                else {
                     
-                    
+                    self.amountofScript = "0"
                     
                 }
                 
                 
-                //self.subscriptions.text = "\(amountofScript.count) Subscriptions "
+                
+                
+                
+                
+                
             }
             
             
         }
         
         
-        println(self.areSubbed)
+        
+        
         
     }
+
     
     
-    @IBAction func subscribe(sender: AnyObject) {
-        
-        var subQuery = PFQuery(className: "Subs")
-        subQuery.whereKey("following", equalTo: theUser)
-        subQuery.whereKey("follower", equalTo: PFUser.currentUser().username)
-        subQuery.getFirstObjectInBackgroundWithBlock({
-            
-            
-            (results:PFObject!, error: NSError!) -> Void in
-            
-            if error == nil {
-                
-                println("user is alreadt subscribed")
-                results.delete()
-                self.theFeed.reloadData()
-                
-            }
-                
-            else {
-                
-                println("User is not subscribed")
-                var subscribe = PFObject(className: "")
-                subscribe["member"] = false
-                subscribe["follower"] = PFUser.currentUser().username
-                subscribe["following"] = self.theUser
-                subscribe.save()
-                self.theFeed.reloadData()
-                
-            }
-            
-            
-        })
-    }
     func updateFeed(){
         //Removes all leftover content in the array
         
@@ -220,7 +178,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
             
             if eventError == nil {
                 println(objects.count)
-                
+                println()
                 
                 self.onsite.removeAll(keepCapacity: true)
                 self.paid.removeAll(keepCapacity: true)
@@ -236,10 +194,10 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 self.publicPost.removeAll(keepCapacity: true)
                 self.eventStart.removeAll(keepCapacity: true)
                 self.eventEnd.removeAll(keepCapacity: true)
-                
+                  self.arrayofuser.removeAll(keepCapacity: true)
                 for object in objects{
                     
-                    
+                    self.arrayofuser.append(object["userId"] as String)
                     self.publicPost.append(object["public"] as Bool)
                     self.objectID.append(object.objectId as String)
                     self.usernames.append(object["author"] as String)
@@ -423,8 +381,8 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
             //THIS IS WHERE YOU ARE GOING TO PUT THE LABEL
             cell2.subscribe.addTarget(self, action: "subbing:", forControlEvents: UIControlEvents.TouchUpInside)
             
-            cell2.subscriberTick.text = "\(self.amountofsubs.count)"
-            cell2.subscriptionTick.text = "\(self.amountofScript.count)"
+            cell2.subscriberTick.text =  amountofsubs
+            cell2.subscriptionTick.text = amountofScript
             
             return cell2
         }
@@ -445,8 +403,12 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
             (results:PFObject!, error: NSError!) -> Void in
             
             if error == nil {
+                var user = PFUser.currentUser()
+                
+                    
+                
                 var currentInstallation = PFInstallation.currentInstallation()
-                currentInstallation.removeObject(self.theUser, forKey: "channels")
+                currentInstallation.removeObject(self.userId, forKey: "channels")
                 currentInstallation.saveInBackgroundWithBlock({
                     
                     (success:Bool!, pushError: NSError!) -> Void in
@@ -467,11 +429,12 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 results.delete()
                 self.theFeed.reloadData()
                 
+                
             }
                 
             else {
                 var currentInstallation = PFInstallation.currentInstallation()
-                currentInstallation.addUniqueObject(self.theUser, forKey: "channels")
+                currentInstallation.addUniqueObject(self.userId, forKey: "channels")
                 currentInstallation.saveInBackgroundWithBlock({
                     
                     (success:Bool!, saveerror: NSError!) -> Void in
@@ -496,6 +459,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 subscribe["member"] = false
                 subscribe["follower"] = PFUser.currentUser().username
                 subscribe["following"] = self.theUser
+                subscribe["userId"] = self.userId
                 subscribe.save()
                 
                 //The notfications
@@ -516,7 +480,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                     
                 })
                 var user = PFUser.currentUser()
-               if user["push"] as Bool == true {
+            
                 
                 var push = PFPush()
                 var pfque = PFInstallation.query()
@@ -536,7 +500,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 })
                 
                     
-                }
+                
       
                 self.theFeed.reloadData()
                 

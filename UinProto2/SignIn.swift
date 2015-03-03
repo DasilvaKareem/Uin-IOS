@@ -166,6 +166,10 @@ class SignIn: UIViewController, UITextFieldDelegate {
                                 subscriptionUsernames.append(object["following"] as String)
                                 
                             }
+                            var user = PFUser.currentUser()
+                      
+                                
+                            
                             var currentInstallation = PFInstallation.currentInstallation()
                             currentInstallation["user"] = PFUser.currentUser().username
                             currentInstallation["userId"] = PFUser.currentUser().objectId
@@ -188,7 +192,7 @@ class SignIn: UIViewController, UITextFieldDelegate {
                                 
                                 
                             })
-                   
+                            
                             
                         }   else {
                             
@@ -227,10 +231,15 @@ class SignIn: UIViewController, UITextFieldDelegate {
     }
     
    override func viewDidAppear(animated: Bool) {
+    var user = PFUser.currentUser()
     
     if PFUser.currentUser() != nil {
         
-        self.performSegueWithIdentifier("login", sender: self)
+        if user.username != nil {
+            
+              self.performSegueWithIdentifier("login", sender: self)
+        }
+      
         
     }
 

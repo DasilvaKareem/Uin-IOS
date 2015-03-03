@@ -30,7 +30,7 @@ class notificationsView: UITableViewController {
     notify()
 }
     func notify(){
-        var eventQuery = PFQuery(className: "Notification")
+      
         var folusernames = [String]()
         var followque = PFQuery(className: "Subs")
         followque.whereKey("follower", equalTo: PFUser.currentUser().username)
@@ -50,16 +50,16 @@ class notificationsView: UITableViewController {
                 }
                 println(folusernames)
                 
-                eventQuery.whereKey("type", equalTo: "event" )
-                eventQuery.whereKey("sender", containedIn: folusernames)
+           
                 
                 
             }
             
         }
         
-        
-        
+          var eventQuery = PFQuery(className: "Notification")
+        eventQuery.whereKey("type", equalTo: "event" )
+        eventQuery.whereKey("sender", containedIn: folusernames)
         
         var subQuery = PFQuery(className: "Notification")
         subQuery.whereKey("type", equalTo: "sub")
@@ -81,7 +81,7 @@ class notificationsView: UITableViewController {
         
         
         var query = PFQuery.orQueryWithSubqueries([memberQuery, subQuery, calendarQuery, eventQuery ])
-        query.limit = 20
+       
         query.orderByDescending("createdAt")
         query.findObjectsInBackgroundWithBlock({
             (objects:[AnyObject]!,subError:NSError!) -> Void in

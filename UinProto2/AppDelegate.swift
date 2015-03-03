@@ -54,6 +54,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let settings = UIUserNotificationSettings(forTypes: userNotificationTypes, categories: nil)
         application.registerUserNotificationSettings(settings)
         application.registerForRemoteNotifications()
+    
         
     PFFacebookUtils.initializeFacebook()
         // Override point for customization after application launch.

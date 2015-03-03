@@ -153,14 +153,35 @@ class register: UIViewController, UITextFieldDelegate {
                 
                 user["first"] = true
                 
-                
-                
+      
                 user.signUpInBackgroundWithBlock {
                     (succeeded: Bool!, registerError: NSError!) -> Void in
                     
                     if registerError == nil {
                         var theMix = Mixpanel.sharedInstance()
                         theMix.track("Registers with Uin")
+                        var currentInstallation = PFInstallation.currentInstallation()
+                        currentInstallation["user"] = PFUser.currentUser().username
+                        currentInstallation["userId"] = PFUser.currentUser().objectId
+                        currentInstallation.saveInBackgroundWithBlock({
+                            
+                            (success:Bool!, saveerror: NSError!) -> Void in
+                            
+                            if saveerror == nil {
+                                
+                                println("it worked")
+                                
+                            }
+                                
+                            else {
+                                
+                                println("It didnt work")
+                                
+                            }
+                            
+                            
+                        })
+                        
                         self.performSegueWithIdentifier("registerS", sender: self)
                         
                     }
@@ -207,6 +228,7 @@ class register: UIViewController, UITextFieldDelegate {
                 
                 user["first"] = true
                 
+          
                 var theMix = Mixpanel.sharedInstance()
                 theMix.track("Registers with Facebook")
                 
@@ -214,7 +236,27 @@ class register: UIViewController, UITextFieldDelegate {
                     (succeeded: Bool!, registerError: NSError!) -> Void in
                     
                     if registerError == nil {
-                        
+                        var currentInstallation = PFInstallation.currentInstallation()
+                        currentInstallation["user"] = PFUser.currentUser().username
+                        currentInstallation["userId"] = PFUser.currentUser().objectId
+                        currentInstallation.saveInBackgroundWithBlock({
+                            
+                            (success:Bool!, saveerror: NSError!) -> Void in
+                            
+                            if saveerror == nil {
+                                
+                                println("it worked")
+                                
+                            }
+                                
+                            else {
+                                
+                                println("It didnt work")
+                                
+                            }
+                            
+                            
+                        })
                         self.performSegueWithIdentifier("registerS", sender: self)
                         
                     }
@@ -256,6 +298,33 @@ class register: UIViewController, UITextFieldDelegate {
 
     
     
+    @IBAction func CancelButton(sender: AnyObject) {
+        if editing == true {
+            
+            var user = PFUser.currentUser()
+            user.deleteInBackgroundWithBlock({
+                
+                (succes:Bool!, error:NSError!) -> Void in
+                if error == nil {
+                    PFUser.logOut()
+                    self.performSegueWithIdentifier("backToHome", sender: sender)
+
+                    
+                }
+                else {
+                    println(error)
+                    
+                }
+                
+            })
+            
+        }
+        else {
+            
+          self.performSegueWithIdentifier("backToHome", sender: sender)
+        }
+ 
+    }
 
     
     override func didReceiveMemoryWarning() {

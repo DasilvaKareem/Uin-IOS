@@ -32,8 +32,9 @@ class subscriberlist: UITableViewController {
             
             
             if folError == nil {
-                
-                
+                self.objectId.removeAll(keepCapacity: true)
+                self.folusernames.removeAll(keepCapacity: true)
+                self.folmembers.removeAll(keepCapacity: true)
                 for object in objects{
                     self.objectId.append(object.objectId as String)
                     self.folmembers.append(object["member"] as Bool)

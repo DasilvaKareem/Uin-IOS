@@ -16,6 +16,7 @@ class settingsView: UIViewController {
         if user["push"] as Bool == true {
             
             notifySlider.setOn(true, animated: true)
+  
             
         }   else {
             
@@ -40,83 +41,112 @@ self.tabBarController?.tabBar.hidden = true
         
         var user = PFUser.currentUser()
         
-        if user["push"] as Bool == true {
+        if notifySlider.on == true {
+              var subscriptionUsernames = [String]()
+            var user = PFUser.currentUser()
+            user["push"] = true
+            user.save()
+            var query = PFQuery(className: "Subs")
+            query.whereKey("follower", equalTo: PFUser.currentUser().username)
+            query.findObjectsInBackgroundWithBlock({
+                
+                (objects:[AnyObject]!, queError:NSError!) -> Void in
+                
+                if queError == nil {
+                    println(subscriptionUsernames)
+                    for object in objects {
+                        
+                        subscriptionUsernames.append(object["userId"] as String)
+                        
+                    }
+                    var user = PFUser.currentUser()
+
+                        var currentInstallation = PFInstallation.currentInstallation()
+                        currentInstallation.setValue(subscriptionUsernames, forKey: "channels")
+                        currentInstallation.save()
+                    
+                    
+                }
+                
+            })
+        }
+        else {
             
+            var install = PFInstallation.currentInstallation()
+            var channels = install.channels
+            install.removeObjectsInArray(channels, forKey: "channels")
+            install.save()
+            var user = PFUser.currentUser()
             user["push"] = false
+            user.save()
+
+        }
+        
+    }
+    
+    
+    @IBAction func sudoObject(sender: AnyObject) {
+        
+        var i = 20
+        
+        for i ; i<70000 ; i++ {
             
-        }   else {
+            var user = PFUser()
+            
+            user.username = "test\(i)"
+            
+            user.password = "test"
             
             user["push"] = true
             
-        }
-        
-        
-    }
-    
-    func notifyQuery() {
-        
-        var query = PFUser.query()
-        
-        query.getObjectInBackgroundWithId(PFUser.currentUser().objectId, block: {
+            user["first"] = true
             
-            (objects: PFObject!, error: NSError!) -> Void in
+            user.email = "test@ttest\(i).com"
             
-            if error == nil {
+            user.signUpInBackgroundWithBlock{
+                (succeeded: Bool!, registerError: NSError!) -> Void in
                 
-                if objects["push"] as Bool == false {
+                if registerError == nil {
+                
+            
                     
-                    
-                  
                 }
-                    
                 else {
-                    
-              
-                    
-                }
+                    println(registerError)
                 
             }
             
             
-        })
         
+            
+            
+        }
+            
+            println("made account")
+            var subscribe = PFObject(className: "Subs")
+            subscribe["member"] = false
+            subscribe["follower"] = "test\(i)"
+            subscribe["following"] = "coletherobot"
+            subscribe.save()
+        
+        
+    }
+    
+    
+    
+    
     }
 
     
-    func notifyChange() {
-        
-        var query = PFUser.query()
- 
-        query.getObjectInBackgroundWithId(PFUser.currentUser().objectId, block: {
-            
-            (objects: PFObject!, error: NSError!) -> Void in
-            
-            if error == nil {
-                
-                if objects["push"] as Bool == false {
-                    
-                    objects["push"] = true
-                    objects.save()
-                }
-                
-                else {
-                    
-                    objects["push"] = false
-                    objects.save()
-                    
-                }
-                
-            }
-            
-            
-        })
-        
-    }
+
 
     @IBAction func logout(sender: AnyObject) {
         
        println("you pressed it")
-   
+        var install = PFInstallation.currentInstallation()
+        var channels = install.channels
+        install.removeObjectsInArray(channels, forKey: "channels")
+        install.save()
         PFUser.logOut()
          self.performSegueWithIdentifier("logout", sender: self)
 

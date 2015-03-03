@@ -31,7 +31,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     var eventStart = [NSDate]()
     var localizedTime = [String]()
     var localizedEndTime = [String]()
-    
+    var userId = [String]()
     var numSections = 0
     var rowsInSection = [Int]()
     var sectionNames = [String]()
@@ -164,7 +164,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                     self.eventEnd.append(object["endEvent"] as NSDate)
                     self.eventStart.append(object["startEvent"] as NSDate)
                     self.eventlocation.append(object["eventLocation"] as String)
-                    
+                    self.userId.append(object["userId"] as String)
                     
                     }
                     self.populateSectionInfo()
@@ -312,7 +312,8 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         
         var event = getEventIndex(indexPath.section, row: indexPath.row)
         
-     
+        var section = indexPath.section
+        var row = indexPath.row
         
         if onsite[event] == true {
             
@@ -376,6 +377,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         cell.time.text = localizedTime[event]
         cell.eventName.text = eventTitle[event]
         cell.poop.tag = event
+        
         // Mini query to check if event is already saved
         //println(objectID[event])
         var minique = PFQuery(className: "GoingEvent")
@@ -405,17 +407,11 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
 
     func followButton(sender: AnyObject){
         // Puts the data in a cell
-        
-        let dimensions = [
-            // Define ranges to bucket data points into meaningful segments
-            "priceRange": "1000-1500",
-            // Did the user filter the query?
-            "source": "craigslist",
-            // Do searches happen more often on weekdays or weekends?
-            "dayType": "weekday"
-        ]
-        
+     
+    
+     
    
+ 
         var first:Bool = Bool()
         
        var getFirst = PFUser.query()
@@ -538,17 +534,16 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                 println()
                 println()
                 println("the object does not exist")
-                var user = PFUser.currentUser()
-                if user["push"] as Bool == true {
+        
                     var push = PFPush()
-                    
+                
                     var pfque = PFInstallation.query()
                     pfque.whereKey("user", equalTo: self.usernames[sender.tag])
-                    
+          
                     push.setQuery(pfque)
-                    push.setMessage("\(PFUser.currentUser().username) has added your event to their calendar Good job")
+                    push.setMessage("\(PFUser.currentUser().username) has added your event to their calendar")
                     push.sendPushInBackgroundWithBlock({
-                        
+                     
                         (success:Bool!, pushError: NSError!) -> Void in
                         
                         if pushError == nil {
@@ -558,7 +553,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                         }
                         
                     })
-                }
+                
         
                 var going = PFObject(className: "GoingEvent")
                 going["user"] = PFUser.currentUser().username
@@ -579,8 +574,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                 
        
                 println("Saved Event")
-                self.theFeed.reloadData()
-                
+              self.theFeed.reloadData()
 
             }
             
@@ -635,6 +629,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             var index = getEventIndex(section!, row: row!)
             secondViewController.storeStartDate = eventStart[index]
             secondViewController.endStoreDate =  eventEnd[index]
+            secondViewController.userId = userId[index]
             secondViewController.storeLocation = eventlocation[index]
             secondViewController.storeTitle = eventTitle[index]
             secondViewController.storeStartTime = eventStartTime[index]

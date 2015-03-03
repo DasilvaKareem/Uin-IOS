@@ -1490,6 +1490,15 @@
                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="srV-S4-FT4">
+                                <rect key="frame" x="80" y="421" width="46" height="30"/>
+                                <state key="normal" title="Button">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="sudoObject:" destination="uvH-iJ-jVE" eventType="touchUpInside" id="MHK-9y-JB8"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -2272,7 +2281,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="6lS-Ca-3sI" kind="show" id="6hY-wJ-ibE"/>
+                                    <action selector="CancelButton:" destination="JRi-hN-RoR" eventType="touchUpInside" id="fbA-dQ-7HC"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -2383,11 +2392,12 @@
                         <outlet property="username" destination="zYY-dd-FIE" id="K0x-oD-mEc"/>
                         <segue destination="RUy-yJ-wXV" kind="showDetail" identifier="register" id="iev-7x-rXk"/>
                         <segue destination="RUy-yJ-wXV" kind="presentation" identifier="registerS" id="O3f-bI-5Hf"/>
+                        <segue destination="6lS-Ca-3sI" kind="show" identifier="backToHome" id="qWF-HI-Lr4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="O56-JJ-UaT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-674" y="-1200"/>
+            <point key="canvasLocation" x="-320" y="-1206"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="ubz-rF-dLN">
@@ -3105,10 +3115,10 @@
         <image name="uinLogo" width="218" height="230"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="ixO-tF-9sT"/>
-        <segue reference="Ey9-Bb-gh3"/>
-        <segue reference="eEb-gu-TeJ"/>
+        <segue reference="iev-7x-rXk"/>
+        <segue reference="qWF-HI-Lr4"/>
         <segue reference="rPS-zS-M73"/>
+        <segue reference="ixO-tF-9sT"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>

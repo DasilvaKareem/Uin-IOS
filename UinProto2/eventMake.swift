@@ -19,6 +19,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
     var eventTitlePass = (String)()
     var eventLocation = (String)()
     var eventID = (String)()
+    var userId = (String)()
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         
@@ -240,16 +241,17 @@ class eventMake: UIViewController, UITextFieldDelegate {
                                 dateStr2 = String()
                                 startString = String()
                                 endString = String()
-                          
-                                var user = PFUser.currentUser()
-                                if user["push"] as Bool == true {
+                            
+                             
+                                
+                                
                                     var push =  PFPush()
                                     let data = [
                                         "alert" : "\(PFUser.currentUser().username) has edited the event '\(self.eventTitle.text)'",
                                         "badge" : "Increment",
                                         "sound" : "default"
                                     ]
-                                    push.setChannel(PFUser.currentUser().username)
+                                    push.setChannel(PFUser.currentUser().objectId)
                                     push.setData(data)
                                     push.sendPushInBackgroundWithBlock({
                                         
@@ -263,10 +265,10 @@ class eventMake: UIViewController, UITextFieldDelegate {
                                         var theMix = Mixpanel.sharedInstance()
                                         theMix.track("Edited Event")
                                         
-                                    })                                }
+                                    })
+                            }
 
                                 self.performSegueWithIdentifier("eventback", sender: self)
-                            }
                             
                             
                             
@@ -281,7 +283,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
                 
                 var event = PFObject(className: "Event")
                 
-                
+                event["userId"] = PFUser.currentUser().objectId
                 event["startEvent"] = orderDate1
                 event["endEvent"] = orderDate2
                 event["startTime"] = dateTime1 as String
@@ -302,15 +304,14 @@ class eventMake: UIViewController, UITextFieldDelegate {
                     
                     if (eventError == nil){
                         
-                        var user = PFUser.currentUser()
-                        if user["push"] as Bool == true {
+                   
                             var push =  PFPush()
                             let data = [
                                 "alert" : "\(PFUser.currentUser().username) has edited the event '\(self.eventTitle.text)'",
                                 "badge" : "Increment",
                                 "sound" : "default"
                             ]
-                            push.setChannel(PFUser.currentUser().username)
+                            push.setChannel(PFUser.currentUser().objectId)
                             push.setData(data)
                             push.sendPushInBackgroundWithBlock({
                                 
@@ -326,14 +327,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
                                 
                             })
                             
-                        }
-                     
-                        println("The event was saved")
-                        let data = [
-                            "alert" : "\(PFUser.currentUser().username) has created the event '\(self.eventTitle.text)'",
-                            "badge" : "Increment",
-                            "sound" : "default"
-                        ]
+                        
              
                         var theMix = Mixpanel.sharedInstance()
                         theMix.track("Created an Event")
@@ -404,11 +398,10 @@ class eventMake: UIViewController, UITextFieldDelegate {
                             "badge" : "Increment",
                             "sound" : "default"
                         ]
-                        var user = PFUser.currentUser()
-                        if user["push"] as Bool == true {
+                       
                             
                             var push =  PFPush()
-                            push.setChannel(PFUser.currentUser().username)
+                            push.setChannel(PFUser.currentUser().objectId)
                             push.setData(data)
                             push.sendPushInBackgroundWithBlock({
                                 
@@ -422,7 +415,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
                                 
                                 
                             })
-                        }
+                        
                     
                   
                         self.performSegueWithIdentifier("eventback", sender: self)
