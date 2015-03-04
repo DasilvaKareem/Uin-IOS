@@ -44,6 +44,22 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
     var rowsInSection = [Int]()
     var sectionNames = [String]()
     
+    func displayAlert(title:String, error:String) {
+        
+        var alert = UIAlertController(title: title, message: error, preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { action in
+            
+            
+            
+        }))
+        
+        self.presentViewController(alert, animated: true, completion: nil)
+        
+        func preferredStatusBarStyle() -> UIStatusBarStyle {
+            return UIStatusBarStyle.Default
+        }
+        
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tabBarController?.tabBar.hidden = true
@@ -165,13 +181,20 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
         
         //adds content to the array
         var que = PFQuery(className: "Event")
-        que.orderByAscending("startEvent")
         que.whereKey("author", equalTo: self.theUser)
         que.whereKey("public", equalTo: true)
         
+        var pubQue = PFQuery(className: "Subs")
+        pubQue.whereKey("follower", equalTo: PFUser.currentUser().username)
+        pubQue.whereKey("member", equalTo: true)
+        var superQue = PFQuery(className: "Event")
+        superQue.whereKey("author", matchesKey: "following", inQuery:pubQue)
+        
+        var combQue = PFQuery.orQueryWithSubqueries([superQue, que])
+        combQue.orderByAscending("startEvent")
         
         
-        que.findObjectsInBackgroundWithBlock{
+        combQue.findObjectsInBackgroundWithBlock{
             (objects:[AnyObject]!,eventError:NSError!) -> Void in
             
             print("Refreshing list: ")
@@ -222,6 +245,11 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 
             }
             else{
+                if eventError.code == 100 {
+                    
+                    self.displayAlert("No Internet", error: "You have no internet connection")
+                }
+                
                 println("Something went south: \(eventError) ")
             }
             
@@ -481,23 +509,29 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 })
                 var user = PFUser.currentUser()
             
-                
-                var push = PFPush()
-                var pfque = PFInstallation.query()
-                pfque.whereKey("user", equalTo: self.theUser)
-                push.setQuery(pfque)
-                push.setMessage("\(PFUser.currentUser().username) has subscribed to you ")
-                push.sendPushInBackgroundWithBlock({
-                    
-                    (success:Bool!, pushError: NSError!) -> Void in
-                    
-                    if pushError == nil {
+                var checkPush = PFUser.query()
+                checkPush.whereKey("username", equalTo: self.theUser)
+                var theOther = checkPush.getFirstObject()
+                if theOther["push"] as Bool == true {
+                    var push = PFPush()
+                    var pfque = PFInstallation.query()
+                    pfque.whereKey("user", equalTo: self.theUser)
+                    push.setQuery(pfque)
+                    push.setMessage("\(PFUser.currentUser().username) has subscribed to you ")
+                    push.sendPushInBackgroundWithBlock({
                         
-                        println("IT WORKED")
+                        (success:Bool!, pushError: NSError!) -> Void in
                         
-                    }
+                        if pushError == nil {
+                            
+                            println("IT WORKED")
+                            
+                        }
+                        
+                    })
                     
-                })
+                }
+        
                 
                     
                 
@@ -669,18 +703,172 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
         return cell
     }
     
-    
     func followButton(sender: AnyObject){
-        // Puts the data in a cell
+        // Adds the event to calendar
         
         
-        var eventStore : EKEventStore = EKEventStore()
-        eventStore.requestAccessToEntityType(EKEntityTypeEvent, completion: {
+        
+        
+        
+        
+        var first:Bool = Bool()
+        
+        var getFirst = PFUser.query()
+        getFirst.getObjectInBackgroundWithId(PFUser.currentUser().objectId, block: {
+            (results:PFObject!, error: NSError!) -> Void in
             
-            granted, error in
-            if (granted) && (error == nil) {
-                println("granted \(granted)")
-                println("error  \(error)")
+            if error == nil {
+                
+                if results["first"] as Bool == true {
+                    
+                    first = true
+                }
+                
+                
+            }
+            
+        })
+        
+        
+        var que = PFQuery(className: "GoingEvent")
+        que.whereKey("user", equalTo: PFUser.currentUser().username)
+        que.whereKey("author", equalTo: self.usernames[sender.tag])
+        que.whereKey("eventID", equalTo:self.objectID[sender.tag])
+        que.getFirstObjectInBackgroundWithBlock({
+            
+            (results:PFObject!, queerror: NSError!) -> Void in
+            
+            
+            if queerror == nil {
+                results.delete()
+                println(first)
+                if first == true {
+                    
+                    var getFirst = PFUser.query()
+                    getFirst.getObjectInBackgroundWithId(PFUser.currentUser().objectId, block: {
+                        (results:PFObject!, error: NSError!) -> Void in
+                        
+                        if error == nil {
+                            
+                            results["first"] = false
+                            results.save()
+                            
+                            
+                        }
+                        
+                    })
+                    self.displayAlert("Remove", error: "Tapping the blue checkmark removes an event from your calendar.")
+                    
+                }
+                if results != nil {
+                    var eventStore : EKEventStore = EKEventStore()
+                    eventStore.requestAccessToEntityType(EKEntityTypeEvent, completion: {
+                        
+                        granted, error in
+                        if (granted) && (error == nil) {
+                            println("granted \(granted)")
+                            println("error  \(error)")
+                            var hosted = "Hosted by \(self.usernames[sender.tag])"
+                            var event:EKEvent = EKEvent(eventStore: eventStore)
+                            println()
+                            println()
+                            println()
+                            println()
+                            println(self.eventTitle[sender.tag])
+                            println(self.eventStart[sender.tag])
+                            println(self.eventEnd[sender.tag])
+                            println(self.eventEnd[sender.tag])
+                            event.title = self.eventTitle[sender.tag]
+                            event.startDate = self.eventStart[sender.tag]
+                            event.endDate = self.eventEnd[sender.tag]
+                            event.notes = hosted
+                            event.location = self.eventlocation[sender.tag]
+                            event.calendar = eventStore.defaultCalendarForNewEvents
+                        }
+                    })
+                    var predicate2 = eventStore.predicateForEventsWithStartDate(self.eventStart[sender.tag], endDate: self.eventEnd[sender.tag], calendars:nil)
+                    var eV = eventStore.eventsMatchingPredicate(predicate2) as [EKEvent]!
+                    println("Result is there")
+                    if eV != nil { //
+                        println("EV is not nil")
+                        for i in eV {
+                            println("\(i.title) this is the i.title")
+                            println(self.eventTitle[sender.tag])
+                            if i.title == self.eventTitle[sender.tag]  {
+                                
+                                println("removed")
+                                var theMix = Mixpanel.sharedInstance()
+                                theMix.track("RemovedFromEvent")
+                                eventStore.removeEvent(i, span: EKSpanThisEvent, error: nil)
+                            }
+                        }
+                    }
+                    self.theFeed.reloadData()
+                }
+                
+                
+                
+                
+            } else {
+                var eventStore : EKEventStore = EKEventStore()
+                eventStore.requestAccessToEntityType(EKEntityTypeEvent, completion: {
+                    
+                    granted, error in
+                    if (granted) && (error == nil) {
+                        println("granted \(granted)")
+                        println("error  \(error)")
+                        var hosted = "Hosted by \(self.usernames[sender.tag])"
+                        var event:EKEvent = EKEvent(eventStore: eventStore)
+                        println()
+                        println()
+                        println()
+                        println()
+                        println(self.eventTitle[sender.tag])
+                        println(self.eventStart[sender.tag])
+                        println(self.eventEnd[sender.tag])
+                        event.title = self.eventTitle[sender.tag]
+                        event.startDate = self.eventStart[sender.tag]
+                        event.endDate = self.eventEnd[sender.tag]
+                        event.notes = hosted
+                        var alarm = EKAlarm(relativeOffset: -3600.00)
+                        event.addAlarm(alarm)
+                        event.location = self.eventlocation[sender.tag]
+                        event.calendar = eventStore.defaultCalendarForNewEvents
+                        
+                        eventStore.saveEvent(event, span: EKSpanThisEvent, error: nil)
+                        var theMix = Mixpanel.sharedInstance()
+                        theMix.track("AddedToEvent")
+                        println("saved")
+                    }
+                })
+                
+                println()
+                println()
+                println()
+                println()
+                println()
+                println("the object does not exist")
+                
+                var push = PFPush()
+                
+                var pfque = PFInstallation.query()
+                pfque.whereKey("user", equalTo: self.usernames[sender.tag])
+                
+                push.setQuery(pfque)
+                push.setMessage("\(PFUser.currentUser().username) has added your event to their calendar")
+                push.sendPushInBackgroundWithBlock({
+                    
+                    (success:Bool!, pushError: NSError!) -> Void in
+                    
+                    if pushError == nil {
+                        
+                        println("IT WORKED")
+                        
+                    }
+                    
+                })
+                
+                
                 var going = PFObject(className: "GoingEvent")
                 going["user"] = PFUser.currentUser().username
                 going["event"] = self.eventTitle[sender.tag]
@@ -697,40 +885,46 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                         
                     }
                 }
-                var notify = PFObject(className: "Notification")
-                notify["sender"] = PFUser.currentUser().username
-                notify["receiver"] = self.usernames[sender.tag]
-                notify["type"] =  "calendar"
-                notify.saveInBackgroundWithBlock({
-                    
-                    (success:Bool!, notifyError: NSError!) -> Void in
-                    
-                    if notifyError == nil {
-                        
-                        println("notifcation has been saved")
-                        
-                    }
-                    
-                    
-                })
                 
                 
-                var hosted = "Hosted by \(self.usernames[sender.tag])"
-                var event:EKEvent = EKEvent(eventStore: eventStore)
-                event.title = self.eventTitle[sender.tag]
-                
-                event.startDate = self.eventStart[sender.tag]
-                event.endDate = self.eventEnd[sender.tag]
-                event.notes = hosted
-                event.location = self.eventlocation[sender.tag]
-                event.calendar = eventStore.defaultCalendarForNewEvents
-                eventStore.saveEvent(event, span: EKSpanThisEvent, error: nil)
                 println("Saved Event")
+                self.theFeed.reloadData()
                 
             }
+            
+            
         })
-        updateFeed()
+        
+        
+        
+        
+        
+        
+        if self.usernames[sender.tag] != PFUser.currentUser().username {
+            var notify = PFObject(className: "Notification")
+            notify["theID"] = self.objectID[sender.tag]
+            notify["sender"] = PFUser.currentUser().username
+            notify["receiver"] = self.usernames[sender.tag]
+            notify["type"] =  "calendar"
+            notify.saveInBackgroundWithBlock({
+                
+                (success:Bool!, notifyError: NSError!) -> Void in
+                
+                if notifyError == nil {
+                    
+                    println("notifcation has been saved")
+                    
+                }
+                else{
+                    println(notifyError)
+                }
+                
+                
+            })
+        }
+        
     }
+
     
     override func prepareForSegue(segue:UIStoryboardSegue, sender: AnyObject?){
         

@@ -34,6 +34,7 @@ class eventCell: UITableViewCell {
     
 
     @IBOutlet weak var poop: UIButton!
+    // This is the add to calendar button
     
 
     

@@ -74,8 +74,12 @@ self.tabBarController?.tabBar.hidden = true
             
             var install = PFInstallation.currentInstallation()
             var channels = install.channels
-            install.removeObjectsInArray(channels, forKey: "channels")
-            install.save()
+            if channels != nil {
+                install.removeObjectsInArray(channels, forKey: "channels")
+                install.save()
+                
+            }
+            
             var user = PFUser.currentUser()
             user["push"] = false
             user.save()
@@ -85,57 +89,7 @@ self.tabBarController?.tabBar.hidden = true
     }
     
     
-    @IBAction func sudoObject(sender: AnyObject) {
-        
-        var i = 20
-        
-        for i ; i<70000 ; i++ {
-            
-            var user = PFUser()
-            
-            user.username = "test\(i)"
-            
-            user.password = "test"
-            
-            user["push"] = true
-            
-            user["first"] = true
-            
-            user.email = "test@ttest\(i).com"
-            
-            user.signUpInBackgroundWithBlock{
-                (succeeded: Bool!, registerError: NSError!) -> Void in
-                
-                if registerError == nil {
-                
-            
-                    
-                }
-                else {
-                    println(registerError)
-                
-            }
-            
-            
-        
-            
-            
-        }
-            
-            println("made account")
-            var subscribe = PFObject(className: "Subs")
-            subscribe["member"] = false
-            subscribe["follower"] = "test\(i)"
-            subscribe["following"] = "coletherobot"
-            subscribe.save()
-        
-        
-    }
-    
-    
-    
-    
-    }
+ 
 
     
 

@@ -30,7 +30,7 @@ class notificationsView: UITableViewController {
     notify()
 }
     func notify(){
-      
+      self.notes.removeAll(keepCapacity: true)
         var folusernames = [String]()
         var followque = PFQuery(className: "Subs")
         followque.whereKey("follower", equalTo: PFUser.currentUser().username)

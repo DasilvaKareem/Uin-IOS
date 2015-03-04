@@ -91,7 +91,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     }
  
     override func viewDidDisappear(animated: Bool) {
-        println("View disspear")
+        println("View disappear")
         
               updateFeed()
     }
@@ -175,7 +175,11 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                 
                 
             else {
-                
+                if error.code == 100 {
+                    
+                    self.displayAlert("No Internet", error: "You have no internet connection")
+                }
+        
                 println("It failed")
                 
             }
@@ -406,7 +410,8 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     }
 
     func followButton(sender: AnyObject){
-        // Puts the data in a cell
+        // Adds the event to calendar
+    
      
     
      
@@ -471,7 +476,14 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                             println("error  \(error)")
                             var hosted = "Hosted by \(self.usernames[sender.tag])"
                             var event:EKEvent = EKEvent(eventStore: eventStore)
-                         
+                            println()
+                            println()
+                            println()
+                            println()
+                            println(self.eventTitle[sender.tag])
+                            println(self.eventStart[sender.tag])
+                            println(self.eventEnd[sender.tag])
+                            println(self.eventEnd[sender.tag])
                             event.title = self.eventTitle[sender.tag]
                             event.startDate = self.eventStart[sender.tag]
                             event.endDate = self.eventEnd[sender.tag]
@@ -513,6 +525,13 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                         println("error  \(error)")
                         var hosted = "Hosted by \(self.usernames[sender.tag])"
                         var event:EKEvent = EKEvent(eventStore: eventStore)
+                        println()
+                        println()
+                        println()
+                        println()
+                        println(self.eventTitle[sender.tag])
+                        println(self.eventStart[sender.tag])
+                        println(self.eventEnd[sender.tag])
                         event.title = self.eventTitle[sender.tag]
                         event.startDate = self.eventStart[sender.tag]
                         event.endDate = self.eventEnd[sender.tag]
@@ -521,6 +540,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                         event.addAlarm(alarm)
                         event.location = self.eventlocation[sender.tag]
                         event.calendar = eventStore.defaultCalendarForNewEvents
+        
                         eventStore.saveEvent(event, span: EKSpanThisEvent, error: nil)
                         var theMix = Mixpanel.sharedInstance()
                         theMix.track("AddedToEvent")
