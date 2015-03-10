@@ -75,11 +75,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application( application: UIApplication!, didFailToRegisterForRemoteNotificationsWithError error: NSError! ) {
         
         println("Fail!")
-        let data = [
-            "alert" : "The Mets scored! The game is now tied 1-1!",
-            "badge" : "Increment",
-            "sounds" : "cheering.caf"
-        ]
+    
     }
    
 

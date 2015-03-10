@@ -65,13 +65,13 @@
 
 /* Begin PBXFileReference section */
 		119BEED4DA993FF18EDC1A66 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		28277E2F1A4B115E001CCB02 /* UinProto2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = UinProto2.app; path = Uin.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		28277E2F1A4B115E001CCB02 /* UinProto2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UinProto2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		28277E331A4B115E001CCB02 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		28277E341A4B115E001CCB02 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		28277E391A4B115E001CCB02 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		28277E3B1A4B115E001CCB02 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		28277E3E1A4B115E001CCB02 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		28277E441A4B115E001CCB02 /* UinProto2Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = UinProto2Tests.xctest; path = testUin.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		28277E441A4B115E001CCB02 /* UinProto2Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UinProto2Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		28277E491A4B115E001CCB02 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		28277E4A1A4B115E001CCB02 /* UinProto2Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UinProto2Tests.swift; sourceTree = "<group>"; };
 		28277E551A4B1175001CCB02 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
@@ -567,16 +567,13 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer: Cole Roe (33XBMXDS77)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Cole Roe (33XBMXDS77)";
 				FRAMEWORK_SEARCH_PATHS = (
-					"/Users/coleproe/Uin-IOS",
 					"$(inherited)",
+					"/Users/SirLancelot/Desktop/Uin-IOS",
 				);
 				INFOPLIST_FILE = UinProto2/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"/Users/coleproe/Uin-IOS",
-					"$(inherited)",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "0aa66f89-4ffe-496c-a37e-77616300fa60";
 				SWIFT_OBJC_BRIDGING_HEADER = "UinProto2/UinProto2-Bridging-Header.h";
@@ -593,16 +590,13 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Cole Roe (C59F79Z942)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Cole Roe (C59F79Z942)";
 				FRAMEWORK_SEARCH_PATHS = (
-					"/Users/coleproe/Uin-IOS",
 					"$(inherited)",
+					"/Users/SirLancelot/Desktop/Uin-IOS",
 				);
 				INFOPLIST_FILE = UinProto2/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"/Users/coleproe/Uin-IOS",
-					"$(inherited)",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "8f8705bc-1d63-45c9-9de1-6e517b596213";
 				SWIFT_OBJC_BRIDGING_HEADER = "UinProto2/UinProto2-Bridging-Header.h";

@@ -95,6 +95,10 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
     }
     override func viewWillAppear(animated: Bool) {
         
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.translucent = true
+        
     }
     
     
