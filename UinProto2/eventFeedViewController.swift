@@ -45,17 +45,16 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         //var eventsItem = tabBarItem?[0] as UITabBarItem
         //eventsItem.selectedImage = UIImage(named: "addToCalendar.png")
         
- 
-     
-    
-        updateFeed()
-    
-        //Changes the navbar background
+         //Changes the navbar background
         navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
         
         // Changes text color on navbar
         var nav = self.navigationController?.navigationBar
         nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()];
+        updateFeed()
+    
+       
+  
         
         
         //Adds pull to refresh

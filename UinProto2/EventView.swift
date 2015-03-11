@@ -77,6 +77,7 @@ class postEvent: UIViewController {
         }
         
     }
+    
     override func viewDidAppear(animated: Bool) {
         if profileEditing == false {
             
@@ -89,6 +90,7 @@ class postEvent: UIViewController {
             
         }
     }
+    
     
     override func viewDidLoad() {
         
@@ -239,6 +241,7 @@ class postEvent: UIViewController {
                     }
                 })
                 
+                
                 if self.users != PFUser.currentUser().username {
                     var notify = PFObject(className: "Notification")
                     notify["theID"] = self.userId
@@ -260,6 +263,24 @@ class postEvent: UIViewController {
                         
                         
                     })
+                    var push = PFPush()
+                    
+                    var pfque = PFInstallation.query()
+                    pfque.whereKey("user", equalTo: self.users)
+                    
+                    push.setQuery(pfque)
+                    push.setMessage("\(PFUser.currentUser().username) has added your event to their calendar")
+                    push.sendPushInBackgroundWithBlock({
+                        
+                        (success:Bool!, pushError: NSError!) -> Void in
+                        
+                        if pushError == nil {
+                            
+                            println("The push was sent")
+                            
+                        }
+                        
+                    })
                 }
                 
                 
@@ -275,7 +296,7 @@ class postEvent: UIViewController {
                     
                     if savError == nil {
                         
-                        println("it worked")
+                        println("the user is going to the event")
                         
                     }
                 }

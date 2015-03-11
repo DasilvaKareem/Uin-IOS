@@ -190,10 +190,11 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
         
         var pubQue = PFQuery(className: "Subs")
         pubQue.whereKey("follower", equalTo: PFUser.currentUser().username)
+        pubQue.whereKey("following", equalTo: self.theUser)
         pubQue.whereKey("member", equalTo: true)
         var superQue = PFQuery(className: "Event")
         superQue.whereKey("author", matchesKey: "following", inQuery:pubQue)
-        superQue.whereKey("author", equalTo: self.theUser)
+       // superQue.whereKey("author", equalTo: self.theUser)
         
         var combQue = PFQuery.orQueryWithSubqueries([superQue, que])
         combQue.orderByAscending("startEvent")
@@ -676,9 +677,9 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
             
             cell.privateImage.image = nil
         }
-        cell.people.text = usernames[event]
+        cell.people.text = eventlocation[event]
         cell.time.text = eventStartTime[event]
-        cell.eventName.text = eventlocation[event]
+        cell.eventName.text = usernames[event]
         cell.poop.tag = event
         // Mini query to check if event is already saved
         //println(objectID[event])
