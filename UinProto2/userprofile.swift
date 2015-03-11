@@ -193,6 +193,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
         pubQue.whereKey("member", equalTo: true)
         var superQue = PFQuery(className: "Event")
         superQue.whereKey("author", matchesKey: "following", inQuery:pubQue)
+        superQue.whereKey("author", equalTo: self.theUser)
         
         var combQue = PFQuery.orQueryWithSubqueries([superQue, que])
         combQue.orderByAscending("startEvent")
