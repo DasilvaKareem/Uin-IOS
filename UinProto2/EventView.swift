@@ -239,6 +239,30 @@ class postEvent: UIViewController {
                     }
                 })
                 
+                if self.users != PFUser.currentUser().username {
+                    var notify = PFObject(className: "Notification")
+                    notify["theID"] = self.userId
+                    notify["sender"] = PFUser.currentUser().username
+                    notify["receiver"] = self.users
+                    notify["type"] =  "calendar"
+                    notify.saveInBackgroundWithBlock({
+                        
+                        (success:Bool!, notifyError: NSError!) -> Void in
+                        
+                        if notifyError == nil {
+                            
+                            println("notifcation has been saved")
+                            
+                        }
+                        else{
+                            println(notifyError)
+                        }
+                        
+                        
+                    })
+                }
+                
+                
                 var going = PFObject(className: "GoingEvent")
                 going["user"] = PFUser.currentUser().username
                 going["event"] = self.storeTitle

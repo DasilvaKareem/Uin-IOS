@@ -95,6 +95,10 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
     }
     override func viewWillAppear(animated: Bool) {
         
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.translucent = true
+        
     }
     
     
@@ -189,10 +193,11 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
         pubQue.whereKey("member", equalTo: true)
         var superQue = PFQuery(className: "Event")
         superQue.whereKey("author", matchesKey: "following", inQuery:pubQue)
+        superQue.whereKey("author", equalTo: self.theUser)
         
         var combQue = PFQuery.orQueryWithSubqueries([superQue, que])
         combQue.orderByAscending("startEvent")
-        
+        combQue.whereKey("startEvent", greaterThanOrEqualTo: NSDate())
         
         combQue.findObjectsInBackgroundWithBlock{
             (objects:[AnyObject]!,eventError:NSError!) -> Void in
@@ -224,7 +229,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                     self.publicPost.append(object["public"] as Bool)
                     self.objectID.append(object.objectId as String)
                     self.usernames.append(object["author"] as String)
-                    self.eventTitle.append(object["eventLocation"] as String)
+                    self.eventTitle.append(object["eventTitle"] as String)
                     self.eventStartDate.append(object["startDate"] as String)
                     self.eventEndDate.append(object["endDate"] as String)
                     self.eventStartTime.append(object["startTime"] as String)
@@ -234,7 +239,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                     self.onsite.append(object["location"] as Bool)
                     self.eventEnd.append(object["endEvent"] as NSDate)
                     self.eventStart.append(object["startEvent"] as NSDate)
-                    self.eventlocation.append(object["eventTitle"] as String)
+                    self.eventlocation.append(object["eventLocation"] as String)
                     
                     
                 }
