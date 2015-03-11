@@ -45,17 +45,16 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         //var eventsItem = tabBarItem?[0] as UITabBarItem
         //eventsItem.selectedImage = UIImage(named: "addToCalendar.png")
         
- 
-     
-    
-        updateFeed()
-    
-        //Changes the navbar background
+         //Changes the navbar background
         navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
         
         // Changes text color on navbar
         var nav = self.navigationController?.navigationBar
         nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()];
+        updateFeed()
+    
+       
+  
         
         
         //Adds pull to refresh
@@ -574,6 +573,29 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                         
                     })
                 
+                if self.usernames[sender.tag] != PFUser.currentUser().username {
+                    var notify = PFObject(className: "Notification")
+                    notify["theID"] = self.objectID[sender.tag]
+                    notify["sender"] = PFUser.currentUser().username
+                    notify["receiver"] = self.usernames[sender.tag]
+                    notify["type"] =  "calendar"
+                    notify.saveInBackgroundWithBlock({
+                        
+                        (success:Bool!, notifyError: NSError!) -> Void in
+                        
+                        if notifyError == nil {
+                            
+                            println("notifcation has been saved")
+                            
+                        }
+                        else{
+                            println(notifyError)
+                        }
+                        
+                        
+                    })
+                }
+                
         
                 var going = PFObject(className: "GoingEvent")
                 going["user"] = PFUser.currentUser().username
@@ -606,28 +628,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         
         
         
-         if self.usernames[sender.tag] != PFUser.currentUser().username {
-            var notify = PFObject(className: "Notification")
-            notify["theID"] = self.objectID[sender.tag]
-            notify["sender"] = PFUser.currentUser().username
-            notify["receiver"] = self.usernames[sender.tag]
-            notify["type"] =  "calendar"
-            notify.saveInBackgroundWithBlock({
-                
-                (success:Bool!, notifyError: NSError!) -> Void in
-                
-                if notifyError == nil {
-                    
-                    println("notifcation has been saved")
-                    
-                }
-                else{
-                    println(notifyError)
-                }
-                
-                
-            })
-        }
+     
 
         }
     

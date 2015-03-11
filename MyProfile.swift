@@ -135,12 +135,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 self.amountofScript.removeAll(keepCapacity: true)
                 
                 self.amountofScript =  String(count)
-                
-                
-                
-                
-                
-                
+
                 
             }
             
@@ -158,7 +153,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     var que = PFQuery(className: "Event")
     que.orderByAscending("startEvent")
     que.whereKey("author", equalTo: PFUser.currentUser().username)
-
+    
     
     
     que.findObjectsInBackgroundWithBlock{

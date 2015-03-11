@@ -163,7 +163,7 @@ class SignIn: UIViewController, UITextFieldDelegate {
                             println(subscriptionUsernames)
                             for object in objects {
                                 
-                                subscriptionUsernames.append(object["following"] as String)
+                                subscriptionUsernames.append(object["userId"] as String)
                                 
                             }
                             var user = PFUser.currentUser()

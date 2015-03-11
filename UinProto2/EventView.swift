@@ -77,6 +77,7 @@ class postEvent: UIViewController {
         }
         
     }
+    
     override func viewDidAppear(animated: Bool) {
         if profileEditing == false {
             
@@ -89,6 +90,7 @@ class postEvent: UIViewController {
             
         }
     }
+    
     
     override func viewDidLoad() {
         
@@ -239,6 +241,49 @@ class postEvent: UIViewController {
                     }
                 })
                 
+                
+                if self.users != PFUser.currentUser().username {
+                    var notify = PFObject(className: "Notification")
+                    notify["theID"] = self.userId
+                    notify["sender"] = PFUser.currentUser().username
+                    notify["receiver"] = self.users
+                    notify["type"] =  "calendar"
+                    notify.saveInBackgroundWithBlock({
+                        
+                        (success:Bool!, notifyError: NSError!) -> Void in
+                        
+                        if notifyError == nil {
+                            
+                            println("notifcation has been saved")
+                            
+                        }
+                        else{
+                            println(notifyError)
+                        }
+                        
+                        
+                    })
+                    var push = PFPush()
+                    
+                    var pfque = PFInstallation.query()
+                    pfque.whereKey("user", equalTo: self.users)
+                    
+                    push.setQuery(pfque)
+                    push.setMessage("\(PFUser.currentUser().username) has added your event to their calendar")
+                    push.sendPushInBackgroundWithBlock({
+                        
+                        (success:Bool!, pushError: NSError!) -> Void in
+                        
+                        if pushError == nil {
+                            
+                            println("The push was sent")
+                            
+                        }
+                        
+                    })
+                }
+                
+                
                 var going = PFObject(className: "GoingEvent")
                 going["user"] = PFUser.currentUser().username
                 going["event"] = self.storeTitle
@@ -251,7 +296,7 @@ class postEvent: UIViewController {
                     
                     if savError == nil {
                         
-                        println("it worked")
+                        println("the user is going to the event")
                         
                     }
                 }
