@@ -77,8 +77,8 @@ class postEvent: UIViewController {
         }
         
     }
-    
-    override func viewDidAppear(animated: Bool) {
+    override func viewWillAppear(animated: Bool) {
+        
         if profileEditing == false {
             
             navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
@@ -89,7 +89,9 @@ class postEvent: UIViewController {
             
             
         }
+        
     }
+    
     
     
     override func viewDidLoad() {
