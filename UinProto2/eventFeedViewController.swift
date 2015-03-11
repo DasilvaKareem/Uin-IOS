@@ -574,6 +574,29 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                         
                     })
                 
+                if self.usernames[sender.tag] != PFUser.currentUser().username {
+                    var notify = PFObject(className: "Notification")
+                    notify["theID"] = self.objectID[sender.tag]
+                    notify["sender"] = PFUser.currentUser().username
+                    notify["receiver"] = self.usernames[sender.tag]
+                    notify["type"] =  "calendar"
+                    notify.saveInBackgroundWithBlock({
+                        
+                        (success:Bool!, notifyError: NSError!) -> Void in
+                        
+                        if notifyError == nil {
+                            
+                            println("notifcation has been saved")
+                            
+                        }
+                        else{
+                            println(notifyError)
+                        }
+                        
+                        
+                    })
+                }
+                
         
                 var going = PFObject(className: "GoingEvent")
                 going["user"] = PFUser.currentUser().username
@@ -606,28 +629,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         
         
         
-         if self.usernames[sender.tag] != PFUser.currentUser().username {
-            var notify = PFObject(className: "Notification")
-            notify["theID"] = self.objectID[sender.tag]
-            notify["sender"] = PFUser.currentUser().username
-            notify["receiver"] = self.usernames[sender.tag]
-            notify["type"] =  "calendar"
-            notify.saveInBackgroundWithBlock({
-                
-                (success:Bool!, notifyError: NSError!) -> Void in
-                
-                if notifyError == nil {
-                    
-                    println("notifcation has been saved")
-                    
-                }
-                else{
-                    println(notifyError)
-                }
-                
-                
-            })
-        }
+     
 
         }
     
