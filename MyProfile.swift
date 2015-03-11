@@ -153,7 +153,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     var que = PFQuery(className: "Event")
     que.orderByAscending("startEvent")
     que.whereKey("author", equalTo: PFUser.currentUser().username)
-    
+    que.whereKey("startEvent", greaterThanOrEqualTo: NSDate())
     
     
     que.findObjectsInBackgroundWithBlock{

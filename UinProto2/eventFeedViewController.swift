@@ -95,7 +95,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
               updateFeed()
     }
     override func viewWillAppear(animated: Bool) {
-    
+        updateFeed()
          self.tabBarController?.tabBar.hidden = false
     }
     func updateFeed(){
