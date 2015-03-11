@@ -278,14 +278,12 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
         //Initialisation
         numSections = 0
         rowsInSection.removeAll(keepCapacity: true)
-        rowsInSection.append(0)
         sectionNames.removeAll(keepCapacity: true)
         self.localizedTime.removeAll(keepCapacity: true)
-        self.localizedEndTime.removeAll(keepCapacity:true)
+        self.localizedEndTime.removeAll(keepCapacity: true)
         for i in eventStart {
-            println()
-            println()
-            println()
+            
+            
             var dateFormatter = NSDateFormatter()
             dateFormatter.locale = NSLocale.currentLocale()
             dateFormatter.dateFormat = " EEEE MMM, dd yyyy"
@@ -298,11 +296,27 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
             
             
         }
-        //For each date
-        sectionNames.insert("0", atIndex: 0)
-        for date in eventStartDate{
-            //If there is a date change
+        
+        for i in eventEnd {
             
+            
+            var dateFormatter2 = NSDateFormatter()
+            dateFormatter2.locale = NSLocale.currentLocale()
+            dateFormatter2.dateFormat = " EEEE MMM, dd yyyy"
+            var realDate2 = dateFormatter2.stringFromDate(i)
+            var dateFormatter3 = NSDateFormatter()
+            dateFormatter3.timeStyle = NSDateFormatterStyle.ShortStyle
+            var localTime = dateFormatter3.stringFromDate(i)
+            
+            self.localizedEndTime.append(localTime)
+            
+            
+        }
+        
+        
+        //For each date
+        for date in convertedDates{
+            //If there is a date change
             if (currentDate != date){
                 //If the current date is not the init value
                 if (currentDate != ""){
@@ -321,48 +335,10 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
             //The count is incremented
             i++
         }
-        
-        for i in eventEnd {
-            
-            
-            var dateFormatter2 = NSDateFormatter()
-            dateFormatter2.locale = NSLocale.currentLocale()
-            dateFormatter2.dateFormat = " EEEE MMM, dd yyyy"
-            var realDate2 = dateFormatter2.stringFromDate(i)
-            var dateFormatter3 = NSDateFormatter()
-            dateFormatter3.timeStyle = NSDateFormatterStyle.ShortStyle
-            var localTime = dateFormatter3.stringFromDate(i)
-            
-            self.localizedEndTime.append(localTime)
-            
-            
-        }
         //Because the loop is broken before a new date is found, that
         //  one needs to be added manually
-        
         rowsInSection.append(i)
-        numSections++
-        
-        if numSections == 0 {
-            println("Yo")
-            numSections++
-        }
-        else {
-            
-            println("Hey it doesnt work")
-            
-            
-        }
-        
-        
-        
-        println()
-        println(rowsInSection)
-        println(numSections)
-        println(sectionNames)
-        println()
     }
-    
     //Returns the index of the element at the specified section and row
     func getEventIndex(section: Int, row: Int) -> Int{
         var offset = 0
@@ -677,9 +653,9 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
             
             cell.privateImage.image = nil
         }
-        cell.people.text = eventlocation[event]
-        cell.time.text = eventStartTime[event]
-        cell.eventName.text = usernames[event]
+        cell.people.text = usernames[event]
+        cell.time.text = localizedTime[event]
+        cell.eventName.text = eventTitle[event]
         cell.poop.tag = event
         // Mini query to check if event is already saved
         //println(objectID[event])
