@@ -2732,16 +2732,6 @@
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="FeY-NV-WxP" id="MG8-qM-2mn">
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WVj-vu-qcv">
-                                            <rect key="frame" x="234" y="5" width="180" height="20"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="20" id="0Kh-DO-35z"/>
-                                                <constraint firstAttribute="width" constant="180" id="h2i-r5-Op8"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wEp-bS-QwZ">
                                             <rect key="frame" x="8" y="26" width="398" height="40"/>
                                             <constraints>
@@ -2757,10 +2747,20 @@
                                                 </mask>
                                             </variation>
                                         </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WVj-vu-qcv">
+                                            <rect key="frame" x="226" y="8" width="180" height="20"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="20" id="0Kh-DO-35z"/>
+                                                <constraint firstAttribute="width" constant="180" id="h2i-r5-Op8"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="WVj-vu-qcv" firstAttribute="top" secondItem="MG8-qM-2mn" secondAttribute="top" constant="5" id="aYr-to-90q"/>
-                                        <constraint firstAttribute="trailing" secondItem="WVj-vu-qcv" secondAttribute="trailing" id="et2-F8-IVh"/>
+                                        <constraint firstItem="WVj-vu-qcv" firstAttribute="top" secondItem="MG8-qM-2mn" secondAttribute="top" constant="8" id="aYr-to-90q"/>
+                                        <constraint firstAttribute="trailing" secondItem="WVj-vu-qcv" secondAttribute="trailing" constant="8" id="et2-F8-IVh"/>
                                         <constraint firstItem="wEp-bS-QwZ" firstAttribute="leading" secondItem="MG8-qM-2mn" secondAttribute="leadingMargin" id="gwJ-93-cH9"/>
                                         <constraint firstItem="wEp-bS-QwZ" firstAttribute="trailing" secondItem="MG8-qM-2mn" secondAttribute="trailingMargin" id="vZj-Ka-np2"/>
                                         <constraint firstItem="wEp-bS-QwZ" firstAttribute="top" secondItem="MG8-qM-2mn" secondAttribute="top" constant="26" id="vgd-4C-bWG"/>
