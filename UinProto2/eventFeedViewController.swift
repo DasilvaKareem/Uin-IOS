@@ -37,10 +37,13 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     var sectionNames = [String]()
     
     
-    
+   
+  
+    // View cycles
     override func viewDidLoad() {
         super.viewDidLoad()
- 
+     
+
         self.tabBarController?.tabBar.hidden = false
         //var eventsItem = tabBarItem?[0] as UITabBarItem
         //eventsItem.selectedImage = UIImage(named: "addToCalendar.png")
@@ -52,9 +55,8 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         var nav = self.navigationController?.navigationBar
         nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()];
         updateFeed()
-    
-       
-  
+    notifications()
+      
         
         
         //Adds pull to refresh
@@ -68,10 +70,66 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         
     }
     
+    override func viewDidDisappear(animated: Bool) {
+        println("View disappear")
+        notifications()
+        updateFeed()
+    }
+    override func viewWillAppear(animated: Bool) {
+        updateFeed()
+       
+        self.tabBarController?.tabBar.hidden = false
+    }
+    override func viewDidAppear(animated: Bool) {
+        checkNotifications()
+        notifications()
+        
+    }
+
     
+    // Checks for notifcations and compares to any notications you recieved during that time
+    var old = (Int)()
+    var newCheck = (Int)()
     
+    func notifications() {
+        
+        var check = PFQuery(className: "Notification")
+        check.whereKey("receiver", equalTo: PFUser.currentUser().username)
+        old = check.countObjects()
+        
+        
+    }
     
+    func checkNotifications() {
+        
+        var check = PFQuery(className: "Notification")
+        check.whereKey("receiver", equalTo: PFUser.currentUser().username)
+         newCheck = check.countObjects()
+        
+        if self.old != self.newCheck {
+            var diffrence = self.newCheck - self.old
+            var tabArray = self.tabBarController?.tabBar.items as NSArray!
+            var tabItem = tabArray.objectAtIndex(1) as UITabBarItem
+            tabItem.badgeValue = String(diffrence)
+            println()
+            println()
+            println("You have gotten a new notification")
+            println()
+            println()
+        }
+        else {
+            println()
+            println()
+            println("You do not have a any new notification ")
+            
+            println()
+            println()
+        }
+        
+        
+    }
     
+    // Alert function
     func displayAlert(title:String, error:String) {
         
         var alert = UIAlertController(title: title, message: error, preferredStyle: UIAlertControllerStyle.Alert)
@@ -89,16 +147,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         
     }
  
-    override func viewDidDisappear(animated: Bool) {
-        println("View disappear")
-        
-              updateFeed()
-    }
-    override func viewWillAppear(animated: Bool) {
-        updateFeed()
-         self.tabBarController?.tabBar.hidden = false
-    }
-    func updateFeed(){
+      func updateFeed(){
         //Removes all leftover content in the array
         
         println("Before query")
@@ -188,9 +237,12 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         
         
     }
+ 
     func refresh() {
         
         updateFeed()
+        checkNotifications()
+        notifications()
     }
     
     func populateSectionInfo(){

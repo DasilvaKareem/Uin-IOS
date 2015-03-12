@@ -14,8 +14,16 @@ class notificationsView: UITableViewController {
   
     var times = [NSDate]()
     var localTime = [String]()
+    override func viewDidAppear(animated: Bool) {
+        var tabArray = self.tabBarController?.tabBar.items as NSArray!
+        var tabItem = tabArray.objectAtIndex(1) as UITabBarItem
+        tabItem.badgeValue = nil
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
+        var tabArray = self.tabBarController?.tabBar.items as NSArray!
+        var tabItem = tabArray.objectAtIndex(1) as UITabBarItem
+        tabItem.badgeValue = nil
         self.tabBarController?.tabBar.hidden = false
         navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
         
@@ -23,12 +31,15 @@ class notificationsView: UITableViewController {
         var nav = self.navigationController?.navigationBar
         nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()];
         notify()
+      
                }
         
     override func viewDidDisappear(animated: Bool) {
     self.notes.removeAll(keepCapacity: true)
     notify()
 }
+    
+
     func notify(){
       self.notes.removeAll(keepCapacity: true)
         var folusernames = [String]()

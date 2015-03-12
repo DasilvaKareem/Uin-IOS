@@ -58,7 +58,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     override func viewWillAppear(animated: Bool) {
         subticker()
         updateFeed()
- 
+  
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.translucent = true
@@ -69,8 +69,14 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     override func viewDidDisappear(animated: Bool) {
         updateFeed()
         subticker()
+        notifications()
     }
-    
+    override func viewDidAppear(animated: Bool) {
+        
+        checkNotifications()
+        notifications()
+        
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         usernameButton.title = PFUser.currentUser().username
@@ -148,6 +154,48 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         
     }
     
+    // Checks for notifcations and compares to any notications you recieved during that time
+    var old = (Int)()
+    var newCheck = (Int)()
+    
+    func notifications() {
+        
+        var check = PFQuery(className: "Notification")
+        check.whereKey("receiver", equalTo: PFUser.currentUser().username)
+        old = check.countObjects()
+        
+        
+    }
+    
+    func checkNotifications() {
+        
+        var check = PFQuery(className: "Notification")
+        check.whereKey("receiver", equalTo: PFUser.currentUser().username)
+        newCheck = check.countObjects()
+        
+        if self.old != self.newCheck {
+            var diffrence = self.newCheck - self.old
+            var tabArray = self.tabBarController?.tabBar.items as NSArray!
+            var tabItem = tabArray.objectAtIndex(1) as UITabBarItem
+            tabItem.badgeValue = String(diffrence)
+            println()
+            println()
+            println("You have gotten a new notification")
+            println()
+            println()
+        }
+        else {
+            println()
+            println()
+            println("You do not have a any new notification ")
+            
+            println()
+            println()
+        }
+        
+        
+    }
+
 
     func updateFeed(){
     var que = PFQuery(className: "Event")
@@ -226,6 +274,9 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     func refresh() {
         updateFeed()
+        checkNotifications()
+        notifications()
+        
     }
     func populateSectionInfo(){
         var convertedDates = [String]()
