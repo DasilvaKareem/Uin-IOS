@@ -84,6 +84,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
            self.navigationController?.navigationBar.backIndicatorImage = nil
         subticker()
         updateFeed()
+        notifications()
         //Queries all the events and puts into the arrays above
         refresher = UIRefreshControl()
         refresher.attributedTitle = NSAttributedString(string: "Pull to Refresh")

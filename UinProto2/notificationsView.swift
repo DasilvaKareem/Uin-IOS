@@ -11,7 +11,7 @@ import UIKit
 class notificationsView: UITableViewController {
    
     var notes = [String]()
-  
+     var refresher: UIRefreshControl!
     var times = [NSDate]()
     var localTime = [String]()
     override func viewDidAppear(animated: Bool) {
@@ -31,8 +31,13 @@ class notificationsView: UITableViewController {
         var nav = self.navigationController?.navigationBar
         nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()];
         notify()
+        //refresher
+        refresher = UIRefreshControl()
+        refresher.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        refresher.addTarget(self, action: "refresh", forControlEvents: UIControlEvents.ValueChanged)
+        self.tableView.addSubview(refresher)
       
-               }
+    }
         
     override func viewDidDisappear(animated: Bool) {
     self.notes.removeAll(keepCapacity: true)
@@ -154,12 +159,18 @@ class notificationsView: UITableViewController {
                     
                 }
                 self.tableView.reloadData()
+                self.refresher.endRefreshing()
                 
             }
             
             
             
         })
+    }
+    func refresh() {
+        
+        
+        notify()
     }
 
     override func didReceiveMemoryWarning() {
