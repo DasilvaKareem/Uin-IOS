@@ -46,7 +46,7 @@ class notificationsView: UITableViewController {
     
 
     func notify(){
-      self.notes.removeAll(keepCapacity: true)
+      
         var folusernames = [String]()
         var followque = PFQuery(className: "Subs")
         followque.whereKey("follower", equalTo: PFUser.currentUser().username)
@@ -103,7 +103,8 @@ class notificationsView: UITableViewController {
             (objects:[AnyObject]!,subError:NSError!) -> Void in
             println("it queryed")
             if subError == nil {
-                
+                self.notes.removeAll(keepCapacity: true)
+                self.times.removeAll(keepCapacity: true)
                 for object in objects {
                     println(object.objectId)
                     
@@ -147,7 +148,7 @@ class notificationsView: UITableViewController {
                 }
                 for i in self.times {
                     var dateFormatter = NSDateFormatter()
-                    dateFormatter.locale = NSLocale.currentLocale()
+                    //dateFormatter.locale = NSLocale.currentLocale()
                     dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
                     var realDate = dateFormatter.stringFromDate(i)
                     var dateFormatter2 = NSDateFormatter()
