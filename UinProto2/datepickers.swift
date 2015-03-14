@@ -18,11 +18,7 @@ var startString = String()
 var endString = String()
 class datepickers: UIViewController {
     
-
-
     @IBOutlet var startTIme: UILabel!
-    
-    
     @IBOutlet var endTime: UILabel!
 
     override func viewDidLoad() {
@@ -36,9 +32,7 @@ self.tabBarController?.tabBar.hidden = true
         // Dispose of any resources that can be recreated.
     }
     
-    
     @IBOutlet var datepicker1: UIDatePicker!
-    
     @IBAction func theDatePicker(sender: AnyObject) {
         
         
@@ -54,24 +48,11 @@ self.tabBarController?.tabBar.hidden = true
         startTIme.text = startString
          datepicker2.date = orderDate1
         endTime.text = startString
-   
-
-        
-
-
-        
-        
     }
-
-    
     
     @IBOutlet var datepicker2: UIDatePicker!
-    
-    
     @IBAction func thesecondDate(sender: AnyObject) {
         
-        
-       
         datepicker2.minimumDate = orderDate1
         //startTIme.text = endString
         var dateFormatter = NSDateFormatter()
@@ -79,31 +60,9 @@ self.tabBarController?.tabBar.hidden = true
         var dateTimeformat = NSDateFormatter()
         dateTimeformat.timeStyle = NSDateFormatterStyle.ShortStyle
         dateTime2 = dateTimeformat.stringFromDate(datepicker2.date)
-    
         dateStr2 = dateFormatter.stringFromDate(datepicker2.date)
-        
         orderDate2 = datepicker2.date
         endString = dateStr2 + " " + dateTime2
         endTime.text = endString
-        
-        
-        
-        
-        
     }
-    
-
-
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

@@ -52,7 +52,6 @@ class postEvent: UIViewController {
     var localEnd = String()
     var userId = String()
 
-    
     func checkevent(){
         var minique = PFQuery(className: "GoingEvent")
         minique.whereKey("user", equalTo: PFUser.currentUser().username)
@@ -69,24 +68,19 @@ class postEvent: UIViewController {
                 
             }   else {
                 
-                
                 self.longBar.setImage(UIImage(named: "addToCalendarLongBar.png"), forState: UIControlState.Normal)
             }
-            
-            
         }
-        
     }
     override func viewWillAppear(animated: Bool) {
         
         if profileEditing == false {
             
             navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
-            
+        
             // Changes text color on navbar
             var nav = self.navigationController?.navigationBar
             nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()];
-            
             
         }
         
@@ -98,21 +92,12 @@ class postEvent: UIViewController {
         
         super.viewDidLoad()
         if users != PFUser.currentUser().username{
-            
             self.navigationItem.rightBarButtonItem = nil
-            
-            
-            
         }
-        
-
-        
         self.tabBarController?.tabBar.hidden = true
-        
         if profileEditing == true {
-            
+        
             navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
-            
             // Changes text color on navbar
             var nav = self.navigationController?.navigationBar
             nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()];
@@ -121,14 +106,12 @@ class postEvent: UIViewController {
         if profileEditing == false {
             
             navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
-            
             // Changes text color on navbar
             var nav = self.navigationController?.navigationBar
             nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()];
             
             
         }
-        
         println(food)
         println(onsite)
         println(cost)
@@ -142,9 +125,7 @@ class postEvent: UIViewController {
         putIcons()
         checkevent()
         if PFUser.currentUser().username == users {
-            
             username.enabled = false
-            
         }
     }
     
@@ -152,13 +133,9 @@ class postEvent: UIViewController {
         
         var alert = UIAlertController(title: title, message: error, preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { action in
-            
             self.dismissViewControllerAnimated(true, completion: nil)
-            
         }))
-        
         self.presentViewController(alert, animated: true, completion: nil)
-        
         func preferredStatusBarStyle() -> UIStatusBarStyle {
             return UIStatusBarStyle.Default
         }
@@ -195,14 +172,13 @@ class postEvent: UIViewController {
                     event.notes = hosted
                     event.location = self.storeLocation
                     event.calendar = eventStore.defaultCalendarForNewEvents
-                    
                 }
             })
                     var predicate2 = eventStore.predicateForEventsWithStartDate(self.storeStartDate, endDate: self.endStoreDate, calendars:nil)
                     var eV = eventStore.eventsMatchingPredicate(predicate2) as [EKEvent]!
                     println("Result is there")
                     if eV != nil {
-                     
+
                         println("EV is not nil")
                         for i in eV {
                             println("\(i.title) this is the i.title")
@@ -214,8 +190,6 @@ class postEvent: UIViewController {
                             }
                         }
                     }
-
-        
                 }
             }
             
@@ -243,7 +217,6 @@ class postEvent: UIViewController {
                     }
                 })
                 
-                
                 if self.users != PFUser.currentUser().username {
                     var notify = PFObject(className: "Notification")
                     notify["theID"] = self.userId
@@ -251,7 +224,6 @@ class postEvent: UIViewController {
                     notify["receiver"] = self.users
                     notify["type"] =  "calendar"
                     notify.saveInBackgroundWithBlock({
-                        
                         (success:Bool!, notifyError: NSError!) -> Void in
                         
                         if notifyError == nil {
@@ -262,30 +234,20 @@ class postEvent: UIViewController {
                         else{
                             println(notifyError)
                         }
-                        
-                        
                     })
                     var push = PFPush()
-                    
                     var pfque = PFInstallation.query()
                     pfque.whereKey("user", equalTo: self.users)
-                    
                     push.setQuery(pfque)
                     push.setMessage("\(PFUser.currentUser().username) has added your event to their calendar")
                     push.sendPushInBackgroundWithBlock({
                         
                         (success:Bool!, pushError: NSError!) -> Void in
-                        
                         if pushError == nil {
-                            
                             println("The push was sent")
-                            
                         }
-                        
                     })
                 }
-                
-                
                 var going = PFObject(className: "GoingEvent")
                 going["user"] = PFUser.currentUser().username
                 going["event"] = self.storeTitle
@@ -302,19 +264,8 @@ class postEvent: UIViewController {
                         
                     }
                 }
-                
             }
-            
-            
-            })
-        
-            
-        
-        
-        
-        
-      
-        
+        })
     }
     @IBOutlet var longBar: UIButton!
     
@@ -379,18 +330,10 @@ class postEvent: UIViewController {
             editEvent.food = food
             editEvent.paid = cost
             editEvent.eventID = eventId
-            
-            //Make this into a switch statement later on kareem
-            
-            
-            
-            
         }
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    
 }

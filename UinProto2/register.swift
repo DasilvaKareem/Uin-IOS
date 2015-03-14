@@ -12,13 +12,11 @@ class register: UIViewController, UITextFieldDelegate {
 
     
     @IBOutlet weak var username: UITextField!
-    
-    
     @IBOutlet weak var password: UITextField!
-    
-    
     @IBOutlet weak var email: UITextField!
-    
+    var userPlace = ""
+    var emailPlace = ""
+    var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         
         self.view.endEditing(true)
@@ -33,23 +31,17 @@ class register: UIViewController, UITextFieldDelegate {
         
     }
     
-    var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
+    
     
     func displayAlert(title:String, error:String) {
         
         var alert = UIAlertController(title: title, message: error, preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { action in
-            
-                      
-            
-            
         }))
-        
         self.presentViewController(alert, animated: true, completion: nil)
-        
     }
-    var userPlace = ""
-    var emailPlace = ""
+    
+ 
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,8 +49,6 @@ class register: UIViewController, UITextFieldDelegate {
         if userPlace != "" {
             username.attributedText = NSAttributedString(string:userPlace,
                 attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
-
-            
         }
         else {
             username.attributedPlaceholder = NSAttributedString(string:"USERNAME",
@@ -77,13 +67,9 @@ class register: UIViewController, UITextFieldDelegate {
                 attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
         }
         
-        
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name:UIKeyboardWillShowNotification, object: nil);
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillHide:"), name:UIKeyboardWillHideNotification, object: nil);
 
-        
-    
-        
         password.attributedPlaceholder = NSAttributedString(string:"PASSWORD",
             attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
         
@@ -110,11 +96,6 @@ class register: UIViewController, UITextFieldDelegate {
     
 
     @IBOutlet weak var cpassword: UITextField!
-
-    
-
-
-    
     @IBAction func register(sender: AnyObject) {
         
         
@@ -137,23 +118,15 @@ class register: UIViewController, UITextFieldDelegate {
         }
             
         else {
-            
-
+    
             if PFUser.currentUser() == nil {
                 var user = PFUser()
                 user.username = username.text
-                
                 user["display"] = username.text
-                
                 user.password = password.text
-                
                 user.email = email.text
-                
                 user["push"] = true
-                
                 user["first"] = true
-                
-      
                 user.signUpInBackgroundWithBlock {
                     (succeeded: Bool!, registerError: NSError!) -> Void in
                     
@@ -168,22 +141,14 @@ class register: UIViewController, UITextFieldDelegate {
                             (success:Bool!, saveerror: NSError!) -> Void in
                             
                             if saveerror == nil {
-                                
                                 println("it worked")
-                                
                             }
                                 
                             else {
-                                
                                 println("It didnt work")
-                                
                             }
-                            
-                            
                         })
-                        
                         self.performSegueWithIdentifier("registerS", sender: self)
-                        
                     }
                     else {
                         println(registerError.code)
@@ -204,34 +169,21 @@ class register: UIViewController, UITextFieldDelegate {
                         default:
                             self.displayAlert("Oops!", error: "Failure")
                         }
-                        
-                        
-                        
                     }
-                    
                 }
                 
             }
             else {
                 
                 var user = PFUser.currentUser()
-                
                 user.username = username.text
-                
                 user["display"] = username.text
-                
                 user.password = password.text
-                
                 user.email = email.text
-                
                 user["push"] = true
-                
                 user["first"] = true
-                
-          
                 var theMix = Mixpanel.sharedInstance()
                 theMix.track("Registers with Facebook")
-                
                 user.saveInBackgroundWithBlock {
                     (succeeded: Bool!, registerError: NSError!) -> Void in
                     
@@ -250,11 +202,9 @@ class register: UIViewController, UITextFieldDelegate {
                             }
                                 
                             else {
-                                
+
                                 println("It didnt work")
-                                
                             }
-                            
                             
                         })
                         self.performSegueWithIdentifier("registerS", sender: self)
@@ -279,24 +229,11 @@ class register: UIViewController, UITextFieldDelegate {
                         default:
                             self.displayAlert("Oops!", error: "Failure")
                         }
-                        
-                        
-                        
                     }
-                    
                 }
-                
             }
-            
-         
-         
-            
         }
-        
     }
-    
-
-    
     
     @IBAction func CancelButton(sender: AnyObject) {
         if editing == true {
@@ -308,34 +245,23 @@ class register: UIViewController, UITextFieldDelegate {
                 if error == nil {
                     PFUser.logOut()
                     self.performSegueWithIdentifier("backToHome", sender: sender)
-
-                    
                 }
                 else {
                     println(error)
-                    
                 }
-                
             })
-            
         }
         else {
-            
           self.performSegueWithIdentifier("backToHome", sender: sender)
         }
- 
     }
 
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
     override func viewDidAppear(animated: Bool) {
         
-        
     }
-
-  
-
 }

@@ -11,9 +11,10 @@ import UIKit
 class notificationsView: UITableViewController {
    
     var notes = [String]()
-     var refresher: UIRefreshControl!
+    var refresher: UIRefreshControl!
     var times = [NSDate]()
     var localTime = [String]()
+    
     override func viewDidAppear(animated: Bool) {
         var tabArray = self.tabBarController?.tabBar.items as NSArray!
         var tabItem = tabArray.objectAtIndex(1) as UITabBarItem
@@ -26,7 +27,6 @@ class notificationsView: UITableViewController {
         tabItem.badgeValue = nil
         self.tabBarController?.tabBar.hidden = false
         navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
-        
         // Changes text color on navbar
         var nav = self.navigationController?.navigationBar
         nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()];
@@ -44,36 +44,26 @@ class notificationsView: UITableViewController {
     notify()
 }
     
-
     func notify(){
-      
+        
         var folusernames = [String]()
         var followque = PFQuery(className: "Subs")
         followque.whereKey("follower", equalTo: PFUser.currentUser().username)
         followque.findObjectsInBackgroundWithBlock{
-            
             (objects:[AnyObject]!, folError:NSError!) -> Void in
-            
-            
+    
             if folError == nil {
-                
-                
+            
                 for object in objects{
                     println("it worked")
                     folusernames.append(object["following"] as String)
                     
-                    
                 }
                 println(folusernames)
-                
-           
-                
-                
             }
-            
         }
-        
-          var eventQuery = PFQuery(className: "Notification")
+    
+        var eventQuery = PFQuery(className: "Notification")
         eventQuery.whereKey("type", equalTo: "event" )
         eventQuery.whereKey("sender", containedIn: folusernames)
         
@@ -81,15 +71,9 @@ class notificationsView: UITableViewController {
         subQuery.whereKey("type", equalTo: "sub")
         subQuery.whereKey("receiver", equalTo: PFUser.currentUser().username)
         
-        
-        
-        
         var calendarQuery = PFQuery(className: "Notification")
         calendarQuery.whereKey("receiver", equalTo: PFUser.currentUser().username)
         calendarQuery.whereKey("type", equalTo: "calendar")
-        
-        
-        
         
         var memberQuery = PFQuery(className: "Notification")
         memberQuery.whereKey("receiver", equalTo: PFUser.currentUser().username)
@@ -140,15 +124,11 @@ class notificationsView: UITableViewController {
                     default:
                         println("unknown has happen please refer back to parse database")
                         break
-                        
-                        
                     }
-                    
-                    
                 }
                 for i in self.times {
                     var dateFormatter = NSDateFormatter()
-                    //dateFormatter.locale = NSLocale.currentLocale()
+                    dateFormatter.locale = NSLocale.currentLocale()
                     dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
                     var realDate = dateFormatter.stringFromDate(i)
                     var dateFormatter2 = NSDateFormatter()
@@ -156,21 +136,13 @@ class notificationsView: UITableViewController {
                     var localTime = dateFormatter2.stringFromDate(i)
                     var date = "\(realDate)  \(localTime)"
                     self.localTime.append(date)
-                    
-                    
                 }
                 self.tableView.reloadData()
                 self.refresher.endRefreshing()
-                
             }
-            
-            
-            
         })
     }
     func refresh() {
-        
-        
         notify()
     }
 
@@ -178,9 +150,7 @@ class notificationsView: UITableViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
-    // MARK: - Table view data source
-
+    
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Potentially incomplete method implementation.
         // Return the number of sections.
@@ -193,18 +163,10 @@ class notificationsView: UITableViewController {
         return notes.count
     }
 
-    
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell:subCell = tableView.dequeueReusableCellWithIdentifier("Cell") as subCell
-     
         cell.timeStamp.text = localTime[indexPath.row]
-        
         cell.notifyMessage.text = notes[indexPath.row]
-        
         return cell
     }
-    
-
-
-
 }

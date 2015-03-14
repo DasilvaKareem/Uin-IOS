@@ -15,16 +15,10 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
 
     @IBOutlet var orgnName: UILabel!
-    
     @IBOutlet var subTicker: UILabel!
-    
     @IBOutlet var subscriptionTicker: UILabel!
-    
     @IBOutlet var subscribers: UIButton!
-    
-
     @IBOutlet var subscription: UIButton!
-    
     @IBOutlet weak var theFeed: UITableView!
     
     //Decalres all the arrays that hold the data
@@ -77,6 +71,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         notifications()
         
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         usernameButton.title = PFUser.currentUser().username
@@ -110,27 +105,13 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         var getNumberList = PFQuery(className:"Subs")
         getNumberList.whereKey("following", equalTo: PFUser.currentUser().username)
         getNumberList.countObjectsInBackgroundWithBlock{
-            
             (count:Int32, folError:NSError!) -> Void in
-            
-            
             if folError == nil {
                 self.amountofsubs.removeAll(keepCapacity: true)
-                
-              self.amountofsubs =  String(count)
-          
-                
-                    
-                    
-                
-              
-               
+                self.amountofsubs =  String(count)
             }
-            
-            
         }
         
-       
         var getNumberList2 = PFQuery(className: "Subs")
         getNumberList2.whereKey("follower", equalTo: PFUser.currentUser().username)
         getNumberList2.countObjectsInBackgroundWithBlock{
@@ -140,25 +121,16 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
             
             if folError == nil {
                 self.amountofScript.removeAll(keepCapacity: true)
-                
                 self.amountofScript =  String(count)
-
-                
             }
-            
-            
         }
-
-        
-       
-        
-        
     }
     
     // Checks for notifcations and compares to any notications you recieved during that time
+    
+    
     var old = (Int)()
     var newCheck = (Int)()
-    
     func notifications() {
         
         var check = PFQuery(className: "Notification")

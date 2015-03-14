@@ -11,22 +11,17 @@ import UiKit
 
 
 public struct currentNotifications {
-    
     var old = (Int)()
     var newCheck = (Int)()
-    
 }
 public func notifications() {
     var currentNotification = currentNotifications()
-    
     var check = PFQuery(className: "Notification")
     check.whereKey("receiver", equalTo: PFUser.currentUser().username)
     currentNotification.old = check.countObjects()
-    
-    
 }
 
-public func checkNotifications() {
+public func checkNotifications(tabArray: NSArray!)  {
     var currentNotification = currentNotifications()
     var check = PFQuery(className: "Notification")
     check.whereKey("receiver", equalTo: PFUser.currentUser().username)
@@ -34,8 +29,6 @@ public func checkNotifications() {
     
     if currentNotification.old != currentNotification.newCheck {
         var diffrence = currentNotification.old - currentNotification.newCheck
-        var event = eventFeedViewController()
-        var tabArray = event.tabBarController?.tabBar.items as NSArray!
         var tabItem = tabArray.objectAtIndex(1) as UITabBarItem
         tabItem.badgeValue = String(diffrence)
         println()
@@ -48,10 +41,7 @@ public func checkNotifications() {
         println()
         println()
         println("You do not have a any new notification ")
-        
         println()
         println()
     }
-    
-    
 }
