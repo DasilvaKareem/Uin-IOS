@@ -12,7 +12,7 @@ class settingsView: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        PFUser.logOut()
+        
         var user = PFUser.currentUser()
         println()
         println()
