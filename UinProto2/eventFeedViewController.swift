@@ -81,11 +81,13 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         // IF the user is singed it will hide the nava bar and show the nav item
         if PFUser.currentUser() == nil {
             self.tabBarController?.tabBar.hidden = true
+            self.navigationItem.rightBarButtonItem = nil
           
         }
         //Shows item and tab bar
         else {
-              self.navigationItem.leftBarButtonItem = nil
+            
+            self.navigationItem.leftBarButtonItem = nil
              self.tabBarController?.tabBar.hidden = false
         }
     }
