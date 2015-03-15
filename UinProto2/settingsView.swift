@@ -12,12 +12,22 @@ class settingsView: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        PFUser.logOut()
         var user = PFUser.currentUser()
+        println()
+        println()
+        if user != nil {
+        
         if user["push"] as Bool == true {
-            notifySlider.setOn(true, animated: true)
+           notifySlider.setOn(true, animated: true)
         }   else {
-             notifySlider.setOn(false, animated: true)
+            notifySlider.setOn(false, animated: true)
+            }
+        }   else {
+            self.navigationItem.rightBarButtonItem?.title = "Create account"
+            notifySlider.enabled = false
         }
+        
         navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
         // Changes text color on navbar
         var nav = self.navigationController?.navigationBar
@@ -71,13 +81,21 @@ class settingsView: UIViewController {
     @IBAction func logout(sender: AnyObject) {
         
        println("you pressed it")
-        var install = PFInstallation.currentInstallation()
-        var channels = install.channels
-        install.removeObjectsInArray(channels, forKey: "channels")
-        install.save()
+        
+        // Removex your installations channels and logs outs
+        if PFUser.currentUser() != nil {
+       // var install = PFInstallation.currentInstallation()
+        //var channels = install.channels
+          //  if channels == nil {
+            //    PFUser.logOut()
+            //}
+        //install.removeObjectsInArray(channels, forKey: "channels")
+        //install.save()
         PFUser.logOut()
          self.performSegueWithIdentifier("logout", sender: self)
-
+        }   else {
+            self.performSegueWithIdentifier("logout", sender: self)
+        }
     }
 
     override func didReceiveMemoryWarning() {

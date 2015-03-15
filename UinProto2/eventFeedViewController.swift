@@ -43,8 +43,8 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     override func viewDidLoad() {
         super.viewDidLoad()
      
-
-        self.tabBarController?.tabBar.hidden = false
+      
+    
         //var eventsItem = tabBarItem?[0] as UITabBarItem
         //eventsItem.selectedImage = UIImage(named: "addToCalendar.png")
         
@@ -55,7 +55,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         var nav = self.navigationController?.navigationBar
         nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()];
         updateFeed()
-    notifications()
+    
       
         
         
@@ -72,62 +72,30 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     
     override func viewDidDisappear(animated: Bool) {
         println("View disappear")
-        notifications()
+       
         updateFeed()
     }
     override func viewWillAppear(animated: Bool) {
         updateFeed()
-       
-        self.tabBarController?.tabBar.hidden = false
+        
+        // IF the user is singed it will hide the nava bar and show the nav item
+        if PFUser.currentUser() == nil {
+            self.tabBarController?.tabBar.hidden = true
+          
+        }
+        //Shows item and tab bar
+        else {
+              self.navigationItem.leftBarButtonItem = nil
+             self.tabBarController?.tabBar.hidden = false
+        }
     }
     override func viewDidAppear(animated: Bool) {
-        checkNotifications()
-        notifications()
+   
         
     }
 
     
     // Checks for notifcations and compares to any notications you recieved during that time
-    var old = (Int)()
-    var newCheck = (Int)()
-    
-    func notifications() {
-        
-        var check = PFQuery(className: "Notification")
-        check.whereKey("receiver", equalTo: PFUser.currentUser().username)
-        old = check.countObjects()
-        
-        
-    }
-    
-    func checkNotifications() {
-        
-        var check = PFQuery(className: "Notification")
-        check.whereKey("receiver", equalTo: PFUser.currentUser().username)
-         newCheck = check.countObjects()
-        
-        if self.old != self.newCheck {
-            var diffrence = self.newCheck - self.old
-            var tabArray = self.tabBarController?.tabBar.items as NSArray!
-            var tabItem = tabArray.objectAtIndex(1) as UITabBarItem
-            tabItem.badgeValue = String(diffrence)
-            println()
-            println()
-            println("You have gotten a new notification")
-            println()
-            println()
-        }
-        else {
-            println()
-            println()
-            println("You do not have a any new notification ")
-            
-            println()
-            println()
-        }
-        
-        
-    }
     
     // Alert function
     func displayAlert(title:String, error:String) {
@@ -155,19 +123,12 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         //adds content to the array
         var que1 = PFQuery(className: "Event")
         que1.whereKey("public", equalTo: true)
+
         
-        var pubQue = PFQuery(className: "Subs")
-        pubQue.whereKey("follower", equalTo: PFUser.currentUser().username)
-        pubQue.whereKey("member", equalTo: true)
-        var superQue = PFQuery(className: "Event")
-        superQue.whereKey("author", matchesKey: "following", inQuery:pubQue)
-        
-        var newQue = PFQuery(className: "Event")
-        newQue.whereKey("public", equalTo: false)
-        newQue.whereKey("author", equalTo: PFUser.currentUser().username)
+  
         
     
-        var query = PFQuery.orQueryWithSubqueries([que1, superQue, newQue ])
+        var query = PFQuery.orQueryWithSubqueries([que1])
         query.orderByAscending("startEvent")
         query.whereKey("startEvent", greaterThanOrEqualTo: NSDate())
         query.findObjectsInBackgroundWithBlock {
@@ -241,8 +202,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     func refresh() {
         
         updateFeed()
-        checkNotifications()
-        notifications()
+       
     }
     
     func populateSectionInfo(){
@@ -402,24 +362,6 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         cell.time.text = localizedTime[event]
         cell.eventName.text = eventTitle[event]
         cell.poop.tag = event
-        var minique = PFQuery(className: "GoingEvent")
-        minique.whereKey("user", equalTo: PFUser.currentUser().username)
-        var minique2 = PFQuery(className: "GoingEvent")
-        minique.whereKey("eventID", equalTo: objectID[event])
-        
-        minique.getFirstObjectInBackgroundWithBlock{
-            
-            (results:PFObject!, error: NSError!) -> Void in
-            
-            if error == nil {
-                
-                cell.poop.setImage(UIImage(named: "addedToCalendar.png"), forState: UIControlState.Normal)
-                
-            }   else {
-                
-                cell.poop.setImage(UIImage(named: "addToCalendar.png"), forState: UIControlState.Normal)
-            }
-        }
               cell.poop.addTarget(self, action: "followButton:", forControlEvents: UIControlEvents.TouchUpInside)
         return cell
     }
