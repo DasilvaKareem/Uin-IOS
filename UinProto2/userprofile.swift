@@ -48,24 +48,19 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
         
         var alert = UIAlertController(title: title, message: error, preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { action in
-            
-            
-            
         }))
         
         self.presentViewController(alert, animated: true, completion: nil)
-        
         func preferredStatusBarStyle() -> UIStatusBarStyle {
             return UIStatusBarStyle.Default
         }
-        
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tabBarController?.tabBar.hidden = true
         self.navigationController?.navigationBar.backIndicatorImage = nil
         subticker()
-        ChangeSub()
         println()
         println()
         println(self.theUser)
@@ -87,12 +82,9 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
         refresher.attributedTitle = NSAttributedString(string: "Pull to refresh")
         refresher.addTarget(self, action: "refresh", forControlEvents: UIControlEvents.ValueChanged)
         self.theFeed.addSubview(refresher)
-        
-        
-        
-        
         // Do any additional setup after loading the view.
     }
+    
     override func viewWillAppear(animated: Bool) {
         
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
@@ -101,9 +93,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
         
     }
     
-    
     @IBOutlet weak var subbutton: UIButton!
-    
     var amountofsubs = (String)()
     var amountofScript = (String)()
     func subticker(){
@@ -126,58 +116,29 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                     self.amountofsubs = "0"
                     
                 }
-          
-                
-                
-                
-                
-                
-                
-                
             }
-            
-            
         }
-        
-        
+
         var getNumberList2 = PFQuery(className: "Subs")
         getNumberList2.whereKey("follower", equalTo: self.theUser)
         getNumberList2.countObjectsInBackgroundWithBlock{
             
             (count:Int32, folError:NSError!) -> Void in
             
-            
             if folError == nil {
                 self.amountofScript.removeAll(keepCapacity: true)
                 if count != 0 {
                        self.amountofScript =  String(count)
-                    
                 }
                 else {
                     
                     self.amountofScript = "0"
-                    
+                
                 }
-                
-                
-                
-                
-                
-                
-                
             }
-            
-            
         }
-        
-        
-        
-        
-        
     }
 
-    
-    
     func updateFeed(){
         //Removes all leftover content in the array
         
@@ -190,10 +151,11 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
         
         var pubQue = PFQuery(className: "Subs")
         pubQue.whereKey("follower", equalTo: PFUser.currentUser().username)
+        pubQue.whereKey("following", equalTo: self.theUser)
         pubQue.whereKey("member", equalTo: true)
         var superQue = PFQuery(className: "Event")
         superQue.whereKey("author", matchesKey: "following", inQuery:pubQue)
-        superQue.whereKey("author", equalTo: self.theUser)
+       // superQue.whereKey("author", equalTo: self.theUser)
         
         var combQue = PFQuery.orQueryWithSubqueries([superQue, que])
         combQue.orderByAscending("startEvent")
@@ -257,14 +219,8 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 
                 println("Something went south: \(eventError) ")
             }
-            
-            
-            
         }
-        
-        
     }
-    
     
     func refresh() {
         updateFeed()
@@ -349,17 +305,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
         else {
             
             println("Hey it doesnt work")
-            
-            
         }
-        
-        
-        
-        println()
-        println(rowsInSection)
-        println(numSections)
-        println(sectionNames)
-        println()
     }
     
     //Returns the index of the element at the specified section and row
@@ -371,11 +317,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
         return offset+row
     }
     
-    
-    
-    
     //DATA SOURCES FOR TABLE VIEW
-    
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Potentially incomplete method implementation.
@@ -387,41 +329,29 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
         if  section == 0 {
             let cell2:profileCell = tableView.dequeueReusableCellWithIdentifier("profile") as profileCell
             var que = PFQuery(className: "Subs")
-            
+            cell2.subscribe.adjustsImageWhenHighlighted = false
             que.whereKey("follower", equalTo:PFUser.currentUser().username)
             que.whereKey("following", equalTo: theUser)
             que.getFirstObjectInBackgroundWithBlock{
-                
-                
+    
                 (object:PFObject!, error: NSError!) -> Void in
                 
                 if error == nil {
-                    
                     cell2.subscribe.setTitle("Unsubscribe", forState: UIControlState.Normal)
                     cell2.subscribe.setTitleColor(UIColor(red: 65.0/255.0, green: 146.0/255.0, blue: 199.0/255.0, alpha: 1.0), forState: UIControlState.Normal)
-                    
                 }
                 else {
-                    
                     cell2.subscribe.setTitle("Subscribe", forState: UIControlState.Normal)
                     cell2.subscribe.setTitleColor(UIColor(red: 254.0/255.0, green: 186.0/255.0, blue: 1.0/255.0, alpha: 1.0), forState: UIControlState.Normal)
                 }
-                
-                
             }
-            
-            
-            //THIS IS WHERE YOU ARE GOING TO PUT THE LABEL
+  
             cell2.subscribe.addTarget(self, action: "subbing:", forControlEvents: UIControlEvents.TouchUpInside)
-            
             cell2.subscriberTick.text =  amountofsubs
             cell2.subscriptionTick.text = amountofScript
-            
             return cell2
         }
-        
         var cell:dateCell = tableView.dequeueReusableCellWithIdentifier("dateCell") as dateCell
-        
         cell.dateItem.text = sectionNames[section]
         return cell
     }
@@ -431,61 +361,40 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
         subQuery.whereKey("following", equalTo: theUser)
         subQuery.whereKey("follower", equalTo: PFUser.currentUser().username)
         subQuery.getFirstObjectInBackgroundWithBlock({
-            
-            
             (results:PFObject!, error: NSError!) -> Void in
-            
             if error == nil {
                 var user = PFUser.currentUser()
-                
-                    
-                
                 var currentInstallation = PFInstallation.currentInstallation()
                 currentInstallation.removeObject(self.userId, forKey: "channels")
                 currentInstallation.saveInBackgroundWithBlock({
-                    
                     (success:Bool!, pushError: NSError!) -> Void in
                     
                     if pushError == nil {
-                        
-                        
                         println("the installtion did remove")
                         
                     }
                     else{
                         println("the installtion did not remove")
                     }
-                    
-                    
                 })
                 println("user is alreadt subscribed")
                 results.delete()
                 self.theFeed.reloadData()
-                
-                
             }
                 
             else {
                 var currentInstallation = PFInstallation.currentInstallation()
                 currentInstallation.addUniqueObject(self.userId, forKey: "channels")
                 currentInstallation.saveInBackgroundWithBlock({
-                    
                     (success:Bool!, saveerror: NSError!) -> Void in
-                    
                     if saveerror == nil {
                         var theMix = Mixpanel.sharedInstance()
                         theMix.track("Subscribed")
-                        
-                        
                     }
                         
                     else {
-                        
                         println("It didnt work")
-                        
                     }
-                    
-                    
                 })
                 
                 var subscribe = PFObject(className: "Subs")
@@ -505,15 +414,10 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                     (success:Bool!, notifyError: NSError!) -> Void in
                     
                     if notifyError == nil {
-                        
                         println("notifcation has been saved")
-                        
                     }
-                    
-                    
                 })
                 var user = PFUser.currentUser()
-            
                 var checkPush = PFUser.query()
                 checkPush.whereKey("username", equalTo: self.theUser)
                 var theOther = checkPush.getFirstObject()
@@ -530,24 +434,13 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                         if pushError == nil {
                             
                             println("IT WORKED")
-                            
                         }
-                        
                     })
                     
                 }
-        
-                
-                    
-                
-      
                 self.theFeed.reloadData()
-                
             }
-            
-            
         })
-        
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -566,42 +459,6 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
         }
         return 23.0
     }
-    
-    
-    
-    
-    func ChangeSub(){
-        
-        var que = PFQuery(className: "Subs")
-        
-        que.whereKey("follower", equalTo:PFUser.currentUser().username)
-        que.whereKey("following", equalTo: theUser)
-        que.getFirstObjectInBackgroundWithBlock{
-            
-            (object:PFObject!, error: NSError!) -> Void in
-            
-            
-            if object == nil{
-                
-                
-                
-            }
-                
-            else {
-                
-                //self.subbutton.setTitle("Unsubscribe", forState: UIControlState.Normal)
-                
-            }
-            
-            
-        }
-        
-        
-    }
-    
-    
-    
-    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -660,12 +517,10 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
             
         }
         else{
-            
-            
             cell.freeIcon.image = UIImage(named: "noFree.png")
             cell.costText.text = "Not Free"
             cell.costText.textColor = UIColor.lightGrayColor()
-            
+    
         }
         
         if publicPost[event] != true {
@@ -677,8 +532,8 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
             cell.privateImage.image = nil
         }
         cell.people.text = usernames[event]
-        cell.time.text = eventStartTime[event]
-        cell.eventName.text = eventlocation[event]
+        cell.time.text = localizedTime[event]
+        cell.eventName.text = eventTitle[event]
         cell.poop.tag = event
         // Mini query to check if event is already saved
         //println(objectID[event])
@@ -711,11 +566,6 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
     func followButton(sender: AnyObject){
         // Adds the event to calendar
         
-        
-        
-        
-        
-        
         var first:Bool = Bool()
         
         var getFirst = PFUser.query()
@@ -733,7 +583,6 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
             }
             
         })
-        
         
         var que = PFQuery(className: "GoingEvent")
         que.whereKey("user", equalTo: PFUser.currentUser().username)
@@ -754,11 +603,8 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                         (results:PFObject!, error: NSError!) -> Void in
                         
                         if error == nil {
-                            
                             results["first"] = false
                             results.save()
-                            
-                            
                         }
                         
                     })
@@ -810,10 +656,6 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                     }
                     self.theFeed.reloadData()
                 }
-                
-                
-                
-                
             } else {
                 var eventStore : EKEventStore = EKEventStore()
                 eventStore.requestAccessToEntityType(EKEntityTypeEvent, completion: {
@@ -847,11 +689,6 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                     }
                 })
                 
-                println()
-                println()
-                println()
-                println()
-                println()
                 println("the object does not exist")
                 
                 var push = PFPush()
@@ -873,7 +710,6 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                     
                 })
                 
-                
                 var going = PFObject(className: "GoingEvent")
                 going["user"] = PFUser.currentUser().username
                 going["event"] = self.eventTitle[sender.tag]
@@ -883,28 +719,15 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 going.saveInBackgroundWithBlock{
                     
                     (succeded:Bool!, savError:NSError!) -> Void in
-                    
                     if savError == nil {
-                        
                         println("it worked")
-                        
                     }
                 }
-                
-                
                 println("Saved Event")
                 self.theFeed.reloadData()
-                
             }
-            
-            
         })
-        
-        
-        
-        
-        
-        
+    
         if self.usernames[sender.tag] != PFUser.currentUser().username {
             var notify = PFObject(className: "Notification")
             notify["theID"] = self.objectID[sender.tag]
@@ -923,11 +746,8 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 else{
                     println(notifyError)
                 }
-                
-                
             })
         }
-        
     }
 
     
@@ -935,8 +755,6 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
         
         if segue.identifier == "example" {
             var secondViewController : postEvent = segue.destinationViewController as postEvent
-            
-            
             var theMix = Mixpanel.sharedInstance()
             theMix.track("Expanded View")
             

@@ -14,86 +14,60 @@ class settingsView: UIViewController {
         super.viewDidLoad()
         var user = PFUser.currentUser()
         if user["push"] as Bool == true {
-            
             notifySlider.setOn(true, animated: true)
-  
-            
         }   else {
-            
              notifySlider.setOn(false, animated: true)
-            
         }
-
-        
         navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
-        
         // Changes text color on navbar
         var nav = self.navigationController?.navigationBar
         nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()];
-self.tabBarController?.tabBar.hidden = true
+        self.tabBarController?.tabBar.hidden = true
         // Do any additional setup after loading the view.
     }
     
     @IBOutlet var notifySlider: UISwitch!
-    
-    
     @IBAction func notifySwitch(sender: AnyObject) {
         
         var user = PFUser.currentUser()
-        
         if notifySlider.on == true {
-              var subscriptionUsernames = [String]()
+            var subscriptionUsernames = [String]()
             var user = PFUser.currentUser()
             user["push"] = true
             user.save()
             var query = PFQuery(className: "Subs")
             query.whereKey("follower", equalTo: PFUser.currentUser().username)
             query.findObjectsInBackgroundWithBlock({
-                
+        
                 (objects:[AnyObject]!, queError:NSError!) -> Void in
-                
+
                 if queError == nil {
                     println(subscriptionUsernames)
                     for object in objects {
-                        
                         subscriptionUsernames.append(object["userId"] as String)
-                        
                     }
-                    var user = PFUser.currentUser()
-
+                        var user = PFUser.currentUser()
                         var currentInstallation = PFInstallation.currentInstallation()
                         currentInstallation.setValue(subscriptionUsernames, forKey: "channels")
                         currentInstallation.save()
-                    
-                    
                 }
-                
             })
         }
         else {
-            
             var install = PFInstallation.currentInstallation()
             var channels = install.channels
             if channels != nil {
                 install.removeObjectsInArray(channels, forKey: "channels")
                 install.save()
-                
+
             }
-            
             var user = PFUser.currentUser()
             user["push"] = false
             user.save()
-
         }
         
     }
     
-    
- 
-
-    
-
-
     @IBAction func logout(sender: AnyObject) {
         
        println("you pressed it")
@@ -111,17 +85,6 @@ self.tabBarController?.tabBar.hidden = true
         // Dispose of any resources that can be recreated.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
 
 

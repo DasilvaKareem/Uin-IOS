@@ -16,36 +16,15 @@ class eventCell: UITableViewCell {
 
     @IBOutlet var foodText: UILabel!
     @IBOutlet weak var costText: UILabel!
-    
     @IBOutlet weak var onCampusText: UILabel!
-    
     @IBOutlet weak var eventName: UILabel!
-    
     @IBOutlet weak var privateImage: UIImageView!
-   
     @IBOutlet weak var onCampusIcon: UIImageView!
-
- 
     @IBOutlet weak var freeIcon: UIImageView!
-    
-
     @IBOutlet weak var foodIcon: UIImageView!
-    
-    
-
     @IBOutlet weak var poop: UIButton!
-    // This is the add to calendar button
-    
-
-    
     @IBOutlet weak var people: UILabel!
-    
-    
     @IBOutlet weak var time: UILabel!
-    
-    
-    
-    
     
     override func awakeFromNib() {
         super.awakeFromNib()
