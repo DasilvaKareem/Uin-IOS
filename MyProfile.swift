@@ -581,7 +581,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
                                 
                                 println("removed")
                                 var theMix = Mixpanel.sharedInstance()
-                                theMix.track("RemovedFromEvent")
+                                theMix.track("Event Removed from Cal -myProfile-")
                                 eventStore.removeEvent(i, span: EKSpanThisEvent, error: nil)
                             }
                         }
@@ -613,7 +613,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
                         
                         eventStore.saveEvent(event, span: EKSpanThisEvent, error: nil)
                         var theMix = Mixpanel.sharedInstance()
-                        theMix.track("AddedToEvent")
+                        theMix.track("Event Added to Calendar -myProfile-")
                         println("saved")
                     }
                 })

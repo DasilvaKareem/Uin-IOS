@@ -159,7 +159,7 @@ class register: UIViewController, UITextFieldDelegate {
                     
                     if registerError == nil {
                         var theMix = Mixpanel.sharedInstance()
-                        theMix.track("Registers with Uin")
+                        theMix.track("Registered with Uin -register-")
                         var currentInstallation = PFInstallation.currentInstallation()
                         currentInstallation["user"] = PFUser.currentUser().username
                         currentInstallation["userId"] = PFUser.currentUser().objectId
@@ -230,7 +230,7 @@ class register: UIViewController, UITextFieldDelegate {
                 
           
                 var theMix = Mixpanel.sharedInstance()
-                theMix.track("Registers with Facebook")
+                theMix.track("Registered with Facebook -register-")
                 
                 user.saveInBackgroundWithBlock {
                     (succeeded: Bool!, registerError: NSError!) -> Void in

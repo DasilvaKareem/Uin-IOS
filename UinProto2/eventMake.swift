@@ -263,7 +263,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
                                         }
                                         
                                         var theMix = Mixpanel.sharedInstance()
-                                        theMix.track("Edited Event")
+                                        theMix.track("Edited Event -eventMake-")
                                         
                                     })
                             }
@@ -323,14 +323,12 @@ class eventMake: UIViewController, UITextFieldDelegate {
                                 }
                                 
                                 var theMix = Mixpanel.sharedInstance()
-                                theMix.track("Edited Event")
+                                theMix.track("Created Event -eventMake-")
                                 
                             })
                             
                         
              
-                        var theMix = Mixpanel.sharedInstance()
-                        theMix.track("Created an Event")
                         var notify = PFObject(className: "Notification")
                         notify["sender"] = PFUser.currentUser().username
                         notify["receiver"] = PFUser.currentUser().username
@@ -390,7 +388,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
                     
                     if error == nil {
                         var theMix = Mixpanel.sharedInstance()
-                        theMix.track("Deleted event")
+                        theMix.track("Deleted Event -eventMake-")
                         var name = PFUser.currentUser().username
                         eventItem.delete()
                         let data = [
