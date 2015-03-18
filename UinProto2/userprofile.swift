@@ -99,7 +99,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
     func subticker(){
         
         var getNumberList = PFQuery(className:"Subscription")
-        getNumberList.whereKey("following", equalTo: self.theUser)
+        getNumberList.whereKey("publisher", equalTo: self.theUser)
         getNumberList.countObjectsInBackgroundWithBlock{
             
             (count:Int32, folError:NSError!) -> Void in
@@ -120,7 +120,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
         }
 
         var getNumberList2 = PFQuery(className:"Subscription")
-        getNumberList2.whereKey("follower", equalTo: self.theUser)
+        getNumberList2.whereKey("subscriber", equalTo: self.theUser)
         getNumberList2.countObjectsInBackgroundWithBlock{
             
             (count:Int32, folError:NSError!) -> Void in
@@ -241,9 +241,10 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
         //Initialisation
         numSections = 0
         rowsInSection.removeAll(keepCapacity: true)
+        rowsInSection.append(0)
         sectionNames.removeAll(keepCapacity: true)
         self.localizedTime.removeAll(keepCapacity: true)
-        self.localizedEndTime.removeAll(keepCapacity: true)
+        self.localizedEndTime.removeAll(keepCapacity:true)
         for i in eventStart {
             //SORTS OUT EVENT STARTING TIME AND CREATES EVENT HEADER TIMES AND SHORTNED TIMES
             
@@ -288,6 +289,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
         
         
         //For each date
+        sectionNames.insert("0", atIndex: 0)
         for date in convertedDates{
             //If there is a date change
             if (currentDate != date){
@@ -311,6 +313,12 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
         //Because the loop is broken before a new date is found, that
         //  one needs to be added manually
         rowsInSection.append(i)
+        numSections++
+        
+        if numSections == 0 {
+            numSections++
+        }
+
     }
     
     //Returns the index of the element at the specified section and row
@@ -335,33 +343,35 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
             let cell2:profileCell = tableView.dequeueReusableCellWithIdentifier("profile") as profileCell
             var que = PFQuery(className:"Subscription")
             cell2.subscribe.adjustsImageWhenHighlighted = false
-            que.whereKey("follower", equalTo:PFUser.currentUser().username)
-            que.whereKey("following", equalTo: theUser)
+            que.whereKey("subscriber", equalTo:PFUser.currentUser().username)
+            que.whereKey("publisher", equalTo: theUser)
+            if PFUser.currentUser()["tempAccounts"] as Bool == true {
+                println("You are a temp account you cannot possibly subscribe to account fool, ya fool")
+                cell2.subscribe.setTitleColor(UIColor(red: 254.0/255.0, green: 186.0/255.0, blue: 1.0/255.0, alpha: 1.0), forState: UIControlState.Normal) //Sets as Orange
+                //Creates an alert to subscribe
+                cell2.subscribe.addTarget(self, action: "subbing:", forControlEvents: UIControlEvents.TouchUpInside)
+                cell2.subscriberTick.text =  amountofsubs
+                cell2.subscriptionTick.text = amountofScript
+                return cell2
+                
+            } else {
             que.getFirstObjectInBackgroundWithBlock{
     
                 (object:PFObject!, error: NSError!) -> Void in
                 
                 if error == nil {
-                    if PFUser.currentUser()["tempAccounts"] as Bool == true {
-                        println("You are a temp account you cannot possibly subscribe to account fool, ya fool")
-                        cell2.subscribe.setTitleColor(UIColor(red: 254.0/255.0, green: 186.0/255.0, blue: 1.0/255.0, alpha: 1.0), forState: UIControlState.Normal) //Sets as Orange
-                       //Creates an alert to subscribe
-                      
-                    } else {
-                   
+                    
+                    
                     cell2.subscribe.setTitle("Unsubscribe", forState: UIControlState.Normal)
                     cell2.subscribe.setTitleColor(UIColor(red: 65.0/255.0, green: 146.0/255.0, blue: 199.0/255.0, alpha: 1.0), forState: UIControlState.Normal)
-                    }
+                    
+                    
                 }
                 else {
                     //If the user is using a temp account changes the function of the button
-                    if PFUser.currentUser()["tempAccounts"] as Bool == true {
-                        println("You are a temp account you cannot possibly subscribe to account fool, ya fool")
-                        cell2.subscribe.setTitleColor(UIColor(red: 254.0/255.0, green: 186.0/255.0, blue: 1.0/255.0, alpha: 1.0), forState: UIControlState.Normal) //Sets as orange color
-                    } else {
                         cell2.subscribe.setTitle("Subscribe", forState: UIControlState.Normal)
                         cell2.subscribe.setTitleColor(UIColor(red: 254.0/255.0, green: 186.0/255.0, blue: 1.0/255.0, alpha: 1.0), forState: UIControlState.Normal)
-                    }
+                    
                 }
             }
   
@@ -370,10 +380,13 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
             cell2.subscriptionTick.text = amountofScript
             return cell2
         }
+        }
         var cell:dateCell = tableView.dequeueReusableCellWithIdentifier("dateCell") as dateCell
         cell.dateItem.text = sectionNames[section]
         return cell
-    }
+        }
+    
+    
     
     func subbing(sender: AnyObject) {
         if PFUser.currentUser()["tempAccounts"] as Bool == true {
@@ -401,8 +414,8 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
             }
         } else {
         var subQuery = PFQuery(className: "Subscription")
-        subQuery.whereKey("following", equalTo: theUser)
-        subQuery.whereKey("follower", equalTo: PFUser.currentUser().username)
+        subQuery.whereKey("publisher", equalTo: theUser)
+        subQuery.whereKey("subscriber", equalTo: PFUser.currentUser().username)
         subQuery.getFirstObjectInBackgroundWithBlock({
             (results:PFObject!, error: NSError!) -> Void in
             if error == nil {
@@ -418,10 +431,12 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                     }
                     else{
                         println("the installtion did not remove")
+                        println(pushError)
                     }
                 })
                 println("user is alreadt subscribed")
                 results.delete()
+                  self.subticker()
                 self.theFeed.reloadData()
             }
                 
@@ -431,6 +446,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 currentInstallation.saveInBackgroundWithBlock({
                     (success:Bool!, saveerror: NSError!) -> Void in
                     if saveerror == nil {
+                        println("Subscribed")
                         var theMix = Mixpanel.sharedInstance()
                         theMix.track("Subscribed")
                     }
@@ -441,15 +457,18 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 })
                 
                 var subscribe = PFObject(className:"Subscription")
-                subscribe["member"] = false
-                subscribe["follower"] = PFUser.currentUser().username
-                subscribe["following"] = self.theUser
-                subscribe["userId"] = self.userId
+                subscribe["isMember"] = false
+                subscribe["subscriber"] = PFUser.currentUser().username
+                subscribe["subscriberID"] = PFUser.currentUser().objectId
+                subscribe["publisher"] = self.theUser
+                subscribe["publisherID"] = self.userId
                 subscribe.save()
                 
                 //The notfications
                 var notify = PFObject(className: "Notification")
+                notify["senderID"] = PFUser.currentUser().objectId
                 notify["sender"] = PFUser.currentUser().username
+                notify["receiverID"] = self.userId
                 notify["receiver"] = self.theUser
                 notify["type"] =  "sub"
                 notify.saveInBackgroundWithBlock({
@@ -464,7 +483,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 var checkPush = PFUser.query()
                 checkPush.whereKey("username", equalTo: self.theUser)
                 var theOther = checkPush.getFirstObject()
-                if theOther["push"] as Bool == true {
+                if theOther["pushEnabled"] as Bool == true {
                     var push = PFPush()
                     var pfque = PFInstallation.query()
                     pfque.whereKey("user", equalTo: self.theUser)
@@ -476,11 +495,12 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                         
                         if pushError == nil {
                             
-                            println("IT WORKED")
+                            println("Push was sent")
                         }
                     })
                     
                 }
+                  self.subticker()
                 self.theFeed.reloadData()
                 }
             })
@@ -609,7 +629,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
     func followButton(sender: AnyObject){
         // Adds the event to calendar
         
-       var first = PFUser.currentUser()["first"] as Bool
+       var first = PFUser.currentUser()["firstRemoveFromCalendar"] as Bool
         
         var que = PFQuery(className: "UserCalendar")
         que.whereKey("user", equalTo: PFUser.currentUser().username)
@@ -625,7 +645,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 println(first)
                 if first == true {
                     
-                    PFUser.currentUser()["first"] = false
+                    PFUser.currentUser()["firstRemoveFromCalendar"] = false
                     PFUser().save()
                     self.displayAlert("Remove", error: "Tapping the blue checkmark removes an event from your calendar.")
                     
@@ -730,6 +750,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 })
                 
                 var going = PFObject(className: "UserCalendar")
+                going["userID"] = PFUser.currentUser().objectId
                 going["user"] = PFUser.currentUser().username
                 going["event"] = self.eventTitle[sender.tag]
                 going["author"] = self.usernames[sender.tag]

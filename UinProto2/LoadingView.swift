@@ -42,7 +42,7 @@ class LoadingView: UIViewController {
             var newUser = PFUser()
             var nameTemplate = "$\(amountOfUsers + 1)"
             newUser["pushEnabled"] = true
-            newUser["first"] = true
+            newUser["firstRemoveFromCalendar"] = true
             newUser["tempAccounts"] = true
             newUser.username = nameTemplate
             newUser.password = randomStringWithLength(20)
