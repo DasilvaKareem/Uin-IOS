@@ -63,9 +63,28 @@ class SignIn: UIViewController, UITextFieldDelegate {
             } else {
                 
                 NSLog("User is already signed in with us")
-                var theMix = Mixpanel.sharedInstance()
-                theMix.track("SignIns")
-                self.performSegueWithIdentifier("login", sender: self)
+                var currentInstallation = PFInstallation.currentInstallation()
+                currentInstallation["user"] = PFUser.currentUser().username
+                currentInstallation["userId"] = PFUser.currentUser().objectId
+                currentInstallation.saveInBackgroundWithBlock({
+                    
+                    (success:Bool!, saveerror: NSError!) -> Void in
+                    
+                    if saveerror == nil {
+                        
+                        var theMix = Mixpanel.sharedInstance()
+                        theMix.track("SignIns")
+                        self.performSegueWithIdentifier("login", sender: self)
+                        
+                    }
+                        
+                    else {
+                        
+                        println("facebook installtions was not succesfull")
+                    }
+                    
+                })
+              
             }
         })
     }
@@ -107,8 +126,8 @@ class SignIn: UIViewController, UITextFieldDelegate {
 
                 if loginError == nil {
                   
-                    var query = PFQuery(className: "Subs")
-                    query.whereKey("follower", equalTo: PFUser.currentUser().username)
+                    var query = PFQuery(className: "Subscription")
+                    query.whereKey("subscriber", equalTo: PFUser.currentUser().username)
                     query.findObjectsInBackgroundWithBlock({
                         
                         (objects:[AnyObject]!, queError:NSError!) -> Void in
@@ -164,16 +183,14 @@ class SignIn: UIViewController, UITextFieldDelegate {
             }
         }
     }
+    override func viewWillAppear(animated: Bool) {
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.translucent = true
+    }
 
    override func viewDidAppear(animated: Bool) {
-    var user = PFUser.currentUser()
-    if PFUser.currentUser() != nil {
-        
-        if user.username != nil {
-            
-              self.performSegueWithIdentifier("login", sender: self)
-            }
-        }
+  
     }
     
 

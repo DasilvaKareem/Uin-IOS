@@ -98,7 +98,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
     var amountofScript = (String)()
     func subticker(){
         
-        var getNumberList = PFQuery(className:"Subs")
+        var getNumberList = PFQuery(className:"Subscription")
         getNumberList.whereKey("following", equalTo: self.theUser)
         getNumberList.countObjectsInBackgroundWithBlock{
             
@@ -119,7 +119,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
             }
         }
 
-        var getNumberList2 = PFQuery(className: "Subs")
+        var getNumberList2 = PFQuery(className:"Subscription")
         getNumberList2.whereKey("follower", equalTo: self.theUser)
         getNumberList2.countObjectsInBackgroundWithBlock{
             
@@ -145,30 +145,34 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
         println("Before query")
         
         //adds content to the array
-        var que = PFQuery(className: "Event")
-        que.whereKey("author", equalTo: self.theUser)
-        que.whereKey("public", equalTo: true)
+        //Queries all public Events
+        var que1 = PFQuery(className: "Event")
+        que1.whereKey("isPublic", equalTo: true)
+        que1.whereKey("author", equalTo: self.theUser)
         
-        var pubQue = PFQuery(className: "Subs")
-        pubQue.whereKey("follower", equalTo: PFUser.currentUser().username)
-        pubQue.whereKey("following", equalTo: self.theUser)
-        pubQue.whereKey("member", equalTo: true)
+        //Queries all Private events
+        var pubQue = PFQuery(className: "Subcription")
+        pubQue.whereKey("subscriber", equalTo: PFUser.currentUser().username)
+        pubQue.whereKey("memberStatus", equalTo: true)
+        pubQue.whereKey("publisher", equalTo: self.theUser)
         var superQue = PFQuery(className: "Event")
-        superQue.whereKey("author", matchesKey: "following", inQuery:pubQue)
-       // superQue.whereKey("author", equalTo: self.theUser)
+        superQue.whereKey("author", matchesKey: "subscriber", inQuery:pubQue)
+    
         
-        var combQue = PFQuery.orQueryWithSubqueries([superQue, que])
-        combQue.orderByAscending("startEvent")
-        combQue.whereKey("startEvent", greaterThanOrEqualTo: NSDate())
+   
         
-        combQue.findObjectsInBackgroundWithBlock{
-            (objects:[AnyObject]!,eventError:NSError!) -> Void in
-            
-            print("Refreshing list: ")
-            
-            if eventError == nil {
-                println(objects.count)
-                println()
+        
+        var query = PFQuery.orQueryWithSubqueries([que1, superQue])
+        query.orderByAscending("start")
+        query.whereKey("isDeleted", equalTo: false)
+        query.whereKey("start", greaterThanOrEqualTo: NSDate())
+        query.findObjectsInBackgroundWithBlock {
+            (results: [AnyObject]!, error: NSError!) -> Void in
+            if error == nil {
+                
+                
+                
+                
                 
                 self.onsite.removeAll(keepCapacity: true)
                 self.paid.removeAll(keepCapacity: true)
@@ -184,42 +188,46 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 self.publicPost.removeAll(keepCapacity: true)
                 self.eventStart.removeAll(keepCapacity: true)
                 self.eventEnd.removeAll(keepCapacity: true)
-                  self.arrayofuser.removeAll(keepCapacity: true)
-                for object in objects{
+                self.localizedTime.removeAll(keepCapacity: true)
+                self.localizedEndTime.removeAll(keepCapacity: true)
+                
+                for object in results{
                     
-                    self.arrayofuser.append(object["userId"] as String)
-                    self.publicPost.append(object["public"] as Bool)
+                    
+                    self.publicPost.append(object["isPublic"] as Bool)
                     self.objectID.append(object.objectId as String)
                     self.usernames.append(object["author"] as String)
-                    self.eventTitle.append(object["eventTitle"] as String)
-                    self.eventStartDate.append(object["startDate"] as String)
-                    self.eventEndDate.append(object["endDate"] as String)
-                    self.eventStartTime.append(object["startTime"] as String)
-                    self.eventEndTime.append(object["endTime"] as String)
-                    self.food.append(object["food"] as Bool)
-                    self.paid.append(object["paid"] as Bool)
-                    self.onsite.append(object["location"] as Bool)
-                    self.eventEnd.append(object["endEvent"] as NSDate)
-                    self.eventStart.append(object["startEvent"] as NSDate)
-                    self.eventlocation.append(object["eventLocation"] as String)
-                    
+                    self.eventTitle.append(object["title"] as String)
+                    self.food.append(object["hasFood"] as Bool)
+                    self.paid.append(object["isFree"] as Bool)
+                    self.onsite.append(object["onCampus"] as Bool)
+                    self.eventEnd.append(object["end"] as NSDate)
+                    self.eventStart.append(object["start"] as NSDate)
+                    self.eventlocation.append(object["location"] as String)
+                   
                     
                 }
-                
                 self.populateSectionInfo()
                 self.theFeed.reloadData()
                 self.refresher.endRefreshing()
                 
             }
-            else{
-                if eventError.code == 100 {
+                
+                
+            else {
+                if error.code == 100 {
                     
                     self.displayAlert("No Internet", error: "You have no internet connection")
                 }
                 
-                println("Something went south: \(eventError) ")
+                println("It failed")
+                
             }
         }
+        
+        
+        
+        
     }
     
     func refresh() {
@@ -233,31 +241,55 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
         //Initialisation
         numSections = 0
         rowsInSection.removeAll(keepCapacity: true)
-        rowsInSection.append(0)
         sectionNames.removeAll(keepCapacity: true)
         self.localizedTime.removeAll(keepCapacity: true)
-        self.localizedEndTime.removeAll(keepCapacity:true)
+        self.localizedEndTime.removeAll(keepCapacity: true)
         for i in eventStart {
-            println()
-            println()
-            println()
+            //SORTS OUT EVENT STARTING TIME AND CREATES EVENT HEADER TIMES AND SHORTNED TIMES
+            
             var dateFormatter = NSDateFormatter()
-            dateFormatter.locale = NSLocale.currentLocale()
-            dateFormatter.dateFormat = " EEEE MMM, dd yyyy"
-            var realDate = dateFormatter.stringFromDate(i)
-            var dateFormatter2 = NSDateFormatter()
-            dateFormatter2.timeStyle = NSDateFormatterStyle.ShortStyle
-            var localTime = dateFormatter2.stringFromDate(i)
-            convertedDates.append(realDate)
+            //Creates table header for event time
+            dateFormatter.locale = NSLocale.currentLocale() // Gets current locale and switches
+            dateFormatter.dateFormat = " EEEE MMM, dd yyyy" // Formart for date I.E Monday, 03 1996
+            var headerDate = dateFormatter.stringFromDate(i) // Creates date
+            convertedDates.append(headerDate)
+            dateFormatter.dateFormat = " MMM, dd yyyy"
+            var shortenTime = dateFormatter.stringFromDate(i)
+            self.eventStartDate.append(shortenTime)
+            //Creates Time for Event from NSDAte
+            var timeFormatter = NSDateFormatter() //Formats time
+            timeFormatter.locale = NSLocale.currentLocale()
+            timeFormatter.timeStyle = NSDateFormatterStyle.ShortStyle
+            var localTime = timeFormatter.stringFromDate(i)
+            self.eventStartTime.append(localTime)
             self.localizedTime.append(localTime)
             
             
         }
-        //For each date
-        sectionNames.insert("0", atIndex: 0)
-        for date in eventStartDate{
-            //If there is a date change
+        
+        for i in eventEnd {
+            //SORTS OUT EVENT ENDING TIME AND CREATES EVENT HEADER TIMES AND SHORTNED TIMES
             
+            var dateFormatter = NSDateFormatter()
+            //Creates table header for event time
+            dateFormatter.locale = NSLocale.currentLocale() // Gets current locale and switches
+            var headerDate = dateFormatter.stringFromDate(i) // Creates date
+            dateFormatter.dateFormat = " MMM, dd yyyy"
+            var shortenTime = dateFormatter.stringFromDate(i)
+            self.eventEndDate.append(shortenTime)
+            //Creates Time for Event from NSDAte
+            var timeFormatter = NSDateFormatter() //Formats time
+            timeFormatter.locale = NSLocale.currentLocale()
+            timeFormatter.timeStyle = NSDateFormatterStyle.ShortStyle
+            var localTime = timeFormatter.stringFromDate(i)
+            self.localizedEndTime.append(localTime)
+            self.eventEndTime.append(localTime)
+        }
+        
+        
+        //For each date
+        for date in convertedDates{
+            //If there is a date change
             if (currentDate != date){
                 //If the current date is not the init value
                 if (currentDate != ""){
@@ -276,36 +308,9 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
             //The count is incremented
             i++
         }
-        
-        for i in eventEnd {
-            
-            
-            var dateFormatter2 = NSDateFormatter()
-            dateFormatter2.locale = NSLocale.currentLocale()
-            dateFormatter2.dateFormat = " EEEE MMM, dd yyyy"
-            var realDate2 = dateFormatter2.stringFromDate(i)
-            var dateFormatter3 = NSDateFormatter()
-            dateFormatter3.timeStyle = NSDateFormatterStyle.ShortStyle
-            var localTime = dateFormatter3.stringFromDate(i)
-            
-            self.localizedEndTime.append(localTime)
-            
-            
-        }
         //Because the loop is broken before a new date is found, that
         //  one needs to be added manually
-        
         rowsInSection.append(i)
-        numSections++
-        
-        if numSections == 0 {
-            println("Yo")
-            numSections++
-        }
-        else {
-            
-            println("Hey it doesnt work")
-        }
     }
     
     //Returns the index of the element at the specified section and row
@@ -328,7 +333,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if  section == 0 {
             let cell2:profileCell = tableView.dequeueReusableCellWithIdentifier("profile") as profileCell
-            var que = PFQuery(className: "Subs")
+            var que = PFQuery(className:"Subscription")
             cell2.subscribe.adjustsImageWhenHighlighted = false
             que.whereKey("follower", equalTo:PFUser.currentUser().username)
             que.whereKey("following", equalTo: theUser)
@@ -337,12 +342,26 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 (object:PFObject!, error: NSError!) -> Void in
                 
                 if error == nil {
+                    if PFUser.currentUser()["tempAccounts"] as Bool == true {
+                        println("You are a temp account you cannot possibly subscribe to account fool, ya fool")
+                        cell2.subscribe.setTitleColor(UIColor(red: 254.0/255.0, green: 186.0/255.0, blue: 1.0/255.0, alpha: 1.0), forState: UIControlState.Normal) //Sets as Orange
+                       //Creates an alert to subscribe
+                      
+                    } else {
+                   
                     cell2.subscribe.setTitle("Unsubscribe", forState: UIControlState.Normal)
                     cell2.subscribe.setTitleColor(UIColor(red: 65.0/255.0, green: 146.0/255.0, blue: 199.0/255.0, alpha: 1.0), forState: UIControlState.Normal)
+                    }
                 }
                 else {
-                    cell2.subscribe.setTitle("Subscribe", forState: UIControlState.Normal)
-                    cell2.subscribe.setTitleColor(UIColor(red: 254.0/255.0, green: 186.0/255.0, blue: 1.0/255.0, alpha: 1.0), forState: UIControlState.Normal)
+                    //If the user is using a temp account changes the function of the button
+                    if PFUser.currentUser()["tempAccounts"] as Bool == true {
+                        println("You are a temp account you cannot possibly subscribe to account fool, ya fool")
+                        cell2.subscribe.setTitleColor(UIColor(red: 254.0/255.0, green: 186.0/255.0, blue: 1.0/255.0, alpha: 1.0), forState: UIControlState.Normal) //Sets as orange color
+                    } else {
+                        cell2.subscribe.setTitle("Subscribe", forState: UIControlState.Normal)
+                        cell2.subscribe.setTitleColor(UIColor(red: 254.0/255.0, green: 186.0/255.0, blue: 1.0/255.0, alpha: 1.0), forState: UIControlState.Normal)
+                    }
                 }
             }
   
@@ -357,7 +376,31 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
     }
     
     func subbing(sender: AnyObject) {
-        var subQuery = PFQuery(className: "Subs")
+        if PFUser.currentUser()["tempAccounts"] as Bool == true {
+        var alert = UIAlertController(title: "you need an account", message: "Create a new account", preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "Create an account", style: .Default, handler: { action in
+            
+            self.performSegueWithIdentifier("createAccount", sender: self)
+            
+        }))
+        alert.addAction(UIAlertAction(title: "Sign in", style: UIAlertActionStyle.Default, handler: { action in
+            
+            self.performSegueWithIdentifier("signInAccount", sender: self)
+            
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: { action in
+            
+            
+            
+        }))
+        
+        self.presentViewController(alert, animated: true, completion: nil)
+        
+        func preferredStatusBarStyle() -> UIStatusBarStyle {
+            return UIStatusBarStyle.Default
+            }
+        } else {
+        var subQuery = PFQuery(className: "Subscription")
         subQuery.whereKey("following", equalTo: theUser)
         subQuery.whereKey("follower", equalTo: PFUser.currentUser().username)
         subQuery.getFirstObjectInBackgroundWithBlock({
@@ -397,7 +440,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                     }
                 })
                 
-                var subscribe = PFObject(className: "Subs")
+                var subscribe = PFObject(className:"Subscription")
                 subscribe["member"] = false
                 subscribe["follower"] = PFUser.currentUser().username
                 subscribe["following"] = self.theUser
@@ -439,10 +482,10 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                     
                 }
                 self.theFeed.reloadData()
-            }
-        })
+                }
+            })
+        }
     }
-    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
@@ -537,9 +580,9 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
         cell.poop.tag = event
         // Mini query to check if event is already saved
         //println(objectID[event])
-        var minique = PFQuery(className: "GoingEvent")
+        var minique = PFQuery(className: "UserCalendar")
         minique.whereKey("user", equalTo: PFUser.currentUser().username)
-        var minique2 = PFQuery(className: "GoingEvent")
+        var minique2 = PFQuery(className: "UserCalendar")
         minique.whereKey("eventID", equalTo: objectID[event])
         
         minique.getFirstObjectInBackgroundWithBlock{
@@ -566,25 +609,9 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
     func followButton(sender: AnyObject){
         // Adds the event to calendar
         
-        var first:Bool = Bool()
+       var first = PFUser.currentUser()["first"] as Bool
         
-        var getFirst = PFUser.query()
-        getFirst.getObjectInBackgroundWithId(PFUser.currentUser().objectId, block: {
-            (results:PFObject!, error: NSError!) -> Void in
-            
-            if error == nil {
-                
-                if results["first"] as Bool == true {
-                    
-                    first = true
-                }
-                
-                
-            }
-            
-        })
-        
-        var que = PFQuery(className: "GoingEvent")
+        var que = PFQuery(className: "UserCalendar")
         que.whereKey("user", equalTo: PFUser.currentUser().username)
         que.whereKey("author", equalTo: self.usernames[sender.tag])
         que.whereKey("eventID", equalTo:self.objectID[sender.tag])
@@ -598,16 +625,8 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 println(first)
                 if first == true {
                     
-                    var getFirst = PFUser.query()
-                    getFirst.getObjectInBackgroundWithId(PFUser.currentUser().objectId, block: {
-                        (results:PFObject!, error: NSError!) -> Void in
-                        
-                        if error == nil {
-                            results["first"] = false
-                            results.save()
-                        }
-                        
-                    })
+                    PFUser.currentUser()["first"] = false
+                    PFUser().save()
                     self.displayAlert("Remove", error: "Tapping the blue checkmark removes an event from your calendar.")
                     
                 }
@@ -710,7 +729,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                     
                 })
                 
-                var going = PFObject(className: "GoingEvent")
+                var going = PFObject(className: "UserCalendar")
                 going["user"] = PFUser.currentUser().username
                 going["event"] = self.eventTitle[sender.tag]
                 going["author"] = self.usernames[sender.tag]
@@ -730,9 +749,10 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
     
         if self.usernames[sender.tag] != PFUser.currentUser().username {
             var notify = PFObject(className: "Notification")
-            notify["theID"] = self.objectID[sender.tag]
             notify["sender"] = PFUser.currentUser().username
+            notify["senderID"] = PFUser.currentUser().objectId
             notify["receiver"] = self.usernames[sender.tag]
+            notify["receiverID"] = self.userId
             notify["type"] =  "calendar"
             notify.saveInBackgroundWithBlock({
                 

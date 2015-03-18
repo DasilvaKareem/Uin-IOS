@@ -132,6 +132,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
         }
         
     }
+    // Creates the event and adds to the calendar
     
     @IBAction func makeEvent(sender: AnyObject) {
         
@@ -163,7 +164,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
         println(allError)
 
         if allError == "" {
-            
+            //If the user is editing the event
             if editing == true {
                 var eventQue = PFQuery(className: "Event")
                 eventQue.getObjectInBackgroundWithId(eventID, block: {
@@ -172,20 +173,17 @@ class eventMake: UIViewController, UITextFieldDelegate {
                     
                     if error == nil {
                         
-                        eventItem["startEvent"] = orderDate1
-                        eventItem["endEvent"] = orderDate2
-                        eventItem["startTime"] = dateTime1 as String
-                        eventItem["startDate"] = dateStr1 as String
-                        eventItem["endTime"] = dateTime2 as String
-                        eventItem["endDate"] = dateStr2 as String
-                        eventItem["eventTime"] = dateTime2 as String
-                        eventItem["public"] = self.eventPublic
-                        eventItem["food"] = self.food
-                        eventItem["paid"] = self.paid
-                        eventItem["location"] = self.onsite
-                        eventItem["eventLocation"] = self.eventSum.text
-                        eventItem["eventTitle"] = self.eventTitle.text
+                        eventItem["start"] = orderDate1
+                        eventItem["end"] = orderDate2
+                        eventItem["isPublic"] = self.eventPublic
+                        eventItem["hasFood"] = self.food
+                        eventItem["isFree"] = self.paid
+                        eventItem["onCampus"] = self.onsite
+                        eventItem["location"] = self.eventSum.text
+                        eventItem["title"] = self.eventTitle.text
                         eventItem["author"] = PFUser.currentUser().username
+                        eventItem["authorID"] = PFUser.currentUser().objectId
+                        eventItem["isDeleted"] = false
                         eventItem.saveInBackgroundWithBlock({
                             (success:Bool!, error:NSError!) -> Void in
                             
@@ -223,21 +221,17 @@ class eventMake: UIViewController, UITextFieldDelegate {
             }
             else {
                 var event = PFObject(className: "Event")
-                event["userId"] = PFUser.currentUser().objectId
-                event["startEvent"] = orderDate1
-                event["endEvent"] = orderDate2
-                event["startTime"] = dateTime1 as String
-                event["startDate"] = dateStr1 as String
-                event["endTime"] = dateTime2 as String
-                event["endDate"] = dateStr2 as String
-                event["eventTime"] = dateTime2 as String
-                event["public"] = eventPublic
-                event["food"] = food
-                event["paid"] = paid
-                event["location"] = onsite
-                event["eventLocation"] = eventSum.text
-                event["eventTitle"] = eventTitle.text
+                event["start"] = orderDate1
+                event["end"] = orderDate2
+                event["isPublic"] = self.eventPublic
+                event["hasFood"] = self.food
+                event["isFree"] = self.paid
+                event["onCampus"] = self.onsite
+                event["location"] = self.eventSum.text
+                event["title"] = self.eventTitle.text
                 event["author"] = PFUser.currentUser().username
+                event["authorID"] = PFUser.currentUser().objectId
+                event["isDeleted"] = false
                 event.saveInBackgroundWithBlock{
                     
                     (success:Bool!,eventError:NSError!) -> Void in
@@ -245,7 +239,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
                     if (eventError == nil){
                             var push =  PFPush()
                             let data = [
-                                "alert" : "\(PFUser.currentUser().username) has edited the event '\(self.eventTitle.text)'",
+                                "alert" : "\(PFUser.currentUser().username) has created an event '\(self.eventTitle.text)'",
                                 "badge" : "Increment",
                                 "sound" : "default"
                             ]
@@ -268,6 +262,8 @@ class eventMake: UIViewController, UITextFieldDelegate {
                         var theMix = Mixpanel.sharedInstance()
                         theMix.track("Created an Event")
                         var notify = PFObject(className: "Notification")
+                        notify["senderID"] = PFUser.currentUser().objectId
+                        notify["receiverID"] = PFUser.currentUser().objectId
                         notify["sender"] = PFUser.currentUser().username
                         notify["receiver"] = PFUser.currentUser().username
                         notify["type"] =  "event"
@@ -305,9 +301,9 @@ class eventMake: UIViewController, UITextFieldDelegate {
         var alert = UIAlertController(title: "Are you sure", message: "Do you want to delete this event", preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: nil))
         self.presentViewController(alert, animated: true, completion: nil)
-        alert.addAction(UIAlertAction(title: "Yes", style: .Default, handler: { action in
+        alert.addAction(UIAlertAction(title: "Yes", style: UIAlertActionStyle.Destructive, handler: { action in
             switch action.style{
-            case .Default:
+            case .Destructive:
                 var eventQue = PFQuery(className: "Event")
                 eventQue.getObjectInBackgroundWithId(self.eventID, block: {
                     
@@ -317,7 +313,8 @@ class eventMake: UIViewController, UITextFieldDelegate {
                         var theMix = Mixpanel.sharedInstance()
                         theMix.track("Deleted event")
                         var name = PFUser.currentUser().username
-                        eventItem.delete()
+                        eventItem["isDeleted"] = true
+                        eventItem.save()
                         let data = [
                             "alert" : "\(PFUser.currentUser().username) has deleted the event '\(self.eventTitle.text)'",
                             "badge" : "Increment",
@@ -343,7 +340,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
             case .Cancel:
                 println("cancel")
                 
-            case .Destructive:
+            case .Default:
                 println("destructive")
             }
         }))

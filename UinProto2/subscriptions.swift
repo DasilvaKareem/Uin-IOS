@@ -20,8 +20,8 @@ class subscriptions: UITableViewController {
         // Changes text color on navbar
         var nav = self.navigationController?.navigationBar
         nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()];
-        var followque = PFQuery(className: "Subs")
-        followque.whereKey("follower", equalTo: PFUser.currentUser().username)
+        var followque = PFQuery(className: "Subcription")
+        followque.whereKey("subcriber", equalTo: PFUser.currentUser().objectId)
         followque.orderByAscending("createdAt")
         followque.findObjectsInBackgroundWithBlock{
             
@@ -33,7 +33,7 @@ class subscriptions: UITableViewController {
                 
                 for object in objects{
                     
-                    self.folusernames.append(object["following"] as String)
+                    self.folusernames.append(object["publisher"] as String)
                     //change "following" to "subscribers" and "follower" to "Subscribed to"
                     
                     self.tableView.reloadData()

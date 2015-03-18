@@ -98,14 +98,23 @@ class register: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var cpassword: UITextField!
     @IBAction func register(sender: AnyObject) {
         
+        var characterSet:NSCharacterSet = NSCharacterSet(charactersInString: "!@#$%^&*()+")
         
         var error = ""
+        
+        
+        if username.text.rangeOfCharacterFromSet(characterSet) != nil {
+            error = "You either entered an illegal charcter"
+        }
+
+
         
         if username.text == "" || password.text == "" {
             
             error = "You did not enter a username or password"
             
         }
+        
         if password.text != cpassword.text {
             
             error = "Passwords do not match"
@@ -125,8 +134,9 @@ class register: UIViewController, UITextFieldDelegate {
                 user["display"] = username.text
                 user.password = password.text
                 user.email = email.text
-                user["push"] = true
+                user["pushEnabled"] = true
                 user["first"] = true
+                user["tempAccounts"] = false
                 user.signUpInBackgroundWithBlock {
                     (succeeded: Bool!, registerError: NSError!) -> Void in
                     
@@ -180,8 +190,9 @@ class register: UIViewController, UITextFieldDelegate {
                 user["display"] = username.text
                 user.password = password.text
                 user.email = email.text
-                user["push"] = true
+                user["pushEnabled"] = true
                 user["first"] = true
+                user["tempAccounts"] = false
                 var theMix = Mixpanel.sharedInstance()
                 theMix.track("Registers with Facebook")
                 user.saveInBackgroundWithBlock {
@@ -263,5 +274,10 @@ class register: UIViewController, UITextFieldDelegate {
     
     override func viewDidAppear(animated: Bool) {
         
+    }
+    override func viewWillAppear(animated: Bool) {
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.translucent = true
     }
 }

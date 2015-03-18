@@ -12,6 +12,8 @@ class subscriberlist: UITableViewController {
     var objectId = [String]()
     var folusernames = [String]()
     var folmembers = [Bool]()
+    var subscriberID = [String]()
+    var foluserID = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,8 +25,10 @@ class subscriberlist: UITableViewController {
         // Changes text color on navbar
         var nav = self.navigationController?.navigationBar
         nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()];
-        var followque = PFQuery(className: "Subs")
-        followque.whereKey("following", equalTo: PFUser.currentUser().username)
+        
+        //Queries for all the people who are subscribed to you
+        var followque = PFQuery(className: "Subscription")
+        followque.whereKey("publisher", equalTo: PFUser.currentUser().username)
         followque.orderByAscending("createdAt")
         followque.findObjectsInBackgroundWithBlock{
             
@@ -37,8 +41,10 @@ class subscriberlist: UITableViewController {
                 self.folmembers.removeAll(keepCapacity: true)
                 for object in objects{
                     self.objectId.append(object.objectId as String)
-                    self.folmembers.append(object["member"] as Bool)
-                    self.folusernames.append(object["follower"] as String)
+                    self.folmembers.append(object["isMember"] as Bool)
+                    self.folusernames.append(object["subscriber"] as String)
+                    self.foluserID.append(object["pblisherID"] as String)
+                    
                     //change "following" to "subscribers" and "follower" to "Subscribed to"
                     
                     self.tableView.reloadData()
@@ -81,14 +87,14 @@ class subscriberlist: UITableViewController {
         
         cell.username.text = folusernames[indexPath.row]
         
-        var membersave = PFQuery(className:"Subs")
+        var membersave = PFQuery(className:"Subscription")
         membersave.getObjectInBackgroundWithId(objectId[indexPath.row]) {
             (result: PFObject!, error: NSError!) -> Void in
             
             if error == nil {
                 
             
-            if result["member"] as Bool == true{
+            if result["isMember"] as Bool == true{
                 
                 cell.member.selectedSegmentIndex = 0
             }
@@ -123,20 +129,24 @@ class subscriberlist: UITableViewController {
             break;
         }  //Switch
         
-        var membersave = PFQuery(className:"Subs")
+        var membersave = PFQuery(className:"Subsription")
         membersave.getObjectInBackgroundWithId(objectId[sender.tag]) {
             (result: PFObject!, error: NSError!) -> Void in
             if error == nil {
           
-                 result["member"] = self.member
+                 result["isMember"] = self.member
                 result.saveInBackgroundWithBlock{
                     
                     (succeeded: Bool!, registerError: NSError!) -> Void in
                     
                     if registerError == nil {
+                        
+                        //Creates an in app notfication
                         var notify = PFObject(className: "Notification")
+                        notify["senderID"] = PFUser.currentUser().objectId
                         notify["sender"] = PFUser.currentUser().username
                         notify["receiver"] = self.folusernames[sender.tag]
+                        notify["receiverID"] = self.foluserID[sender.tag]
                         notify["type"] =  "member"
                         notify.saveInBackgroundWithBlock({
                             
