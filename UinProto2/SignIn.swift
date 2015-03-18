@@ -64,10 +64,28 @@ class SignIn: UIViewController, UITextFieldDelegate {
             } else {
                 
                 NSLog("User is already signed in with us")
-                var theMix = Mixpanel.sharedInstance()
-                theMix.track("Signed in with Facebook -signIn-")
-
-                self.performSegueWithIdentifier("login", sender: self)
+                var currentInstallation = PFInstallation.currentInstallation()
+                currentInstallation["user"] = PFUser.currentUser().username
+                currentInstallation["userId"] = PFUser.currentUser().objectId
+                currentInstallation.saveInBackgroundWithBlock({
+                    
+                    (success:Bool!, saveerror: NSError!) -> Void in
+                    
+                    if saveerror == nil {
+                        
+                        var theMix = Mixpanel.sharedInstance()
+                        theMix.track("Signed in with Facebook -signIn-")
+                        self.performSegueWithIdentifier("login", sender: self)
+                        
+                    }
+                        
+                    else {
+                        
+                        println("facebook installtions was not succesfull")
+                    }
+                    
+                })
+              
             }
         })
     }
