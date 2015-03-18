@@ -42,8 +42,8 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     // View cycles
     override func viewDidLoad() {
         super.viewDidLoad()
+        
      
-
         self.tabBarController?.tabBar.hidden = false
         //var eventsItem = tabBarItem?[0] as UITabBarItem
         //eventsItem.selectedImage = UIImage(named: "addToCalendar.png")
@@ -55,7 +55,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         var nav = self.navigationController?.navigationBar
         nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()];
         updateFeed()
-    notifications()
+        notifications()
       
         
         
@@ -77,12 +77,59 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     override func viewWillAppear(animated: Bool) {
         updateFeed()
+        //Setups Ui
+               navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
+        
+         var user = PFUser.currentUser()
+        //Checks if the account is a temporary account
+        if user["tempAccounts"] as Bool == false {
+            //Changes ui based if the user is a real account
+           
+            self.tabBarController?.tabBar.hidden = false
+            self.navigationItem.leftBarButtonItem = nil //Removes settings from event Feed
+        } else {
        
-        self.tabBarController?.tabBar.hidden = false
+            self.tabBarController?.tabBar.hidden = true //
+        }
+        
     }
     override func viewDidAppear(animated: Bool) {
-        checkNotifications()
-        notifications()
+    }
+    
+    //2 nav buttons 1 leads to settings while the other send to log in
+
+    @IBAction func eventMake(sender: AnyObject) {
+        var user = PFUser.currentUser()
+        //Checks if the account is a temporary account
+        if user["tempAccounts"] as Bool == false {
+           self.performSegueWithIdentifier("eventMake", sender: self)
+
+        } else {
+            var alert = UIAlertController(title: "you need an account", message: "Create a new account", preferredStyle: UIAlertControllerStyle.Alert)
+            alert.addAction(UIAlertAction(title: "Create an account", style: .Default, handler: { action in
+                
+               self.performSegueWithIdentifier("createAccount", sender: self)
+                
+            }))
+            alert.addAction(UIAlertAction(title: "Sign in", style: UIAlertActionStyle.Default, handler: { action in
+                
+                 self.performSegueWithIdentifier("signInAccount", sender: self)
+                
+            }))
+            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: { action in
+                
+                
+                
+            }))
+            
+          self.presentViewController(alert, animated: true, completion: nil)
+            
+            func preferredStatusBarStyle() -> UIStatusBarStyle {
+                return UIStatusBarStyle.Default
+            }
+            
+        }
+
         
     }
 
@@ -95,6 +142,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         
         var check = PFQuery(className: "Notification")
         check.whereKey("receiver", equalTo: PFUser.currentUser().username)
+        check.whereKey("sender", notEqualTo: PFUser.currentUser().username)
         old = check.countObjects()
         
         
@@ -104,6 +152,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         
         var check = PFQuery(className: "Notification")
         check.whereKey("receiver", equalTo: PFUser.currentUser().username)
+        check.whereKey("sender", notEqualTo: PFUser.currentUser().username)
          newCheck = check.countObjects()
         
         if self.old != self.newCheck {
@@ -146,6 +195,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         }
         
     }
+
  
       func updateFeed(){
         //Removes all leftover content in the array
@@ -153,23 +203,27 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         println("Before query")
         
         //adds content to the array
+        //Queries all public Events
         var que1 = PFQuery(className: "Event")
-        que1.whereKey("public", equalTo: true)
+        que1.whereKey("isPublic", equalTo: true)
         
-        var pubQue = PFQuery(className: "Subs")
-        pubQue.whereKey("follower", equalTo: PFUser.currentUser().username)
-        pubQue.whereKey("member", equalTo: true)
+        //Queries all Private events
+        var pubQue = PFQuery(className: "Subcription")
+        pubQue.whereKey("subscriber", equalTo: PFUser.currentUser().username)
+        pubQue.whereKey("memberStatus", equalTo: true)
         var superQue = PFQuery(className: "Event")
-        superQue.whereKey("author", matchesKey: "following", inQuery:pubQue)
+        superQue.whereKey("author", matchesKey: "subscriber", inQuery:pubQue)
         
+        //Queries all of the current user events
         var newQue = PFQuery(className: "Event")
-        newQue.whereKey("public", equalTo: false)
+        newQue.whereKey("isPublic", equalTo: false)
         newQue.whereKey("author", equalTo: PFUser.currentUser().username)
         
     
         var query = PFQuery.orQueryWithSubqueries([que1, superQue, newQue ])
-        query.orderByAscending("startEvent")
-        query.whereKey("startEvent", greaterThanOrEqualTo: NSDate())
+        query.orderByAscending("start")
+        query.whereKey("start", greaterThanOrEqualTo: NSDate())
+        query.whereKey("isDeleted", equalTo: false)
         query.findObjectsInBackgroundWithBlock {
             (results: [AnyObject]!, error: NSError!) -> Void in
             if error == nil {
@@ -198,21 +252,17 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                       for object in results{
                     
                     
-                    self.publicPost.append(object["public"] as Bool)
+                    self.publicPost.append(object["isPublic"] as Bool)
                     self.objectID.append(object.objectId as String)
                     self.usernames.append(object["author"] as String)
-                    self.eventTitle.append(object["eventTitle"] as String)
-                    self.eventStartDate.append(object["startDate"] as String)
-                    self.eventEndDate.append(object["endDate"] as String)
-                    self.eventStartTime.append(object["startTime"] as String)
-                    self.eventEndTime.append(object["endTime"] as String)
-                    self.food.append(object["food"] as Bool)
-                    self.paid.append(object["paid"] as Bool)
-                    self.onsite.append(object["location"] as Bool)
-                    self.eventEnd.append(object["endEvent"] as NSDate)
-                    self.eventStart.append(object["startEvent"] as NSDate)
-                    self.eventlocation.append(object["eventLocation"] as String)
-                    self.userId.append(object["userId"] as String)
+                    self.eventTitle.append(object["title"] as String)
+                    self.food.append(object["hasFood"] as Bool)
+                    self.paid.append(object["isFree"] as Bool)
+                    self.onsite.append(object["onCampus"] as Bool)
+                    self.eventEnd.append(object["end"] as NSDate)
+                    self.eventStart.append(object["start"] as NSDate)
+                    self.eventlocation.append(object["location"] as String)
+                    self.userId.append(object["authorID"] as String)
                     
                     }
                     self.populateSectionInfo()
@@ -257,31 +307,45 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         self.localizedTime.removeAll(keepCapacity: true)
         self.localizedEndTime.removeAll(keepCapacity: true)
         for i in eventStart {
+            //SORTS OUT EVENT STARTING TIME AND CREATES EVENT HEADER TIMES AND SHORTNED TIMES
             
-            
-           var dateFormatter = NSDateFormatter()
-            dateFormatter.locale = NSLocale.currentLocale()
-             dateFormatter.dateFormat = " EEEE MMM, dd yyyy"
-           var realDate = dateFormatter.stringFromDate(i)
-            var dateFormatter2 = NSDateFormatter()
-            dateFormatter2.timeStyle = NSDateFormatterStyle.ShortStyle
-            var localTime = dateFormatter2.stringFromDate(i)
-            convertedDates.append(realDate)
+            var dateFormatter = NSDateFormatter()
+            //Creates table header for event time
+            dateFormatter.locale = NSLocale.currentLocale() // Gets current locale and switches
+            dateFormatter.dateFormat = " EEEE MMM, dd yyyy" // Formart for date I.E Monday, 03 1996
+            var headerDate = dateFormatter.stringFromDate(i) // Creates date
+            convertedDates.append(headerDate)
+            dateFormatter.dateFormat = " MMM, dd yyyy"
+            var shortenTime = dateFormatter.stringFromDate(i)
+            self.eventStartDate.append(shortenTime)
+            //Creates Time for Event from NSDAte
+            var timeFormatter = NSDateFormatter() //Formats time
+            timeFormatter.locale = NSLocale.currentLocale()
+            timeFormatter.timeStyle = NSDateFormatterStyle.ShortStyle
+            var localTime = timeFormatter.stringFromDate(i)
+            self.eventStartTime.append(localTime)
             self.localizedTime.append(localTime)
             
             
         }
         
         for i in eventEnd {
+             //SORTS OUT EVENT ENDING TIME AND CREATES EVENT HEADER TIMES AND SHORTNED TIMES
             
-            var dateFormatter2 = NSDateFormatter()
-            dateFormatter2.locale = NSLocale.currentLocale()
-            dateFormatter2.dateFormat = " EEEE MMM, dd yyyy"
-            var realDate2 = dateFormatter2.stringFromDate(i)
-            var dateFormatter3 = NSDateFormatter()
-            dateFormatter3.timeStyle = NSDateFormatterStyle.ShortStyle
-            var localTime = dateFormatter3.stringFromDate(i)
+            var dateFormatter = NSDateFormatter()
+            //Creates table header for event time
+            dateFormatter.locale = NSLocale.currentLocale() // Gets current locale and switches
+            var headerDate = dateFormatter.stringFromDate(i) // Creates date
+            dateFormatter.dateFormat = " MMM, dd yyyy"
+            var shortenTime = dateFormatter.stringFromDate(i)
+            self.eventEndDate.append(shortenTime)
+            //Creates Time for Event from NSDAte
+            var timeFormatter = NSDateFormatter() //Formats time
+            timeFormatter.locale = NSLocale.currentLocale()
+            timeFormatter.timeStyle = NSDateFormatterStyle.ShortStyle
+            var localTime = timeFormatter.stringFromDate(i)
             self.localizedEndTime.append(localTime)
+            self.eventEndTime.append(localTime)
         }
     
         
@@ -357,6 +421,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         var section = indexPath.section
         var row = indexPath.row
         
+        //Puts image for three icons
         if onsite[event] == true {
             cell.onCampusIcon.image = UIImage(named: "onCampus.png")
             cell.onCampusText.text = "On-Campus"
@@ -402,9 +467,9 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         cell.time.text = localizedTime[event]
         cell.eventName.text = eventTitle[event]
         cell.poop.tag = event
-        var minique = PFQuery(className: "GoingEvent")
-        minique.whereKey("user", equalTo: PFUser.currentUser().username)
-        var minique2 = PFQuery(className: "GoingEvent")
+        var minique = PFQuery(className: "UserCalendar")
+        minique.whereKey("userID", equalTo: PFUser.currentUser().objectId)
+        var minique2 = PFQuery(className: "UserCalendar")
         minique.whereKey("eventID", equalTo: objectID[event])
         
         minique.getFirstObjectInBackgroundWithBlock{
@@ -425,42 +490,20 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     func followButton(sender: AnyObject){
         // Adds the event to calendar
-        var first:Bool = Bool()
-        var getFirst = PFUser.query()
-        getFirst.getObjectInBackgroundWithId(PFUser.currentUser().objectId, block: {
-            (results:PFObject!, error: NSError!) -> Void in
-            
-            if error == nil {
-                
-                if results["first"] as Bool == true {
-                    
-                    first = true
-                }
-                
-                
-            }
-            
-        })
     
-      var que = PFQuery(className: "GoingEvent")
+      var que = PFQuery(className: "UserCalendar")
         que.whereKey("user", equalTo: PFUser.currentUser().username)
         que.whereKey("author", equalTo: self.usernames[sender.tag])
         que.whereKey("eventID", equalTo:self.objectID[sender.tag])
         que.getFirstObjectInBackgroundWithBlock({
             (results:PFObject!, queerror: NSError!) -> Void in
             if queerror == nil {
+                //Deletes the event
                 results.delete()
-                println(first)
-                if first == true {
-                    
-                    var getFirst = PFUser.query()
-                    getFirst.getObjectInBackgroundWithId(PFUser.currentUser().objectId, block: {
-                        (results:PFObject!, error: NSError!) -> Void in
-                        if error == nil {
-                            results["first"] = false
-                            results.save()
-                        }
-                    })
+                //Warns user if the this is the first event to be removed
+                if PFUser.currentUser()["first"] as Bool == true{
+                    PFUser.currentUser()["first"] = false
+                    PFUser.currentUser().save()
                     self.displayAlert("Remove", error: "Tapping the blue checkmark removes an event from your calendar.")
                 }
                 if results != nil {
@@ -473,14 +516,6 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                             println("error  \(error)")
                             var hosted = "Hosted by \(self.usernames[sender.tag])"
                             var event:EKEvent = EKEvent(eventStore: eventStore)
-                            println()
-                            println()
-                            println()
-                            println()
-                            println(self.eventTitle[sender.tag])
-                            println(self.eventStart[sender.tag])
-                            println(self.eventEnd[sender.tag])
-                            println(self.eventEnd[sender.tag])
                             event.title = self.eventTitle[sender.tag]
                             event.startDate = self.eventStart[sender.tag]
                             event.endDate = self.eventEnd[sender.tag]
@@ -505,6 +540,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                             }
                         }
                     }
+                
                     self.theFeed.reloadData()
                 }
             } else {
@@ -549,19 +585,24 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                     var pfque = PFInstallation.query()
                     pfque.whereKey("user", equalTo: self.usernames[sender.tag])
                     push.setQuery(pfque)
+                if PFUser.currentUser()["tempAccounts"] as Bool == true {
+                    push.setMessage("Someone has added your event to their calendar")
+                } else {
                     push.setMessage("\(PFUser.currentUser().username) has added your event to their calendar")
+                }
                     push.sendPushInBackgroundWithBlock({
                         (success:Bool!, pushError: NSError!) -> Void in
                         if pushError == nil {
-                            println("IT WORKED")
+                            println("Push was Sent")
                         }
                     })
                 
                 if self.usernames[sender.tag] != PFUser.currentUser().username {
                     var notify = PFObject(className: "Notification")
-                    notify["theID"] = self.objectID[sender.tag]
                     notify["sender"] = PFUser.currentUser().username
                     notify["receiver"] = self.usernames[sender.tag]
+                    notify["senderID"] = PFUser.currentUser().objectId
+                    notify["receiverID"] = self.usernames[sender.tag]
                     notify["type"] =  "calendar"
                     notify.saveInBackgroundWithBlock({
                         (success:Bool!, notifyError: NSError!) -> Void in
@@ -573,11 +614,11 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                         }
                     })
                 }
-                var going = PFObject(className: "GoingEvent")
+                var going = PFObject(className: "UserCalendar")
                 going["user"] = PFUser.currentUser().username
+                going["userID"] = PFUser.currentUser().objectId
                 going["event"] = self.eventTitle[sender.tag]
                 going["author"] = self.usernames[sender.tag]
-                going["added"] = true
                 going["eventID"] = self.objectID[sender.tag]
                 going.saveInBackgroundWithBlock{
                     (succeded:Bool!, savError:NSError!) -> Void in
@@ -613,7 +654,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             secondViewController.cost = paid[index]
             secondViewController.food = food[index]
             secondViewController.localStart = localizedTime[index]
-          secondViewController.localEnd = localizedEndTime[index]
+            secondViewController.localEnd = localizedEndTime[index]
             secondViewController.users = usernames[index]
             secondViewController.eventId = objectID[index]
             

@@ -489,9 +489,9 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         cell.poop.tag = event
         //Mini query to check if event is already saved
         //println(objectID[event])
-        var minique = PFQuery(className: "GoingEvent")
-        minique.whereKey("user", equalTo: PFUser.currentUser().username)
-        var minique2 = PFQuery(className: "GoingEvent")
+        var minique = PFQuery(className: "UserCalendar")
+        minique.whereKey("userID", equalTo: PFUser.currentUser().objectId)
+        var minique2 = PFQuery(className: "UserCalendar")
         minique.whereKey("eventID", equalTo: objectID[event])
         
         minique.getFirstObjectInBackgroundWithBlock{
@@ -544,9 +544,8 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         })
         
         
-        var que = PFQuery(className: "GoingEvent")
-        que.whereKey("user", equalTo: PFUser.currentUser().username)
-        que.whereKey("author", equalTo: self.usernames[sender.tag])
+        var que = PFQuery(className: "UserCalendar")
+        que.whereKey("userID", equalTo: PFUser.currentUser().objectId)
         que.whereKey("eventID", equalTo:self.objectID[sender.tag])
         que.getFirstObjectInBackgroundWithBlock({
             
@@ -652,7 +651,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 var push = PFPush()
                 
                 var pfque = PFInstallation.query()
-                pfque.whereKey("user", equalTo: self.usernames[sender.tag])
+                pfque.whereKey("authorID", equalTo: self.userId[sender.tag])
                 
                 push.setQuery(pfque)
                 push.setMessage("\(PFUser.currentUser().username) has added your event to their calendar")
@@ -669,8 +668,8 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 })
                 
                 
-                var going = PFObject(className: "GoingEvent")
-                going["user"] = PFUser.currentUser().username
+                var going = PFObject(className: "UserCalendar")
+                going["userID"] = PFUser.currentUser().objectId
                 going["event"] = self.eventTitle[sender.tag]
                 going["author"] = self.usernames[sender.tag]
                 going["added"] = true

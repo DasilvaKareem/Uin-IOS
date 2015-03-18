@@ -13,7 +13,7 @@ class settingsView: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         var user = PFUser.currentUser()
-        if user["push"] as Bool == true {
+        if user["pushEnabled"] as Bool == true {
             notifySlider.setOn(true, animated: true)
         }   else {
              notifySlider.setOn(false, animated: true)
@@ -33,10 +33,10 @@ class settingsView: UIViewController {
         if notifySlider.on == true {
             var subscriptionUsernames = [String]()
             var user = PFUser.currentUser()
-            user["push"] = true
+            user["pushEnabled"] = true
             user.save()
-            var query = PFQuery(className: "Subs")
-            query.whereKey("follower", equalTo: PFUser.currentUser().username)
+            var query = PFQuery(className: "Subcription")
+            query.whereKey("subscriberID", equalTo: PFUser.currentUser().objectId)
             query.findObjectsInBackgroundWithBlock({
         
                 (objects:[AnyObject]!, queError:NSError!) -> Void in
@@ -44,7 +44,7 @@ class settingsView: UIViewController {
                 if queError == nil {
                     println(subscriptionUsernames)
                     for object in objects {
-                        subscriptionUsernames.append(object["userId"] as String)
+                        subscriptionUsernames.append(object["publisherID"] as String)
                     }
                         var user = PFUser.currentUser()
                         var currentInstallation = PFInstallation.currentInstallation()
@@ -62,7 +62,7 @@ class settingsView: UIViewController {
 
             }
             var user = PFUser.currentUser()
-            user["push"] = false
+            user["pushEnabled"] = false
             user.save()
         }
         
@@ -73,10 +73,16 @@ class settingsView: UIViewController {
        println("you pressed it")
         var install = PFInstallation.currentInstallation()
         var channels = install.channels
-        install.removeObjectsInArray(channels, forKey: "channels")
-        install.save()
-        PFUser.logOut()
-         self.performSegueWithIdentifier("logout", sender: self)
+        if channels == nil {
+            PFUser.logOut()
+            self.performSegueWithIdentifier("logout", sender: self)
+        } else {
+            install.removeObjectsInArray(channels, forKey: "channels")
+            install.save()
+            PFUser.logOut()
+            self.performSegueWithIdentifier("logout", sender: self)
+        }
+ 
 
     }
 

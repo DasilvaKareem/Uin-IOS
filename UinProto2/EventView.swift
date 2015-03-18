@@ -53,9 +53,9 @@ class postEvent: UIViewController {
     var userId = String()
 
     func checkevent(){
-        var minique = PFQuery(className: "GoingEvent")
+        var minique = PFQuery(className: "UserCalendar")
         minique.whereKey("user", equalTo: PFUser.currentUser().username)
-        var minique2 = PFQuery(className: "GoingEvent")
+        var minique2 = PFQuery(className: "UserCalendar")
         minique.whereKey("eventID", equalTo: eventId)
         
         minique.getFirstObjectInBackgroundWithBlock{
@@ -102,16 +102,14 @@ class postEvent: UIViewController {
             var nav = self.navigationController?.navigationBar
             nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()];
             
-        }
-        if profileEditing == false {
+        } else {
             
             navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
             // Changes text color on navbar
             var nav = self.navigationController?.navigationBar
             nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()];
-            
-            
         }
+      
         println(food)
         println(onsite)
         println(cost)
@@ -144,7 +142,7 @@ class postEvent: UIViewController {
     
     @IBAction func addtocalendar(sender: AnyObject) {
         
-        var que = PFQuery(className: "GoingEvent")
+        var que = PFQuery(className: "UserCalendar")
         que.whereKey("user", equalTo: PFUser.currentUser().username)
         que.whereKey("author", equalTo: users)
         que.whereKey("eventID", equalTo:eventId)
@@ -219,8 +217,9 @@ class postEvent: UIViewController {
                 
                 if self.users != PFUser.currentUser().username {
                     var notify = PFObject(className: "Notification")
-                    notify["theID"] = self.userId
+                    notify["senderID"] = PFUser.currentUser().objectId
                     notify["sender"] = PFUser.currentUser().username
+                    notify["receiverID"] =  self.userId
                     notify["receiver"] = self.users
                     notify["type"] =  "calendar"
                     notify.saveInBackgroundWithBlock({
@@ -248,11 +247,11 @@ class postEvent: UIViewController {
                         }
                     })
                 }
-                var going = PFObject(className: "GoingEvent")
+                var going = PFObject(className: "UserCalendar")
                 going["user"] = PFUser.currentUser().username
+                going["userID"] = PFUser.currentUser().objectId
                 going["event"] = self.storeTitle
                 going["author"] = self.users
-                going["added"] = true
                 going["eventID"] = self.eventId
                 going.saveInBackgroundWithBlock{
                     

@@ -47,8 +47,8 @@ class notificationsView: UITableViewController {
     func notify(){
         
         var folusernames = [String]()
-        var followque = PFQuery(className: "Subs")
-        followque.whereKey("follower", equalTo: PFUser.currentUser().username)
+        var followque = PFQuery(className: "Subscription")
+        followque.whereKey("subscriber", equalTo: PFUser.currentUser().objectId)
         followque.findObjectsInBackgroundWithBlock{
             (objects:[AnyObject]!, folError:NSError!) -> Void in
     
@@ -56,7 +56,7 @@ class notificationsView: UITableViewController {
             
                 for object in objects{
                     println("it worked")
-                    folusernames.append(object["following"] as String)
+                    folusernames.append(object["subscriber"] as String)
                     
                 }
                 println(folusernames)
@@ -66,6 +66,7 @@ class notificationsView: UITableViewController {
         var eventQuery = PFQuery(className: "Notification")
         eventQuery.whereKey("type", equalTo: "event" )
         eventQuery.whereKey("sender", containedIn: folusernames)
+        eventQuery.whereKey("sender", notEqualTo: PFUser.currentUser().username)
         
         var subQuery = PFQuery(className: "Notification")
         subQuery.whereKey("type", equalTo: "sub")
@@ -103,7 +104,15 @@ class notificationsView: UITableViewController {
                         break
                     case "calendar":
                         var current = object["sender"] as String
-                        var eventnote = "\(current) has added your event to their calendar"
+                        //Checks if the user is a anon users and changes the notfications
+                         var characterSet:NSCharacterSet = NSCharacterSet(charactersInString: "$")
+                        var eventnote = ""
+                       
+                        if current.rangeOfCharacterFromSet(characterSet) != nil {
+                             eventnote = "Someone has added your event to their calendar"
+                        } else {
+                              eventnote = "\(current) has added your event to their calendar"
+                        }
                         self.notes.append(eventnote as String)
                         
                         break
@@ -132,6 +141,7 @@ class notificationsView: UITableViewController {
                     dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
                     var realDate = dateFormatter.stringFromDate(i)
                     var dateFormatter2 = NSDateFormatter()
+                    dateFormatter2.locale = NSLocale.currentLocale()
                     dateFormatter2.timeStyle = NSDateFormatterStyle.ShortStyle
                     var localTime = dateFormatter2.stringFromDate(i)
                     var date = "\(realDate)  \(localTime)"
