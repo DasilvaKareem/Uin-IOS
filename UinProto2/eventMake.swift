@@ -196,24 +196,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
                                 dateStr2 = String()
                                 startString = String()
                                 endString = String()
-                                    var push =  PFPush()
-                                    let data = [
-                                        "alert" : "\(PFUser.currentUser().username) has edited the event '\(self.eventTitle.text)'",
-                                        "badge" : "Increment",
-                                        "sound" : "default"
-                                    ]
-                                    push.setChannel(PFUser.currentUser().objectId)
-                                    push.setData(data)
-                                    push.sendPushInBackgroundWithBlock({
-                                        
-                                        (success: Bool!, pushError: NSError!) -> Void in
-                                        if pushError == nil {
-                                            println("the push was sent")
-                                        }
-                                        var theMix = Mixpanel.sharedInstance()
-                                        theMix.track("Edited Event -eventMake-")
-                                        
-                                    })
+                          
                             }
                                 self.performSegueWithIdentifier("eventback", sender: self)
                         })
@@ -334,7 +317,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
                         eventItem["isDeleted"] = true
                         eventItem.save()
                         let data = [
-                            "alert" : "\(PFUser.currentUser().username) has deleted the event '\(self.eventTitle.text)'",
+                            "alert" : "\(PFUser.currentUser().username) has cancelled the event '\(self.eventTitle.text)'",
                             "badge" : "Increment",
                             "sound" : "default"
                         ]
