@@ -135,7 +135,17 @@ class notificationsView: UITableViewController {
                         break
                     }
                 }
+                for i in self.times {
+                    var dateFormatter = NSDateFormatter()
+                    //Creates table header for event time
+                  
             
+                    //Creates Time for Event from NSDAte
+                    var timeFormatter = NSDateFormatter() //Formats time
+                    timeFormatter.timeStyle = NSDateFormatterStyle.ShortStyle
+                    var localTime = timeFormatter.stringFromDate(i)
+                    self.localTime.append(localTime)
+                }
                 self.tableView.reloadData()
                 self.refresher.endRefreshing()
             }

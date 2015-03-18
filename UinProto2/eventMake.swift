@@ -196,25 +196,26 @@ class eventMake: UIViewController, UITextFieldDelegate {
                                 dateStr2 = String()
                                 startString = String()
                                 endString = String()
-                                    var push =  PFPush()
-                                    let data = [
-                                        "alert" : "\(PFUser.currentUser().username) has edited the event '\(self.eventTitle.text)'",
-                                        "badge" : "Increment",
-                                        "sound" : "default"
-                                    ]
-                                    push.setChannel(PFUser.currentUser().objectId)
-                                    push.setData(data)
-                                    push.sendPushInBackgroundWithBlock({
-                                        
-                                        (success: Bool!, pushError: NSError!) -> Void in
-                                        if pushError == nil {
-                                            println("the push was sent")
-                                        }
-                                        var theMix = Mixpanel.sharedInstance()
-                                        theMix.track("Edited Event")
-                                    })
+                          
                             }
                                 self.performSegueWithIdentifier("eventback", sender: self)
+                        })
+                        var push =  PFPush()
+                        let data = [
+                            "alert" : "\(PFUser.currentUser().username) has edited the event '\(self.eventTitle.text)'",
+                            "badge" : "Increment",
+                            "sound" : "default"
+                        ]
+                        push.setChannel(PFUser.currentUser().objectId)
+                        push.setData(data)
+                        push.sendPushInBackgroundWithBlock({
+                            
+                            (success: Bool!, pushError: NSError!) -> Void in
+                            if pushError == nil {
+                                println("the push was sent")
+                            }
+                            var theMix = Mixpanel.sharedInstance()
+                            theMix.track("Edited Event")
                         })
                     }
                 })
