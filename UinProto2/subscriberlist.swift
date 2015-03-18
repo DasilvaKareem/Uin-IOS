@@ -43,7 +43,7 @@ class subscriberlist: UITableViewController {
                     self.objectId.append(object.objectId as String)
                     self.folmembers.append(object["isMember"] as Bool)
                     self.folusernames.append(object["subscriber"] as String)
-                    self.foluserID.append(object["pblisherID"] as String)
+                    self.foluserID.append(object["publisherID"] as String)
                     
                     //change "following" to "subscribers" and "follower" to "Subscribed to"
                     
@@ -129,7 +129,7 @@ class subscriberlist: UITableViewController {
             break;
         }  //Switch
         
-        var membersave = PFQuery(className:"Subsription")
+        var membersave = PFQuery(className:"Subscription")
         membersave.getObjectInBackgroundWithId(objectId[sender.tag]) {
             (result: PFObject!, error: NSError!) -> Void in
             if error == nil {

@@ -501,8 +501,8 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                 //Deletes the event
                 results.delete()
                 //Warns user if the this is the first event to be removed
-                if PFUser.currentUser()["first"] as Bool == true{
-                    PFUser.currentUser()["first"] = false
+                if PFUser.currentUser()["firstRemoveFromCalendar"] as Bool == true{
+                    PFUser.currentUser()["firstRemoveFromCalendar"] = false
                     PFUser.currentUser().save()
                     self.displayAlert("Remove", error: "Tapping the blue checkmark removes an event from your calendar.")
                 }
@@ -602,7 +602,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                     notify["sender"] = PFUser.currentUser().username
                     notify["receiver"] = self.usernames[sender.tag]
                     notify["senderID"] = PFUser.currentUser().objectId
-                    notify["receiverID"] = self.usernames[sender.tag]
+                    notify["receiverID"] = self.userId[sender.tag]
                     notify["type"] =  "calendar"
                     notify.saveInBackgroundWithBlock({
                         (success:Bool!, notifyError: NSError!) -> Void in

@@ -70,7 +70,7 @@ class notificationsView: UITableViewController {
         
         var subQuery = PFQuery(className: "Notification")
         subQuery.whereKey("type", equalTo: "sub")
-        subQuery.whereKey("receiver", equalTo: PFUser.currentUser().username)
+        subQuery.whereKey("receiverID", equalTo: PFUser.currentUser().objectId)
         
         var calendarQuery = PFQuery(className: "Notification")
         calendarQuery.whereKey("receiver", equalTo: PFUser.currentUser().username)

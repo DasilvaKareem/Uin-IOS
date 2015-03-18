@@ -102,8 +102,8 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     var amountofScript = (String)()
     func subticker(){
         
-        var getNumberList = PFQuery(className:"Subs")
-        getNumberList.whereKey("following", equalTo: PFUser.currentUser().username)
+        var getNumberList = PFQuery(className:"Subscription")
+        getNumberList.whereKey("publisher", equalTo: PFUser.currentUser().username)
         getNumberList.countObjectsInBackgroundWithBlock{
             (count:Int32, folError:NSError!) -> Void in
             if folError == nil {
@@ -112,8 +112,8 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
             }
         }
         
-        var getNumberList2 = PFQuery(className: "Subs")
-        getNumberList2.whereKey("follower", equalTo: PFUser.currentUser().username)
+        var getNumberList2 = PFQuery(className: "Subscription")
+        getNumberList2.whereKey("subscriber", equalTo: PFUser.currentUser().username)
         getNumberList2.countObjectsInBackgroundWithBlock{
             
             (count:Int32, folError:NSError!) -> Void in
@@ -172,9 +172,9 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     func updateFeed(){
     var que = PFQuery(className: "Event")
-    que.orderByAscending("startEvent")
+    que.orderByAscending("start")
     que.whereKey("author", equalTo: PFUser.currentUser().username)
-    que.whereKey("startEvent", greaterThanOrEqualTo: NSDate())
+    que.whereKey("start", greaterThanOrEqualTo: NSDate())
     
     
     que.findObjectsInBackgroundWithBlock{
@@ -186,40 +186,36 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     println(objects.count)
     
     
-    self.onsite.removeAll(keepCapacity: true)
-    self.paid.removeAll(keepCapacity: true)
-    self.food.removeAll(keepCapacity: true)
-    self.eventTitle.removeAll(keepCapacity: true)
-    self.eventlocation.removeAll(keepCapacity: true)
-    self.eventStartTime.removeAll(keepCapacity: true)
-    self.eventEndTime.removeAll(keepCapacity: true)
-    self.eventStartDate.removeAll(keepCapacity: true)
-    self.eventEndDate.removeAll(keepCapacity: true)
-    self.usernames.removeAll(keepCapacity: true)
-    self.objectID.removeAll(keepCapacity: true)
-    self.publicPost.removeAll(keepCapacity: true)
-    self.eventStart.removeAll(keepCapacity: true)
-    self.eventEnd.removeAll(keepCapacity: true)
-    self.userId.removeAll(keepCapacity: true)
+        self.onsite.removeAll(keepCapacity: true)
+        self.paid.removeAll(keepCapacity: true)
+        self.food.removeAll(keepCapacity: true)
+        self.eventTitle.removeAll(keepCapacity: true)
+        self.eventlocation.removeAll(keepCapacity: true)
+        self.eventStartTime.removeAll(keepCapacity: true)
+        self.eventEndTime.removeAll(keepCapacity: true)
+        self.eventStartDate.removeAll(keepCapacity: true)
+        self.eventEndDate.removeAll(keepCapacity: true)
+        self.usernames.removeAll(keepCapacity: true)
+        self.objectID.removeAll(keepCapacity: true)
+        self.publicPost.removeAll(keepCapacity: true)
+        self.eventStart.removeAll(keepCapacity: true)
+        self.eventEnd.removeAll(keepCapacity: true)
+        self.userId.removeAll(keepCapacity: true)
     
     for object in objects{
     
     
-    self.publicPost.append(object["public"] as Bool)
-    self.objectID.append(object.objectId as String)
-    self.usernames.append(object["author"] as String)
-    self.eventTitle.append(object["eventTitle"] as String)
-    self.eventStartDate.append(object["startDate"] as String)
-    self.eventEndDate.append(object["endDate"] as String)
-    self.eventStartTime.append(object["startTime"] as String)
-    self.eventEndTime.append(object["endTime"] as String)
-    self.food.append(object["food"] as Bool)
-    self.paid.append(object["paid"] as Bool)
-    self.userId.append(object["userId"] as String)
-    self.onsite.append(object["location"] as Bool)
-    self.eventEnd.append(object["endEvent"] as NSDate)
-    self.eventStart.append(object["startEvent"] as NSDate)
-    self.eventlocation.append(object["eventLocation"] as String)
+        self.publicPost.append(object["isPublic"] as Bool)
+        self.objectID.append(object.objectId as String)
+        self.usernames.append(object["author"] as String)
+        self.eventTitle.append(object["title"] as String)
+        self.food.append(object["hasFood"] as Bool)
+        self.paid.append(object["isFree"] as Bool)
+        self.userId.append(object["authorID"] as String)
+        self.onsite.append(object["onCampus"] as Bool)
+        self.eventEnd.append(object["end"] as NSDate)
+        self.eventStart.append(object["start"] as NSDate)
+        self.eventlocation.append(object["location"] as String)
     
     
     }
@@ -264,26 +260,32 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         self.localizedTime.removeAll(keepCapacity: true)
         self.localizedEndTime.removeAll(keepCapacity:true)
         for i in eventStart {
-            println()
-            println()
-            println()
+            //SORTS OUT EVENT STARTING TIME AND CREATES EVENT HEADER TIMES AND SHORTNED TIMES
+            
             var dateFormatter = NSDateFormatter()
-            dateFormatter.locale = NSLocale.currentLocale()
-            dateFormatter.dateFormat = " EEEE MMM, dd yyyy"
-            var realDate = dateFormatter.stringFromDate(i)
-            var dateFormatter2 = NSDateFormatter()
-            dateFormatter2.timeStyle = NSDateFormatterStyle.ShortStyle
-            var localTime = dateFormatter2.stringFromDate(i)
-            convertedDates.append(realDate)
+            //Creates table header for event time
+            dateFormatter.locale = NSLocale.currentLocale() // Gets current locale and switches
+            dateFormatter.dateFormat = " EEEE MMM, dd yyyy" // Formart for date I.E Monday, 03 1996
+            var headerDate = dateFormatter.stringFromDate(i) // Creates date
+            convertedDates.append(headerDate)
+            dateFormatter.dateFormat = " MMM, dd yyyy"
+            var shortenTime = dateFormatter.stringFromDate(i)
+            self.eventStartDate.append(shortenTime)
+            //Creates Time for Event from NSDAte
+            var timeFormatter = NSDateFormatter() //Formats time
+            timeFormatter.locale = NSLocale.currentLocale()
+            timeFormatter.timeStyle = NSDateFormatterStyle.ShortStyle
+            var localTime = timeFormatter.stringFromDate(i)
+            self.eventStartTime.append(localTime)
             self.localizedTime.append(localTime)
             
             
         }
+
         //For each date
         sectionNames.insert("0", atIndex: 0)
-        for date in eventStartDate{
+        for date in convertedDates{
             //If there is a date change
-            
             if (currentDate != date){
                 //If the current date is not the init value
                 if (currentDate != ""){
@@ -302,21 +304,23 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
             //The count is incremented
             i++
         }
-        
         for i in eventEnd {
+            //SORTS OUT EVENT ENDING TIME AND CREATES EVENT HEADER TIMES AND SHORTNED TIMES
             
-            
-            var dateFormatter2 = NSDateFormatter()
-            dateFormatter2.locale = NSLocale.currentLocale()
-            dateFormatter2.dateFormat = " EEEE MMM, dd yyyy"
-            var realDate2 = dateFormatter2.stringFromDate(i)
-            var dateFormatter3 = NSDateFormatter()
-            dateFormatter3.timeStyle = NSDateFormatterStyle.ShortStyle
-            var localTime = dateFormatter3.stringFromDate(i)
-            
+            var dateFormatter = NSDateFormatter()
+            //Creates table header for event time
+            dateFormatter.locale = NSLocale.currentLocale() // Gets current locale and switches
+            var headerDate = dateFormatter.stringFromDate(i) // Creates date
+            dateFormatter.dateFormat = " MMM, dd yyyy"
+            var shortenTime = dateFormatter.stringFromDate(i)
+            self.eventEndDate.append(shortenTime)
+            //Creates Time for Event from NSDAte
+            var timeFormatter = NSDateFormatter() //Formats time
+            timeFormatter.locale = NSLocale.currentLocale()
+            timeFormatter.timeStyle = NSDateFormatterStyle.ShortStyle
+            var localTime = timeFormatter.stringFromDate(i)
             self.localizedEndTime.append(localTime)
-            
-            
+            self.eventEndTime.append(localTime)
         }
         //Because the loop is broken before a new date is found, that
         //  one needs to be added manually
@@ -527,22 +531,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         
         var first:Bool = Bool()
         
-        var getFirst = PFUser.query()
-        getFirst.getObjectInBackgroundWithId(PFUser.currentUser().objectId, block: {
-            (results:PFObject!, error: NSError!) -> Void in
-            
-            if error == nil {
-                
-                if results["first"] as Bool == true {
-                    
-                    first = true
-                }
-                
-                
-            }
-            
-        })
-        
+        first = PFUser.currentUser()["firstRemoveFromCalendar"] as Bool
         
         var que = PFQuery(className: "UserCalendar")
         que.whereKey("userID", equalTo: PFUser.currentUser().objectId)
@@ -557,19 +546,8 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 println(first)
                 if first == true {
                     
-                    var getFirst = PFUser.query()
-                    getFirst.getObjectInBackgroundWithId(PFUser.currentUser().objectId, block: {
-                        (results:PFObject!, error: NSError!) -> Void in
-                        
-                        if error == nil {
-                            
-                            results["first"] = false
-                            results.save()
-                            
-                            
-                        }
-                        
-                    })
+                    PFUser.currentUser()["firstRemoveFromCalendar"] = false
+                    PFUser().save()
                     self.displayAlert("Remove", error: "Tapping the blue checkmark removes an event from your calendar.")
                     
                 }

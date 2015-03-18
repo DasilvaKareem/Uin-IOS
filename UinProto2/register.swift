@@ -135,7 +135,7 @@ class register: UIViewController, UITextFieldDelegate {
                 user.password = password.text
                 user.email = email.text
                 user["pushEnabled"] = true
-                user["first"] = true
+                user["firstRemoveFromCalendar"] = true
                 user["tempAccounts"] = false
                 user.signUpInBackgroundWithBlock {
                     (succeeded: Bool!, registerError: NSError!) -> Void in
@@ -191,7 +191,7 @@ class register: UIViewController, UITextFieldDelegate {
                 user.password = password.text
                 user.email = email.text
                 user["pushEnabled"] = true
-                user["first"] = true
+                user["firstRemoveFromCalendar"] = true
                 user["tempAccounts"] = false
                 var theMix = Mixpanel.sharedInstance()
                 theMix.track("Registered with Facebook -register-")
