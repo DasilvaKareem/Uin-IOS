@@ -1824,21 +1824,6 @@
                                             <action selector="location:" destination="wj6-a8-ugv" eventType="valueChanged" id="wvi-Qq-SmW"/>
                                         </connections>
                                     </segmentedControl>
-                                    <segmentedControl opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="RLM-dx-cX8">
-                                        <rect key="frame" x="47" y="167" width="288" height="29"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="288" id="UB9-dg-eAS"/>
-                                            <constraint firstAttribute="height" priority="750" constant="28" id="aDq-9C-TBO"/>
-                                        </constraints>
-                                        <segments>
-                                            <segment title="Public"/>
-                                            <segment title="Private"/>
-                                        </segments>
-                                        <color key="tintColor" red="0.20784313725490194" green="0.49803921568627452" blue="0.75294117647058822" alpha="1" colorSpace="calibratedRGB"/>
-                                        <connections>
-                                            <action selector="publicEvent:" destination="wj6-a8-ugv" eventType="valueChanged" id="uPV-SE-FVv"/>
-                                        </connections>
-                                    </segmentedControl>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Usx-ZG-3UU">
                                         <rect key="frame" x="47" y="119" width="288" height="29"/>
                                         <constraints>
@@ -1869,11 +1854,26 @@
                                             <action selector="isPaid:" destination="wj6-a8-ugv" eventType="valueChanged" id="xJ1-rx-an0"/>
                                         </connections>
                                     </segmentedControl>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="RLM-dx-cX8">
+                                        <rect key="frame" x="47" y="167" width="288" height="29"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="288" id="UB9-dg-eAS"/>
+                                            <constraint firstAttribute="height" priority="750" constant="28" id="aDq-9C-TBO"/>
+                                        </constraints>
+                                        <segments>
+                                            <segment title="Public"/>
+                                            <segment title="Private"/>
+                                        </segments>
+                                        <color key="tintColor" red="0.20784313725490194" green="0.49803921568627452" blue="0.75294117647058822" alpha="1" colorSpace="calibratedRGB"/>
+                                        <connections>
+                                            <action selector="publicEvent:" destination="wj6-a8-ugv" eventType="valueChanged" id="uPV-SE-FVv"/>
+                                        </connections>
+                                    </segmentedControl>
                                 </subviews>
                                 <constraints>
                                     <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="RLM-dx-cX8" secondAttribute="bottom" priority="750" constant="5" id="0BA-jj-CbZ"/>
                                     <constraint firstAttribute="centerX" secondItem="Usx-ZG-3UU" secondAttribute="centerX" id="5fU-C9-MxY"/>
-                                    <constraint firstAttribute="bottom" relation="lessThanOrEqual" secondItem="RLM-dx-cX8" secondAttribute="bottom" priority="250" constant="179" id="Ajs-ua-fui"/>
+                                    <constraint firstAttribute="bottom" relation="lessThanOrEqual" secondItem="RLM-dx-cX8" secondAttribute="bottom" priority="250" constant="5" id="Ajs-ua-fui"/>
                                     <constraint firstItem="UnY-8W-YbY" firstAttribute="top" relation="lessThanOrEqual" secondItem="kz3-zF-mkl" secondAttribute="bottom" priority="750" constant="20" id="G7V-DX-B6z"/>
                                     <constraint firstAttribute="centerX" secondItem="RLM-dx-cX8" secondAttribute="centerX" id="M9y-xG-Ox4"/>
                                     <constraint firstItem="UnY-8W-YbY" firstAttribute="top" relation="greaterThanOrEqual" secondItem="kz3-zF-mkl" secondAttribute="bottom" priority="750" constant="20" id="UFO-eS-uAN"/>
@@ -1883,8 +1883,8 @@
                                     <constraint firstItem="Usx-ZG-3UU" firstAttribute="top" relation="greaterThanOrEqual" secondItem="UnY-8W-YbY" secondAttribute="bottom" priority="750" constant="10" id="eAf-kK-Ihn"/>
                                     <constraint firstAttribute="centerX" secondItem="UnY-8W-YbY" secondAttribute="centerX" id="eeX-rY-dMO"/>
                                     <constraint firstAttribute="centerX" secondItem="kz3-zF-mkl" secondAttribute="centerX" id="gvS-lu-84h"/>
-                                    <constraint firstItem="RLM-dx-cX8" firstAttribute="top" relation="greaterThanOrEqual" secondItem="Usx-ZG-3UU" secondAttribute="bottom" priority="750" constant="10" id="iyr-gO-5Cz"/>
-                                    <constraint firstItem="RLM-dx-cX8" firstAttribute="top" relation="lessThanOrEqual" secondItem="Usx-ZG-3UU" secondAttribute="bottom" priority="750" constant="20" id="vRx-dN-daC"/>
+                                    <constraint firstItem="RLM-dx-cX8" firstAttribute="top" relation="lessThanOrEqual" secondItem="Usx-ZG-3UU" secondAttribute="bottom" priority="750" constant="20" id="iyr-gO-5Cz"/>
+                                    <constraint firstItem="RLM-dx-cX8" firstAttribute="top" relation="greaterThanOrEqual" secondItem="Usx-ZG-3UU" secondAttribute="bottom" priority="750" constant="10" id="vRx-dN-daC"/>
                                 </constraints>
                             </view>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Name it Something Catchy" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="17" background="inputForm" translatesAutoresizingMaskIntoConstraints="NO" id="aSK-x0-fwL">
