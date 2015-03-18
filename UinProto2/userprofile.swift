@@ -100,43 +100,13 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
         
         var getNumberList = PFQuery(className:"Subscription")
         getNumberList.whereKey("publisher", equalTo: self.theUser)
-        getNumberList.countObjectsInBackgroundWithBlock{
-            
-            (count:Int32, folError:NSError!) -> Void in
-            
-            
-            if folError == nil {
-                self.amountofsubs.removeAll(keepCapacity: true)
-                if count != 0 {
-                    
-                         self.amountofsubs =  String(count)
-                }
-                else {
-                    
-                    self.amountofsubs = "0"
-                    
-                }
-            }
-        }
+        var amount = String(getNumberList.countObjects())
+        self.amountofsubs = amount
 
         var getNumberList2 = PFQuery(className:"Subscription")
         getNumberList2.whereKey("subscriber", equalTo: self.theUser)
-        getNumberList2.countObjectsInBackgroundWithBlock{
-            
-            (count:Int32, folError:NSError!) -> Void in
-            
-            if folError == nil {
-                self.amountofScript.removeAll(keepCapacity: true)
-                if count != 0 {
-                       self.amountofScript =  String(count)
-                }
-                else {
-                    
-                    self.amountofScript = "0"
-                
-                }
-            }
-        }
+        amount = String(getNumberList2.countObjects())
+        self.amountofScript = amount
     }
 
     func updateFeed(){

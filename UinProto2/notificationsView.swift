@@ -135,18 +135,7 @@ class notificationsView: UITableViewController {
                         break
                     }
                 }
-                for i in self.times {
-                    var dateFormatter = NSDateFormatter()
-                    dateFormatter.locale = NSLocale.currentLocale()
-                    dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
-                    var realDate = dateFormatter.stringFromDate(i)
-                    var dateFormatter2 = NSDateFormatter()
-                    dateFormatter2.locale = NSLocale.currentLocale()
-                    dateFormatter2.timeStyle = NSDateFormatterStyle.ShortStyle
-                    var localTime = dateFormatter2.stringFromDate(i)
-                    var date = "\(realDate)  \(localTime)"
-                    self.localTime.append(date)
-                }
+            
                 self.tableView.reloadData()
                 self.refresher.endRefreshing()
             }

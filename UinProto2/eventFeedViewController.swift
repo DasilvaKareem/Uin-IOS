@@ -500,13 +500,16 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             if queerror == nil {
                 //Deletes the event
                 results.delete()
+                self.theFeed.reloadData()
                 //Warns user if the this is the first event to be removed
                 if PFUser.currentUser()["firstRemoveFromCalendar"] as Bool == true{
                     PFUser.currentUser()["firstRemoveFromCalendar"] = false
                     PFUser.currentUser().save()
                     self.displayAlert("Remove", error: "Tapping the blue checkmark removes an event from your calendar.")
                 }
+              
                 if results != nil {
+                    
                     var eventStore : EKEventStore = EKEventStore()
                     eventStore.requestAccessToEntityType(EKEntityTypeEvent, completion: {
                         
@@ -541,7 +544,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                         }
                     }
                 
-                    self.theFeed.reloadData()
+                    
                 }
             } else {
                 var eventStore : EKEventStore = EKEventStore()

@@ -59,6 +59,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
          self.tabBarController?.tabBar.hidden = false
     }
+
     
     override func viewDidDisappear(animated: Bool) {
         updateFeed()
@@ -104,26 +105,13 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         
         var getNumberList = PFQuery(className:"Subscription")
         getNumberList.whereKey("publisher", equalTo: PFUser.currentUser().username)
-        getNumberList.countObjectsInBackgroundWithBlock{
-            (count:Int32, folError:NSError!) -> Void in
-            if folError == nil {
-                self.amountofsubs.removeAll(keepCapacity: true)
-                self.amountofsubs =  String(count)
-            }
-        }
+        var amount = String(getNumberList.countObjects())
+        self.amountofsubs = amount
         
-        var getNumberList2 = PFQuery(className: "Subscription")
+        var getNumberList2 = PFQuery(className:"Subscription")
         getNumberList2.whereKey("subscriber", equalTo: PFUser.currentUser().username)
-        getNumberList2.countObjectsInBackgroundWithBlock{
-            
-            (count:Int32, folError:NSError!) -> Void in
-            
-            
-            if folError == nil {
-                self.amountofScript.removeAll(keepCapacity: true)
-                self.amountofScript =  String(count)
-            }
-        }
+        amount = String(getNumberList2.countObjects())
+        self.amountofScript = amount
     }
     
     // Checks for notifcations and compares to any notications you recieved during that time
