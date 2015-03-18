@@ -36,16 +36,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
    
     
         
-        PFAnalytics.trackAppOpenedWithLaunchOptionsInBackground(launchOptions, block: {
-            (success:Bool!, error:NSError!) -> Void in
-            
-            if error == nil {
-                
-                println("Success")
-            }
-            
-            
-        })
+
        
         let userNotificationTypes = (UIUserNotificationType.Alert |
             UIUserNotificationType.Badge |

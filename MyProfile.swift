@@ -15,16 +15,10 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
 
     @IBOutlet var orgnName: UILabel!
-    
     @IBOutlet var subTicker: UILabel!
-    
     @IBOutlet var subscriptionTicker: UILabel!
-    
     @IBOutlet var subscribers: UIButton!
-    
-
     @IBOutlet var subscription: UIButton!
-    
     @IBOutlet weak var theFeed: UITableView!
     
     //Decalres all the arrays that hold the data
@@ -58,7 +52,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     override func viewWillAppear(animated: Bool) {
         subticker()
         updateFeed()
- 
+  
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.translucent = true
@@ -69,6 +63,13 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     override func viewDidDisappear(animated: Bool) {
         updateFeed()
         subticker()
+        notifications()
+    }
+    override func viewDidAppear(animated: Bool) {
+        
+        checkNotifications()
+        notifications()
+        
     }
     
     override func viewDidLoad() {
@@ -78,6 +79,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
            self.navigationController?.navigationBar.backIndicatorImage = nil
         subticker()
         updateFeed()
+        notifications()
         //Queries all the events and puts into the arrays above
         refresher = UIRefreshControl()
         refresher.attributedTitle = NSAttributedString(string: "Pull to Refresh")
@@ -103,27 +105,13 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         var getNumberList = PFQuery(className:"Subs")
         getNumberList.whereKey("following", equalTo: PFUser.currentUser().username)
         getNumberList.countObjectsInBackgroundWithBlock{
-            
             (count:Int32, folError:NSError!) -> Void in
-            
-            
             if folError == nil {
                 self.amountofsubs.removeAll(keepCapacity: true)
-                
-              self.amountofsubs =  String(count)
-          
-                
-                    
-                    
-                
-              
-               
+                self.amountofsubs =  String(count)
             }
-            
-            
         }
         
-       
         var getNumberList2 = PFQuery(className: "Subs")
         getNumberList2.whereKey("follower", equalTo: PFUser.currentUser().username)
         getNumberList2.countObjectsInBackgroundWithBlock{
@@ -133,21 +121,54 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
             
             if folError == nil {
                 self.amountofScript.removeAll(keepCapacity: true)
-                
                 self.amountofScript =  String(count)
-
-                
             }
-            
-            
         }
-
+    }
+    
+    // Checks for notifcations and compares to any notications you recieved during that time
+    
+    
+    var old = (Int)()
+    var newCheck = (Int)()
+    func notifications() {
         
-       
+        var check = PFQuery(className: "Notification")
+        check.whereKey("receiver", equalTo: PFUser.currentUser().username)
+        old = check.countObjects()
         
         
     }
     
+    func checkNotifications() {
+        
+        var check = PFQuery(className: "Notification")
+        check.whereKey("receiver", equalTo: PFUser.currentUser().username)
+        newCheck = check.countObjects()
+        
+        if self.old != self.newCheck {
+            var diffrence = self.newCheck - self.old
+            var tabArray = self.tabBarController?.tabBar.items as NSArray!
+            var tabItem = tabArray.objectAtIndex(1) as UITabBarItem
+            tabItem.badgeValue = String(diffrence)
+            println()
+            println()
+            println("You have gotten a new notification")
+            println()
+            println()
+        }
+        else {
+            println()
+            println()
+            println("You do not have a any new notification ")
+            
+            println()
+            println()
+        }
+        
+        
+    }
+
 
     func updateFeed(){
     var que = PFQuery(className: "Event")
@@ -226,6 +247,9 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     func refresh() {
         updateFeed()
+        checkNotifications()
+        notifications()
+        
     }
     func populateSectionInfo(){
         var convertedDates = [String]()

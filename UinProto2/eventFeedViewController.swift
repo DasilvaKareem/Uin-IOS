@@ -37,10 +37,13 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     var sectionNames = [String]()
     
     
-    
+   
+  
+    // View cycles
     override func viewDidLoad() {
         super.viewDidLoad()
- 
+     
+
         self.tabBarController?.tabBar.hidden = false
         //var eventsItem = tabBarItem?[0] as UITabBarItem
         //eventsItem.selectedImage = UIImage(named: "addToCalendar.png")
@@ -52,9 +55,8 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         var nav = self.navigationController?.navigationBar
         nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()];
         updateFeed()
-    
-       
-  
+    notifications()
+      
         
         
         //Adds pull to refresh
@@ -68,10 +70,66 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         
     }
     
+    override func viewDidDisappear(animated: Bool) {
+        println("View disappear")
+        notifications()
+        updateFeed()
+    }
+    override func viewWillAppear(animated: Bool) {
+        updateFeed()
+       
+        self.tabBarController?.tabBar.hidden = false
+    }
+    override func viewDidAppear(animated: Bool) {
+        checkNotifications()
+        notifications()
+        
+    }
+
     
+    // Checks for notifcations and compares to any notications you recieved during that time
+    var old = (Int)()
+    var newCheck = (Int)()
     
+    func notifications() {
+        
+        var check = PFQuery(className: "Notification")
+        check.whereKey("receiver", equalTo: PFUser.currentUser().username)
+        old = check.countObjects()
+        
+        
+    }
     
+    func checkNotifications() {
+        
+        var check = PFQuery(className: "Notification")
+        check.whereKey("receiver", equalTo: PFUser.currentUser().username)
+         newCheck = check.countObjects()
+        
+        if self.old != self.newCheck {
+            var diffrence = self.newCheck - self.old
+            var tabArray = self.tabBarController?.tabBar.items as NSArray!
+            var tabItem = tabArray.objectAtIndex(1) as UITabBarItem
+            tabItem.badgeValue = String(diffrence)
+            println()
+            println()
+            println("You have gotten a new notification")
+            println()
+            println()
+        }
+        else {
+            println()
+            println()
+            println("You do not have a any new notification ")
+            
+            println()
+            println()
+        }
+        
+        
+    }
     
+    // Alert function
     func displayAlert(title:String, error:String) {
         
         var alert = UIAlertController(title: title, message: error, preferredStyle: UIAlertControllerStyle.Alert)
@@ -89,16 +147,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         
     }
  
-    override func viewDidDisappear(animated: Bool) {
-        println("View disappear")
-        
-              updateFeed()
-    }
-    override func viewWillAppear(animated: Bool) {
-        updateFeed()
-         self.tabBarController?.tabBar.hidden = false
-    }
-    func updateFeed(){
+      func updateFeed(){
         //Removes all leftover content in the array
         
         println("Before query")
@@ -188,9 +237,12 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         
         
     }
+ 
     func refresh() {
         
         updateFeed()
+        checkNotifications()
+        notifications()
     }
     
     func populateSectionInfo(){
@@ -222,7 +274,6 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         
         for i in eventEnd {
             
-            
             var dateFormatter2 = NSDateFormatter()
             dateFormatter2.locale = NSLocale.currentLocale()
             dateFormatter2.dateFormat = " EEEE MMM, dd yyyy"
@@ -230,10 +281,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             var dateFormatter3 = NSDateFormatter()
             dateFormatter3.timeStyle = NSDateFormatterStyle.ShortStyle
             var localTime = dateFormatter3.stringFromDate(i)
-         
             self.localizedEndTime.append(localTime)
-            
-            
         }
     
         
@@ -277,15 +325,6 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         // Dispose of any resources that can be recreated.
         
     }
-    
-    
-    /*func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-    
-    
-    return sectionNames[section]
-    
-    }
-    */
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
         var cell:dateCell = tableView.dequeueReusableCellWithIdentifier("dateCell") as dateCell
@@ -319,60 +358,43 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         var row = indexPath.row
         
         if onsite[event] == true {
-            
             cell.onCampusIcon.image = UIImage(named: "onCampus.png")
             cell.onCampusText.text = "On-Campus"
             cell.onCampusText.textColor = UIColor.darkGrayColor()
-            
-            
         }
         else{
-            
             cell.onCampusIcon.image = UIImage(named: "offCampus.png")
             cell.onCampusText.text = "Off-Campus"
             cell.onCampusText.textColor = UIColor.lightGrayColor()
-            
         }
         
         if food[event] == true {
-            
             cell.foodIcon.image = UIImage(named: "yesFood.png")
             cell.foodText.text = "Food"
             cell.foodText.textColor = UIColor.darkGrayColor()
-            
-            
         }
         else{
-            
             cell.foodIcon.image = UIImage(named: "noFood.png")
             cell.foodText.text = "No Food"
             cell.foodText.textColor = UIColor.lightGrayColor()
             
         }
         if paid[event] == true {
-            
             cell.freeIcon.image = UIImage(named: "yesFree.png")
             cell.costText.text = "Free"
             cell.costText.textColor = UIColor.darkGrayColor()
-            
-            
         }
         else{
-            
-            
             cell.freeIcon.image = UIImage(named: "noFree.png")
             cell.costText.text = "Not Free"
             cell.costText.textColor = UIColor.lightGrayColor()
-            
         }
         
         if publicPost[event] != true {
-            
             cell.privateImage.image = UIImage(named: "privateEvent.png")
         }
         
         else {
-            
             cell.privateImage.image = nil
         }
         
@@ -380,9 +402,6 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         cell.time.text = localizedTime[event]
         cell.eventName.text = eventTitle[event]
         cell.poop.tag = event
-        
-        // Mini query to check if event is already saved
-        //println(objectID[event])
         var minique = PFQuery(className: "GoingEvent")
         minique.whereKey("user", equalTo: PFUser.currentUser().username)
         var minique2 = PFQuery(className: "GoingEvent")
@@ -400,25 +419,14 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                 
                 cell.poop.setImage(UIImage(named: "addToCalendar.png"), forState: UIControlState.Normal)
             }
-            
-            
         }
               cell.poop.addTarget(self, action: "followButton:", forControlEvents: UIControlEvents.TouchUpInside)
-        
         return cell
     }
-
     func followButton(sender: AnyObject){
         // Adds the event to calendar
-    
-     
-    
-     
-   
- 
         var first:Bool = Bool()
-        
-       var getFirst = PFUser.query()
+        var getFirst = PFUser.query()
         getFirst.getObjectInBackgroundWithId(PFUser.currentUser().objectId, block: {
             (results:PFObject!, error: NSError!) -> Void in
             
@@ -433,17 +441,13 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             }
             
         })
-        
-      
+    
       var que = PFQuery(className: "GoingEvent")
         que.whereKey("user", equalTo: PFUser.currentUser().username)
         que.whereKey("author", equalTo: self.usernames[sender.tag])
         que.whereKey("eventID", equalTo:self.objectID[sender.tag])
         que.getFirstObjectInBackgroundWithBlock({
-            
             (results:PFObject!, queerror: NSError!) -> Void in
-            
-            
             if queerror == nil {
                 results.delete()
                 println(first)
@@ -452,18 +456,12 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                     var getFirst = PFUser.query()
                     getFirst.getObjectInBackgroundWithId(PFUser.currentUser().objectId, block: {
                         (results:PFObject!, error: NSError!) -> Void in
-                        
                         if error == nil {
-                          
                             results["first"] = false
                             results.save()
-                            
-                            
                         }
-                        
                     })
                     self.displayAlert("Remove", error: "Tapping the blue checkmark removes an event from your calendar.")
-                    
                 }
                 if results != nil {
                     var eventStore : EKEventStore = EKEventStore()
@@ -500,7 +498,6 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                             println("\(i.title) this is the i.title")
                             println(self.eventTitle[sender.tag])
                             if i.title == self.eventTitle[sender.tag]  {
-                          
                                 println("removed")
                                 var theMix = Mixpanel.sharedInstance()
                                 theMix.track("Event Removed from Calendar -eventFeed-")
@@ -510,10 +507,6 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                     }
                     self.theFeed.reloadData()
                 }
-                
-                
-                
-                
             } else {
                 var eventStore : EKEventStore = EKEventStore()
                 eventStore.requestAccessToEntityType(EKEntityTypeEvent, completion: {
@@ -546,31 +539,22 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                         println("saved")
                     }
                 })
-
               println()
                 println()
                 println()
                 println()
                 println()
                 println("the object does not exist")
-        
                     var push = PFPush()
-                
                     var pfque = PFInstallation.query()
                     pfque.whereKey("user", equalTo: self.usernames[sender.tag])
-          
                     push.setQuery(pfque)
                     push.setMessage("\(PFUser.currentUser().username) has added your event to their calendar")
                     push.sendPushInBackgroundWithBlock({
-                     
                         (success:Bool!, pushError: NSError!) -> Void in
-                        
                         if pushError == nil {
-                            
                             println("IT WORKED")
-                            
                         }
-                        
                     })
                 
                 if self.usernames[sender.tag] != PFUser.currentUser().username {
@@ -580,23 +564,15 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                     notify["receiver"] = self.usernames[sender.tag]
                     notify["type"] =  "calendar"
                     notify.saveInBackgroundWithBlock({
-                        
                         (success:Bool!, notifyError: NSError!) -> Void in
-                        
                         if notifyError == nil {
-                            
                             println("notifcation has been saved")
-                            
                         }
                         else{
                             println(notifyError)
                         }
-                        
-                        
                     })
                 }
-                
-        
                 var going = PFObject(className: "GoingEvent")
                 going["user"] = PFUser.currentUser().username
                 going["event"] = self.eventTitle[sender.tag]
@@ -604,49 +580,25 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                 going["added"] = true
                 going["eventID"] = self.objectID[sender.tag]
                 going.saveInBackgroundWithBlock{
-                    
                     (succeded:Bool!, savError:NSError!) -> Void in
-                    
                     if savError == nil {
-                        
                         println("it worked")
-                        
                     }
                 }
-                
-       
                 println("Saved Event")
               self.theFeed.reloadData()
-
-            }
-            
-       
-       })
-
-        
-        
-        
-        
-        
-     
-
+                }
+            })
         }
-    
-    
-
     override func prepareForSegue(segue:UIStoryboardSegue, sender: AnyObject?){
         
         if segue.identifier == "example" {
             var secondViewController : postEvent = segue.destinationViewController as postEvent
-            
-            
-            
             var theMix = Mixpanel.sharedInstance()
             theMix.track("Event View Tap -eventFeed-")
             var indexPath = theFeed.indexPathForSelectedRow() //get index of data for selected row
             var section = indexPath?.section
             var row = indexPath?.row
-            
             var index = getEventIndex(section!, row: row!)
             secondViewController.storeStartDate = eventStart[index]
             secondViewController.endStoreDate =  eventEnd[index]

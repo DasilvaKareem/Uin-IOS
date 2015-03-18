@@ -39,24 +39,12 @@ class eventMake: UIViewController, UITextFieldDelegate {
 
     
     @IBOutlet var oncampusSegement: UISegmentedControl!
-    
-    
     @IBOutlet var freeSegment: UISegmentedControl!
-    
-    
     @IBOutlet var foodSegement: UISegmentedControl!
-    
-    
     @IBOutlet var publicSegment: UISegmentedControl!
-    
     @IBOutlet weak var eventTitle: UITextField!
-    
-    
     @IBOutlet weak var eventSum: UITextField!
-    
-    
     @IBAction func startAction(sender: AnyObject) {
-        
         self.performSegueWithIdentifier("sendtodate", sender: self)
     }
     
@@ -65,25 +53,12 @@ class eventMake: UIViewController, UITextFieldDelegate {
         self.performSegueWithIdentifier("sendtodate", sender: self)
     }
     @IBOutlet var start: UIButton!
-    
-    
     @IBOutlet var onCampus: UISegmentedControl!
-    
-    
-    
-    
     @IBOutlet var end: UIButton!
-    
-    
     var eventPublic:Bool = true
     var onsite:Bool = true
-    
     var food:Bool = true
-    
     var paid:Bool = true
-    
-    
-    
     
     @IBAction func publicEvent(sender: UISegmentedControl) {
         
@@ -98,13 +73,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
             eventPublic = true
             break;
         }  //Switch
-        
-        
-        
     }
-    
-    
-    
     
     @IBAction func location(sender: UISegmentedControl) {
         println(onsite)
@@ -121,7 +90,6 @@ class eventMake: UIViewController, UITextFieldDelegate {
         
     }
     
-    
     @IBAction func isFood(sender: UISegmentedControl) {
         println(food)
         switch sender.selectedSegmentIndex {
@@ -134,9 +102,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
             food = true
             break;
         }  //Switch
-        
     }
-    
     
     @IBAction func isPaid(sender: UISegmentedControl) {
         println(paid)
@@ -152,13 +118,11 @@ class eventMake: UIViewController, UITextFieldDelegate {
         }  //Switch
         
     }
+    
     func displayAlert(title:String, error:String) {
         
         var alert = UIAlertController(title: title, message: error, preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { action in
-            
-        
-            
         }))
         
         self.presentViewController(alert, animated: true, completion: nil)
@@ -196,15 +160,8 @@ class eventMake: UIViewController, UITextFieldDelegate {
         if dateTime2 == ""{
             allError = "Enter a End Time"
         }
-        
-      
-        
         println(allError)
-        
- 
-      
-        
-        
+
         if allError == "" {
             
             if editing == true {
@@ -241,10 +198,6 @@ class eventMake: UIViewController, UITextFieldDelegate {
                                 dateStr2 = String()
                                 startString = String()
                                 endString = String()
-                            
-                             
-                                
-                                
                                     var push =  PFPush()
                                     let data = [
                                         "alert" : "\(PFUser.currentUser().username) has edited the event '\(self.eventTitle.text)'",
@@ -257,32 +210,20 @@ class eventMake: UIViewController, UITextFieldDelegate {
                                         
                                         (success: Bool!, pushError: NSError!) -> Void in
                                         if pushError == nil {
-                                            
                                             println("the push was sent")
-                                            
                                         }
-                                        
                                         var theMix = Mixpanel.sharedInstance()
                                         theMix.track("Edited Event -eventMake-")
                                         
                                     })
                             }
-
                                 self.performSegueWithIdentifier("eventback", sender: self)
-                            
-                            
-                            
-                            
                         })
                     }
-                    
                 })
-                
             }
             else {
-                
                 var event = PFObject(className: "Event")
-                
                 event["userId"] = PFUser.currentUser().objectId
                 event["startEvent"] = orderDate1
                 event["endEvent"] = orderDate2
@@ -303,8 +244,6 @@ class eventMake: UIViewController, UITextFieldDelegate {
                     (success:Bool!,eventError:NSError!) -> Void in
                     
                     if (eventError == nil){
-                        
-                   
                             var push =  PFPush()
                             let data = [
                                 "alert" : "\(PFUser.currentUser().username) has edited the event '\(self.eventTitle.text)'",
@@ -314,7 +253,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
                             push.setChannel(PFUser.currentUser().objectId)
                             push.setData(data)
                             push.sendPushInBackgroundWithBlock({
-                                
+                            
                                 (success: Bool!, pushError: NSError!) -> Void in
                                 if pushError == nil {
                                     
@@ -355,23 +294,12 @@ class eventMake: UIViewController, UITextFieldDelegate {
                         
                     }
                 }
-                
             }
         }
         else {
-            
             displayAlert("Error", error: allError)
         }
     }
-   
-    
-    
-    /*(@IBAction func deleteEvent(sender: AnyObject) {
-    
-    self.performSegueWithIdentifier("eventback", sender: self)
-    
-    }
-    */
     
     @IBAction func deleteEvent(sender: AnyObject) {
         
@@ -396,8 +324,6 @@ class eventMake: UIViewController, UITextFieldDelegate {
                             "badge" : "Increment",
                             "sound" : "default"
                         ]
-                       
-                            
                             var push =  PFPush()
                             push.setChannel(PFUser.currentUser().objectId)
                             push.setData(data)
@@ -409,18 +335,12 @@ class eventMake: UIViewController, UITextFieldDelegate {
                                     println("the push was sent")
                                     
                                 }
-                                
-                                
-                                
+
                             })
-                        
-                    
-                  
                         self.performSegueWithIdentifier("eventback", sender: self)
                         
                     }
                 })
-                
             case .Cancel:
                 println("cancel")
                 
@@ -433,28 +353,19 @@ class eventMake: UIViewController, UITextFieldDelegate {
     override func viewDidAppear(animated: Bool) {
         
         if (startString == ""){
-            
             start.setTitle("Start Time", forState: UIControlState.Normal)
-            
         }
         else {
             start.setTitle(startString, forState: UIControlState.Normal)
-            
-            
         }
         if (endString == "") {
-            
             end.setTitle("End Time", forState: UIControlState.Normal)
-            
         }
         else {
             end.setTitle(endString, forState: UIControlState.Normal)
         }
-        
-        
-        
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -462,18 +373,10 @@ class eventMake: UIViewController, UITextFieldDelegate {
         if editing == false {
             
             self.navigationItem.rightBarButtonItem = nil
-            
-            
-            
-            
-            
         }
         else {
-            
             eventTitle.text = eventTitlePass
             eventSum.text = eventLocation
-            
-            
         }
         println("This is a print of the BOOLS")
         println(onsite)
@@ -482,14 +385,11 @@ class eventMake: UIViewController, UITextFieldDelegate {
         if food == true {
             println("OK IT WOKRS")
             foodSegement.selectedSegmentIndex = 0
-            
         }
         else {
             println("FOOD IS NOT TRUE")
             foodSegement.selectedSegmentIndex = 1
-            
         }
-        
         if paid == true {
             println("OK IT WOKRS")
             freeSegment.selectedSegmentIndex = 0
@@ -506,38 +406,14 @@ class eventMake: UIViewController, UITextFieldDelegate {
             println("ONSITE is true")
             oncampusSegement.selectedSegmentIndex = 1
         }
-        
-        //  start.setTitle("Start Time", forState: UIControlState.Normal)
-        
-        // end.setTitle("End Time", forState: UIControlState.Normal)
-        
-        // if start.text != "start time" {
-        
-        
-        
-        //  }
-        
-        //  if end.text != "end time" {
-        
-        
-        // }
-        
         if PFUser.currentUser() == nil{
             
             self.performSegueWithIdentifier("register", sender: self)
             
         }
-        // Do any additional setup after loading the view.
     }
-    
-    
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    
-    
-    
 }

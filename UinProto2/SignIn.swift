@@ -12,44 +12,29 @@ class SignIn: UIViewController, UITextFieldDelegate {
     
     
     @IBOutlet weak var username: UITextField!
-    
-    
     @IBOutlet weak var password: UITextField!
     
     var userFacebook = (String)()
     var emailFacebook = (String)()
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
-        
         self.view.endEditing(true)
-        
     }
     
     func textFieldShouldReturn(textField: UITextField!) -> Bool {
-        
         textField.resignFirstResponder()
-        
         return true
-        
     }
  
-    
     func displayAlert(title:String, error:String) {
-        
         var alert = UIAlertController(title: title, message: error, preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { action in
-            
-          
-            
         }))
-        
         self.presentViewController(alert, animated: true, completion: nil)
-        
-        
+
         func preferredStatusBarStyle() -> UIStatusBarStyle {
             return UIStatusBarStyle.Default
         }
-        
     }
     
     @IBAction func facebook(sender: AnyObject) {
@@ -67,9 +52,6 @@ class SignIn: UIViewController, UITextFieldDelegate {
                 
                 FBRequestConnection.startForMeWithCompletionHandler({
                     connection, result, error in
-                    
-                    
-                    
                     println(result)
                     self.userFacebook =  result["name"] as String
                     self.emailFacebook = result["email"] as String
@@ -79,8 +61,6 @@ class SignIn: UIViewController, UITextFieldDelegate {
                 
                 })
                 
-                
-                
             } else {
                 
                 NSLog("User is already signed in with us")
@@ -89,10 +69,7 @@ class SignIn: UIViewController, UITextFieldDelegate {
 
                 self.performSegueWithIdentifier("login", sender: self)
             }
-            
         })
-
-        
     }
  
     override func viewDidLoad() {
@@ -101,57 +78,35 @@ class SignIn: UIViewController, UITextFieldDelegate {
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name:UIKeyboardWillShowNotification, object: nil);
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillHide:"), name:UIKeyboardWillHideNotification, object: nil);
-    
-        
-        
+ 
         username.attributedPlaceholder = NSAttributedString(string:"USERNAME",
             attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
         
         password.attributedPlaceholder = NSAttributedString(string:"PASSWORD",
             attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
-        
-    
-     
-        // Do any additional setup after loading the view.
-        
+
     }
     
     func keyboardWillShow(sender: NSNotification) {
-        
         self.view.frame.origin.y = -85
-        
-
     }
     func keyboardWillHide(sender: NSNotification) {
-        
-        
         self.view.frame.origin.y = 0.0
     }
     
     @IBAction func signin(sender: AnyObject) {
-        
         var error = ""
-        
         if username.text == "" || password.text == "" {
-            
             error = "Please enter a proper Username and Password"
-            
         }
         if error != "" {
-            
             displayAlert("Oops!", error: error)
-            
         }
-        
-            else {
-            
-        
+        else {
             var subscriptionUsernames = [String]()
             PFUser.logInWithUsernameInBackground(username.text, password:password.text) {
                 (user: PFUser!, loginError: NSError!) -> Void in
-                
-                
-             
+
                 if loginError == nil {
                   
                     var query = PFQuery(className: "Subs")
@@ -168,9 +123,6 @@ class SignIn: UIViewController, UITextFieldDelegate {
                                 
                             }
                             var user = PFUser.currentUser()
-                      
-                                
-                            
                             var currentInstallation = PFInstallation.currentInstallation()
                             currentInstallation["user"] = PFUser.currentUser().username
                             currentInstallation["userId"] = PFUser.currentUser().objectId
@@ -180,25 +132,15 @@ class SignIn: UIViewController, UITextFieldDelegate {
                                 (success:Bool!, saveerror: NSError!) -> Void in
                                 
                                 if saveerror == nil {
-                                    
                                     println("it worked")
-                                    
                                 }
                                     
                                 else {
-                                    
                                     println("It didnt work")
-                                    
                                 }
-                                
-                                
                             })
-                            
-                            
-                        }   else {
-                            
+                         }   else {
                             println(queError)
-                            
                         }
                  
                     })
@@ -211,40 +153,29 @@ class SignIn: UIViewController, UITextFieldDelegate {
                         
                     case 125:
                         self.displayAlert("Oops!", error: "wrong Email")
-                        
                     case 100:
                         self.displayAlert("Oops!", error: "No internet")
-                        
                     case 203:
                         self.displayAlert("Oops", error: "Email Taken")
-                        
                     case 202:
                         self.displayAlert("Oops!", error: "Username taken")
-                        
                     default:
                         self.displayAlert("Oops!", error: "Wrong username and password")
                     }
-
                 }
             }
         }
-        
     }
-    
+
    override func viewDidAppear(animated: Bool) {
     var user = PFUser.currentUser()
-    
     if PFUser.currentUser() != nil {
         
         if user.username != nil {
             
               self.performSegueWithIdentifier("login", sender: self)
+            }
         }
-      
-        
-    }
-
-    
     }
     
 
@@ -252,22 +183,16 @@ class SignIn: UIViewController, UITextFieldDelegate {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        
         if segue.identifier == "register" {
-            
             var create : register = segue.destinationViewController as register
-            
             if self.emailFacebook != "" {
                 create.emailPlace = self.emailFacebook
                 create.userPlace = self.userFacebook
                 create.editing = true
                 
             }
-       
         }
-        
     }
-
-
 }
