@@ -337,11 +337,16 @@ class eventMake: UIViewController, UITextFieldDelegate {
                         var name = PFUser.currentUser().username
                         eventItem["isDeleted"] = true
                         eventItem.save()
-                        let data = [
-                            "alert" : "\(PFUser.currentUser().username) has cancelled the event '\(self.eventTitle.text)'",
-                            "badge" : "Increment",
-                            "sound" : "default"
-                        ]
+                        var findPeople = PFQuery(className: "UserCalendar")
+                        var collectedPeople = [String]()
+                        findPeople.whereKey("eventID", equalTo:self.eventID )
+                        findPeople.whereKey("user", notEqualTo: PFUser.currentUser().username)
+                        findPeople.findObjectsInBackgroundWithBlock({
+                            (results:[AnyObject]!, Error:NSError!) -> Void in
+                            
+                            for object in results {
+                                collectedPeople.append(object["user"] as String)
+                            }
                             var push =  PFPush()
                             let data = [
                                 "alert" : "\(PFUser.currentUser().username) has cancled the event '\(self.eventTitle.text)'",
