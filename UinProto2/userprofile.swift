@@ -366,9 +366,9 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
             var theMix = Mixpanel.sharedInstance()
             theMix.track("Anon Subscribe Attempt (UP)")
             theMix.flush()
-        var alert = UIAlertController(title: "you need an account", message: "Create a new account", preferredStyle: UIAlertControllerStyle.Alert)
+        var alert = UIAlertController(title: "Create an account to do this!", message: "It'll only take a few seconds...", preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "Create an account", style: .Default, handler: { action in
-            
+
             self.performSegueWithIdentifier("createAccount", sender: self)
             
         }))

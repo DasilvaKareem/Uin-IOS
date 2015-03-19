@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6221" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="0me-jO-edR">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="0me-jO-edR">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6213"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -27,25 +27,27 @@
                                     <constraint firstAttribute="width" secondItem="Nm5-Je-T4L" secondAttribute="height" multiplier="80:73" id="Qq6-W3-216"/>
                                 </constraints>
                             </imageView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="y22-cp-Feu">
+                                <rect key="frame" x="197" y="358" width="20" height="20"/>
+                                <color key="color" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </activityIndicatorView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Uin" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lbf-0l-uei">
-                                <rect key="frame" x="192" y="247" width="31" height="26"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="21"/>
+                                <rect key="frame" x="185" y="225" width="44" height="36"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="y22-cp-Feu">
-                                <rect key="frame" x="192" y="434" width="20" height="20"/>
-                                <color key="color" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="centerY" secondItem="y22-cp-Feu" secondAttribute="centerY" id="02R-TN-GHh"/>
                             <constraint firstAttribute="centerX" secondItem="lbf-0l-uei" secondAttribute="centerX" id="7aF-eG-X7d"/>
                             <constraint firstItem="cQc-Fm-Rt3" firstAttribute="top" secondItem="XOs-Fm-Kbq" secondAttribute="bottom" id="8RS-PU-PNj"/>
-                            <constraint firstItem="lbf-0l-uei" firstAttribute="top" secondItem="Nm5-Je-T4L" secondAttribute="bottom" constant="8" id="J9e-ot-rlz"/>
+                            <constraint firstItem="lbf-0l-uei" firstAttribute="top" secondItem="Nm5-Je-T4L" secondAttribute="bottom" constant="-14" id="J9e-ot-rlz"/>
                             <constraint firstAttribute="trailing" secondItem="Nm5-Je-T4L" secondAttribute="trailing" constant="87" id="Lae-Io-oiu"/>
                             <constraint firstItem="XOs-Fm-Kbq" firstAttribute="leading" secondItem="t6W-IS-xzC" secondAttribute="leading" id="LtE-6N-P7E"/>
                             <constraint firstItem="XOs-Fm-Kbq" firstAttribute="top" secondItem="t6W-IS-xzC" secondAttribute="top" id="ReP-R4-Bj9"/>
+                            <constraint firstAttribute="centerX" secondItem="y22-cp-Feu" secondAttribute="centerX" id="SdK-wx-cDw"/>
                             <constraint firstItem="Nm5-Je-T4L" firstAttribute="leading" secondItem="t6W-IS-xzC" secondAttribute="leading" constant="87" id="mxu-EI-pZ9"/>
                             <constraint firstItem="Nm5-Je-T4L" firstAttribute="top" secondItem="tCJ-aS-HcW" secondAttribute="bottom" id="wWL-Fv-XyK"/>
                             <constraint firstAttribute="trailing" secondItem="XOs-Fm-Kbq" secondAttribute="trailing" id="x92-AA-Vqw"/>

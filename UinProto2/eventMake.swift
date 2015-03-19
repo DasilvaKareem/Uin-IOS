@@ -349,7 +349,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
                             }
                             var push =  PFPush()
                             let data = [
-                                "alert" : "\(PFUser.currentUser().username) has cancled the event '\(self.eventTitle.text)'",
+                                "alert" : "\(PFUser.currentUser().username) has cancelled the event '\(self.eventTitle.text)'",
                                 "badge" : "Increment",
                                 "sound" : "default"
                             ]

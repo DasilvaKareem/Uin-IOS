@@ -116,7 +116,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             theMix.track("Tap Create Account (EF)")
             theMix.flush()
             
-            var alert = UIAlertController(title: "you need an account", message: "Create a new account", preferredStyle: UIAlertControllerStyle.Alert)
+            var alert = UIAlertController(title: "Create an account to do this!", message: "It'll only take a few seconds...", preferredStyle: UIAlertControllerStyle.Alert)
             alert.addAction(UIAlertAction(title: "Create an account", style: .Default, handler: { action in
                 
                self.performSegueWithIdentifier("createAccount", sender: self)
@@ -219,11 +219,12 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         que1.whereKey("isPublic", equalTo: true)
         
         //Queries all Private events
-        var pubQue = PFQuery(className: "Subcription")
+        var pubQue = PFQuery(className: "Subscription")
         pubQue.whereKey("subscriber", equalTo: PFUser.currentUser().username)
         pubQue.whereKey("isMember", equalTo: true)
         var superQue = PFQuery(className: "Event")
-        superQue.whereKey("author", matchesKey: "subscriber", inQuery:pubQue)
+        superQue.whereKey("author", matchesKey: "publisher", inQuery:pubQue)
+        superQue.whereKey("isPublic", equalTo: false)
         
         //Queries all of the current user events
         var newQue = PFQuery(className: "Event")

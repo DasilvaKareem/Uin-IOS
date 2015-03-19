@@ -147,6 +147,22 @@ class subscriberlist: UITableViewController {
                     
                     if registerError == nil {
                         
+                        var push = PFPush()
+                        var pfque = PFInstallation.query()
+                        pfque.whereKey("user", equalTo:self.folusernames[sender.tag] )
+                        push.setQuery(pfque)
+                       
+                        push.setMessage("\(PFUser.currentUser().username) has changed your membership status")
+                
+                        push.sendPushInBackgroundWithBlock({
+                            (success:Bool!, pushError: NSError!) -> Void in
+                            if pushError == nil {
+                                println("Push was Sent")
+                            } else {
+                                println("Push was not sent")
+                            }
+                        })
+                        
                         //Creates an in app notfication
                         var notify = PFObject(className: "Notification")
                         notify["senderID"] = PFUser.currentUser().objectId
