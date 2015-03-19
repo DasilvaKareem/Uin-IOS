@@ -539,7 +539,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                             if i.title == self.eventTitle[sender.tag]  {
                                 println("removed")
                                 var theMix = Mixpanel.sharedInstance()
-                                theMix.track("RemovedFromEvent")
+                                theMix.track("Event Removed from Calendar -eventFeed-")
                                 eventStore.removeEvent(i, span: EKSpanThisEvent, error: nil)
                             }
                         }
@@ -589,7 +589,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                             }
                         }
                         var theMix = Mixpanel.sharedInstance()
-                        theMix.track("AddedToEvent")
+                        theMix.track("Event Added to Calendar -eventFeed-")
                         println("saved")
                     }
                 })
@@ -639,7 +639,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         if segue.identifier == "example" {
             var secondViewController : postEvent = segue.destinationViewController as postEvent
             var theMix = Mixpanel.sharedInstance()
-            theMix.track("Expaned View")
+            theMix.track("Event View Tap -eventFeed-")
             var indexPath = theFeed.indexPathForSelectedRow() //get index of data for selected row
             var section = indexPath?.section
             var row = indexPath?.row

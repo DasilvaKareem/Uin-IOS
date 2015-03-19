@@ -418,7 +418,9 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                     if saveerror == nil {
                         println("Subscribed")
                         var theMix = Mixpanel.sharedInstance()
-                        theMix.track("Subscribed")
+                        theMix.track("Subscribed Tap -userProfile-")
+                        
+                        
                     }
                         
                     else {
@@ -654,7 +656,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                                 
                                 println("removed")
                                 var theMix = Mixpanel.sharedInstance()
-                                theMix.track("RemovedFromEvent")
+                                theMix.track("Event Removed from Calendar -userProfile-")
                                 eventStore.removeEvent(i, span: EKSpanThisEvent, error: nil)
                             }
                         }
@@ -689,7 +691,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                         
                         eventStore.saveEvent(event, span: EKSpanThisEvent, error: nil)
                         var theMix = Mixpanel.sharedInstance()
-                        theMix.track("AddedToEvent")
+                        theMix.track("Event Added to Calendar -userProfile-")
                         println("saved")
                     }
                 })
@@ -763,7 +765,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
         if segue.identifier == "example" {
             var secondViewController : postEvent = segue.destinationViewController as postEvent
             var theMix = Mixpanel.sharedInstance()
-            theMix.track("Expanded View")
+            theMix.track("Event View Tap -userProfile-")
             
             var indexPath = theFeed.indexPathForSelectedRow() //get index of data for selected row
             var section = indexPath?.section

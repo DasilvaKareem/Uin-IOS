@@ -276,12 +276,12 @@ class eventMake: UIViewController, UITextFieldDelegate {
                                 }
                                 
                                 var theMix = Mixpanel.sharedInstance()
-                                theMix.track("Edited Event")
+                                theMix.track("Created Event -eventMake-")
                                 
                             })
-
-                        var theMix = Mixpanel.sharedInstance()
-                        theMix.track("Created an Event")
+                            
+                        
+             
                         var notify = PFObject(className: "Notification")
                         notify["senderID"] = PFUser.currentUser().objectId
                         notify["receiverID"] = PFUser.currentUser().objectId
@@ -333,7 +333,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
                     if error == nil {
                         
                         var theMix = Mixpanel.sharedInstance()
-                        theMix.track("Deleted event")
+                        theMix.track("Deleted Event -eventMake-")
                         var name = PFUser.currentUser().username
                         eventItem["isDeleted"] = true
                         eventItem.save()
