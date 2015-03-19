@@ -123,7 +123,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
         //Queries all Private events
         var pubQue = PFQuery(className: "Subcription")
         pubQue.whereKey("subscriber", equalTo: PFUser.currentUser().username)
-        pubQue.whereKey("memberStatus", equalTo: true)
+        pubQue.whereKey("isMember", equalTo: true)
         pubQue.whereKey("publisher", equalTo: self.theUser)
         var superQue = PFQuery(className: "Event")
         superQue.whereKey("author", matchesKey: "subscriber", inQuery:pubQue)
@@ -632,10 +632,6 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                             println("error  \(error)")
                             var hosted = "Hosted by \(self.usernames[sender.tag])"
                             var event:EKEvent = EKEvent(eventStore: eventStore)
-                            println()
-                            println()
-                            println()
-                            println()
                             println(self.eventTitle[sender.tag])
                             println(self.eventStart[sender.tag])
                             println(self.eventEnd[sender.tag])
@@ -732,11 +728,11 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                     
                     (succeded:Bool!, savError:NSError!) -> Void in
                     if savError == nil {
-                        println("it worked")
+                        self.theFeed.reloadData()
                     }
                 }
                 println("Saved Event")
-                self.theFeed.reloadData()
+                
             }
         })
     

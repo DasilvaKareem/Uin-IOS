@@ -40,7 +40,7 @@ class LoadingView: UIViewController {
             var currentAccount = PFUser.query() //quries users
             var amountOfUsers = currentAccount.countObjects() //Counts how many users have the $ sign
             var newUser = PFUser()
-            var nameTemplate = "$\(amountOfUsers + 1)"
+            var nameTemplate = "$\(amountOfUsers)"
             newUser["pushEnabled"] = true
             newUser["firstRemoveFromCalendar"] = true
             newUser["tempAccounts"] = true

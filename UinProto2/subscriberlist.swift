@@ -106,6 +106,7 @@ class subscriberlist: UITableViewController {
         }
         }
         
+        
         cell.member.addTarget(self, action: "switchmember:", forControlEvents: UIControlEvents.ValueChanged)
         
         return cell
