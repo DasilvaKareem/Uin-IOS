@@ -38,6 +38,11 @@ class SignIn: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func facebook(sender: AnyObject) {
+        
+        //Logins into Facebook
+        var theMix = Mixpanel.sharedInstance()
+        theMix.track("Tap Facebook Login")
+        theMix.flush()
         var fbloginView:FBLoginView = FBLoginView(readPermissions: ["email", "public_profile"])
         var permissions = ["public_profile", "email"]
         PFFacebookUtils.logInWithPermissions(permissions, block: {
@@ -113,6 +118,9 @@ class SignIn: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func signin(sender: AnyObject) {
+        var theMix = Mixpanel.sharedInstance()
+        theMix.track("Tap UIn login")
+        theMix.flush()
         var error = ""
         if username.text == "" || password.text == "" {
             error = "Please enter a proper Username and Password"

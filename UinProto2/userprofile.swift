@@ -360,6 +360,9 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
     
     func subbing(sender: AnyObject) {
         if PFUser.currentUser()["tempAccounts"] as Bool == true {
+            var theMix = Mixpanel.sharedInstance()
+            theMix.track("anon attempt to subscribe")
+            theMix.flush()
         var alert = UIAlertController(title: "you need an account", message: "Create a new account", preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "Create an account", style: .Default, handler: { action in
             
@@ -397,6 +400,9 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                     
                     if pushError == nil {
                         println("the installtion did remove")
+                        var theMix = Mixpanel.sharedInstance()
+                        theMix.track("unsubscribe")
+                        theMix.flush()
                         
                     }
                     else{
@@ -418,7 +424,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                     if saveerror == nil {
                         println("Subscribed")
                         var theMix = Mixpanel.sharedInstance()
-                        theMix.track("Subscribed Tap -userProfile-")
+                        theMix.track("Subscribed added")
                         
                         
                     }
