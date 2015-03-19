@@ -87,6 +87,10 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         refresher.attributedTitle = NSAttributedString(string: "Pull to Refresh")
         refresher.addTarget(self, action: "refresh", forControlEvents: UIControlEvents.ValueChanged)
         self.theFeed.addSubview(refresher)
+        var theMix = Mixpanel.sharedInstance()
+        theMix.track("My Profile Opened")
+        theMix.flush()
+        
 
         
         //Makes Nav Bar Clear
@@ -565,7 +569,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
                                 
                                 println("removed event")
                                 var theMix = Mixpanel.sharedInstance()
-                                theMix.track("Event Removed from Cal -myProfile-")
+                                theMix.track("Removed from Calendar (MP)")
                                 eventStore.removeEvent(i, span: EKSpanThisEvent, error: nil)
                             }
                         }
@@ -597,7 +601,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
                         
                         eventStore.saveEvent(event, span: EKSpanThisEvent, error: nil)
                         var theMix = Mixpanel.sharedInstance()
-                        theMix.track("Event Added to Calendar -myProfile-")
+                        theMix.track("Added to Calendar (MP)")
                         println("saved")
                     }
                 })
@@ -710,7 +714,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
             
             
             var theMix = Mixpanel.sharedInstance()
-            theMix.track("expanded view from mypfoile")
+            theMix.track("Tap Event View (MP)")
             theMix.flush()
             
             var indexPath = theFeed.indexPathForSelectedRow() //get index of data for selected row

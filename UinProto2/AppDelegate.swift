@@ -29,7 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         
         
-        Mixpanel.sharedInstanceWithToken("fcf630f4f509d2ddeb0eef355102b65a")
+        Mixpanel.sharedInstanceWithToken("9955bea4e861e38f30086091b171d9fd")
         
              //ParseCrashReporting.enable()
         //devolpment key
@@ -82,8 +82,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidEnterBackground(application: UIApplication) {
-        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        var theMix = Mixpanel.sharedInstance()
+        theMix.track("App Close")
+        theMix.flush()
     }
 
     func applicationWillEnterForeground(application: UIApplication) {

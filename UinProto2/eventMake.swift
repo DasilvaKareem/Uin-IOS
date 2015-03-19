@@ -233,7 +233,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
                                     println("push was not sent")
                                 }
                                 var theMix = Mixpanel.sharedInstance()
-                                theMix.track("Edited Event")
+                                theMix.track("Edited Event (EM)")
                             })
                         })
                 
@@ -276,7 +276,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
                                 }
                                 
                                 var theMix = Mixpanel.sharedInstance()
-                                theMix.track("Created Event -eventMake-")
+                                theMix.track("Created Event (EM)")
                                 
                             })
                             
@@ -333,7 +333,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
                     if error == nil {
                         
                         var theMix = Mixpanel.sharedInstance()
-                        theMix.track("Deleted Event -eventMake-")
+                        theMix.track("Deleted Event (EM)")
                         var name = PFUser.currentUser().username
                         eventItem["isDeleted"] = true
                         eventItem.save()
@@ -403,7 +403,9 @@ class eventMake: UIViewController, UITextFieldDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        var theMix = Mixpanel.sharedInstance()
+        theMix.track("Create Event Opened")
+        theMix.flush()
         
         self.tabBarController?.tabBar.hidden = true
         if editing == false {

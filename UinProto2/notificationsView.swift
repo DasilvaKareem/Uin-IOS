@@ -22,6 +22,10 @@ class notificationsView: UITableViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        var theMix = Mixpanel.sharedInstance()
+        theMix.track("Notifications Opened")
+        theMix.flush()
+        
         var tabArray = self.tabBarController?.tabBar.items as NSArray!
         var tabItem = tabArray.objectAtIndex(1) as UITabBarItem
         tabItem.badgeValue = nil

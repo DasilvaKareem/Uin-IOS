@@ -41,8 +41,8 @@ class SignIn: UIViewController, UITextFieldDelegate {
         
         //Logins into Facebook
         var theMix = Mixpanel.sharedInstance()
-        theMix.track("Tap Facebook Login")
-        theMix.flush()
+        theMix.track("Tap Facebook (SI)")
+        
         var fbloginView:FBLoginView = FBLoginView(readPermissions: ["email", "public_profile"])
         var permissions = ["public_profile", "email"]
         PFFacebookUtils.logInWithPermissions(permissions, block: {
@@ -61,7 +61,7 @@ class SignIn: UIViewController, UITextFieldDelegate {
                     self.userFacebook =  result["name"] as String
                     self.emailFacebook = result["email"] as String
                     var theMix = Mixpanel.sharedInstance()
-                    theMix.track("Created Profile Info with Facebook -signIn-")
+                    theMix.track("Registers Info with Facebook (SI)")
                     self.performSegueWithIdentifier("register", sender: self)
                 
                 })
@@ -79,7 +79,7 @@ class SignIn: UIViewController, UITextFieldDelegate {
                     if saveerror == nil {
                         
                         var theMix = Mixpanel.sharedInstance()
-                        theMix.track("Signed in with Facebook -signIn-")
+                        theMix.track("Logged in with Facebook (SI)")
                         self.performSegueWithIdentifier("login", sender: self)
                         
                     }
@@ -98,6 +98,10 @@ class SignIn: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
 
         super.viewDidLoad()
+        
+        var theMix = Mixpanel.sharedInstance()
+        theMix.track("Sign In Opened")
+        theMix.flush()
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name:UIKeyboardWillShowNotification, object: nil);
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillHide:"), name:UIKeyboardWillHideNotification, object: nil);
@@ -119,7 +123,7 @@ class SignIn: UIViewController, UITextFieldDelegate {
     
     @IBAction func signin(sender: AnyObject) {
         var theMix = Mixpanel.sharedInstance()
-        theMix.track("Tap UIn login")
+        theMix.track("Create Account with Uin (SI)")
         theMix.flush()
         var error = ""
         if username.text == "" || password.text == "" {

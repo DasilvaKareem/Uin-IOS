@@ -13,6 +13,10 @@ class subscriptions: UITableViewController {
     var folusernames = [String]()
     
     override func viewDidLoad() {
+        var theMix = Mixpanel.sharedInstance()
+        theMix.track("Subscriptions Opened")
+        theMix.flush()
+        
         super.viewDidLoad()
         navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
 

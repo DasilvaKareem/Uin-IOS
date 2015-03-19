@@ -43,7 +43,9 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     // View cycles
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        var theMix = Mixpanel.sharedInstance()
+        theMix.track("Event Feed Opened")
+        theMix.flush()
      
         self.tabBarController?.tabBar.hidden = false
         //var eventsItem = tabBarItem?[0] as UITabBarItem
@@ -104,8 +106,16 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         //Checks if the account is a temporary account
         if user["tempAccounts"] as Bool == false {
            self.performSegueWithIdentifier("eventMake", sender: self)
+            var theMix = Mixpanel.sharedInstance()
+            theMix.track("Tap Create Event (EF)")
+            theMix.flush()
+            
 
         } else {
+            var theMix = Mixpanel.sharedInstance()
+            theMix.track("Tap Create Account (EF)")
+            theMix.flush()
+            
             var alert = UIAlertController(title: "you need an account", message: "Create a new account", preferredStyle: UIAlertControllerStyle.Alert)
             alert.addAction(UIAlertAction(title: "Create an account", style: .Default, handler: { action in
                 
@@ -539,7 +549,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                             if i.title == self.eventTitle[sender.tag]  {
                                 println("removed")
                                 var theMix = Mixpanel.sharedInstance()
-                                theMix.track("Event Removed from Calendar -eventFeed-")
+                                theMix.track("Removed from Calendar (EF)")
                                 eventStore.removeEvent(i, span: EKSpanThisEvent, error: nil)
                             }
                         }
@@ -589,7 +599,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                             }
                         }
                         var theMix = Mixpanel.sharedInstance()
-                        theMix.track("Event Added to Calendar -eventFeed-")
+                        theMix.track("Added to Calendar (EF)")
                         println("saved")
                     }
                 })
@@ -639,7 +649,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         if segue.identifier == "example" {
             var secondViewController : postEvent = segue.destinationViewController as postEvent
             var theMix = Mixpanel.sharedInstance()
-            theMix.track("Event View Tap -eventFeed-")
+            theMix.track("Opened Event View (EF)")
             var indexPath = theFeed.indexPathForSelectedRow() //get index of data for selected row
             var section = indexPath?.section
             var row = indexPath?.row

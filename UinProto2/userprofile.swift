@@ -58,6 +58,9 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        var theMix = Mixpanel.sharedInstance()
+        theMix.track("User Profile Opened")
+        theMix.flush()
         self.tabBarController?.tabBar.hidden = true
         self.navigationController?.navigationBar.backIndicatorImage = nil
         subticker()
@@ -361,7 +364,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
     func subbing(sender: AnyObject) {
         if PFUser.currentUser()["tempAccounts"] as Bool == true {
             var theMix = Mixpanel.sharedInstance()
-            theMix.track("anon attempt to subscribe")
+            theMix.track("Anon Subscribe Attempt (UP)")
             theMix.flush()
         var alert = UIAlertController(title: "you need an account", message: "Create a new account", preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "Create an account", style: .Default, handler: { action in
@@ -401,7 +404,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                     if pushError == nil {
                         println("the installtion did remove")
                         var theMix = Mixpanel.sharedInstance()
-                        theMix.track("unsubscribe")
+                        theMix.track("Unsubscribed (UP)")
                         theMix.flush()
                         
                     }
@@ -424,7 +427,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                     if saveerror == nil {
                         println("Subscribed")
                         var theMix = Mixpanel.sharedInstance()
-                        theMix.track("Subscribed added")
+                        theMix.track("Subscribed (UP)")
                         
                         
                     }
@@ -662,7 +665,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                                 
                                 println("removed")
                                 var theMix = Mixpanel.sharedInstance()
-                                theMix.track("Event Removed from Calendar -userProfile-")
+                                theMix.track("Removed from Calendar (UP)")
                                 eventStore.removeEvent(i, span: EKSpanThisEvent, error: nil)
                             }
                         }
@@ -697,7 +700,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                         
                         eventStore.saveEvent(event, span: EKSpanThisEvent, error: nil)
                         var theMix = Mixpanel.sharedInstance()
-                        theMix.track("Event Added to Calendar -userProfile-")
+                        theMix.track("Added to Calendar (UP)")
                         println("saved")
                     }
                 })
@@ -771,7 +774,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
         if segue.identifier == "example" {
             var secondViewController : postEvent = segue.destinationViewController as postEvent
             var theMix = Mixpanel.sharedInstance()
-            theMix.track("Event View Tap -userProfile-")
+            theMix.track("Tap Event View (UP)")
             
             var indexPath = theFeed.indexPathForSelectedRow() //get index of data for selected row
             var section = indexPath?.section

@@ -18,6 +18,10 @@ class subscriberlist: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        var theMix = Mixpanel.sharedInstance()
+        theMix.track("Subscribers Opened")
+        theMix.flush()
+        
             self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
     
           self.navigationController?.navigationBar.backIndicatorImage = nil
@@ -116,9 +120,7 @@ class subscriberlist: UITableViewController {
     
     func switchmember(sender: UISegmentedControl) {
         
-        var theMix = Mixpanel.sharedInstance()
-        theMix.track("Switch Member status")
-        theMix.flush()
+      
         
        
 

@@ -89,7 +89,9 @@ class postEvent: UIViewController {
     
     
     override func viewDidLoad() {
-        
+        var theMix = Mixpanel.sharedInstance()
+        theMix.track("Event View Opened")
+        theMix.flush()
         super.viewDidLoad()
         if users != PFUser.currentUser().username{
             self.navigationItem.rightBarButtonItem = nil
@@ -185,7 +187,7 @@ class postEvent: UIViewController {
                                
                                 println("removed")
                                 var theMix = Mixpanel.sharedInstance()
-                                theMix.track("Removed Event")
+                                theMix.track("Removed from Calendar (EV)")
                                 theMix.flush()
                                 eventStore.removeEvent(i, span: EKSpanThisEvent, error: nil)
                             }
@@ -214,7 +216,7 @@ class postEvent: UIViewController {
                         event.calendar = eventStore.defaultCalendarForNewEvents
                         eventStore.saveEvent(event, span: EKSpanThisEvent, error: nil)
                         var theMix = Mixpanel.sharedInstance()
-                        theMix.track("Add to calendar event view")
+                        theMix.track("Added to Calendar (EV)")
                         theMix.flush()
                         println("saved")
                     
@@ -312,7 +314,7 @@ class postEvent: UIViewController {
         
         if segue.identifier == "gotoprofile" {
             var theMix = Mixpanel.sharedInstance()
-            theMix.track("Going to user profile ")
+            theMix.track("Tap Username (EV)")
             theMix.flush()
             var theotherprofile:userprofile = segue.destinationViewController as userprofile
             theotherprofile.theUser = users
@@ -320,7 +322,7 @@ class postEvent: UIViewController {
         }
         if segue.identifier == "editEvent" {
             var theMix = Mixpanel.sharedInstance()
-            theMix.track("Edit button tapped")
+            theMix.track("Tap Edit (EV)")
             theMix.flush()
             var editEvent:eventMake = segue.destinationViewController as eventMake
             editEvent.startTime = storeStartTime

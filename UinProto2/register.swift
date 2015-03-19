@@ -46,6 +46,10 @@ class register: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        var theMix = Mixpanel.sharedInstance()
+        theMix.track("Register Opened")
+        theMix.flush()
+        
         if userPlace != "" {
             username.attributedText = NSAttributedString(string:userPlace,
                 attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
@@ -97,6 +101,9 @@ class register: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var cpassword: UITextField!
     @IBAction func register(sender: AnyObject) {
+        var theMix = Mixpanel.sharedInstance()
+        theMix.track("Tap Create Account (R)")
+        theMix.flush()
         
         var characterSet:NSCharacterSet = NSCharacterSet(charactersInString: "!@#$%^&*()+")
         
@@ -129,6 +136,7 @@ class register: UIViewController, UITextFieldDelegate {
         else {
     
             if PFUser.currentUser() == nil {
+             
                 var user = PFUser()
                 user.username = username.text
                 user["display"] = username.text

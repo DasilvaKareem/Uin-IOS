@@ -12,6 +12,10 @@ class settingsView: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        var theMix = Mixpanel.sharedInstance()
+        theMix.track("Settings Opened")
+        theMix.flush()
+        
         var user = PFUser.currentUser()
         if user["pushEnabled"] as Bool == true {
             notifySlider.setOn(true, animated: true)
@@ -29,7 +33,7 @@ class settingsView: UIViewController {
     @IBOutlet var notifySlider: UISwitch!
     @IBAction func notifySwitch(sender: AnyObject) {
         var theMix = Mixpanel.sharedInstance()
-        theMix.track("Switch notification")
+        theMix.track("Notifications Off/On (S)")
         theMix.flush()
         
         var user = PFUser.currentUser()
@@ -73,7 +77,7 @@ class settingsView: UIViewController {
     
     @IBAction func logout(sender: AnyObject) {
         var theMix = Mixpanel.sharedInstance()
-        theMix.track("Logged out")
+        theMix.track("Logout (S)")
         theMix.flush()
         
        println("you pressed it")
