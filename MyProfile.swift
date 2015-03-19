@@ -71,6 +71,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         checkNotifications()
         notifications()
         
+        
     }
     
     override func viewDidLoad() {
@@ -511,12 +512,6 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     func followButton(sender: AnyObject){
         // Adds the event to calendar
-        
-        
-        
-        
-        
-        
         var first:Bool = Bool()
         
         first = PFUser.currentUser()["firstRemoveFromCalendar"] as Bool
@@ -568,7 +563,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
                             println(self.eventTitle[sender.tag])
                             if i.title == self.eventTitle[sender.tag]  {
                                 
-                                println("removed")
+                                println("removed event")
                                 var theMix = Mixpanel.sharedInstance()
                                 theMix.track("Event Removed from Cal -myProfile-")
                                 eventStore.removeEvent(i, span: EKSpanThisEvent, error: nil)
@@ -714,7 +709,9 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
             var secondViewController : postEvent = segue.destinationViewController as postEvent
             
             
-            
+            var theMix = Mixpanel.sharedInstance()
+            theMix.track("expanded view from mypfoile")
+            theMix.flush()
             
             var indexPath = theFeed.indexPathForSelectedRow() //get index of data for selected row
             var section = indexPath?.section

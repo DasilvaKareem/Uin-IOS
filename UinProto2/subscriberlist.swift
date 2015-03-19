@@ -116,6 +116,9 @@ class subscriberlist: UITableViewController {
     
     func switchmember(sender: UISegmentedControl) {
         
+        var theMix = Mixpanel.sharedInstance()
+        theMix.track("Switch Member status")
+        theMix.flush()
         
        
 

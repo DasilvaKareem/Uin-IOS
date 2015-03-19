@@ -184,6 +184,9 @@ class postEvent: UIViewController {
                             if i.title == self.storeTitle  {
                                
                                 println("removed")
+                                var theMix = Mixpanel.sharedInstance()
+                                theMix.track("Removed Event")
+                                theMix.flush()
                                 eventStore.removeEvent(i, span: EKSpanThisEvent, error: nil)
                             }
                         }
@@ -210,6 +213,9 @@ class postEvent: UIViewController {
                         event.location = self.storeLocation
                         event.calendar = eventStore.defaultCalendarForNewEvents
                         eventStore.saveEvent(event, span: EKSpanThisEvent, error: nil)
+                        var theMix = Mixpanel.sharedInstance()
+                        theMix.track("Add to calendar event view")
+                        theMix.flush()
                         println("saved")
                     
                     }
@@ -305,12 +311,17 @@ class postEvent: UIViewController {
     override func prepareForSegue(segue:UIStoryboardSegue, sender: AnyObject?){
         
         if segue.identifier == "gotoprofile" {
+            var theMix = Mixpanel.sharedInstance()
+            theMix.track("Going to user profile ")
+            theMix.flush()
             var theotherprofile:userprofile = segue.destinationViewController as userprofile
             theotherprofile.theUser = users
             theotherprofile.userId = userId
         }
         if segue.identifier == "editEvent" {
-            
+            var theMix = Mixpanel.sharedInstance()
+            theMix.track("Edit button tapped")
+            theMix.flush()
             var editEvent:eventMake = segue.destinationViewController as eventMake
             editEvent.startTime = storeStartTime
             //editEvent.end.setTitle(storeEndTime, forState: UIControlState.Normal)

@@ -10,6 +10,8 @@ import UIKit
 
 class LoadingView: UIViewController {
 
+    @IBOutlet var spinner: UIActivityIndicatorView!
+ 
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -32,6 +34,8 @@ class LoadingView: UIViewController {
             println()
             return randomString
         }
+        
+        spinner.startAnimating()
         var user = PFUser.currentUser()
         //Logs you inside the app if you are signed im
         if PFUser.currentUser() != nil {

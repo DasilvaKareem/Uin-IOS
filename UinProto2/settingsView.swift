@@ -28,6 +28,9 @@ class settingsView: UIViewController {
     
     @IBOutlet var notifySlider: UISwitch!
     @IBAction func notifySwitch(sender: AnyObject) {
+        var theMix = Mixpanel.sharedInstance()
+        theMix.track("Switch notification")
+        theMix.flush()
         
         var user = PFUser.currentUser()
         if notifySlider.on == true {
@@ -69,6 +72,9 @@ class settingsView: UIViewController {
     }
     
     @IBAction func logout(sender: AnyObject) {
+        var theMix = Mixpanel.sharedInstance()
+        theMix.track("Logged out")
+        theMix.flush()
         
        println("you pressed it")
         var install = PFInstallation.currentInstallation()
