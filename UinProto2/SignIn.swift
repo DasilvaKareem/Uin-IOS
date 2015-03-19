@@ -79,7 +79,7 @@ class SignIn: UIViewController, UITextFieldDelegate {
                     if saveerror == nil {
                         
                         var theMix = Mixpanel.sharedInstance()
-                        theMix.track("SignIns")
+                        theMix.track("Signed in with Facebook -signIn-")
                         self.performSegueWithIdentifier("login", sender: self)
                         
                     }
