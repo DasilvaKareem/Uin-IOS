@@ -200,23 +200,43 @@ class eventMake: UIViewController, UITextFieldDelegate {
                             }
                                 self.performSegueWithIdentifier("eventback", sender: self)
                         })
-                        var push =  PFPush()
-                        let data = [
-                            "alert" : "\(PFUser.currentUser().username) has edited the event '\(self.eventTitle.text)'",
-                            "badge" : "Increment",
-                            "sound" : "default"
-                        ]
-                        push.setChannel(PFUser.currentUser().objectId)
-                        push.setData(data)
-                        push.sendPushInBackgroundWithBlock({
+                        //Queries al the people who added this event to calendar
+                        var findPeople = PFQuery(className: "UserCalendar")
+                        var collectedPeople = [String]()
+                        findPeople.whereKey("eventID", equalTo:self.eventID )
+                        findPeople.whereKey("user", notEqualTo: PFUser.currentUser().username)
+                        findPeople.findObjectsInBackgroundWithBlock({
+                            (results:[AnyObject]!, Error:NSError!) -> Void in
                             
-                            (success: Bool!, pushError: NSError!) -> Void in
-                            if pushError == nil {
-                                println("the push was sent")
+                            for object in results {
+                                collectedPeople.append(object["user"] as String)
                             }
-                            var theMix = Mixpanel.sharedInstance()
-                            theMix.track("Edited Event")
+                            var push =  PFPush()
+                            let data = [
+                                "alert" : "\(PFUser.currentUser().username) has edited the event '\(self.eventTitle.text)'",
+                                "badge" : "Increment",
+                                "sound" : "default"
+                            ]
+                            var pfque = PFInstallation.query()
+                            println()
+                            println(collectedPeople)
+                            println()
+                            pfque.whereKey("user", containedIn: collectedPeople) //Adds all the people who added your event
+                            push.setQuery(pfque)
+                            push.setData(data)
+                            push.sendPushInBackgroundWithBlock({
+                                // Notifies the people you edited your event
+                                (success: Bool!, pushError: NSError!) -> Void in
+                                if pushError == nil {
+                                    println("the push was sent")
+                                } else {
+                                    println("push was not sent")
+                                }
+                                var theMix = Mixpanel.sharedInstance()
+                                theMix.track("Edited Event")
+                            })
                         })
+                
                     }
                 })
             }
@@ -311,29 +331,47 @@ class eventMake: UIViewController, UITextFieldDelegate {
                     (eventItem:PFObject!, error:NSError!) -> Void in
                     
                     if error == nil {
+                        
                         var theMix = Mixpanel.sharedInstance()
                         theMix.track("Deleted event")
                         var name = PFUser.currentUser().username
                         eventItem["isDeleted"] = true
                         eventItem.save()
-                        let data = [
-                            "alert" : "\(PFUser.currentUser().username) has deleted the event '\(self.eventTitle.text)'",
-                            "badge" : "Increment",
-                            "sound" : "default"
-                        ]
+                        var findPeople = PFQuery(className: "UserCalendar")
+                        var collectedPeople = [String]()
+                        findPeople.whereKey("eventID", equalTo:self.eventID )
+                        findPeople.whereKey("user", notEqualTo: PFUser.currentUser().username)
+                        findPeople.findObjectsInBackgroundWithBlock({
+                            (results:[AnyObject]!, Error:NSError!) -> Void in
+                            
+                            for object in results {
+                                collectedPeople.append(object["user"] as String)
+                            }
                             var push =  PFPush()
-                            push.setChannel(PFUser.currentUser().objectId)
+                            let data = [
+                                "alert" : "\(PFUser.currentUser().username) has cancled the event '\(self.eventTitle.text)'",
+                                "badge" : "Increment",
+                                "sound" : "default"
+                            ]
+                            var pfque = PFInstallation.query()
+                            println()
+                            println(collectedPeople)
+                            println()
+                            pfque.whereKey("user", containedIn: collectedPeople) //Adds all the people who added your event
+                            push.setQuery(pfque)
                             push.setData(data)
                             push.sendPushInBackgroundWithBlock({
-                                
+                                // Notifies the people you edited your event
                                 (success: Bool!, pushError: NSError!) -> Void in
                                 if pushError == nil {
-                                    
                                     println("the push was sent")
-                                    
+                                } else {
+                                    println("push was not sent")
                                 }
-
+                              
                             })
+                        })
+                      
                         self.performSegueWithIdentifier("eventback", sender: self)
                         
                     }
@@ -366,6 +404,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
         self.tabBarController?.tabBar.hidden = true
         if editing == false {
             
@@ -374,11 +413,15 @@ class eventMake: UIViewController, UITextFieldDelegate {
         else {
             eventTitle.text = eventTitlePass
             eventSum.text = eventLocation
+            var checkPublicStatus = PFQuery(className: "Event")
+            var status = checkPublicStatus.getObjectWithId(eventID)
+            if status["isPublic"] as Bool == true {
+                publicSegment.selectedSegmentIndex = 0
+            } else {
+                publicSegment.selectedSegmentIndex = 1
+            }
         }
-        println("This is a print of the BOOLS")
-        println(onsite)
-        println(food)
-        println(paid)
+   
         if food == true {
             println("OK IT WOKRS")
             foodSegement.selectedSegmentIndex = 0
@@ -403,6 +446,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
             println("ONSITE is true")
             oncampusSegement.selectedSegmentIndex = 1
         }
+        
         if PFUser.currentUser() == nil{
             
             self.performSegueWithIdentifier("register", sender: self)

@@ -37,6 +37,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     var sectionNames = [String]()
     
     
+    
    
   
     // View cycles
@@ -210,7 +211,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         //Queries all Private events
         var pubQue = PFQuery(className: "Subcription")
         pubQue.whereKey("subscriber", equalTo: PFUser.currentUser().username)
-        pubQue.whereKey("memberStatus", equalTo: true)
+        pubQue.whereKey("isMember", equalTo: true)
         var superQue = PFQuery(className: "Event")
         superQue.whereKey("author", matchesKey: "subscriber", inQuery:pubQue)
         
@@ -573,15 +574,26 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                         event.calendar = eventStore.defaultCalendarForNewEvents
         
                         eventStore.saveEvent(event, span: EKSpanThisEvent, error: nil)
+                        var going = PFObject(className: "UserCalendar")
+                        going["user"] = PFUser.currentUser().username
+                        going["userID"] = PFUser.currentUser().objectId
+                        going["event"] = self.eventTitle[sender.tag]
+                        going["author"] = self.usernames[sender.tag]
+                        going["eventID"] = self.objectID[sender.tag]
+                        going.saveInBackgroundWithBlock{
+                            (succeded:Bool!, savError:NSError!) -> Void in
+                            if savError == nil {
+                                println("it worked")
+                                self.theFeed.reloadData()
+                                
+                            }
+                        }
                         var theMix = Mixpanel.sharedInstance()
                         theMix.track("AddedToEvent")
                         println("saved")
                     }
                 })
               println()
-                println()
-                println()
-                println()
                 println()
                 println("the object does not exist")
                     var push = PFPush()
@@ -617,21 +629,9 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                         }
                     })
                 }
-                var going = PFObject(className: "UserCalendar")
-                going["user"] = PFUser.currentUser().username
-                going["userID"] = PFUser.currentUser().objectId
-                going["event"] = self.eventTitle[sender.tag]
-                going["author"] = self.usernames[sender.tag]
-                going["eventID"] = self.objectID[sender.tag]
-                going.saveInBackgroundWithBlock{
-                    (succeded:Bool!, savError:NSError!) -> Void in
-                    if savError == nil {
-                        println("it worked")
-                    }
-                }
+             
                 println("Saved Event")
-              self.theFeed.reloadData()
-                }
+                              }
             })
         }
     override func prepareForSegue(segue:UIStoryboardSegue, sender: AnyObject?){
@@ -644,6 +644,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             var section = indexPath?.section
             var row = indexPath?.row
             var index = getEventIndex(section!, row: row!)
+            
             secondViewController.storeStartDate = eventStart[index]
             secondViewController.endStoreDate =  eventEnd[index]
             secondViewController.userId = userId[index]
