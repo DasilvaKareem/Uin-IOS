@@ -332,7 +332,7 @@ class postEvent: UIViewController {
             endString = "\(storeEndDate)  \(localEnd)"
             dateTime1 = storeStartTime
             dateTime2 = storeEndTime
-            time.dateStr1 = storeDate
+            dateStr1 = storeDate
             dateStr2 = storeEndDate
             orderDate1 = storeStartDate
             orderDate2 = endStoreDate
