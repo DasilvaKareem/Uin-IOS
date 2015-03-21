@@ -10,14 +10,25 @@ import UIKit
 
 class profileCell: UITableViewCell {
 
-    
+   
+   
+
+ 
+
     @IBOutlet var subscribe: UIButton!
    
     @IBOutlet var subscriptionTick: UILabel!
     @IBOutlet var subscriberTick: UILabel!
+
+    
+  
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        //Checks the status of the viewers subscription
+
+        
+        
         // Initialization code
     }
 

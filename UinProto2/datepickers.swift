@@ -9,7 +9,7 @@
 import UIKit
 
 var dateTime1 = String()
-var dateStr1 = String()
+var time.dateStr1 = String()
 var orderDate1 = NSDate()
 var dateTime2 = String()
 var dateStr2 = String()
@@ -20,9 +20,10 @@ class datepickers: UIViewController {
     
     @IBOutlet var startTIme: UILabel!
     @IBOutlet var endTime: UILabel!
-
+    var time = timeObjects()
     override func viewDidLoad() {
         super.viewDidLoad()
+        
 self.tabBarController?.tabBar.hidden = true
         // Do any additional setup after loading the view.
     }
@@ -38,13 +39,13 @@ self.tabBarController?.tabBar.hidden = true
         
         var dateFormatter = NSDateFormatter()
         dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle
-        dateStr1 = dateFormatter.stringFromDate(datepicker1.date)
+        time.dateStr1 = dateFormatter.stringFromDate(datepicker1.date)
       
         var dateTimeformat = NSDateFormatter()
        dateTimeformat.timeStyle = NSDateFormatterStyle.ShortStyle
         dateTime1 =  dateTimeformat.stringFromDate(datepicker1.date)
         orderDate1 = datepicker1.date
-        startString = dateStr1 + " " + dateTime1
+        startString = time.dateStr1 + " " + dateTime1
         startTIme.text = startString
          datepicker2.date = orderDate1
         endTime.text = startString

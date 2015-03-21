@@ -43,6 +43,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     // View cycles
     override func viewDidLoad() {
         super.viewDidLoad()
+       
         var theMix = Mixpanel.sharedInstance()
         theMix.track("Event Feed Opened")
         theMix.flush()

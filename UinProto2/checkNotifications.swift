@@ -71,3 +71,16 @@ public func customAlert(title:String, error:String) {
     }
     
 }
+
+public struct timeObjects {
+    
+    var dateTime1 = String()
+    var time.dateStr1 = String()
+    var orderDate1 = NSDate()
+    var dateTime2 = String()
+    var dateStr2 = String()
+    var orderDate2 = NSDate()
+    var startString = String()
+    var endString = String()
+    
+}

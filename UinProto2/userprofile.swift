@@ -63,6 +63,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
         theMix.flush()
         self.tabBarController?.tabBar.hidden = true
         self.navigationController?.navigationBar.backIndicatorImage = nil
+        
         subticker()
         println()
         println()
@@ -342,9 +343,10 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 }
                 else {
                     //If the user is using a temp account changes the function of the button
-                        cell2.subscribe.setTitle("Subscribe", forState: UIControlState.Normal)
+                       cell2.subscribe.setTitle("Subscribe", forState: UIControlState.Normal)
                         cell2.subscribe.setTitleColor(UIColor(red: 254.0/255.0, green: 186.0/255.0, blue: 1.0/255.0, alpha: 1.0), forState: UIControlState.Normal)
-                    
+
+
                 }
             }
   
@@ -420,6 +422,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
             }
                 
             else {
+                //Subscribing feature
                 var currentInstallation = PFInstallation.currentInstallation()
                 currentInstallation.addUniqueObject(self.userId, forKey: "channels")
                 currentInstallation.saveInBackgroundWithBlock({
@@ -433,10 +436,11 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                     }
                         
                     else {
-                        println("It didnt work")
+                        println("User did not subscribe")
                     }
                 })
                 
+                //Creats the subscribe object
                 var subscribe = PFObject(className:"Subscription")
                 subscribe["isMember"] = false
                 subscribe["subscriber"] = PFUser.currentUser().username
@@ -460,6 +464,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                         println("notifcation has been saved")
                     }
                 })
+                //Sends Push notification
                 var user = PFUser.currentUser()
                 var checkPush = PFUser.query()
                 checkPush.whereKey("username", equalTo: self.theUser)
