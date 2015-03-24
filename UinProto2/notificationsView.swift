@@ -86,7 +86,7 @@ class notificationsView: UITableViewController {
         
         
         var query = PFQuery.orQueryWithSubqueries([memberQuery, subQuery, calendarQuery, eventQuery ])
-       
+        query.limit = 30
         query.orderByDescending("createdAt")
         query.findObjectsInBackgroundWithBlock({
             (objects:[AnyObject]!,subError:NSError!) -> Void in

@@ -501,9 +501,9 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
               cell.poop.addTarget(self, action: "followButton:", forControlEvents: UIControlEvents.TouchUpInside)
         return cell
     }
-    func followButton(sender: AnyObject){
+    func followButton(sender: UIButton){
         // Adds the event to calendar
-    
+        
       var que = PFQuery(className: "UserCalendar")
         que.whereKey("user", equalTo: PFUser.currentUser().username)
         que.whereKey("author", equalTo: self.usernames[sender.tag])
@@ -513,7 +513,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             if queerror == nil {
                 //Deletes the event
                 results.delete()
-                self.theFeed.reloadData()
+              
                 //Warns user if the this is the first event to be removed
                 if PFUser.currentUser()["firstRemoveFromCalendar"] as Bool == true{
                     PFUser.currentUser()["firstRemoveFromCalendar"] = false
@@ -522,7 +522,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                 }
               
                 if results != nil {
-                    
+                      sender.setImage(UIImage(named: "addToCalendar.png"), forState: UIControlState.Normal)
                     var eventStore : EKEventStore = EKEventStore()
                     eventStore.requestAccessToEntityType(EKEntityTypeEvent, completion: {
                         
@@ -560,6 +560,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                     
                 }
             } else {
+                sender.setImage(UIImage(named: "addedToCalendar.png"), forState: UIControlState.Normal)
                 var eventStore : EKEventStore = EKEventStore()
                 eventStore.requestAccessToEntityType(EKEntityTypeEvent, completion: {
                     
@@ -584,8 +585,8 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                         event.addAlarm(alarm)
                         event.location = self.eventlocation[sender.tag]
                         event.calendar = eventStore.defaultCalendarForNewEvents
-        
                         eventStore.saveEvent(event, span: EKSpanThisEvent, error: nil)
+                        
                         var going = PFObject(className: "UserCalendar")
                         going["user"] = PFUser.currentUser().username
                         going["userID"] = PFUser.currentUser().objectId
@@ -596,7 +597,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                             (succeded:Bool!, savError:NSError!) -> Void in
                             if savError == nil {
                                 println("it worked")
-                                self.theFeed.reloadData()
+                                
                                 
                             }
                         }

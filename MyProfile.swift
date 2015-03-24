@@ -168,7 +168,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     que.orderByAscending("start")
     que.whereKey("author", equalTo: PFUser.currentUser().username)
     que.whereKey("start", greaterThanOrEqualTo: NSDate())
-    
+    que.whereKey("isDeleted", equalTo: false)
     
     que.findObjectsInBackgroundWithBlock{
     (objects:[AnyObject]!,eventError:NSError!) -> Void in
@@ -514,7 +514,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     //end data source
     
-    func followButton(sender: AnyObject){
+    func followButton(sender: UIButton){
         // Adds the event to calendar
         var first:Bool = Bool()
         
@@ -523,6 +523,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         var que = PFQuery(className: "UserCalendar")
         que.whereKey("userID", equalTo: PFUser.currentUser().objectId)
         que.whereKey("eventID", equalTo:self.objectID[sender.tag])
+        
         que.getFirstObjectInBackgroundWithBlock({
             
             (results:PFObject!, queerror: NSError!) -> Void in
@@ -539,6 +540,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
                     
                 }
                 if results != nil {
+                    sender.setImage(UIImage(named: "addToCalendar.png"), forState: UIControlState.Normal)
                     var eventStore : EKEventStore = EKEventStore()
                     eventStore.requestAccessToEntityType(EKEntityTypeEvent, completion: {
                         
@@ -581,6 +583,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 
                 
             } else {
+                 sender.setImage(UIImage(named: "addedToCalendar.png"), forState: UIControlState.Normal)
                 var eventStore : EKEventStore = EKEventStore()
                 eventStore.requestAccessToEntityType(EKEntityTypeEvent, completion: {
                     

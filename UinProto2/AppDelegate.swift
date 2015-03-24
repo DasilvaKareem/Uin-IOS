@@ -27,8 +27,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //changes color of tabBar
         //UITabBar.appearance().barTintColor = UIColor(red: 52.0/255.0, green: 126.0/255.0, blue: 187.0/255.0, alpha: 1.0)
         
-      
-        Mixpanel.sharedInstanceWithToken("9955bea4e861e38f30086091b171d9fd")
+        //Production
+        //Mixpanel.sharedInstanceWithToken("9955bea4e861e38f30086091b171d9fd")
+        
+        Mixpanel.sharedInstanceWithToken("9955bwefewfea4e861e38f30086091b171d9fd")
         
             ParseCrashReporting.enable()
         //devolpment key
@@ -41,7 +43,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         theMix.track("App Open")
         theMix.flush()
         
-
+        var window: UIWindow?
+        var locationManager: CLLocationManager?
+        
+        
+                
+                locationManager = CLLocationManager()
+                locationManager?.requestWhenInUseAuthorization()
+                
+        
+        
        
         let userNotificationTypes = (UIUserNotificationType.Alert |
             UIUserNotificationType.Badge |
