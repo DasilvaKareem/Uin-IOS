@@ -35,7 +35,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     var numSections = 0
     var rowsInSection = [Int]()
     var sectionNames = [String]()
-    
+    var currentPoint = (PFGeoPoint)()
     
     
    
@@ -43,7 +43,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     // View cycles
     override func viewDidLoad() {
         super.viewDidLoad()
-       
+      
         var theMix = Mixpanel.sharedInstance()
         theMix.track("Event Feed Opened")
         theMix.flush()
@@ -213,7 +213,14 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         //Removes all leftover content in the array
         
         println("Before query")
-        
+        PFGeoPoint.geoPointForCurrentLocationInBackground {
+            (geoPoint: PFGeoPoint!, error: NSError!) -> Void in
+            if error == nil {
+                self.currentPoint = geoPoint
+            }
+        }
+
+      
         //adds content to the array
         //Queries all public Events
         var que1 = PFQuery(className: "Event")
@@ -237,6 +244,17 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         query.orderByAscending("start")
         query.whereKey("start", greaterThanOrEqualTo: NSDate())
         query.whereKey("isDeleted", equalTo: false)
+        PFGeoPoint.geoPointForCurrentLocationInBackground {
+            (geoPoint: PFGeoPoint!, error: NSError!) -> Void in
+            if error == nil {
+                // do something with the new
+            }
+        }
+        println()
+        println(self.currentPoint)
+        println()
+        query.whereKey("locationGeopoint", nearGeoPoint: self.currentPoint, withinRadians: 2.0)
+        query.whereKey("locationGeopoint", nearGeoPoint: self.currentPoint, withinMiles: 2.0)
         query.findObjectsInBackgroundWithBlock {
             (results: [AnyObject]!, error: NSError!) -> Void in
             if error == nil {

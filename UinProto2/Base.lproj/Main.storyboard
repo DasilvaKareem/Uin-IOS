@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6221" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="rS8-Nq-aEs">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6221" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="0me-jO-edR">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6213"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -1822,28 +1822,6 @@
                                     <action selector="makeEvent:" destination="wj6-a8-ugv" eventType="touchUpInside" id="I6J-3b-NKW"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Where is it Happening" textAlignment="center" minimumFontSize="17" background="inputForm" translatesAutoresizingMaskIntoConstraints="NO" id="bfI-Bv-w4D">
-                                <rect key="frame" x="0.0" y="124" width="414" height="39"/>
-                                <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="bfI-Bv-w4D" secondAttribute="height" multiplier="32:3" id="bm2-rV-aiY">
-                                        <variation key="heightClass=regular-widthClass=compact" constant="-2"/>
-                                    </constraint>
-                                    <constraint firstAttribute="width" secondItem="bfI-Bv-w4D" secondAttribute="height" multiplier="32:3" id="pwD-gu-Pws"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="bm2-rV-aiY"/>
-                                    </mask>
-                                </variation>
-                                <variation key="heightClass=regular-widthClass=compact">
-                                    <mask key="constraints">
-                                        <include reference="bm2-rV-aiY"/>
-                                    </mask>
-                                </variation>
-                            </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J43-Jj-cCa">
                                 <rect key="frame" x="0.0" y="184" width="414" height="39"/>
                                 <constraints>
@@ -1974,6 +1952,31 @@
                                         <include reference="ZZF-HM-ZXF"/>
                                     </mask>
                                 </variation>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Where is it Happening" textAlignment="center" minimumFontSize="17" background="inputForm" translatesAutoresizingMaskIntoConstraints="NO" id="bfI-Bv-w4D">
+                                <rect key="frame" x="0.0" y="124" width="414" height="39"/>
+                                <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="bfI-Bv-w4D" secondAttribute="height" multiplier="32:3" id="bm2-rV-aiY">
+                                        <variation key="heightClass=regular-widthClass=compact" constant="-2"/>
+                                    </constraint>
+                                    <constraint firstAttribute="width" secondItem="bfI-Bv-w4D" secondAttribute="height" multiplier="32:3" id="pwD-gu-Pws"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="bm2-rV-aiY"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=regular-widthClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="bm2-rV-aiY"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <segue destination="rS8-Nq-aEs" kind="show" id="IIJ-Th-4N9"/>
+                                </connections>
                             </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -2339,35 +2342,53 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zBO-qi-oto">
-                                <rect key="frame" x="16" y="80" width="279" height="30"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Location Address" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zBO-qi-oto">
+                                <rect key="frame" x="21" y="138" width="256" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="top-Sb-NsV">
+                                <rect key="frame" x="0.0" y="278" width="320" height="290"/>
+                            </mapView>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Display Location" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="YaF-si-WNj">
+                                <rect key="frame" x="21" y="91" width="283" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2yP-us-JtD">
+                                <rect key="frame" x="279" y="138" width="25" height="30"/>
+                                <state key="normal" title="ME">
+                                    <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="getUserLocation:" destination="rS8-Nq-aEs" eventType="touchUpInside" id="ROi-NA-fgM"/>
+                                </connections>
+                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KN2-JS-N2y">
-                                <rect key="frame" x="132" y="143" width="46" height="30"/>
-                                <state key="normal" title="Button">
+                                <rect key="frame" x="100" y="195" width="98" height="30"/>
+                                <state key="normal" title="Save Location">
+                                    <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <action selector="checkLocation:" destination="rS8-Nq-aEs" eventType="touchUpInside" id="y42-Dd-sRh"/>
                                 </connections>
                             </button>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="top-Sb-NsV">
-                                <rect key="frame" x="0.0" y="189" width="320" height="379"/>
-                            </mapView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
+                        <outlet property="displayLocation" destination="YaF-si-WNj" id="8VU-mw-UOq"/>
                         <outlet property="eventLocation" destination="zBO-qi-oto" id="hdj-vp-yIA"/>
                         <outlet property="map" destination="top-Sb-NsV" id="2vh-mp-oMU"/>
+                        <segue destination="wj6-a8-ugv" kind="show" identifier="location" id="nkt-Ah-6Hc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OFU-kO-d9w" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1527" y="-1130"/>
+            <point key="canvasLocation" x="-2732" y="693"/>
         </scene>
         <!--Userprofile-->
         <scene sceneID="lmG-qq-5zj">
@@ -2905,11 +2926,11 @@
         <image name="yesProfileFeed" width="28" height="31"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="0t0-sB-Jv5"/>
+        <segue reference="nkt-Ah-6Hc"/>
         <segue reference="5Y0-YN-TjP"/>
-        <segue reference="Ey9-Bb-gh3"/>
         <segue reference="SJU-iS-UV4"/>
         <segue reference="FLk-RB-cnt"/>
-        <segue reference="ZXW-eo-tVQ"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>

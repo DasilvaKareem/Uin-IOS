@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import MapKit
 
 class eventMake: UIViewController, UITextFieldDelegate {
     var dateTime = String()
@@ -20,6 +20,13 @@ class eventMake: UIViewController, UITextFieldDelegate {
     var eventLocation = (String)()
     var eventID = (String)()
     var userId = (String)()
+    var eventDisplay = (String)()
+    var lat = (CLLocationDegrees)()
+    var long = (CLLocationDegrees)()
+    var locations = CLLocation()
+    
+
+   
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         
@@ -136,6 +143,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
     
     @IBAction func makeEvent(sender: AnyObject) {
         
+       var geopoint = PFGeoPoint(location: locations)
         var userFollowers = [String]()
         var allError = ""
         
@@ -172,7 +180,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
                     (eventItem:PFObject!, error:NSError!) -> Void in
                     
                     if error == nil {
-                        
+                        eventItem["locationGeopoint"] = geopoint
                         eventItem["start"] = orderDate1
                         eventItem["end"] = orderDate2
                         eventItem["isPublic"] = self.eventPublic
@@ -242,6 +250,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
             }
             else {
                 var event = PFObject(className: "Event")
+                event["locationGeopoint"] = geopoint
                 event["start"] = orderDate1
                 event["end"] = orderDate2
                 event["isPublic"] = self.eventPublic
@@ -386,7 +395,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
         
     }
     override func viewDidAppear(animated: Bool) {
-        
+        eventSum.text = eventDisplay
         if (startString == ""){
             start.setTitle("Start Time", forState: UIControlState.Normal)
         }

@@ -48,7 +48,7 @@
 		61B451571A9EB7C900285930 /* ParseFacebookUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61B451561A9EB7C900285930 /* ParseFacebookUtils.framework */; };
 		61B634C71A7F1E5F00139F60 /* FollowCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61AFFF4C1A7ED66300858273 /* FollowCell.swift */; };
 		61BFF8211A8FDF6C00E2D059 /* notificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BFF8201A8FDF6C00E2D059 /* notificationsView.swift */; };
-		61D3201E1AC1ED6C003061B8 /* ParseCrashReporting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 617854321ABCC57200694AD4 /* ParseCrashReporting.framework */; };
+		61C6B91D1AC21FF700AEDC2D /* ParseCrashReporting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 617854321ABCC57200694AD4 /* ParseCrashReporting.framework */; };
 		61D597701A7499CB009A4ECE /* MyProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613069F11A745289001CAF4F /* MyProfile.swift */; };
 		61DC09F21AC08853000C5EB5 /* eventLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DC09EE1AC08727000C5EB5 /* eventLocation.swift */; };
 		61EA5F621A91891B002B1998 /* eventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E6547D1A60B9C8006E76E5 /* eventCell.swift */; };
@@ -137,8 +137,8 @@
 				28277E621A4B1175001CCB02 /* CoreLocation.framework in Frameworks */,
 				28277E5E1A4B1175001CCB02 /* Security.framework in Frameworks */,
 				28277E641A4B1175001CCB02 /* CFNetwork.framework in Frameworks */,
+				61C6B91D1AC21FF700AEDC2D /* ParseCrashReporting.framework in Frameworks */,
 				28277E611A4B1175001CCB02 /* libz.dylib in Frameworks */,
-				61D3201E1AC1ED6C003061B8 /* ParseCrashReporting.framework in Frameworks */,
 				28277E631A4B1175001CCB02 /* CoreGraphics.framework in Frameworks */,
 				28277E701A4B1685001CCB02 /* SystemConfiguration.framework in Frameworks */,
 				28277E651A4B1175001CCB02 /* AudioToolbox.framework in Frameworks */,
@@ -619,6 +619,8 @@
 					2,
 					"/Users/kareemdasilva/Downloads/parse-library-1.6.1",
 					2,
+					"/Users/kareemdasilva/Downloads/parse-library-1.6.1",
+					2,
 				);
 				INFOPLIST_FILE = UinProto2/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -645,6 +647,8 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"/Users/kareemdasilva/Desktop/Uin-IOS/",
 					"$(inherited)",
+					"/Users/kareemdasilva/Downloads/parse-library-1.6.1",
+					2,
 					"/Users/kareemdasilva/Downloads/parse-library-1.6.1",
 					2,
 					"/Users/kareemdasilva/Downloads/parse-library-1.6.1",
