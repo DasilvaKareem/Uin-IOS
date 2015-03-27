@@ -213,106 +213,101 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         //Removes all leftover content in the array
         
         println("Before query")
+        println(self.currentPoint)
         PFGeoPoint.geoPointForCurrentLocationInBackground {
             (geoPoint: PFGeoPoint!, error: NSError!) -> Void in
             if error == nil {
+                
                 self.currentPoint = geoPoint
+                //adds content to the array
+                //Queries all public Events
+                var que1 = PFQuery(className: "Event")
+                que1.whereKey("isPublic", equalTo: true)
+                
+                //Queries all Private events
+                var pubQue = PFQuery(className: "Subscription")
+                pubQue.whereKey("subscriber", equalTo: PFUser.currentUser().username)
+                pubQue.whereKey("isMember", equalTo: true)
+                var superQue = PFQuery(className: "Event")
+                superQue.whereKey("author", matchesKey: "publisher", inQuery:pubQue)
+                superQue.whereKey("isPublic", equalTo: false)
+                
+                //Queries all of the current user events
+                var newQue = PFQuery(className: "Event")
+                newQue.whereKey("isPublic", equalTo: false)
+                newQue.whereKey("author", equalTo: PFUser.currentUser().username)
+                
+                
+                var query = PFQuery.orQueryWithSubqueries([que1, superQue, newQue ])
+                query.orderByAscending("start")
+                println(self.currentPoint)
+                query.whereKey("locationGeopoint", nearGeoPoint: self.currentPoint, withinMiles: 2.0)
+                query.whereKey("start", greaterThanOrEqualTo: NSDate())
+                query.whereKey("isDeleted", equalTo: false)
+                
+                query.findObjectsInBackgroundWithBlock {
+                    (results: [AnyObject]!, error: NSError!) -> Void in
+                    if error == nil {
+                        
+                        
+                        
+                        
+                        
+                        self.onsite.removeAll(keepCapacity: true)
+                        self.paid.removeAll(keepCapacity: true)
+                        self.food.removeAll(keepCapacity: true)
+                        self.eventTitle.removeAll(keepCapacity: true)
+                        self.eventlocation.removeAll(keepCapacity: true)
+                        self.eventStartTime.removeAll(keepCapacity: true)
+                        self.eventEndTime.removeAll(keepCapacity: true)
+                        self.eventStartDate.removeAll(keepCapacity: true)
+                        self.eventEndDate.removeAll(keepCapacity: true)
+                        self.usernames.removeAll(keepCapacity: true)
+                        self.objectID.removeAll(keepCapacity: true)
+                        self.publicPost.removeAll(keepCapacity: true)
+                        self.eventStart.removeAll(keepCapacity: true)
+                        self.eventEnd.removeAll(keepCapacity: true)
+                        self.localizedTime.removeAll(keepCapacity: true)
+                        self.localizedEndTime.removeAll(keepCapacity: true)
+                        
+                        for object in results{
+                            
+                            
+                            self.publicPost.append(object["isPublic"] as Bool)
+                            self.objectID.append(object.objectId as String)
+                            self.usernames.append(object["author"] as String)
+                            self.eventTitle.append(object["title"] as String)
+                            self.food.append(object["hasFood"] as Bool)
+                            self.paid.append(object["isFree"] as Bool)
+                            self.onsite.append(object["onCampus"] as Bool)
+                            self.eventEnd.append(object["end"] as NSDate)
+                            self.eventStart.append(object["start"] as NSDate)
+                            self.eventlocation.append(object["location"] as String)
+                            self.userId.append(object["authorID"] as String)
+                            
+                        }
+                        self.populateSectionInfo()
+                        self.theFeed.reloadData()
+                        self.refresher.endRefreshing()
+                        
+                    }
+                        
+                        
+                    else {
+                        if error.code == 100 {
+                            
+                            self.displayAlert("No Internet", error: "You have no internet connection")
+                        }
+                        
+                        println("It failed")
+                        
+                    }
+                }
             }
         }
 
       
-        //adds content to the array
-        //Queries all public Events
-        var que1 = PFQuery(className: "Event")
-        que1.whereKey("isPublic", equalTo: true)
-        
-        //Queries all Private events
-        var pubQue = PFQuery(className: "Subscription")
-        pubQue.whereKey("subscriber", equalTo: PFUser.currentUser().username)
-        pubQue.whereKey("isMember", equalTo: true)
-        var superQue = PFQuery(className: "Event")
-        superQue.whereKey("author", matchesKey: "publisher", inQuery:pubQue)
-        superQue.whereKey("isPublic", equalTo: false)
-        
-        //Queries all of the current user events
-        var newQue = PFQuery(className: "Event")
-        newQue.whereKey("isPublic", equalTo: false)
-        newQue.whereKey("author", equalTo: PFUser.currentUser().username)
-        
-    
-        var query = PFQuery.orQueryWithSubqueries([que1, superQue, newQue ])
-        query.orderByAscending("start")
-        query.whereKey("start", greaterThanOrEqualTo: NSDate())
-        query.whereKey("isDeleted", equalTo: false)
-        PFGeoPoint.geoPointForCurrentLocationInBackground {
-            (geoPoint: PFGeoPoint!, error: NSError!) -> Void in
-            if error == nil {
-                // do something with the new
-            }
-        }
-        println()
-        println(self.currentPoint)
-        println()
-        query.whereKey("locationGeopoint", nearGeoPoint: self.currentPoint, withinRadians: 2.0)
-        query.whereKey("locationGeopoint", nearGeoPoint: self.currentPoint, withinMiles: 2.0)
-        query.findObjectsInBackgroundWithBlock {
-            (results: [AnyObject]!, error: NSError!) -> Void in
-            if error == nil {
-                
-                
-               
-                   
-                    
-                    self.onsite.removeAll(keepCapacity: true)
-                    self.paid.removeAll(keepCapacity: true)
-                    self.food.removeAll(keepCapacity: true)
-                    self.eventTitle.removeAll(keepCapacity: true)
-                    self.eventlocation.removeAll(keepCapacity: true)
-                    self.eventStartTime.removeAll(keepCapacity: true)
-                    self.eventEndTime.removeAll(keepCapacity: true)
-                    self.eventStartDate.removeAll(keepCapacity: true)
-                    self.eventEndDate.removeAll(keepCapacity: true)
-                    self.usernames.removeAll(keepCapacity: true)
-                    self.objectID.removeAll(keepCapacity: true)
-                    self.publicPost.removeAll(keepCapacity: true)
-                    self.eventStart.removeAll(keepCapacity: true)
-                    self.eventEnd.removeAll(keepCapacity: true)
-                    self.localizedTime.removeAll(keepCapacity: true)
-                    self.localizedEndTime.removeAll(keepCapacity: true)
-                
-                      for object in results{
-                    
-                    
-                    self.publicPost.append(object["isPublic"] as Bool)
-                    self.objectID.append(object.objectId as String)
-                    self.usernames.append(object["author"] as String)
-                    self.eventTitle.append(object["title"] as String)
-                    self.food.append(object["hasFood"] as Bool)
-                    self.paid.append(object["isFree"] as Bool)
-                    self.onsite.append(object["onCampus"] as Bool)
-                    self.eventEnd.append(object["end"] as NSDate)
-                    self.eventStart.append(object["start"] as NSDate)
-                    self.eventlocation.append(object["location"] as String)
-                    self.userId.append(object["authorID"] as String)
-                    
-                    }
-                    self.populateSectionInfo()
-                    self.theFeed.reloadData()
-                    self.refresher.endRefreshing()
-                    
-                }
-                
-                
-            else {
-                if error.code == 100 {
-                    
-                    self.displayAlert("No Internet", error: "You have no internet connection")
-                }
-        
-                println("It failed")
-                
-            }
-        }
+      
         
         
         

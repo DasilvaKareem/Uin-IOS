@@ -17,14 +17,18 @@ class eventMake: UIViewController, UITextFieldDelegate {
     var startTime = String()
     var endTime = String()
     var eventTitlePass = (String)()
-    var eventLocation = (String)()
+    var eventLocation = ""
     var eventID = (String)()
     var userId = (String)()
     var eventDisplay = (String)()
     var lat = (CLLocationDegrees)()
     var long = (CLLocationDegrees)()
     var locations = CLLocation()
+    var address = (String)()
     
+    @IBOutlet var eventAddress: UIButton!
+    
+    @IBOutlet var eventLocationDescription: UIButton!
 
    
     
@@ -50,7 +54,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
     @IBOutlet var foodSegement: UISegmentedControl!
     @IBOutlet var publicSegment: UISegmentedControl!
     @IBOutlet weak var eventTitle: UITextField!
-    @IBOutlet weak var eventSum: UITextField!
+    
     @IBAction func startAction(sender: AnyObject) {
         self.performSegueWithIdentifier("sendtodate", sender: self)
     }
@@ -154,11 +158,17 @@ class eventMake: UIViewController, UITextFieldDelegate {
             
         }
         
-        if eventSum.text == ""{
+        if eventLocation == ""{
             
             allError = "Enter a location for your Event"
             println(allError)
         }
+        if address == ""{
+            allError = "Please enter in an address"
+        }
+        //if locations == "" {
+          //Find a  no value for NSobject
+        //}
         
         if dateTime1 == "" {
             
@@ -180,6 +190,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
                     (eventItem:PFObject!, error:NSError!) -> Void in
                     
                     if error == nil {
+                        eventItem["address"] = self.address
                         eventItem["locationGeopoint"] = geopoint
                         eventItem["start"] = orderDate1
                         eventItem["end"] = orderDate2
@@ -187,7 +198,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
                         eventItem["hasFood"] = self.food
                         eventItem["isFree"] = self.paid
                         eventItem["onCampus"] = self.onsite
-                        eventItem["location"] = self.eventSum.text
+                        eventItem["location"] = self.eventLocation
                         eventItem["title"] = self.eventTitle.text
                         eventItem["author"] = PFUser.currentUser().username
                         eventItem["authorID"] = PFUser.currentUser().objectId
@@ -250,6 +261,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
             }
             else {
                 var event = PFObject(className: "Event")
+                event["address"] = address
                 event["locationGeopoint"] = geopoint
                 event["start"] = orderDate1
                 event["end"] = orderDate2
@@ -257,7 +269,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
                 event["hasFood"] = self.food
                 event["isFree"] = self.paid
                 event["onCampus"] = self.onsite
-                event["location"] = self.eventSum.text
+                event["location"] = self.eventLocation
                 event["title"] = self.eventTitle.text
                 event["author"] = PFUser.currentUser().username
                 event["authorID"] = PFUser.currentUser().objectId
@@ -395,7 +407,12 @@ class eventMake: UIViewController, UITextFieldDelegate {
         
     }
     override func viewDidAppear(animated: Bool) {
-        eventSum.text = eventDisplay
+        if eventLocation == "" {
+            eventLocationDescription.setTitle("Location", forState: UIControlState.Normal)
+        } else {
+            eventLocationDescription.setTitle(eventLocation, forState: UIControlState.Normal)
+            eventAddress.setTitle(address, forState: UIControlState.Normal)
+        }
         if (startString == ""){
             start.setTitle("Start Time", forState: UIControlState.Normal)
         }
@@ -423,7 +440,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
         }
         else {
             eventTitle.text = eventTitlePass
-            eventSum.text = eventLocation
+            eventLocationDescription.setTitle(eventLocation, forState: UIControlState.Normal)
             var checkPublicStatus = PFQuery(className: "Event")
             var status = checkPublicStatus.getObjectWithId(eventID)
             if status["isPublic"] as Bool == true {

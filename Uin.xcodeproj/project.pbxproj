@@ -48,11 +48,12 @@
 		61B451571A9EB7C900285930 /* ParseFacebookUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61B451561A9EB7C900285930 /* ParseFacebookUtils.framework */; };
 		61B634C71A7F1E5F00139F60 /* FollowCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61AFFF4C1A7ED66300858273 /* FollowCell.swift */; };
 		61BFF8211A8FDF6C00E2D059 /* notificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BFF8201A8FDF6C00E2D059 /* notificationsView.swift */; };
-		61C6B91D1AC21FF700AEDC2D /* ParseCrashReporting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 617854321ABCC57200694AD4 /* ParseCrashReporting.framework */; };
 		61D597701A7499CB009A4ECE /* MyProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613069F11A745289001CAF4F /* MyProfile.swift */; };
 		61DC09F21AC08853000C5EB5 /* eventLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DC09EE1AC08727000C5EB5 /* eventLocation.swift */; };
 		61EA5F621A91891B002B1998 /* eventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E6547D1A60B9C8006E76E5 /* eventCell.swift */; };
 		61EA5F641A918E00002B1998 /* settingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61EA5F631A918E00002B1998 /* settingsView.swift */; };
+		61F0D0E11AC46D0700ED7B61 /* ParseCrashReporting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61DC09EC1ABCDBD2000C5EB5 /* ParseCrashReporting.framework */; };
+		61F0D0E31AC477DE00ED7B61 /* searchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61F0D0E21AC477DE00ED7B61 /* searchView.swift */; };
 		61F70F4E1A842C7400956DD3 /* EventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618CE0131A76F4A400FF493C /* EventView.swift */; };
 		EE68EA9B1AB0F26800AEDBBA /* checkNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE68EA9A1AB0F26800AEDBBA /* checkNotifications.swift */; };
 /* End PBXBuildFile section */
@@ -122,6 +123,7 @@
 		61DC09EC1ABCDBD2000C5EB5 /* ParseCrashReporting.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ParseCrashReporting.framework; path = "../../../Downloads/parse-library-1.6.1 2/ParseCrashReporting.framework"; sourceTree = "<group>"; };
 		61DC09EE1AC08727000C5EB5 /* eventLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = eventLocation.swift; sourceTree = "<group>"; };
 		61EA5F631A918E00002B1998 /* settingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = settingsView.swift; sourceTree = "<group>"; };
+		61F0D0E21AC477DE00ED7B61 /* searchView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = searchView.swift; sourceTree = "<group>"; };
 		BFF64F43CD26D75E1C820539 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "UinProto2/Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		D15603B83CDC98572D79F2CD /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "UinProto2/Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		EE68EA9A1AB0F26800AEDBBA /* checkNotifications.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = checkNotifications.swift; sourceTree = "<group>"; };
@@ -137,9 +139,9 @@
 				28277E621A4B1175001CCB02 /* CoreLocation.framework in Frameworks */,
 				28277E5E1A4B1175001CCB02 /* Security.framework in Frameworks */,
 				28277E641A4B1175001CCB02 /* CFNetwork.framework in Frameworks */,
-				61C6B91D1AC21FF700AEDC2D /* ParseCrashReporting.framework in Frameworks */,
 				28277E611A4B1175001CCB02 /* libz.dylib in Frameworks */,
 				28277E631A4B1175001CCB02 /* CoreGraphics.framework in Frameworks */,
+				61F0D0E11AC46D0700ED7B61 /* ParseCrashReporting.framework in Frameworks */,
 				28277E701A4B1685001CCB02 /* SystemConfiguration.framework in Frameworks */,
 				28277E651A4B1175001CCB02 /* AudioToolbox.framework in Frameworks */,
 				61B451571A9EB7C900285930 /* ParseFacebookUtils.framework in Frameworks */,
@@ -207,6 +209,7 @@
 				61DC09F11AC087BD000C5EB5 /* SigningUp */,
 				61DC09F01AC08774000C5EB5 /* EventCreate */,
 				28277E381A4B115E001CCB02 /* Main.storyboard */,
+				61F0D0E21AC477DE00ED7B61 /* searchView.swift */,
 				6136E5E71A9958C7009503A4 /* footerCell.swift */,
 				61EA5F631A918E00002B1998 /* settingsView.swift */,
 				614F49A61A8FFD4300E6245A /* subCell.swift */,
@@ -462,6 +465,7 @@
 				61AFFF531A7EE6A800858273 /* datepickers.swift in Sources */,
 				28277E6E1A4B161C001CCB02 /* UInProto.m in Sources */,
 				28277E761A4B1804001CCB02 /* SignIn.swift in Sources */,
+				61F0D0E31AC477DE00ED7B61 /* searchView.swift in Sources */,
 				61A4E77C1A7E7A690041FB13 /* userprofile.swift in Sources */,
 				61AFFF4F1A7ED7C400858273 /* subscriberlist.swift in Sources */,
 				61AFFF511A7EE2AD00858273 /* subscriptions.swift in Sources */,
@@ -621,6 +625,8 @@
 					2,
 					"/Users/kareemdasilva/Downloads/parse-library-1.6.1",
 					2,
+					"/Users/kareemdasilva/Downloads/parse-library-1.6.1",
+					2,
 				);
 				INFOPLIST_FILE = UinProto2/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -647,6 +653,8 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"/Users/kareemdasilva/Desktop/Uin-IOS/",
 					"$(inherited)",
+					"/Users/kareemdasilva/Downloads/parse-library-1.6.1",
+					2,
 					"/Users/kareemdasilva/Downloads/parse-library-1.6.1",
 					2,
 					"/Users/kareemdasilva/Downloads/parse-library-1.6.1",

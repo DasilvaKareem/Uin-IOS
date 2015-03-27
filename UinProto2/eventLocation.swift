@@ -10,43 +10,45 @@ import UIKit
 import MapKit
 
 class eventLocation: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate, UITextFieldDelegate {
-
+    
      //Stores user current lcoation address
     @IBAction func getUserLocation(sender: AnyObject) {
+        var geo = CLGeocoder()
+        var geocoder = CLGeocoder()
         
+        geocoder.geocodeAddressString(eventLocation.text, {
+            (placemarks: [AnyObject]!, error: NSError!) -> Void in
+            if let placemark = placemarks?[0] as? CLPlacemark {
+                let annotationsToRemove = self.map.annotations.filter { $0 !== self.map.userLocation }
+                self.map.removeAnnotations( annotationsToRemove )
+                self.map.addAnnotation(MKPlacemark(placemark: placemark))
+                
+                var eventLatitude = placemark.location.coordinate.latitude //Laitude of the place marker
+                var eventLongitude = placemark.location.coordinate.longitude //Longitude of the place marker
+                var location = CLLocation(latitude: eventLatitude, longitude: eventLongitude)
+                let center = CLLocationCoordinate2D(latitude: eventLatitude, longitude: eventLongitude)
+                let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
+                self.eventGeoLocation = location
+                self.map.setRegion(region, animated: true)
+                
+                
+            }
+        })
     }
    
     @IBOutlet var displayLocation: UITextField!
-var locationmgr : CLLocationManager!
-    @IBOutlet var map: MKMapView!
-    var manager:CLLocationManager!
-    var myLocations: [CLLocation] = []
-    @IBOutlet var eventLocation: UITextField!
+    var locationmgr : CLLocationManager! // locatiom manger
+    @IBOutlet var map: MKMapView! // lol map
+    var manager:CLLocationManager! // another manger?
+    var myLocations: [CLLocation] = [] // locations that are manged
+    @IBOutlet var eventLocation: UITextField! // address of location
     var eventGeoLocation = (CLLocation)() //Cordination of event
+    
     //Keyboard functions and modfies them
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         self.eventLocation.endEditing(true)
         if self.eventLocation.endEditing(true) {
-            var geo = CLGeocoder()
-            var geocoder = CLGeocoder()
-            
-            geocoder.geocodeAddressString(eventLocation.text, {
-                (placemarks: [AnyObject]!, error: NSError!) -> Void in
-                if let placemark = placemarks?[0] as? CLPlacemark {
-                    let annotationsToRemove = self.map.annotations.filter { $0 !== self.map.userLocation }
-                    self.map.removeAnnotations( annotationsToRemove )
-                    self.map.addAnnotation(MKPlacemark(placemark: placemark))
-                    
-                    var eventLatitude = placemark.location.coordinate.latitude //Laitude of the place marker
-                    var eventLongitude = placemark.location.coordinate.longitude //Longitude of the place marker
-                    var location = CLLocation(latitude: eventLatitude, longitude: eventLongitude)
-                    let center = CLLocationCoordinate2D(latitude: eventLatitude, longitude: eventLongitude)
-                    let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
-                    
-                    self.map.setRegion(region, animated: true)
-                    
-                }
-            })
+    
         }
     }
     func textFieldShouldReturn(textField: UITextField!) -> Bool {
@@ -67,8 +69,29 @@ var locationmgr : CLLocationManager!
       
         
     }
+    //Keeps track of the center cordinate location
+    func mapView(mapView: MKMapView!, regionDidChangeAnimated animated: Bool) {
+        var geocoder = CLGeocoder()
+        var location = CLLocation(latitude: map.centerCoordinate.latitude, longitude: map.centerCoordinate.longitude)
+        var location2D = CLLocationCoordinate2D(latitude: map.centerCoordinate.latitude, longitude: map.centerCoordinate.longitude)
+        geocoder.reverseGeocodeLocation(location, completionHandler:{
+            (placemarks: [AnyObject]!, error: NSError!) -> Void in
+            let placemark = placemarks?[0] as? CLPlacemark
+            self.eventLocation.text = placemark?.name
+            self.eventGeoLocation = location
+          
+            
+        
+        })
+       
+    }
+   
+
+
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        map.delegate = self
         displayLocation.delegate = self
         locationmgr = CLLocationManager()
         locationmgr.delegate = self
@@ -77,7 +100,7 @@ var locationmgr : CLLocationManager!
        locationmgr.startUpdatingLocation()
         println(map.userLocation.location)
        
-        
+       
         var uilpgr = UILongPressGestureRecognizer(target: self, action: "action:")
         
         uilpgr.minimumPressDuration = 0.5
@@ -95,21 +118,21 @@ var locationmgr : CLLocationManager!
     
      func locationManager(locationmgr: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
         let location = locations.last as CLLocation
-        
+        println("it is moving and running")
         let center = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
         let geoLocation = CLLocation(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
         let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
         var geocode = CLGeocoder()
+        locationmgr.stopUpdatingLocation()
+       
         geocode.reverseGeocodeLocation(location, completionHandler: {
             (placemarks: [AnyObject]!, error: NSError!) -> Void in
             let placemark = placemarks?[0] as? CLPlacemark
             println(placemark?.name)
             self.eventLocation.text = placemark?.name
-            
+            self.map.setRegion(region, animated: false)
         })
-        self.map.setRegion(region, animated: true)
-        locationmgr.stopUpdatingLocation()
-    
+
         
     }
     
@@ -132,7 +155,7 @@ var locationmgr : CLLocationManager!
   
         var geocoder = CLGeocoder()
         var location = CLLocation(latitude: newCoordinate.latitude, longitude: newCoordinate.longitude) //location for app
-        
+       
         //Reverses the lat n long to real human people things
         geocoder.reverseGeocodeLocation(location, completionHandler:{
             (placemarks: [AnyObject]!, error: NSError!) -> Void in
@@ -140,14 +163,11 @@ var locationmgr : CLLocationManager!
             self.eventLocation.text = placemark?.name
             println(placemark?.location)
             println(placemark?.addressDictionary[2])
-            annotation.coordinate = newCoordinate //sets teh cordinates for the annotation
-            annotation.title = placemark?.name
-            annotation.subtitle = placemark?.thoroughfare
             
                  //Creates map region for new cordinates
               self.map.addAnnotation(annotation)
         })
-     
+   
         self.eventGeoLocation = location
     }
     override func didReceiveMemoryWarning() {
@@ -163,8 +183,9 @@ var locationmgr : CLLocationManager!
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "location" {
             var event:eventMake = segue.destinationViewController as eventMake
-            event.eventDisplay = displayLocation.text
+            event.eventLocation = displayLocation.text
             event.locations = eventGeoLocation
+            event.address = eventLocation.text
             
         }
     }
