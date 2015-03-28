@@ -35,6 +35,7 @@
 		6136E5E81A9958C7009503A4 /* footerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6136E5E71A9958C7009503A4 /* footerCell.swift */; };
 		6137CA921AA41AE000B74077 /* libstdc++.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6137CA911AA41AE000B74077 /* libstdc++.6.dylib */; };
 		6141F7EE1AA24B1B00602D7A /* loginOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6141F7EC1AA24A5400602D7A /* loginOptions.swift */; };
+		6148C8E21AC5FBB6002899E8 /* ParseCrashReporting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61DC09EC1ABCDBD2000C5EB5 /* ParseCrashReporting.framework */; };
 		614F49A71A8FFD4300E6245A /* subCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614F49A61A8FFD4300E6245A /* subCell.swift */; };
 		6172E1FF1A97C49200F17629 /* eventMake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E654811A60C1AD006E76E5 /* eventMake.swift */; };
 		6199B0C01A97E3C40091F9A6 /* profileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6199B0BF1A97E3C40091F9A6 /* profileCell.swift */; };
@@ -52,7 +53,6 @@
 		61DC09F21AC08853000C5EB5 /* eventLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DC09EE1AC08727000C5EB5 /* eventLocation.swift */; };
 		61EA5F621A91891B002B1998 /* eventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E6547D1A60B9C8006E76E5 /* eventCell.swift */; };
 		61EA5F641A918E00002B1998 /* settingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61EA5F631A918E00002B1998 /* settingsView.swift */; };
-		61F0D0E11AC46D0700ED7B61 /* ParseCrashReporting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61DC09EC1ABCDBD2000C5EB5 /* ParseCrashReporting.framework */; };
 		61F0D0E31AC477DE00ED7B61 /* searchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61F0D0E21AC477DE00ED7B61 /* searchView.swift */; };
 		61F70F4E1A842C7400956DD3 /* EventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618CE0131A76F4A400FF493C /* EventView.swift */; };
 		EE68EA9B1AB0F26800AEDBBA /* checkNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE68EA9A1AB0F26800AEDBBA /* checkNotifications.swift */; };
@@ -139,9 +139,9 @@
 				28277E621A4B1175001CCB02 /* CoreLocation.framework in Frameworks */,
 				28277E5E1A4B1175001CCB02 /* Security.framework in Frameworks */,
 				28277E641A4B1175001CCB02 /* CFNetwork.framework in Frameworks */,
+				6148C8E21AC5FBB6002899E8 /* ParseCrashReporting.framework in Frameworks */,
 				28277E611A4B1175001CCB02 /* libz.dylib in Frameworks */,
 				28277E631A4B1175001CCB02 /* CoreGraphics.framework in Frameworks */,
-				61F0D0E11AC46D0700ED7B61 /* ParseCrashReporting.framework in Frameworks */,
 				28277E701A4B1685001CCB02 /* SystemConfiguration.framework in Frameworks */,
 				28277E651A4B1175001CCB02 /* AudioToolbox.framework in Frameworks */,
 				61B451571A9EB7C900285930 /* ParseFacebookUtils.framework in Frameworks */,
@@ -627,6 +627,8 @@
 					2,
 					"/Users/kareemdasilva/Downloads/parse-library-1.6.1",
 					2,
+					"/Users/kareemdasilva/Downloads/parse-library-1.6.1",
+					2,
 				);
 				INFOPLIST_FILE = UinProto2/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -653,6 +655,8 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"/Users/kareemdasilva/Desktop/Uin-IOS/",
 					"$(inherited)",
+					"/Users/kareemdasilva/Downloads/parse-library-1.6.1",
+					2,
 					"/Users/kareemdasilva/Downloads/parse-library-1.6.1",
 					2,
 					"/Users/kareemdasilva/Downloads/parse-library-1.6.1",

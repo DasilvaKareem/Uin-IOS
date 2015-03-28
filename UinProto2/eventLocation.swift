@@ -19,10 +19,9 @@ class eventLocation: UIViewController, MKMapViewDelegate, CLLocationManagerDeleg
         geocoder.geocodeAddressString(eventLocation.text, {
             (placemarks: [AnyObject]!, error: NSError!) -> Void in
             if let placemark = placemarks?[0] as? CLPlacemark {
-                let annotationsToRemove = self.map.annotations.filter { $0 !== self.map.userLocation }
-                self.map.removeAnnotations( annotationsToRemove )
-                self.map.addAnnotation(MKPlacemark(placemark: placemark))
+              
                 
+              
                 var eventLatitude = placemark.location.coordinate.latitude //Laitude of the place marker
                 var eventLongitude = placemark.location.coordinate.longitude //Longitude of the place marker
                 var location = CLLocation(latitude: eventLatitude, longitude: eventLongitude)
@@ -46,20 +45,41 @@ class eventLocation: UIViewController, MKMapViewDelegate, CLLocationManagerDeleg
     
     //Keyboard functions and modfies them
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
-        self.eventLocation.endEditing(true)
+       
         if self.eventLocation.endEditing(true) {
     
         }
     }
     func textFieldShouldReturn(textField: UITextField!) -> Bool {
         textField.resignFirstResponder()
+        var geo = CLGeocoder()
+        var geocoder = CLGeocoder()
+        
+        geocoder.geocodeAddressString(eventLocation.text, {
+            (placemarks: [AnyObject]!, error: NSError!) -> Void in
+            if let placemark = placemarks?[0] as? CLPlacemark {
+                
+                
+                
+                var eventLatitude = placemark.location.coordinate.latitude //Laitude of the place marker
+                var eventLongitude = placemark.location.coordinate.longitude //Longitude of the place marker
+                var location = CLLocation(latitude: eventLatitude, longitude: eventLongitude)
+                let center = CLLocationCoordinate2D(latitude: eventLatitude, longitude: eventLongitude)
+                let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
+                self.eventGeoLocation = location
+                self.map.setRegion(region, animated: true)
+                
+                
+            }
+        })
         return true
     }
-    
+ 
     //Submits the locations to event make view
     @IBAction func checkLocation(sender: AnyObject) {
  
-       self.performSegueWithIdentifier("location", sender: self)
+       self.segueForUnwindingToViewController(eventMake(), fromViewController:self, identifier: "location")
+        
         
     }
 
@@ -92,6 +112,7 @@ class eventLocation: UIViewController, MKMapViewDelegate, CLLocationManagerDeleg
     override func viewDidLoad() {
         super.viewDidLoad()
         map.delegate = self
+        eventLocation.delegate = self
         displayLocation.delegate = self
         locationmgr = CLLocationManager()
         locationmgr.delegate = self
@@ -99,7 +120,7 @@ class eventLocation: UIViewController, MKMapViewDelegate, CLLocationManagerDeleg
         map.showsUserLocation = true
        locationmgr.startUpdatingLocation()
         println(map.userLocation.location)
-       
+        
        
         var uilpgr = UILongPressGestureRecognizer(target: self, action: "action:")
         
@@ -186,6 +207,7 @@ class eventLocation: UIViewController, MKMapViewDelegate, CLLocationManagerDeleg
             event.eventLocation = displayLocation.text
             event.locations = eventGeoLocation
             event.address = eventLocation.text
+            event.tabBarController?.navigationItem.backBarButtonItem = nil
             
         }
     }

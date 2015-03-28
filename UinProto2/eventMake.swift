@@ -71,6 +71,13 @@ class eventMake: UIViewController, UITextFieldDelegate {
     var food:Bool = true
     var paid:Bool = true
     
+    @IBAction func createLocation(sender: AnyObject) {
+       textFieldShouldReturn(eventTitle)
+        self.performSegueWithIdentifier("toLocation", sender: self)
+   
+    }
+    
+ 
     @IBAction func publicEvent(sender: UISegmentedControl) {
         
         println(eventPublic)
@@ -432,7 +439,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
         var theMix = Mixpanel.sharedInstance()
         theMix.track("Create Event Opened")
         theMix.flush()
-        
+        self.tabBarController?.navigationItem.hidesBackButton = false
         self.tabBarController?.tabBar.hidden = true
         if editing == false {
             

@@ -13,13 +13,17 @@ class searchView: UITableViewController, UITableViewDataSource, UITableViewDeleg
     @IBOutlet var searchTableView: UITableView!
     @IBOutlet var searchBar: UISearchBar!
     var searchActive:Bool = false
-    var data:[String] = ["hey"]
-    var filtered:[String] = []
+    var type:[String] = []
+    var data:[String] = []
+    var objectIDs:[String] = []
+    var filteredData:[String] = []
+    var filteredType:[String] = []
+    var filteredObjectIDs:[String] = []
     var userLocation = (PFGeoPoint)()
     override func viewDidLoad() {
         super.viewDidLoad()
         searchBar.delegate = self
-        //getSearchItems()
+        getSearchItems()
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -29,6 +33,8 @@ class searchView: UITableViewController, UITableViewDataSource, UITableViewDeleg
     }
     
     func getSearchItems() {
+        
+       
         var eventQuery = PFQuery(className: "Event")
         
         PFGeoPoint.geoPointForCurrentLocationInBackground({
@@ -42,14 +48,31 @@ class searchView: UITableViewController, UITableViewDataSource, UITableViewDeleg
             if error == nil {
                 for object in results{
                     
+                    var note = object["title"] as String
                     
-                    self.data.append(object["title"] as String)
+                    self.data.append("\(note) (Event)")
+                
+                    
                     
                 }
+                var userQuery = PFUser.query()
+                userQuery.whereKey("tempAccounts", equalTo: false)
+                userQuery.findObjectsInBackgroundWithBlock({
+                    (results: [AnyObject]!, error: NSError!) -> Void in
+                    if error == nil {
+                        for object in results{
+                            
+                            var note2 = object["username"] as String
+                            self.data.append("\(note2) (Username)")
+                            
+                            
+                        }
+                    }
+                })
             }
         
         })
-        
+    
         
     }
 
@@ -76,46 +99,52 @@ class searchView: UITableViewController, UITableViewDataSource, UITableViewDeleg
     }
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
         
-       /* filtered = data.filter({ (text) -> Bool in
+        
+        filteredData = data.filter({ (text) -> Bool in
             let tmp: NSString = text
             let range = tmp.rangeOfString(searchText, options: NSStringCompareOptions.CaseInsensitiveSearch)
+            println()
             return range.location != NSNotFound
         })
-        if(filtered.count == 0){
+       
+        if(filteredData.count == 0){
             searchActive = false;
         } else {
             searchActive = true;
         }
-        self.tableView.reloadData()
-*/
+        self.searchTableView.reloadData()
+
     }
 
 
     // MARK: - Table view data source
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 
+    }
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Potentially incomplete method implementation.
         // Return the number of sections.
-        return 0
+        return 1
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
         if(searchActive) {
-            return filtered.count
+            return filteredData.count
         }
-        return data.count;
+        return 0;
 
     }
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath) as UITableViewCell
+        let cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "searchitems")
 
        
         if(searchActive){
-            cell.textLabel?.text = filtered[indexPath.row]
+            cell.textLabel?.text = filteredData[indexPath.row]
         } else {
             cell.textLabel?.text = data[indexPath.row];
         }
