@@ -24,11 +24,9 @@ class searchView: UITableViewController, UITableViewDataSource, UITableViewDeleg
         super.viewDidLoad()
         searchBar.delegate = self
         getSearchItems()
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        var newBounds:CGRect = self.searchTableView.bounds
+        newBounds.origin.y = newBounds.origin.y + searchBar.bounds.size.height
+        self.searchTableView.bounds = newBounds
         
     }
     

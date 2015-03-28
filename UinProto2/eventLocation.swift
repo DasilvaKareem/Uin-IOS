@@ -10,7 +10,7 @@ import UIKit
 import MapKit
 
 class eventLocation: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate, UITextFieldDelegate {
-    
+   
      //Stores user current lcoation address
     @IBAction func getUserLocation(sender: AnyObject) {
         var geo = CLGeocoder()
@@ -19,18 +19,13 @@ class eventLocation: UIViewController, MKMapViewDelegate, CLLocationManagerDeleg
         geocoder.geocodeAddressString(eventLocation.text, {
             (placemarks: [AnyObject]!, error: NSError!) -> Void in
             if let placemark = placemarks?[0] as? CLPlacemark {
-              
-                
-              
                 var eventLatitude = placemark.location.coordinate.latitude //Laitude of the place marker
                 var eventLongitude = placemark.location.coordinate.longitude //Longitude of the place marker
                 var location = CLLocation(latitude: eventLatitude, longitude: eventLongitude)
                 let center = CLLocationCoordinate2D(latitude: eventLatitude, longitude: eventLongitude)
                 let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
-                self.eventGeoLocation = location
+                self.eventGeoLocation = location // passes the cllocation to the segue
                 self.map.setRegion(region, animated: true)
-                
-                
             }
         })
     }
@@ -45,10 +40,7 @@ class eventLocation: UIViewController, MKMapViewDelegate, CLLocationManagerDeleg
     
     //Keyboard functions and modfies them
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
-       
-        if self.eventLocation.endEditing(true) {
-    
-        }
+         self.eventLocation.endEditing(true)
     }
     func textFieldShouldReturn(textField: UITextField!) -> Bool {
         textField.resignFirstResponder()
@@ -78,7 +70,7 @@ class eventLocation: UIViewController, MKMapViewDelegate, CLLocationManagerDeleg
     //Submits the locations to event make view
     @IBAction func checkLocation(sender: AnyObject) {
  
-       self.segueForUnwindingToViewController(eventMake(), fromViewController:self, identifier: "location")
+       //self.segueForUnwindingToViewController(eventMake(), fromViewController:self, identifier: "location")
         
         
     }
@@ -99,7 +91,7 @@ class eventLocation: UIViewController, MKMapViewDelegate, CLLocationManagerDeleg
             let placemark = placemarks?[0] as? CLPlacemark
             self.eventLocation.text = placemark?.name
             self.eventGeoLocation = location
-          
+        
             
         
         })
@@ -122,11 +114,7 @@ class eventLocation: UIViewController, MKMapViewDelegate, CLLocationManagerDeleg
         println(map.userLocation.location)
         
        
-        var uilpgr = UILongPressGestureRecognizer(target: self, action: "action:")
-        
-        uilpgr.minimumPressDuration = 0.5
-        
-        map.addGestureRecognizer(uilpgr)
+
         
     
       
@@ -157,40 +145,7 @@ class eventLocation: UIViewController, MKMapViewDelegate, CLLocationManagerDeleg
         
     }
     
-    //Creates a annotation that tells you wheere you want your event to be
-    func action(gestureRecognizer: UIGestureRecognizer) {
-        
-        println("Gesture Recognized")
-        
-        //Removes  current annoations on the map
-        let annotationsToRemove = map.annotations.filter { $0 !== self.map.userLocation }
-        map.removeAnnotations( annotationsToRemove )
-        
-        //Gets current touch points cordinates
-        var touchPoint = gestureRecognizer.locationInView(self.map)
-        var newCoordinate: CLLocationCoordinate2D = map.convertPoint(touchPoint, toCoordinateFromView: self.map)
-        
-       //Creats an annototians and locations/sets regions
-        var annotation = MKPointAnnotation()
-      
   
-        var geocoder = CLGeocoder()
-        var location = CLLocation(latitude: newCoordinate.latitude, longitude: newCoordinate.longitude) //location for app
-       
-        //Reverses the lat n long to real human people things
-        geocoder.reverseGeocodeLocation(location, completionHandler:{
-            (placemarks: [AnyObject]!, error: NSError!) -> Void in
-            let placemark = placemarks?[0] as? CLPlacemark
-            self.eventLocation.text = placemark?.name
-            println(placemark?.location)
-            println(placemark?.addressDictionary[2])
-            
-                 //Creates map region for new cordinates
-              self.map.addAnnotation(annotation)
-        })
-   
-        self.eventGeoLocation = location
-    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -207,7 +162,7 @@ class eventLocation: UIViewController, MKMapViewDelegate, CLLocationManagerDeleg
             event.eventLocation = displayLocation.text
             event.locations = eventGeoLocation
             event.address = eventLocation.text
-            event.tabBarController?.navigationItem.backBarButtonItem = nil
+            
             
         }
     }

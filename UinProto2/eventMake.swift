@@ -24,7 +24,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
     var lat = (CLLocationDegrees)()
     var long = (CLLocationDegrees)()
     var locations = CLLocation()
-    var address = (String)()
+    var address = ""
     
     @IBOutlet var eventAddress: UIButton!
     
@@ -163,6 +163,9 @@ class eventMake: UIViewController, UITextFieldDelegate {
             allError = "Enter a Title for your Event"
             println(allError)
             
+        }
+        if orderDate1.laterDate(orderDate2) == true {
+            allError = "Your enddate is before your start date"
         }
         
         if eventLocation == ""{
@@ -418,6 +421,11 @@ class eventMake: UIViewController, UITextFieldDelegate {
             eventLocationDescription.setTitle("Location", forState: UIControlState.Normal)
         } else {
             eventLocationDescription.setTitle(eventLocation, forState: UIControlState.Normal)
+            
+        }
+        if address == "" {
+            eventAddress.setTitle("Address", forState: UIControlState.Normal)
+        } else {
             eventAddress.setTitle(address, forState: UIControlState.Normal)
         }
         if (startString == ""){
@@ -492,4 +500,12 @@ class eventMake: UIViewController, UITextFieldDelegate {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    @IBAction func cancelToPlayersViewController(segue:UIStoryboardSegue) {
+        
+    }
+    
+    @IBAction func savePlayerDetail(segue:UIStoryboardSegue) {
+    
+    }
+  
 }

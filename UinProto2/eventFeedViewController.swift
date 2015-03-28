@@ -241,7 +241,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                 var query = PFQuery.orQueryWithSubqueries([que1, superQue, newQue ])
                 query.orderByAscending("start")
                 println(self.currentPoint)
-                query.whereKey("locationGeopoint", nearGeoPoint: self.currentPoint, withinMiles: 2.0)
+                query.whereKey("locationGeopoint", nearGeoPoint: self.currentPoint, withinMiles: 7.0)
                 query.whereKey("start", greaterThanOrEqualTo: NSDate())
                 query.whereKey("isDeleted", equalTo: false)
                 
