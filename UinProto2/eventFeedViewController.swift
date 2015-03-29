@@ -532,10 +532,10 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if searchActive == false {
-             self.performSegueWithIdentifier("example", sender: self)
+             self.performSegueWithIdentifier("event", sender: self)
         } else {
             var item = filteredSearchItems[indexPath.row]
-            if item.type == "event" {
+            if item.type == "Event" {
                     self.performSegueWithIdentifier("searchEvent", sender: self)
                     self.searchActive = false
             } else {
@@ -580,9 +580,9 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             
         } else {
             
-        
+    
         var event = getEventIndex(indexPath.section, row: indexPath.row)
-        
+        cell.poop.hidden = false
         var section = indexPath.section
         var row = indexPath.row
         
@@ -803,7 +803,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         }
     override func prepareForSegue(segue:UIStoryboardSegue, sender: AnyObject?){
         
-        if segue.identifier == "example" {
+        if segue.identifier == "event" {
             var secondViewController : postEvent = segue.destinationViewController as postEvent
             var theMix = Mixpanel.sharedInstance()
             theMix.track("Opened Event View (EF)")
@@ -833,7 +833,27 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             
         }
         if segue.identifier == "profile" {
+            //Gets the indexpath for the filtered item
+            var indexpath = theFeed.indexPathForSelectedRow()
+            var row = indexpath?.row
+            //selects the view controller
+            var theotherprofile:userprofile = segue.destinationViewController as userprofile
+            var item = filteredSearchItems[row!]
+            theotherprofile.theUser = item.name
+            theotherprofile.userId = item.id
+        }
+        if segue.identifier == "searchEvent"{
+            //Gets the indexpath for the filtered item
+            var indexpath = theFeed.indexPathForSelectedRow()
+            var row = indexpath?.row
+            var item = filteredSearchItems[row!]
+            var theotherprofile:postEvent = segue.destinationViewController as postEvent
+            theotherprofile.eventId = item.id
+            theotherprofile.searchEvent = true
+             
+                    
             
+           
         }
         
     }
