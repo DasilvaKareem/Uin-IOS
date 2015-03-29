@@ -14,10 +14,9 @@ class postEvent: UIViewController {
     @IBOutlet weak var foodIcon: UILabel!
     @IBOutlet weak var freeIcon: UILabel!
     @IBOutlet weak var onCampusIcon: UILabel!
-    
+    @IBOutlet var location: UIButton!
     @IBOutlet var endDate: UILabel!
     @IBOutlet weak var eventTitle: UILabel!
-    @IBOutlet weak var location: UILabel!
     @IBOutlet var startTime: UILabel!
     @IBOutlet var endTime: UILabel!
     @IBOutlet weak var date: UILabel!
@@ -33,6 +32,7 @@ class postEvent: UIViewController {
     
     @IBOutlet var theeditButton: UIBarButtonItem!
     var profileEditing = false
+    var address = String()
     var users = String()
     var storeTitle = String()
     var storeLocation = String()
@@ -117,7 +117,7 @@ class postEvent: UIViewController {
         println(cost)
         username.setTitle(users, forState: UIControlState.Normal)
         endDate.text = storeEndDate
-        location.text = storeLocation
+        location.setTitle(storeLocation, forState: UIControlState.Normal)
         eventTitle.text = storeTitle
         startTime.text = localStart
         endTime.text = localEnd
@@ -129,6 +129,27 @@ class postEvent: UIViewController {
         }
     }
     
+    @IBAction func changeForm(sender: AnyObject) {
+        let textToShare = "Swift is awesome!  Check out this website about it!"
+        
+        if let myWebsite = NSURL(string: "http://www.codingexplorer.com/")
+        {
+            let objectsToShare = [textToShare, myWebsite]
+            let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
+            
+            self.presentViewController(activityVC, animated: true, completion: nil)
+        }
+        println(address)
+        println(storeLocation)
+        println(location.titleLabel)
+        if location.titleLabel?.text == storeLocation {
+            location.setTitle(address, forState: UIControlState.Normal)
+        }
+        if location.titleLabel?.text == address {
+            location.setTitle(storeLocation, forState: UIControlState.Normal)
+        }
+        
+    }
     func displayAlert(title:String, error:String) {
         
         var alert = UIAlertController(title: title, message: error, preferredStyle: UIAlertControllerStyle.Alert)
@@ -246,7 +267,11 @@ class postEvent: UIViewController {
                     var pfque = PFInstallation.query()
                     pfque.whereKey("user", equalTo: self.users)
                     push.setQuery(pfque)
-                    push.setMessage("\(PFUser.currentUser().username) has added your event to their calendar")
+                    if PFUser.currentUser()["tempAccounts"] as Bool == true {
+                        push.setMessage("Someone has added your event to their calendar")
+                    } else {
+                           push.setMessage("\(PFUser.currentUser().username) has added your event to their calendar")
+                    }
                     push.sendPushInBackgroundWithBlock({
                         
                         (success:Bool!, pushError: NSError!) -> Void in

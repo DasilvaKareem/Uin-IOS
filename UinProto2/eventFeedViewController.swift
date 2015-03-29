@@ -9,7 +9,7 @@
 import UIKit
 import EventKit
 
-class eventFeedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class eventFeedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
     
     
     @IBOutlet weak var theFeed: UITableView!
@@ -19,6 +19,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     var paid = [Bool]()
     var food = [Bool]()
     var eventTitle = [String]()
+    var eventAddress = [String]()
     var eventlocation = [String]()
     var eventStartTime = [String]()
     var eventEndTime = [String]()
@@ -37,17 +38,108 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     var sectionNames = [String]()
     var currentPoint = (PFGeoPoint)()
     
+    //Search functionailty
+    var searchActive:Bool = false
+    struct searchItem {
+        let type = (String)()
+        let name = (String)()
+        let id = (String)()
+    }
+    var filteredSearchItems = [searchItem]()
+    var diction = [String:[String]]()
+    var searchItems = [searchItem]()
+    @IBOutlet var searchBar: UISearchBar!
+    //Fills all events into an array to be search through
+    func getSearchItems() {
+        
+        
+        var eventQuery = PFQuery(className: "Event")
+        
+        PFGeoPoint.geoPointForCurrentLocationInBackground({
+            (geoPoint: PFGeoPoint!, error: NSError!) -> Void in
+            self.currentPoint = geoPoint
+        })
+        eventQuery.whereKey("end", greaterThanOrEqualTo: NSDate())
+        eventQuery.findObjectsInBackgroundWithBlock({
+            (results: [AnyObject]!, error: NSError!) -> Void in
+            if error == nil {
+                for object in results{
+                    
+                    self.searchItems.append(searchItem(type: "Event", name: object["title"] as String, id: object.objectId))
+                    self.searchItems.append(searchItem())
+                    println()
+                    println(self.searchItems)
+                    println()
+                    
+                }
+                var userQuery = PFUser.query()
+                userQuery.whereKey("tempAccounts", equalTo: false)
+                userQuery.findObjectsInBackgroundWithBlock({
+                    (results: [AnyObject]!, error: NSError!) -> Void in
+                    if error == nil {
+                        for object in results{
+                            self.searchItems.append(searchItem(type: "Username", name: object["username"] as String, id: object.objectId))
+                            
+                            
+                            println()
+                            println(self.searchItems)
+                            println()
+                            
+                            
+                        }
+                    }
+                })
+            }
+            
+        })
+        
+        
+    }
+
+    func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
+        searchActive = true;
+    }
     
-   
-  
+    func searchBarTextDidEndEditing(searchBar: UISearchBar) {
+        searchActive = false;
+    }
+    
+    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+        searchActive = false;
+    }
+    
+    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+        searchActive = false;
+    }
+    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+        
+        
+        self.filteredSearchItems = self.searchItems.filter({( searchItem: searchItem) -> Bool in
+            
+            let stringMatch = searchItem.name.rangeOfString(searchText)
+            return  (stringMatch != nil)
+        
+        })
+        if(filteredSearchItems.count == 0){
+            searchActive = false;
+        } else {
+            searchActive = true;
+        }
+        self.theFeed.reloadData()
+        
+    }
+
     // View cycles
     override func viewDidLoad() {
         super.viewDidLoad()
-      
+        searchBar.delegate = self
+        getSearchItems()
         var theMix = Mixpanel.sharedInstance()
         theMix.track("Event Feed Opened")
         theMix.flush()
-     
+        var newBounds:CGRect = self.theFeed.bounds
+        newBounds.origin.y = newBounds.origin.y - searchBar.bounds.size.height
+        self.theFeed.bounds = newBounds
         self.tabBarController?.tabBar.hidden = false
         //var eventsItem = tabBarItem?[0] as UITabBarItem
         //eventsItem.selectedImage = UIImage(named: "addToCalendar.png")
@@ -60,7 +152,9 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()];
         updateFeed()
         notifications()
-      
+        println()
+        println(searchItems)
+        println()
         
         
         //Adds pull to refresh
@@ -252,7 +346,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                         
                         
                         
-                        
+                        self.eventAddress.removeAll(keepCapacity: true)
                         self.onsite.removeAll(keepCapacity: true)
                         self.paid.removeAll(keepCapacity: true)
                         self.food.removeAll(keepCapacity: true)
@@ -284,6 +378,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                             self.eventStart.append(object["start"] as NSDate)
                             self.eventlocation.append(object["location"] as String)
                             self.userId.append(object["authorID"] as String)
+                            self.eventAddress.append(object["address"] as String)
                             
                         }
                         self.populateSectionInfo()
@@ -420,19 +515,44 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         var cell:dateCell = tableView.dequeueReusableCellWithIdentifier("dateCell") as dateCell
         
         cell.dateItem.text = sectionNames[section]
+        if searchActive {
+            return nil
+        }
         return cell
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Potentially incomplete method implementation.
         // Return the number of sections.
+        if searchActive {
+            return 1
+        }
         return numSections
+        
+    }
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        if searchActive == false {
+             self.performSegueWithIdentifier("example", sender: self)
+        } else {
+            var item = filteredSearchItems[indexPath.row]
+            if item.type == "event" {
+                    self.performSegueWithIdentifier("searchEvent", sender: self)
+                    self.searchActive = false
+            } else {
+                self.performSegueWithIdentifier("profile", sender: self)
+                self.searchActive = false
+            }
+        }
+       
         
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
+        if(searchActive) {
+            return filteredSearchItems.count
+        }
         return rowsInSection[section]
         
     }
@@ -440,7 +560,26 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
         // Puts the data in a cell
+        println()
+        println(searchActive)
+        println()
         var cell:eventCell = tableView.dequeueReusableCellWithIdentifier("cell2") as eventCell
+        if searchActive {
+            println("search is active")
+           var items = filteredSearchItems[indexPath.row]
+            cell.onCampusIcon.image = nil
+            cell.foodIcon.image = nil
+            cell.freeIcon.image = nil
+            cell.poop.hidden = true
+            cell.foodText.text = ""
+            cell.onCampusText.text = ""
+            cell.costText.text = ""
+            cell.eventName.text = items.name
+            cell.people.text = items.type
+            cell.time.text = items.id
+            
+        } else {
+            
         
         var event = getEventIndex(indexPath.section, row: indexPath.row)
         
@@ -512,7 +651,9 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             }
         }
               cell.poop.addTarget(self, action: "followButton:", forControlEvents: UIControlEvents.TouchUpInside)
+        }
         return cell
+        
     }
     func followButton(sender: UIButton){
         // Adds the event to calendar
@@ -543,7 +684,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                         if (granted) && (error == nil) {
                             println("granted \(granted)")
                             println("error  \(error)")
-                            var hosted = "Hosted by \(self.usernames[sender.tag])"
+                            var hosted = "Hosted by \(self.usernames[sender.tag]) address:\(self.eventAddress[sender.tag])"
                             var event:EKEvent = EKEvent(eventStore: eventStore)
                             event.title = self.eventTitle[sender.tag]
                             event.startDate = self.eventStart[sender.tag]
@@ -581,7 +722,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                     if (granted) && (error == nil) {
                         println("granted \(granted)")
                         println("error  \(error)")
-                        var hosted = "Hosted by \(self.usernames[sender.tag])"
+                        var hosted = "Hosted by \(self.usernames[sender.tag]) address:\(self.eventAddress[sender.tag])"
                         var event:EKEvent = EKEvent(eventStore: eventStore)
                         println()
                         println()
@@ -674,6 +815,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             secondViewController.storeStartDate = eventStart[index]
             secondViewController.endStoreDate =  eventEnd[index]
             secondViewController.userId = userId[index]
+            secondViewController.address = eventAddress[index]
             secondViewController.storeLocation = eventlocation[index]
             secondViewController.storeTitle = eventTitle[index]
             secondViewController.storeStartTime = eventStartTime[index]
@@ -690,5 +832,9 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             
             
         }
+        if segue.identifier == "profile" {
+            
+        }
+        
     }
 }

@@ -164,7 +164,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
             println(allError)
             
         }
-        if orderDate1.laterDate(orderDate2) == true {
+        if orderDate2.earlierDate(orderDate1) == true {
             allError = "Your enddate is before your start date"
         }
         
