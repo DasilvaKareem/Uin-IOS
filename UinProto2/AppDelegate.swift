@@ -30,9 +30,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //Production
         //Mixpanel.sharedInstanceWithToken("9955bea4e861e38f30086091b171d9fd")
         
-        Mixpanel.sharedInstanceWithToken("9955bwefewfea4e861e38f30086091b171d9fd")
+        // development key
+        Mixpanel.sharedInstanceWithToken("9955bea4e861e38f30086091b171d9fdoirthg9e78r")
         
-            ParseCrashReporting.enable()
+        // production key
+        //Mixpanel.sharedInstanceWithToken("9955bea4e861e38f30086091b171d9fd")
+             //ParseCrashReporting.enable()
         //devolpment key
         Parse.setApplicationId("HawWPTDabdo1FXdxMevotUNmVCwVl62wTkjiFyNg", clientKey: "Gj2fnhH0CkA6G1Hkl5igSQRooXeD3ByVBKjMF1Bq")
         
