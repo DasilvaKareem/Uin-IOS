@@ -63,6 +63,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
         theMix.flush()
         self.tabBarController?.tabBar.hidden = true
         self.navigationController?.navigationBar.backIndicatorImage = nil
+        
         subticker()
         println()
         println()
@@ -342,9 +343,10 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 }
                 else {
                     //If the user is using a temp account changes the function of the button
-                        cell2.subscribe.setTitle("Subscribe", forState: UIControlState.Normal)
+                       cell2.subscribe.setTitle("Subscribe", forState: UIControlState.Normal)
                         cell2.subscribe.setTitleColor(UIColor(red: 254.0/255.0, green: 186.0/255.0, blue: 1.0/255.0, alpha: 1.0), forState: UIControlState.Normal)
-                    
+
+
                 }
             }
   
@@ -361,7 +363,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
     
     
     
-    func subbing(sender: AnyObject) {
+    func subbing(sender: UIButton) {
         if PFUser.currentUser()["tempAccounts"] as Bool == true {
             var theMix = Mixpanel.sharedInstance()
             theMix.track("Anon Subscribe Attempt (UP)")
@@ -395,6 +397,8 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
         subQuery.getFirstObjectInBackgroundWithBlock({
             (results:PFObject!, error: NSError!) -> Void in
             if error == nil {
+                sender.setTitle("Subscribe", forState: UIControlState.Normal)
+                sender.setTitleColor(UIColor(red: 254.0/255.0, green: 186.0/255.0, blue: 1.0/255.0, alpha: 1.0), forState: UIControlState.Normal)
                 var user = PFUser.currentUser()
                 var currentInstallation = PFInstallation.currentInstallation()
                 currentInstallation.removeObject(self.userId, forKey: "channels")
@@ -416,10 +420,13 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 println("user is alreadt subscribed")
                 results.delete()
                   self.subticker()
-                self.theFeed.reloadData()
+                
             }
                 
             else {
+                //Subscribing feature
+                sender.setTitle("Unsubscribe", forState: UIControlState.Normal)
+                sender.setTitleColor(UIColor(red: 65.0/255.0, green: 146.0/255.0, blue: 199.0/255.0, alpha: 1.0), forState: UIControlState.Normal)
                 var currentInstallation = PFInstallation.currentInstallation()
                 currentInstallation.addUniqueObject(self.userId, forKey: "channels")
                 currentInstallation.saveInBackgroundWithBlock({
@@ -433,10 +440,11 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                     }
                         
                     else {
-                        println("It didnt work")
+                        println("User did not subscribe")
                     }
                 })
                 
+                //Creats the subscribe object
                 var subscribe = PFObject(className:"Subscription")
                 subscribe["isMember"] = false
                 subscribe["subscriber"] = PFUser.currentUser().username
@@ -460,6 +468,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                         println("notifcation has been saved")
                     }
                 })
+                //Sends Push notification
                 var user = PFUser.currentUser()
                 var checkPush = PFUser.query()
                 checkPush.whereKey("username", equalTo: self.theUser)
@@ -482,7 +491,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                     
                 }
                   self.subticker()
-                self.theFeed.reloadData()
+               
                 }
             })
         }
@@ -607,7 +616,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
         return cell
     }
     
-    func followButton(sender: AnyObject){
+    func followButton(sender: UIButton){
         // Adds the event to calendar
         
        var first = PFUser.currentUser()["firstRemoveFromCalendar"] as Bool
@@ -623,6 +632,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
             
             if queerror == nil {
                 results.delete()
+               
                 println(first)
                 if first == true {
                     
@@ -632,6 +642,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                     
                 }
                 if results != nil {
+                     sender.setImage(UIImage(named: "addToCalendar.png"), forState: UIControlState.Normal)
                     var eventStore : EKEventStore = EKEventStore()
                     eventStore.requestAccessToEntityType(EKEntityTypeEvent, completion: {
                         
@@ -670,9 +681,10 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                             }
                         }
                     }
-                    self.theFeed.reloadData()
+                    
                 }
             } else {
+                  sender.setImage(UIImage(named: "addedToCalendar.png"), forState: UIControlState.Normal)
                 var eventStore : EKEventStore = EKEventStore()
                 eventStore.requestAccessToEntityType(EKEntityTypeEvent, completion: {
                     
@@ -697,7 +709,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                         event.addAlarm(alarm)
                         event.location = self.eventlocation[sender.tag]
                         event.calendar = eventStore.defaultCalendarForNewEvents
-                        
+                      
                         eventStore.saveEvent(event, span: EKSpanThisEvent, error: nil)
                         var theMix = Mixpanel.sharedInstance()
                         theMix.track("Added to Calendar (UP)")
@@ -737,7 +749,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                     
                     (succeded:Bool!, savError:NSError!) -> Void in
                     if savError == nil {
-                        self.theFeed.reloadData()
+                        
                     }
                 }
                 println("Saved Event")

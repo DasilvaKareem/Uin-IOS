@@ -185,7 +185,7 @@ class register: UIViewController, UITextFieldDelegate {
                             self.displayAlert("Oops!", error: "Username taken")
                             
                         default:
-                            self.displayAlert("Oops!", error: "Failure")
+                            self.displayAlert("Oops!", error: "Error (")
                         }
                     }
                 }

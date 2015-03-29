@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import MapKit
 
 class eventMake: UIViewController, UITextFieldDelegate {
     var dateTime = String()
@@ -17,9 +17,20 @@ class eventMake: UIViewController, UITextFieldDelegate {
     var startTime = String()
     var endTime = String()
     var eventTitlePass = (String)()
-    var eventLocation = (String)()
+    var eventLocation = ""
     var eventID = (String)()
     var userId = (String)()
+    var eventDisplay = (String)()
+    var lat = (CLLocationDegrees)()
+    var long = (CLLocationDegrees)()
+    var locations = CLLocation()
+    var address = ""
+    
+    @IBOutlet var eventAddress: UIButton!
+    
+    @IBOutlet var eventLocationDescription: UIButton!
+
+   
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         
@@ -43,7 +54,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
     @IBOutlet var foodSegement: UISegmentedControl!
     @IBOutlet var publicSegment: UISegmentedControl!
     @IBOutlet weak var eventTitle: UITextField!
-    @IBOutlet weak var eventSum: UITextField!
+    
     @IBAction func startAction(sender: AnyObject) {
         self.performSegueWithIdentifier("sendtodate", sender: self)
     }
@@ -60,6 +71,13 @@ class eventMake: UIViewController, UITextFieldDelegate {
     var food:Bool = true
     var paid:Bool = true
     
+    @IBAction func createLocation(sender: AnyObject) {
+       textFieldShouldReturn(eventTitle)
+        self.performSegueWithIdentifier("toLocation", sender: self)
+   
+    }
+    
+ 
     @IBAction func publicEvent(sender: UISegmentedControl) {
         
         println(eventPublic)
@@ -136,6 +154,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
     
     @IBAction func makeEvent(sender: AnyObject) {
         
+       var geopoint = PFGeoPoint(location: locations)
         var userFollowers = [String]()
         var allError = ""
         
@@ -145,12 +164,21 @@ class eventMake: UIViewController, UITextFieldDelegate {
             println(allError)
             
         }
+        if orderDate1.laterDate(orderDate2) == true {
+            allError = "Your enddate is before your start date"
+        }
         
-        if eventSum.text == ""{
+        if eventLocation == ""{
             
             allError = "Enter a location for your Event"
             println(allError)
         }
+        if address == ""{
+            allError = "Please enter in an address"
+        }
+        //if locations == "" {
+          //Find a  no value for NSobject
+        //}
         
         if dateTime1 == "" {
             
@@ -172,14 +200,15 @@ class eventMake: UIViewController, UITextFieldDelegate {
                     (eventItem:PFObject!, error:NSError!) -> Void in
                     
                     if error == nil {
-                        
+                        eventItem["address"] = self.address
+                        eventItem["locationGeopoint"] = geopoint
                         eventItem["start"] = orderDate1
                         eventItem["end"] = orderDate2
                         eventItem["isPublic"] = self.eventPublic
                         eventItem["hasFood"] = self.food
                         eventItem["isFree"] = self.paid
                         eventItem["onCampus"] = self.onsite
-                        eventItem["location"] = self.eventSum.text
+                        eventItem["location"] = self.eventLocation
                         eventItem["title"] = self.eventTitle.text
                         eventItem["author"] = PFUser.currentUser().username
                         eventItem["authorID"] = PFUser.currentUser().objectId
@@ -242,13 +271,15 @@ class eventMake: UIViewController, UITextFieldDelegate {
             }
             else {
                 var event = PFObject(className: "Event")
+                event["address"] = address
+                event["locationGeopoint"] = geopoint
                 event["start"] = orderDate1
                 event["end"] = orderDate2
                 event["isPublic"] = self.eventPublic
                 event["hasFood"] = self.food
                 event["isFree"] = self.paid
                 event["onCampus"] = self.onsite
-                event["location"] = self.eventSum.text
+                event["location"] = self.eventLocation
                 event["title"] = self.eventTitle.text
                 event["author"] = PFUser.currentUser().username
                 event["authorID"] = PFUser.currentUser().objectId
@@ -386,7 +417,17 @@ class eventMake: UIViewController, UITextFieldDelegate {
         
     }
     override func viewDidAppear(animated: Bool) {
-        
+        if eventLocation == "" {
+            eventLocationDescription.setTitle("Location", forState: UIControlState.Normal)
+        } else {
+            eventLocationDescription.setTitle(eventLocation, forState: UIControlState.Normal)
+            
+        }
+        if address == "" {
+            eventAddress.setTitle("Address", forState: UIControlState.Normal)
+        } else {
+            eventAddress.setTitle(address, forState: UIControlState.Normal)
+        }
         if (startString == ""){
             start.setTitle("Start Time", forState: UIControlState.Normal)
         }
@@ -406,7 +447,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
         var theMix = Mixpanel.sharedInstance()
         theMix.track("Create Event Opened")
         theMix.flush()
-        
+        self.tabBarController?.navigationItem.hidesBackButton = false
         self.tabBarController?.tabBar.hidden = true
         if editing == false {
             
@@ -414,7 +455,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
         }
         else {
             eventTitle.text = eventTitlePass
-            eventSum.text = eventLocation
+            eventLocationDescription.setTitle(eventLocation, forState: UIControlState.Normal)
             var checkPublicStatus = PFQuery(className: "Event")
             var status = checkPublicStatus.getObjectWithId(eventID)
             if status["isPublic"] as Bool == true {
@@ -459,4 +500,12 @@ class eventMake: UIViewController, UITextFieldDelegate {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    @IBAction func cancelToPlayersViewController(segue:UIStoryboardSegue) {
+        
+    }
+    
+    @IBAction func savePlayerDetail(segue:UIStoryboardSegue) {
+    
+    }
+  
 }

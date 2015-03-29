@@ -20,9 +20,10 @@ class datepickers: UIViewController {
     
     @IBOutlet var startTIme: UILabel!
     @IBOutlet var endTime: UILabel!
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
 self.tabBarController?.tabBar.hidden = true
         // Do any additional setup after loading the view.
     }
