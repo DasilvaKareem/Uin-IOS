@@ -51,6 +51,7 @@ class postEvent: UIViewController {
     var localStart = String()
     var localEnd = String()
     var userId = String()
+    var searchEvent = false
 
     func checkevent(){
         var minique = PFQuery(className: "UserCalendar")
@@ -72,8 +73,10 @@ class postEvent: UIViewController {
             }
         }
     }
+    //Queris from object ID
+
     override func viewWillAppear(animated: Bool) {
-        
+      
         if profileEditing == false {
             
             navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
@@ -86,9 +89,54 @@ class postEvent: UIViewController {
         
     }
     
-    
+    func getEvents() {
+       var getEvents = PFQuery(className: "Event")
+        getEvents.getObjectInBackgroundWithId(eventId, block: {
+            (result: PFObject!, error: NSError!) -> Void in
+            if error == nil {
+                println(result)
+                var dateFormatter = NSDateFormatter()
+                dateFormatter.locale = NSLocale.currentLocale() // Gets current locale and switches
+                dateFormatter.dateFormat = " MMM, dd yyyy"
+                var headerDate = dateFormatter.stringFromDate(result["start"] as NSDate) // Creates date
+               self.date.text = headerDate
+                var headerDate2 = dateFormatter.stringFromDate(result["end"] as NSDate) // Creates date
+                self.endDate.text = headerDate2
+                
+                //Creates Time for Event from NSDAte
+                var timeFormatter = NSDateFormatter() //Formats time
+                timeFormatter.locale = NSLocale.currentLocale()
+                timeFormatter.timeStyle = NSDateFormatterStyle.ShortStyle
+                var localTime = timeFormatter.stringFromDate(result["start"] as NSDate)
+                self.startTime.text = localTime
+                
+                var endTime = timeFormatter.stringFromDate(result["end"] as NSDate)
+                self.endTime.text = endTime
+                
+                
+               self.storeStartDate = result["start"] as NSDate!
+                self.endStoreDate =  result["end"] as NSDate!
+                self.userId = result["authorID"] as String!
+                self.address = result["address"] as String!
+                self.location.setTitle(result["location"] as String!, forState: UIControlState.Normal)
+               self.eventTitle.text = result["title"] as String!
+        
+                self.onsite = result["onCampus"] as Bool
+                self.cost = result["isFree"] as Bool
+                self.food = result["hasFood"] as Bool
+                
+                self.username.setTitle(result["author"] as String!, forState: UIControlState.Normal)
+                self.eventId = result.objectId
+                self.putIcons()
+            }
+        })
+    }
+    override func viewDidAppear(animated: Bool) {
+     
+    }
     
     override func viewDidLoad() {
+        
         var theMix = Mixpanel.sharedInstance()
         theMix.track("Event View Opened")
         theMix.flush()
@@ -115,30 +163,41 @@ class postEvent: UIViewController {
         println(food)
         println(onsite)
         println(cost)
-        username.setTitle(users, forState: UIControlState.Normal)
-        endDate.text = storeEndDate
-        location.setTitle(storeLocation, forState: UIControlState.Normal)
-        eventTitle.text = storeTitle
-        startTime.text = localStart
-        endTime.text = localEnd
-        date.text = storeDate
-        putIcons()
+        if searchEvent == true {
+            getEvents()
+        } else {
+            username.setTitle(users, forState: UIControlState.Normal)
+            endDate.text = storeEndDate
+            location.setTitle(storeLocation, forState: UIControlState.Normal)
+            eventTitle.text = storeTitle
+            startTime.text = localStart
+            endTime.text = localEnd
+            date.text = storeDate
+            putIcons()
+        }
+    
+        
         checkevent()
         if PFUser.currentUser().username == users {
             username.enabled = false
         }
     }
     
-    @IBAction func changeForm(sender: AnyObject) {
+    @IBAction func eventShare(sender: AnyObject) {
         let textToShare = "Swift is awesome!  Check out this website about it!"
         
-        if let myWebsite = NSURL(string: "http://www.codingexplorer.com/")
-        {
-            let objectsToShare = [textToShare, myWebsite]
+    
+            let objectsToShare = [textToShare]
+            let poop = UIActivityTypePostToFacebook
             let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
             
+            
+            
             self.presentViewController(activityVC, animated: true, completion: nil)
-        }
+        
+    }
+    @IBAction func changeForm(sender: AnyObject) {
+      
         println(address)
         println(storeLocation)
         println(location.titleLabel)

@@ -39,7 +39,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     var currentPoint = (PFGeoPoint)()
     
     //Search functionailty
-    var searchActive:Bool = false
+    var searchActive:Bool = Bool()
     struct searchItem {
         let type = (String)()
         let name = (String)()
@@ -50,6 +50,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     var searchItems = [searchItem]()
     @IBOutlet var searchBar: UISearchBar!
     //Fills all events into an array to be search through
+   
     func getSearchItems() {
         
         
@@ -59,7 +60,6 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             (geoPoint: PFGeoPoint!, error: NSError!) -> Void in
             self.currentPoint = geoPoint
         })
-        eventQuery.whereKey("end", greaterThanOrEqualTo: NSDate())
         eventQuery.findObjectsInBackgroundWithBlock({
             (results: [AnyObject]!, error: NSError!) -> Void in
             if error == nil {
@@ -95,21 +95,25 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         
         
     }
-
+    
+    func searchBarResultsListButtonClicked(searchBar: UISearchBar) {
+        self.searchActive = false
+        println("THe result button was button")
+    }
     func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
-        searchActive = true;
+        self.searchActive = true;
     }
     
     func searchBarTextDidEndEditing(searchBar: UISearchBar) {
-        searchActive = false;
+        self.searchActive = false;
     }
     
     func searchBarCancelButtonClicked(searchBar: UISearchBar) {
-        searchActive = false;
+        self.searchActive = false;
     }
     
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
-        searchActive = false;
+        self.searchActive = false;
     }
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
         
@@ -122,8 +126,12 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         })
         if(filteredSearchItems.count == 0){
             searchActive = false;
+          
         } else {
             searchActive = true;
+        }
+        if searchText == "" {
+            self.searchActive = false
         }
         self.theFeed.reloadData()
         
@@ -172,8 +180,10 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         println("View disappear")
         notifications()
         updateFeed()
+         self.searchActive = (Bool)()
     }
     override func viewWillAppear(animated: Bool) {
+      
         updateFeed()
         //Setups Ui
                navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
@@ -532,15 +542,19 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if searchActive == false {
-             self.performSegueWithIdentifier("example", sender: self)
+            self.searchActive = false
+             self.performSegueWithIdentifier("event", sender: self)
+            
         } else {
             var item = filteredSearchItems[indexPath.row]
-            if item.type == "event" {
-                    self.performSegueWithIdentifier("searchEvent", sender: self)
+            if item.type == "Event" {
                     self.searchActive = false
+                    self.performSegueWithIdentifier("searchEvent", sender: self)
+                
             } else {
-                self.performSegueWithIdentifier("profile", sender: self)
                 self.searchActive = false
+                self.performSegueWithIdentifier("profile", sender: self)
+                
             }
         }
        
@@ -564,25 +578,28 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         println(searchActive)
         println()
         var cell:eventCell = tableView.dequeueReusableCellWithIdentifier("cell2") as eventCell
-        if searchActive {
+        if searchActive == true {
             println("search is active")
            var items = filteredSearchItems[indexPath.row]
-            cell.onCampusIcon.image = nil
-            cell.foodIcon.image = nil
-            cell.freeIcon.image = nil
-            cell.poop.hidden = true
-            cell.foodText.text = ""
-            cell.onCampusText.text = ""
-            cell.costText.text = ""
-            cell.eventName.text = items.name
-            cell.people.text = items.type
-            cell.time.text = items.id
+        
+                cell.onCampusIcon.image = nil
+                cell.foodIcon.image = nil
+                cell.freeIcon.image = nil
+                cell.poop.hidden = true
+                cell.foodText.text = ""
+                cell.onCampusText.text = ""
+                cell.costText.text = ""
+                cell.eventName.text = items.name
+                cell.people.text = items.type
+                cell.privateImage.image = nil
+            
+        
             
         } else {
             
-        
+    
         var event = getEventIndex(indexPath.section, row: indexPath.row)
-        
+        cell.poop.hidden = false
         var section = indexPath.section
         var row = indexPath.row
         
@@ -803,7 +820,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         }
     override func prepareForSegue(segue:UIStoryboardSegue, sender: AnyObject?){
         
-        if segue.identifier == "example" {
+        if segue.identifier == "event" {
             var secondViewController : postEvent = segue.destinationViewController as postEvent
             var theMix = Mixpanel.sharedInstance()
             theMix.track("Opened Event View (EF)")
@@ -833,7 +850,27 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             
         }
         if segue.identifier == "profile" {
+            //Gets the indexpath for the filtered item
+            var indexpath = theFeed.indexPathForSelectedRow()
+            var row = indexpath?.row
+            //selects the view controller
+            var theotherprofile:userprofile = segue.destinationViewController as userprofile
+            var item = filteredSearchItems[row!]
+            theotherprofile.theUser = item.name
+            theotherprofile.userId = item.id
+        }
+        if segue.identifier == "searchEvent"{
+            //Gets the indexpath for the filtered item
+            var indexpath = theFeed.indexPathForSelectedRow()
+            var row = indexpath?.row
+            var item = filteredSearchItems[row!]
+            var theotherprofile:postEvent = segue.destinationViewController as postEvent
+            theotherprofile.eventId = item.id
+            theotherprofile.searchEvent = true
+             
+                    
             
+           
         }
         
     }
