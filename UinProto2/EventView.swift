@@ -118,8 +118,10 @@ class postEvent: UIViewController {
                 self.endStoreDate =  result["end"] as NSDate!
                 self.userId = result["authorID"] as String!
                 self.address = result["address"] as String!
+                self.storeLocation = result["location"] as String!
                 self.location.setTitle(result["location"] as String!, forState: UIControlState.Normal)
                self.eventTitle.text = result["title"] as String!
+                self.storeTitle = result["title"] as String!
         
                 self.onsite = result["onCampus"] as Bool
                 self.cost = result["isFree"] as Bool
@@ -184,8 +186,7 @@ class postEvent: UIViewController {
     }
     
     @IBAction func eventShare(sender: AnyObject) {
-        let textToShare = "Swift is awesome!  Check out this website about it!"
-        
+        let textToShare = "Check out '\(storeTitle)' hosted by '\(users)' at '\(self.storeLocation)' on Uin! " + "iOS: http://apple.co/1G2pLXs " + "Android: http://bit.ly/1NwYAD9"
     
             let objectsToShare = [textToShare]
             let poop = UIActivityTypePostToFacebook

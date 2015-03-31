@@ -9,7 +9,7 @@
 import UIKit
 import EventKit
 
-class eventFeedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
+class eventFeedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UITextFieldDelegate {
     
     
     @IBOutlet weak var theFeed: UITableView!
@@ -50,7 +50,9 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     var searchItems = [searchItem]()
     @IBOutlet var searchBar: UISearchBar!
     //Fills all events into an array to be search through
-   
+    
+    //Removes keyboard
+
     func getSearchItems() {
         
         
@@ -60,6 +62,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             (geoPoint: PFGeoPoint!, error: NSError!) -> Void in
             self.currentPoint = geoPoint
         })
+        eventQuery.whereKey("locationGeopoint", nearGeoPoint: currentPoint, withinMiles: 10.0)
         eventQuery.findObjectsInBackgroundWithBlock({
             (results: [AnyObject]!, error: NSError!) -> Void in
             if error == nil {
@@ -102,18 +105,20 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
         self.searchActive = true;
+        self.searchBar.setShowsCancelButton(true, animated: true)
     }
     
+    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+        endSearch()
+    }
     func searchBarTextDidEndEditing(searchBar: UISearchBar) {
         self.searchActive = false;
     }
     
-    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
-        self.searchActive = false;
-    }
     
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
         self.searchActive = false;
+        self.searchBar.showsCancelButton = false
     }
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
         
@@ -125,10 +130,10 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         
         })
         if(filteredSearchItems.count == 0){
-            searchActive = false;
+            self.searchActive = false;
           
         } else {
-            searchActive = true;
+            self.searchActive = true;
         }
         if searchText == "" {
             self.searchActive = false
@@ -176,11 +181,12 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         
     }
     
-    override func viewDidDisappear(animated: Bool) {
+    override func viewWillDisappear(animated: Bool) {
         println("View disappear")
         notifications()
         updateFeed()
-         self.searchActive = (Bool)()
+        endSearch()
+        
     }
     override func viewWillAppear(animated: Bool) {
       
@@ -199,7 +205,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
        
             self.tabBarController?.tabBar.hidden = true //
         }
-        
+     
     }
     override func viewDidAppear(animated: Bool) {
     }
@@ -540,20 +546,31 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         return numSections
         
     }
+    //Clears the search field and forces it to end and turns off the searcha active
+    func endSearch() {
+        self.searchBar.endEditing(true)
+        self.searchActive = false
+        self.searchBar.showsCancelButton = false
+        self.searchBar.text = ""
+    }
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if searchActive == false {
-            self.searchActive = false
-             self.performSegueWithIdentifier("event", sender: self)
+            
+            endSearch()
+            self.performSegueWithIdentifier("event", sender: self)
+            println("search is \(self.searchActive)")
             
         } else {
             var item = filteredSearchItems[indexPath.row]
             if item.type == "Event" {
-                    self.searchActive = false
+                    endSearch()
                     self.performSegueWithIdentifier("searchEvent", sender: self)
+                       println("search is \(self.searchActive)")
                 
             } else {
-                self.searchActive = false
+                endSearch()
                 self.performSegueWithIdentifier("profile", sender: self)
+                    println("search is \(self.searchActive)")
                 
             }
         }
@@ -592,6 +609,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                 cell.eventName.text = items.name
                 cell.people.text = items.type
                 cell.privateImage.image = nil
+                cell.time.text = ""
             
         
             

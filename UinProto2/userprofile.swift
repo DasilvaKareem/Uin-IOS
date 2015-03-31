@@ -37,13 +37,19 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
     var areSubbed = Bool()
     var userId = (String)()
     var arrayofuser = [String]()
+    var eventAddress = [String]()
+   
     
+    
+ 
+    @IBOutlet var confirmedImage: UIImageView!
     @IBOutlet var subscribers: UILabel!
     @IBOutlet var subscriptions: UILabel!
     var numSections = 0
     var rowsInSection = [Int]()
     var sectionNames = [String]()
     
+   
     func displayAlert(title:String, error:String) {
         
         var alert = UIAlertController(title: title, message: error, preferredStyle: UIAlertControllerStyle.Alert)
@@ -164,10 +170,11 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 self.eventEnd.removeAll(keepCapacity: true)
                 self.localizedTime.removeAll(keepCapacity: true)
                 self.localizedEndTime.removeAll(keepCapacity: true)
+                self.eventAddress.removeAll(keepCapacity: true)
                 
                 for object in results{
                     
-                    
+                    self.eventAddress.append(object["address"] as String)
                     self.publicPost.append(object["isPublic"] as Bool)
                     self.objectID.append(object.objectId as String)
                     self.usernames.append(object["author"] as String)
@@ -338,13 +345,14 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                     
                     cell2.subscribe.setTitle("Unsubscribe", forState: UIControlState.Normal)
                     cell2.subscribe.setTitleColor(UIColor(red: 65.0/255.0, green: 146.0/255.0, blue: 199.0/255.0, alpha: 1.0), forState: UIControlState.Normal)
-                    
+                    cell2.subscribe.setBackgroundImage(UIImage(named: "unsubscribeButton"), forState: UIControlState.Normal)
                     
                 }
                 else {
                     //If the user is using a temp account changes the function of the button
                        cell2.subscribe.setTitle("Subscribe", forState: UIControlState.Normal)
                         cell2.subscribe.setTitleColor(UIColor(red: 254.0/255.0, green: 186.0/255.0, blue: 1.0/255.0, alpha: 1.0), forState: UIControlState.Normal)
+                        cell2.subscribe.setBackgroundImage(UIImage(named: "subscribeButton"), forState: UIControlState.Normal)
 
 
                 }
@@ -399,6 +407,9 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
             if error == nil {
                 sender.setTitle("Subscribe", forState: UIControlState.Normal)
                 sender.setTitleColor(UIColor(red: 254.0/255.0, green: 186.0/255.0, blue: 1.0/255.0, alpha: 1.0), forState: UIControlState.Normal)
+                 sender.setBackgroundImage(UIImage(named: "subscribeButton"), forState: UIControlState.Normal)
+              
+               
                 var user = PFUser.currentUser()
                 var currentInstallation = PFInstallation.currentInstallation()
                 currentInstallation.removeObject(self.userId, forKey: "channels")
@@ -425,8 +436,10 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 
             else {
                 //Subscribing feature
-                sender.setTitle("Unsubscribe", forState: UIControlState.Normal)
+                sender.setTitle("Subscribed", forState: UIControlState.Normal)
                 sender.setTitleColor(UIColor(red: 65.0/255.0, green: 146.0/255.0, blue: 199.0/255.0, alpha: 1.0), forState: UIControlState.Normal)
+                 sender.setBackgroundImage(UIImage(named: "unsubscribeButton"), forState: UIControlState.Normal)
+                
                 var currentInstallation = PFInstallation.currentInstallation()
                 currentInstallation.addUniqueObject(self.userId, forKey: "channels")
                 currentInstallation.saveInBackgroundWithBlock({
@@ -435,7 +448,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                         println("Subscribed")
                         var theMix = Mixpanel.sharedInstance()
                         theMix.track("Subscribed (UP)")
-                        
+                      
                         
                     }
                         
@@ -793,6 +806,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
             var row = indexPath?.row
             
             var index = getEventIndex(section!, row: row!)
+            secondViewController.address = eventAddress[index]
             secondViewController.storeStartDate = eventStart[index]
             secondViewController.endStoreDate =  eventEnd[index]
             secondViewController.storeLocation = eventlocation[index]
