@@ -26,10 +26,13 @@ class eventMake: UIViewController, UITextFieldDelegate {
     var locations = CLLocation()
     var address = ""
     
-    @IBOutlet var eventAddress: UIButton!
+    @IBOutlet var displayLocation: UILabel!
+  
     
+    @IBOutlet var eventAddress: UILabel!
     @IBOutlet var eventLocationDescription: UIButton!
 
+    @IBOutlet var locationConfirm: UIImageView!
    
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
@@ -49,6 +52,11 @@ class eventMake: UIViewController, UITextFieldDelegate {
     
 
     
+    @IBOutlet var startTimeCheck: UIImageView!
+    @IBOutlet var endTimeCheck: UIImageView!
+    @IBOutlet var onCampusIcon: UIImageView!
+    @IBOutlet var hasFoodIcon: UIImageView!
+    @IBOutlet var isFreeIcon: UIImageView!
     @IBOutlet var oncampusSegement: UISegmentedControl!
     @IBOutlet var freeSegment: UISegmentedControl!
     @IBOutlet var foodSegement: UISegmentedControl!
@@ -63,6 +71,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
         
         self.performSegueWithIdentifier("sendtodate", sender: self)
     }
+  
     @IBOutlet var start: UIButton!
     @IBOutlet var onCampus: UISegmentedControl!
     @IBOutlet var end: UIButton!
@@ -84,11 +93,14 @@ class eventMake: UIViewController, UITextFieldDelegate {
         switch sender.selectedSegmentIndex {
         case 0:
             eventPublic = true
+             sender.tintColor = UIColor(red: 52.0/255.0, green: 127.0/255.0, blue: 191.0/255, alpha:1 ) // blue
         case 1:
             eventPublic = false
+                sender.tintColor = UIColor(red: 254.0/255.0, green: 186.0/255.0, blue: 1.0/255, alpha:1 ) //Yelow
             
         default:
             eventPublic = true
+           
             break;
         }  //Switch
     }
@@ -98,9 +110,12 @@ class eventMake: UIViewController, UITextFieldDelegate {
         switch sender.selectedSegmentIndex {
         case 0:
             onsite = true
+            onCampusIcon.image = UIImage(named: "onCampus.png")
+            sender.tintColor = UIColor(red: 135.0/255.0, green: 84.0/255.0, blue: 194.0/255, alpha:1 ) //Purple
         case 1:
             onsite = false
-            
+            onCampusIcon.image = UIImage(named: "offCampus.png")
+               sender.tintColor = UIColor(red: 165.0/255.0, green: 169.0/255.0, blue: 172.0/255, alpha:1 ) //Gray
         default:
             onsite = true
             break;
@@ -113,9 +128,13 @@ class eventMake: UIViewController, UITextFieldDelegate {
         switch sender.selectedSegmentIndex {
         case 0:
             food = true
+            hasFoodIcon.image = UIImage(named: "yesFood.png")
+            sender.tintColor = UIColor(red: 224.0/255.0, green: 69.0/255.0, blue: 69.0/255, alpha:1 ) //Red
+            
         case 1:
             food = false
-            
+            hasFoodIcon.image = UIImage(named: "noFood.png")
+              sender.tintColor = UIColor(red: 165.0/255.0, green: 169.0/255.0, blue: 172.0/255, alpha:1 ) //Gray
         default:
             food = true
             break;
@@ -127,9 +146,12 @@ class eventMake: UIViewController, UITextFieldDelegate {
         switch sender.selectedSegmentIndex {
         case 0:
             paid = true
+            isFreeIcon.image = UIImage(named: "yesFree.png")
+             sender.tintColor = UIColor(red: 93.0/255.0, green: 175.0/255.0, blue: 76.0/255, alpha:1 ) //Green
         case 1:
             paid = false
-            
+            isFreeIcon.image = UIImage(named: "noFree.png")
+             sender.tintColor = UIColor(red: 165.0/255.0, green: 169.0/255.0, blue: 172.0/255, alpha:1 ) //Gray
         default:
             paid = true
             break;
@@ -416,31 +438,49 @@ class eventMake: UIViewController, UITextFieldDelegate {
         }))
         
     }
-    override func viewDidAppear(animated: Bool) {
+    override func viewWillAppear(animated: Bool) {
         if eventLocation == "" {
             eventLocationDescription.setTitle("Location", forState: UIControlState.Normal)
+            displayLocation.hidden = true
+            eventAddress.hidden = true
+             eventLocationDescription.setBackgroundImage(UIImage(named: "addLocation"), forState: UIControlState.Normal)
+            locationConfirm.image = UIImage(named: "add")
         } else {
-            eventLocationDescription.setTitle(eventLocation, forState: UIControlState.Normal)
-            
+        
+            displayLocation.hidden = false
+           eventLocationDescription.setTitle("", forState: UIControlState.Normal)
+            displayLocation.text = eventLocation
+           
+            if address != "" {
+                eventAddress.hidden = false
+                eventAddress.text = address
+                locationConfirm.image = UIImage(named: "confirmed.png")
+                eventLocationDescription.setBackgroundImage(UIImage(named: "addedLocation"), forState: UIControlState.Normal)
+            }
         }
-        if address == "" {
-            eventAddress.setTitle("Address", forState: UIControlState.Normal)
-        } else {
-            eventAddress.setTitle(address, forState: UIControlState.Normal)
-        }
+      
         if (startString == ""){
             start.setTitle("Start Time", forState: UIControlState.Normal)
+            startTimeCheck.hidden = true
         }
         else {
             start.setTitle(startString, forState: UIControlState.Normal)
+            startTimeCheck.hidden = false
+            start.setTitleColor(UIColor(red: 52.0/255.0, green: 127.0/255.0, blue: 191.0/255, alpha:1), forState: UIControlState.Normal)
+         
         }
         if (endString == "") {
+            endTimeCheck.hidden = true
             end.setTitle("End Time", forState: UIControlState.Normal)
         }
         else {
             end.setTitle(endString, forState: UIControlState.Normal)
+            endTimeCheck.hidden = false
+              end.setTitleColor(UIColor(red: 52.0/255.0, green: 127.0/255.0, blue: 191.0/255, alpha:1), forState: UIControlState.Normal)
         }
+
     }
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -462,32 +502,42 @@ class eventMake: UIViewController, UITextFieldDelegate {
                 publicSegment.selectedSegmentIndex = 0
             } else {
                 publicSegment.selectedSegmentIndex = 1
+                  publicSegment.tintColor = UIColor(red: 254.0/255.0, green: 186.0/255.0, blue: 1.0/255, alpha:1 ) //Yelow
             }
         }
    
         if food == true {
-            println("OK IT WOKRS")
+           
             foodSegement.selectedSegmentIndex = 0
+            hasFoodIcon.image = UIImage(named: "yesFood.png")
         }
         else {
-            println("FOOD IS NOT TRUE")
+         
             foodSegement.selectedSegmentIndex = 1
+            hasFoodIcon.image = UIImage(named: "noFood.png")
+            foodSegement.tintColor = UIColor(red: 165.0/255.0, green: 169.0/255.0, blue: 172.0/255, alpha:1 ) //Gray
         }
         if paid == true {
             println("OK IT WOKRS")
+             isFreeIcon.image = UIImage(named: "yesFree.png")
             freeSegment.selectedSegmentIndex = 0
         }
         else {
             println("PAID IS NOT TRUE")
             freeSegment.selectedSegmentIndex = 1
+             isFreeIcon.image = UIImage(named: "noFree.png")
+            freeSegment.tintColor = UIColor(red: 165.0/255.0, green: 169.0/255.0, blue: 172.0/255, alpha:1 ) //Gray
         }
         if onsite == true {
             println("OK IT WOKRS")
             oncampusSegement.selectedSegmentIndex = 0
+            onCampusIcon.image = UIImage(named: "onCampus.png")
         }
         else {
-            println("ONSITE is true")
+            
             oncampusSegement.selectedSegmentIndex = 1
+            onCampusIcon.image = UIImage(named: "offCampus.png")
+            oncampusSegement.tintColor = UIColor(red: 165.0/255.0, green: 169.0/255.0, blue: 172.0/255, alpha:1 ) //Gray
         }
         
         if PFUser.currentUser() == nil{

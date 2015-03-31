@@ -183,16 +183,21 @@ class postEvent: UIViewController {
         }
     }
     
-    @IBAction func changeForm(sender: AnyObject) {
+    @IBAction func eventShare(sender: AnyObject) {
         let textToShare = "Swift is awesome!  Check out this website about it!"
         
-        if let myWebsite = NSURL(string: "http://www.codingexplorer.com/")
-        {
-            let objectsToShare = [textToShare, myWebsite]
+    
+            let objectsToShare = [textToShare]
+            let poop = UIActivityTypePostToFacebook
             let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
             
+            
+            
             self.presentViewController(activityVC, animated: true, completion: nil)
-        }
+        
+    }
+    @IBAction func changeForm(sender: AnyObject) {
+      
         println(address)
         println(storeLocation)
         println(location.titleLabel)
