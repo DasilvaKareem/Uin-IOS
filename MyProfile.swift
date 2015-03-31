@@ -44,6 +44,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     var numSections = 0
     var rowsInSection = [Int]()
     var sectionNames = [String]()
+    var eventAddress = [String]()
  
 
     
@@ -194,10 +195,11 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         self.eventStart.removeAll(keepCapacity: true)
         self.eventEnd.removeAll(keepCapacity: true)
         self.userId.removeAll(keepCapacity: true)
+        self.eventAddress.removeAll(keepCapacity: true)
     
     for object in objects{
     
-    
+        self.eventAddress.append(object["address"] as String)
         self.publicPost.append(object["isPublic"] as Bool)
         self.objectID.append(object.objectId as String)
         self.usernames.append(object["author"] as String)
@@ -725,6 +727,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
             var row = indexPath?.row
             
             var index = getEventIndex(section!, row: row!)
+            secondViewController.address = eventAddress[index]
             secondViewController.profileEditing = true
             secondViewController.storeStartDate = eventStart[index]
             secondViewController.endStoreDate =  eventEnd[index]

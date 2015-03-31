@@ -186,9 +186,13 @@ class eventMake: UIViewController, UITextFieldDelegate {
             println(allError)
             
         }
-        if orderDate2.earlierDate(orderDate1) == true {
-            allError = "Your enddate is before your start date"
+        
+            
+        
+        if orderDate2.compare(orderDate1) == NSComparisonResult.OrderedAscending  {
+            allError = "Your end date is before your start date"
         }
+        
         
         if eventLocation == ""{
             
