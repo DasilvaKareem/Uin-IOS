@@ -41,6 +41,7 @@ class LoadingView: UIViewController {
         if PFUser.currentUser() != nil {
             self.performSegueWithIdentifier("login", sender: self)
         } else {
+            var install = PFInstallation.currentInstallation()
             var currentAccount = PFUser.query() //quries users
             var amountOfUsers = currentAccount.countObjects() //Counts how many users have the $ sign
             var newUser = PFUser()

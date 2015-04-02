@@ -201,7 +201,7 @@
 			isa = PBXGroup;
 			children = (
 				28E6547D1A60B9C8006E76E5 /* eventCell.swift */,
-				613069F11A745289001CAF4F /* MyProfile.swift */,
+				615FA4501ACCC5BF007C88F1 /* EventFeeds */,
 				28277E341A4B115E001CCB02 /* AppDelegate.swift */,
 				61DC09F11AC087BD000C5EB5 /* SigningUp */,
 				61DC09F01AC08774000C5EB5 /* EventCreate */,
@@ -214,11 +214,9 @@
 				61AFFF4E1A7ED7C400858273 /* subscriberlist.swift */,
 				61BFF8201A8FDF6C00E2D059 /* notificationsView.swift */,
 				61AFFF4C1A7ED66300858273 /* FollowCell.swift */,
-				61A4E77B1A7E7A690041FB13 /* userprofile.swift */,
 				61144F1B1AA299330034018A /* Podfile */,
 				61268C1D1A910AB300009E07 /* dateCell.swift */,
 				618CE0131A76F4A400FF493C /* EventView.swift */,
-				28E6547F1A60B9FC006E76E5 /* eventFeedViewController.swift */,
 				EE68EA9A1AB0F26800AEDBBA /* checkNotifications.swift */,
 				28F8364A1A4FB25D00F45A0B /* customcell.swift */,
 				28277E6D1A4B161C001CCB02 /* UInProto.m */,
@@ -254,6 +252,16 @@
 				28277E491A4B115E001CCB02 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		615FA4501ACCC5BF007C88F1 /* EventFeeds */ = {
+			isa = PBXGroup;
+			children = (
+				613069F11A745289001CAF4F /* MyProfile.swift */,
+				61A4E77B1A7E7A690041FB13 /* userprofile.swift */,
+				28E6547F1A60B9FC006E76E5 /* eventFeedViewController.swift */,
+			);
+			name = EventFeeds;
 			sourceTree = "<group>";
 		};
 		61DC09F01AC08774000C5EB5 /* EventCreate */ = {
