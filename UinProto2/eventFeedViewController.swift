@@ -692,7 +692,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     func followButton(sender: UIButton){
         // Adds the event to calendar
-        
+        checkNotifications()
       var que = PFQuery(className: "UserCalendar")
         que.whereKey("user", equalTo: PFUser.currentUser().username)
         que.whereKey("author", equalTo: self.usernames[sender.tag])
@@ -712,6 +712,14 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
               
                 if results != nil {
                       sender.setImage(UIImage(named: "addToCalendar.png"), forState: UIControlState.Normal)
+                   /* UIView.animateWithDuration(1.0, animations:{
+                        sender.frame = CGRectMake(sender.frame.origin.x + 25, sender.frame.origin.y + 25, sender.frame.size.width, sender.frame.size.height)
+                    }) */
+                   
+                    UIView.animateWithDuration(1.0, delay: 0.0, usingSpringWithDamping: 0.3, initialSpringVelocity: 3.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: ({
+                        sender.frame.offset(dx: 0, dy: 5.0)
+                    }), completion: nil)
+            
                     var eventStore : EKEventStore = EKEventStore()
                     eventStore.requestAccessToEntityType(EKEntityTypeEvent, completion: {
                         
@@ -750,6 +758,9 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                 }
             } else {
                 sender.setImage(UIImage(named: "addedToCalendar.png"), forState: UIControlState.Normal)
+                UIView.animateWithDuration(0.5, delay: 0.0, usingSpringWithDamping: 0.3, initialSpringVelocity: 3.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: ({
+                    sender.frame.offset(dx: 0, dy: 5.0)
+                }), completion: nil)
                 var eventStore : EKEventStore = EKEventStore()
                 eventStore.requestAccessToEntityType(EKEntityTypeEvent, completion: {
                     
@@ -836,6 +847,8 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                               }
             })
         }
+    //Syncs your calendar events 
+    
     override func prepareForSegue(segue:UIStoryboardSegue, sender: AnyObject?){
         
         if segue.identifier == "event" {

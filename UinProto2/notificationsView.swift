@@ -14,6 +14,15 @@ class notificationsView: UITableViewController {
     var refresher: UIRefreshControl!
     var times = [NSDate]()
     var localTime = [String]()
+    struct notificationItem {
+        var type = (String)()
+        var senderID = (String)()
+        var receiverID = (String)()
+        var message = (String)()
+        var senderUsername = (String)()
+        var receiverUsername = (String)()
+    }
+    var notificationItems = [notificationItem]()
     
     override func viewDidAppear(animated: Bool) {
         var tabArray = self.tabBarController?.tabBar.items as NSArray!
@@ -61,9 +70,7 @@ class notificationsView: UITableViewController {
                 for object in objects{
                     println("it worked")
                     folusernames.append(object["subscriber"] as String)
-                    
                 }
-                println(folusernames)
             }
         }
     
@@ -86,7 +93,7 @@ class notificationsView: UITableViewController {
         
         
         var query = PFQuery.orQueryWithSubqueries([memberQuery, subQuery, calendarQuery, eventQuery ])
-        query.limit = 30
+        query.limit = 15
         query.orderByDescending("createdAt")
         query.findObjectsInBackgroundWithBlock({
             (objects:[AnyObject]!,subError:NSError!) -> Void in
@@ -94,16 +101,19 @@ class notificationsView: UITableViewController {
             if subError == nil {
                 self.notes.removeAll(keepCapacity: true)
                 self.times.removeAll(keepCapacity: true)
+                var note = (String)()
                 for object in objects {
                     println(object.objectId)
                     
                     self.times.append(object.createdAt)
                     
+                  
+                    
                     switch object["type"] as String {
                     case "event":
                         var current = object["sender"] as String
-                        var eventnote = "\(current) has made an event"
-                        self.notes.append(eventnote as String)
+                        note = "\(current) has made an event"
+                        self.notificationItems.append(notificationItem(type: object["type"] as String, senderID: object["senderID"] as String, receiverID: object["receiverID"] as String, message:note, senderUsername: object["sender"] as String, receiverUsername: object["receiver"] as String))
                         
                         break
                     case "calendar":
@@ -113,32 +123,35 @@ class notificationsView: UITableViewController {
                         var eventnote = ""
                        
                         if current.rangeOfCharacterFromSet(characterSet) != nil {
-                             eventnote = "Someone has added your event to their calendar"
+                             note = "Someone has added your event to their calendar"
                         } else {
-                              eventnote = "\(current) has added your event to their calendar"
+                              note = "\(current) has added your event to their calendar"
                         }
-                        self.notes.append(eventnote as String)
+                        self.notificationItems.append(notificationItem(type: object["type"] as String, senderID: object["senderID"] as String, receiverID: object["receiverID"] as String, message:note, senderUsername: object["sender"] as String, receiverUsername: object["receiver"] as String))
                         
                         break
                         
                     case "sub":
                         var current = object["sender"] as String
-                        var eventnote = "\(current) has subscribed to you"
-                        self.notes.append(eventnote as String)
+                        note = "\(current) has subscribed to you"
+                      self.notificationItems.append(notificationItem(type: object["type"] as String, senderID: object["senderID"] as String, receiverID: object["receiverID"] as String, message:note, senderUsername: object["sender"] as String, receiverUsername: object["receiver"] as String))
                         
                         break
                         
                     case "member":
                         var current = object["sender"] as String
-                        var eventnote = "\(current) has change your member status"
-                        self.notes.append(eventnote as String)
+                        note = "\(current) has change your member status"
+                         self.notificationItems.append(notificationItem(type: object["type"] as String, senderID: object["senderID"] as String, receiverID: object["receiverID"] as String, message:note, senderUsername: object["sender"] as String, receiverUsername: object["receiver"] as String))
+                       
                         
                         break
                     default:
                         println("unknown has happen please refer back to parse database")
                         break
                     }
+                
                 }
+
                 for i in self.times {
                     var dateFormatter = NSDateFormatter()
                     //Creates table header for event time
@@ -163,7 +176,25 @@ class notificationsView: UITableViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        var items = notificationItems[indexPath.row]
+        switch items.type {
+        case "event":
+            self.performSegueWithIdentifier("event", sender: self)
+        break
+        case "calendar":
+            self.performSegueWithIdentifier("calendar", sender: self)
+        break
+        case "sub":
+            self.performSegueWithIdentifier("sub", sender: self)
+        break
+        case "member":
+            self.performSegueWithIdentifier("sub", sender: self)
+        default:
+            println("error")
+        }
+    }
+
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Potentially incomplete method implementation.
         // Return the number of sections.
@@ -173,13 +204,41 @@ class notificationsView: UITableViewController {
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
-        return notes.count
+        return notificationItems.count
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell:subCell = tableView.dequeueReusableCellWithIdentifier("Cell") as subCell
+        var items = notificationItems[indexPath.row]
         cell.timeStamp.text = localTime[indexPath.row]
-        cell.notifyMessage.text = notes[indexPath.row]
+        cell.notifyMessage.text = items.message
+        println(items.message)
         return cell
+    }
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+     /*   if segue.identifier == "event" {
+            var indexpath = tableView.indexPathForSelectedRow()
+            var row = indexpath?.row
+            var item = notificationItems[row!]
+            var theotherprofile:postEvent = segue.destinationViewController as postEvent
+            theotherprofile.searchEvent = true
+        }
+        if segue.identifier == "calendar" {
+            var indexpath = theFeed.indexPathForSelectedRow()
+            var row = indexpath?.row
+            var item = filteredSearchItems[row!]
+            var theotherprofile:postEvent = segue.destinationViewController as postEvent
+            theotherprofile.eventId = item.id
+            theotherprofile.searchEvent = true
+        }
+        if segue.identifier == "sub" {
+            var indexpath = tableView.indexPathForSelectedRow()
+            var row = indexpath?.row
+            //selects the view controller
+            var theotherprofile:userprofile = segue.destinationViewController as userprofile
+            var item = notificationItems[row!]
+            theotherprofile.theUser = item.senderID
+            theotherprofile.userId = item.senderUsername
+        }
     }
 }

@@ -45,6 +45,7 @@ class SignIn: UIViewController, UITextFieldDelegate {
         
         var fbloginView:FBLoginView = FBLoginView(readPermissions: ["email", "public_profile"])
         var permissions = ["public_profile", "email"]
+        
         PFFacebookUtils.logInWithPermissions(permissions, block: {
             (user: PFUser!, error: NSError!) -> Void in
             if user == nil {

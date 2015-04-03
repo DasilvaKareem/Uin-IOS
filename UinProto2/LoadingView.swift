@@ -59,6 +59,17 @@ class LoadingView: UIViewController {
                     println("Anon has been created succesfully")
                     
                 } else {
+                    var currentAccount = PFUser.query() //quries users
+                    var amountOfUsers = currentAccount.countObjects() //Counts how many users have the $ sign
+                    var newUser = PFUser()
+                    var nameTemplate = "$$\(amountOfUsers)"
+                    newUser["pushEnabled"] = true
+                    newUser["firstRemoveFromCalendar"] = true
+                    newUser["tempAccounts"] = true
+                    newUser.username = nameTemplate
+                    newUser.password = randomStringWithLength(20)
+                    newUser.signUp()
+                    self.performSegueWithIdentifier("login", sender: self)
                     println("Anon was not made right")
                     println(error)
                 }
@@ -72,14 +83,5 @@ class LoadingView: UIViewController {
     }
     
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
