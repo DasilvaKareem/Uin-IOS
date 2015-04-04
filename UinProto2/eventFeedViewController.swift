@@ -712,6 +712,9 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
               
                 if results != nil {
                       sender.setImage(UIImage(named: "addToCalendar.png"), forState: UIControlState.Normal)
+                    UIView.animateWithDuration(0.5, delay: 0.0, usingSpringWithDamping: 0.3, initialSpringVelocity: 3.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: ({
+                        sender.frame.offset(dx: 0, dy: 5.0)
+                    }), completion: nil)
                     var eventStore : EKEventStore = EKEventStore()
                     eventStore.requestAccessToEntityType(EKEntityTypeEvent, completion: {
                         
@@ -750,6 +753,9 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                 }
             } else {
                 sender.setImage(UIImage(named: "addedToCalendar.png"), forState: UIControlState.Normal)
+                UIView.animateWithDuration(0.5, delay: 0.0, usingSpringWithDamping: 0.3, initialSpringVelocity: 3.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: ({
+                    sender.frame.offset(dx: 0, dy: 5.0)
+                }), completion: nil)
                 var eventStore : EKEventStore = EKEventStore()
                 eventStore.requestAccessToEntityType(EKEntityTypeEvent, completion: {
                     
@@ -759,9 +765,6 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                         println("error  \(error)")
                         var hosted = "Hosted by \(self.usernames[sender.tag]) address:\(self.eventAddress[sender.tag])"
                         var event:EKEvent = EKEvent(eventStore: eventStore)
-                        println()
-                        println()
-                        println()
                         println()
                         println(self.eventTitle[sender.tag])
                         println(self.eventStart[sender.tag])
@@ -795,8 +798,6 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                         println("saved")
                     }
                 })
-              println()
-                println()
                 println("the object does not exist")
                     var push = PFPush()
                     var pfque = PFInstallation.query()
@@ -820,6 +821,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                     notify["receiver"] = self.usernames[sender.tag]
                     notify["senderID"] = PFUser.currentUser().objectId
                     notify["receiverID"] = self.userId[sender.tag]
+                    notify["eventID"] = self.objectID[sender.tag]
                     notify["type"] =  "calendar"
                     notify.saveInBackgroundWithBlock({
                         (success:Bool!, notifyError: NSError!) -> Void in
@@ -828,12 +830,11 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                         }
                         else{
                             println(notifyError)
-                        }
-                    })
-                }
-             
+                            }
+                        })
+                    }
                 println("Saved Event")
-                              }
+                }
             })
         }
     override func prepareForSegue(segue:UIStoryboardSegue, sender: AnyObject?){

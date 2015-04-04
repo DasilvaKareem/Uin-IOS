@@ -11,6 +11,7 @@ import UIKit
 class subscriptions: UITableViewController {
     
     var folusernames = [String]()
+    var folUserID = [String]()
     
     override func viewDidLoad() {
         var theMix = Mixpanel.sharedInstance()
@@ -38,6 +39,7 @@ class subscriptions: UITableViewController {
                 for object in objects{
                     
                     self.folusernames.append(object["publisher"] as String)
+                    self.folUserID.append(object["publisherID"] as String)
                     //change "following" to "subscribers" and "follower" to "Subscribed to"
                     
                     self.tableView.reloadData()
@@ -69,6 +71,9 @@ class subscriptions: UITableViewController {
         return folusernames.count
         
     }
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        self.performSegueWithIdentifier("userprofile", sender: self)
+    }
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
          let cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "cell4")
@@ -80,5 +85,15 @@ class subscriptions: UITableViewController {
     }
     
     
-    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "userprofile" {
+            var indexpath = tableView.indexPathForSelectedRow()
+            var row = indexpath?.row
+            //selects the view controller
+            var userProfile:userprofile = segue.destinationViewController as userprofile
+            userProfile.userId = folUserID[row!]
+            userProfile.theUser = folusernames[row!]
+            
+        }
+    }
 }

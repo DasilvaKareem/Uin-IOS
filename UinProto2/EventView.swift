@@ -11,6 +11,8 @@ import EventKit
 
 class postEvent: UIViewController {
     
+    @IBOutlet var calendarCount: UILabel!
+    @IBOutlet var peopleView: UIImageView!
     @IBOutlet weak var foodIcon: UILabel!
     @IBOutlet weak var freeIcon: UILabel!
     @IBOutlet weak var onCampusIcon: UILabel!
@@ -56,7 +58,7 @@ class postEvent: UIViewController {
     func checkevent(){
         var minique = PFQuery(className: "UserCalendar")
         minique.whereKey("user", equalTo: PFUser.currentUser().username)
-        var minique2 = PFQuery(className: "UserCalendar")
+       
         minique.whereKey("eventID", equalTo: eventId)
         
         minique.getFirstObjectInBackgroundWithBlock{
@@ -71,6 +73,20 @@ class postEvent: UIViewController {
                 
                 self.longBar.setImage(UIImage(named: "addToCalendarLongBar.png"), forState: UIControlState.Normal)
             }
+        }
+        getCount()
+    }
+    //Gets the amount of people added to calendar
+    func getCount() {
+        var minique2 = PFQuery(className: "UserCalendar")
+        minique2.whereKey("eventID", equalTo: eventId)
+        var goingCount = minique2.countObjects()
+        self.calendarCount.text = String(goingCount)
+        var itemCheck = minique2.getFirstObject()
+        if itemCheck == nil {
+            self.peopleView.image = UIImage(named: "yellowGroup")
+        } else {
+            self.peopleView.image = UIImage(named: "blueGroup")
         }
     }
     //Queris from object ID
@@ -168,6 +184,7 @@ class postEvent: UIViewController {
         if searchEvent == true {
             getEvents()
         } else {
+            getEvents()
             username.setTitle(users, forState: UIControlState.Normal)
             endDate.text = storeEndDate
             location.setTitle(storeLocation, forState: UIControlState.Normal)
@@ -191,9 +208,6 @@ class postEvent: UIViewController {
             let objectsToShare = [textToShare]
             let poop = UIActivityTypePostToFacebook
             let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
-            
-            
-            
             self.presentViewController(activityVC, animated: true, completion: nil)
         
     }
@@ -235,6 +249,7 @@ class postEvent: UIViewController {
             
             if queerror == nil {
               results.delete()
+                self.getCount()
                       self.longBar.setImage(UIImage(named: "addToCalendarLongBar.png"), forState: UIControlState.Normal)
                 if results != nil {
             var eventStore : EKEventStore = EKEventStore()
@@ -278,6 +293,7 @@ class postEvent: UIViewController {
             }
             
             else {
+                
                    self.longBar.setImage(UIImage(named: "addedToCalendarLongBar.png"), forState: UIControlState.Normal)
                 var eventStore : EKEventStore = EKEventStore()
                 eventStore.requestAccessToEntityType(EKEntityTypeEvent, completion: {
@@ -351,7 +367,7 @@ class postEvent: UIViewController {
                     (succeded:Bool!, savError:NSError!) -> Void in
                     
                     if savError == nil {
-                        
+                        self.getCount()
                         println("the user is going to the event")
                         
                     }

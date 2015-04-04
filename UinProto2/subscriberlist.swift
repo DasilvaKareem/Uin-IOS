@@ -69,7 +69,10 @@ class subscriberlist: UITableViewController {
     }
 
     // MARK: - Table view data source
-
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        self.performSegueWithIdentifier("userprofile", sender: self)
+    }
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
       
          return 1
@@ -84,35 +87,22 @@ class subscriberlist: UITableViewController {
         
         
         let cell:FollowCell = self.tableView.dequeueReusableCellWithIdentifier("cell3") as FollowCell
-        
-        
-        
         cell.member.tag = indexPath.row
-        
         cell.username.text = folusernames[indexPath.row]
-        
         var membersave = PFQuery(className:"Subscription")
         membersave.getObjectInBackgroundWithId(objectId[indexPath.row]) {
             (result: PFObject!, error: NSError!) -> Void in
-            
             if error == nil {
-                
-            
             if result["isMember"] as Bool == true{
-                
                 cell.member.selectedSegmentIndex = 0
             }
             else {
-                
                 cell.member.selectedSegmentIndex = 1
-                
+                }
             }
         }
-        }
-        
         
         cell.member.addTarget(self, action: "switchmember:", forControlEvents: UIControlEvents.ValueChanged)
-        
         return cell
         
     }
@@ -120,16 +110,11 @@ class subscriberlist: UITableViewController {
     
     func switchmember(sender: UISegmentedControl) {
         
-      
-        
-       
-
         switch sender.selectedSegmentIndex {
         case 0:
             member = true
         case 1:
             member = false
-            
         default:
             member = false
             break;
@@ -139,12 +124,9 @@ class subscriberlist: UITableViewController {
         membersave.getObjectInBackgroundWithId(objectId[sender.tag]) {
             (result: PFObject!, error: NSError!) -> Void in
             if error == nil {
-          
                  result["isMember"] = self.member
                 result.saveInBackgroundWithBlock{
-                    
                     (succeeded: Bool!, registerError: NSError!) -> Void in
-                    
                     if registerError == nil {
                         
                         var push = PFPush()
@@ -189,21 +171,20 @@ class subscriberlist: UITableViewController {
                     
                 }
 
-                    
-                    
-                    
-    
             } else {
                
                 NSLog("%@", error)
             
             }
         }
-    
-    
-        println(member)
-        println(objectId[sender.tag])
- 
-
+    }
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "userprofile" {
+            var indexpath = tableView.indexPathForSelectedRow()
+            var row = indexpath?.row
+            var userProfile:userprofile = segue.destinationViewController as userprofile
+            userProfile.userId = foluserID[row!]
+            userProfile.theUser = folusernames[row!]
+        }
     }
 }
