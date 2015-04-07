@@ -37,6 +37,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     var rowsInSection = [Int]()
     var sectionNames = [String]()
     var currentPoint = (PFGeoPoint)()
+    var eventCountNumber = (Int)()
     
     //Search functionailty
     var searchActive:Bool = Bool()
@@ -55,9 +56,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
 
     func getSearchItems() {
         
-        
         var eventQuery = PFQuery(className: "Event")
-        
         PFGeoPoint.geoPointForCurrentLocationInBackground({
             (geoPoint: PFGeoPoint!, error: NSError!) -> Void in
             self.currentPoint = geoPoint
@@ -67,13 +66,11 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             (results: [AnyObject]!, error: NSError!) -> Void in
             if error == nil {
                 for object in results{
-                    
                     self.searchItems.append(searchItem(type: "Event", name: object["title"] as String, id: object.objectId))
                     self.searchItems.append(searchItem())
                     println()
                     println(self.searchItems)
                     println()
-                    
                 }
                 var userQuery = PFUser.query()
                 userQuery.whereKey("tempAccounts", equalTo: false)
@@ -184,13 +181,12 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     override func viewWillDisappear(animated: Bool) {
         println("View disappear")
         notifications()
-        updateFeed()
         endSearch()
         
     }
     override func viewWillAppear(animated: Bool) {
       
-        updateFeed()
+        checkUpdateFeed()
         //Setups Ui
                navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
         
@@ -211,7 +207,6 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     //2 nav buttons 1 leads to settings while the other send to log in
-
     @IBAction func eventMake(sender: AnyObject) {
         var user = PFUser.currentUser()
         //Checks if the account is a temporary account
@@ -254,8 +249,19 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
 
         
     }
-
-    
+    //Checks if any new events are created if not update feed will not execute
+    func checkUpdateFeed(){
+        var eventCheck = PFQuery(className: "Event")
+        var eventNumber = eventCheck.countObjects()
+        //Executes updateFeed if the number changes
+        if eventCountNumber != eventCheck {
+            println("No refresh is neccessary")
+            
+        } else {
+            println("You need to refresh the update feed")
+            updateFeed()
+        }
+    }
     // Checks for notifcations and compares to any notications you recieved during that time
     var old = (Int)()
     var newCheck = (Int)()
@@ -354,7 +360,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                 query.whereKey("locationGeopoint", nearGeoPoint: self.currentPoint, withinMiles: 7.0)
                 query.whereKey("start", greaterThanOrEqualTo: NSDate())
                 query.whereKey("isDeleted", equalTo: false)
-                
+                self.eventCountNumber = query.countObjects()
                 query.findObjectsInBackgroundWithBlock {
                     (results: [AnyObject]!, error: NSError!) -> Void in
                     if error == nil {

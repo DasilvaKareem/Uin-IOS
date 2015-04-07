@@ -53,6 +53,9 @@ class subscriptions: UITableViewController {
         }
         
     }
+    override func viewWillAppear(animated: Bool) {
+          navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

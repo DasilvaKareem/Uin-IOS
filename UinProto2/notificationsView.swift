@@ -30,12 +30,16 @@ class notificationsView: UITableViewController {
         var tabItem = tabArray.objectAtIndex(1) as UITabBarItem
         tabItem.badgeValue = nil
     }
+    override func viewWillAppear(animated: Bool) {
+          navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
+        self.tabBarController?.tabBar.hidden = false
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         var theMix = Mixpanel.sharedInstance()
         theMix.track("Notifications Opened")
         theMix.flush()
-        
+        self.tabBarController?.tabBar.hidden = false
         var tabArray = self.tabBarController?.tabBar.items as NSArray!
         var tabItem = tabArray.objectAtIndex(1) as UITabBarItem
         tabItem.badgeValue = nil

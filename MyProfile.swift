@@ -45,6 +45,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     var rowsInSection = [Int]()
     var sectionNames = [String]()
     var eventAddress = [String]()
+    var eventCountNumber = (Int)()
  
 
     
@@ -52,7 +53,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     // View Life Cycles
     override func viewWillAppear(animated: Bool) {
         subticker()
-        updateFeed()
+        checkUpdateFeed()
   
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
@@ -63,7 +64,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     
     override func viewDidDisappear(animated: Bool) {
-        updateFeed()
+        checkUpdateFeed()
         subticker()
         notifications()
     }
@@ -104,7 +105,19 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()];
 
     }
-   
+    //Checks if any new events are created if not update feed will not execute
+    func checkUpdateFeed(){
+        var eventCheck = PFQuery(className: "Event")
+        var eventNumber = eventCheck.countObjects()
+        //Executes updateFeed if the number changes
+        if eventCountNumber != eventCheck {
+            println("No refresh is neccessary")
+            
+        } else {
+            println("You need to refresh the update feed")
+            updateFeed()
+        }
+    }
     var amountofsubs = (String)()
     var amountofScript = (String)()
     func subticker(){
@@ -166,6 +179,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     func updateFeed(){
     var que = PFQuery(className: "Event")
+    self.eventCountNumber = que.countObjects()
     que.orderByAscending("start")
     que.whereKey("author", equalTo: PFUser.currentUser().username)
     que.whereKey("start", greaterThanOrEqualTo: NSDate())
