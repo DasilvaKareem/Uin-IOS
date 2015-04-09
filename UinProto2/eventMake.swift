@@ -291,6 +291,22 @@ class eventMake: UIViewController, UITextFieldDelegate {
                                 theMix.track("Edited Event (EM)")
                             })
                         })
+                        var notify = PFObject(className: "Notification")
+                        notify["senderID"] = PFUser.currentUser().objectId
+                        notify["receiverID"] = PFUser.currentUser().objectId
+                        notify["sender"] = PFUser.currentUser().username
+                        notify["receiver"] = PFUser.currentUser().username
+                        notify["eventID"] = notify.objectId
+                        notify["type"] =  "editedEvent"
+                        notify.saveInBackgroundWithBlock({
+                            (success:Bool!, notifyError: NSError!) -> Void in
+                            if notifyError == nil {
+                                println("notifcation has been saved")
+                            }
+                            else {
+                                println("fail")
+                            }
+                        })
                 
                     }
                 })
@@ -344,6 +360,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
                         notify["receiverID"] = PFUser.currentUser().objectId
                         notify["sender"] = PFUser.currentUser().username
                         notify["receiver"] = PFUser.currentUser().username
+                        notify["eventID"] = notify.objectId
                         notify["type"] =  "event"
                         notify.saveInBackgroundWithBlock({
                             (success:Bool!, notifyError: NSError!) -> Void in
@@ -426,6 +443,22 @@ class eventMake: UIViewController, UITextFieldDelegate {
                                     println("push was not sent")
                                 }
                               
+                            })
+                            var notify = PFObject(className: "Notification")
+                            notify["senderID"] = PFUser.currentUser().objectId
+                            notify["receiverID"] = PFUser.currentUser().objectId
+                            notify["sender"] = PFUser.currentUser().username
+                            notify["receiver"] = PFUser.currentUser().username
+                            notify["eventID"] = notify.objectId
+                            notify["type"] =  "deleteEvent"
+                            notify.saveInBackgroundWithBlock({
+                                (success:Bool!, notifyError: NSError!) -> Void in
+                                if notifyError == nil {
+                                    println("notifcation has been saved")
+                                }
+                                else {
+                                    println("fail")
+                                }
                             })
                         })
                       

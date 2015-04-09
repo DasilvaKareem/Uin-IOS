@@ -40,7 +40,7 @@ class eventLocation: UIViewController, MKMapViewDelegate, CLLocationManagerDeleg
     
     //Keyboard functions and modfies them
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
-         self.eventLocation.endEditing(true)
+         self.view.endEditing(true)
     }
     func textFieldShouldReturn(textField: UITextField!) -> Bool {
         textField.resignFirstResponder()
@@ -69,17 +69,11 @@ class eventLocation: UIViewController, MKMapViewDelegate, CLLocationManagerDeleg
  
     //Submits the locations to event make view
     @IBAction func checkLocation(sender: AnyObject) {
- 
-       //self.segueForUnwindingToViewController(eventMake(), fromViewController:self, identifier: "location")
-        
-        
     }
 
     
     override func viewDidAppear(animated: Bool) {
-  
-      
-        
+    
     }
     //Keeps track of the center cordinate location
     func mapView(mapView: MKMapView!, regionDidChangeAnimated animated: Bool) {

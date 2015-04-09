@@ -67,7 +67,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             if error == nil {
                 for object in results{
                     self.searchItems.append(searchItem(type: "Event", name: object["title"] as String, id: object.objectId))
-                    self.searchItems.append(searchItem())
+                    
                     println()
                     println(self.searchItems)
                     println()
@@ -79,13 +79,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                     if error == nil {
                         for object in results{
                             self.searchItems.append(searchItem(type: "Username", name: object["username"] as String, id: object.objectId))
-                            
-                            
-                            println()
                             println(self.searchItems)
-                            println()
-                            
-                            
                         }
                     }
                 })
@@ -186,7 +180,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     override func viewWillAppear(animated: Bool) {
       
-        checkUpdateFeed()
+        updateFeed()
         //Setups Ui
                navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
         
@@ -233,9 +227,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                  self.performSegueWithIdentifier("signInAccount", sender: self)
                 
             }))
-            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: { action in
-                
-                
+            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: { action in    
                 
             }))
             
@@ -244,36 +236,19 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             func preferredStatusBarStyle() -> UIStatusBarStyle {
                 return UIStatusBarStyle.Default
             }
-            
-        }
-
-        
-    }
-    //Checks if any new events are created if not update feed will not execute
-    func checkUpdateFeed(){
-        var eventCheck = PFQuery(className: "Event")
-        var eventNumber = eventCheck.countObjects()
-        //Executes updateFeed if the number changes
-        if eventCountNumber != eventCheck {
-            println("No refresh is neccessary")
-            
-        } else {
-            println("You need to refresh the update feed")
-            updateFeed()
         }
     }
+   
+  
     // Checks for notifcations and compares to any notications you recieved during that time
     var old = (Int)()
     var newCheck = (Int)()
-    
     func notifications() {
         
         var check = PFQuery(className: "Notification")
         check.whereKey("receiver", equalTo: PFUser.currentUser().username)
         check.whereKey("sender", notEqualTo: PFUser.currentUser().username)
         old = check.countObjects()
-        
-        
     }
     
     func checkNotifications() {
@@ -298,12 +273,9 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             println()
             println()
             println("You do not have a any new notification ")
-            
             println()
             println()
         }
-        
-        
     }
     
     // Alert function
@@ -333,7 +305,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         PFGeoPoint.geoPointForCurrentLocationInBackground {
             (geoPoint: PFGeoPoint!, error: NSError!) -> Void in
             if error == nil {
-                
+                self.theFeed.superview //Add tableview to screen
                 self.currentPoint = geoPoint
                 //adds content to the array
                 //Queries all public Events
@@ -388,7 +360,6 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                         
                         for object in results{
                             
-                            
                             self.publicPost.append(object["isPublic"] as Bool)
                             self.objectID.append(object.objectId as String)
                             self.usernames.append(object["author"] as String)
@@ -412,23 +383,16 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                         
                     else {
                         if error.code == 100 {
-                            
+                            println("No internet")
                             self.displayAlert("No Internet", error: "You have no internet connection")
                         }
-                        
                         println("It failed")
-                        
                     }
                 }
+            } else {
+                self.theFeed.removeFromSuperview()
             }
         }
-
-      
-      
-        
-        
-        
-        
     }
  
     func refresh() {
@@ -535,11 +499,13 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
         var cell:dateCell = tableView.dequeueReusableCellWithIdentifier("dateCell") as dateCell
-        
-        cell.dateItem.text = sectionNames[section]
         if searchActive {
             return nil
+        } else {
+           cell.dateItem.text = sectionNames[section]
         }
+        
+        
         return cell
     }
     

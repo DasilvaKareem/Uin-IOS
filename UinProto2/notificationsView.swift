@@ -62,116 +62,169 @@ class notificationsView: UITableViewController {
         notify()
     }
     
-    func notify(){
-        
-        var folusernames = [String]()
-        var followque = PFQuery(className: "Subscription")
-        followque.whereKey("subscriber", equalTo: PFUser.currentUser().objectId)
-        followque.findObjectsInBackgroundWithBlock{
+    //Gets all a2c receipents and subscribtions
+    var addedUsernames = [String]() //array of users who add your event to calendar
+    var folusernames = [String]()
+    func collectData(){
+        var followQue = PFQuery(className: "Subscription")
+        followQue.whereKey("subscriber", equalTo: PFUser.currentUser().objectId)
+        followQue.findObjectsInBackgroundWithBlock{
             (objects:[AnyObject]!, folError:NSError!) -> Void in
             
             if folError == nil {
                 
                 for object in objects{
                     println("it worked")
-                    folusernames.append(object["subscriber"] as String)
+                    self.folusernames.append(object["subscriber"] as String)
                 }
+                var addedQue = PFQuery(className: "UserCalendar")
+                addedQue.whereKey("userID", equalTo: PFUser.currentUser().objectId)
+                addedQue.whereKey("author", equalTo: "Kareem Dasilva")
+                addedQue.findObjectsInBackgroundWithBlock{
+                    (objects:[AnyObject]!, folError:NSError!) -> Void in
+                    
+                    if folError == nil {
+                        
+                        for object in objects{
+                            self.addedUsernames.append(object["author"] as String)
+                        }
+                        println()
+                        println(self.addedUsernames)
+                        println()
+                        println()
+                        println(self.folusernames)
+                        println()
+                        var eventQuery = PFQuery(className: "Notification")
+                        eventQuery.whereKey("type", equalTo: "event" )
+                        eventQuery.whereKey("sender", containedIn: self.folusernames)
+                        eventQuery.whereKey("sender", notEqualTo: PFUser.currentUser().username)
+                        
+                        var subQuery = PFQuery(className: "Notification")
+                        subQuery.whereKey("type", equalTo: "sub")
+                        subQuery.whereKey("receiverID", equalTo: PFUser.currentUser().objectId)
+                        
+                        var deleteQuery = PFQuery(className: "Notification")
+                        deleteQuery.whereKey("type", equalTo: "editedEvent" )
+                        deleteQuery.whereKey("sender", containedIn: self.addedUsernames)
+                        deleteQuery.whereKey("sender", notEqualTo: PFUser.currentUser().username)
+                        
+                        var editQuery = PFQuery(className: "Notification")
+                        editQuery.whereKey("type", equalTo: "deleteEvent" )
+                        editQuery.whereKey("sender", containedIn: self.addedUsernames)
+                        editQuery.whereKey("sender", notEqualTo: PFUser.currentUser().username)
+                        
+                        var calendarQuery = PFQuery(className: "Notification")
+                        calendarQuery.whereKey("receiver", equalTo: PFUser.currentUser().username)
+                        calendarQuery.whereKeyExists("eventID")
+                        calendarQuery.whereKey("type", equalTo: "calendar")
+                        
+                        var memberQuery = PFQuery(className: "Notification")
+                        memberQuery.whereKey("receiver", equalTo: PFUser.currentUser().username)
+                        memberQuery.whereKey("type", equalTo: "member")
+                        
+                        
+                        var query = PFQuery.orQueryWithSubqueries([memberQuery, subQuery, calendarQuery, eventQuery, editQuery, deleteQuery ])
+                        query.limit = 15
+                        query.orderByDescending("createdAt")
+                        query.findObjectsInBackgroundWithBlock({
+                            (objects:[AnyObject]!,subError:NSError!) -> Void in
+                            println("it queryed")
+                            if subError == nil {
+                                self.notificationItems.removeAll(keepCapacity: true)
+                                var note = (String)()
+                                for object in objects {
+                                    println(object.objectId)
+                                    
+                                    self.times.append(object.createdAt)
+                                    
+                                    
+                                    
+                                    switch object["type"] as String {
+                                    case "event":
+                                        var current = object["sender"] as String
+                                        note = "\(current) has made an event"
+                                        self.notificationItems.append(notificationItem(type: object["type"] as String, senderID: object["senderID"] as String, receiverID: object["receiverID"] as String, message:note, senderUsername: object["sender"] as String, receiverUsername: object["receiver"] as String, eventID: object["eventID"] as String))
+                                        
+                                        break
+                                    case "editedEvent":
+                                        var current = object["sender"] as String
+                                        note = "\(current) has deleted an event"
+                                        self.notificationItems.append(notificationItem(type: object["type"] as String, senderID: object["senderID"] as String, receiverID: object["receiverID"] as String, message:note, senderUsername: object["sender"] as String, receiverUsername: object["receiver"] as String, eventID: object["eventID"] as String))
+                                        
+                                        break
+                                    case "deleteEvent":
+                                        var current = object["sender"] as String
+                                        note = "\(current) has edited an event"
+                                        self.notificationItems.append(notificationItem(type: object["type"] as String, senderID: object["senderID"] as String, receiverID: object["receiverID"] as String, message:note, senderUsername: object["sender"] as String, receiverUsername: object["receiver"] as String, eventID: object["eventID"] as String))
+                                        
+                                        break
+                                    case "calendar":
+                                        var current = object["sender"] as String
+                                        //Checks if the user is a anon users and changes the notfications
+                                        var characterSet:NSCharacterSet = NSCharacterSet(charactersInString: "$")
+                                        var eventnote = ""
+                                        
+                                        if current.rangeOfCharacterFromSet(characterSet) != nil {
+                                            note = "Someone has added your event to their calendar"
+                                        } else {
+                                            note = "\(current) has added your event to their calendar"
+                                        }
+                                        self.notificationItems.append(notificationItem(type: object["type"] as String, senderID: object["senderID"] as String, receiverID: object["receiverID"] as String, message:note, senderUsername: object["sender"] as String, receiverUsername: object["receiver"] as String, eventID: object["eventID"] as String))
+                                        
+                                        break
+                                        
+                                    case "sub":
+                                        var current = object["sender"] as String
+                                        note = "\(current) has subscribed to you"
+                                        self.notificationItems.append(notificationItem(type: object["type"] as String, senderID: object["senderID"] as String, receiverID: object["receiverID"] as String, message:note, senderUsername: object["sender"] as String, receiverUsername: object["receiver"] as String, eventID: "nil"))
+                                        
+                                        break
+                                        
+                                    case "member":
+                                        var current = object["sender"] as String
+                                        note = "\(current) has change your member status"
+                                        self.notificationItems.append(notificationItem(type: object["type"] as String, senderID: object["senderID"] as String, receiverID: object["receiverID"] as String, message:note, senderUsername: object["sender"] as String, receiverUsername: object["receiver"] as String, eventID: "nil"))
+                                        
+                                        
+                                        break
+                                    default:
+                                        println("unknown has happen please refer back to parse database")
+                                        break
+                                    }
+                                    
+                                }
+                                
+                                for i in self.times {
+                                    var dateFormatter = NSDateFormatter()
+                                    //Creates table header for event time
+                                    dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
+                                    var completeDate = dateFormatter.stringFromDate(i)
+                                    //Creates Time for Event from NSDAte
+                                    var timeFormatter = NSDateFormatter() //Formats time
+                                    timeFormatter.timeStyle = NSDateFormatterStyle.ShortStyle
+                                    var localTime = timeFormatter.stringFromDate(i)
+                                    self.localTime.append("\(completeDate) \(localTime)")
+                                }
+                                self.tableView.reloadData()
+                                self.refresher.endRefreshing()
+                            }
+                        })
+                    } else {
+                        println("failed to get fetch addedusernames")
+                    }
+                    println(self.addedUsernames)
+                }
+
             }
         }
         
-        var eventQuery = PFQuery(className: "Notification")
-        eventQuery.whereKey("type", equalTo: "event" )
-        eventQuery.whereKey("sender", containedIn: folusernames)
-        eventQuery.whereKey("sender", notEqualTo: PFUser.currentUser().username)
+         }
+    func notify(){
         
-        var subQuery = PFQuery(className: "Notification")
-        subQuery.whereKey("type", equalTo: "sub")
-        subQuery.whereKey("receiverID", equalTo: PFUser.currentUser().objectId)
+        collectData()
         
-        var calendarQuery = PFQuery(className: "Notification")
-        calendarQuery.whereKey("receiver", equalTo: PFUser.currentUser().username)
-        calendarQuery.whereKeyExists("eventID")
-        calendarQuery.whereKey("type", equalTo: "calendar")
-        
-        var memberQuery = PFQuery(className: "Notification")
-        memberQuery.whereKey("receiver", equalTo: PFUser.currentUser().username)
-        memberQuery.whereKey("type", equalTo: "member")
-        
-        
-        var query = PFQuery.orQueryWithSubqueries([memberQuery, subQuery, calendarQuery, eventQuery ])
-        query.limit = 15
-        query.orderByDescending("createdAt")
-        query.findObjectsInBackgroundWithBlock({
-            (objects:[AnyObject]!,subError:NSError!) -> Void in
-            println("it queryed")
-            if subError == nil {
-                self.notificationItems.removeAll(keepCapacity: true)
-                var note = (String)()
-                for object in objects {
-                    println(object.objectId)
-                    
-                    self.times.append(object.createdAt)
-                    
-                    
-                    
-                    switch object["type"] as String {
-                    case "event":
-                        var current = object["sender"] as String
-                        note = "\(current) has made an event"
-                        self.notificationItems.append(notificationItem(type: object["type"] as String, senderID: object["senderID"] as String, receiverID: object["receiverID"] as String, message:note, senderUsername: object["sender"] as String, receiverUsername: object["receiver"] as String, eventID: object["eventID"] as String))
-                        
-                        break
-                    case "calendar":
-                        var current = object["sender"] as String
-                        //Checks if the user is a anon users and changes the notfications
-                        var characterSet:NSCharacterSet = NSCharacterSet(charactersInString: "$")
-                        var eventnote = ""
-                        
-                        if current.rangeOfCharacterFromSet(characterSet) != nil {
-                            note = "Someone has added your event to their calendar"
-                        } else {
-                            note = "\(current) has added your event to their calendar"
-                        }
-                         self.notificationItems.append(notificationItem(type: object["type"] as String, senderID: object["senderID"] as String, receiverID: object["receiverID"] as String, message:note, senderUsername: object["sender"] as String, receiverUsername: object["receiver"] as String, eventID: object["eventID"] as String))
-                        
-                        break
-                        
-                    case "sub":
-                        var current = object["sender"] as String
-                        note = "\(current) has subscribed to you"
-                            self.notificationItems.append(notificationItem(type: object["type"] as String, senderID: object["senderID"] as String, receiverID: object["receiverID"] as String, message:note, senderUsername: object["sender"] as String, receiverUsername: object["receiver"] as String, eventID: "nil"))
-                        
-                        break
-                        
-                    case "member":
-                        var current = object["sender"] as String
-                        note = "\(current) has change your member status"
-                        self.notificationItems.append(notificationItem(type: object["type"] as String, senderID: object["senderID"] as String, receiverID: object["receiverID"] as String, message:note, senderUsername: object["sender"] as String, receiverUsername: object["receiver"] as String, eventID: "nil"))
-                        
-                        
-                        break
-                    default:
-                        println("unknown has happen please refer back to parse database")
-                        break
-                    }
-                    
-                }
-                
-                for i in self.times {
-                    var dateFormatter = NSDateFormatter()
-                    //Creates table header for event time
-                    
-                    
-                    //Creates Time for Event from NSDAte
-                    var timeFormatter = NSDateFormatter() //Formats time
-                    timeFormatter.timeStyle = NSDateFormatterStyle.ShortStyle
-                    var localTime = timeFormatter.stringFromDate(i)
-                    self.localTime.append(localTime)
-                }
-                self.tableView.reloadData()
-                self.refresher.endRefreshing()
-            }
-        })
+ 
+       
     }
     func refresh() {
         notify()
@@ -186,6 +239,12 @@ class notificationsView: UITableViewController {
         switch items.type {
         case "event":
             self.performSegueWithIdentifier("event", sender: self)
+            break
+        case "eventEdit":
+            self.performSegueWithIdentifier("event", sender: self)
+            break
+        case "deleteEvent":
+          
             break
         case "calendar":
             self.performSegueWithIdentifier("calendar", sender: self)
@@ -217,7 +276,6 @@ class notificationsView: UITableViewController {
         var items = notificationItems[indexPath.row]
         cell.timeStamp.text = localTime[indexPath.row]
         cell.notifyMessage.text = items.message
-        println(items.message)
         return cell
     }
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
