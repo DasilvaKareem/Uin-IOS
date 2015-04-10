@@ -42,7 +42,7 @@ class settingsView: UIViewController {
             var user = PFUser.currentUser()
             user["pushEnabled"] = true
             user.save()
-            var query = PFQuery(className: "Subcription")
+            var query = PFQuery(className: "Subscription")
             query.whereKey("subscriberID", equalTo: PFUser.currentUser().objectId)
             query.findObjectsInBackgroundWithBlock({
         
