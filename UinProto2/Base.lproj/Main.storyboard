@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6221" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="0me-jO-edR">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1514" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="0me-jO-edR">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6213"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -631,28 +631,6 @@
                                 <color key="textColor" red="0.27058823529999998" green="0.27058823529999998" blue="0.27058823529999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oEx-xt-2dS">
-                                <rect key="frame" x="0.0" y="702" width="414" height="34"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="oEx-xt-2dS" secondAttribute="height" multiplier="324:59" id="dlm-R0-K0X"/>
-                                </constraints>
-                                <state key="normal">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="dlm-R0-K0X"/>
-                                    </mask>
-                                </variation>
-                                <variation key="heightClass=regular-widthClass=compact">
-                                    <mask key="constraints">
-                                        <include reference="dlm-R0-K0X"/>
-                                    </mask>
-                                </variation>
-                                <connections>
-                                    <action selector="addtocalendar:" destination="y9y-G9-w9b" eventType="touchUpInside" id="fVr-5A-gLh"/>
-                                </connections>
-                            </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sUo-LT-wYp" userLabel="quickGlanceView">
                                 <rect key="frame" x="0.0" y="249" width="414" height="75"/>
                                 <subviews>
@@ -703,9 +681,6 @@
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kKW-ys-xfG">
-                                        <rect key="frame" x="99" y="-25" width="97" height="70"/>
-                                    </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -774,18 +749,52 @@
                                     <action selector="eventShare:" destination="y9y-G9-w9b" eventType="touchUpInside" id="uQg-bv-X2Y"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gUK-lT-R5M">
-                                <rect key="frame" x="31" y="189" width="42" height="65"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="99" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gUK-lT-R5M">
+                                <rect key="frame" x="0.0" y="690" width="35" height="34"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="34" id="WYP-Dn-P7K"/>
+                                    <constraint firstAttribute="width" constant="35" id="WuH-9d-ckM"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="28"/>
+                                <color key="textColor" red="0.99607843139999996" green="0.72941176470000002" blue="0.0039215686269999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="kKW-ys-xfG">
+                                <rect key="frame" x="43" y="686" width="34" height="42"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="34" id="AuO-YX-Szs"/>
+                                    <constraint firstAttribute="height" constant="42" id="BrQ-0L-Og9"/>
+                                </constraints>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oEx-xt-2dS">
+                                <rect key="frame" x="0.0" y="702" width="414" height="34"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="oEx-xt-2dS" secondAttribute="height" multiplier="324:59" id="dlm-R0-K0X"/>
+                                </constraints>
+                                <state key="normal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="dlm-R0-K0X"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=regular-widthClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="dlm-R0-K0X"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <action selector="addtocalendar:" destination="y9y-G9-w9b" eventType="touchUpInside" id="fVr-5A-gLh"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="VAR-28-4v2" firstAttribute="top" secondItem="N98-dl-EA5" secondAttribute="bottom" constant="2" id="0lV-q9-UI6">
                                 <variation key="heightClass=regular-widthClass=compact" constant="-5"/>
                             </constraint>
+                            <constraint firstItem="IfG-kR-wUr" firstAttribute="top" secondItem="gUK-lT-R5M" secondAttribute="bottom" constant="12" id="1DK-wa-2IG"/>
                             <constraint firstItem="cjh-gb-ux4" firstAttribute="top" secondItem="TRG-3k-hR9" secondAttribute="bottom" constant="27" id="1hX-6Q-5Pv"/>
                             <constraint firstItem="IfG-kR-wUr" firstAttribute="top" relation="greaterThanOrEqual" secondItem="TRG-3k-hR9" secondAttribute="bottom" constant="140" id="1vX-9H-NZQ"/>
                             <constraint firstAttribute="centerX" secondItem="avO-I5-0ti" secondAttribute="centerX" id="2Kd-HM-8Gk"/>
@@ -805,6 +814,7 @@
                             <constraint firstItem="IfG-kR-wUr" firstAttribute="top" relation="lessThanOrEqual" secondItem="TRG-3k-hR9" secondAttribute="bottom" constant="383" id="N0f-Ew-scb"/>
                             <constraint firstItem="2Qw-DU-Fez" firstAttribute="top" secondItem="TRG-3k-hR9" secondAttribute="bottom" constant="-5" id="PLp-hQ-z4j"/>
                             <constraint firstItem="BTs-Tc-lLL" firstAttribute="trailing" secondItem="CEs-PO-XVe" secondAttribute="trailingMargin" id="QFC-3F-y9y"/>
+                            <constraint firstItem="oEx-xt-2dS" firstAttribute="top" secondItem="gUK-lT-R5M" secondAttribute="bottom" constant="-6" id="Qyz-8O-Gfh"/>
                             <constraint firstItem="7U0-OI-Ks4" firstAttribute="top" secondItem="EhB-JZ-mhd" secondAttribute="bottom" constant="8" id="Qzd-2a-KeH"/>
                             <constraint firstItem="7U0-OI-Ks4" firstAttribute="leading" secondItem="CEs-PO-XVe" secondAttribute="leadingMargin" id="V1t-Ql-i01"/>
                             <constraint firstItem="avO-I5-0ti" firstAttribute="top" secondItem="7U0-OI-Ks4" secondAttribute="bottom" constant="8" id="V4m-oh-Owb"/>
@@ -828,12 +838,16 @@
                             <constraint firstAttribute="centerX" secondItem="VAR-28-4v2" secondAttribute="centerX" id="unD-aC-YhP"/>
                             <constraint firstItem="TRG-3k-hR9" firstAttribute="top" relation="lessThanOrEqual" secondItem="sUo-LT-wYp" secondAttribute="bottom" constant="30" id="unq-mP-bZ7"/>
                             <constraint firstItem="tsK-Ib-iSC" firstAttribute="leading" secondItem="CEs-PO-XVe" secondAttribute="leadingMargin" id="uru-2I-kgV"/>
+                            <constraint firstItem="kKW-ys-xfG" firstAttribute="leading" secondItem="gUK-lT-R5M" secondAttribute="trailing" constant="8" id="vxE-lK-IXX"/>
+                            <constraint firstItem="gUK-lT-R5M" firstAttribute="leading" secondItem="CEs-PO-XVe" secondAttribute="leadingMargin" constant="-16" id="xWY-g0-hzu"/>
+                            <constraint firstItem="IfG-kR-wUr" firstAttribute="top" secondItem="kKW-ys-xfG" secondAttribute="bottom" constant="8" id="yEd-rM-2f0"/>
                             <constraint firstItem="TRG-3k-hR9" firstAttribute="leading" secondItem="CEs-PO-XVe" secondAttribute="leadingMargin" id="yGS-5v-PTg"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
                                 <exclude reference="iqf-i0-gh8"/>
                                 <exclude reference="oE5-Ku-A4m"/>
+                                <exclude reference="Qyz-8O-Gfh"/>
                             </mask>
                         </variation>
                     </view>
@@ -3145,12 +3159,12 @@
         <image name="yesProfileFeed" width="28" height="31"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="eEb-gu-TeJ"/>
         <segue reference="0t0-sB-Jv5"/>
         <segue reference="eqj-cr-YG3"/>
         <segue reference="xBv-SR-avW"/>
-        <segue reference="Lfr-Im-XNY"/>
+        <segue reference="Icg-Rt-Vk3"/>
         <segue reference="6YY-gj-nOQ"/>
+        <segue reference="eEb-gu-TeJ"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>
