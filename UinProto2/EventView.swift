@@ -66,12 +66,11 @@ class postEvent: UIViewController {
             (results:PFObject!, error: NSError!) -> Void in
             
             if error == nil {
-                
                 self.longBar.setImage(UIImage(named: "addedToCalendarLongBar.png"), forState: UIControlState.Normal)
-                
+                self.peopleView.image = UIImage(named: "blueGroup")
             }   else {
-                
                 self.longBar.setImage(UIImage(named: "addToCalendarLongBar.png"), forState: UIControlState.Normal)
+                self.peopleView.image = UIImage(named: "yellowGroup")
             }
         }
         getCount()
@@ -82,27 +81,17 @@ class postEvent: UIViewController {
         minique2.whereKey("eventID", equalTo: eventId)
         var goingCount = minique2.countObjects()
         self.calendarCount.text = String(goingCount)
-        var itemCheck = minique2.getFirstObject()
-        if itemCheck == nil {
-            self.peopleView.image = UIImage(named: "yellowGroup")
-        } else {
-            self.peopleView.image = UIImage(named: "blueGroup")
-        }
     }
     //Queris from object ID
 
     override func viewWillAppear(animated: Bool) {
       
         if profileEditing == false {
-            
             navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
-        
             // Changes text color on navbar
             var nav = self.navigationController?.navigationBar
             nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()];
-            
         }
-        
     }
     
     func getEvents() {
@@ -159,6 +148,7 @@ class postEvent: UIViewController {
         theMix.track("Event View Opened")
         theMix.flush()
         super.viewDidLoad()
+        
         if users != PFUser.currentUser().username{
             self.navigationItem.rightBarButtonItem = nil
         }
@@ -236,7 +226,7 @@ class postEvent: UIViewController {
         }
         
     }
-    
+    //Adds the event to calenar and creats a notifcations,push, and changes the button itself
     @IBAction func addtocalendar(sender: AnyObject) {
         
         var que = PFQuery(className: "UserCalendar")
@@ -250,7 +240,9 @@ class postEvent: UIViewController {
             if queerror == nil {
               results.delete()
                 self.getCount()
-                      self.longBar.setImage(UIImage(named: "addToCalendarLongBar.png"), forState: UIControlState.Normal)
+                self.longBar.setImage(UIImage(named: "addToCalendarLongBar.png"), forState: UIControlState.Normal)
+                self.peopleView.image = UIImage(named: "yellowGroup")
+                self.calendarCount.textColor = UIColor(red: 254.0/255.0, green: 186.0/255.0, blue: 1.0/255, alpha:1 ) //yellow/oraginsh color
                 if results != nil {
             var eventStore : EKEventStore = EKEventStore()
             eventStore.requestAccessToEntityType(EKEntityTypeEvent, completion: {
@@ -293,8 +285,26 @@ class postEvent: UIViewController {
             }
             
             else {
-                
-                   self.longBar.setImage(UIImage(named: "addedToCalendarLongBar.png"), forState: UIControlState.Normal)
+                var going = PFObject(className: "UserCalendar")
+                going["user"] = PFUser.currentUser().username
+                going["userID"] = PFUser.currentUser().objectId
+                going["event"] = self.storeTitle
+                going["author"] = self.users
+                going["eventID"] = self.eventId
+                going.saveInBackgroundWithBlock{
+                    
+                    (succeded:Bool!, savError:NSError!) -> Void in
+                    
+                    if savError == nil {
+                        self.getCount()
+                        println("the user is going to the event")
+                        self.longBar.setImage(UIImage(named: "addedToCalendarLongBar.png"), forState: UIControlState.Normal)
+                        self.peopleView.image = UIImage(named: "blueGroup") //changes the group image to blue
+                        self.calendarCount.textColor = UIColor(red: 52.0/255.0, green: 127.0/255.0, blue: 191.0/255, alpha:1 ) //blue color
+                        
+                    }
+                }
+          
                 var eventStore : EKEventStore = EKEventStore()
                 eventStore.requestAccessToEntityType(EKEntityTypeEvent, completion: {
                     
@@ -356,22 +366,7 @@ class postEvent: UIViewController {
                         }
                     })
                 }
-                var going = PFObject(className: "UserCalendar")
-                going["user"] = PFUser.currentUser().username
-                going["userID"] = PFUser.currentUser().objectId
-                going["event"] = self.storeTitle
-                going["author"] = self.users
-                going["eventID"] = self.eventId
-                going.saveInBackgroundWithBlock{
-                    
-                    (succeded:Bool!, savError:NSError!) -> Void in
-                    
-                    if savError == nil {
-                        self.getCount()
-                        println("the user is going to the event")
-                        
-                    }
-                }
+             
             }
         })
     }

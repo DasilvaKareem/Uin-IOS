@@ -88,12 +88,7 @@ class notificationsView: UITableViewController {
                         for object in objects{
                             self.addedUsernames.append(object["author"] as String)
                         }
-                        println()
-                        println(self.addedUsernames)
-                        println()
-                        println()
-                        println(self.folusernames)
-                        println()
+                    
                         var eventQuery = PFQuery(className: "Notification")
                         eventQuery.whereKey("type", equalTo: "event" )
                         eventQuery.whereKey("sender", containedIn: self.folusernames)
@@ -141,6 +136,9 @@ class notificationsView: UITableViewController {
                                     
                                     switch object["type"] as String {
                                     case "event":
+                                        
+                    
+                                        
                                         var current = object["sender"] as String
                                         note = "\(current) has made an event"
                                         self.notificationItems.append(notificationItem(type: object["type"] as String, senderID: object["senderID"] as String, receiverID: object["receiverID"] as String, message:note, senderUsername: object["sender"] as String, receiverUsername: object["receiver"] as String, eventID: object["eventID"] as String))
