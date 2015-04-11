@@ -10,6 +10,7 @@ import UIKit
 
 class notificationsView: UITableViewController {
     
+    
     var notes = [String]()
     var refresher: UIRefreshControl!
     var times = [NSDate]()
@@ -67,7 +68,7 @@ class notificationsView: UITableViewController {
     var folusernames = [String]()
     func collectData(){
         var followQue = PFQuery(className: "Subscription")
-        followQue.whereKey("subscriber", equalTo: PFUser.currentUser().objectId)
+        followQue.whereKey("subscriberID", equalTo: PFUser.currentUser().objectId)
         followQue.findObjectsInBackgroundWithBlock{
             (objects:[AnyObject]!, folError:NSError!) -> Void in
             
@@ -75,11 +76,12 @@ class notificationsView: UITableViewController {
                 
                 for object in objects{
                     println("it worked")
-                    self.folusernames.append(object["subscriber"] as String)
+                    self.folusernames.append(object["publisher"] as String)
                 }
+                println(self.folusernames)
                 var addedQue = PFQuery(className: "UserCalendar")
                 addedQue.whereKey("userID", equalTo: PFUser.currentUser().objectId)
-                addedQue.whereKey("author", equalTo: "Kareem Dasilva")
+                addedQue.whereKeyExists("author")
                 addedQue.findObjectsInBackgroundWithBlock{
                     (objects:[AnyObject]!, folError:NSError!) -> Void in
                     
@@ -128,7 +130,7 @@ class notificationsView: UITableViewController {
                                 self.notificationItems.removeAll(keepCapacity: true)
                                 var note = (String)()
                                 for object in objects {
-                                    println(object.objectId)
+                                    
                                     
                                     self.times.append(object.createdAt)
                                     
@@ -137,26 +139,41 @@ class notificationsView: UITableViewController {
                                     switch object["type"] as String {
                                     case "event":
                                         
-                    
                                         
+                                        var getEventname = PFQuery(className: "Event")
+                                        var eventObject = getEventname.getObjectWithId(object["eventID"] as String)
+                                        var eventName =  eventObject["title"] as String
                                         var current = object["sender"] as String
-                                        note = "\(current) has made an event"
+                                        note = "\(current) has made an event,\(eventName)"
+                                        println("Hey you actuallt got an event notficiations")
                                         self.notificationItems.append(notificationItem(type: object["type"] as String, senderID: object["senderID"] as String, receiverID: object["receiverID"] as String, message:note, senderUsername: object["sender"] as String, receiverUsername: object["receiver"] as String, eventID: object["eventID"] as String))
                                         
                                         break
                                     case "editedEvent":
+                                        
+                                        var getEventname = PFQuery(className: "Event")
+                                        var eventObject = getEventname.getObjectWithId(object["eventID"] as String)
+                                        var eventName =  eventObject["title"] as String
                                         var current = object["sender"] as String
-                                        note = "\(current) has deleted an event"
+                                        note = "\(current) has edited an event,\(eventName)"
                                         self.notificationItems.append(notificationItem(type: object["type"] as String, senderID: object["senderID"] as String, receiverID: object["receiverID"] as String, message:note, senderUsername: object["sender"] as String, receiverUsername: object["receiver"] as String, eventID: object["eventID"] as String))
                                         
                                         break
                                     case "deleteEvent":
+                                       
+                                        var getEventname = PFQuery(className: "Event")
+                                        var eventObject = getEventname.getObjectWithId(object["eventID"] as String)
+                                        var eventName =  eventObject["title"] as String
                                         var current = object["sender"] as String
-                                        note = "\(current) has edited an event"
+                                        note = "\(current) has cancelled an event,\(eventName)"
                                         self.notificationItems.append(notificationItem(type: object["type"] as String, senderID: object["senderID"] as String, receiverID: object["receiverID"] as String, message:note, senderUsername: object["sender"] as String, receiverUsername: object["receiver"] as String, eventID: object["eventID"] as String))
                                         
                                         break
                                     case "calendar":
+                                        
+                                        var getEventname = PFQuery(className: "Event")
+                                        var eventObject = getEventname.getObjectWithId(object["eventID"] as String)
+                                        var eventName =  eventObject["title"] as String
                                         var current = object["sender"] as String
                                         //Checks if the user is a anon users and changes the notfications
                                         var characterSet:NSCharacterSet = NSCharacterSet(charactersInString: "$")
@@ -172,6 +189,7 @@ class notificationsView: UITableViewController {
                                         break
                                         
                                     case "sub":
+                                        
                                         var current = object["sender"] as String
                                         note = "\(current) has subscribed to you"
                                         self.notificationItems.append(notificationItem(type: object["type"] as String, senderID: object["senderID"] as String, receiverID: object["receiverID"] as String, message:note, senderUsername: object["sender"] as String, receiverUsername: object["receiver"] as String, eventID: "nil"))
@@ -179,6 +197,7 @@ class notificationsView: UITableViewController {
                                         break
                                         
                                     case "member":
+                                        
                                         var current = object["sender"] as String
                                         note = "\(current) has change your member status"
                                         self.notificationItems.append(notificationItem(type: object["type"] as String, senderID: object["senderID"] as String, receiverID: object["receiverID"] as String, message:note, senderUsername: object["sender"] as String, receiverUsername: object["receiver"] as String, eventID: "nil"))
@@ -238,7 +257,7 @@ class notificationsView: UITableViewController {
         case "event":
             self.performSegueWithIdentifier("event", sender: self)
             break
-        case "eventEdit":
+        case "editedEvent":
             self.performSegueWithIdentifier("event", sender: self)
             break
         case "deleteEvent":
@@ -272,6 +291,28 @@ class notificationsView: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell:subCell = tableView.dequeueReusableCellWithIdentifier("Cell") as subCell
         var items = notificationItems[indexPath.row]
+        switch items.type {
+            case "event":
+                cell.noteImage.image = UIImage(named: "noteCreated")
+            break
+            case "editedEvent":
+                cell.noteImage.image = UIImage(named: "noteEdited")
+            break
+        case "deleteEvent":
+                cell.noteImage.image = UIImage(named: "noteDeleted")
+            break
+        case "calendar":
+                cell.noteImage.image = UIImage(named: "noteAdded")
+            break
+        case "sub":
+                cell.noteImage.image = UIImage(named: "noteSubbed")
+            break
+        case "member":
+                cell.noteImage.image = UIImage(named: "noteSubbed")
+            break
+        default:
+            println("error")
+        }
         cell.timeStamp.text = localTime[indexPath.row]
         cell.notifyMessage.text = items.message
         return cell

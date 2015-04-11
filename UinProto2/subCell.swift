@@ -13,6 +13,7 @@ class subCell: UITableViewCell {
     @IBOutlet weak var notifyMessage: UILabel!
     
     @IBOutlet var timeStamp: UILabel!
+    @IBOutlet var noteImage: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()

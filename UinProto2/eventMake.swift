@@ -296,7 +296,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
                         notify["receiverID"] = PFUser.currentUser().objectId
                         notify["sender"] = PFUser.currentUser().username
                         notify["receiver"] = PFUser.currentUser().username
-                        notify["eventID"] = notify.objectId
+                        notify["eventID"] = eventItem.objectId
                         notify["type"] =  "editedEvent"
                         notify.saveInBackgroundWithBlock({
                             (success:Bool!, notifyError: NSError!) -> Void in
@@ -352,25 +352,18 @@ class eventMake: UIViewController, UITextFieldDelegate {
                                 theMix.track("Created Event (EM)")
                                 
                             })
-                            
+
                         
-             
+
                         var notify = PFObject(className: "Notification")
                         notify["senderID"] = PFUser.currentUser().objectId
                         notify["receiverID"] = PFUser.currentUser().objectId
                         notify["sender"] = PFUser.currentUser().username
                         notify["receiver"] = PFUser.currentUser().username
-                        notify["eventID"] = notify.objectId
+                        notify["eventID"] = event.objectId
                         notify["type"] =  "event"
-                        notify.saveInBackgroundWithBlock({
-                            (success:Bool!, notifyError: NSError!) -> Void in
-                            if notifyError == nil {
-                                println("notifcation has been saved")
-                            }
-                            else {
-                                println("fail")
-                            }
-                        })
+                        notify.save()
+
                         orderDate1 = NSDate()
                         orderDate2 = NSDate()
                         dateTime1 = String()
@@ -382,6 +375,8 @@ class eventMake: UIViewController, UITextFieldDelegate {
                         self.performSegueWithIdentifier("eventback", sender: self)
                         println("it worked")
                         
+                    } else {
+                        println(eventError)
                     }
                 }
             }
@@ -449,7 +444,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
                             notify["receiverID"] = PFUser.currentUser().objectId
                             notify["sender"] = PFUser.currentUser().username
                             notify["receiver"] = PFUser.currentUser().username
-                            notify["eventID"] = notify.objectId
+                            notify["eventID"] = self.eventID
                             notify["type"] =  "deleteEvent"
                             notify.saveInBackgroundWithBlock({
                                 (success:Bool!, notifyError: NSError!) -> Void in
