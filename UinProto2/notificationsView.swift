@@ -153,7 +153,7 @@ class notificationsView: UITableViewController {
                                         
                                         var getEventname = PFQuery(className: "Event")
                                         var eventObject = getEventname.getObjectWithId(object["eventID"] as String)
-                                        var eventName =  eventObject["title"] as String
+                                        var eventName:String =  eventObject["title"] as String
                                         var current = object["sender"] as String
                                         note = "\(current) has edited an event,\(eventName)"
                                         self.notificationItems.append(notificationItem(type: object["type"] as String, senderID: object["senderID"] as String, receiverID: object["receiverID"] as String, message:note, senderUsername: object["sender"] as String, receiverUsername: object["receiver"] as String, eventID: object["eventID"] as String))
