@@ -68,9 +68,6 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                 for object in results{
                     self.searchItems.append(searchItem(type: "Event", name: object["title"] as String, id: object.objectId))
                     
-                    println()
-                    println(self.searchItems)
-                    println()
                 }
                 var userQuery = PFUser.query()
                 userQuery.whereKey("tempAccounts", equalTo: false)
@@ -79,7 +76,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                     if error == nil {
                         for object in results{
                             self.searchItems.append(searchItem(type: "Username", name: object["username"] as String, id: object.objectId))
-                            println(self.searchItems)
+                            
                         }
                     }
                 })
@@ -771,21 +768,32 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                     }
                 })
                 println("the object does not exist")
-                    var push = PFPush()
-                    var pfque = PFInstallation.query()
-                    pfque.whereKey("user", equalTo: self.usernames[sender.tag])
-                    push.setQuery(pfque)
-                if PFUser.currentUser()["tempAccounts"] as Bool == true {
-                    push.setMessage("Someone has added your event to their calendar")
-                } else {
-                    push.setMessage("\(PFUser.currentUser().username) has added your event to their calendar")
-                }
+                var push = PFPush()
+                var pfque = PFInstallation.query()
+                pfque.whereKey("user", equalTo: self.usernames[sender.tag])
+                push.setQuery(pfque)
+                var pushCheck = PFUser.query() //Checks if users has push enabled
+                var userCheck = pushCheck.getObjectWithId(self.userId[sender.tag])
+                println()
+                println(userCheck)
+                println()
+                if userCheck["pushEnabled"] as Bool {
+                    if PFUser.currentUser()["tempAccounts"] as Bool == true {
+                        push.setMessage("Someone has added your event to their calendar")
+                    } else {
+                        
+                        push.setMessage("\(PFUser.currentUser().username) has added your event to their calendar")
+                    }
                     push.sendPushInBackgroundWithBlock({
                         (success:Bool!, pushError: NSError!) -> Void in
                         if pushError == nil {
                             println("Push was Sent")
                         }
                     })
+                } else {
+                    println("user does not have push enabled")
+                }
+            
                 
                 if self.usernames[sender.tag] != PFUser.currentUser().username {
                     var notify = PFObject(className: "Notification")

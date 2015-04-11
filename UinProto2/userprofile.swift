@@ -733,23 +733,30 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 println("the object does not exist")
                 
                 var push = PFPush()
-                
                 var pfque = PFInstallation.query()
                 pfque.whereKey("user", equalTo: self.usernames[sender.tag])
-                
                 push.setQuery(pfque)
-                push.setMessage("\(PFUser.currentUser().username) has added your event to their calendar")
-                push.sendPushInBackgroundWithBlock({
-                    
-                    (success:Bool!, pushError: NSError!) -> Void in
-                    
-                    if pushError == nil {
+                var pushCheck = PFUser.query() //Checks if users has push enabled
+                var userCheck = pushCheck.getObjectWithId(self.userId)
+                println()
+                println(userCheck)
+                println()
+                if userCheck["pushEnabled"] as Bool {
+                    if PFUser.currentUser()["tempAccounts"] as Bool == true {
+                        push.setMessage("Someone has added your event to their calendar")
+                    } else {
                         
-                        println("IT WORKED")
-                        
+                        push.setMessage("\(PFUser.currentUser().username) has added your event to their calendar")
                     }
-                    
-                })
+                    push.sendPushInBackgroundWithBlock({
+                        (success:Bool!, pushError: NSError!) -> Void in
+                        if pushError == nil {
+                            println("Push was Sent")
+                        }
+                    })
+                } else {
+                    println("user does not have push enabled")
+                }
                 
                 var going = PFObject(className: "UserCalendar")
                 going["userID"] = PFUser.currentUser().objectId

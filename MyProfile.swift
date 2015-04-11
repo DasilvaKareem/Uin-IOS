@@ -599,10 +599,10 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 
                 
             } else {
-                 sender.setImage(UIImage(named: "addedToCalendar.png"), forState: UIControlState.Normal)
+                 sender.setImage(UIImage(named: "addedToCalendar.png"), forState: UIControlState.Normal) // Changes the a2c button blue
                 var eventStore : EKEventStore = EKEventStore()
                 eventStore.requestAccessToEntityType(EKEntityTypeEvent, completion: {
-                    
+                    //Saves the event to calenadar
                     granted, error in
                     if (granted) && (error == nil) {
                         println("granted \(granted)")
@@ -625,32 +625,36 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
                     }
                 })
                 
-                println()
-                println()
-                println()
-                println()
-                println()
                 println("the object does not exist")
-                
+                //Sends a push notifications
                 var push = PFPush()
-                
                 var pfque = PFInstallation.query()
-                pfque.whereKey("authorID", equalTo: self.userId[sender.tag])
-                
+                pfque.whereKey("user", equalTo: self.usernames[sender.tag])
                 push.setQuery(pfque)
-                push.setMessage("\(PFUser.currentUser().username) has added your event to their calendar")
-                push.sendPushInBackgroundWithBlock({
-                    
-                    (success:Bool!, pushError: NSError!) -> Void in
-                    
-                    if pushError == nil {
+                var pushCheck = PFUser.query() //Checks if users has push enabled
+                var userCheck = pushCheck.getObjectWithId(self.userId[sender.tag])
+                println()
+                println(userCheck)
+                println()
+                //Checks if user has push enabled
+                if userCheck["pushEnabled"] as Bool {
+                    if PFUser.currentUser()["tempAccounts"] as Bool == true {
+                        push.setMessage("Someone has added your event to their calendar") //If user is temp changes messages
+                    } else {
                         
-                        println("IT WORKED")
-                        
+                        push.setMessage("\(PFUser.currentUser().username) has added your event to their calendar")
                     }
-                    
-                })
-                
+                    push.sendPushInBackgroundWithBlock({
+                        (success:Bool!, pushError: NSError!) -> Void in
+                        if pushError == nil {
+                            println("Push was Sent")
+                        }
+                    })
+                } else {
+                    println("user does not have push enabled")
+                }
+
+            
                 
                 var going = PFObject(className: "UserCalendar")
                 going["userID"] = PFUser.currentUser().objectId
