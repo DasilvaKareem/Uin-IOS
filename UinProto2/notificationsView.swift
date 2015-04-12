@@ -151,7 +151,7 @@ class notificationsView: UITableViewController {
                                         var eventObject = getEventname.getObjectWithId(object["eventID"] as String)
                                         var eventName =  eventObject["title"] as NSString
                                         var current = object["sender"] as NSString
-                                        unEditedNote = "\(current) has made an event,\(eventName)"
+                                        unEditedNote = "\(current) has created the event \(eventName)"
                                         note = NSMutableAttributedString(string: unEditedNote)
                                         //Add string attr here
                                         note.addAttribute(NSForegroundColorAttributeName, value: UIColor(red: 254.0/255.0, green: 186.0/255.0, blue: 1.0/255.0, alpha: 1), range: NSRange(location:current.length,length:unEditedNote.length - current.length))
@@ -165,7 +165,7 @@ class notificationsView: UITableViewController {
                                         var eventName =  eventObject["title"] as NSString
                                         var current = object["sender"] as NSString
                                         //Converts into a NSMutableString so we can get atr from the variables
-                                        unEditedNote = "\(current) has edited an event,\(eventName)"
+                                        unEditedNote = "\(current) has edited the event, \(eventName)"
                                         note = NSMutableAttributedString(string: unEditedNote)
                                         //Add string attr here
                                         note.addAttribute(NSForegroundColorAttributeName, value: UIColor(red: 92.0/255.0, green: 184.0/255.0, blue: 113.0/255.0, alpha: 1), range: NSRange(location:current.length,length:unEditedNote.length - current.length))
@@ -179,9 +179,9 @@ class notificationsView: UITableViewController {
                                         var eventName =  eventObject["title"] as NSString
                                         var current = object["sender"] as NSString
                                         //Converts into a NSMutableString so we can get atr from the variables
-                                       unEditedNote = "\(current) has cancelled an event,\(eventName)"
+                                       unEditedNote = "\(current) has cancelled the event \(eventName)"
                                         note = NSMutableAttributedString(string: unEditedNote)
-                                        note.addAttribute(NSForegroundColorAttributeName, value: UIColor.redColor(), range: NSRange(location:current.length,length:unEditedNote.length - current.length))
+                                        note.addAttribute(NSForegroundColorAttributeName, value: UIColor(red: 219.0/255.0, green: 80.0/255.0, blue: 97.0/255.0, alpha: 1), range: NSRange(location:current.length,length:unEditedNote.length - current.length))
                                         self.notificationItems.append(notificationItem(type: object["type"] as String, senderID: object["senderID"] as String, receiverID: object["receiverID"] as String, message:note, senderUsername: object["sender"] as String, receiverUsername: object["receiver"] as String, eventID: object["eventID"] as String))
                                         
                                         break
@@ -196,13 +196,13 @@ class notificationsView: UITableViewController {
                                         var characterSet:NSMutableCharacterSet = NSMutableCharacterSet(charactersInString: "$")
                                     
                                         if current.rangeOfCharacterFromSet(characterSet).location != NSNotFound {
-                                            unEditedNote = "Someone has added your event to their calendar" //Use fixed length becasue someone is always someone LOL
+                                            unEditedNote = "Someone has added your event, \(eventName), to their calendar" //Use fixed length becasue someone is always someone LOL
                                             note = NSMutableAttributedString(string: unEditedNote)
-                                            note.addAttribute(NSForegroundColorAttributeName, value: UIColor(red: 66.0/255.0, green: 146.0/255.0, blue: 198.0/255.0, alpha: 1), range: NSRange(location:8,length:20))
+                                            note.addAttribute(NSForegroundColorAttributeName, value: UIColor(red: 66.0/255.0, green: 146.0/255.0, blue: 198.0/255.0, alpha: 1), range: NSRange(location:8,length:22 + eventName.length))
                                         } else {
-                                           unEditedNote = "\(current) has added your event, \(eventName) to their calendar"
+                                           unEditedNote = "\(current) has added your event, \(eventName), to their calendar"
                                             note = NSMutableAttributedString(string: unEditedNote)
-                                            note.addAttribute(NSForegroundColorAttributeName, value: UIColor(red: 66.0/255.0, green: 146.0/255.0, blue: 198.0/255.0, alpha: 1), range: NSRange(location:current.length,length:23 + eventName.length))
+                                            note.addAttribute(NSForegroundColorAttributeName, value: UIColor(red: 66.0/255.0, green: 146.0/255.0, blue: 198.0/255.0, alpha: 1), range: NSRange(location:current.length,length:24 + eventName.length))
                                        }
                                         
                                         self.notificationItems.append(notificationItem(type: object["type"] as String, senderID: object["senderID"] as String, receiverID: object["receiverID"] as String, message:note, senderUsername: object["sender"] as String, receiverUsername: object["receiver"] as String, eventID: object["eventID"] as String))
