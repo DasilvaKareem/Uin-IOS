@@ -589,5 +589,13 @@ class eventMake: UIViewController, UITextFieldDelegate {
     @IBAction func savePlayerDetail(segue:UIStoryboardSegue) {
     
     }
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "toLocation" {
+            var locationView:eventLocationView = segue.destinationViewController as eventLocationView
+            locationView.passedDisplayLocation = eventLocation
+        }
+       
+        
+    }
   
 }

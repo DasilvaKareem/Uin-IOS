@@ -9,7 +9,7 @@
 import UIKit
 import MapKit
 
-class eventLocation: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate, UITextFieldDelegate {
+class eventLocationView: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate, UITextFieldDelegate {
    
      //Stores user current lcoation address
     @IBAction func getUserLocation(sender: AnyObject) {
@@ -29,7 +29,7 @@ class eventLocation: UIViewController, MKMapViewDelegate, CLLocationManagerDeleg
             }
         })
     }
-   
+   var passedDisplayLocation = (String)()
     @IBOutlet var displayLocation: UITextField!
     var locationmgr : CLLocationManager! // locatiom manger
     @IBOutlet var map: MKMapView! // lol map
@@ -72,8 +72,8 @@ class eventLocation: UIViewController, MKMapViewDelegate, CLLocationManagerDeleg
     }
 
     
-    override func viewDidAppear(animated: Bool) {
-    
+    override func viewWillAppear(animated: Bool) {
+            self.displayLocation.text = passedDisplayLocation
     }
     //Keeps track of the center cordinate location
     func mapView(mapView: MKMapView!, regionDidChangeAnimated animated: Bool) {
@@ -85,11 +85,7 @@ class eventLocation: UIViewController, MKMapViewDelegate, CLLocationManagerDeleg
             let placemark = placemarks?[0] as? CLPlacemark
             self.eventLocation.text = placemark?.name
             self.eventGeoLocation = location
-        
-            
-        
         })
-       
     }
    
 

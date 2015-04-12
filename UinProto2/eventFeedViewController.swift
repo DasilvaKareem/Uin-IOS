@@ -82,10 +82,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                     }
                 })
             }
-            
         })
-        
-        
     }
     
     func searchBarResultsListButtonClicked(searchBar: UISearchBar) {
@@ -99,12 +96,11 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func searchBarCancelButtonClicked(searchBar: UISearchBar) {
         endSearch()
+        self.theFeed.reloadData()
     }
     func searchBarTextDidEndEditing(searchBar: UISearchBar) {
         self.searchActive = false;
     }
-    
-    
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
         self.searchActive = false;
         self.searchBar.showsCancelButton = false
@@ -118,15 +114,6 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             return  (stringMatch != nil)
         
         })
-        if(filteredSearchItems.count == 0){
-            self.searchActive = false;
-          
-        } else {
-            self.searchActive = true;
-        }
-        if searchText == "" {
-            self.searchActive = false
-        }
         
         self.theFeed.reloadData()
         
@@ -136,7 +123,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         self.searchActive = false
         self.searchBar.text = ""
         self.searchBar.setShowsCancelButton(false, animated: true)
-        self.theFeed.reloadData()
+        
         
     }
     // View cycles
@@ -269,29 +256,21 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             var tabArray = self.tabBarController?.tabBar.items as NSArray!
             var tabItem = tabArray.objectAtIndex(1) as UITabBarItem
             tabItem.badgeValue = String(diffrence)
-            println()
-            println()
+            
             println("You have gotten a new notification")
-            println()
-            println()
+            
         }
         else {
-            println()
-            println()
+          
             println("You do not have a any new notification ")
-            println()
-            println()
+           
         }
     }
     
     // Alert function
     func displayAlert(title:String, error:String) {
-        
         var alert = UIAlertController(title: title, message: error, preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { action in
-            
-            
-            
         }))
         
         self.presentViewController(alert, animated: true, completion: nil)
@@ -429,7 +408,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             dateFormatter.dateFormat = " EEEE MMM, dd yyyy" // Formart for date I.E Monday, 03 1996
             var headerDate = dateFormatter.stringFromDate(i) // Creates date
             convertedDates.append(headerDate)
-            dateFormatter.dateFormat = " MMM, dd yyyy"
+            dateFormatter.dateFormat = " MMM. dd, yyyy"
             var shortenTime = dateFormatter.stringFromDate(i)
             self.eventStartDate.append(shortenTime)
             //Creates Time for Event from NSDAte
@@ -450,7 +429,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             //Creates table header for event time
             dateFormatter.locale = NSLocale.currentLocale() // Gets current locale and switches
             var headerDate = dateFormatter.stringFromDate(i) // Creates date
-            dateFormatter.dateFormat = " MMM, dd yyyy"
+            dateFormatter.dateFormat = " MMM. dd, yyyy"
             var shortenTime = dateFormatter.stringFromDate(i)
             self.eventEndDate.append(shortenTime)
             //Creates Time for Event from NSDAte
@@ -559,7 +538,12 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         // Return the number of rows in the section.
       
         if(searchActive) {
-            return filteredSearchItems.count
+            if filteredSearchItems.count == 0 {
+                return 1
+            } else {
+                return filteredSearchItems.count
+            }
+            
         }
         return rowsInSection[section]
         
@@ -572,11 +556,24 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         println(searchActive)
         println()
         var cell:eventCell = tableView.dequeueReusableCellWithIdentifier("cell2") as eventCell
-      
+        var poopled = ["no internet"]
         if searchActive == true {
             println("search is active")
-           var items = filteredSearchItems[indexPath.row]
-        
+          
+            if filteredSearchItems.count == 0 {
+                cell.onCampusIcon.image = nil
+                cell.foodIcon.image = nil
+                cell.freeIcon.image = nil
+                cell.poop.hidden = true
+                cell.foodText.text = ""
+                cell.onCampusText.text = ""
+                cell.costText.text = ""
+                cell.eventName.text = "No items found"
+                cell.people.text = ""
+                cell.privateImage.image = nil
+                cell.time.text = ""
+            } else {
+                var items = filteredSearchItems[indexPath.row]
                 cell.onCampusIcon.image = nil
                 cell.foodIcon.image = nil
                 cell.freeIcon.image = nil
@@ -588,6 +585,8 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                 cell.people.text = items.type
                 cell.privateImage.image = nil
                 cell.time.text = ""
+                
+            }
             
         
             

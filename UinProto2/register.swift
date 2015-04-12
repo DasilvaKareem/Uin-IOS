@@ -138,10 +138,11 @@ class register: UIViewController, UITextFieldDelegate {
             if PFUser.currentUser() == nil {
              
                 var user = PFUser()
-                user.username = username.text
-                user["display"] = username.text
-                user.password = password.text
-                user.email = email.text
+               
+                user.username = username.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+                user["display"] = username.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+                user.password = password.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+                user.email = email.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
                 user["pushEnabled"] = true
                 user["firstRemoveFromCalendar"] = true
                 user["tempAccounts"] = false
@@ -194,10 +195,10 @@ class register: UIViewController, UITextFieldDelegate {
             else {
                 
                 var user = PFUser.currentUser()
-                user.username = username.text
-                user["display"] = username.text
-                user.password = password.text
-                user.email = email.text
+                user.username = username.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+                user["display"] = username.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+                user.password = password.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+                user.email = email.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
                 user["pushEnabled"] = true
                 user["firstRemoveFromCalendar"] = true
                 user["tempAccounts"] = false

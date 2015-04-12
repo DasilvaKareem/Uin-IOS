@@ -2212,12 +2212,12 @@
                         <outlet property="startTimeCheck" destination="di2-sC-Ndb" id="IWR-mJ-xr9"/>
                         <segue destination="RUy-yJ-wXV" kind="showDetail" identifier="eventback" id="0t0-sB-Jv5"/>
                         <segue destination="PXW-Fu-aak" kind="show" identifier="sendtodate" id="RkA-wu-x3I"/>
-                        <segue destination="rS8-Nq-aEs" kind="show" identifier="toLocation" id="d5V-NZ-N5N"/>
+                        <segue destination="rS8-Nq-aEs" kind="show" identifier="toLocation" id="XmY-0r-bEp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ang-Fv-bga" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2488" y="2700"/>
+            <point key="canvasLocation" x="-2284" y="2697"/>
         </scene>
         <!--Register-->
         <scene sceneID="TSO-JA-XuC">
@@ -2517,7 +2517,7 @@
         <!--Title-->
         <scene sceneID="hzn-pP-Gxl">
             <objects>
-                <viewController id="rS8-Nq-aEs" customClass="eventLocation" customModule="UinProto2" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="rS8-Nq-aEs" customClass="eventLocationView" customModule="UinProto2" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="XJw-vW-mR8"/>
                         <viewControllerLayoutGuide type="bottom" id="Y5d-fV-Jcq"/>
@@ -3163,12 +3163,12 @@
         <image name="yesProfileFeed" width="28" height="31"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="SJU-iS-UV4"/>
         <segue reference="0t0-sB-Jv5"/>
         <segue reference="hrZ-5I-9po"/>
+        <segue reference="I9Q-CM-9mP"/>
+        <segue reference="SJU-iS-UV4"/>
         <segue reference="xBv-SR-avW"/>
         <segue reference="1Tn-j1-ZpE"/>
-        <segue reference="I9Q-CM-9mP"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>
