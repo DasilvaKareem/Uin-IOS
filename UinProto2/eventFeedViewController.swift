@@ -39,6 +39,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     var currentPoint = (PFGeoPoint)()
     var eventCountNumber = (Int)()
     
+    
     //Search functionailty
     var searchActive:Bool = Bool()
     struct searchItem {
@@ -126,10 +127,18 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         if searchText == "" {
             self.searchActive = false
         }
+        
         self.theFeed.reloadData()
         
     }
-
+    func endSearch() {
+        self.searchBar.endEditing(true)
+        self.searchActive = false
+        self.searchBar.text = ""
+        self.searchBar.setShowsCancelButton(false, animated: true)
+        self.theFeed.reloadData()
+        
+    }
     // View cycles
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -387,7 +396,8 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                     }
                 }
             } else {
-                self.theFeed.removeFromSuperview()
+                
+                
             }
         }
     }
@@ -496,6 +506,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
         var cell:dateCell = tableView.dequeueReusableCellWithIdentifier("dateCell") as dateCell
+        
         if searchActive {
             return nil
         } else {
@@ -516,13 +527,9 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         
     }
     //Clears the search field and forces it to end and turns off the searcha active
-    func endSearch() {
-        self.searchBar.endEditing(true)
-        self.searchActive = false
-        self.searchBar.showsCancelButton = false
-        self.searchBar.text = ""
-    }
+   
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+     
         if searchActive == false {
             
             endSearch()
@@ -550,6 +557,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
+      
         if(searchActive) {
             return filteredSearchItems.count
         }
@@ -564,6 +572,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         println(searchActive)
         println()
         var cell:eventCell = tableView.dequeueReusableCellWithIdentifier("cell2") as eventCell
+      
         if searchActive == true {
             println("search is active")
            var items = filteredSearchItems[indexPath.row]

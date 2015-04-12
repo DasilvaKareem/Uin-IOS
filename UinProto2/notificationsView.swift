@@ -19,7 +19,7 @@ class notificationsView: UITableViewController {
         var type = (String)()
         var senderID = (String)()
         var receiverID = (String)()
-        var message = (String)()
+        var message = NSMutableAttributedString()
         var senderUsername = (String)()
         var receiverUsername = (String)()
         var eventID = (String)()
@@ -67,6 +67,10 @@ class notificationsView: UITableViewController {
     var addedUsernames = [String]() //array of users who add your event to calendar
     var folusernames = [String]()
     func collectData(){
+        /*
+            Queries users Subscriptions and A2Cs then find last 15 notifcations
+        
+        */
         var followQue = PFQuery(className: "Subscription")
         followQue.whereKey("subscriberID", equalTo: PFUser.currentUser().objectId)
         followQue.findObjectsInBackgroundWithBlock{
@@ -126,12 +130,15 @@ class notificationsView: UITableViewController {
                         query.findObjectsInBackgroundWithBlock({
                             (objects:[AnyObject]!,subError:NSError!) -> Void in
                             println("it queryed")
+                            self.notificationItems.removeAll(keepCapacity: true)
                             if subError == nil {
-                                self.notificationItems.removeAll(keepCapacity: true)
-                                var note = (String)()
+                                //Setups NSSString and NSmutableatrString so we can make them nice and colorful
+                                
+                                var unEditedNote = (NSString)()
+                                var note = NSMutableAttributedString()
                                 for object in objects {
                                     
-                                    
+                                    //Adds the time so we can get time stamp
                                     self.times.append(object.createdAt)
                                     
                                     
@@ -139,67 +146,89 @@ class notificationsView: UITableViewController {
                                     switch object["type"] as String {
                                     case "event":
                                         
-                                        
+                                        //Creates an Atr. String that has yellow color
                                         var getEventname = PFQuery(className: "Event")
                                         var eventObject = getEventname.getObjectWithId(object["eventID"] as String)
-                                        var eventName =  eventObject["title"] as String
-                                        var current = object["sender"] as String
-                                        note = "\(current) has made an event,\(eventName)"
-                                        println("Hey you actuallt got an event notficiations")
+                                        var eventName =  eventObject["title"] as NSString
+                                        var current = object["sender"] as NSString
+                                        unEditedNote = "\(current) has made an event,\(eventName)"
+                                        note = NSMutableAttributedString(string: unEditedNote)
+                                        //Add string attr here
+                                        note.addAttribute(NSForegroundColorAttributeName, value: UIColor(red: 254.0/255.0, green: 186.0/255.0, blue: 1.0/255.0, alpha: 1), range: NSRange(location:current.length,length:unEditedNote.length - current.length))
                                         self.notificationItems.append(notificationItem(type: object["type"] as String, senderID: object["senderID"] as String, receiverID: object["receiverID"] as String, message:note, senderUsername: object["sender"] as String, receiverUsername: object["receiver"] as String, eventID: object["eventID"] as String))
                                         
                                         break
                                     case "editedEvent":
-                                        
+                                        //Creates an Atr. String that has green color
                                         var getEventname = PFQuery(className: "Event")
                                         var eventObject = getEventname.getObjectWithId(object["eventID"] as String)
-                                        var eventName:String =  eventObject["title"] as String
-                                        var current = object["sender"] as String
-                                        note = "\(current) has edited an event,\(eventName)"
+                                        var eventName =  eventObject["title"] as NSString
+                                        var current = object["sender"] as NSString
+                                        //Converts into a NSMutableString so we can get atr from the variables
+                                        unEditedNote = "\(current) has edited an event,\(eventName)"
+                                        note = NSMutableAttributedString(string: unEditedNote)
+                                        //Add string attr here
+                                        note.addAttribute(NSForegroundColorAttributeName, value: UIColor(red: 92.0/255.0, green: 184.0/255.0, blue: 113.0/255.0, alpha: 1), range: NSRange(location:current.length,length:unEditedNote.length - current.length))
                                         self.notificationItems.append(notificationItem(type: object["type"] as String, senderID: object["senderID"] as String, receiverID: object["receiverID"] as String, message:note, senderUsername: object["sender"] as String, receiverUsername: object["receiver"] as String, eventID: object["eventID"] as String))
                                         
                                         break
                                     case "deleteEvent":
-                                       
+                                        //Creates an Atr. String that has red color
                                         var getEventname = PFQuery(className: "Event")
                                         var eventObject = getEventname.getObjectWithId(object["eventID"] as String)
-                                        var eventName =  eventObject["title"] as String
-                                        var current = object["sender"] as String
-                                        note = "\(current) has cancelled an event,\(eventName)"
+                                        var eventName =  eventObject["title"] as NSString
+                                        var current = object["sender"] as NSString
+                                        //Converts into a NSMutableString so we can get atr from the variables
+                                       unEditedNote = "\(current) has cancelled an event,\(eventName)"
+                                        note = NSMutableAttributedString(string: unEditedNote)
+                                        note.addAttribute(NSForegroundColorAttributeName, value: UIColor.redColor(), range: NSRange(location:current.length,length:unEditedNote.length - current.length))
                                         self.notificationItems.append(notificationItem(type: object["type"] as String, senderID: object["senderID"] as String, receiverID: object["receiverID"] as String, message:note, senderUsername: object["sender"] as String, receiverUsername: object["receiver"] as String, eventID: object["eventID"] as String))
                                         
                                         break
                                     case "calendar":
-                                        
+                                        //Creates an Atr. String that has blue color
                                         var getEventname = PFQuery(className: "Event")
                                         var eventObject = getEventname.getObjectWithId(object["eventID"] as String)
-                                        var eventName =  eventObject["title"] as String
-                                        var current = object["sender"] as String
+                                        var eventName =  eventObject["title"] as NSString
+                                        var current = object["sender"] as NSString
+                                        //Converts into a NSMutableString so we can get atr from the variables
                                         //Checks if the user is a anon users and changes the notfications
-                                        var characterSet:NSCharacterSet = NSCharacterSet(charactersInString: "$")
-                                        var eventnote = ""
-                                        
-                                        if current.rangeOfCharacterFromSet(characterSet) != nil {
-                                            note = "Someone has added your event to their calendar"
+                                        var characterSet:NSMutableCharacterSet = NSMutableCharacterSet(charactersInString: "$")
+                                    
+                                        if current.rangeOfCharacterFromSet(characterSet).location != NSNotFound {
+                                            unEditedNote = "Someone has added your event to their calendar" //Use fixed length becasue someone is always someone LOL
+                                            note = NSMutableAttributedString(string: unEditedNote)
+                                            note.addAttribute(NSForegroundColorAttributeName, value: UIColor(red: 66.0/255.0, green: 146.0/255.0, blue: 198.0/255.0, alpha: 1), range: NSRange(location:8,length:20))
                                         } else {
-                                            note = "\(current) has added your event to their calendar"
-                                        }
+                                           unEditedNote = "\(current) has added your event, \(eventName) to their calendar"
+                                            note = NSMutableAttributedString(string: unEditedNote)
+                                            note.addAttribute(NSForegroundColorAttributeName, value: UIColor(red: 66.0/255.0, green: 146.0/255.0, blue: 198.0/255.0, alpha: 1), range: NSRange(location:current.length,length:23 + eventName.length))
+                                       }
+                                        
                                         self.notificationItems.append(notificationItem(type: object["type"] as String, senderID: object["senderID"] as String, receiverID: object["receiverID"] as String, message:note, senderUsername: object["sender"] as String, receiverUsername: object["receiver"] as String, eventID: object["eventID"] as String))
                                         
                                         break
                                         
                                     case "sub":
-                                        
-                                        var current = object["sender"] as String
-                                        note = "\(current) has subscribed to you"
+                                        //Creates an Atr. String that has purplish color
+                                        var current = object["sender"] as NSString
+                                        unEditedNote = "\(current) subscribed to you"
+                                        //Converts into a NSMutableString so we can get atr from the variables
+                                        note = NSMutableAttributedString(string: unEditedNote)
+                                        //Add string attr here
+                                        note.addAttribute(NSForegroundColorAttributeName, value: UIColor(red: 182.0/255.0, green: 96.0/255.0, blue: 165.0/255.0, alpha: 1), range: NSRange(location:current.length,length:11))
+
                                         self.notificationItems.append(notificationItem(type: object["type"] as String, senderID: object["senderID"] as String, receiverID: object["receiverID"] as String, message:note, senderUsername: object["sender"] as String, receiverUsername: object["receiver"] as String, eventID: "nil"))
                                         
                                         break
                                         
                                     case "member":
-                                        
-                                        var current = object["sender"] as String
-                                        note = "\(current) has change your member status"
+                                        //Creates an Atr. String that has purplish color
+                                        var current = object["sender"] as NSString
+                                        unEditedNote = "\(current) has change your member status"
+                                        //Converts into a NSMutableString so we can get atr from the variables
+                                        note = NSMutableAttributedString(string: unEditedNote)
+                                        note.addAttribute(NSForegroundColorAttributeName, value: UIColor(red: 182.0/255.0, green: 96.0/255.0, blue: 165.0/255.0, alpha: 1), range: NSRange(location:current.length ,length:30))
                                         self.notificationItems.append(notificationItem(type: object["type"] as String, senderID: object["senderID"] as String, receiverID: object["receiverID"] as String, message:note, senderUsername: object["sender"] as String, receiverUsername: object["receiver"] as String, eventID: "nil"))
                                         
                                         
@@ -314,7 +343,7 @@ class notificationsView: UITableViewController {
             println("error")
         }
         cell.timeStamp.text = localTime[indexPath.row]
-        cell.notifyMessage.text = items.message
+        cell.notifyMessage.attributedText = items.message
         return cell
     }
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {

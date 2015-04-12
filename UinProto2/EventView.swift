@@ -438,6 +438,7 @@ class postEvent: UIViewController {
             editEvent.food = food
             editEvent.paid = cost
             editEvent.eventID = eventId
+            editEvent.address = address
             
         }
     }
