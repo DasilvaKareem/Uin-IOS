@@ -58,17 +58,14 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     func getSearchItems() {
         
         var eventQuery = PFQuery(className: "Event")
-        PFGeoPoint.geoPointForCurrentLocationInBackground({
-            (geoPoint: PFGeoPoint!, error: NSError!) -> Void in
-            self.currentPoint = geoPoint
-        })
-        eventQuery.whereKey("locationGeopoint", nearGeoPoint: currentPoint, withinMiles: 10.0)
+        eventQuery.whereKey("start", greaterThanOrEqualTo: NSDate())
+        eventQuery.whereKey("isPublic", equalTo: true)
         eventQuery.findObjectsInBackgroundWithBlock({
             (results: [AnyObject]!, error: NSError!) -> Void in
             if error == nil {
                 for object in results{
                     self.searchItems.append(searchItem(type: "Event", name: object["title"] as! String, id: object.objectId as String))
-                    var poop = searchItem()
+
                 }
                 var userQuery = PFUser.query()
                 userQuery.whereKey("tempAccounts", equalTo: false)
@@ -384,6 +381,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
  
     func refresh() {
         
+        endSearch()
         updateFeed()
         checkNotifications()
         notifications()

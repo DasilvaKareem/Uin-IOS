@@ -331,6 +331,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 cell2.subscribe.setTitleColor(UIColor(red: 254.0/255.0, green: 186.0/255.0, blue: 1.0/255.0, alpha: 1.0), forState: UIControlState.Normal) //Sets as Orange
                 //Creates an alert to subscribe
                 cell2.subscribe.addTarget(self, action: "subbing:", forControlEvents: UIControlEvents.TouchUpInside)
+                
                 cell2.subscriberTick.text =  amountofsubs
                 cell2.subscriptionTick.text = amountofScript
                 return cell2
@@ -358,6 +359,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 }
             }
   
+           
             cell2.subscribe.addTarget(self, action: "subbing:", forControlEvents: UIControlEvents.TouchUpInside)
             cell2.subscriberTick.text =  amountofsubs
             cell2.subscriptionTick.text = amountofScript

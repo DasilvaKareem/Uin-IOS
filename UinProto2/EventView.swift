@@ -68,9 +68,11 @@ class postEvent: UIViewController {
             if error == nil {
                 self.longBar.setImage(UIImage(named: "addedToCalendarLongBar.png"), forState: UIControlState.Normal)
                 self.peopleView.image = UIImage(named: "blueGroup")
+                self.calendarCount.textColor = UIColor(red: 52.0/255.0, green: 127.0/255.0, blue: 191.0/255, alpha:1) //blue color
             }   else {
                 self.longBar.setImage(UIImage(named: "addToCalendarLongBar.png"), forState: UIControlState.Normal)
                 self.peopleView.image = UIImage(named: "yellowGroup")
+                self.calendarCount.textColor = UIColor(red: 254.0/255.0, green: 186.0/255.0, blue: 1.0/255, alpha:1 ) //yellow color
             }
         }
         getCount()
@@ -82,7 +84,7 @@ class postEvent: UIViewController {
         var goingCount = minique2.countObjects()
         self.calendarCount.text = String(goingCount)
     }
-    //Queris from object ID
+    //Queries from object ID
 
     override func viewWillAppear(animated: Bool) {
       
@@ -242,7 +244,7 @@ class postEvent: UIViewController {
                 self.getCount()
                 self.longBar.setImage(UIImage(named: "addToCalendarLongBar.png"), forState: UIControlState.Normal)
                 self.peopleView.image = UIImage(named: "yellowGroup")
-                self.calendarCount.textColor = UIColor(red: 254.0/255.0, green: 186.0/255.0, blue: 1.0/255, alpha:1 ) //yellow/oraginsh color
+                self.calendarCount.textColor = UIColor(red: 254.0/255.0, green: 186.0/255.0, blue: 1.0/255, alpha:1 ) //yellow color
                 if results != nil {
             var eventStore : EKEventStore = EKEventStore()
             eventStore.requestAccessToEntityType(EKEntityTypeEvent, completion: {
