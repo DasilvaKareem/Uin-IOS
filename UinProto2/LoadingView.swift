@@ -49,9 +49,9 @@ class LoadingView: UIViewController {
             newUser["firstRemoveFromCalendar"] = true
             newUser["tempAccounts"] = true
             newUser.username = nameTemplate
-            newUser.password = randomStringWithLength(20)
+            newUser.password = randomStringWithLength(20) as String
             newUser.signUpInBackgroundWithBlock({
-                (success:Bool!, error:NSError!) -> Void in
+                (success:Bool, error:NSError!) -> Void in
                 if error == nil {
                     self.performSegueWithIdentifier("login", sender: self)
                     

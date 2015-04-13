@@ -35,13 +35,11 @@ class eventMake: UIViewController, UITextFieldDelegate {
     @IBOutlet var locationConfirm: UIImageView!
    
     
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
-        
-        self.view.endEditing(true)
-        
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+         self.view.endEditing(true)
     }
     
-    func textFieldShouldReturn(textField: UITextField!) -> Bool {
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
         
         textField.resignFirstResponder()
         
@@ -240,7 +238,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
                         eventItem["authorID"] = PFUser.currentUser().objectId
                         eventItem["isDeleted"] = false
                         eventItem.saveInBackgroundWithBlock({
-                            (success:Bool!, error:NSError!) -> Void in
+                            (success:Bool, error:NSError!) -> Void in
                             
                             if error == nil {
                                 orderDate1 = NSDate()
@@ -264,7 +262,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
                             (results:[AnyObject]!, Error:NSError!) -> Void in
                             
                             for object in results {
-                                collectedPeople.append(object["user"] as String)
+                                collectedPeople.append(object["user"] as!String)
                             }
                             var push =  PFPush()
                             let data = [
@@ -281,7 +279,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
                             push.setData(data)
                             push.sendPushInBackgroundWithBlock({
                                 // Notifies the people you edited your event
-                                (success: Bool!, pushError: NSError!) -> Void in
+                                (success: Bool, pushError: NSError!) -> Void in
                                 if pushError == nil {
                                     println("the push was sent")
                                 } else {
@@ -299,7 +297,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
                         notify["eventID"] = eventItem.objectId
                         notify["type"] =  "editedEvent"
                         notify.saveInBackgroundWithBlock({
-                            (success:Bool!, notifyError: NSError!) -> Void in
+                            (success:Bool, notifyError: NSError!) -> Void in
                             if notifyError == nil {
                                 println("notifcation has been saved")
                             }
@@ -328,7 +326,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
                 event["isDeleted"] = false
                 event.saveInBackgroundWithBlock{
                     
-                    (success:Bool!,eventError:NSError!) -> Void in
+                    (success:Bool,eventError:NSError!) -> Void in
                     
                     if (eventError == nil){
                             var push =  PFPush()
@@ -341,7 +339,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
                             push.setData(data)
                             push.sendPushInBackgroundWithBlock({
                             
-                                (success: Bool!, pushError: NSError!) -> Void in
+                                (success: Bool, pushError: NSError!) -> Void in
                                 if pushError == nil {
                                     
                                     println("the push was sent")
@@ -414,7 +412,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
                             (results:[AnyObject]!, Error:NSError!) -> Void in
                             
                             for object in results {
-                                collectedPeople.append(object["user"] as String)
+                                collectedPeople.append(object["user"] as!String)
                             }
                             var push =  PFPush()
                             let data = [
@@ -431,7 +429,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
                             push.setData(data)
                             push.sendPushInBackgroundWithBlock({
                                 // Notifies the people you edited your event
-                                (success: Bool!, pushError: NSError!) -> Void in
+                                (success: Bool, pushError: NSError!) -> Void in
                                 if pushError == nil {
                                     println("the push was sent")
                                 } else {
@@ -447,7 +445,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
                             notify["eventID"] = self.eventID
                             notify["type"] =  "deleteEvent"
                             notify.saveInBackgroundWithBlock({
-                                (success:Bool!, notifyError: NSError!) -> Void in
+                                (success:Bool, notifyError: NSError!) -> Void in
                                 if notifyError == nil {
                                     println("notifcation has been saved")
                                 }
@@ -530,7 +528,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
             eventLocationDescription.setTitle(eventLocation, forState: UIControlState.Normal)
             var checkPublicStatus = PFQuery(className: "Event")
             var status = checkPublicStatus.getObjectWithId(eventID)
-            if status["isPublic"] as Bool == true {
+            if status["isPublic"] as!Bool == true {
                 publicSegment.selectedSegmentIndex = 0
             } else {
                 publicSegment.selectedSegmentIndex = 1
@@ -591,7 +589,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
     }
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "toLocation" {
-            var locationView:eventLocationView = segue.destinationViewController as eventLocationView
+            var locationView:eventLocationView = segue.destinationViewController as! eventLocationView
             locationView.passedDisplayLocation = eventLocation
         }
        

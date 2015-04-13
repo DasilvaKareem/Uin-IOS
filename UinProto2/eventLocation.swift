@@ -16,7 +16,7 @@ class eventLocationView: UIViewController, MKMapViewDelegate, CLLocationManagerD
         var geo = CLGeocoder()
         var geocoder = CLGeocoder()
         
-        geocoder.geocodeAddressString(eventLocation.text, {
+        geocoder.geocodeAddressString(eventLocation.text, completionHandler: {
             (placemarks: [AnyObject]!, error: NSError!) -> Void in
             if let placemark = placemarks?[0] as? CLPlacemark {
                 var eventLatitude = placemark.location.coordinate.latitude //Laitude of the place marker
@@ -39,15 +39,16 @@ class eventLocationView: UIViewController, MKMapViewDelegate, CLLocationManagerD
     var eventGeoLocation = (CLLocation)() //Cordination of event
     
     //Keyboard functions and modfies them
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
-         self.view.endEditing(true)
+   
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+        self.view.endEditing(true)
     }
-    func textFieldShouldReturn(textField: UITextField!) -> Bool {
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         var geo = CLGeocoder()
         var geocoder = CLGeocoder()
         
-        geocoder.geocodeAddressString(eventLocation.text, {
+        geocoder.geocodeAddressString(eventLocation.text, completionHandler: {
             (placemarks: [AnyObject]!, error: NSError!) -> Void in
             if let placemark = placemarks?[0] as? CLPlacemark {
                 
@@ -116,7 +117,7 @@ class eventLocationView: UIViewController, MKMapViewDelegate, CLLocationManagerD
 
     
      func locationManager(locationmgr: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
-        let location = locations.last as CLLocation
+        let location = locations.last as! CLLocation
         println("it is moving and running")
         let center = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
         let geoLocation = CLLocation(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
@@ -148,7 +149,7 @@ class eventLocationView: UIViewController, MKMapViewDelegate, CLLocationManagerD
   
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "location" {
-            var event:eventMake = segue.destinationViewController as eventMake
+            var event:eventMake = segue.destinationViewController as! eventMake
             event.eventLocation = displayLocation.text
             event.locations = eventGeoLocation
             event.address = eventLocation.text

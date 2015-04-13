@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import UiKit
+import UIKit
 
 
 public struct currentNotifications {
@@ -30,7 +30,7 @@ public class Kareem {
         
         if currentNotification.old != currentNotification.newCheck {
             var diffrence = currentNotification.old - currentNotification.newCheck
-            var tabItem = tabArray.objectAtIndex(1) as UITabBarItem
+            var tabItem = tabArray.objectAtIndex(1) as! UITabBarItem
             tabItem.badgeValue = String(diffrence)
             println()
             println()

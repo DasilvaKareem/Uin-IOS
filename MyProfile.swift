@@ -156,7 +156,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         if self.old != self.newCheck {
             var diffrence = self.newCheck - self.old
             var tabArray = self.tabBarController?.tabBar.items as NSArray!
-            var tabItem = tabArray.objectAtIndex(1) as UITabBarItem
+            var tabItem = tabArray.objectAtIndex(1) as! UITabBarItem
             tabItem.badgeValue = String(diffrence)
             println()
             println()
@@ -213,18 +213,18 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     for object in objects{
     
-        self.eventAddress.append(object["address"] as String)
-        self.publicPost.append(object["isPublic"] as Bool)
+        self.eventAddress.append(object["address"] as!String)
+        self.publicPost.append(object["isPublic"] as!Bool)
         self.objectID.append(object.objectId as String)
-        self.usernames.append(object["author"] as String)
-        self.eventTitle.append(object["title"] as String)
-        self.food.append(object["hasFood"] as Bool)
-        self.paid.append(object["isFree"] as Bool)
-        self.userId.append(object["authorID"] as String)
-        self.onsite.append(object["onCampus"] as Bool)
-        self.eventEnd.append(object["end"] as NSDate)
-        self.eventStart.append(object["start"] as NSDate)
-        self.eventlocation.append(object["location"] as String)
+        self.usernames.append(object["author"] as!String)
+        self.eventTitle.append(object["title"] as!String)
+        self.food.append(object["hasFood"] as!Bool)
+        self.paid.append(object["isFree"] as!Bool)
+        self.userId.append(object["authorID"] as!String)
+        self.onsite.append(object["onCampus"] as!Bool)
+        self.eventEnd.append(object["end"] as!NSDate)
+        self.eventStart.append(object["start"] as!NSDate)
+        self.eventlocation.append(object["location"] as!String)
     
     
     }
@@ -413,11 +413,11 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
        
         
         if  section != 0 {
-             var cell:dateCell = tableView.dequeueReusableCellWithIdentifier("dateCell") as dateCell
+             var cell:dateCell = tableView.dequeueReusableCellWithIdentifier("dateCell") as! dateCell
             cell.dateItem.text = sectionNames[section]
             return cell
         }
-        let cell2:profileCell = tableView.dequeueReusableCellWithIdentifier("profile") as profileCell
+        let cell2:profileCell = tableView.dequeueReusableCellWithIdentifier("profile") as! profileCell
         
         //THIS IS WHERE YOU ARE GOING TO PUT THE LABEL
         
@@ -439,7 +439,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         // Puts the data in a cell
         
     
-        var cell:eventCell = tableView.dequeueReusableCellWithIdentifier("cell2") as eventCell
+        var cell:eventCell = tableView.dequeueReusableCellWithIdentifier("cell2") as! eventCell
      
         var event = getEventIndex(indexPath.section, row: indexPath.row)
 
@@ -534,7 +534,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         // Adds the event to calendar
         var first:Bool = Bool()
         
-        first = PFUser.currentUser()["firstRemoveFromCalendar"] as Bool
+        first = PFUser.currentUser()["firstRemoveFromCalendar"] as!Bool
         
         var que = PFQuery(className: "UserCalendar")
         que.whereKey("userID", equalTo: PFUser.currentUser().objectId)
@@ -576,7 +576,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
                         }
                     })
                     var predicate2 = eventStore.predicateForEventsWithStartDate(self.eventStart[sender.tag], endDate: self.eventEnd[sender.tag], calendars:nil)
-                    var eV = eventStore.eventsMatchingPredicate(predicate2) as [EKEvent]!
+                    var eV = eventStore.eventsMatchingPredicate(predicate2) as! [EKEvent]!
                     println("Result is there")
                     if eV != nil { //
                         println("EV is not nil")
@@ -637,15 +637,15 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 println(userCheck)
                 println()
                 //Checks if user has push enabled
-                if userCheck["pushEnabled"] as Bool {
-                    if PFUser.currentUser()["tempAccounts"] as Bool == true {
+                if userCheck["pushEnabled"] as!Bool {
+                    if PFUser.currentUser()["tempAccounts"] as!Bool == true {
                         push.setMessage("Someone has added your event to their calendar") //If user is temp changes messages
                     } else {
                         
                         push.setMessage("\(PFUser.currentUser().username) has added your event to their calendar")
                     }
                     push.sendPushInBackgroundWithBlock({
-                        (success:Bool!, pushError: NSError!) -> Void in
+                        (success:Bool, pushError: NSError!) -> Void in
                         if pushError == nil {
                             println("Push was Sent")
                         }
@@ -664,7 +664,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 going["eventID"] = self.objectID[sender.tag]
                 going.saveInBackgroundWithBlock{
                     
-                    (succeded:Bool!, savError:NSError!) -> Void in
+                    (succeded:Bool, savError:NSError!) -> Void in
                     
                     if savError == nil {
                         
@@ -695,7 +695,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
             notify["type"] =  "calendar"
             notify.saveInBackgroundWithBlock({
                 
-                (success:Bool!, notifyError: NSError!) -> Void in
+                (success:Bool, notifyError: NSError!) -> Void in
                 
                 if notifyError == nil {
                     
@@ -733,7 +733,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     override func prepareForSegue(segue:UIStoryboardSegue, sender: AnyObject?){
         
         if segue.identifier == "example" {
-            var secondViewController : postEvent = segue.destinationViewController as postEvent
+            var secondViewController : postEvent = segue.destinationViewController as! postEvent
             
             
             var theMix = Mixpanel.sharedInstance()

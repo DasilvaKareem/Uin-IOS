@@ -43,9 +43,9 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     //Search functionailty
     var searchActive:Bool = Bool()
     struct searchItem {
-        let type = (String)()
-        let name = (String)()
-        let id = (String)()
+        var type = (String)()
+        var name = (String)()
+        var id = (String)()
     }
     var filteredSearchItems = [searchItem]()
     var diction = [String:[String]]()
@@ -67,8 +67,8 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             (results: [AnyObject]!, error: NSError!) -> Void in
             if error == nil {
                 for object in results{
-                    self.searchItems.append(searchItem(type: "Event", name: object["title"] as String, id: object.objectId))
-                    
+                    self.searchItems.append(searchItem(type: "Event", name: object["title"] as! String, id: object.objectId as String))
+                    var poop = searchItem()
                 }
                 var userQuery = PFUser.query()
                 userQuery.whereKey("tempAccounts", equalTo: false)
@@ -76,7 +76,8 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                     (results: [AnyObject]!, error: NSError!) -> Void in
                     if error == nil {
                         for object in results{
-                            self.searchItems.append(searchItem(type: "Username", name: object["username"] as String, id: object.objectId))
+                            self.searchItems.append(searchItem(type: "Username", name: object["username"] as! String, id: object.objectId))
+                            
                             
                         }
                     }
@@ -138,7 +139,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         newBounds.origin.y = newBounds.origin.y - searchBar.bounds.size.height
         self.theFeed.bounds = newBounds
         self.tabBarController?.tabBar.hidden = false
-        //var eventsItem = tabBarItem?[0] as UITabBarItem
+        //var eventsItem = tabBarItem?[0] as!UITabBarItem
         //eventsItem.selectedImage = UIImage(named: "addToCalendar.png")
         
          //Changes the navbar background
@@ -179,7 +180,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         
          var user = PFUser.currentUser()
         //Checks if the account is a temporary account
-        if user["tempAccounts"] as Bool == false {
+        if user["tempAccounts"] as!Bool == false {
             //Changes ui based if the user is a real account
            
             self.tabBarController?.tabBar.hidden = false
@@ -197,7 +198,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     @IBAction func eventMake(sender: AnyObject) {
         var user = PFUser.currentUser()
         //Checks if the account is a temporary account
-        if user["tempAccounts"] as Bool == false {
+        if user["tempAccounts"] as!Bool == false {
            self.performSegueWithIdentifier("eventMake", sender: self)
             var theMix = Mixpanel.sharedInstance()
             theMix.track("Tap Create Event (EF)")
@@ -254,7 +255,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         if self.old != self.newCheck {
             var diffrence = self.newCheck - self.old
             var tabArray = self.tabBarController?.tabBar.items as NSArray!
-            var tabItem = tabArray.objectAtIndex(1) as UITabBarItem
+            var tabItem = tabArray.objectAtIndex(1) as! UITabBarItem
             tabItem.badgeValue = String(diffrence)
             
             println("You have gotten a new notification")
@@ -345,18 +346,18 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                         
                         for object in results{
                             
-                            self.publicPost.append(object["isPublic"] as Bool)
+                            self.publicPost.append(object["isPublic"] as!Bool)
                             self.objectID.append(object.objectId as String)
-                            self.usernames.append(object["author"] as String)
-                            self.eventTitle.append(object["title"] as String)
-                            self.food.append(object["hasFood"] as Bool)
-                            self.paid.append(object["isFree"] as Bool)
-                            self.onsite.append(object["onCampus"] as Bool)
-                            self.eventEnd.append(object["end"] as NSDate)
-                            self.eventStart.append(object["start"] as NSDate)
-                            self.eventlocation.append(object["location"] as String)
-                            self.userId.append(object["authorID"] as String)
-                            self.eventAddress.append(object["address"] as String)
+                            self.usernames.append(object["author"] as!String)
+                            self.eventTitle.append(object["title"] as!String)
+                            self.food.append(object["hasFood"] as!Bool)
+                            self.paid.append(object["isFree"] as!Bool)
+                            self.onsite.append(object["onCampus"] as!Bool)
+                            self.eventEnd.append(object["end"] as!NSDate)
+                            self.eventStart.append(object["start"] as!NSDate)
+                            self.eventlocation.append(object["location"] as!String)
+                            self.userId.append(object["authorID"] as!String)
+                            self.eventAddress.append(object["address"] as!String)
                             
                         }
                         self.populateSectionInfo()
@@ -484,7 +485,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
-        var cell:dateCell = tableView.dequeueReusableCellWithIdentifier("dateCell") as dateCell
+        var cell:dateCell = tableView.dequeueReusableCellWithIdentifier("dateCell") as! dateCell
         
         if searchActive {
             return nil
@@ -555,7 +556,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         println()
         println(searchActive)
         println()
-        var cell:eventCell = tableView.dequeueReusableCellWithIdentifier("cell2") as eventCell
+        var cell:eventCell = tableView.dequeueReusableCellWithIdentifier("cell2") as! eventCell
         var poopled = ["no internet"]
         if searchActive == true {
             println("search is active")
@@ -681,7 +682,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                 results.delete()
               
                 //Warns user if the this is the first event to be removed
-                if PFUser.currentUser()["firstRemoveFromCalendar"] as Bool == true{
+                if PFUser.currentUser()["firstRemoveFromCalendar"] as!Bool == true{
                     PFUser.currentUser()["firstRemoveFromCalendar"] = false
                     PFUser.currentUser().save()
                     self.displayAlert("Remove", error: "Tapping the blue checkmark removes an event from your calendar.")
@@ -710,7 +711,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                         }
                     })
                     var predicate2 = eventStore.predicateForEventsWithStartDate(self.eventStart[sender.tag], endDate: self.eventEnd[sender.tag], calendars:nil)
-                    var eV = eventStore.eventsMatchingPredicate(predicate2) as [EKEvent]!
+                    var eV = eventStore.eventsMatchingPredicate(predicate2) as! [EKEvent]!
                     println("Result is there")
                     if eV != nil { //
                         println("EV is not nil")
@@ -763,7 +764,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                         going["author"] = self.usernames[sender.tag]
                         going["eventID"] = self.objectID[sender.tag]
                         going.saveInBackgroundWithBlock{
-                            (succeded:Bool!, savError:NSError!) -> Void in
+                            (succeded:Bool, savError:NSError!) -> Void in
                             if savError == nil {
                                 println("it worked")
                                 
@@ -785,15 +786,15 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                 println()
                 println(userCheck)
                 println()
-                if userCheck["pushEnabled"] as Bool {
-                    if PFUser.currentUser()["tempAccounts"] as Bool == true {
+                if userCheck["pushEnabled"] as!Bool {
+                    if PFUser.currentUser()["tempAccounts"] as!Bool == true {
                         push.setMessage("Someone has added your event to their calendar")
                     } else {
                         
                         push.setMessage("\(PFUser.currentUser().username) has added your event to their calendar")
                     }
                     push.sendPushInBackgroundWithBlock({
-                        (success:Bool!, pushError: NSError!) -> Void in
+                        (success:Bool, pushError: NSError!) -> Void  in
                         if pushError == nil {
                             println("Push was Sent")
                         }
@@ -812,7 +813,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                     notify["eventID"] = self.objectID[sender.tag]
                     notify["type"] =  "calendar"
                     notify.saveInBackgroundWithBlock({
-                        (success:Bool!, notifyError: NSError!) -> Void in
+                        (success:Bool, notifyError: NSError!) -> Void in
                         if notifyError == nil {
                             println("notifcation has been saved")
                         }
@@ -828,7 +829,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     override func prepareForSegue(segue:UIStoryboardSegue, sender: AnyObject?){
         
         if segue.identifier == "event" {
-            var secondViewController : postEvent = segue.destinationViewController as postEvent
+            var secondViewController : postEvent = segue.destinationViewController as! postEvent
             var theMix = Mixpanel.sharedInstance()
             theMix.track("Opened Event View (EF)")
             var indexPath = theFeed.indexPathForSelectedRow() //get index of data for selected row
@@ -861,7 +862,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             var indexpath = theFeed.indexPathForSelectedRow()
             var row = indexpath?.row
             //selects the view controller
-            var theotherprofile:userprofile = segue.destinationViewController as userprofile
+            var theotherprofile:userprofile = segue.destinationViewController as! userprofile
             var item = filteredSearchItems[row!]
             theotherprofile.theUser = item.name
             theotherprofile.userId = item.id
@@ -871,7 +872,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             var indexpath = theFeed.indexPathForSelectedRow()
             var row = indexpath?.row
             var item = filteredSearchItems[row!]
-            var theotherprofile:postEvent = segue.destinationViewController as postEvent
+            var theotherprofile:postEvent = segue.destinationViewController as! postEvent
             theotherprofile.eventId = item.id
             theotherprofile.searchEvent = true
              

@@ -93,7 +93,7 @@ class postEvent: UIViewController {
             nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()];
         }
     }
-    
+
     func getEvents() {
        var getEvents = PFQuery(className: "Event")
         getEvents.getObjectInBackgroundWithId(eventId, block: {
@@ -103,36 +103,36 @@ class postEvent: UIViewController {
                 var dateFormatter = NSDateFormatter()
                 dateFormatter.locale = NSLocale.currentLocale() // Gets current locale and switches
                 dateFormatter.dateFormat = " MMM, dd yyyy"
-                var headerDate = dateFormatter.stringFromDate(result["start"] as NSDate) // Creates date
+                var headerDate = dateFormatter.stringFromDate(result["start"] as!NSDate) // Creates date
                self.date.text = headerDate
-                var headerDate2 = dateFormatter.stringFromDate(result["end"] as NSDate) // Creates date
+                var headerDate2 = dateFormatter.stringFromDate(result["end"] as!NSDate) // Creates date
                 self.endDate.text = headerDate2
                 
                 //Creates Time for Event from NSDAte
                 var timeFormatter = NSDateFormatter() //Formats time
                 timeFormatter.locale = NSLocale.currentLocale()
                 timeFormatter.timeStyle = NSDateFormatterStyle.ShortStyle
-                var localTime = timeFormatter.stringFromDate(result["start"] as NSDate)
+                var localTime = timeFormatter.stringFromDate(result["start"] as!NSDate)
                 self.startTime.text = localTime
                 
-                var endTime = timeFormatter.stringFromDate(result["end"] as NSDate)
+                var endTime = timeFormatter.stringFromDate(result["end"] as!NSDate)
                 self.endTime.text = endTime
                 
                 
-               self.storeStartDate = result["start"] as NSDate!
-                self.endStoreDate =  result["end"] as NSDate!
-                self.userId = result["authorID"] as String!
-                self.address = result["address"] as String!
-                self.storeLocation = result["location"] as String!
-                self.location.setTitle(result["location"] as String!, forState: UIControlState.Normal)
-               self.eventTitle.text = result["title"] as String!
-                self.storeTitle = result["title"] as String!
+               self.storeStartDate = result["start"] as!NSDate!
+                self.endStoreDate =  result["end"] as!NSDate!
+                self.userId = result["authorID"] as!String!
+                self.address = result["address"] as!String!
+                self.storeLocation = result["location"] as!String!
+                self.location.setTitle(result["location"] as!String!, forState: UIControlState.Normal)
+               self.eventTitle.text = result["title"] as!String!
+                self.storeTitle = result["title"] as!String!
         
-                self.onsite = result["onCampus"] as Bool
-                self.cost = result["isFree"] as Bool
-                self.food = result["hasFood"] as Bool
+                self.onsite = result["onCampus"] as!Bool
+                self.cost = result["isFree"] as!Bool
+                self.food = result["hasFood"] as!Bool
                 
-                self.username.setTitle(result["author"] as String!, forState: UIControlState.Normal)
+                self.username.setTitle(result["author"] as!String!, forState: UIControlState.Normal)
                 self.eventId = result.objectId
                 self.putIcons()
             }
@@ -263,7 +263,7 @@ class postEvent: UIViewController {
                 }
             })
                     var predicate2 = eventStore.predicateForEventsWithStartDate(self.storeStartDate, endDate: self.endStoreDate, calendars:nil)
-                    var eV = eventStore.eventsMatchingPredicate(predicate2) as [EKEvent]!
+                    var eV = eventStore.eventsMatchingPredicate(predicate2) as! [EKEvent]!
                     println("Result is there")
                     if eV != nil {
 
@@ -293,7 +293,7 @@ class postEvent: UIViewController {
                 going["eventID"] = self.eventId
                 going.saveInBackgroundWithBlock{
                     
-                    (succeded:Bool!, savError:NSError!) -> Void in
+                    (succeded:Bool, savError:NSError!) -> Void in
                     
                     if savError == nil {
                         self.getCount()
@@ -338,7 +338,7 @@ class postEvent: UIViewController {
                     notify["receiver"] = self.users
                     notify["type"] =  "calendar"
                     notify.saveInBackgroundWithBlock({
-                        (success:Bool!, notifyError: NSError!) -> Void in
+                        (success:Bool, notifyError: NSError!) -> Void in
                         
                         if notifyError == nil {
                             
@@ -353,14 +353,14 @@ class postEvent: UIViewController {
                     var pfque = PFInstallation.query()
                     pfque.whereKey("user", equalTo: self.users)
                     push.setQuery(pfque)
-                    if PFUser.currentUser()["tempAccounts"] as Bool == true {
+                    if PFUser.currentUser()["tempAccounts"] as!Bool == true {
                         push.setMessage("Someone has added your event to their calendar")
                     } else {
                            push.setMessage("\(PFUser.currentUser().username) has added your event to their calendar")
                     }
                     push.sendPushInBackgroundWithBlock({
                         
-                        (success:Bool!, pushError: NSError!) -> Void in
+                        (success:Bool, pushError: NSError!) -> Void in
                         if pushError == nil {
                             println("The push was sent")
                         }
@@ -412,7 +412,7 @@ class postEvent: UIViewController {
             var theMix = Mixpanel.sharedInstance()
             theMix.track("Tap Username (EV)")
             theMix.flush()
-            var theotherprofile:userprofile = segue.destinationViewController as userprofile
+            var theotherprofile:userprofile = segue.destinationViewController as! userprofile
             theotherprofile.theUser = users
             theotherprofile.userId = userId
         }
@@ -420,7 +420,7 @@ class postEvent: UIViewController {
             var theMix = Mixpanel.sharedInstance()
             theMix.track("Tap Edit (EV)")
             theMix.flush()
-            var editEvent:eventMake = segue.destinationViewController as eventMake
+            var editEvent:eventMake = segue.destinationViewController as! eventMake
             editEvent.startTime = storeStartTime
             //editEvent.end.setTitle(storeEndTime, forState: UIControlState.Normal)
             editEvent.editing = true

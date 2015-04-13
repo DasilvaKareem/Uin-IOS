@@ -174,17 +174,17 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 
                 for object in results{
                     
-                    self.eventAddress.append(object["address"] as String)
-                    self.publicPost.append(object["isPublic"] as Bool)
+                    self.eventAddress.append(object["address"] as!String)
+                    self.publicPost.append(object["isPublic"] as!Bool)
                     self.objectID.append(object.objectId as String)
-                    self.usernames.append(object["author"] as String)
-                    self.eventTitle.append(object["title"] as String)
-                    self.food.append(object["hasFood"] as Bool)
-                    self.paid.append(object["isFree"] as Bool)
-                    self.onsite.append(object["onCampus"] as Bool)
-                    self.eventEnd.append(object["end"] as NSDate)
-                    self.eventStart.append(object["start"] as NSDate)
-                    self.eventlocation.append(object["location"] as String)
+                    self.usernames.append(object["author"] as!String)
+                    self.eventTitle.append(object["title"] as!String)
+                    self.food.append(object["hasFood"] as!Bool)
+                    self.paid.append(object["isFree"] as!Bool)
+                    self.onsite.append(object["onCampus"] as!Bool)
+                    self.eventEnd.append(object["end"] as!NSDate)
+                    self.eventStart.append(object["start"] as!NSDate)
+                    self.eventlocation.append(object["location"] as!String)
                    
                     
                 }
@@ -321,12 +321,12 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
     }
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if  section == 0 {
-            let cell2:profileCell = tableView.dequeueReusableCellWithIdentifier("profile") as profileCell
+            let cell2:profileCell = tableView.dequeueReusableCellWithIdentifier("profile") as! profileCell
             var que = PFQuery(className:"Subscription")
             cell2.subscribe.adjustsImageWhenHighlighted = false
             que.whereKey("subscriber", equalTo:PFUser.currentUser().username)
             que.whereKey("publisher", equalTo: theUser)
-            if PFUser.currentUser()["tempAccounts"] as Bool == true {
+            if PFUser.currentUser()["tempAccounts"] as!Bool == true {
                 println("You are a temp account you cannot possibly subscribe to account fool, ya fool")
                 cell2.subscribe.setTitleColor(UIColor(red: 254.0/255.0, green: 186.0/255.0, blue: 1.0/255.0, alpha: 1.0), forState: UIControlState.Normal) //Sets as Orange
                 //Creates an alert to subscribe
@@ -364,7 +364,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
             return cell2
         }
         }
-        var cell:dateCell = tableView.dequeueReusableCellWithIdentifier("dateCell") as dateCell
+        var cell:dateCell = tableView.dequeueReusableCellWithIdentifier("dateCell") as! dateCell
         cell.dateItem.text = sectionNames[section]
         return cell
         }
@@ -372,7 +372,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
     
     
     func subbing(sender: UIButton) {
-        if PFUser.currentUser()["tempAccounts"] as Bool == true {
+        if PFUser.currentUser()["tempAccounts"] as!Bool == true {
             var theMix = Mixpanel.sharedInstance()
             theMix.track("Anon Subscribe Attempt (UP)")
             theMix.flush()
@@ -414,7 +414,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 var currentInstallation = PFInstallation.currentInstallation()
                 currentInstallation.removeObject(self.userId, forKey: "channels")
                 currentInstallation.saveInBackgroundWithBlock({
-                    (success:Bool!, pushError: NSError!) -> Void in
+                    (success:Bool, pushError: NSError!) -> Void in
                     
                     if pushError == nil {
                         println("the installtion did remove")
@@ -443,7 +443,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 var currentInstallation = PFInstallation.currentInstallation()
                 currentInstallation.addUniqueObject(self.userId, forKey: "channels")
                 currentInstallation.saveInBackgroundWithBlock({
-                    (success:Bool!, saveerror: NSError!) -> Void in
+                    (success:Bool, saveerror: NSError!) -> Void in
                     if saveerror == nil {
                         println("Subscribed")
                         var theMix = Mixpanel.sharedInstance()
@@ -475,7 +475,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 notify["type"] =  "sub"
                 notify.saveInBackgroundWithBlock({
                     
-                    (success:Bool!, notifyError: NSError!) -> Void in
+                    (success:Bool, notifyError: NSError!) -> Void in
                     
                     if notifyError == nil {
                         println("notifcation has been saved")
@@ -486,7 +486,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 var checkPush = PFUser.query()
                 checkPush.whereKey("username", equalTo: self.theUser)
                 var theOther = checkPush.getFirstObject()
-                if theOther["pushEnabled"] as Bool == true {
+                if theOther["pushEnabled"] as!Bool == true {
                     var push = PFPush()
                     var pfque = PFInstallation.query()
                     pfque.whereKey("user", equalTo: self.theUser)
@@ -494,7 +494,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                     push.setMessage("\(PFUser.currentUser().username) has subscribed to you ")
                     push.sendPushInBackgroundWithBlock({
                         
-                        (success:Bool!, pushError: NSError!) -> Void in
+                        (success:Bool, pushError: NSError!) -> Void in
                         
                         if pushError == nil {
                             
@@ -534,7 +534,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
         // Puts the data in a cell
         
-        var cell:eventCell = tableView.dequeueReusableCellWithIdentifier("cell2") as eventCell
+        var cell:eventCell = tableView.dequeueReusableCellWithIdentifier("cell2") as! eventCell
         
         var event = getEventIndex(indexPath.section, row: indexPath.row)
         
@@ -632,7 +632,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
     func followButton(sender: UIButton){
         // Adds the event to calendar
         
-       var first = PFUser.currentUser()["firstRemoveFromCalendar"] as Bool
+       var first = PFUser.currentUser()["firstRemoveFromCalendar"] as!Bool
         
         var que = PFQuery(className: "UserCalendar")
         que.whereKey("user", equalTo: PFUser.currentUser().username)
@@ -678,7 +678,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                         }
                     })
                     var predicate2 = eventStore.predicateForEventsWithStartDate(self.eventStart[sender.tag], endDate: self.eventEnd[sender.tag], calendars:nil)
-                    var eV = eventStore.eventsMatchingPredicate(predicate2) as [EKEvent]!
+                    var eV = eventStore.eventsMatchingPredicate(predicate2) as! [EKEvent]!
                     println("Result is there")
                     if eV != nil { //
                         println("EV is not nil")
@@ -741,15 +741,15 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 println()
                 println(userCheck)
                 println()
-                if userCheck["pushEnabled"] as Bool {
-                    if PFUser.currentUser()["tempAccounts"] as Bool == true {
+                if userCheck["pushEnabled"] as!Bool {
+                    if PFUser.currentUser()["tempAccounts"] as!Bool == true {
                         push.setMessage("Someone has added your event to their calendar")
                     } else {
                         
                         push.setMessage("\(PFUser.currentUser().username) has added your event to their calendar")
                     }
                     push.sendPushInBackgroundWithBlock({
-                        (success:Bool!, pushError: NSError!) -> Void in
+                        (success:Bool, pushError: NSError!) -> Void in
                         if pushError == nil {
                             println("Push was Sent")
                         }
@@ -767,7 +767,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 going["eventID"] = self.objectID[sender.tag]
                 going.saveInBackgroundWithBlock{
                     
-                    (succeded:Bool!, savError:NSError!) -> Void in
+                    (succeded:Bool, savError:NSError!) -> Void in
                     if savError == nil {
                         
                     }
@@ -786,7 +786,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
             notify["type"] =  "calendar"
             notify.saveInBackgroundWithBlock({
                 
-                (success:Bool!, notifyError: NSError!) -> Void in
+                (success:Bool, notifyError: NSError!) -> Void in
                 
                 if notifyError == nil {
                     
@@ -804,7 +804,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
     override func prepareForSegue(segue:UIStoryboardSegue, sender: AnyObject?){
         
         if segue.identifier == "example" {
-            var secondViewController : postEvent = segue.destinationViewController as postEvent
+            var secondViewController : postEvent = segue.destinationViewController as! postEvent
             var theMix = Mixpanel.sharedInstance()
             theMix.track("Tap Event View (UP)")
             

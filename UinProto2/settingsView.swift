@@ -17,7 +17,7 @@ class settingsView: UIViewController {
         theMix.flush()
         
         var user = PFUser.currentUser()
-        if user["pushEnabled"] as Bool == true {
+        if user["pushEnabled"] as!Bool == true {
             notifySlider.setOn(true, animated: true)
         }   else {
              notifySlider.setOn(false, animated: true)
@@ -51,7 +51,7 @@ class settingsView: UIViewController {
                 if queError == nil {
                     println(subscriptionUsernames)
                     for object in objects {
-                        subscriptionUsernames.append(object["publisherID"] as String)
+                        subscriptionUsernames.append(object["publisherID"] as!String)
                     }
                         var user = PFUser.currentUser()
                         var currentInstallation = PFInstallation.currentInstallation()

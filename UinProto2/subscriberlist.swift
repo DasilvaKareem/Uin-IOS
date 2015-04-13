@@ -45,9 +45,9 @@ class subscriberlist: UITableViewController {
                 self.folmembers.removeAll(keepCapacity: true)
                 for object in objects{
                     self.objectId.append(object.objectId as String)
-                    self.folmembers.append(object["isMember"] as Bool)
-                    self.folusernames.append(object["subscriber"] as String)
-                    self.foluserID.append(object["publisherID"] as String)
+                    self.folmembers.append(object["isMember"] as!Bool)
+                    self.folusernames.append(object["subscriber"] as!String)
+                    self.foluserID.append(object["publisherID"] as!String)
                     
                     //change "following" to "subscribers" and "follower" to "Subscribed to"
                     
@@ -88,14 +88,14 @@ class subscriberlist: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         
-        let cell:FollowCell = self.tableView.dequeueReusableCellWithIdentifier("cell3") as FollowCell
+        let cell:FollowCell = self.tableView.dequeueReusableCellWithIdentifier("cell3") as! FollowCell
         cell.member.tag = indexPath.row
         cell.username.text = folusernames[indexPath.row]
         var membersave = PFQuery(className:"Subscription")
         membersave.getObjectInBackgroundWithId(objectId[indexPath.row]) {
             (result: PFObject!, error: NSError!) -> Void in
             if error == nil {
-            if result["isMember"] as Bool == true{
+            if result["isMember"] as!Bool == true{
                 cell.member.selectedSegmentIndex = 0
             }
             else {
@@ -128,7 +128,7 @@ class subscriberlist: UITableViewController {
             if error == nil {
                  result["isMember"] = self.member
                 result.saveInBackgroundWithBlock{
-                    (succeeded: Bool!, registerError: NSError!) -> Void in
+                    (succeeded: Bool, registerError: NSError!) -> Void in
                     if registerError == nil {
                         
                         var push = PFPush()
@@ -139,7 +139,7 @@ class subscriberlist: UITableViewController {
                         push.setMessage("\(PFUser.currentUser().username) has changed your membership status")
                 
                         push.sendPushInBackgroundWithBlock({
-                            (success:Bool!, pushError: NSError!) -> Void in
+                            (success:Bool, pushError: NSError!) -> Void in
                             if pushError == nil {
                                 println("Push was Sent")
                             } else {
@@ -156,7 +156,7 @@ class subscriberlist: UITableViewController {
                         notify["type"] =  "member"
                         notify.saveInBackgroundWithBlock({
                             
-                            (success:Bool!, notifyError: NSError!) -> Void in
+                            (success:Bool, notifyError: NSError!) -> Void in
                             
                             if notifyError == nil {
                                 
@@ -184,7 +184,7 @@ class subscriberlist: UITableViewController {
         if segue.identifier == "userprofile" {
             var indexpath = tableView.indexPathForSelectedRow()
             var row = indexpath?.row
-            var userProfile:userprofile = segue.destinationViewController as userprofile
+            var userProfile:userprofile = segue.destinationViewController as! userprofile
             userProfile.userId = foluserID[row!]
             userProfile.theUser = folusernames[row!]
         }

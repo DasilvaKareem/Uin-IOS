@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor(red: 83.0/255.0, green: 155.0/255.0, blue: 204.0/255.0, alpha: 1.0)], forState:.Selected)
         
         // changes tabBarItem color in tab bar
-        UITabBar.appearance().selectedImageTintColor = UIColor(red: 83.0/255.0, green: 155.0/255.0, blue: 204.0/255.0, alpha: 1.0)
+        //UITabBar.appearance().selectedImageTintColor = UIColor(red: 83.0/255.0, green: 155.0/255.0, blue: 204.0/255.0, alpha: 1.0)
         
         //changes tabBarController background image
         UITabBar.appearance().backgroundImage = UIImage (named:"tabBarBackground.png")
@@ -70,7 +70,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         return true
     }
-    func application( application: UIApplication!, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData! ) {
+    func application( application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData ) {
         
         let installation = PFInstallation.currentInstallation()
         installation.setDeviceTokenFromData(deviceToken)
@@ -82,7 +82,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
     }
     
-    func application( application: UIApplication!, didFailToRegisterForRemoteNotificationsWithError error: NSError! ) {
+    func application( application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError ) {
         
         println("Fail!")
     
@@ -122,12 +122,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     
-    func application(application: UIApplication, openURL url: NSURL,
-        sourceApplication: NSString, annotation: AnyObject) -> Bool {
-            return FBAppCall.handleOpenURL(url, sourceApplication:sourceApplication,
-                withSession:PFFacebookUtils.session())
-    }
+
     
+    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
+        return FBAppCall.handleOpenURL(url, sourceApplication:sourceApplication,
+            withSession:PFFacebookUtils.session())
+    }
    
 
 

@@ -17,13 +17,11 @@ class register: UIViewController, UITextFieldDelegate {
     var userPlace = ""
     var emailPlace = ""
     var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
-        
+
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         self.view.endEditing(true)
-        
     }
-    
-    func textFieldShouldReturn(textField: UITextField!) -> Bool {
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
         
         textField.resignFirstResponder()
         
@@ -147,7 +145,7 @@ class register: UIViewController, UITextFieldDelegate {
                 user["firstRemoveFromCalendar"] = true
                 user["tempAccounts"] = false
                 user.signUpInBackgroundWithBlock {
-                    (succeeded: Bool!, registerError: NSError!) -> Void in
+                    (succeeded: Bool, registerError: NSError!) -> Void in
                     
                     if registerError == nil {
                         var theMix = Mixpanel.sharedInstance()
@@ -157,7 +155,7 @@ class register: UIViewController, UITextFieldDelegate {
                         currentInstallation["userId"] = PFUser.currentUser().objectId
                         currentInstallation.saveInBackgroundWithBlock({
                             
-                            (success:Bool!, saveerror: NSError!) -> Void in
+                            (success:Bool, saveerror: NSError!) -> Void in
                             
                             if saveerror == nil {
                                 println("it worked")
@@ -206,7 +204,7 @@ class register: UIViewController, UITextFieldDelegate {
                 theMix.track("Registered with Facebook -register-")
                 
                 user.saveInBackgroundWithBlock {
-                    (succeeded: Bool!, registerError: NSError!) -> Void in
+                    (succeeded: Bool, registerError: NSError!) -> Void in
                     
                     if registerError == nil {
                         var currentInstallation = PFInstallation.currentInstallation()
@@ -214,7 +212,7 @@ class register: UIViewController, UITextFieldDelegate {
                         currentInstallation["userId"] = PFUser.currentUser().objectId
                         currentInstallation.saveInBackgroundWithBlock({
                             
-                            (success:Bool!, saveerror: NSError!) -> Void in
+                            (success:Bool, saveerror: NSError!) -> Void in
                             
                             if saveerror == nil {
                                 
@@ -262,7 +260,7 @@ class register: UIViewController, UITextFieldDelegate {
             var user = PFUser.currentUser()
             user.deleteInBackgroundWithBlock({
                 
-                (succes:Bool!, error:NSError!) -> Void in
+                (succes:Bool, error:NSError!) -> Void in
                 if error == nil {
                     PFUser.logOut()
                     self.performSegueWithIdentifier("backToHome", sender: sender)

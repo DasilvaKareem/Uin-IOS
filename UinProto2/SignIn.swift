@@ -17,11 +17,12 @@ class SignIn: UIViewController, UITextFieldDelegate {
     var userFacebook = (String)()
     var emailFacebook = (String)()
     
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+    
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         self.view.endEditing(true)
     }
     
-    func textFieldShouldReturn(textField: UITextField!) -> Bool {
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
     }
@@ -58,8 +59,8 @@ class SignIn: UIViewController, UITextFieldDelegate {
                 FBRequestConnection.startForMeWithCompletionHandler({
                     connection, result, error in
                     println(result)
-                    self.userFacebook =  result["name"] as String
-                    self.emailFacebook = result["email"] as String
+                    self.userFacebook =  result["name"] as!String
+                    self.emailFacebook = result["email"] as!String
                     var theMix = Mixpanel.sharedInstance()
                     theMix.track("Registers Info with Facebook (SI)")
                     self.performSegueWithIdentifier("register", sender: self)
@@ -74,7 +75,7 @@ class SignIn: UIViewController, UITextFieldDelegate {
                 currentInstallation["userId"] = PFUser.currentUser().objectId
                 currentInstallation.saveInBackgroundWithBlock({
                     
-                    (success:Bool!, saveerror: NSError!) -> Void in
+                    (success:Bool, saveerror: NSError!) -> Void in
                     
                     if saveerror == nil {
                         
@@ -149,7 +150,7 @@ class SignIn: UIViewController, UITextFieldDelegate {
                             println(subscriptionUsernames)
                             for object in objects {
                                 
-                                subscriptionUsernames.append(object["publisherID"] as String)
+                                subscriptionUsernames.append(object["publisherID"] as!String)
                                 
                             }
                             var user = PFUser.currentUser()
@@ -159,7 +160,7 @@ class SignIn: UIViewController, UITextFieldDelegate {
                             currentInstallation.setValue(subscriptionUsernames, forKey: "channels")
                             currentInstallation.saveInBackgroundWithBlock({
                                 
-                                (success:Bool!, saveerror: NSError!) -> Void in
+                                (success:Bool, saveerror: NSError!) -> Void in
                                 
                                 if saveerror == nil {
                                     println("it worked")
@@ -214,7 +215,7 @@ class SignIn: UIViewController, UITextFieldDelegate {
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "register" {
-            var create : register = segue.destinationViewController as register
+            var create : register = segue.destinationViewController as! register
             if self.emailFacebook != "" {
                 create.emailPlace = self.emailFacebook
                 create.userPlace = self.userFacebook

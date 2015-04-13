@@ -38,8 +38,8 @@ class subscriptions: UITableViewController {
                 
                 for object in objects{
                     
-                    self.folusernames.append(object["publisher"] as String)
-                    self.folUserID.append(object["publisherID"] as String)
+                    self.folusernames.append(object["publisher"] as!String)
+                    self.folUserID.append(object["publisherID"] as!String)
                     //change "following" to "subscribers" and "follower" to "Subscribed to"
                     
                     self.tableView.reloadData()
@@ -93,7 +93,7 @@ class subscriptions: UITableViewController {
             var indexpath = tableView.indexPathForSelectedRow()
             var row = indexpath?.row
             //selects the view controller
-            var userProfile:userprofile = segue.destinationViewController as userprofile
+            var userProfile:userprofile = segue.destinationViewController as! userprofile
             userProfile.userId = folUserID[row!]
             userProfile.theUser = folusernames[row!]
             
