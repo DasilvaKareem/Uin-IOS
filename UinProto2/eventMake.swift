@@ -256,8 +256,13 @@ class eventMake: UIViewController, UITextFieldDelegate {
                         //Queries al the people who added this event to calendar
                         var findPeople = PFQuery(className: "UserCalendar")
                         var collectedPeople = [String]()
+                        //Checks collects all the user that have push enablded
+                        var checkPushEnabled = PFUser.query()
+                        checkPushEnabled.whereKey("pushEnabled", equalTo: true)
+                        checkPushEnabled.whereKey("tempAccount", equalTo: false)
                         findPeople.whereKey("eventID", equalTo:self.eventID )
                         findPeople.whereKey("user", notEqualTo: PFUser.currentUser().username)
+                        findPeople.whereKey("user", matchesKey: "username", inQuery: checkPushEnabled)
                         findPeople.findObjectsInBackgroundWithBlock({
                             (results:[AnyObject]!, Error:NSError!) -> Void in
                             
@@ -404,10 +409,15 @@ class eventMake: UIViewController, UITextFieldDelegate {
                         var name = PFUser.currentUser().username
                         eventItem["isDeleted"] = true
                         eventItem.save()
+                 
                         var findPeople = PFQuery(className: "UserCalendar")
                         var collectedPeople = [String]()
+                        var checkPushEnabled = PFUser.query()
+                        checkPushEnabled.whereKey("pushEnabled", equalTo: true)
+                        checkPushEnabled.whereKey("tempAccount", equalTo: false)
                         findPeople.whereKey("eventID", equalTo:self.eventID )
                         findPeople.whereKey("user", notEqualTo: PFUser.currentUser().username)
+                        findPeople.whereKey("user", matchesKey: "username", inQuery: checkPushEnabled)
                         findPeople.findObjectsInBackgroundWithBlock({
                             (results:[AnyObject]!, Error:NSError!) -> Void in
                             
@@ -421,9 +431,6 @@ class eventMake: UIViewController, UITextFieldDelegate {
                                 "sound" : "default"
                             ]
                             var pfque = PFInstallation.query()
-                            println()
-                            println(collectedPeople)
-                            println()
                             pfque.whereKey("user", containedIn: collectedPeople) //Adds all the people who added your event
                             push.setQuery(pfque)
                             push.setData(data)
@@ -435,8 +442,8 @@ class eventMake: UIViewController, UITextFieldDelegate {
                                 } else {
                                     println("push was not sent")
                                 }
-                              
                             })
+                            //Creates the notfication for delete event
                             var notify = PFObject(className: "Notification")
                             notify["senderID"] = PFUser.currentUser().objectId
                             notify["receiverID"] = PFUser.currentUser().objectId

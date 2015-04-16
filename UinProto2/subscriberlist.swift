@@ -48,12 +48,8 @@ class subscriberlist: UITableViewController {
                     self.folmembers.append(object["isMember"] as!Bool)
                     self.folusernames.append(object["subscriber"] as!String)
                     self.foluserID.append(object["publisherID"] as!String)
-                    
                     //change "following" to "subscribers" and "follower" to "Subscribed to"
-                    
                     self.tableView.reloadData()
-                    
-                    
                 }
                 
             }

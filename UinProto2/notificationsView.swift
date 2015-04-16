@@ -105,12 +105,14 @@ class notificationsView: UITableViewController {
                         subQuery.whereKey("receiverID", equalTo: PFUser.currentUser().objectId)
                         
                         var deleteQuery = PFQuery(className: "Notification")
-                        deleteQuery.whereKey("type", equalTo: "editedEvent" )
+                        deleteQuery.whereKey("type", equalTo: "deleteEvent" )
+                        deleteQuery.whereKeyExists("eventID")
                         deleteQuery.whereKey("sender", containedIn: self.addedUsernames)
                         deleteQuery.whereKey("sender", notEqualTo: PFUser.currentUser().username)
                         
                         var editQuery = PFQuery(className: "Notification")
-                        editQuery.whereKey("type", equalTo: "deleteEvent" )
+                        editQuery.whereKey("type", equalTo: "editedEvent" )
+                        editQuery.whereKeyExists("eventID")
                         editQuery.whereKey("sender", containedIn: self.addedUsernames)
                         editQuery.whereKey("sender", notEqualTo: PFUser.currentUser().username)
                         

@@ -38,6 +38,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     var sectionNames = [String]()
     var currentPoint = (PFGeoPoint)()
     var eventCountNumber = (Int)()
+    var appProblem:Bool = Bool()
     
     
     //Search functionailty
@@ -124,6 +125,9 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         
         
     }
+    
+    //Left panel Configurations
+    
     // View cycles
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -373,9 +377,9 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                     }
                 }
             } else {
-                
-                
+                self.appProblem = true
             }
+            
         }
     }
  
@@ -484,12 +488,16 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
         var cell:dateCell = tableView.dequeueReusableCellWithIdentifier("dateCell") as! dateCell
-        
-        if searchActive {
+        if appProblem {
             return nil
         } else {
-           cell.dateItem.text = sectionNames[section]
+            if searchActive {
+                return nil
+            } else {
+                cell.dateItem.text = sectionNames[section]
+            }
         }
+       
         
         
         return cell
@@ -498,6 +506,9 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Potentially incomplete method implementation.
         // Return the number of sections.
+        if appProblem == true {
+            return 1
+        }
         if searchActive {
             return 1
         }
@@ -515,21 +526,23 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             println("search is \(self.searchActive)")
             
         } else {
-            var item = filteredSearchItems[indexPath.row]
-            if item.type == "Event" {
+            if filteredSearchItems.count == 0 {
+                println("No items selected")
+            } else {
+                var item = filteredSearchItems[indexPath.row]
+                
+                if item.type == "Event" {
                     endSearch()
                     self.performSegueWithIdentifier("searchEvent", sender: self)
-                       println("search is \(self.searchActive)")
-                
-            } else {
-                endSearch()
-                self.performSegueWithIdentifier("profile", sender: self)
                     println("search is \(self.searchActive)")
-                
+                    
+                } else {
+                    endSearch()
+                    self.performSegueWithIdentifier("profile", sender: self)
+                    println("search is \(self.searchActive)")
+                }
             }
         }
-       
-        
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -544,6 +557,10 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             }
             
         }
+        if appProblem == true {
+                return 1
+        }
+        
         return rowsInSection[section]
         
     }
@@ -551,11 +568,21 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
         // Puts the data in a cell
-        println()
-        println(searchActive)
-        println()
         var cell:eventCell = tableView.dequeueReusableCellWithIdentifier("cell2") as! eventCell
         var poopled = ["no internet"]
+        if appProblem == true {
+            cell.onCampusIcon.image = nil
+            cell.foodIcon.image = nil
+            cell.freeIcon.image = nil
+            cell.poop.hidden = true
+            cell.foodText.text = ""
+            cell.onCampusText.text = ""
+            cell.costText.text = ""
+            cell.eventName.text = "App problem"
+            cell.people.text = ""
+            cell.privateImage.image = nil
+            cell.time.text = ""
+        } else {
         if searchActive == true {
             println("search is active")
           
@@ -662,6 +689,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             }
         }
               cell.poop.addTarget(self, action: "followButton:", forControlEvents: UIControlEvents.TouchUpInside)
+        }
         }
         return cell
         
