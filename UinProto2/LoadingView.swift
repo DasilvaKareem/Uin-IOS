@@ -29,9 +29,7 @@ class LoadingView: UIViewController {
                 var rand = arc4random_uniform(length)
                 randomString.appendFormat("%C", letters.characterAtIndex(Int(rand)))
             }
-            println()
-            println(randomString)
-            println()
+    
             return randomString
         }
         
@@ -53,6 +51,21 @@ class LoadingView: UIViewController {
             newUser.signUpInBackgroundWithBlock({
                 (success:Bool, error:NSError!) -> Void in
                 if error == nil {
+                    var defaultChannel = PFObject(className: "ChannelUser")
+                    defaultChannel["admin"] = false
+                    defaultChannel["canPost"] = true
+                    defaultChannel["validationCode"] = "nil"
+                    defaultChannel["channelID"] = "xOI5cjHcDo"
+                    defaultChannel["channelName"] = "Public Channel"
+                    defaultChannel["userID"] = PFUser.currentUser().objectId
+                    defaultChannel.saveInBackgroundWithBlock({
+                        (success:Bool, error:NSError!) -> Void in
+                        if error == nil {
+                            println("User has been entered into the channel")
+                        } else {
+                            println("User has not been entered into the channel")
+                        }
+                    })
                     self.performSegueWithIdentifier("login", sender: self)
                     
                     println("Anon has been created succesfully")
@@ -63,6 +76,7 @@ class LoadingView: UIViewController {
                 }
                 
             })
+         
         }
     }
     override func didReceiveMemoryWarning() {

@@ -14,10 +14,14 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     
     @IBOutlet weak var theFeed: UITableView!
     
+    @IBOutlet var eventCreate: UIBarButtonItem!
+    @IBOutlet var menuTrigger: UIBarButtonItem!
     var refresher: UIRefreshControl!
+    //Icons variables
     var onsite = [Bool]()
     var paid = [Bool]()
     var food = [Bool]()
+    //Text that is display on cell
     var eventTitle = [String]()
     var eventAddress = [String]()
     var eventlocation = [String]()
@@ -26,31 +30,37 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     var eventStartDate = [String]()
     var eventEndDate = [String]()
     var usernames = [String]()
+    //Event specfici ID and publicty status
     var objectID = [String]()
     var publicPost = [Bool]()
+    //Start and end date of Event
     var eventEnd = [NSDate]()
     var eventStart = [NSDate]()
-    var localizedTime = [String]()
-    var localizedEndTime = [String]()
+    var localizedTime = [String]() //Gets the current locale
+    var localizedEndTime = [String]() //Gets the current locale
+    //Id of the author of the event
     var userId = [String]()
-    var numSections = 0
-    var rowsInSection = [Int]()
-    var sectionNames = [String]()
+    //Date Header information
+    var numSections = 0 //Number of unique Ids
+    var rowsInSection = [Int]() //Number of events in each date
+    var sectionNames = [String]() // Date title
+    //Geo-locations
     var currentPoint = (PFGeoPoint)()
     var eventCountNumber = (Int)()
+    //If Feed has a problem
     var appProblem:Bool = Bool()
-    
+    var channelID = String()
     
     //Search functionailty
     var searchActive:Bool = Bool()
     struct searchItem {
-        var type = (String)()
+        var type = (String)() //Type of search item
         var name = (String)()
-        var id = (String)()
+        var id = (String)() //object id of item
     }
-    var filteredSearchItems = [searchItem]()
+    var filteredSearchItems = [searchItem]() //the displayed search itmes
     var diction = [String:[String]]()
-    var searchItems = [searchItem]()
+    var searchItems = [searchItem]() // the array that contains search itme
     @IBOutlet var searchBar: UISearchBar!
     //Fills all events into an array to be search through
     
@@ -105,66 +115,58 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         self.searchBar.showsCancelButton = false
     }
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
-        
-        
         self.filteredSearchItems = self.searchItems.filter({( searchItem: searchItem) -> Bool in
-            
             let stringMatch = searchItem.name.rangeOfString(searchText)
             return  (stringMatch != nil)
         
         })
-        
         self.theFeed.reloadData()
-        
     }
     func endSearch() {
         self.searchBar.endEditing(true)
         self.searchActive = false
         self.searchBar.text = ""
         self.searchBar.setShowsCancelButton(false, animated: true)
-        
-        
     }
     
     //Left panel Configurations
-    
+
     // View cycles
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //Loads search Items
         searchBar.delegate = self
         getSearchItems()
         var theMix = Mixpanel.sharedInstance()
         theMix.track("Event Feed Opened")
         theMix.flush()
+        
+        //Creates search about tableview
         var newBounds:CGRect = self.theFeed.bounds
         newBounds.origin.y = newBounds.origin.y - searchBar.bounds.size.height
         self.theFeed.bounds = newBounds
-        self.tabBarController?.tabBar.hidden = false
-        //var eventsItem = tabBarItem?[0] as!UITabBarItem
-        //eventsItem.selectedImage = UIImage(named: "addToCalendar.png")
+       
         
-         //Changes the navbar background
+
+        //Changes the navbar background
         navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
         
         // Changes text color on navbar
         var nav = self.navigationController?.navigationBar
         nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()];
-        updateFeed()
-        notifications()
-        println()
-        println(searchItems)
-        println()
+      
         
+        //Gets current notfications
+        notifications()
         
         //Adds pull to refresh
         refresher = UIRefreshControl()
         refresher.attributedTitle = NSAttributedString(string: "Pull to refresh")
         refresher.addTarget(self, action: "refresh", forControlEvents: UIControlEvents.ValueChanged)
         self.theFeed.addSubview(refresher)
-        
-        
-        
-        
+
+    
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -174,21 +176,32 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         
     }
     override func viewWillAppear(animated: Bool) {
-      
+      //  setupEventFeed()
+        println()
         updateFeed()
         //Setups Ui
                navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
         
          var user = PFUser.currentUser()
         //Checks if the account is a temporary account
-        if user["tempAccounts"] as!Bool == false {
+        if user["tempAccounts"] as! Bool == false {
             //Changes ui based if the user is a real account
-           
+            //Allows you to pull for sideView panel
+            if self.revealViewController() != nil {
+                menuTrigger.target = self.revealViewController()
+                menuTrigger.action = "revealToggle:"
+                self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
+            }
             self.tabBarController?.tabBar.hidden = false
-            self.navigationItem.leftBarButtonItem = nil //Removes settings from event Feed
+            //self.navigationItem.leftBarButtonItem = nil //Removes settings from event Feed
         } else {
-       
-            self.tabBarController?.tabBar.hidden = true //
+            if self.revealViewController() != nil {
+                menuTrigger.target = self.revealViewController()
+                menuTrigger.action = "revealToggle:"
+                self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
+            }
+
+            self.tabBarController?.tabBar.hidden = true
         }
      
     }
@@ -199,7 +212,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     @IBAction func eventMake(sender: AnyObject) {
         var user = PFUser.currentUser()
         //Checks if the account is a temporary account
-        if user["tempAccounts"] as!Bool == false {
+        if user["tempAccounts"] as! Bool == false {
            self.performSegueWithIdentifier("eventMake", sender: self)
             var theMix = Mixpanel.sharedInstance()
             theMix.track("Tap Create Event (EF)")
@@ -282,16 +295,157 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         }
         
     }
-
- 
+      //Setups the evnet Feed 
+   /* func setupEventFeed(){
+        
+        var channelUserQuery = PFQuery(className: "ChannelUser")
+        channelUserQuery.whereKey("userID", equalTo: PFUser.currentUser().objectId)
+        channelUserQuery.whereKey("channelID", equalTo: self.channelID)
+        channelUserQuery.getFirstObjectInBackgroundWithBlock({
+            (result: PFObject!, error: NSError!) -> Void in
+            if error == nil {
+                println()
+                println()
+                println(result)
+                println()
+                println()
+                if result["canPost"] as! Bool == true {
+                   
+                } else {
+                     self.navigationItem.rightBarButtonItem = nil //Removes settings from event Feed
+                }
+            }
+        })
+    }
+*/
+    
       func updateFeed(){
         //Removes all leftover content in the array
-        
-        println("Before query")
-        println(self.currentPoint)
+    
         PFGeoPoint.geoPointForCurrentLocationInBackground {
             (geoPoint: PFGeoPoint!, error: NSError!) -> Void in
-            if error == nil {
+         
+                    //Customizes Event Feed 
+                    //Adds or remove the create event functionailty
+            
+                    self.currentPoint = geoPoint
+                    //adds content to the array
+                    //Queries all public Events
+                    var eventQuery = PFQuery(className: "Event")
+                      var pubQue = PFQuery(className: "Subscription")
+                    var superQue = PFQuery(className: "Event")
+                    var newQue = PFQuery(className: "Event")
+                    var query = PFQuery.orQueryWithSubqueries([eventQuery, superQue, newQue ])
+                    switch self.channelID {
+                        case "localEvent":
+                            
+                            eventQuery.whereKey("isPublic", equalTo: true)
+                            
+                            //Queries all Private events
+                            
+                            pubQue.whereKey("subscriber", equalTo: PFUser.currentUser().username)
+                            pubQue.whereKey("isMember", equalTo: true)
+                            superQue.whereKey("author", matchesKey: "publisher", inQuery:pubQue)
+                            superQue.whereKey("isPublic", equalTo: false)
+                            
+                            //Queries all of the current user events
+        
+                            newQue.whereKey("isPublic", equalTo: false)
+                            newQue.whereKey("author", equalTo: PFUser.currentUser().username)
+                        break
+                        case "subedEvents":
+                       
+                        break
+                        case "trending":
+                
+                        break
+                    default:
+                        
+                    
+                        eventQuery.whereKey("channels", equalTo:self.channelID)
+                        eventQuery.whereKey("isPublic", equalTo: true)
+                        
+                        //Queries all Private events
+                       
+                        pubQue.whereKey("subscriber", equalTo: PFUser.currentUser().username)
+                        pubQue.whereKey("isMember", equalTo: true)
+                     
+                        superQue.whereKey("channels", equalTo:self.channelID)
+                        superQue.whereKey("author", matchesKey: "publisher", inQuery:pubQue)
+                        superQue.whereKey("isPublic", equalTo: false)
+                        
+                        //Queries all of the current user events
+                      
+                        newQue.whereKey("isPublic", equalTo: false)
+                        newQue.whereKey("channels", equalTo:self.channelID)
+                        newQue.whereKey("author", equalTo: PFUser.currentUser().username)
+            
+                        break
+                    }
+           
+                    
+                    query.orderByAscending("start")
+                    println(self.currentPoint)
+                    query.whereKey("locationGeopoint", nearGeoPoint: self.currentPoint, withinMiles: 7.0)
+                    query.whereKey("start", greaterThanOrEqualTo: NSDate())
+                    query.whereKey("isDeleted", equalTo: false)
+                    query.findObjectsInBackgroundWithBlock {
+                        (results: [AnyObject]!, error: NSError!) -> Void in
+                        if error == nil {
+                        
+                            self.eventAddress.removeAll(keepCapacity: true)
+                            self.onsite.removeAll(keepCapacity: true)
+                            self.paid.removeAll(keepCapacity: true)
+                            self.food.removeAll(keepCapacity: true)
+                            self.eventTitle.removeAll(keepCapacity: true)
+                            self.eventlocation.removeAll(keepCapacity: true)
+                            self.eventStartTime.removeAll(keepCapacity: true)
+                            self.eventEndTime.removeAll(keepCapacity: true)
+                            self.eventStartDate.removeAll(keepCapacity: true)
+                            self.eventEndDate.removeAll(keepCapacity: true)
+                            self.usernames.removeAll(keepCapacity: true)
+                            self.objectID.removeAll(keepCapacity: true)
+                            self.publicPost.removeAll(keepCapacity: true)
+                            self.eventStart.removeAll(keepCapacity: true)
+                            self.eventEnd.removeAll(keepCapacity: true)
+                            self.localizedTime.removeAll(keepCapacity: true)
+                            self.localizedEndTime.removeAll(keepCapacity: true)
+                            
+                            for object in results{
+                                
+                                self.publicPost.append(object["isPublic"] as!Bool)
+                                self.objectID.append(object.objectId as String)
+                                self.usernames.append(object["author"] as!String)
+                                self.eventTitle.append(object["title"] as!String)
+                                self.food.append(object["hasFood"] as!Bool)
+                                self.paid.append(object["isFree"] as!Bool)
+                                self.onsite.append(object["onCampus"] as!Bool)
+                                self.eventEnd.append(object["end"] as!NSDate)
+                                self.eventStart.append(object["start"] as!NSDate)
+                                self.eventlocation.append(object["location"] as!String)
+                                self.userId.append(object["authorID"] as!String)
+                                self.eventAddress.append(object["address"] as!String)
+                                
+                            }
+                            self.populateSectionInfo()
+                            self.theFeed.reloadData()
+                            self.refresher.endRefreshing()
+                            
+                        }
+                            
+                            
+                        else {
+                            if error.code == 100 {
+                                println("No internet")
+                                self.displayAlert("No Internet", error: "You have no internet connection")
+                            }
+                            println("It failed")
+                        }
+                    }
+                    
+                
+            
+           /* if error == nil {
                 self.theFeed.superview //Add tableview to screen
                 self.currentPoint = geoPoint
                 //adds content to the array
@@ -320,65 +474,8 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                 query.whereKey("start", greaterThanOrEqualTo: NSDate())
                 query.whereKey("isDeleted", equalTo: false)
                 self.eventCountNumber = query.countObjects()
-                query.findObjectsInBackgroundWithBlock {
-                    (results: [AnyObject]!, error: NSError!) -> Void in
-                    if error == nil {
-                        
-                        
-                        
-                        
-                        self.eventAddress.removeAll(keepCapacity: true)
-                        self.onsite.removeAll(keepCapacity: true)
-                        self.paid.removeAll(keepCapacity: true)
-                        self.food.removeAll(keepCapacity: true)
-                        self.eventTitle.removeAll(keepCapacity: true)
-                        self.eventlocation.removeAll(keepCapacity: true)
-                        self.eventStartTime.removeAll(keepCapacity: true)
-                        self.eventEndTime.removeAll(keepCapacity: true)
-                        self.eventStartDate.removeAll(keepCapacity: true)
-                        self.eventEndDate.removeAll(keepCapacity: true)
-                        self.usernames.removeAll(keepCapacity: true)
-                        self.objectID.removeAll(keepCapacity: true)
-                        self.publicPost.removeAll(keepCapacity: true)
-                        self.eventStart.removeAll(keepCapacity: true)
-                        self.eventEnd.removeAll(keepCapacity: true)
-                        self.localizedTime.removeAll(keepCapacity: true)
-                        self.localizedEndTime.removeAll(keepCapacity: true)
-                        
-                        for object in results{
-                            
-                            self.publicPost.append(object["isPublic"] as!Bool)
-                            self.objectID.append(object.objectId as String)
-                            self.usernames.append(object["author"] as!String)
-                            self.eventTitle.append(object["title"] as!String)
-                            self.food.append(object["hasFood"] as!Bool)
-                            self.paid.append(object["isFree"] as!Bool)
-                            self.onsite.append(object["onCampus"] as!Bool)
-                            self.eventEnd.append(object["end"] as!NSDate)
-                            self.eventStart.append(object["start"] as!NSDate)
-                            self.eventlocation.append(object["location"] as!String)
-                            self.userId.append(object["authorID"] as!String)
-                            self.eventAddress.append(object["address"] as!String)
-                            
-                        }
-                        self.populateSectionInfo()
-                        self.theFeed.reloadData()
-                        self.refresher.endRefreshing()
-                        
-                    }
-                        
-                        
-                    else {
-                        if error.code == 100 {
-                            println("No internet")
-                            self.displayAlert("No Internet", error: "You have no internet connection")
-                        }
-                        println("It failed")
-                    }
-                }
-            } else {
-                self.appProblem = true
-            }
+               
+            } */
             
         }
     }

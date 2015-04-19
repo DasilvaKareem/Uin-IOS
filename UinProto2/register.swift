@@ -148,6 +148,20 @@ class register: UIViewController, UITextFieldDelegate {
                     (succeeded: Bool, registerError: NSError!) -> Void in
                     
                     if registerError == nil {
+                        var defaultChannel = PFObject(className: "ChannelUser")
+                        defaultChannel["admin"] = false
+                        defaultChannel["canPost"] = true
+                        defaultChannel["validationCode"] = "nil"
+                        defaultChannel["channelID"] = "xOI5cjHcDo"
+                        defaultChannel["userID"] = PFUser.currentUser().objectId
+                        defaultChannel.saveInBackgroundWithBlock({
+                            (success:Bool, error:NSError!) -> Void in
+                            if error == nil {
+                                println("User has been entered into the channel")
+                            } else {
+                                println("User has not been entered into the channel")
+                            }
+                        })
                         var theMix = Mixpanel.sharedInstance()
                         theMix.track("Registered with Uin -register-")
                         var currentInstallation = PFInstallation.currentInstallation()
@@ -215,7 +229,20 @@ class register: UIViewController, UITextFieldDelegate {
                             (success:Bool, saveerror: NSError!) -> Void in
                             
                             if saveerror == nil {
-                                
+                                var defaultChannel = PFObject(className: "ChannelUser")
+                                defaultChannel["admin"] = false
+                                defaultChannel["canPost"] = true
+                                defaultChannel["validationCode"] = "nil"
+                                defaultChannel["channelID"] = "xOI5cjHcDo"
+                                defaultChannel["userID"] = PFUser.currentUser().objectId
+                                defaultChannel.saveInBackgroundWithBlock({
+                                    (success:Bool, error:NSError!) -> Void in
+                                    if error == nil {
+                                        println("User has been entered into the channel")
+                                    } else {
+                                        println("User has not been entered into the channel")
+                                    }
+                                })
                                 println("it worked")
                                 
                             }

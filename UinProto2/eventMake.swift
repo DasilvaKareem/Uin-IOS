@@ -25,6 +25,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
     var long = (CLLocationDegrees)()
     var locations = CLLocation()
     var address = ""
+    var channel = ["xOI5cjHcDo"]
     
     @IBOutlet var displayLocation: UILabel!
   
@@ -237,6 +238,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
                         eventItem["author"] = PFUser.currentUser().username
                         eventItem["authorID"] = PFUser.currentUser().objectId
                         eventItem["isDeleted"] = false
+                        eventItem["channels"] = self.channel
                         eventItem.saveInBackgroundWithBlock({
                             (success:Bool, error:NSError!) -> Void in
                             
@@ -253,6 +255,8 @@ class eventMake: UIViewController, UITextFieldDelegate {
                             }
                                 self.performSegueWithIdentifier("eventback", sender: self)
                         })
+                        //Adds the event to channels it is asccoiated with
+                     
                         //Queries al the people who added this event to calendar
                         var findPeople = PFQuery(className: "UserCalendar")
                         var collectedPeople = [String]()
@@ -329,11 +333,26 @@ class eventMake: UIViewController, UITextFieldDelegate {
                 event["author"] = PFUser.currentUser().username
                 event["authorID"] = PFUser.currentUser().objectId
                 event["isDeleted"] = false
+                event["channels"] = self.channel
                 event.saveInBackgroundWithBlock{
                     
                     (success:Bool,eventError:NSError!) -> Void in
                     
                     if (eventError == nil){
+                        //Adds the event to channels it is asccoiated with
+                        var channelSelect = PFObject(className: "ChannelEvent")
+                            channelSelect["eventID"] = event.objectId
+                            channelSelect["channelID"] = self.channel
+                            channelSelect.saveInBackgroundWithBlock({
+                                (success: Bool, error: NSError!) -> Void in
+                                if error == nil {
+                                    println("Channles selceted are \(self.channel)")
+                                } else {
+                                    println(error.debugDescription)
+                                    println("Error was found selecting channels")
+                                }
+                            })
+                        
                             var push =  PFPush()
                             let data = [
                                 "alert" : "\(PFUser.currentUser().username) has created an event '\(self.eventTitle.text)'",

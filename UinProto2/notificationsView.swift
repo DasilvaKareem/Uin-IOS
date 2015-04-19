@@ -10,6 +10,7 @@ import UIKit
 
 class notificationsView: UITableViewController {
     
+    @IBOutlet var sideBar: UIBarButtonItem!
     
     var notes = [String]()
     var refresher: UIRefreshControl!
@@ -27,24 +28,24 @@ class notificationsView: UITableViewController {
     var notificationItems = [notificationItem]()
     
     override func viewDidAppear(animated: Bool) {
-        var tabArray = self.tabBarController?.tabBar.items as NSArray!
-        var tabItem = tabArray.objectAtIndex(1) as! UITabBarItem
-        tabItem.badgeValue = nil
+ 
+       
     }
     override func viewWillAppear(animated: Bool) {
           navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
-        self.tabBarController?.tabBar.hidden = false
+    
+        if self.revealViewController() != nil {
+            sideBar.target = self.revealViewController()
+            sideBar.action = "revealToggle:"
+            self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
+        }
     }
     override func viewDidLoad() {
         super.viewDidLoad()
         var theMix = Mixpanel.sharedInstance()
         theMix.track("Notifications Opened")
         theMix.flush()
-        self.tabBarController?.tabBar.hidden = false
-        var tabArray = self.tabBarController?.tabBar.items as NSArray!
-        var tabItem = tabArray.objectAtIndex(1) as! UITabBarItem
-        tabItem.badgeValue = nil
-        self.tabBarController?.tabBar.hidden = false
+       
         navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
         // Changes text color on navbar
         var nav = self.navigationController?.navigationBar
@@ -98,6 +99,7 @@ class notificationsView: UITableViewController {
                         var eventQuery = PFQuery(className: "Notification")
                         eventQuery.whereKey("type", equalTo: "event" )
                         eventQuery.whereKey("sender", containedIn: self.folusernames)
+                        eventQuery.whereKeyExists("eventID")
                         eventQuery.whereKey("sender", notEqualTo: PFUser.currentUser().username)
                         
                         var subQuery = PFQuery(className: "Notification")
@@ -142,9 +144,7 @@ class notificationsView: UITableViewController {
                                     
                                     //Adds the time so we can get time stamp
                                     self.times.append(object.createdAt)
-                                    
-                                    
-                                    
+                
                                     switch object["type"] as!String {
                                     case "event":
                                         
@@ -239,9 +239,7 @@ class notificationsView: UITableViewController {
                                         println("unknown has happen please refer back to parse database")
                                         break
                                     }
-                                    
                                 }
-                                
                                 for i in self.times {
                                     var dateFormatter = NSDateFormatter()
                                     //Creates table header for event time
@@ -268,11 +266,7 @@ class notificationsView: UITableViewController {
         
          }
     func notify(){
-        
         collectData()
-        
- 
-       
     }
     func refresh() {
         notify()

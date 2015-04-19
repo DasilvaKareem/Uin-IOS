@@ -18,3 +18,9 @@
 #define COCOAPODS_VERSION_MINOR_Mixpanel_MPCategoryHelpers 7
 #define COCOAPODS_VERSION_PATCH_Mixpanel_MPCategoryHelpers 2
 
+// swrevealviewcontroller
+#define COCOAPODS_POD_AVAILABLE_swrevealviewcontroller
+#define COCOAPODS_VERSION_MAJOR_swrevealviewcontroller 2
+#define COCOAPODS_VERSION_MINOR_swrevealviewcontroller 3
+#define COCOAPODS_VERSION_PATCH_swrevealviewcontroller 0
+

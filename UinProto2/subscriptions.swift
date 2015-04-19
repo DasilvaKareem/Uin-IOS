@@ -13,6 +13,8 @@ class subscriptions: UITableViewController {
     var folusernames = [String]()
     var folUserID = [String]()
     
+   
+    @IBOutlet var sideBar: UIBarButtonItem!
     override func viewDidLoad() {
         var theMix = Mixpanel.sharedInstance()
         theMix.track("Subscriptions Opened")
@@ -55,6 +57,11 @@ class subscriptions: UITableViewController {
     }
     override func viewWillAppear(animated: Bool) {
           navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
+        if self.revealViewController() != nil {
+            sideBar.target = self.revealViewController()
+            sideBar.action = "revealToggle:"
+            self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
+        }
     }
     
     override func didReceiveMemoryWarning() {

@@ -60,6 +60,11 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         self.navigationController?.navigationBar.translucent = true
 
          self.tabBarController?.tabBar.hidden = false
+        if self.revealViewController() != nil {
+            sideBar.target = self.revealViewController()
+            sideBar.action = "revealToggle:"
+            self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
+        }
     }
 
     
@@ -78,7 +83,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        usernameButton.title = PFUser.currentUser().username
+       
         self.tabBarController?.tabBar.hidden = false
            self.navigationController?.navigationBar.backIndicatorImage = nil
         subticker()
@@ -248,7 +253,8 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
   
     }
 
-    @IBOutlet var usernameButton: UIBarButtonItem!
+    
+    @IBOutlet var sideBar: UIBarButtonItem!
 
     func refresh() {
         updateFeed()
@@ -264,7 +270,6 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         //Initialisation
         numSections = 0
         rowsInSection.removeAll(keepCapacity: true)
-        rowsInSection.append(0)
         sectionNames.removeAll(keepCapacity: true)
         self.localizedTime.removeAll(keepCapacity: true)
         self.localizedEndTime.removeAll(keepCapacity:true)
@@ -291,8 +296,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
             
         }
 
-        //For each date
-        sectionNames.insert("0", atIndex: 0)
+        
         for date in convertedDates{
             //If there is a date change
             if (currentDate != date){
@@ -335,22 +339,8 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         //  one needs to be added manually
        
         rowsInSection.append(i)
-         numSections++
-        
-        if numSections == 0 {
-            numSections++
-        }
 
-            
-        
-        
-        
-       
-        println()
-        println(rowsInSection)
-         println(numSections)
-        println(sectionNames)
-        println()
+
     }
     
     func getEventIndex(section: Int, row: Int) -> Int{
@@ -376,11 +366,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         
     }
    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        
-        if section == 0 {
-            
-            return 150.0
-        }
+    
         return 23.0
     }
     
@@ -412,19 +398,11 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         
        
         
-        if  section != 0 {
+        
              var cell:dateCell = tableView.dequeueReusableCellWithIdentifier("dateCell") as! dateCell
             cell.dateItem.text = sectionNames[section]
             return cell
-        }
-        let cell2:profileCell = tableView.dequeueReusableCellWithIdentifier("profile") as! profileCell
-        
-        //THIS IS WHERE YOU ARE GOING TO PUT THE LABEL
-        
-        cell2.subscriberTick.text = amountofsubs
-        cell2.subscriptionTick.text = amountofScript
-        
-        return cell2
+
 
       
     }
