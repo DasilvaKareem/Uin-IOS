@@ -97,7 +97,8 @@ class channelSelectView: UITableViewController {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
         var totalSections = usernameSectionTitle +  genChannels + channelNames
-       
+        
+        
         return totalSections.count
     }
 
@@ -109,6 +110,7 @@ class channelSelectView: UITableViewController {
      //   cell.channelCount.text = usernameInfo[indexPath.row]
         cell.channelName.text = totalSections[indexPath.row]
         cell.channelName.tag = indexPath.row
+        println(indexPath)
     
       
         return cell
