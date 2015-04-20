@@ -90,7 +90,7 @@ class channelSelectView: UITableViewController {
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Potentially incomplete method implementation.
         // Return the number of sections.
-        return 1
+        return 3
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -98,7 +98,16 @@ class channelSelectView: UITableViewController {
         // Return the number of rows in the section.
         var totalSections = usernameSectionTitle +  genChannels + channelNames
         
+        if section ==  0 {
+            return usernameSectionTitle.count
+        }
+        if section ==  1 {
+            return genChannels.count
+        }
+        if section ==  2 {
         
+            return channelNames.count
+        }
         return totalSections.count
     }
 
@@ -108,10 +117,21 @@ class channelSelectView: UITableViewController {
        var totalSections = usernameSectionTitle +  genChannels + channelNames
         var cell:channelTableCell = tableView.dequeueReusableCellWithIdentifier("profile") as! channelTableCell
      //   cell.channelCount.text = usernameInfo[indexPath.row]
+    
         cell.channelName.text = totalSections[indexPath.row]
         cell.channelName.tag = indexPath.row
-        println(indexPath)
-    
+       
+        if indexPath.section == 1 {
+             cell = tableView.dequeueReusableCellWithIdentifier("profilez") as! channelTableCell
+            cell.channelName.text = genChannels[indexPath.row]
+        }
+        if indexPath.section == 2 {
+            cell = tableView.dequeueReusableCellWithIdentifier("profiles") as! channelTableCell
+            cell.channelName.text = channelNames[indexPath.row]
+            println(channelNames)
+             println()
+             println()
+        }
       
         return cell
         
@@ -121,34 +141,35 @@ class channelSelectView: UITableViewController {
 
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
          var allTypes = userType + gentype + channelType
-        switch allTypes[indexPath.row] {
+        if indexPath.section == 0 {
+            switch userType[indexPath.row] {
             case "Subscriptions":
             self.performSegueWithIdentifier("Subscriptions", sender: self)
             break
-        case "Subscribers":
+            case "Subscribers":
             self.performSegueWithIdentifier("Subscribers", sender: self)
             break
-        case "Notifications":
+            case "Notifications":
             self.performSegueWithIdentifier("Notifications", sender: self)
             break
-        case "My Events":
+            case "My Events":
             self.performSegueWithIdentifier("My Events", sender: self)
-        case "localEvent":
-            self.performSegueWithIdentifier("channelSelect", sender: self)
+            default:
             break
-        case "subbedEvents":
-            self.performSegueWithIdentifier("channelSelect", sender: self)
-            break
-        case "trending":
-            self.performSegueWithIdentifier("channelSelect", sender: self)
-            break
-        case "channelSelect":
-            self.performSegueWithIdentifier("channelSelect", sender: self)
-            break
-
-        default:
-            break
+            }
         }
+        if indexPath.section == 1 {
+            
+            self.performSegueWithIdentifier("channelSelect", sender: self)
+         
+           
+
+        }
+        if indexPath.section == 2 {
+            self.performSegueWithIdentifier("channelSelect", sender: self)
+           
+        }
+        
     }
     // MARK: - Navigation
 
