@@ -339,12 +339,27 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                             //Queries all of the current user events
                             newQue.whereKey("isPublic", equalTo: false)
                             newQue.whereKey("author", equalTo: PFUser.currentUser().username)
+                       
                         break
                         case "subbedEvents":
-                            var subscriptionQuery = PFQuery(className: "")
+                            var subscriptionQuery = PFQuery(className: "Subscription")
+                            subscriptionQuery.whereKey("subscriberID", equalTo: PFUser.currentUser().objectId)
+                            eventQuery.whereKey("authorID", matchesKey: "publisherID", inQuery: subscriptionQuery)
+                            
+                           //Queries all Private events
+                            pubQue.whereKey("subscriberID", equalTo: PFUser.currentUser().objectId)
+                            pubQue.whereKey("isMember", equalTo: true)
+                            superQue.whereKey("authorID", matchesKey: "publisherID", inQuery:pubQue)
+                            superQue.whereKey("isPublic", equalTo: false)
+                            //Queries all of the current user events
+                            newQue.whereKey("isPublic", equalTo: false)
+                            newQue.whereKey("authorID", matchesKey: "publisherID", inQuery:pubQue)
+                            newQue.whereKey("author", equalTo: PFUser.currentUser().username)
+                      
+                        
                         break
                         case "trending":
-                
+                            
                         break
                     default:
                         
@@ -990,10 +1005,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             theotherprofile.eventId = item.id
             theotherprofile.searchEvent = true
         }
-        if segue.identifier == "sw_rear" {
-            var view:channelSelectView = segue.destinationViewController as! channelSelectView
-            view.poop = "This poop"
-        }
+       
         
     }
 }

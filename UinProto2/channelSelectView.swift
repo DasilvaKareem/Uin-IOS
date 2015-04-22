@@ -18,12 +18,32 @@ class channelSelectView: UITableViewController {
     var genChannels = ["Local Event", "Subscriptions", "Trending Events"]
     var gentype = ["localEvent","subbedEvents","trending"]
     var genEvents = [String]()
+    func setupGenCounters() {
+        var localEventCount = PFQuery(className: "Event")
+        localEventCount.whereKey("isPublic", equalTo: true)
+        localEventCount.whereKey("start", greaterThanOrEqualTo: NSDate())
+        self.genEvents.append(String(localEventCount.countObjects()))
+        
+        //Gets Subscriptions Events
+        var subscriptionQuery = PFQuery(className: "Subscription")
+        subscriptionQuery.whereKey("subscriberID", equalTo: PFUser.currentUser().objectId)
+        var subscriptionEventCount = PFQuery(className: "Event")
+        subscriptionEventCount.whereKey("authorID", matchesKey: "publisherID", inQuery: subscriptionQuery)
+        subscriptionEventCount.whereKey("isPublic", equalTo: true)
+        subscriptionEventCount.whereKey("start", greaterThan:  NSDate())
+        self.genEvents.append(String(subscriptionEventCount.countObjects()))
+        
+        //Gets Trend
+       
+        self.genEvents.append("Poop")
+        
+    }
     //Sections
    //User Section
     var userType = [String]()
     var usernameInfo = [String]()
     var usernameSectionTitle = [String]()
-   var poop = (String)()
+ 
     
  
     override func viewDidLoad() {
@@ -41,11 +61,7 @@ class channelSelectView: UITableViewController {
         usernameSectionTitle.removeAll(keepCapacity: true)
         getUserInfo()
         getChannels()
-        println()
-        println()
-        println(poop)
-        println()
-        println()
+        setupGenCounters()
     }
     func getChannels(){
         var channelQuery = PFQuery(className: "ChannelUser")
@@ -91,9 +107,9 @@ class channelSelectView: UITableViewController {
         usernameSectionTitle.append("Notifications")
         userType.append("Notifications")
         var addToCalendarCount = PFQuery(className: "Event")
-        notificationsCount.whereKey("author", equalTo: PFUser.currentUser().username)
-        notificationsCount.whereKey("start", greaterThan: NSDate())
-        usernameInfo.append(String(notificationsCount.countObjects()))
+        addToCalendarCount.whereKey("authorID", equalTo: PFUser.currentUser().objectId)
+        addToCalendarCount.whereKey("start", greaterThan: NSDate())
+        usernameInfo.append(String(addToCalendarCount.countObjects()))
         usernameSectionTitle.append("My Events")
         userType.append("My Events")
     }
@@ -141,7 +157,7 @@ class channelSelectView: UITableViewController {
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-       var totalSections = usernameSectionTitle +  genChannels + channelNames
+       var totalSections = usernameSectionTitle +  genEvents + channelNames
         var cell:channelTableCell = tableView.dequeueReusableCellWithIdentifier("profile") as! channelTableCell
        cell.channelCount.text = usernameInfo[indexPath.row]
     
@@ -152,7 +168,7 @@ class channelSelectView: UITableViewController {
         if indexPath.section == 1 {
              cell = tableView.dequeueReusableCellWithIdentifier("profilez") as! channelTableCell
             cell.channelName.text = genChannels[indexPath.row]
-            cell.channelCount.text = gentype[indexPath.row]
+            cell.channelCount.text = genEvents[indexPath.row]
         }
         if indexPath.section == 2 {
             cell = tableView.dequeueReusableCellWithIdentifier("profiles") as! channelTableCell

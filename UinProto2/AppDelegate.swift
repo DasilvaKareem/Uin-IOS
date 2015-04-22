@@ -42,16 +42,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
          //Parse.setApplicationId("BFxrzfMk4LK2WDbBdwtfeWmFcZwZwkMLdryiDPwm", clientKey: "tALwULorTkQbcVv3JHqVtTDrrelIZFSebtb0cHJs")
         
         //Set the user Time stamp
-        var userTimeCheck = PFUser.currentUser()
-        userTimeCheck["notificationsTimestamp"] = NSDate()
-        userTimeCheck.saveInBackgroundWithBlock({
-            (success:Bool, error:NSError!) -> Void in
-            if error == nil {
-                println("The stamp was updated")
-            } else {
-                println(error.debugDescription)
-            }
-        })
+  
         var theMix = Mixpanel.sharedInstance()
         theMix.track("App Open")
         theMix.flush()
@@ -64,8 +55,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
                 locationManager = CLLocationManager()
                 locationManager?.requestWhenInUseAuthorization()
-                
-        
+   
+     
         
        
         let userNotificationTypes = (UIUserNotificationType.Alert |
@@ -75,6 +66,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let settings = UIUserNotificationSettings(forTypes: userNotificationTypes, categories: nil)
         application.registerUserNotificationSettings(settings)
         application.registerForRemoteNotifications()
+        
+       
     
         
     PFFacebookUtils.initializeFacebook()
@@ -92,7 +85,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         
     }
-    
+
     func application( application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError ) {
         
         println("Fail!")
@@ -113,10 +106,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillEnterForeground(application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-     
-    }
+       }
 
     func applicationDidBecomeActive(application: UIApplication) {
+     
        FBAppCall.handleDidBecomeActiveWithSession(PFFacebookUtils.session())
         let install = PFInstallation.currentInstallation()
         if install.badge != 0 {
@@ -125,6 +118,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             install.save()
             
         }
+       
         
         
     }

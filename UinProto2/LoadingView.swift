@@ -78,6 +78,16 @@ class LoadingView: UIViewController {
             })
          
         }
+        var userTimeCheck = PFUser.currentUser()
+        userTimeCheck["notificationsTimestamp"] = NSDate()
+        userTimeCheck.saveInBackgroundWithBlock({
+            (success:Bool, error:NSError!) -> Void in
+            if error == nil {
+                println("The stamp was updated")
+            } else {
+                println(error.debugDescription)
+            }
+        })
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
