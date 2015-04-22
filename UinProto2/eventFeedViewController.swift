@@ -315,7 +315,11 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
          
                     //Customizes Event Feed 
                     //Adds or remove the create event functionailty
-            
+                    println()
+                    println()
+                    println(self.channelID)
+            println()
+            println()
                     self.currentPoint = geoPoint
                     //adds content to the array
                     //Queries all public Events
@@ -326,23 +330,18 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                     var query = PFQuery.orQueryWithSubqueries([eventQuery, superQue, newQue ])
                     switch self.channelID {
                         case "localEvent":
-                            
                             eventQuery.whereKey("isPublic", equalTo: true)
-                            
                             //Queries all Private events
-                            
                             pubQue.whereKey("subscriber", equalTo: PFUser.currentUser().username)
                             pubQue.whereKey("isMember", equalTo: true)
                             superQue.whereKey("author", matchesKey: "publisher", inQuery:pubQue)
                             superQue.whereKey("isPublic", equalTo: false)
-                            
                             //Queries all of the current user events
-        
                             newQue.whereKey("isPublic", equalTo: false)
                             newQue.whereKey("author", equalTo: PFUser.currentUser().username)
                         break
-                        case "subedEvents":
-                       
+                        case "subbedEvents":
+                            var subscriptionQuery = PFQuery(className: "")
                         break
                         case "trending":
                 
@@ -350,7 +349,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                     default:
                         
                     
-                        //eventQuery.whereKey("channels", equalTo:self.channelID)
+                        eventQuery.whereKey("channels", equalTo:self.channelID)
                         eventQuery.whereKey("isPublic", equalTo: true)
                         
                         //Queries all Private events
@@ -358,14 +357,14 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                         pubQue.whereKey("subscriber", equalTo: PFUser.currentUser().username)
                         pubQue.whereKey("isMember", equalTo: true)
                      
-                       // superQue.whereKey("channels", equalTo:self.channelID)
+                        superQue.whereKey("channels", equalTo:self.channelID)
                           
                         superQue.whereKey("isPublic", equalTo: false)
                         
                         //Queries all of the current user events
                       
                         newQue.whereKey("isPublic", equalTo: false)
-                      //  newQue.whereKey("channels", equalTo:self.channelID)
+                        newQue.whereKey("channels", equalTo:self.channelID)
                         newQue.whereKey("author", equalTo: PFUser.currentUser().username)
             
                         break

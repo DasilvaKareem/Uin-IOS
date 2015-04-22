@@ -211,12 +211,25 @@ class channelSelectView: UITableViewController {
    
         if segue.identifier == "channelSelect" {
               var allInfo = usernameInfo + gentype + channels
+          
             var indexPath = tableView.indexPathForSelectedRow()
             let nav = segue.destinationViewController as! UINavigationController
             let eventFeed:eventFeedViewController = nav.topViewController as! eventFeedViewController
             var row = indexPath?.row
+            println()
+            println()
             println(allInfo[row!])
-            eventFeed.channelID = allInfo[row!]
+              println(allInfo)
+            println()
+            println()
+            if indexPath?.section == 1 {
+                eventFeed.channelID = gentype[row!]
+            }
+            if indexPath?.section == 2 {
+                eventFeed.channelID = channels[row!]
+            }
+            
+            
             
         }
     }
