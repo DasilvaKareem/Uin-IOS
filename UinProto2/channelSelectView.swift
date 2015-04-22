@@ -21,7 +21,7 @@ class channelSelectView: UITableViewController {
     func setupGenCounters() {
         var localEventCount = PFQuery(className: "Event")
         localEventCount.whereKey("isPublic", equalTo: true)
-        localEventCount.whereKey("start", greaterThanOrEqualTo: NSDate())
+        localEventCount.whereKey("createdAt", greaterThanOrEqualTo:PFUser.currentUser()["notificationsTimestamp"] as! NSDate)
         self.genEvents.append(String(localEventCount.countObjects()))
         
         //Gets Subscriptions Events
@@ -32,6 +32,7 @@ class channelSelectView: UITableViewController {
         subscriptionEventCount.whereKey("isPublic", equalTo: true)
         subscriptionEventCount.whereKey("start", greaterThan:  NSDate())
         self.genEvents.append(String(subscriptionEventCount.countObjects()))
+        
         
         //Gets Trend
        

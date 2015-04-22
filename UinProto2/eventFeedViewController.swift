@@ -339,6 +339,16 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                             //Queries all of the current user events
                             newQue.whereKey("isPublic", equalTo: false)
                             newQue.whereKey("author", equalTo: PFUser.currentUser().username)
+                            var userTimeCheck = PFUser.currentUser()
+                            userTimeCheck["notificationsTimestamp"] = NSDate()
+                            userTimeCheck.saveInBackgroundWithBlock({
+                                (success:Bool, error:NSError!) -> Void in
+                                if error == nil {
+                                    println("The stamp was updated")
+                                } else {
+                                    println(error.debugDescription)
+                                }
+                            })
                        
                         break
                         case "subbedEvents":
@@ -355,6 +365,16 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                             newQue.whereKey("isPublic", equalTo: false)
                             newQue.whereKey("authorID", matchesKey: "publisherID", inQuery:pubQue)
                             newQue.whereKey("author", equalTo: PFUser.currentUser().username)
+                            var userTimeCheck = PFUser.currentUser()
+                            userTimeCheck["notificationsTimestamp"] = NSDate()
+                            userTimeCheck.saveInBackgroundWithBlock({
+                                (success:Bool, error:NSError!) -> Void in
+                                if error == nil {
+                                    println("The stamp was updated")
+                                } else {
+                                    println(error.debugDescription)
+                                }
+                            })
                       
                         
                         break
