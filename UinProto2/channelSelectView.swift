@@ -17,19 +17,35 @@ class channelSelectView: UITableViewController {
     //General Channels
     var genChannels = ["Local Event", "Subscriptions", "Trending Events"]
     var gentype = ["localEvent","subbedEvents","trending"]
+    var genEvents = [String]()
     //Sections
    //User Section
     var userType = [String]()
     var usernameInfo = [String]()
-     var usernameSectionTitle = [String]()
-   
+    var usernameSectionTitle = [String]()
+   var poop = (String)()
     
  
     override func viewDidLoad() {
         super.viewDidLoad()
+      
+        
+    }
+    override func viewWillAppear(animated: Bool) {
+        channels.removeAll(keepCapacity: true)
+        channelNames.removeAll(keepCapacity: true)
+        channelType.removeAll(keepCapacity: true)
+        genEvents.removeAll(keepCapacity: true)
+        userType.removeAll(keepCapacity: true)
+        usernameInfo.removeAll(keepCapacity: true)
+        usernameSectionTitle.removeAll(keepCapacity: true)
         getUserInfo()
         getChannels()
-        
+        println()
+        println()
+        println(poop)
+        println()
+        println()
     }
     func getChannels(){
         var channelQuery = PFQuery(className: "ChannelUser")
@@ -51,28 +67,33 @@ class channelSelectView: UITableViewController {
         usernameInfo.append("") //Gets the Username
         usernameSectionTitle.append(PFUser.currentUser().username)
         userType.append("profile")
-        var subscriberInfo = PFQuery(className: "Subscription") //gets the subcsriber count
-        subscriberInfo.whereKey("subscriber", equalTo: PFUser.currentUser().username)
-        usernameInfo.append(String(subscriberInfo.countObjects()))
-        usernameSectionTitle.append("Subscribers")
-        userType.append("Subscribers")
         
-        var subscriptionInfo = PFQuery(className: "Subscription") //gets the subscription count
-        subscriptionInfo.whereKey("publisher", equalTo: PFUser.currentUser().username)
-        usernameInfo.append(String(subscriptionInfo.countObjects()))
+        var subscriberInfo = PFQuery(className: "Subscription") //gets the subcsriber count
+        subscriberInfo.whereKey("publisher", equalTo: PFUser.currentUser().username)
+        usernameInfo.append(String(subscriberInfo.countObjects()))
         usernameSectionTitle.append("Subscriptions")
         userType.append("Subscriptions")
         
+        var subscriptionInfo = PFQuery(className: "Subscription") //gets the subscription count
+        subscriptionInfo.whereKey("subscriber", equalTo: PFUser.currentUser().username)
+        usernameInfo.append(String(subscriptionInfo.countObjects()))
+        usernameSectionTitle.append("Subscribers")
+        userType.append("Subscribers")
+        
+    
+        
+   
+        
         var notificationsCount = PFQuery(className: "Notification")
         notificationsCount.whereKey("receiver", equalTo: PFUser.currentUser().username)
+        notificationsCount.whereKey("createdAt", greaterThan: PFUser.currentUser()["notificationsTimestamp"] as! NSDate)
         usernameInfo.append(String(notificationsCount.countObjects()))
         usernameSectionTitle.append("Notifications")
         userType.append("Notifications")
-        /*var addToCalendarCount = PFQuery(className: "UserCalendar")
-        notificationsCount.whereKey("receiver", equalTo: PFUser.currentUser().username)
+        var addToCalendarCount = PFQuery(className: "Event")
+        notificationsCount.whereKey("author", equalTo: PFUser.currentUser().username)
+        notificationsCount.whereKey("start", greaterThan: NSDate())
         usernameInfo.append(String(notificationsCount.countObjects()))
-        */
-        usernameInfo.append("3")
         usernameSectionTitle.append("My Events")
         userType.append("My Events")
     }
@@ -86,6 +107,12 @@ class channelSelectView: UITableViewController {
     }
 
     // MARK: - Table view data source
+    
+    override func tableView(tableView: UITableView, didHighlightRowAtIndexPath indexPath: NSIndexPath) {
+        var cell:channelTableCell = tableView.dequeueReusableCellWithIdentifier("profile") as! channelTableCell
+        
+        
+    }
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Potentially incomplete method implementation.
@@ -116,38 +143,43 @@ class channelSelectView: UITableViewController {
         
        var totalSections = usernameSectionTitle +  genChannels + channelNames
         var cell:channelTableCell = tableView.dequeueReusableCellWithIdentifier("profile") as! channelTableCell
-     //   cell.channelCount.text = usernameInfo[indexPath.row]
+       cell.channelCount.text = usernameInfo[indexPath.row]
     
         cell.channelName.text = totalSections[indexPath.row]
         cell.channelName.tag = indexPath.row
+        
        
         if indexPath.section == 1 {
              cell = tableView.dequeueReusableCellWithIdentifier("profilez") as! channelTableCell
             cell.channelName.text = genChannels[indexPath.row]
+            cell.channelCount.text = gentype[indexPath.row]
         }
         if indexPath.section == 2 {
             cell = tableView.dequeueReusableCellWithIdentifier("profiles") as! channelTableCell
             cell.channelName.text = channelNames[indexPath.row]
-            println(channelNames)
-             println()
-             println()
+            
         }
       
         return cell
         
     }
-
+    
 
 
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
          var allTypes = userType + gentype + channelType
+         var cell:UITableViewCell = tableView.cellForRowAtIndexPath(indexPath)!
+        cell.contentView.backgroundColor = UIColor.redColor()
         if indexPath.section == 0 {
             switch userType[indexPath.row] {
+            case "profile":
+            cell.selectionStyle = UITableViewCellSelectionStyle.None
+            break
             case "Subscriptions":
-            self.performSegueWithIdentifier("Subscriptions", sender: self)
+            self.performSegueWithIdentifier("Subscribers", sender: self)
             break
             case "Subscribers":
-            self.performSegueWithIdentifier("Subscribers", sender: self)
+            self.performSegueWithIdentifier("Subscriptions", sender: self)
             break
             case "Notifications":
             self.performSegueWithIdentifier("Notifications", sender: self)

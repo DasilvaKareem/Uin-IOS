@@ -28,8 +28,17 @@ class notificationsView: UITableViewController {
     var notificationItems = [notificationItem]()
     
     override func viewDidAppear(animated: Bool) {
- 
-       
+        
+        var userTimeCheck = PFUser.currentUser()
+        userTimeCheck["notificationsTimestamp"] = NSDate()
+        userTimeCheck.saveInBackgroundWithBlock({
+            (success:Bool, error:NSError!) -> Void in
+            if error == nil {
+                println("The stamp was updated")
+            } else {
+                println(error.debugDescription)
+            }
+        })
     }
     override func viewWillAppear(animated: Bool) {
           navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)

@@ -40,10 +40,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         //Production Key
          //Parse.setApplicationId("BFxrzfMk4LK2WDbBdwtfeWmFcZwZwkMLdryiDPwm", clientKey: "tALwULorTkQbcVv3JHqVtTDrrelIZFSebtb0cHJs")
-   
+        
+        //Set the user Time stamp
+        var userTimeCheck = PFUser.currentUser()
+        userTimeCheck["notificationsTimestamp"] = NSDate()
+        userTimeCheck.saveInBackgroundWithBlock({
+            (success:Bool, error:NSError!) -> Void in
+            if error == nil {
+                println("The stamp was updated")
+            } else {
+                println(error.debugDescription)
+            }
+        })
         var theMix = Mixpanel.sharedInstance()
         theMix.track("App Open")
         theMix.flush()
+        
         
         var window: UIWindow?
         var locationManager: CLLocationManager?
@@ -101,6 +113,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillEnterForeground(application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+     
     }
 
     func applicationDidBecomeActive(application: UIApplication) {

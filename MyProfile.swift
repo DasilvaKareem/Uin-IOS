@@ -55,9 +55,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         subticker()
         checkUpdateFeed()
   
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
-        self.navigationController?.navigationBar.shadowImage = UIImage()
-        self.navigationController?.navigationBar.translucent = true
+    navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
 
          self.tabBarController?.tabBar.hidden = false
         if self.revealViewController() != nil {
@@ -272,7 +270,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         rowsInSection.removeAll(keepCapacity: true)
         sectionNames.removeAll(keepCapacity: true)
         self.localizedTime.removeAll(keepCapacity: true)
-        self.localizedEndTime.removeAll(keepCapacity:true)
+        self.localizedEndTime.removeAll(keepCapacity: true)
         for i in eventStart {
             //SORTS OUT EVENT STARTING TIME AND CREATES EVENT HEADER TIMES AND SHORTNED TIMES
             
@@ -295,8 +293,28 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
             
             
         }
-
         
+        for i in eventEnd {
+            //SORTS OUT EVENT ENDING TIME AND CREATES EVENT HEADER TIMES AND SHORTNED TIMES
+            
+            var dateFormatter = NSDateFormatter()
+            //Creates table header for event time
+            dateFormatter.locale = NSLocale.currentLocale() // Gets current locale and switches
+            var headerDate = dateFormatter.stringFromDate(i) // Creates date
+            dateFormatter.dateFormat = " MMM. dd, yyyy"
+            var shortenTime = dateFormatter.stringFromDate(i)
+            self.eventEndDate.append(shortenTime)
+            //Creates Time for Event from NSDAte
+            var timeFormatter = NSDateFormatter() //Formats time
+            timeFormatter.locale = NSLocale.currentLocale()
+            timeFormatter.timeStyle = NSDateFormatterStyle.ShortStyle
+            var localTime = timeFormatter.stringFromDate(i)
+            self.localizedEndTime.append(localTime)
+            self.eventEndTime.append(localTime)
+        }
+        
+        
+        //For each date
         for date in convertedDates{
             //If there is a date change
             if (currentDate != date){
@@ -317,31 +335,11 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
             //The count is incremented
             i++
         }
-        for i in eventEnd {
-            //SORTS OUT EVENT ENDING TIME AND CREATES EVENT HEADER TIMES AND SHORTNED TIMES
-            
-            var dateFormatter = NSDateFormatter()
-            //Creates table header for event time
-            dateFormatter.locale = NSLocale.currentLocale() // Gets current locale and switches
-            var headerDate = dateFormatter.stringFromDate(i) // Creates date
-           dateFormatter.dateFormat = " MMM. dd, yyyy"
-            var shortenTime = dateFormatter.stringFromDate(i)
-            self.eventEndDate.append(shortenTime)
-            //Creates Time for Event from NSDAte
-            var timeFormatter = NSDateFormatter() //Formats time
-            timeFormatter.locale = NSLocale.currentLocale()
-            timeFormatter.timeStyle = NSDateFormatterStyle.ShortStyle
-            var localTime = timeFormatter.stringFromDate(i)
-            self.localizedEndTime.append(localTime)
-            self.eventEndTime.append(localTime)
-        }
         //Because the loop is broken before a new date is found, that
         //  one needs to be added manually
-       
         rowsInSection.append(i)
-
-
     }
+
     
     func getEventIndex(section: Int, row: Int) -> Int{
         var offset = 0

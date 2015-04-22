@@ -10,6 +10,7 @@ import UIKit
 
 class settingsView: UIViewController {
 
+    @IBOutlet var menuTrigger: UIBarButtonItem!
     override func viewDidLoad() {
         super.viewDidLoad()
         var theMix = Mixpanel.sharedInstance()
@@ -28,6 +29,11 @@ class settingsView: UIViewController {
         nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()];
         self.tabBarController?.tabBar.hidden = true
         // Do any additional setup after loading the view.
+        if self.revealViewController() != nil {
+            menuTrigger.target = self.revealViewController()
+            menuTrigger.action = "revealToggle:"
+            self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
+        }
     }
     
     @IBOutlet var notifySlider: UISwitch!

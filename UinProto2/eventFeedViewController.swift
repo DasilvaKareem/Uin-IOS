@@ -183,26 +183,14 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
         
          var user = PFUser.currentUser()
-        //Checks if the account is a temporary account
-        if user["tempAccounts"] as! Bool == false {
-            //Changes ui based if the user is a real account
-            //Allows you to pull for sideView panel
-            if self.revealViewController() != nil {
-                menuTrigger.target = self.revealViewController()
-                menuTrigger.action = "revealToggle:"
-                self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
-            }
-            self.tabBarController?.tabBar.hidden = false
-            //self.navigationItem.leftBarButtonItem = nil //Removes settings from event Feed
-        } else {
+       
             if self.revealViewController() != nil {
                 menuTrigger.target = self.revealViewController()
                 menuTrigger.action = "revealToggle:"
                 self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
             }
 
-            self.tabBarController?.tabBar.hidden = true
-        }
+    
      
     }
     override func viewDidAppear(animated: Bool) {
@@ -362,7 +350,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                     default:
                         
                     
-                        eventQuery.whereKey("channels", equalTo:self.channelID)
+                        //eventQuery.whereKey("channels", equalTo:self.channelID)
                         eventQuery.whereKey("isPublic", equalTo: true)
                         
                         //Queries all Private events
@@ -370,14 +358,14 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                         pubQue.whereKey("subscriber", equalTo: PFUser.currentUser().username)
                         pubQue.whereKey("isMember", equalTo: true)
                      
-                        superQue.whereKey("channels", equalTo:self.channelID)
-                        superQue.whereKey("author", matchesKey: "publisher", inQuery:pubQue)
+                       // superQue.whereKey("channels", equalTo:self.channelID)
+                          
                         superQue.whereKey("isPublic", equalTo: false)
                         
                         //Queries all of the current user events
                       
                         newQue.whereKey("isPublic", equalTo: false)
-                        newQue.whereKey("channels", equalTo:self.channelID)
+                      //  newQue.whereKey("channels", equalTo:self.channelID)
                         newQue.whereKey("author", equalTo: PFUser.currentUser().username)
             
                         break
@@ -386,7 +374,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                     
                     query.orderByAscending("start")
                     println(self.currentPoint)
-                    query.whereKey("locationGeopoint", nearGeoPoint: self.currentPoint, withinMiles: 7.0)
+                    //query.whereKey("locationGeopoint", nearGeoPoint: self.currentPoint, withinMiles: 7.0)
                     query.whereKey("start", greaterThanOrEqualTo: NSDate())
                     query.whereKey("isDeleted", equalTo: false)
                     query.findObjectsInBackgroundWithBlock {
@@ -950,7 +938,11 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             })
         }
     override func prepareForSegue(segue:UIStoryboardSegue, sender: AnyObject?){
-        
+        println()
+        println()
+        println(segue.identifier)
+        println()
+        println()
         if segue.identifier == "event" {
             var secondViewController : postEvent = segue.destinationViewController as! postEvent
             var theMix = Mixpanel.sharedInstance()
@@ -998,10 +990,10 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             var theotherprofile:postEvent = segue.destinationViewController as! postEvent
             theotherprofile.eventId = item.id
             theotherprofile.searchEvent = true
-             
-                    
-            
-           
+        }
+        if segue.identifier == "sw_rear" {
+            var view:channelSelectView = segue.destinationViewController as! channelSelectView
+            view.poop = "This poop"
         }
         
     }
