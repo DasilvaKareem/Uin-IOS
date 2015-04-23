@@ -18,7 +18,7 @@ class channelSelectView: UITableViewController {
     var channelType = [String]()
     
     //General Channels
-    var genChannels = ["Local Event", "Subscriptions", "Trending Events"]
+    var genChannels = ["local events", "subscription events", "trending events"]
     var gentype = ["localEvent","subbedEvents","trending"]
     var genEvents = [String]()
     func setupGenCounters() {
@@ -89,13 +89,13 @@ class channelSelectView: UITableViewController {
         var subscriberInfo = PFQuery(className: "Subscription") //gets the subcsriber count
         subscriberInfo.whereKey("publisher", equalTo: PFUser.currentUser().username)
         usernameInfo.append(String(subscriberInfo.countObjects()))
-        usernameSectionTitle.append("Subscriptions")
+        usernameSectionTitle.append("subscriptions")
         userType.append("Subscriptions")
         
         var subscriptionInfo = PFQuery(className: "Subscription") //gets the subscription count
         subscriptionInfo.whereKey("subscriber", equalTo: PFUser.currentUser().username)
         usernameInfo.append(String(subscriptionInfo.countObjects()))
-        usernameSectionTitle.append("Subscribers")
+        usernameSectionTitle.append("subscribers")
         userType.append("Subscribers")
         
     
@@ -106,13 +106,13 @@ class channelSelectView: UITableViewController {
         notificationsCount.whereKey("receiver", equalTo: PFUser.currentUser().username)
         notificationsCount.whereKey("createdAt", greaterThan: PFUser.currentUser()["notificationsTimestamp"] as! NSDate)
         usernameInfo.append(String(notificationsCount.countObjects()))
-        usernameSectionTitle.append("Notifications")
+        usernameSectionTitle.append("notifications")
         userType.append("Notifications")
         var addToCalendarCount = PFQuery(className: "Event")
         addToCalendarCount.whereKey("authorID", equalTo: PFUser.currentUser().objectId)
         addToCalendarCount.whereKey("start", greaterThan: NSDate())
         usernameInfo.append(String(addToCalendarCount.countObjects()))
-        usernameSectionTitle.append("My Events")
+        usernameSectionTitle.append("my events")
         userType.append("My Events")
     }
 
@@ -122,6 +122,10 @@ class channelSelectView: UITableViewController {
     }
 
     // MARK: - Table view data source
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return 30.0
+    }
+    
     
     override func tableView(tableView: UITableView, didHighlightRowAtIndexPath indexPath: NSIndexPath) {
         var cell:channelTableCell = tableView.dequeueReusableCellWithIdentifier("profile") as! channelTableCell
@@ -175,7 +179,7 @@ class channelSelectView: UITableViewController {
         return cell
     }
     override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 30.0
+        return 37.0
     }
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
