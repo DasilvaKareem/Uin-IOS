@@ -62,6 +62,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
             sideBar.target = self.revealViewController()
             sideBar.action = "revealToggle:"
             self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
+                self.view.addGestureRecognizer(self.revealViewController().tapGestureRecognizer())
         }
     }
 

@@ -61,6 +61,7 @@ class subscriptions: UITableViewController {
             sideBar.target = self.revealViewController()
             sideBar.action = "revealToggle:"
             self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
+                self.view.addGestureRecognizer(self.revealViewController().tapGestureRecognizer())
         }
     }
     
