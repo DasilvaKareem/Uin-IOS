@@ -10,10 +10,13 @@ import UIKit
 
 class channelSelectView: UITableViewController {
     
+    
+    var currentIndexPath:NSIndexPath = NSIndexPath()
     //Channel Sections
     var channels = [String]()
     var channelNames = [String]()
     var channelType = [String]()
+    
     //General Channels
     var genChannels = ["Local Event", "Subscriptions", "Trending Events"]
     var gentype = ["localEvent","subbedEvents","trending"]
@@ -81,9 +84,7 @@ class channelSelectView: UITableViewController {
         })
     }
     func getUserInfo(){
-        usernameInfo.append("") //Gets the Username
-        usernameSectionTitle.append(PFUser.currentUser().username)
-        userType.append("profile")
+     
         
         var subscriberInfo = PFQuery(className: "Subscription") //gets the subcsriber count
         subscriberInfo.whereKey("publisher", equalTo: PFUser.currentUser().username)
@@ -114,10 +115,7 @@ class channelSelectView: UITableViewController {
         usernameSectionTitle.append("My Events")
         userType.append("My Events")
     }
-    func getLocalChannel(){
-        
-    }
-    
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -157,17 +155,19 @@ class channelSelectView: UITableViewController {
 
    
     override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        var cell:channelHeaderCell = tableView.dequeueReusableCellWithIdentifier("header") as! channelHeaderCell
+        var cell:channelSectionCell = tableView.dequeueReusableCellWithIdentifier("sectionHeader") as! channelSectionCell
+
         if section == 0 {
+             var cell:channelHeaderCell = tableView.dequeueReusableCellWithIdentifier("header") as! channelHeaderCell
             cell.headerLabel.text = PFUser.currentUser().username
+            return cell
         }
         if section == 1 {
-            cell.headerLabel.text = "Chicken"
-            cell.accView.image = nil
+            cell.sectionHeader.text = "General Calendars"
+            
         }
         if section == 2 {
-            cell.accView.image = nil
-            cell.headerLabel.text = "Poop"
+            cell.sectionHeader.text = "My Calendars"
             
         }
         
@@ -185,33 +185,52 @@ class channelSelectView: UITableViewController {
     
         cell.channelName.text = totalSections[indexPath.row]
         cell.channelName.tag = indexPath.row
+        if self.currentIndexPath == indexPath {
+            cell.contentView.backgroundColor = UIColor(red: 65.0/255.0, green: 145.0/255.0, blue: 198.0/255.0, alpha: 1)
+        } else {
+            cell.contentView.backgroundColor = nil
+        }
         
-       
         if indexPath.section == 1 {
+         
              cell = tableView.dequeueReusableCellWithIdentifier("profilez") as! channelTableCell
             cell.channelName.text = genChannels[indexPath.row]
             cell.channelCount.text = genEvents[indexPath.row]
+            if self.currentIndexPath == indexPath {
+                cell.contentView.backgroundColor = UIColor(red: 65.0/255.0, green: 145.0/255.0, blue: 198.0/255.0, alpha: 1)
+            }
+            else {
+                cell.contentView.backgroundColor = nil
+            }
         }
         if indexPath.section == 2 {
             cell = tableView.dequeueReusableCellWithIdentifier("profiles") as! channelTableCell
             cell.channelName.text = channelNames[indexPath.row]
-            
+            if self.currentIndexPath == indexPath {
+                cell.contentView.backgroundColor = UIColor(red: 65.0/255.0, green: 145.0/255.0, blue: 198.0/255.0, alpha: 1)
+            }
+            else {
+                cell.contentView.backgroundColor = nil
+            }
+           
         }
       
         return cell
         
     }
     
-
+    
 
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
          var allTypes = userType + gentype + channelType
-         var cell:UITableViewCell = tableView.cellForRowAtIndexPath(indexPath)!
-        cell.contentView.backgroundColor = UIColor.redColor()
+        
+        self.currentIndexPath = indexPath
+        var cell:UITableViewCell = tableView.cellForRowAtIndexPath(indexPath)!
+        cell.contentView.backgroundColor = UIColor(red: 65.0/255.0, green: 145.0/255.0, blue: 198.0/255.0, alpha: 1)
         if indexPath.section == 0 {
             switch userType[indexPath.row] {
             case "profile":
-            cell.selectionStyle = UITableViewCellSelectionStyle.None
+        
             break
             case "Subscriptions":
             self.performSegueWithIdentifier("Subscribers", sender: self)

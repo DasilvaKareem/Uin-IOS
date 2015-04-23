@@ -1491,16 +1491,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                        <button key="tableFooterView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Fv0-qY-d9V">
-                            <rect key="frame" x="-23" y="-15" width="600" height="44"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <state key="normal" title="Settings">
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <connections>
-                                <segue destination="DP2-oo-Deb" kind="custom" customClass="SWRevealViewControllerSeguePushController" id="eUJ-qL-Pbs"/>
-                            </connections>
-                        </button>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="header" id="PAi-kU-My0" customClass="channelHeaderCell" customModule="UinProto2" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
@@ -1522,6 +1512,7 @@
                                 <connections>
                                     <outlet property="accView" destination="IYl-NG-UXN" id="4mm-Up-OUr"/>
                                     <outlet property="headerLabel" destination="u1L-rd-co0" id="SCr-De-IDq"/>
+                                    <segue destination="DP2-oo-Deb" kind="custom" customClass="SWRevealViewControllerSeguePushController" id="wDY-U6-ehV"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="profile" id="1i7-YR-BfY" customClass="channelTableCell" customModule="UinProto2" customModuleProvider="target">
@@ -1548,6 +1539,24 @@
                                 <connections>
                                     <outlet property="channelCount" destination="f2y-g1-01d" id="ZvT-td-41g"/>
                                     <outlet property="channelName" destination="Rti-PK-EDl" id="gFw-oS-6i3"/>
+                                </connections>
+                            </tableViewCell>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="sectionHeader" id="sSM-La-v2X" customClass="channelSectionCell" customModule="UinProto2" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="sSM-La-v2X" id="A1Q-AU-njl">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ylw-od-1UG">
+                                            <rect key="frame" x="192" y="11" width="174" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="sectionHeader" destination="Ylw-od-1UG" id="yZ7-x2-HoM"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="profiles" id="HTe-Jq-uTg" customClass="channelTableCell" customModule="UinProto2" customModuleProvider="target">
@@ -1618,7 +1627,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bhb-th-QI5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2511" y="1725"/>
+            <point key="canvasLocation" x="-2871" y="1714"/>
         </scene>
         <!--Item-->
         <scene sceneID="0ff-dl-ynZ">
@@ -3258,7 +3267,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ups-hM-JXV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3813" y="1702"/>
+            <point key="canvasLocation" x="-3566" y="1725"/>
         </scene>
     </scenes>
     <resources>
