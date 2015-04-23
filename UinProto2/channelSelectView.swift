@@ -155,7 +155,28 @@ class channelSelectView: UITableViewController {
         return totalSections.count
     }
 
-    
+   
+    override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        var cell:channelHeaderCell = tableView.dequeueReusableCellWithIdentifier("header") as! channelHeaderCell
+        if section == 0 {
+            cell.headerLabel.text = PFUser.currentUser().username
+        }
+        if section == 1 {
+            cell.headerLabel.text = "Chicken"
+            cell.accView.image = nil
+        }
+        if section == 2 {
+            cell.accView.image = nil
+            cell.headerLabel.text = "Poop"
+            
+        }
+        
+        
+        return cell
+    }
+    override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 30.0
+    }
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
        var totalSections = usernameSectionTitle +  genEvents + channelNames

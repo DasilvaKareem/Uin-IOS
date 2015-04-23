@@ -35,6 +35,7 @@
 		61268C1E1A910AB300009E07 /* dateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61268C1D1A910AB300009E07 /* dateCell.swift */; };
 		6136E5E81A9958C7009503A4 /* footerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6136E5E71A9958C7009503A4 /* footerCell.swift */; };
 		6137CA921AA41AE000B74077 /* libstdc++.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6137CA911AA41AE000B74077 /* libstdc++.6.dylib */; };
+		614D264A1AE87C85006EEB7F /* channelTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61E6A41E1AE074540098FC5D /* channelTableCell.swift */; };
 		615FA44F1ACA4058007C88F1 /* ParseCrashReporting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 615FA44E1ACA4058007C88F1 /* ParseCrashReporting.framework */; };
 		6172E1FF1A97C49200F17629 /* eventMake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E654811A60C1AD006E76E5 /* eventMake.swift */; };
 		6199B0C01A97E3C40091F9A6 /* profileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6199B0BF1A97E3C40091F9A6 /* profileCell.swift */; };
@@ -52,7 +53,6 @@
 		61D597701A7499CB009A4ECE /* MyProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613069F11A745289001CAF4F /* MyProfile.swift */; };
 		61E6A41B1AE035AE0098FC5D /* eventFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E6547F1A60B9FC006E76E5 /* eventFeedViewController.swift */; };
 		61E6A41D1AE06FFD0098FC5D /* channelSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61E6A41C1AE06FFD0098FC5D /* channelSelectView.swift */; };
-		61E6A41F1AE074540098FC5D /* channelTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61E6A41E1AE074540098FC5D /* channelTableCell.swift */; };
 		61EA5F621A91891B002B1998 /* eventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E6547D1A60B9C8006E76E5 /* eventCell.swift */; };
 		61EA5F641A918E00002B1998 /* settingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61EA5F631A918E00002B1998 /* settingsView.swift */; };
 /* End PBXBuildFile section */
@@ -474,6 +474,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				614D264A1AE87C85006EEB7F /* channelTableCell.swift in Sources */,
 				61E6A41B1AE035AE0098FC5D /* eventFeedViewController.swift in Sources */,
 				6111FF271ADAD8BD00147E59 /* eventLocation.swift in Sources */,
 				61C47D0A1AD9C90F004690AE /* subCell.swift in Sources */,
@@ -497,7 +498,6 @@
 				61AFFF4F1A7ED7C400858273 /* subscriberlist.swift in Sources */,
 				61AFFF511A7EE2AD00858273 /* subscriptions.swift in Sources */,
 				28277E351A4B115E001CCB02 /* AppDelegate.swift in Sources */,
-				61E6A41F1AE074540098FC5D /* channelTableCell.swift in Sources */,
 				61EA5F641A918E00002B1998 /* settingsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -9,6 +9,6 @@
 @property (nonatomic, assign, getter=isFlagsSet, readonly) BOOL flagSet;
 @property (nonatomic, copy, readonly) NSString *baseType;
 
-- (NSArray *)allValues; // array of NSNumber instances
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSArray *allValues; // array of NSNumber instances
 
 @end

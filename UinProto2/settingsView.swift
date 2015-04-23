@@ -28,6 +28,7 @@ class settingsView: UIViewController {
         var nav = self.navigationController?.navigationBar
         nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()];
         self.tabBarController?.tabBar.hidden = true
+       
         // Do any additional setup after loading the view.
         if self.revealViewController() != nil {
             menuTrigger.target = self.revealViewController()

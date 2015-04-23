@@ -184,11 +184,11 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         
          var user = PFUser.currentUser()
        
-            if self.revealViewController() != nil {
-                menuTrigger.target = self.revealViewController()
-                menuTrigger.action = "revealToggle:"
-                self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
-            }
+        if self.revealViewController() != nil {
+            menuTrigger.target = self.revealViewController()
+            menuTrigger.action = "revealToggle:"
+            self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
+        }
 
     
      

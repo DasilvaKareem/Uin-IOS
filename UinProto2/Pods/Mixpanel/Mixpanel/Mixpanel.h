@@ -478,7 +478,7 @@
  @abstract
  Returns the currently set super properties.
  */
-- (NSDictionary *)currentSuperProperties;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSDictionary *currentSuperProperties;
 
 /*!
  @method
@@ -650,7 +650,7 @@
 - (void)createAlias:(NSString *)alias forDistinctID:(NSString *)distinctID;
 
 
-- (NSString *)libVersion;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *libVersion;
 
 @end
 

@@ -2,7 +2,7 @@
 
 @interface UIImage (MPAverageColor)
 
-- (UIColor *)mp_averageColor;
-- (UIColor *)mp_importantColor;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) UIColor *mp_averageColor;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) UIColor *mp_importantColor;
 
 @end

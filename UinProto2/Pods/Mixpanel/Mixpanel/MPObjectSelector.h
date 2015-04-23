@@ -13,7 +13,7 @@
 @property (nonatomic, strong, readonly) NSString *string;
 
 + (MPObjectSelector *)objectSelectorWithString:(NSString *)string;
-- (id)initWithString:(NSString *)string;
+- (instancetype)initWithString:(NSString *)string NS_DESIGNATED_INITIALIZER;
 
 - (NSArray *)selectFromRoot:(id)root;
 - (NSArray *)fuzzySelectFromRoot:(id)root;
@@ -21,7 +21,7 @@
 - (BOOL)isLeafSelected:(id)leaf fromRoot:(id)root;
 - (BOOL)fuzzyIsLeafSelected:(id)leaf fromRoot:(id)root;
 
-- (Class)selectedClass;
-- (NSString *)description;
+@property (NS_NONATOMIC_IOSONLY, readonly, strong) Class selectedClass;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *description;
 
 @end

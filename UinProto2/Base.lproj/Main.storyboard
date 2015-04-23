@@ -1502,6 +1502,28 @@
                             </connections>
                         </button>
                         <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="header" id="PAi-kU-My0" customClass="channelHeaderCell" customModule="UinProto2" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="PAi-kU-My0" id="XJ9-KY-cl8">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u1L-rd-co0">
+                                            <rect key="frame" x="44" y="8" width="42" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="settings" translatesAutoresizingMaskIntoConstraints="NO" id="IYl-NG-UXN">
+                                            <rect key="frame" x="181" y="11" width="50" height="22"/>
+                                        </imageView>
+                                    </subviews>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="accView" destination="IYl-NG-UXN" id="4mm-Up-OUr"/>
+                                    <outlet property="headerLabel" destination="u1L-rd-co0" id="SCr-De-IDq"/>
+                                </connections>
+                            </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="profile" id="1i7-YR-BfY" customClass="channelTableCell" customModule="UinProto2" customModuleProvider="target">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1i7-YR-BfY" id="6YL-wz-8rL">
@@ -2498,10 +2520,10 @@
                             <mask key="constraints">
                                 <exclude reference="euM-Jl-32a"/>
                                 <exclude reference="x3l-O1-0du"/>
-                                <exclude reference="xGN-m7-h2q"/>
                                 <exclude reference="7mB-8c-7MC"/>
                                 <exclude reference="b0q-b0-cQi"/>
                                 <exclude reference="h4V-ww-LRg"/>
+                                <exclude reference="xGN-m7-h2q"/>
                                 <exclude reference="15X-Zx-P0X"/>
                                 <exclude reference="Yvl-SM-qZF"/>
                                 <exclude reference="mP0-za-VSL"/>
@@ -2523,10 +2545,10 @@
                             <mask key="constraints">
                                 <include reference="euM-Jl-32a"/>
                                 <include reference="x3l-O1-0du"/>
-                                <include reference="xGN-m7-h2q"/>
                                 <include reference="7mB-8c-7MC"/>
                                 <include reference="b0q-b0-cQi"/>
                                 <include reference="h4V-ww-LRg"/>
+                                <include reference="xGN-m7-h2q"/>
                                 <include reference="15X-Zx-P0X"/>
                                 <include reference="Yvl-SM-qZF"/>
                                 <include reference="mP0-za-VSL"/>
@@ -2952,7 +2974,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pLK-ob-fYj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-181" y="695"/>
+            <point key="canvasLocation" x="-650" y="657"/>
         </scene>
         <!--Events-->
         <scene sceneID="TSZ-Vn-d3L">
