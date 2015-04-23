@@ -15,7 +15,7 @@ class channelSelectView: UITableViewController {
     var channelNames = [String]()
     var channelType = [String]()
     //General Channels
-    var genChannels = ["Local Event", "Subscriptions", "Trending Events"]
+    var genChannels = ["local events", "subscription events", "trending events"]
     var gentype = ["localEvent","subbedEvents","trending"]
     var genEvents = [String]()
     func setupGenCounters() {
@@ -88,13 +88,13 @@ class channelSelectView: UITableViewController {
         var subscriberInfo = PFQuery(className: "Subscription") //gets the subcsriber count
         subscriberInfo.whereKey("publisher", equalTo: PFUser.currentUser().username)
         usernameInfo.append(String(subscriberInfo.countObjects()))
-        usernameSectionTitle.append("Subscriptions")
+        usernameSectionTitle.append("subscriptions")
         userType.append("Subscriptions")
         
         var subscriptionInfo = PFQuery(className: "Subscription") //gets the subscription count
         subscriptionInfo.whereKey("subscriber", equalTo: PFUser.currentUser().username)
         usernameInfo.append(String(subscriptionInfo.countObjects()))
-        usernameSectionTitle.append("Subscribers")
+        usernameSectionTitle.append("subscribers")
         userType.append("Subscribers")
         
     
@@ -105,13 +105,13 @@ class channelSelectView: UITableViewController {
         notificationsCount.whereKey("receiver", equalTo: PFUser.currentUser().username)
         notificationsCount.whereKey("createdAt", greaterThan: PFUser.currentUser()["notificationsTimestamp"] as! NSDate)
         usernameInfo.append(String(notificationsCount.countObjects()))
-        usernameSectionTitle.append("Notifications")
+        usernameSectionTitle.append("notifications")
         userType.append("Notifications")
         var addToCalendarCount = PFQuery(className: "Event")
         addToCalendarCount.whereKey("authorID", equalTo: PFUser.currentUser().objectId)
         addToCalendarCount.whereKey("start", greaterThan: NSDate())
         usernameInfo.append(String(addToCalendarCount.countObjects()))
-        usernameSectionTitle.append("My Events")
+        usernameSectionTitle.append("my events")
         userType.append("My Events")
     }
     func getLocalChannel(){
@@ -124,6 +124,10 @@ class channelSelectView: UITableViewController {
     }
 
     // MARK: - Table view data source
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return 30.0
+    }
+    
     
     override func tableView(tableView: UITableView, didHighlightRowAtIndexPath indexPath: NSIndexPath) {
         var cell:channelTableCell = tableView.dequeueReusableCellWithIdentifier("profile") as! channelTableCell
@@ -162,12 +166,12 @@ class channelSelectView: UITableViewController {
             cell.headerLabel.text = PFUser.currentUser().username
         }
         if section == 1 {
-            cell.headerLabel.text = "Chicken"
+            cell.headerLabel.text = "LOCAL CALENDARS"
             cell.accView.image = nil
         }
         if section == 2 {
             cell.accView.image = nil
-            cell.headerLabel.text = "Poop"
+            cell.headerLabel.text = "MY CALENDARS"
             
         }
         
@@ -175,7 +179,7 @@ class channelSelectView: UITableViewController {
         return cell
     }
     override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 30.0
+        return 37.0
     }
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
@@ -207,7 +211,7 @@ class channelSelectView: UITableViewController {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
          var allTypes = userType + gentype + channelType
          var cell:UITableViewCell = tableView.cellForRowAtIndexPath(indexPath)!
-        cell.contentView.backgroundColor = UIColor.redColor()
+        cell.contentView.backgroundColor = UIColor(red: 65.0/255.0, green: 145.0/255.0, blue: 198.0/255.0, alpha: 1)
         if indexPath.section == 0 {
             switch userType[indexPath.row] {
             case "profile":
