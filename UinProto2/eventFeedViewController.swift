@@ -49,7 +49,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     var eventCountNumber = (Int)()
     //If Feed has a problem
     var appProblem:Bool = Bool()
-    var channelID = String()
+    var channelID = "localEvent"
     
     //Search functionailty
     var searchActive:Bool = Bool()
@@ -284,29 +284,6 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         }
         
     }
-      //Setups the evnet Feed 
-   /* func setupEventFeed(){
-        
-        var channelUserQuery = PFQuery(className: "ChannelUser")
-        channelUserQuery.whereKey("userID", equalTo: PFUser.currentUser().objectId)
-        channelUserQuery.whereKey("channelID", equalTo: self.channelID)
-        channelUserQuery.getFirstObjectInBackgroundWithBlock({
-            (result: PFObject!, error: NSError!) -> Void in
-            if error == nil {
-                println()
-                println()
-                println(result)
-                println()
-                println()
-                if result["canPost"] as! Bool == true {
-                   
-                } else {
-                     self.navigationItem.rightBarButtonItem = nil //Removes settings from event Feed
-                }
-            }
-        })
-    }
-*/
     
       func updateFeed(){
         //Removes all leftover content in the array
@@ -319,8 +296,8 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                     println()
                     println()
                     println(self.channelID)
-            println()
-            println()
+                    println()
+                    println()
                     self.currentPoint = geoPoint
                     //adds content to the array
                     //Queries all public Events
@@ -331,15 +308,18 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                     var query = PFQuery.orQueryWithSubqueries([eventQuery, superQue, newQue ])
                     switch self.channelID {
                         case "localEvent":
+                            eventQuery.whereKey("inLocalFeed", equalTo: true)
                             eventQuery.whereKey("isPublic", equalTo: true)
                             //Queries all Private events
                             pubQue.whereKey("subscriber", equalTo: PFUser.currentUser().username)
                             pubQue.whereKey("isMember", equalTo: true)
                             superQue.whereKey("author", matchesKey: "publisher", inQuery:pubQue)
+                            superQue.whereKey("inLocalFeed", equalTo: true)
                             superQue.whereKey("isPublic", equalTo: false)
                             //Queries all of the current user events
                             newQue.whereKey("isPublic", equalTo: false)
                             newQue.whereKey("author", equalTo: PFUser.currentUser().username)
+                            newQue.whereKey("inLocalFeed", equalTo: true)
                             var userTimeCheck = PFUser.currentUser()
                             userTimeCheck["notificationsTimestamp"] = NSDate()
                             userTimeCheck.saveInBackgroundWithBlock({
@@ -409,6 +389,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                     
                     query.orderByAscending("start")
                     println(self.currentPoint)
+            
                     //query.whereKey("locationGeopoint", nearGeoPoint: self.currentPoint, withinMiles: 7.0)
                     query.whereKey("start", greaterThanOrEqualTo: NSDate())
                     query.whereKey("isDeleted", equalTo: false)

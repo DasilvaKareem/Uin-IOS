@@ -244,12 +244,8 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
             
         }
     println("Event Feed Query Error: \(eventError) ")
-    }
-    
-    
-    
-    }
-  
+            }
+        }
     }
 
     
@@ -267,7 +263,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         var i = 0
         
         //Initialisation
-        numSections = 0
+        
         rowsInSection.removeAll(keepCapacity: true)
         sectionNames.removeAll(keepCapacity: true)
         self.localizedTime.removeAll(keepCapacity: true)

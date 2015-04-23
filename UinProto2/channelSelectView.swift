@@ -164,6 +164,7 @@ class channelSelectView: UITableViewController {
         if section == 0 {
              var cell:channelHeaderCell = tableView.dequeueReusableCellWithIdentifier("header") as! channelHeaderCell
             cell.headerLabel.text = PFUser.currentUser().username
+
             return cell
         }
         if section == 1 {
@@ -181,6 +182,7 @@ class channelSelectView: UITableViewController {
     override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 37.0
     }
+
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
        var totalSections = usernameSectionTitle +  genEvents + channelNames
@@ -191,6 +193,7 @@ class channelSelectView: UITableViewController {
         cell.channelName.tag = indexPath.row
         if self.currentIndexPath == indexPath {
             cell.contentView.backgroundColor = UIColor(red: 65.0/255.0, green: 145.0/255.0, blue: 198.0/255.0, alpha: 1)
+            cell.channelName.textColor = UIColor.whiteColor()
         } else {
             cell.contentView.backgroundColor = nil
         }
@@ -202,9 +205,12 @@ class channelSelectView: UITableViewController {
             cell.channelCount.text = genEvents[indexPath.row]
             if self.currentIndexPath == indexPath {
                 cell.contentView.backgroundColor = UIColor(red: 65.0/255.0, green: 145.0/255.0, blue: 198.0/255.0, alpha: 1)
+                cell.channelName.textColor = UIColor.whiteColor()
+                cell.channelName.textColor = UIColor.grayColor()
             }
             else {
                 cell.contentView.backgroundColor = nil
+                cell.channelName.textColor = UIColor.grayColor()
             }
         }
         if indexPath.section == 2 {
@@ -212,9 +218,11 @@ class channelSelectView: UITableViewController {
             cell.channelName.text = channelNames[indexPath.row]
             if self.currentIndexPath == indexPath {
                 cell.contentView.backgroundColor = UIColor(red: 65.0/255.0, green: 145.0/255.0, blue: 198.0/255.0, alpha: 1)
+                cell.channelName.textColor = UIColor.whiteColor()
             }
             else {
                 cell.contentView.backgroundColor = nil
+                cell.channelName.textColor = UIColor.grayColor()
             }
            
         }
