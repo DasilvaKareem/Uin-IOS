@@ -188,6 +188,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             menuTrigger.target = self.revealViewController()
             menuTrigger.action = "revealToggle:"
             self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
+            self.view.addGestureRecognizer(self.revealViewController().tapGestureRecognizer())
         }
 
     
