@@ -213,12 +213,23 @@ class channelSelectView: UITableViewController {
         cell.channelName.tag = indexPath.row
         if self.currentIndexPath == indexPath {
             cell.contentView.backgroundColor = UIColor(red: 65.0/255.0, green: 145.0/255.0, blue: 198.0/255.0, alpha: 1)
-
             cell.channelName.textColor = UIColor.whiteColor()
             cell.channelCount.textColor = UIColor.whiteColor()
+            if indexPath.row == 0 || indexPath.row == 1 {
+                cell.channelName.textColor = UIColor.whiteColor()
+                cell.channelCount.textColor = UIColor.whiteColor()
+                 cell.contentView.backgroundColor = UIColor(red: 245.0/255.0, green: 166.0/255.0, blue: 35.0/255.0, alpha: 1)
+            }
         } else {
             cell.contentView.backgroundColor = nil
-            cell.channelName.textColor = UIColor.grayColor()
+                if indexPath.row == 0 || indexPath.row == 1 {
+                    cell.channelName.textColor = UIColor(red: 245.0/255.0, green: 166.0/255.0, blue: 35.0/255.0, alpha: 1)
+                    cell.channelCount.textColor = UIColor(red: 245.0/255.0, green: 166.0/255.0, blue: 35.0/255.0, alpha: 1)
+                } else {
+                    cell.channelName.textColor = UIColor(red: 211.0/255.0, green: 211.0/255.0, blue: 211.0/255.0, alpha: 1)
+                    cell.channelCount.textColor = UIColor(red: 211.0/255.0, green: 211.0/255.0, blue: 211.0/255.0, alpha: 1)
+            }
+
         }
         
         if indexPath.section == 1 {
@@ -261,13 +272,18 @@ class channelSelectView: UITableViewController {
 
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
          var allTypes = userType + gentype + channelType
-        
+        var cell:channelTableCell = tableView.cellForRowAtIndexPath(indexPath) as! channelTableCell
+        cell.contentView.backgroundColor = UIColor(red: 65.0/255.0, green: 145.0/255.0, blue: 198.0/255.0, alpha: 1)
+        cell.channelCount.textColor = UIColor.whiteColor()
+        cell.channelName.textColor = UIColor.whiteColor()
         self.currentIndexPath = indexPath
-       
-        if indexPath.section == 0 {
-             var cell:channelTableCell = tableView.dequeueReusableCellWithIdentifier("profile") as! channelTableCell
-            cell.channelName.textColor = UIColor.whiteColor()
-            cell.channelCount.textColor = UIColor.whiteColor()
+               if indexPath.section == 0 {
+                //changes background cell color to orange
+                if indexPath.row == 0 || indexPath.row == 1 {
+                    cell.contentView.backgroundColor = UIColor(red: 245.0/255.0, green: 166.0/255.0, blue: 35.0/255.0, alpha: 1)
+                    cell.channelName.textColor = UIColor.whiteColor()
+                    cell.channelCount.textColor = UIColor.whiteColor()
+                }
             switch userType[indexPath.row] {
             case "profile":
         
@@ -298,8 +314,7 @@ class channelSelectView: UITableViewController {
             self.performSegueWithIdentifier("channelSelect", sender: self)
            
         }
-        var cell:UITableViewCell = tableView.cellForRowAtIndexPath(indexPath)!
-        cell.contentView.backgroundColor = UIColor(red: 65.0/255.0, green: 145.0/255.0, blue: 198.0/255.0, alpha: 1)
+      
     }
     // MARK: - Navigation
 
