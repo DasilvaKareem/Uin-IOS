@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14C1514" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="0me-jO-edR">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="0me-jO-edR">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -1463,7 +1463,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="71L-vF-8J2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3252" y="2206"/>
+            <point key="canvasLocation" x="-3310" y="2240"/>
         </scene>
         <!--Channel Select View-->
         <scene sceneID="YFt-W4-WTe">
@@ -1493,6 +1493,15 @@
                                                 <constraint firstAttribute="width" constant="20" id="Gxd-Mr-I0T"/>
                                             </constraints>
                                         </imageView>
+                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3CO-1b-elr">
+                                            <rect key="frame" x="241" y="8" width="97" height="29"/>
+                                            <state key="normal" title="Settings" image="settings">
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <segue destination="DP2-oo-Deb" kind="custom" customClass="SWRevealViewControllerSeguePushController" id="iRC-Q3-pw9"/>
+                                            </connections>
+                                        </button>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="u1L-rd-co0" firstAttribute="leading" secondItem="XJ9-KY-cl8" secondAttribute="leadingMargin" id="79m-Tz-8bp"/>
@@ -1506,7 +1515,7 @@
                                 <connections>
                                     <outlet property="accView" destination="IYl-NG-UXN" id="4mm-Up-OUr"/>
                                     <outlet property="headerLabel" destination="u1L-rd-co0" id="SCr-De-IDq"/>
-                                    <segue destination="DP2-oo-Deb" kind="custom" customClass="SWRevealViewControllerSeguePushController" id="wDY-U6-ehV"/>
+                                    <outlet property="settings" destination="3CO-1b-elr" id="WOW-hb-pBL"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="profile" id="1i7-YR-BfY" customClass="channelTableCell" customModule="UinProto2" customModuleProvider="target">
@@ -1655,7 +1664,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bhb-th-QI5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2871" y="1713"/>
+            <point key="canvasLocation" x="-2677" y="1471"/>
         </scene>
         <!--Item-->
         <scene sceneID="0ff-dl-ynZ">
@@ -3295,7 +3304,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ups-hM-JXV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3566" y="1725"/>
+            <point key="canvasLocation" x="-3108" y="1566"/>
         </scene>
     </scenes>
     <resources>
@@ -3330,12 +3339,12 @@
         <image name="uinLogo" width="218" height="230"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="5Lw-yn-nUI"/>
         <segue reference="hrZ-5I-9po"/>
+        <segue reference="5Lw-yn-nUI"/>
+        <segue reference="eEb-gu-TeJ"/>
         <segue reference="dXs-6q-ma4"/>
         <segue reference="6YY-gj-nOQ"/>
         <segue reference="ixO-tF-9sT"/>
-        <segue reference="eEb-gu-TeJ"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>

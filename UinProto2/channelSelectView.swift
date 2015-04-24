@@ -285,9 +285,7 @@ class channelSelectView: UITableViewController {
                     cell.channelCount.textColor = UIColor.whiteColor()
                 }
             switch userType[indexPath.row] {
-            case "profile":
-        
-            break
+            
             case "Subscriptions":
             self.performSegueWithIdentifier("Subscribers", sender: self)
             break

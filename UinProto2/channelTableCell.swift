@@ -26,6 +26,7 @@ class channelTableCell: UITableViewCell {
 }
 class channelHeaderCell: UITableViewCell {
     
+    @IBOutlet var settings: UIButton!
     @IBOutlet var headerLabel: UILabel!
   
     @IBOutlet var accView: UIImageView!
