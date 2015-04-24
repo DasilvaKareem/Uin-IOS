@@ -269,7 +269,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         self.localizedTime.removeAll(keepCapacity: true)
         self.localizedEndTime.removeAll(keepCapacity: true)
         for i in eventStart {
-            //SORTS OUT EVENT STARTING TIME AND CREATES EVENT HEADER TIMES AND SHORTNED TIMES
+            //SORTS OUT EVENT STARTING TIME AND CREATES EVENT HEADER TIMES AND SHORTENED TIMES
             
             var dateFormatter = NSDateFormatter()
             //Creates table header for event time
@@ -292,7 +292,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         }
         
         for i in eventEnd {
-            //SORTS OUT EVENT ENDING TIME AND CREATES EVENT HEADER TIMES AND SHORTNED TIMES
+            //SORTS OUT EVENT ENDING TIME AND CREATES EVENT HEADER TIMES AND SHORTENED TIMES
             
             var dateFormatter = NSDateFormatter()
             //Creates table header for event time
@@ -371,6 +371,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Potentially incomplete method implementation.
         // Return the number of sections.
+        println(numSections)
         return numSections
         
     }
@@ -380,7 +381,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
-        
+        println(rowsInSection[section])
         return rowsInSection[section]
         
     }
@@ -390,8 +391,9 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
        
-        
-       
+        println()
+       println("this is header")
+        println()
         
         
              var cell:dateCell = tableView.dequeueReusableCellWithIdentifier("dateCell") as! dateCell

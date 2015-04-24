@@ -34,13 +34,13 @@
 
 + (MPEventBinding *)bindngWithJSONObject:(NSDictionary *)object
 {
-    NSString *path = object[@"path"];
+    NSString *path = [object objectForKey:@"path"];
     if (![path isKindOfClass:[NSString class]] || [path length] < 1) {
         NSLog(@"must supply a view path to bind by");
         return nil;
     }
 
-    NSString *eventName = object[@"event_name"];
+    NSString *eventName = [object objectForKey:@"event_name"];
     if (![eventName isKindOfClass:[NSString class]] || [eventName length] < 1 ) {
         NSLog(@"binding requires an event name");
         return nil;
@@ -58,7 +58,7 @@
                                           andVerifyEvent:verifyEvent];
 }
 
-- (instancetype)initWithEventName:(NSString *)eventName
+- (id)initWithEventName:(NSString *)eventName
                  onPath:(NSString *)path
        withControlEvent:(UIControlEvents)controlEvent
          andVerifyEvent:(UIControlEvents)verifyEvent
@@ -217,11 +217,11 @@
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
     [super encodeWithCoder:aCoder];
-    [aCoder encodeObject:@(_controlEvent) forKey:@"controlEvent"];
-    [aCoder encodeObject:@(_verifyEvent) forKey:@"verifyEvent"];
+    [aCoder encodeObject:[NSNumber numberWithUnsignedInteger:_controlEvent] forKey:@"controlEvent"];
+    [aCoder encodeObject:[NSNumber numberWithUnsignedInteger:_verifyEvent] forKey:@"verifyEvent"];
 }
 
-- (instancetype)initWithCoder:(NSCoder *)aDecoder
+- (id)initWithCoder:(NSCoder *)aDecoder
 {
     if (self = [super initWithCoder:aDecoder]) {
         _controlEvent = [[aDecoder decodeObjectForKey:@"controlEvent"] unsignedIntegerValue];

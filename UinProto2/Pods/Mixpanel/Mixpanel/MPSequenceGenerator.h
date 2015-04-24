@@ -5,6 +5,6 @@
 
 @interface MPSequenceGenerator : NSObject
 
-@property (NS_NONATOMIC_IOSONLY, readonly) int32_t nextValue;
+- (int32_t)nextValue;
 
 @end

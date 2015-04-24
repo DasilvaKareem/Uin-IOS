@@ -28,7 +28,7 @@
 #import "MPWebSocket.h"
 #import "NSData+MPBase64.h"
 
-#define VERSION @"2.7.2"
+#define VERSION @"2.7.3"
 
 @interface Mixpanel () <UIAlertViewDelegate, MPSurveyNavigationControllerDelegate, MPNotificationViewControllerDelegate> {
     NSUInteger _flushInterval;
@@ -78,7 +78,7 @@
 @property (nonatomic, copy) NSString *distinctId;
 @property (nonatomic, strong) NSDictionary *automaticPeopleProperties;
 
-- (instancetype)initWithMixpanel:(Mixpanel *)mixpanel;
+- (id)initWithMixpanel:(Mixpanel *)mixpanel;
 - (void)merge:(NSDictionary *)properties;
 
 @end
@@ -1745,7 +1745,7 @@ static Mixpanel *sharedInstance = nil;
 
 @implementation MixpanelPeople
 
-- (instancetype)initWithMixpanel:(Mixpanel *)mixpanel
+- (id)initWithMixpanel:(Mixpanel *)mixpanel
 {
     if (self = [self init]) {
         self.mixpanel = mixpanel;

@@ -37,6 +37,16 @@ class LoadingView: UIViewController {
         var user = PFUser.currentUser()
         //Logs you inside the app if you are signed im
         if PFUser.currentUser() != nil {
+            var userTimeCheck = PFUser.currentUser()
+            userTimeCheck["notificationsTimestamp"] = NSDate()
+            userTimeCheck.saveInBackgroundWithBlock({
+                (success:Bool, error:NSError!) -> Void in
+                if error == nil {
+                    println("The stamp was updated")
+                } else {
+                    println(error.debugDescription)
+                }
+            })
             self.performSegueWithIdentifier("login", sender: self)
         } else {
             var currentAccount = PFUser.query() //quries users
@@ -66,6 +76,16 @@ class LoadingView: UIViewController {
                             println("User has not been entered into the channel")
                         }
                     })
+                    var userTimeCheck = PFUser.currentUser()
+                    userTimeCheck["notificationsTimestamp"] = NSDate()
+                    userTimeCheck.saveInBackgroundWithBlock({
+                        (success:Bool, error:NSError!) -> Void in
+                        if error == nil {
+                            println("The stamp was updated")
+                        } else {
+                            println(error.debugDescription)
+                        }
+                    })
                     self.performSegueWithIdentifier("login", sender: self)
                     
                     println("Anon has been created succesfully")
@@ -78,16 +98,7 @@ class LoadingView: UIViewController {
             })
          
         }
-        var userTimeCheck = PFUser.currentUser()
-        userTimeCheck["notificationsTimestamp"] = NSDate()
-        userTimeCheck.saveInBackgroundWithBlock({
-            (success:Bool, error:NSError!) -> Void in
-            if error == nil {
-                println("The stamp was updated")
-            } else {
-                println(error.debugDescription)
-            }
-        })
+
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

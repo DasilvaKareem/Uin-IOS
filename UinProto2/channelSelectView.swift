@@ -25,7 +25,7 @@ class channelSelectView: UITableViewController {
         var localEventCount = PFQuery(className: "Event")
         localEventCount.whereKey("isPublic", equalTo: true)
         localEventCount.whereKey("createdAt", greaterThanOrEqualTo:PFUser.currentUser()["notificationsTimestamp"] as! NSDate)
-        self.genEvents.append("\(localEventCount.countObjects()) New")
+        self.genEvents.append("\(localEventCount.countObjects()) new")
         
         //Gets Subscriptions Events
         var subscriptionQuery = PFQuery(className: "Subscription")
@@ -35,7 +35,7 @@ class channelSelectView: UITableViewController {
         subscriptionEventCount.whereKey("isPublic", equalTo: true)
         subscriptionEventCount.whereKey("start", greaterThan:  NSDate())
         ""
-        self.genEvents.append("\(subscriptionEventCount.countObjects()) New")
+        self.genEvents.append("\(subscriptionEventCount.countObjects()) new")
         
         
         //Gets Trend
@@ -106,14 +106,14 @@ class channelSelectView: UITableViewController {
         var notificationsCount = PFQuery(className: "Notification")
         notificationsCount.whereKey("receiver", equalTo: PFUser.currentUser().username)
         notificationsCount.whereKey("createdAt", greaterThan: PFUser.currentUser()["notificationsTimestamp"] as! NSDate)
-        usernameInfo.append(String("\(notificationsCount.countObjects()) Notifications"))
+        usernameInfo.append(String("\(notificationsCount.countObjects()) notifications"))
         usernameSectionTitle.append("notifications")
         userType.append("Notifications")
         var addToCalendarCount = PFQuery(className: "Event")
         addToCalendarCount.whereKey("authorID", equalTo: PFUser.currentUser().objectId)
         addToCalendarCount.whereKey("start", greaterThan: NSDate())
         
-        usernameInfo.append("\(addToCalendarCount.countObjects()) Upcoming")
+        usernameInfo.append("\(addToCalendarCount.countObjects()) upcoming")
         usernameSectionTitle.append("my events")
         userType.append("My Events")
     }
@@ -125,7 +125,7 @@ class channelSelectView: UITableViewController {
 
     // MARK: - Table view data source
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 30.0
+        return 37.0
     }
     
     
@@ -215,11 +215,11 @@ class channelSelectView: UITableViewController {
             cell.contentView.backgroundColor = UIColor(red: 65.0/255.0, green: 145.0/255.0, blue: 198.0/255.0, alpha: 1)
             cell.channelName.textColor = UIColor.whiteColor()
             cell.channelCount.textColor = UIColor.whiteColor()
-            if indexPath.row == 0 || indexPath.row == 1 {
+            
                 cell.channelName.textColor = UIColor.whiteColor()
                 cell.channelCount.textColor = UIColor.whiteColor()
                  cell.contentView.backgroundColor = UIColor(red: 245.0/255.0, green: 166.0/255.0, blue: 35.0/255.0, alpha: 1)
-            }
+            
         } else {
             cell.contentView.backgroundColor = nil
                 if indexPath.row == 0 || indexPath.row == 1 {
@@ -279,11 +279,11 @@ class channelSelectView: UITableViewController {
         self.currentIndexPath = indexPath
                if indexPath.section == 0 {
                 //changes background cell color to orange
-                if indexPath.row == 0 || indexPath.row == 1 {
+                
                     cell.contentView.backgroundColor = UIColor(red: 245.0/255.0, green: 166.0/255.0, blue: 35.0/255.0, alpha: 1)
                     cell.channelName.textColor = UIColor.whiteColor()
                     cell.channelCount.textColor = UIColor.whiteColor()
-                }
+                
             switch userType[indexPath.row] {
             
             case "Subscriptions":

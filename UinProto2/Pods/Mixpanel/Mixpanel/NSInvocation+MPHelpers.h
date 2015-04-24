@@ -6,6 +6,6 @@
 @interface NSInvocation (MPHelpers)
 
 - (void)mp_setArgumentsFromArray:(NSArray *)argumentArray;
-@property (NS_NONATOMIC_IOSONLY, readonly, strong) id mp_returnValue;
+- (id)mp_returnValue;
 
 @end

@@ -10,13 +10,13 @@
 
 + (instancetype)messageWithType:(NSString *)type payload:(NSDictionary *)payload;
 
-- (instancetype)initWithType:(NSString *)type;
-- (instancetype)initWithType:(NSString *)type payload:(NSDictionary *)payload NS_DESIGNATED_INITIALIZER;
+- (id)initWithType:(NSString *)type;
+- (id)initWithType:(NSString *)type payload:(NSDictionary *)payload;
 
 - (void)setPayloadObject:(id)object forKey:(NSString *)key;
 - (id)payloadObjectForKey:(NSString *)key;
-@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSDictionary *payload;
+- (NSDictionary *)payload;
 
-@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSData *JSONData;
+- (NSData *)JSONData;
 
 @end

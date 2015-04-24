@@ -28,6 +28,6 @@ char *MP_NewBase64Encode(
 @interface NSData (MP_Base64)
 
 + (NSData *)mp_dataFromBase64String:(NSString *)aString;
-@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *mp_base64EncodedString;
+- (NSString *)mp_base64EncodedString;
 
 @end

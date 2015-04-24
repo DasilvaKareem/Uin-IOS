@@ -38,7 +38,7 @@
 @property (nonatomic, copy) NSHashTable *appliedTo;
 
 + (MPVariantAction *)actionWithJSONObject:(NSDictionary *)object;
-- (instancetype)initWithName:(NSString *)name
+- (id)initWithName:(NSString *)name
                path:(MPObjectSelector *)path
            selector:(SEL)selector
                args:(NSArray *)args
@@ -62,7 +62,7 @@
 @property (nonatomic, strong) MPTweakValue value;
 
 + (MPVariantTweak *)tweakWithJSONObject:(NSDictionary *)object;
-- (instancetype)initWithName:(NSString *)name
+- (id)initWithName:(NSString *)name
           encoding:(NSString *)encoding
              value:(MPTweakValue)value;
 - (void)execute;
@@ -90,13 +90,13 @@
         return nil;
     }
 
-    NSArray *actions = object[@"actions"];
+    NSArray *actions = [object objectForKey:@"actions"];
     if (![actions isKindOfClass:[NSArray class]]) {
         MixpanelError(@"variant requires an array of actions");
         return nil;
     }
 
-    NSArray *tweaks = object[@"tweaks"];
+    NSArray *tweaks = [object objectForKey:@"tweaks"];
     if (![tweaks isKindOfClass:[NSArray class]]) {
         MixpanelError(@"variant requires an array of tweaks");
         return nil;
@@ -108,12 +108,12 @@
                                   tweaks:tweaks];
 }
 
-- (instancetype)init
+- (id)init
 {
     return [self initWithID:0 experimentID:0 actions:nil tweaks:nil];
 }
 
-- (instancetype)initWithID:(NSUInteger)ID experimentID:(NSUInteger)experimentID actions:(NSArray *)actions tweaks:(NSArray *)tweaks
+- (id)initWithID:(NSUInteger)ID experimentID:(NSUInteger)experimentID actions:(NSArray *)actions tweaks:(NSArray *)tweaks
 {
     if(self = [super init]) {
         self.ID = ID;
@@ -130,7 +130,7 @@
 
 #pragma mark NSCoding
 
-- (instancetype)initWithCoder:(NSCoder *)aDecoder
+- (id)initWithCoder:(NSCoder *)aDecoder
 {
     if (self = [super init]) {
         self.ID = [(NSNumber *)[aDecoder decodeObjectForKey:@"ID"] unsignedLongValue];
@@ -148,7 +148,7 @@
     [aCoder encodeObject:[NSNumber numberWithUnsignedLong:_experimentID] forKey:@"experimentID"];
     [aCoder encodeObject:_actions forKey:@"actions"];
     [aCoder encodeObject:_tweaks forKey:@"tweaks"];
-    [aCoder encodeObject:@(_finished) forKey:@"finished"];
+    [aCoder encodeObject:[NSNumber numberWithBool:_finished] forKey:@"finished"];
 }
 
 #pragma mark Actions
@@ -333,13 +333,13 @@ static NSMapTable *originalCache;
                                  swizzleSelector:swizzleSelector];
 }
 
-- (instancetype)init
+- (id)init
 {
     [NSException raise:@"NotSupported" format:@"Please call initWithName: path: selector: args: original: swizzle: swizzleClass: swizzleSelector:"];
     return nil;
 }
 
-- (instancetype)initWithName:(NSString *)name
+- (id)initWithName:(NSString *)name
                path:(MPObjectSelector *)path
            selector:(SEL)selector
                args:(NSArray *)args
@@ -382,7 +382,7 @@ static NSMapTable *originalCache;
 
 #pragma mark NSCoding
 
-- (instancetype)initWithCoder:(NSCoder *)aDecoder
+- (id)initWithCoder:(NSCoder *)aDecoder
 {
     if (self = [super init]) {
         self.name = [aDecoder decodeObjectForKey:@"name"];
@@ -408,7 +408,7 @@ static NSMapTable *originalCache;
     [aCoder encodeObject:_args forKey:@"args"];
     [aCoder encodeObject:_original forKey:@"original"];
 
-    [aCoder encodeObject:@(_swizzle) forKey:@"swizzle"];
+    [aCoder encodeObject:[NSNumber numberWithBool:_swizzle] forKey:@"swizzle"];
     [aCoder encodeObject:NSStringFromClass(_swizzleClass) forKey:@"swizzleClass"];
     [aCoder encodeObject:NSStringFromSelector(_swizzleSelector) forKey:@"swizzleSelector"];
 }
@@ -553,7 +553,7 @@ static NSMapTable *originalCache;
                     [invocation setSelector:selector];
                     for (NSUInteger i = 0; i < requiredArgs; i++) {
 
-                        NSArray *argTuple = args[i];
+                        NSArray *argTuple = [args objectAtIndex:i];
                         id arg = transformValue(argTuple[0], argTuple[1]);
 
                         // Unpack NSValues to their base types.
@@ -643,14 +643,14 @@ static NSMapTable *originalCache;
                                           value:value];
 }
 
-- (instancetype)init
+- (id)init
 {
     [NSException raise:@"NotSupported" format:@"Please call initWithName:name encoding:encoding value:value"];
     return nil;
 
 }
 
-- (instancetype)initWithName:(NSString *)name
+- (id)initWithName:(NSString *)name
           encoding:(NSString *)encoding
              value:(MPTweakValue)value
 {
@@ -664,7 +664,7 @@ static NSMapTable *originalCache;
 
 #pragma mark NSCoding
 
-- (instancetype)initWithCoder:(NSCoder *)aDecoder
+- (id)initWithCoder:(NSCoder *)aDecoder
 {
     if (self = [super init]) {
         self.name = [aDecoder decodeObjectForKey:@"name"];

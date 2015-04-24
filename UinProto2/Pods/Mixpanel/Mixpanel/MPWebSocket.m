@@ -59,7 +59,7 @@
 #endif
 
 
-typedef NS_OPTIONS(unsigned int, MPOpCode)  {
+typedef enum  {
     MPOpCodeTextFrame = 0x1,
     MPOpCodeBinaryFrame = 0x2,
     // 3-7 reserved.
@@ -67,9 +67,9 @@ typedef NS_OPTIONS(unsigned int, MPOpCode)  {
     MPOpCodePing = 0x9,
     MPOpCodePong = 0xA,
     // B-F reserved.
-};
+} MPOpCode;
 
-typedef NS_ENUM(unsigned int, MPStatusCode) {
+typedef enum {
     MPStatusCodeNormal = 1000,
     MPStatusCodeGoingAway = 1001,
     MPStatusCodeProtocolError = 1002,
@@ -80,7 +80,7 @@ typedef NS_ENUM(unsigned int, MPStatusCode) {
     MPStatusCodeInvalidUTF8 = 1007,
     MPStatusCodePolicyViolated = 1008,
     MPStatusCodeMessageTooBig = 1009,
-};
+} MPStatusCode;
 
 typedef struct {
     BOOL fin;
@@ -98,14 +98,14 @@ static inline int32_t validate_dispatch_data_partial_string(NSData *data);
 
 @interface NSData (MPWebSocket)
 
-@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *stringBySHA1ThenBase64Encoding;
+- (NSString *)stringBySHA1ThenBase64Encoding;
 
 @end
 
 
 @interface NSString (MPWebSocket)
 
-@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *stringBySHA1ThenBase64Encoding;
+- (NSString *)stringBySHA1ThenBase64Encoding;
 
 @end
 
@@ -114,7 +114,7 @@ static inline int32_t validate_dispatch_data_partial_string(NSData *data);
 
 // The origin isn't really applicable for a native application.
 // So instead, just map ws -> http and wss -> https.
-@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *mp_origin;
+- (NSString *)mp_origin;
 
 @end
 
@@ -179,7 +179,7 @@ typedef void (^data_callback)(MPWebSocket *webSocket,  NSData *data);
 // This class is not thread-safe, and is expected to always be run on the same queue.
 @interface MPIOConsumerPool : NSObject
 
-- (instancetype)initWithBufferCapacity:(NSUInteger)poolSize NS_DESIGNATED_INITIALIZER;
+- (id)initWithBufferCapacity:(NSUInteger)poolSize;
 
 - (MPIOConsumer *)consumerWithScanner:(stream_scanner)scanner handler:(data_callback)handler bytesNeeded:(size_t)bytesNeeded readToCurrentFrame:(BOOL)readToCurrentFrame unmaskBytes:(BOOL)unmaskBytes;
 - (void)returnConsumer:(MPIOConsumer *)consumer;
@@ -293,7 +293,7 @@ static __strong NSData *CRLFCRLF;
     CRLFCRLF = [[NSData alloc] initWithBytes:"\r\n\r\n" length:4];
 }
 
-- (instancetype)initWithURLRequest:(NSURLRequest *)request protocols:(NSArray *)protocols;
+- (id)initWithURLRequest:(NSURLRequest *)request protocols:(NSArray *)protocols;
 {
     self = [super init];
     if (self) {
@@ -309,17 +309,17 @@ static __strong NSData *CRLFCRLF;
     return self;
 }
 
-- (instancetype)initWithURLRequest:(NSURLRequest *)request;
+- (id)initWithURLRequest:(NSURLRequest *)request;
 {
     return [self initWithURLRequest:request protocols:nil];
 }
 
-- (instancetype)initWithURL:(NSURL *)url;
+- (id)initWithURL:(NSURL *)url;
 {
     return [self initWithURL:url protocols:nil];
 }
 
-- (instancetype)initWithURL:(NSURL *)url protocols:(NSArray *)protocols;
+- (id)initWithURL:(NSURL *)url protocols:(NSArray *)protocols;
 {
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
     return [self initWithURLRequest:request protocols:protocols];
@@ -456,13 +456,13 @@ static __strong NSData *CRLFCRLF;
 
     if (responseCode >= 400) {
         MixpanelError(@"Request failed with response code %d", responseCode);
-        [self _failWithError:[NSError errorWithDomain:MPWebSocketErrorDomain code:2132 userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"received bad response code from server %ld", (long)responseCode]}]];
+        [self _failWithError:[NSError errorWithDomain:MPWebSocketErrorDomain code:2132 userInfo:[NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"received bad response code from server %ld", (long)responseCode] forKey:NSLocalizedDescriptionKey]]];
         return;
 
     }
 
     if(![self _checkHandshake:_receivedHTTPHeaders]) {
-        [self _failWithError:[NSError errorWithDomain:MPWebSocketErrorDomain code:2133 userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Invalid Sec-WebSocket-Accept response"]}]];
+        [self _failWithError:[NSError errorWithDomain:MPWebSocketErrorDomain code:2133 userInfo:[NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"Invalid Sec-WebSocket-Accept response"] forKey:NSLocalizedDescriptionKey]]];
         return;
     }
 
@@ -470,7 +470,7 @@ static __strong NSData *CRLFCRLF;
     if (negotiatedProtocol) {
         // Make sure we requested the protocol
         if ([_requestedProtocols indexOfObject:negotiatedProtocol] == NSNotFound) {
-            [self _failWithError:[NSError errorWithDomain:MPWebSocketErrorDomain code:2133 userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Server specified Sec-WebSocket-Protocol that wasn't requested"]}]];
+            [self _failWithError:[NSError errorWithDomain:MPWebSocketErrorDomain code:2133 userInfo:[NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"Server specified Sec-WebSocket-Protocol that wasn't requested"] forKey:NSLocalizedDescriptionKey]]];
             return;
         }
 
@@ -573,11 +573,11 @@ static __strong NSData *CRLFCRLF;
 
         // If we're using pinned certs, don't validate the certificate chain
         if ([_urlRequest mp_SSLPinnedCertificates].count) {
-            [SSLOptions setValue:@NO forKey:(__bridge id)kCFStreamSSLValidatesCertificateChain];
+            [SSLOptions setValue:[NSNumber numberWithBool:NO] forKey:(__bridge id)kCFStreamSSLValidatesCertificateChain];
         }
 
 #if DEBUG
-        [SSLOptions setValue:@NO forKey:(__bridge id)kCFStreamSSLValidatesCertificateChain];
+        [SSLOptions setValue:[NSNumber numberWithBool:NO] forKey:(__bridge id)kCFStreamSSLValidatesCertificateChain];
         MixpanelDebug(@"SocketRocket: In debug mode.  Allowing connection to any root cert");
 #endif
 
@@ -1067,7 +1067,7 @@ static const uint8_t MPPayloadLenMask   = 0x7F;
     if (dataLength - _outputBufferOffset > 0 && _outputStream.hasSpaceAvailable) {
         NSInteger bytesWritten = [_outputStream write:((const uint8_t *)_outputBuffer.bytes + _outputBufferOffset) maxLength:(dataLength - _outputBufferOffset)];
         if (bytesWritten == -1) {
-            [self _failWithError:[NSError errorWithDomain:MPWebSocketErrorDomain code:2145 userInfo:@{NSLocalizedDescriptionKey: @"Error writing to stream"}]];
+            [self _failWithError:[NSError errorWithDomain:MPWebSocketErrorDomain code:2145 userInfo:[NSDictionary dictionaryWithObject:@"Error writing to stream" forKey:NSLocalizedDescriptionKey]]];
              return;
         }
 
@@ -1091,7 +1091,7 @@ static const uint8_t MPPayloadLenMask   = 0x7F;
 
 
         for (NSArray *runLoop in [_scheduledRunloops copy]) {
-            [self unscheduleFromRunLoop:runLoop[0] forMode:runLoop[1]];
+            [self unscheduleFromRunLoop:[runLoop objectAtIndex:0] forMode:[runLoop objectAtIndex:1]];
         }
 
         if (!_failed) {
@@ -1180,7 +1180,7 @@ static const char CRLFCRLFBytes[] = {'\r', '\n', '\r', '\n'};
         return didWork;
     }
 
-    MPIOConsumer *consumer = _consumers[0];
+    MPIOConsumer *consumer = [_consumers objectAtIndex:0];
 
     size_t bytesNeeded = consumer.bytesNeeded;
 
@@ -1391,7 +1391,7 @@ static const size_t MPFrameHeaderOverhead = 32;
 
             if (!_pinnedCertFound) {
                 dispatch_async(_workQueue, ^{
-                    [self _failWithError:[NSError errorWithDomain:@"org.lolrus.SocketRocket" code:23556 userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Invalid server cert"]}]];
+                    [self _failWithError:[NSError errorWithDomain:@"org.lolrus.SocketRocket" code:23556 userInfo:[NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"Invalid server cert"] forKey:NSLocalizedDescriptionKey]]];
                 });
                 return;
             }
@@ -1515,7 +1515,7 @@ static const size_t MPFrameHeaderOverhead = 32;
     NSMutableArray *_bufferedConsumers;
 }
 
-- (instancetype)initWithBufferCapacity:(NSUInteger)poolSize;
+- (id)initWithBufferCapacity:(NSUInteger)poolSize;
 {
     self = [super init];
     if (self) {
@@ -1525,7 +1525,7 @@ static const size_t MPFrameHeaderOverhead = 32;
     return self;
 }
 
-- (instancetype)init
+- (id)init
 {
     return [self initWithBufferCapacity:8];
 }
@@ -1692,7 +1692,7 @@ static NSRunLoop *networkRunLoop = nil;
     mp_dispatch_release(_waitGroup);
 }
 
-- (instancetype)init
+- (id)init
 {
     self = [super init];
     if (self) {

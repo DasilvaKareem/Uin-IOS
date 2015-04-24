@@ -95,9 +95,9 @@
 
 @interface UIImage (MPImageEffects)
 
-@property (NS_NONATOMIC_IOSONLY, readonly, strong) UIImage *mp_applyLightEffect;
-@property (NS_NONATOMIC_IOSONLY, readonly, strong) UIImage *mp_applyExtraLightEffect;
-@property (NS_NONATOMIC_IOSONLY, readonly, strong) UIImage *mp_applyDarkEffect;
+- (UIImage *)mp_applyLightEffect;
+- (UIImage *)mp_applyExtraLightEffect;
+- (UIImage *)mp_applyDarkEffect;
 - (UIImage *)mp_applyTintEffectWithColor:(UIColor *)tintColor;
 
 - (UIImage *)mp_applyBlurWithRadius:(CGFloat)blurRadius tintColor:(UIColor *)tintColor saturationDeltaFactor:(CGFloat)saturationDeltaFactor maskImage:(UIImage *)maskImage;

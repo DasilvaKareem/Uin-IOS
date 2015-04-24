@@ -16,7 +16,7 @@
     UIApplication *_application;
 }
 
-- (instancetype)initWithApplication:(UIApplication *)application configuration:(MPObjectSerializerConfig *)configuration objectIdentityProvider:(MPObjectIdentityProvider *)objectIdentityProvider
+- (id)initWithApplication:(UIApplication *)application configuration:(MPObjectSerializerConfig *)configuration objectIdentityProvider:(MPObjectIdentityProvider *)objectIdentityProvider
 {
     NSParameterAssert(application != nil);
     NSParameterAssert(configuration != nil);

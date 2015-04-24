@@ -15,9 +15,9 @@
 @property (nonatomic, readonly) UIControlEvents verifyEvent;
 
 - (instancetype)init __unavailable;
-- (instancetype)initWithEventName:(NSString *)eventName
+- (id)initWithEventName:(NSString *)eventName
                  onPath:(NSString *)path
        withControlEvent:(UIControlEvents)controlEvent
-         andVerifyEvent:(UIControlEvents)verifyEvent NS_DESIGNATED_INITIALIZER;
+         andVerifyEvent:(UIControlEvents)verifyEvent;
 
 @end

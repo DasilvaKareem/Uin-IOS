@@ -5,17 +5,17 @@
 
 @interface MPObjectSerializerContext : NSObject
 
-- (instancetype)initWithRootObject:(id)object NS_DESIGNATED_INITIALIZER;
+- (id)initWithRootObject:(id)object;
 
-@property (NS_NONATOMIC_IOSONLY, readonly) BOOL hasUnvisitedObjects;
+- (BOOL)hasUnvisitedObjects;
 
 - (void)enqueueUnvisitedObject:(NSObject *)object;
-@property (NS_NONATOMIC_IOSONLY, readonly, strong) NSObject *dequeueUnvisitedObject;
+- (NSObject *)dequeueUnvisitedObject;
 
 - (void)addVisitedObject:(NSObject *)object;
 - (BOOL)isVisitedObject:(NSObject *)object;
 
 - (void)addSerializedObject:(NSDictionary *)serializedObject;
-@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSArray *allSerializedObjects;
+- (NSArray *)allSerializedObjects;
 
 @end
