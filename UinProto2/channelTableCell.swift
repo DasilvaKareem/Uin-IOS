@@ -44,6 +44,7 @@ class channelHeaderCell: UITableViewCell {
 class channelSectionCell: UITableViewCell {
     
     @IBOutlet var sectionHeader: UILabel!
+    @IBOutlet weak var channelSeparator: UIImageView!
  
     override func awakeFromNib() {
         super.awakeFromNib()
