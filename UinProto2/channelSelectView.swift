@@ -18,14 +18,14 @@ class channelSelectView: UITableViewController {
     var channelType = [String]()
     
     //General Channels
-    var genChannels = ["local events", "subscription events", "trending events"]
-    var gentype = ["localEvent","subbedEvents","trending"]
+    var genChannels = ["local events", "subscription events"]
+    var gentype = ["localEvent","subbedEvents"]
     var genEvents = [String]()
     func setupGenCounters() {
         var localEventCount = PFQuery(className: "Event")
         localEventCount.whereKey("isPublic", equalTo: true)
         localEventCount.whereKey("createdAt", greaterThanOrEqualTo:PFUser.currentUser()["notificationsTimestamp"] as! NSDate)
-        self.genEvents.append(String(localEventCount.countObjects()))
+        self.genEvents.append("\(localEventCount.countObjects()) New")
         
         //Gets Subscriptions Events
         var subscriptionQuery = PFQuery(className: "Subscription")
@@ -34,12 +34,13 @@ class channelSelectView: UITableViewController {
         subscriptionEventCount.whereKey("authorID", matchesKey: "publisherID", inQuery: subscriptionQuery)
         subscriptionEventCount.whereKey("isPublic", equalTo: true)
         subscriptionEventCount.whereKey("start", greaterThan:  NSDate())
-        self.genEvents.append(String(subscriptionEventCount.countObjects()))
+        ""
+        self.genEvents.append("\(subscriptionEventCount.countObjects()) New")
         
         
         //Gets Trend
        
-        self.genEvents.append("Poop")
+        
         
     }
     //Sections
@@ -105,13 +106,14 @@ class channelSelectView: UITableViewController {
         var notificationsCount = PFQuery(className: "Notification")
         notificationsCount.whereKey("receiver", equalTo: PFUser.currentUser().username)
         notificationsCount.whereKey("createdAt", greaterThan: PFUser.currentUser()["notificationsTimestamp"] as! NSDate)
-        usernameInfo.append(String(notificationsCount.countObjects()))
+        usernameInfo.append(String("\(notificationsCount.countObjects()) Notifications"))
         usernameSectionTitle.append("notifications")
         userType.append("Notifications")
         var addToCalendarCount = PFQuery(className: "Event")
         addToCalendarCount.whereKey("authorID", equalTo: PFUser.currentUser().objectId)
         addToCalendarCount.whereKey("start", greaterThan: NSDate())
-        usernameInfo.append(String(addToCalendarCount.countObjects()))
+        
+        usernameInfo.append("\(addToCalendarCount.countObjects()) Upcoming")
         usernameSectionTitle.append("my events")
         userType.append("My Events")
     }
@@ -196,6 +198,7 @@ class channelSelectView: UITableViewController {
             cell.channelName.textColor = UIColor.whiteColor()
         } else {
             cell.contentView.backgroundColor = nil
+            cell.channelName.textColor = UIColor.grayColor()
         }
         
         if indexPath.section == 1 {
@@ -237,9 +240,11 @@ class channelSelectView: UITableViewController {
          var allTypes = userType + gentype + channelType
         
         self.currentIndexPath = indexPath
-        var cell:UITableViewCell = tableView.cellForRowAtIndexPath(indexPath)!
-        cell.contentView.backgroundColor = UIColor(red: 65.0/255.0, green: 145.0/255.0, blue: 198.0/255.0, alpha: 1)
+       
         if indexPath.section == 0 {
+             var cell:channelTableCell = tableView.dequeueReusableCellWithIdentifier("profile") as! channelTableCell
+            cell.channelName.textColor = UIColor.whiteColor()
+            cell.channelCount.textColor = UIColor.whiteColor()
             switch userType[indexPath.row] {
             case "profile":
         
@@ -270,7 +275,8 @@ class channelSelectView: UITableViewController {
             self.performSegueWithIdentifier("channelSelect", sender: self)
            
         }
-        
+        var cell:UITableViewCell = tableView.cellForRowAtIndexPath(indexPath)!
+        cell.contentView.backgroundColor = UIColor(red: 65.0/255.0, green: 145.0/255.0, blue: 198.0/255.0, alpha: 1)
     }
     // MARK: - Navigation
 
