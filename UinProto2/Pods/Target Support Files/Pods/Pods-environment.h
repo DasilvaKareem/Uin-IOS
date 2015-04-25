@@ -18,6 +18,12 @@
 #define COCOAPODS_VERSION_MINOR_Mixpanel_MPCategoryHelpers 7
 #define COCOAPODS_VERSION_PATCH_Mixpanel_MPCategoryHelpers 3
 
+// Onboard
+#define COCOAPODS_POD_AVAILABLE_Onboard
+#define COCOAPODS_VERSION_MAJOR_Onboard 2
+#define COCOAPODS_VERSION_MINOR_Onboard 1
+#define COCOAPODS_VERSION_PATCH_Onboard 1
+
 // swrevealviewcontroller
 #define COCOAPODS_POD_AVAILABLE_swrevealviewcontroller
 #define COCOAPODS_VERSION_MAJOR_swrevealviewcontroller 2

@@ -16,7 +16,7 @@ class channelSelectView: UITableViewController {
     var channels = [String]()
     var channelNames = [String]()
     var channelType = [String]()
-    
+    var memBounded = Bool()
     //General Channels
     var genChannels = ["local events", "subscription events"]
     var gentype = ["localEvent","subbedEvents"]
@@ -34,7 +34,7 @@ class channelSelectView: UITableViewController {
         subscriptionEventCount.whereKey("authorID", matchesKey: "publisherID", inQuery: subscriptionQuery)
         subscriptionEventCount.whereKey("isPublic", equalTo: true)
         subscriptionEventCount.whereKey("start", greaterThan:  NSDate())
-        ""
+        
         self.genEvents.append("\(subscriptionEventCount.countObjects()) new")
         
         
@@ -53,10 +53,33 @@ class channelSelectView: UITableViewController {
  
     override func viewDidLoad() {
         super.viewDidLoad()
-      
-        
+        channels.removeAll(keepCapacity: true)
+        channelNames.removeAll(keepCapacity: true)
+        channelType.removeAll(keepCapacity: true)
+        genEvents.removeAll(keepCapacity: true)
+        userType.removeAll(keepCapacity: true)
+        usernameInfo.removeAll(keepCapacity: true)
+        usernameSectionTitle.removeAll(keepCapacity: true)
+        getUserInfo()
+        getChannels()
+        setupGenCounters()
     }
     override func viewWillAppear(animated: Bool) {
+    var memBoundChange = PFQuery(className: "ChannelUser")
+        memBoundChange.whereKey("userID", equalTo: PFUser.currentUser().objectId)
+        memBoundChange.whereKey("channelID", equalTo: "wEwRowC6io")
+        memBoundChange.getFirstObjectInBackgroundWithBlock({
+            (object:PFObject!, error:NSError!) -> Void in
+            if error == nil {
+                self.memBounded = object["authorized"] as! Bool
+            }
+        })
+      
+    }
+    override func viewDidAppear(animated: Bool) {
+ 
+    }
+    override func viewDidDisappear(animated: Bool) {
         channels.removeAll(keepCapacity: true)
         channelNames.removeAll(keepCapacity: true)
         channelType.removeAll(keepCapacity: true)
@@ -71,6 +94,7 @@ class channelSelectView: UITableViewController {
     func getChannels(){
         var channelQuery = PFQuery(className: "ChannelUser")
         channelQuery.whereKey("userID", equalTo: PFUser.currentUser().objectId)
+      // channelQuery.whereKey("expiration", greaterThan: NSDate())
         channelQuery.findObjectsInBackgroundWithBlock({
             (results: [AnyObject]!, error: NSError!) -> Void in
             if error == nil {
@@ -79,6 +103,10 @@ class channelSelectView: UITableViewController {
                     self.channelNames.append(object["channelName"] as! String)
                     self.channelType.append("channelSelect")
                     println(object["channelID"] as! String)
+                    
+                    if object["channelID"] as! String == "wEwRowC6io" {
+                       
+                    }
                 }
                 self.tableView.reloadData()
             }
@@ -277,41 +305,105 @@ class channelSelectView: UITableViewController {
         cell.channelCount.textColor = UIColor.whiteColor()
         cell.channelName.textColor = UIColor.whiteColor()
         self.currentIndexPath = indexPath
+    
+        
                if indexPath.section == 0 {
                 //changes background cell color to orange
                 
                     cell.contentView.backgroundColor = UIColor(red: 245.0/255.0, green: 166.0/255.0, blue: 35.0/255.0, alpha: 1)
                     cell.channelName.textColor = UIColor.whiteColor()
                     cell.channelCount.textColor = UIColor.whiteColor()
+              
+                    switch userType[indexPath.row] {
+                        
+                    case "Subscriptions":
+                        self.performSegueWithIdentifier("Subscribers", sender: self)
+                        break
+                    case "Subscribers":
+                        self.performSegueWithIdentifier("Subscriptions", sender: self)
+                        break
+                    case "Notifications":
+                        self.performSegueWithIdentifier("Notifications", sender: self)
+                        break
+                    case "My Events":
+                        self.performSegueWithIdentifier("My Events", sender: self)
+                    default:
+                        break
+                    }
                 
-            switch userType[indexPath.row] {
-            
-            case "Subscriptions":
-            self.performSegueWithIdentifier("Subscribers", sender: self)
-            break
-            case "Subscribers":
-            self.performSegueWithIdentifier("Subscriptions", sender: self)
-            break
-            case "Notifications":
-            self.performSegueWithIdentifier("Notifications", sender: self)
-            break
-            case "My Events":
-            self.performSegueWithIdentifier("My Events", sender: self)
-            default:
-            break
+     
+        }
+        if self.memBounded == true {
+            println("You are membounded")
+        } else {
+            if indexPath.section == 1 {
+                self.performSegueWithIdentifier("channelSelect", sender: self)
             }
         }
-        if indexPath.section == 1 {
-            
-            self.performSegueWithIdentifier("channelSelect", sender: self)
-         
-           
-
-        }
+      
         if indexPath.section == 2 {
-            self.performSegueWithIdentifier("channelSelect", sender: self)
+            var text = String()
+            var channelQuery = PFQuery(className: "ChannelUser")
+            channelQuery.whereKey("userID", equalTo: PFUser.currentUser().objectId)
+            channelQuery.whereKey("channelID", equalTo: channels[indexPath.row])
+            var checkAuthorized = channelQuery.getFirstObject()
+            if checkAuthorized["authorized"] as! Bool == false {
+                let page1:OnboardingContentViewController = OnboardingContentViewController(title: "Poop", body: "Luffy", image: UIImage(named: "settings"), buttonText: "Gear 4", action: {
+                    
+                })
+                let page2:OnboardingContentViewController = OnboardingContentViewController(title: "Poop", body: "Luffy", image: UIImage(named: "settings"), buttonText: "Gear 4", action: {
+                    
+                })
+                let page3:OnboardingContentViewController = OnboardingContentViewController(title: "Poop", body: "Luffy", image: UIImage(named: "settings"), buttonText: "Gear 4", action: {
+                    var alert = UIAlertController(title: "New Pitcher", message: "Enter Name", preferredStyle: UIAlertControllerStyle.Alert)
+                    alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: nil))
+                    alert.addTextFieldWithConfigurationHandler({(textField: UITextField!) in
+                        textField.placeholder = "Name"
+                        textField.secureTextEntry = false
+                        text = textField.text
+                        println(textField.text)
+                    })
+                    alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler:{ (alertAction:UIAlertAction!) in
+                        
+                        let textf = alert.textFields?[0] as! UITextField
+                        var pinCheck = PFQuery(className: "ChannelCodeInfo")
+                        pinCheck.whereKey("channelID", equalTo: self.channels[indexPath.row])
+                        pinCheck.whereKey("validationCode", equalTo:textf.text )
+                        pinCheck.getFirstObjectInBackgroundWithBlock({
+                            (object1:PFObject!, error:NSError!) -> Void in
+                            if error == nil {
+                                var expDate = object1["expiration"] as! NSDate
+                                var changeBound = PFQuery(className: "ChannelUser")
+                                changeBound.whereKey("userID", equalTo: PFUser.currentUser().objectId)
+                                changeBound.whereKey("channelID", equalTo: self.channels[indexPath.row])
+                                changeBound.getFirstObjectInBackgroundWithBlock({
+                                    (object2:PFObject!, error:NSError!) -> Void in
+                                    object2["authorized"] = true
+                                    object2["expiration"] = expDate
+                                    object2.save()
+                                    self.viewDidDisappear(true)
+                                })
+                            } else {
+                                println("You did not enter the right code")
+                            }
+                        })
+                       
+                    }))
+                    self.dismissViewControllerAnimated(true, completion: nil)
+                    self.presentViewController(alert, animated: true, completion: nil)
+                })
+                
+                let allPages:OnboardingViewController = OnboardingViewController(backgroundImage: UIImage(named: "settings"), contents: [page1,page2,page3])
+                self.presentViewController(allPages, animated: true, completion: nil)
+            }
            
+             else {
+                  self.performSegueWithIdentifier("channelSelect", sender: self)
+            }
+          
+            
         }
+        
       
     }
     // MARK: - Navigation
@@ -327,12 +419,7 @@ class channelSelectView: UITableViewController {
             let nav = segue.destinationViewController as! UINavigationController
             let eventFeed:eventFeedViewController = nav.topViewController as! eventFeedViewController
             var row = indexPath?.row
-            println()
-            println()
-            println(allInfo[row!])
-              println(allInfo)
-            println()
-            println()
+      
             if indexPath?.section == 1 {
                 eventFeed.channelID = gentype[row!]
             }

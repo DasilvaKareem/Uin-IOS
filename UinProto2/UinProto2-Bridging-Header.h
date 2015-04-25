@@ -8,3 +8,5 @@
 #import <ParseFacebookUtils/PFFacebookUtils.h>
 #import <ParseCrashReporting/ParseCrashReporting.h>
 #import <SWRevealViewController/SWRevealViewController.h>
+#import <Onboard/OnboardingContentViewController.h>
+#import <Onboard/OnboardingViewController.h>

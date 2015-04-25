@@ -50,7 +50,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     //If Feed has a problem
     var appProblem:Bool = Bool()
     var channelID = "localEvent"
-    
+    var alertTime:NSTimeInterval = -6000
     //Search functionailty
     var searchActive:Bool = Bool()
     struct searchItem {
@@ -176,8 +176,9 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         
     }
     override func viewWillAppear(animated: Bool) {
-      //  setupEventFeed()
+      
         println()
+        setupCalendar()
         updateFeed()
         //Setups Ui
                navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
@@ -285,6 +286,20 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         
     }
     
+    func setupCalendar(){
+        if channelID != "localEvent" || channelID != "subbedEvents" {
+            var calendarQue = PFQuery(className: "Channel")
+            calendarQue.getObjectInBackgroundWithId(channelID, block: {
+                (object:PFObject!, error:NSError!) -> Void in
+                if error == nil {
+                    self.alertTime = object["alertTime"] as! NSTimeInterval
+                } else {
+                    println(error.debugDescription)
+                }
+                
+            })
+        }
+    }
       func updateFeed(){
         //Removes all leftover content in the array
     
@@ -878,7 +893,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                         event.startDate = self.eventStart[sender.tag]
                         event.endDate = self.eventEnd[sender.tag]
                         event.notes = hosted
-                        var alarm = EKAlarm(relativeOffset: -3600.00)
+                        var alarm = EKAlarm(relativeOffset: self.alertTime)
                         event.addAlarm(alarm)
                         event.location = self.eventlocation[sender.tag]
                         event.calendar = eventStore.defaultCalendarForNewEvents

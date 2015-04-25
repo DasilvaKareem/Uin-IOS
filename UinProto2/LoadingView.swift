@@ -63,12 +63,29 @@ class LoadingView: UIViewController {
                 if error == nil {
                     var defaultChannel = PFObject(className: "ChannelUser")
                     defaultChannel["admin"] = false
-                    defaultChannel["canPost"] = true
+                    defaultChannel["canPost"] = false
                     defaultChannel["validationCode"] = "nil"
-                    defaultChannel["channelID"] = "xOI5cjHcDo"
-                    defaultChannel["channelName"] = "Public Channel"
+                    defaultChannel["channelID"] = "wEwRowC6io"
+                    defaultChannel["channelName"] = "memboundparents"
+                    defaultChannel["authorized"] = false
                     defaultChannel["userID"] = PFUser.currentUser().objectId
                     defaultChannel.saveInBackgroundWithBlock({
+                        (success:Bool, error:NSError!) -> Void in
+                        if error == nil {
+                            println("User has been entered into the channel")
+                        } else {
+                            println("User has not been entered into the channel")
+                        }
+                    })
+                    var defaultChannel2 = PFObject(className: "ChannelUser")
+                    defaultChannel2["admin"] = false
+                    defaultChannel2["canPost"] = false
+                    defaultChannel2["validationCode"] = "nil"
+                    defaultChannel2["channelID"] = "LAUfZJ3KKc"
+                    defaultChannel2["channelName"] = "memboundstudents"
+                    defaultChannel2["authorized"] = false
+                    defaultChannel2["userID"] = PFUser.currentUser().objectId
+                    defaultChannel2.saveInBackgroundWithBlock({
                         (success:Bool, error:NSError!) -> Void in
                         if error == nil {
                             println("User has been entered into the channel")
