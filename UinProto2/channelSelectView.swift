@@ -66,6 +66,7 @@ class channelSelectView: UITableViewController {
         setupGenCounters()
     }
     override func viewWillAppear(animated: Bool) {
+    
     var memBoundChange = PFQuery(className: "ChannelUser")
         memBoundChange.whereKey("userID", equalTo: PFUser.currentUser().objectId)
         memBoundChange.whereKey("channelID", equalTo: "wEwRowC6io")
@@ -81,9 +82,7 @@ class channelSelectView: UITableViewController {
  
     }
     override func viewDidDisappear(animated: Bool) {
-        channels.removeAll(keepCapacity: true)
-        channelNames.removeAll(keepCapacity: true)
-        channelType.removeAll(keepCapacity: true)
+      
         genEvents.removeAll(keepCapacity: true)
         userType.removeAll(keepCapacity: true)
         usernameInfo.removeAll(keepCapacity: true)
@@ -93,6 +92,10 @@ class channelSelectView: UITableViewController {
         setupGenCounters()
     }
     func getChannels(){
+        channels.removeAll(keepCapacity: true)
+        channelNames.removeAll(keepCapacity: true)
+        channelType.removeAll(keepCapacity: true)
+        channelStatus.removeAll(keepCapacity: true)
         var channelQuery = PFQuery(className: "ChannelUser")
         channelQuery.whereKey("userID", equalTo: PFUser.currentUser().objectId)
       // channelQuery.whereKey("expiration", greaterThan: NSDate())
@@ -339,13 +342,19 @@ class channelSelectView: UITableViewController {
                 
      
         }
-        if self.memBounded == true {
-            println("You are membounded")
-        } else {
+     
             if indexPath.section == 1 {
-                self.performSegueWithIdentifier("channelSelect", sender: self)
+               
+                if self.memBounded == true {
+                    println("You are membounded")
+                    var alert = UIAlertController(title: "You are blocked", message: "New World Order", preferredStyle: UIAlertControllerStyle.Alert)
+                    alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: nil))
+                    self.presentViewController(alert, animated: true, completion: nil)
+                }
+                 self.performSegueWithIdentifier("channelSelect", sender: self)
+             
             }
-        }
+        
       
         if indexPath.section == 2 {
             var text = String()
@@ -387,6 +396,7 @@ class channelSelectView: UITableViewController {
                                     object2["authorized"] = true
                                     object2["expiration"] = expDate
                                     object2.save()
+                                    
                                     self.getChannels()
                                     self.tableView.reloadData()
                                 })
