@@ -66,6 +66,7 @@ class channelSelectView: UITableViewController {
         setupGenCounters()
     }
     override func viewWillAppear(animated: Bool) {
+    
     var memBoundChange = PFQuery(className: "ChannelUser")
         memBoundChange.whereKey("userID", equalTo: PFUser.currentUser().objectId)
         memBoundChange.whereKey("channelID", equalTo: "wEwRowC6io")
@@ -81,9 +82,7 @@ class channelSelectView: UITableViewController {
  
     }
     override func viewDidDisappear(animated: Bool) {
-        channels.removeAll(keepCapacity: true)
-        channelNames.removeAll(keepCapacity: true)
-        channelType.removeAll(keepCapacity: true)
+      
         genEvents.removeAll(keepCapacity: true)
         userType.removeAll(keepCapacity: true)
         usernameInfo.removeAll(keepCapacity: true)
@@ -93,6 +92,10 @@ class channelSelectView: UITableViewController {
         setupGenCounters()
     }
     func getChannels(){
+        channels.removeAll(keepCapacity: true)
+        channelNames.removeAll(keepCapacity: true)
+        channelType.removeAll(keepCapacity: true)
+        channelStatus.removeAll(keepCapacity: true)
         var channelQuery = PFQuery(className: "ChannelUser")
         channelQuery.whereKey("userID", equalTo: PFUser.currentUser().objectId)
       // channelQuery.whereKey("expiration", greaterThan: NSDate())
@@ -339,13 +342,19 @@ class channelSelectView: UITableViewController {
                 
      
         }
-        if self.memBounded == true {
-            println("You are membounded")
-        } else {
+     
             if indexPath.section == 1 {
-                self.performSegueWithIdentifier("channelSelect", sender: self)
+               
+                if self.memBounded == true {
+                    println("You are membounded")
+                    var alert = UIAlertController(title: "You are blocked", message: "New World Order", preferredStyle: UIAlertControllerStyle.Alert)
+                    alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: nil))
+                    self.presentViewController(alert, animated: true, completion: nil)
+                }
+                 self.performSegueWithIdentifier("channelSelect", sender: self)
+             
             }
-        }
+        
       
         if indexPath.section == 2 {
             var text = String()
@@ -361,10 +370,10 @@ class channelSelectView: UITableViewController {
                     
                 })
                 let page3:OnboardingContentViewController = OnboardingContentViewController(title: "Poop", body: "Luffy", image: UIImage(named: "settings"), buttonText: "Gear 4", action: {
-                    var alert = UIAlertController(title: "New Pitcher", message: "Enter Name", preferredStyle: UIAlertControllerStyle.Alert)
+                    var alert = UIAlertController(title: "Locked Channel", message: "Enter cide", preferredStyle: UIAlertControllerStyle.Alert)
                     alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: nil))
                     alert.addTextFieldWithConfigurationHandler({(textField: UITextField!) in
-                        textField.placeholder = "Name"
+                        textField.placeholder = "Code"
                         textField.secureTextEntry = false
                         text = textField.text
                         println(textField.text)
@@ -387,6 +396,7 @@ class channelSelectView: UITableViewController {
                                     object2["authorized"] = true
                                     object2["expiration"] = expDate
                                     object2.save()
+                                    
                                     self.getChannels()
                                     self.tableView.reloadData()
                                 })
@@ -401,6 +411,50 @@ class channelSelectView: UITableViewController {
                 })
                 
                 let allPages:OnboardingViewController = OnboardingViewController(backgroundImage: UIImage(named: "settings"), contents: [page1,page2,page3])
+                allPages.skipButton.enabled = true
+                allPages.allowSkipping = true
+                allPages.skipHandler = {
+                    println("it was skipped")
+                    var alert = UIAlertController(title: "Locked Channel", message: "Enter cide", preferredStyle: UIAlertControllerStyle.Alert)
+                    alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: nil))
+                    alert.addTextFieldWithConfigurationHandler({(textField: UITextField!) in
+                        textField.placeholder = "Code"
+                        textField.secureTextEntry = false
+                        text = textField.text
+                        println(textField.text)
+                    })
+                    alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler:{ (alertAction:UIAlertAction!) in
+                        
+                        let textf = alert.textFields?[0] as! UITextField
+                        var pinCheck = PFQuery(className: "ChannelCodeInfo")
+                        pinCheck.whereKey("channelID", equalTo: self.channels[indexPath.row])
+                        pinCheck.whereKey("validationCode", equalTo:textf.text )
+                        pinCheck.getFirstObjectInBackgroundWithBlock({
+                            (object1:PFObject!, error:NSError!) -> Void in
+                            if error == nil {
+                                var expDate = object1["expiration"] as! NSDate
+                                var changeBound = PFQuery(className: "ChannelUser")
+                                changeBound.whereKey("userID", equalTo: PFUser.currentUser().objectId)
+                                changeBound.whereKey("channelID", equalTo: self.channels[indexPath.row])
+                                changeBound.getFirstObjectInBackgroundWithBlock({
+                                    (object2:PFObject!, error:NSError!) -> Void in
+                                    object2["authorized"] = true
+                                    object2["expiration"] = expDate
+                                    object2.save()
+                                    
+                                    self.getChannels()
+                                    self.tableView.reloadData()
+                                })
+                            } else {
+                                println("You did not enter the right code")
+                            }
+                        })
+                        
+                    }))
+                    self.dismissViewControllerAnimated(true, completion: nil)
+                    self.presentViewController(alert, animated: true, completion: nil)
+
+                }
                 self.presentViewController(allPages, animated: true, completion: nil)
             }
            
