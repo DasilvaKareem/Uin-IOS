@@ -16,6 +16,7 @@ class channelSelectView: UITableViewController {
     var channels = [String]()
     var channelNames = [String]()
     var channelType = [String]()
+    var channelStatus = [Bool]()
     var memBounded = Bool()
     //General Channels
     var genChannels = ["local events", "subscription events"]
@@ -36,7 +37,7 @@ class channelSelectView: UITableViewController {
         subscriptionEventCount.whereKey("start", greaterThan:  NSDate())
         
         self.genEvents.append("\(subscriptionEventCount.countObjects()) new")
-        
+         self.tableView.reloadData()
         
         //Gets Trend
        
@@ -101,12 +102,9 @@ class channelSelectView: UITableViewController {
                 for object in results {
                     self.channels.append(object["channelID"] as! String)
                     self.channelNames.append(object["channelName"] as! String)
+                    self.channelStatus.append(object["authorized"] as! Bool)
                     self.channelType.append("channelSelect")
                     println(object["channelID"] as! String)
-                    
-                    if object["channelID"] as! String == "wEwRowC6io" {
-                       
-                    }
                 }
                 self.tableView.reloadData()
             }
@@ -144,6 +142,7 @@ class channelSelectView: UITableViewController {
         usernameInfo.append("\(addToCalendarCount.countObjects()) upcoming")
         usernameSectionTitle.append("my events")
         userType.append("My Events")
+         self.tableView.reloadData()
     }
 
     override func didReceiveMemoryWarning() {
@@ -279,6 +278,7 @@ class channelSelectView: UITableViewController {
         if indexPath.section == 2 {
             cell = tableView.dequeueReusableCellWithIdentifier("profiles") as! channelTableCell
             cell.channelName.text = channelNames[indexPath.row]
+            //Affect the cell apperance
             if self.currentIndexPath == indexPath {
                 cell.contentView.backgroundColor = UIColor(red: 65.0/255.0, green: 145.0/255.0, blue: 198.0/255.0, alpha: 1)
                 cell.channelName.textColor = UIColor.whiteColor()
@@ -288,6 +288,12 @@ class channelSelectView: UITableViewController {
                 cell.contentView.backgroundColor = nil
                 cell.channelName.textColor = UIColor(red: 211.0/255.0, green: 211.0/255.0, blue: 211.0/255.0, alpha: 1)
                 cell.channelCount.textColor = UIColor(red: 211.0/255.0, green: 211.0/255.0, blue: 211.0/255.0, alpha: 1)
+            }
+            //Locks the image
+            if channelStatus[indexPath.row] == false {
+                cell.channelCount.text = "Locked"
+            } else {
+                cell.channelCount.text = "Open"
             }
            
         }
@@ -381,7 +387,8 @@ class channelSelectView: UITableViewController {
                                     object2["authorized"] = true
                                     object2["expiration"] = expDate
                                     object2.save()
-                                    self.viewDidDisappear(true)
+                                    self.getChannels()
+                                    self.tableView.reloadData()
                                 })
                             } else {
                                 println("You did not enter the right code")
