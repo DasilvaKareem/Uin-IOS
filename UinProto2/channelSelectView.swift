@@ -354,22 +354,22 @@ class channelSelectView: UITableViewController {
             channelQuery.whereKey("channelID", equalTo: channels[indexPath.row])
             var checkAuthorized = channelQuery.getFirstObject()
             if checkAuthorized["authorized"] as! Bool == false {
-                let page1:OnboardingContentViewController = OnboardingContentViewController(title: "Poop", body: "Luffy", image: UIImage(named: "settings"), buttonText: "Gear 4", action: {
+                let page1:OnboardingContentViewController = OnboardingContentViewController(title: "Welcome Tiger!", body: "Uin has partnered with MEMbound to give you the best experience possible during your time at New Student Orientation. Enjoy your stay, and don't forget to check the schedule!", image: UIImage(named: "tiger"), buttonText: "", action: {
                     
                 })
-                let page2:OnboardingContentViewController = OnboardingContentViewController(title: "Poop", body: "Luffy", image: UIImage(named: "settings"), buttonText: "Gear 4", action: {
+                let page2:OnboardingContentViewController = OnboardingContentViewController(title: "This is Memphis", body: "Once your session is over, hold on to Uin! When the Fall semester starts there will be all kinds of events here for you and your friends to check out!", image: UIImage(named: "whiteUin"), buttonText: "", action: {
                     
                 })
-                let page3:OnboardingContentViewController = OnboardingContentViewController(title: "Poop", body: "Luffy", image: UIImage(named: "settings"), buttonText: "Gear 4", action: {
-                    var alert = UIAlertController(title: "New Pitcher", message: "Enter Name", preferredStyle: UIAlertControllerStyle.Alert)
+                let page3:OnboardingContentViewController = OnboardingContentViewController(title: "Now, for VIP access...", body: "Please enter the code sent from the university to your email in order to access the MEMbound calendar. Ask around if you don't remember, someone will have it!", image: UIImage(named: "whiteUin"), buttonText: "Enter Code", action: {
+                    var alert = UIAlertController(title: "Enter Code", message: "You should have an email from the university that has your code for this session. If not, ask someone nearby.", preferredStyle: UIAlertControllerStyle.Alert)
                     alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: nil))
                     alert.addTextFieldWithConfigurationHandler({(textField: UITextField!) in
-                        textField.placeholder = "Name"
+                        textField.placeholder = "Code"
                         textField.secureTextEntry = false
                         text = textField.text
                         println(textField.text)
                     })
-                    alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler:{ (alertAction:UIAlertAction!) in
+                    alert.addAction(UIAlertAction(title: "Enter", style: .Default, handler:{ (alertAction:UIAlertAction!) in
                         
                         let textf = alert.textFields?[0] as! UITextField
                         var pinCheck = PFQuery(className: "ChannelCodeInfo")
@@ -400,7 +400,13 @@ class channelSelectView: UITableViewController {
                     self.presentViewController(alert, animated: true, completion: nil)
                 })
                 
-                let allPages:OnboardingViewController = OnboardingViewController(backgroundImage: UIImage(named: "settings"), contents: [page1,page2,page3])
+                let allPages:OnboardingViewController = OnboardingViewController(backgroundImage: UIImage(named: "memboundBackground"), contents: [page1,page2,page3])
+                allPages.underIconPadding = 40
+                allPages.underTitlePadding = 20
+                allPages.bottomPadding = 35
+                allPages.titleFontSize = 24
+                allPages.bodyFontSize = 18
+                allPages.buttonFontSize = 20
                 self.presentViewController(allPages, animated: true, completion: nil)
             }
            
