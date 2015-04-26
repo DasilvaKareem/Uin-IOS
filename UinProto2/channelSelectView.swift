@@ -350,9 +350,9 @@ class channelSelectView: UITableViewController {
                     var alert = UIAlertController(title: "You are blocked", message: "New World Order", preferredStyle: UIAlertControllerStyle.Alert)
                     alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: nil))
                     self.presentViewController(alert, animated: true, completion: nil)
+                } else {
+                    self.performSegueWithIdentifier("channelSelect", sender: self)
                 }
-                 self.performSegueWithIdentifier("channelSelect", sender: self)
-             
             }
         
       
