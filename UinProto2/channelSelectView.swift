@@ -417,6 +417,51 @@ class channelSelectView: UITableViewController {
                 allPages.titleFontSize = 24
                 allPages.bodyFontSize = 18
                 allPages.buttonFontSize = 20
+                // skip button
+                allPages.skipButton.enabled = true
+                allPages.allowSkipping = true
+                allPages.skipHandler = {
+                    println("it was skipped")
+                    var alert = UIAlertController(title: "Enter Code", message: "You should have an email from the university that has your code for this session. If not, ask someone nearby.", preferredStyle: UIAlertControllerStyle.Alert)
+                    alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: nil))
+                    alert.addTextFieldWithConfigurationHandler({(textField: UITextField!) in
+                        textField.placeholder = "Code"
+                        textField.secureTextEntry = false
+                        text = textField.text
+                        println(textField.text)
+                    })
+                    alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler:{ (alertAction:UIAlertAction!) in
+                        
+                        let textf = alert.textFields?[0] as! UITextField
+                        var pinCheck = PFQuery(className: "ChannelCodeInfo")
+                        pinCheck.whereKey("channelID", equalTo: self.channels[indexPath.row])
+                        pinCheck.whereKey("validationCode", equalTo:textf.text )
+                        pinCheck.getFirstObjectInBackgroundWithBlock({
+                            (object1:PFObject!, error:NSError!) -> Void in
+                            if error == nil {
+                                var expDate = object1["expiration"] as! NSDate
+                                var changeBound = PFQuery(className: "ChannelUser")
+                                changeBound.whereKey("userID", equalTo: PFUser.currentUser().objectId)
+                                changeBound.whereKey("channelID", equalTo: self.channels[indexPath.row])
+                                changeBound.getFirstObjectInBackgroundWithBlock({
+                                    (object2:PFObject!, error:NSError!) -> Void in
+                                    object2["authorized"] = true
+                                    object2["expiration"] = expDate
+                                    object2.save()
+                                    
+                                    self.getChannels()
+                                    self.tableView.reloadData()
+                                })
+                            } else {
+                                println("You did not enter the right code")
+                            }
+                        })
+                        
+                    }))
+                    self.dismissViewControllerAnimated(true, completion: nil)
+                    self.presentViewController(alert, animated: true, completion: nil)
+
+                }
                 self.presentViewController(allPages, animated: true, completion: nil)
             }
            
