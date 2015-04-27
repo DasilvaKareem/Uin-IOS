@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="0me-jO-edR">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="0me-jO-edR">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -819,6 +819,12 @@
                                     <action selector="addtocalendar:" destination="y9y-G9-w9b" eventType="touchUpInside" id="fVr-5A-gLh"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="d1b-Pj-u2k">
+                                <rect key="frame" x="87" y="134" width="311" height="99"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -896,6 +902,7 @@
                         <outlet property="date" destination="tsK-Ib-iSC" id="Ssx-eX-BEe"/>
                         <outlet property="endDate" destination="tbA-5J-boH" id="0yx-Op-w6l"/>
                         <outlet property="endTime" destination="7Kb-uf-CDW" id="mB0-0M-CKY"/>
+                        <outlet property="eventDescription" destination="d1b-Pj-u2k" id="RDw-jV-bQI"/>
                         <outlet property="eventTitle" destination="BTs-Tc-lLL" id="65U-qN-ayu"/>
                         <outlet property="foodIcon" destination="76f-MK-Hwv" id="ZXp-6V-DbB"/>
                         <outlet property="freeIcon" destination="NRP-OS-EJL" id="Rfr-4b-Z8p"/>
@@ -2115,6 +2122,11 @@
                                             <action selector="publicEvent:" destination="wj6-a8-ugv" eventType="valueChanged" id="uPV-SE-FVv"/>
                                         </connections>
                                     </segmentedControl>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="q1k-WD-cD3">
+                                        <rect key="frame" x="21" y="0.0" width="324" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
                                 </subviews>
                                 <constraints>
                                     <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="RLM-dx-cX8" secondAttribute="bottom" priority="750" constant="2" id="0BA-jj-CbZ"/>
@@ -2320,6 +2332,7 @@
                         <outlet property="end" destination="WKr-2x-8WE" id="7ed-ta-N6T"/>
                         <outlet property="endTimeCheck" destination="q67-mV-z9l" id="Euc-9n-aGM"/>
                         <outlet property="eventAddress" destination="4WX-df-stO" id="yoY-Dd-Ce2"/>
+                        <outlet property="eventDescription" destination="q1k-WD-cD3" id="6jm-So-Ch4"/>
                         <outlet property="eventLocationDescription" destination="SoF-Rh-LyX" id="nJp-jN-p21"/>
                         <outlet property="eventTitle" destination="aSK-x0-fwL" id="6y1-5n-jNT"/>
                         <outlet property="foodSegement" destination="Usx-ZG-3UU" id="s5o-0j-3XH"/>
@@ -2338,7 +2351,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ang-Fv-bga" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2578" y="3911"/>
+            <point key="canvasLocation" x="-2723" y="3611"/>
         </scene>
         <!--Register-->
         <scene sceneID="TSO-JA-XuC">

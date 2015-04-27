@@ -30,6 +30,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     var eventStartDate = [String]()
     var eventEndDate = [String]()
     var usernames = [String]()
+    var eventDescription = [String]()
     //Event specfici ID and publicty status
     var objectID = [String]()
     var publicPost = [Bool]()
@@ -444,6 +445,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                                 self.eventlocation.append(object["location"] as!String)
                                 self.userId.append(object["authorID"] as!String)
                                 self.eventAddress.append(object["address"] as!String)
+                                self.eventDescription.append(object["description"] as! String)
                                 
                             }
                             self.populateSectionInfo()
@@ -883,7 +885,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                     if (granted) && (error == nil) {
                         println("granted \(granted)")
                         println("error  \(error)")
-                        var hosted = "Hosted by \(self.usernames[sender.tag]) address:\(self.eventAddress[sender.tag])"
+                        var hosted = "Hosted by \(self.usernames[sender.tag]) address:\(self.eventAddress[sender.tag])\(self.eventDescription[sender.tag])"
                         var event:EKEvent = EKEvent(eventStore: eventStore)
                         println()
                         println(self.eventTitle[sender.tag])
@@ -1000,6 +1002,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             secondViewController.localEnd = localizedEndTime[index]
             secondViewController.users = usernames[index]
             secondViewController.eventId = objectID[index]
+            secondViewController.eventDescriptionHolder = eventDescription[index]
             
             
         }

@@ -30,6 +30,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
     @IBOutlet var displayLocation: UILabel!
   
     
+    @IBOutlet var eventDescription: UITextField!
     @IBOutlet var eventAddress: UILabel!
     @IBOutlet var eventLocationDescription: UIButton!
 
@@ -239,6 +240,8 @@ class eventMake: UIViewController, UITextFieldDelegate {
                         eventItem["authorID"] = PFUser.currentUser().objectId
                         eventItem["isDeleted"] = false
                         eventItem["channels"] = self.channel
+                        eventItem["inLocalFeed"] = true
+                        eventItem["description"] = self.eventDescription.text
                         eventItem.saveInBackgroundWithBlock({
                             (success:Bool, error:NSError!) -> Void in
                             
@@ -334,6 +337,8 @@ class eventMake: UIViewController, UITextFieldDelegate {
                 event["authorID"] = PFUser.currentUser().objectId
                 event["isDeleted"] = false
                 event["channels"] = self.channel
+                event["description"] = self.eventDescription.text
+                event["inLocalFeed"] = true
                 event.saveInBackgroundWithBlock{
                     
                     (success:Bool,eventError:NSError!) -> Void in

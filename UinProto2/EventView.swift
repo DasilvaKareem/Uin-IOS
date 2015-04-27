@@ -11,6 +11,7 @@ import EventKit
 
 class postEvent: UIViewController {
     
+    @IBOutlet var eventDescription: UILabel!
     @IBOutlet var calendarCount: UILabel!
     @IBOutlet var peopleView: UIImageView!
     @IBOutlet weak var foodIcon: UILabel!
@@ -53,6 +54,7 @@ class postEvent: UIViewController {
     var localStart = String()
     var localEnd = String()
     var userId = String()
+    var eventDescriptionHolder = String()
     var searchEvent = false
 
     func checkevent(){
@@ -169,12 +171,9 @@ class postEvent: UIViewController {
             var nav = self.navigationController?.navigationBar
             nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()];
         }
-      
-        println(food)
-        println(onsite)
-        println(cost)
         if searchEvent == true {
             getEvents()
+            eventDescription.text = eventDescriptionHolder
         } else {
             getEvents()
             username.setTitle(users, forState: UIControlState.Normal)
@@ -184,6 +183,7 @@ class postEvent: UIViewController {
             startTime.text = localStart
             endTime.text = localEnd
             date.text = storeDate
+            eventDescription.text = eventDescriptionHolder
             putIcons()
         }
     
