@@ -17,8 +17,10 @@ class postEvent: UIViewController {
     @IBOutlet weak var foodIcon: UILabel!
     @IBOutlet weak var freeIcon: UILabel!
     @IBOutlet weak var onCampusIcon: UILabel!
-    @IBOutlet var location: UIButton!
-    @IBOutlet var endDate: UILabel!
+    @IBOutlet var locationTitle: UILabel!
+    @IBOutlet var dateTitle: UILabel!
+    
+    @IBOutlet var location: UILabel!
     @IBOutlet weak var eventTitle: UILabel!
     @IBOutlet var startTime: UILabel!
     @IBOutlet var endTime: UILabel!
@@ -28,8 +30,12 @@ class postEvent: UIViewController {
     @IBOutlet weak var isSite: UIImageView!
     @IBOutlet weak var isPaid: UIImageView!
     @IBAction func gotoProfile(sender: AnyObject) {
+        if PFUser.currentUser().objectId != userId {
+            self.performSegueWithIdentifier("gotoprofile", sender: self)
+        } else {
+            
+        }
         
-        self.performSegueWithIdentifier("gotoprofile", sender: self)
         
     }
     
@@ -57,6 +63,8 @@ class postEvent: UIViewController {
     var eventDescriptionHolder = String()
     var searchEvent = false
 
+    var startDate = (String)()
+    var endDate = (String)()
     func checkevent(){
         var minique = PFQuery(className: "UserCalendar")
         minique.whereKey("user", equalTo: PFUser.currentUser().username)
@@ -69,11 +77,11 @@ class postEvent: UIViewController {
             
             if error == nil {
                 self.longBar.setImage(UIImage(named: "addedToCalendarLongBar.png"), forState: UIControlState.Normal)
-                self.peopleView.image = UIImage(named: "blueGroup")
+               
                 self.calendarCount.textColor = UIColor(red: 52.0/255.0, green: 127.0/255.0, blue: 191.0/255, alpha:1) //blue color
             }   else {
                 self.longBar.setImage(UIImage(named: "addToCalendarLongBar.png"), forState: UIControlState.Normal)
-                self.peopleView.image = UIImage(named: "yellowGroup")
+             
                 self.calendarCount.textColor = UIColor(red: 254.0/255.0, green: 186.0/255.0, blue: 1.0/255, alpha:1 ) //yellow color
             }
         }
@@ -106,37 +114,29 @@ class postEvent: UIViewController {
                 println(result)
                 var dateFormatter = NSDateFormatter()
                 dateFormatter.locale = NSLocale.currentLocale() // Gets current locale and switches
-                dateFormatter.dateFormat = " MMM, dd yyyy"
-                var headerDate = dateFormatter.stringFromDate(result["start"] as!NSDate) // Creates date
-               self.date.text = headerDate
-                var headerDate2 = dateFormatter.stringFromDate(result["end"] as!NSDate) // Creates date
-                self.endDate.text = headerDate2
-                
-                //Creates Time for Event from NSDAte
-                var timeFormatter = NSDateFormatter() //Formats time
-                timeFormatter.locale = NSLocale.currentLocale()
-                timeFormatter.timeStyle = NSDateFormatterStyle.ShortStyle
-                var localTime = timeFormatter.stringFromDate(result["start"] as!NSDate)
-                self.startTime.text = localTime
-                
-                var endTime = timeFormatter.stringFromDate(result["end"] as!NSDate)
-                self.endTime.text = endTime
+                dateFormatter.dateFormat = " MMM, dd yyyy EEEE"
+                self.startDate = dateFormatter.stringFromDate(result["start"] as!NSDate) // Creates date
+                self.endDate = dateFormatter.stringFromDate(result["end"] as!NSDate) // Creates date
                 
                 
-               self.storeStartDate = result["start"] as!NSDate!
-                self.endStoreDate =  result["end"] as!NSDate!
+              
+                
+                
+                
+            
+             
                 self.userId = result["authorID"] as!String!
                 self.address = result["address"] as!String!
                 self.storeLocation = result["location"] as!String!
-                self.location.setTitle(result["location"] as!String!, forState: UIControlState.Normal)
+                self.location.text = result["location"] as!String!
                self.eventTitle.text = result["title"] as!String!
                 self.storeTitle = result["title"] as!String!
-        
+                self.date.text = self.startDate
                 self.onsite = result["onCampus"] as!Bool
                 self.cost = result["isFree"] as!Bool
                 self.food = result["hasFood"] as!Bool
                 
-                self.username.setTitle(result["author"] as!String!, forState: UIControlState.Normal)
+               
                 self.eventId = result.objectId
                 self.putIcons()
             }
@@ -176,21 +176,15 @@ class postEvent: UIViewController {
             eventDescription.text = eventDescriptionHolder
         } else {
             getEvents()
-            username.setTitle(users, forState: UIControlState.Normal)
-            endDate.text = storeEndDate
-            location.setTitle(storeLocation, forState: UIControlState.Normal)
-            eventTitle.text = storeTitle
-            startTime.text = localStart
-            endTime.text = localEnd
-            date.text = storeDate
+         
             eventDescription.text = eventDescriptionHolder
-            putIcons()
+           
         }
     
         
         checkevent()
         if PFUser.currentUser().username == users {
-            username.enabled = false
+           
         }
     }
     
@@ -205,16 +199,8 @@ class postEvent: UIViewController {
     }
     @IBAction func changeForm(sender: AnyObject) {
       
-        println(address)
-        println(storeLocation)
-        println(location.titleLabel)
-        if location.titleLabel?.text == storeLocation {
-            location.setTitle(address, forState: UIControlState.Normal)
-        }
-        if location.titleLabel?.text == address {
-            location.setTitle(storeLocation, forState: UIControlState.Normal)
-        }
-        
+      
+    
     }
     func displayAlert(title:String, error:String) {
         
@@ -372,6 +358,32 @@ class postEvent: UIViewController {
             }
         })
     }
+    // Switch display location with the real addrss
+    @IBAction func switchAddress(sender: AnyObject) {
+        
+        if location.text == storeLocation {
+            location.text = address
+            locationTitle.text = "Address"
+        } else {
+             location.text = storeLocation
+            locationTitle.text = "Location"
+        }
+      
+        
+    }
+    
+    // Switch start time with the end time
+    @IBAction func switchDates(sender: UIButton) {
+        if self.date.text == self.startDate {
+            self.date.text = self.endDate
+            dateTitle.text = "ENDS AT"
+        } else {
+            self.date.text = self.startDate
+            dateTitle.text = "STARTS AT"
+        }
+       
+    }
+    
     @IBOutlet var longBar: UIButton!
     
     func putIcons(){

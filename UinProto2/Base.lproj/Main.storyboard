@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="0me-jO-edR">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="0me-jO-edR">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -759,12 +759,15 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U2V-H5-ABG">
-                                <rect key="frame" x="317" y="189" width="46" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U2V-H5-ABG">
+                                <rect key="frame" x="200" y="193" width="46" height="30"/>
                                 <state key="normal" title="Button">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="switchAddress:" destination="y9y-G9-w9b" eventType="touchUpInside" id="P2y-Tt-M6d"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="location" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bqs-Ky-LC0">
                                 <rect key="frame" x="16" y="193" width="61" height="21"/>
@@ -772,13 +775,6 @@
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Ow-6B-Lr1">
-                                <rect key="frame" x="317" y="268" width="46" height="30"/>
-                                <state key="normal" title="Button">
-                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="XKQ-zq-qHK">
                                 <rect key="frame" x="23" y="478" width="128" height="128"/>
                                 <constraints>
@@ -786,6 +782,16 @@
                                     <constraint firstAttribute="height" constant="128" id="s1B-Hx-oX4"/>
                                 </constraints>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Ow-6B-Lr1">
+                                <rect key="frame" x="170" y="268" width="46" height="30"/>
+                                <state key="normal" title="Button">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="switchDates:" destination="y9y-G9-w9b" eventType="touchUpInside" id="hw0-sh-vIr"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -846,9 +852,9 @@
                         </variation>
                     </view>
                     <navigationItem key="navigationItem" title="Event" id="gzu-1c-TIM">
-                        <barButtonItem key="rightBarButtonItem" title="Edit" id="OXM-7u-BX3">
+                        <barButtonItem key="rightBarButtonItem" title="Username" id="E43-35-Ym0">
                             <connections>
-                                <segue destination="wj6-a8-ugv" kind="show" identifier="editEvent" id="eqj-cr-YG3"/>
+                                <action selector="gotoProfile:" destination="y9y-G9-w9b" id="lfl-bD-Yfr"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -856,21 +862,25 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
                         <outlet property="calendarCount" destination="gUK-lT-R5M" id="byC-1w-NYH"/>
+                        <outlet property="date" destination="tsK-Ib-iSC" id="j7a-gK-qYS"/>
+                        <outlet property="dateTitle" destination="TRG-3k-hR9" id="Y70-zu-J7j"/>
                         <outlet property="eventDescription" destination="d1b-Pj-u2k" id="RDw-jV-bQI"/>
+                        <outlet property="eventTitle" destination="BTs-Tc-lLL" id="bvi-7G-oi6"/>
                         <outlet property="foodIcon" destination="76f-MK-Hwv" id="ZXp-6V-DbB"/>
                         <outlet property="freeIcon" destination="NRP-OS-EJL" id="Rfr-4b-Z8p"/>
                         <outlet property="isFood" destination="gGR-lF-G3t" id="B9W-oF-4QE"/>
                         <outlet property="isPaid" destination="MIg-rS-88A" id="mlD-iL-c6N"/>
                         <outlet property="isSite" destination="QKs-Cl-h33" id="SuW-Vg-uaC"/>
+                        <outlet property="location" destination="Bqs-Ky-LC0" id="8ga-7V-UJY"/>
+                        <outlet property="locationTitle" destination="EhB-JZ-mhd" id="BZQ-4e-zjp"/>
                         <outlet property="longBar" destination="oEx-xt-2dS" id="DcI-u4-98n"/>
                         <outlet property="onCampusIcon" destination="LUW-PS-q79" id="3eb-G6-QaS"/>
-                        <outlet property="theeditButton" destination="OXM-7u-BX3" id="sh1-qw-43k"/>
                         <segue destination="Odt-cu-E3D" kind="show" identifier="gotoprofile" id="Icg-Rt-Vk3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5rQ-t6-Cuv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1343" y="3966"/>
+            <point key="canvasLocation" x="-1396" y="4262"/>
         </scene>
         <!--Profile View-->
         <scene sceneID="mxh-Zb-eyh">
@@ -2302,7 +2312,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ang-Fv-bga" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2723" y="3611"/>
+            <point key="canvasLocation" x="-2269" y="3997"/>
         </scene>
         <!--Register-->
         <scene sceneID="TSO-JA-XuC">
@@ -3174,11 +3184,10 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="Or7-9P-XFG"/>
-        <segue reference="tAD-AG-Ttu"/>
-        <segue reference="eqj-cr-YG3"/>
+        <segue reference="2Fl-qT-9is"/>
         <segue reference="Icg-Rt-Vk3"/>
-        <segue reference="qWF-HI-Lr4"/>
         <segue reference="FLk-RB-cnt"/>
+        <segue reference="qWF-HI-Lr4"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>
