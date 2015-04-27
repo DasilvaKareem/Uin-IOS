@@ -29,8 +29,9 @@ class eventMake: UIViewController, UITextFieldDelegate {
     
     @IBOutlet var displayLocation: UILabel!
   
+    @IBOutlet var eventDescription: UITextView!
     
-    @IBOutlet var eventDescription: UITextField!
+  
     @IBOutlet var eventAddress: UILabel!
     @IBOutlet var eventLocationDescription: UIButton!
 

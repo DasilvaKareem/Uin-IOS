@@ -2120,11 +2120,6 @@
                                             <action selector="publicEvent:" destination="wj6-a8-ugv" eventType="valueChanged" id="uPV-SE-FVv"/>
                                         </connections>
                                     </segmentedControl>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="q1k-WD-cD3">
-                                        <rect key="frame" x="21" y="0.0" width="324" height="30"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                    </textField>
                                 </subviews>
                                 <constraints>
                                     <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="RLM-dx-cX8" secondAttribute="bottom" priority="750" constant="2" id="0BA-jj-CbZ"/>
@@ -2245,6 +2240,13 @@
                                     </mask>
                                 </variation>
                             </textField>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YDv-rn-Nl5">
+                                <rect key="frame" x="100" y="224" width="240" height="128"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -2330,7 +2332,7 @@
                         <outlet property="end" destination="WKr-2x-8WE" id="7ed-ta-N6T"/>
                         <outlet property="endTimeCheck" destination="q67-mV-z9l" id="Euc-9n-aGM"/>
                         <outlet property="eventAddress" destination="4WX-df-stO" id="yoY-Dd-Ce2"/>
-                        <outlet property="eventDescription" destination="q1k-WD-cD3" id="6jm-So-Ch4"/>
+                        <outlet property="eventDescription" destination="YDv-rn-Nl5" id="7s1-qu-uiy"/>
                         <outlet property="eventLocationDescription" destination="SoF-Rh-LyX" id="nJp-jN-p21"/>
                         <outlet property="eventTitle" destination="aSK-x0-fwL" id="6y1-5n-jNT"/>
                         <outlet property="foodSegement" destination="Usx-ZG-3UU" id="s5o-0j-3XH"/>
