@@ -231,7 +231,7 @@ class postEvent: UIViewController {
               results.delete()
                 self.getCount()
                 self.longBar.setImage(UIImage(named: "addToCalendarBig.png"), forState: UIControlState.Normal)
-                self.peopleView.image = UIImage(named: "yellowGroup")
+               
                 self.calendarCount.textColor = UIColor(red: 254.0/255.0, green: 186.0/255.0, blue: 1.0/255, alpha:1 ) //yellow color
                 if results != nil {
             var eventStore : EKEventStore = EKEventStore()
@@ -289,7 +289,7 @@ class postEvent: UIViewController {
                         self.getCount()
                         println("the user is going to the event")
                         self.longBar.setImage(UIImage(named: "addedToCalendarBig.png"), forState: UIControlState.Normal)
-                        self.peopleView.image = UIImage(named: "blueGroup") //changes the group image to blue
+            
                         self.calendarCount.textColor = UIColor(red: 52.0/255.0, green: 127.0/255.0, blue: 191.0/255, alpha:1 ) //blue color
                         
                     }
