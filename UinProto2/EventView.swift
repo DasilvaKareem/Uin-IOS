@@ -20,6 +20,7 @@ class postEvent: UIViewController {
     @IBOutlet var locationTitle: UILabel!
     @IBOutlet var dateTitle: UILabel!
     
+    
     @IBOutlet var location: UILabel!
     @IBOutlet weak var eventTitle: UILabel!
     @IBOutlet var startTime: UILabel!

@@ -27,14 +27,67 @@ class eventMake: UIViewController, UITextFieldDelegate {
     var address = ""
     var channel = ["xOI5cjHcDo"]
     
-    @IBOutlet var displayLocation: UILabel!
-  
-    @IBOutlet var eventDescription: UITextView!
+    @IBOutlet var onCampusButton: UIButton!
+    @IBOutlet var isFreeButton: UIButton!
+    @IBOutlet var hasFoodButton: UIButton!
     
-  
+    @IBOutlet var onCampusText: UILabel!
+    @IBOutlet var isFreeText: UILabel!
+    @IBOutlet var hasFoodText: UILabel!
+    
+    var onsite:Bool = true
+    var food:Bool = true
+    var paid:Bool = true
+    @IBAction func onCampusSwitch(sender: AnyObject) {
+        if self.onsite == true {
+            self.onsite = false
+          
+            onCampusButton.setBackgroundImage(UIImage(named: "emNoLocation"), forState: UIControlState.Normal)
+            onCampusText.text = "Off Campus"
+            onCampusText.textColor = UIColor(red: 165.0/255.0, green: 169.0/255.0, blue: 172.0/255, alpha:1 ) //Gray
+            println(self.onsite)
+        } else {
+            self.onsite = true
+                 onCampusButton.setBackgroundImage(UIImage(named: "emYesLocation"), forState: UIControlState.Normal)
+            onCampusText.text = "On Campus"
+            onCampusText.textColor =  UIColor(red: 135.0/255.0, green: 84.0/255.0, blue: 194.0/255, alpha:1 ) //Purple
+            println(self.onsite)
+        }
+    }
+    
+    @IBAction func isFreeSwitch(sender: AnyObject) {
+        if self.paid == true {
+            self.paid = false
+            isFreeButton.setBackgroundImage(UIImage(named: "noFree.png"), forState: UIControlState.Normal)
+            isFreeText.text = "Not Free"
+            isFreeText.textColor = UIColor(red: 165.0/255.0, green: 169.0/255.0, blue: 172.0/255, alpha:1 ) //Gray
+            
+        } else {
+            self.paid = true
+            isFreeButton.setBackgroundImage(UIImage(named: "yesFree.png"), forState: UIControlState.Normal)
+            isFreeText.text = "Free"
+            isFreeText.textColor = UIColor(red: 93.0/255.0, green: 175.0/255.0, blue: 76.0/255, alpha:1) //Green
+        }
+    }
+    
+    @IBAction func hasFoodSwitch(sender: AnyObject) {
+        if self.food == true {
+            self.food = false
+            hasFoodButton.setBackgroundImage(UIImage(named: "emNoFood"), forState: UIControlState.Normal)
+            hasFoodText.text = "No Food"
+            hasFoodText.textColor = UIColor(red: 165.0/255.0, green: 169.0/255.0, blue: 172.0/255, alpha:1 ) //Gray
+        } else {
+            self.food = true
+            hasFoodButton.setBackgroundImage(UIImage(named: "emYesFood"), forState: UIControlState.Normal)
+            hasFoodText.text = "Food"
+            hasFoodText.textColor = UIColor(red: 224.0/255.0, green: 69.0/255.0, blue: 69.0/255, alpha:1 ) //Red
+        }
+    }
+    
+    @IBOutlet var displayLocation: UILabel!
+    @IBOutlet var eventDescription: UITextView!
     @IBOutlet var eventAddress: UILabel!
     @IBOutlet var eventLocationDescription: UIButton!
-
     @IBOutlet var locationConfirm: UIImageView!
    
     
@@ -77,9 +130,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
     @IBOutlet var onCampus: UISegmentedControl!
     @IBOutlet var end: UIButton!
     var eventPublic:Bool = true
-    var onsite:Bool = true
-    var food:Bool = true
-    var paid:Bool = true
+  
     
     @IBAction func createLocation(sender: AnyObject) {
        textFieldShouldReturn(eventTitle)
@@ -570,36 +621,40 @@ class eventMake: UIViewController, UITextFieldDelegate {
    
         if food == true {
            
-            foodSegement.selectedSegmentIndex = 0
-            hasFoodIcon.image = UIImage(named: "yesFood.png")
+            hasFoodText.text = "Food"
+            hasFoodText.textColor = UIColor(red: 224.0/255.0, green: 69.0/255.0, blue: 69.0/255, alpha:1 ) //Red
+            hasFoodButton.setBackgroundImage(UIImage(named: "yesFood.png"), forState: UIControlState.Normal)
         }
         else {
          
-            foodSegement.selectedSegmentIndex = 1
-            hasFoodIcon.image = UIImage(named: "noFood.png")
-            foodSegement.tintColor = UIColor(red: 165.0/255.0, green: 169.0/255.0, blue: 172.0/255, alpha:1 ) //Gray
+            hasFoodText.text = "No Food"
+            hasFoodText.textColor = UIColor(red: 165.0/255.0, green: 169.0/255.0, blue: 172.0/255, alpha:1 ) //Gray
+            hasFoodButton.setBackgroundImage(UIImage(named: "yesFood.png"), forState: UIControlState.Normal)
+            
         }
         if paid == true {
-            println("OK IT WOKRS")
-             isFreeIcon.image = UIImage(named: "yesFree.png")
-            freeSegment.selectedSegmentIndex = 0
+            isFreeText.text = "Free"
+            isFreeText.textColor = UIColor(red: 93.0/255.0, green: 175.0/255.0, blue: 76.0/255, alpha:1) //Green
+            isFreeButton.setBackgroundImage(UIImage(named: "yesFree.png"), forState: UIControlState.Normal)
         }
         else {
-            println("PAID IS NOT TRUE")
-            freeSegment.selectedSegmentIndex = 1
-             isFreeIcon.image = UIImage(named: "noFree.png")
-            freeSegment.tintColor = UIColor(red: 165.0/255.0, green: 169.0/255.0, blue: 172.0/255, alpha:1 ) //Gray
+            isFreeText.text = "Not Free"
+            isFreeText.textColor = UIColor(red: 165.0/255.0, green: 169.0/255.0, blue: 172.0/255, alpha:1 ) //Gray
+             isFreeButton.setBackgroundImage(UIImage(named: "noFree.png"), forState: UIControlState.Normal)
         }
         if onsite == true {
             println("OK IT WOKRS")
-            oncampusSegement.selectedSegmentIndex = 0
-            onCampusIcon.image = UIImage(named: "onCampus.png")
+            onCampusText.text = "On Campus"
+            onCampusText.textColor =  UIColor(red: 135.0/255.0, green: 84.0/255.0, blue: 194.0/255, alpha:1 ) //Purple
+            onCampusButton.setBackgroundImage(UIImage(named: "onCampus.png"), forState: UIControlState.Normal)
+            
         }
         else {
             
-            oncampusSegement.selectedSegmentIndex = 1
-            onCampusIcon.image = UIImage(named: "offCampus.png")
-            oncampusSegement.tintColor = UIColor(red: 165.0/255.0, green: 169.0/255.0, blue: 172.0/255, alpha:1 ) //Gray
+       
+             onCampusButton.setBackgroundImage(UIImage(named: "offCampus.png"), forState: UIControlState.Normal)
+            onCampusText.text = "Off Campus"
+            onCampusText.textColor = UIColor(red: 165.0/255.0, green: 169.0/255.0, blue: 172.0/255, alpha:1 ) //Gray
         }
         
         if PFUser.currentUser() == nil{
