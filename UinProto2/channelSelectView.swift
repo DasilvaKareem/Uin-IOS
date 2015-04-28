@@ -347,7 +347,7 @@ class channelSelectView: UITableViewController {
                
                 if self.memBounded == true {
                     println("You are membounded")
-                    var alert = UIAlertController(title: "You are blocked", message: "New World Order", preferredStyle: UIAlertControllerStyle.Alert)
+                    var alert = UIAlertController(title: "You're still in MEMbound", message: "Check back when your session is over. We'll be waiting on you!", preferredStyle: UIAlertControllerStyle.Alert)
                     alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: nil))
                     self.presentViewController(alert, animated: true, completion: nil)
                 } else {

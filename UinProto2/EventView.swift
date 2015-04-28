@@ -76,11 +76,11 @@ class postEvent: UIViewController {
             (results:PFObject!, error: NSError!) -> Void in
             
             if error == nil {
-                self.longBar.setImage(UIImage(named: "addedToCalendarLongBar.png"), forState: UIControlState.Normal)
+                self.longBar.setImage(UIImage(named: "addedToCalendarBig.png"), forState: UIControlState.Normal)
                
                 self.calendarCount.textColor = UIColor(red: 52.0/255.0, green: 127.0/255.0, blue: 191.0/255, alpha:1) //blue color
             }   else {
-                self.longBar.setImage(UIImage(named: "addToCalendarLongBar.png"), forState: UIControlState.Normal)
+                self.longBar.setImage(UIImage(named: "addToCalendarBig.png"), forState: UIControlState.Normal)
              
                 self.calendarCount.textColor = UIColor(red: 254.0/255.0, green: 186.0/255.0, blue: 1.0/255, alpha:1 ) //yellow color
             }
@@ -114,7 +114,7 @@ class postEvent: UIViewController {
                 println(result)
                 var dateFormatter = NSDateFormatter()
                 dateFormatter.locale = NSLocale.currentLocale() // Gets current locale and switches
-                dateFormatter.dateFormat = " MMM, dd yyyy EEEE"
+                dateFormatter.dateFormat = "MMM. dd, yyyy EEEE"
                 self.startDate = dateFormatter.stringFromDate(result["start"] as!NSDate) // Creates date
                 self.endDate = dateFormatter.stringFromDate(result["end"] as!NSDate) // Creates date
                 
@@ -228,7 +228,7 @@ class postEvent: UIViewController {
             if queerror == nil {
               results.delete()
                 self.getCount()
-                self.longBar.setImage(UIImage(named: "addToCalendarLongBar.png"), forState: UIControlState.Normal)
+                self.longBar.setImage(UIImage(named: "addToCalendarBig.png"), forState: UIControlState.Normal)
                 self.peopleView.image = UIImage(named: "yellowGroup")
                 self.calendarCount.textColor = UIColor(red: 254.0/255.0, green: 186.0/255.0, blue: 1.0/255, alpha:1 ) //yellow color
                 if results != nil {
@@ -286,7 +286,7 @@ class postEvent: UIViewController {
                     if savError == nil {
                         self.getCount()
                         println("the user is going to the event")
-                        self.longBar.setImage(UIImage(named: "addedToCalendarLongBar.png"), forState: UIControlState.Normal)
+                        self.longBar.setImage(UIImage(named: "addedToCalendarBig.png"), forState: UIControlState.Normal)
                         self.peopleView.image = UIImage(named: "blueGroup") //changes the group image to blue
                         self.calendarCount.textColor = UIColor(red: 52.0/255.0, green: 127.0/255.0, blue: 191.0/255, alpha:1 ) //blue color
                         
@@ -363,10 +363,10 @@ class postEvent: UIViewController {
         
         if location.text == storeLocation {
             location.text = address
-            locationTitle.text = "Address"
+            locationTitle.text = "address"
         } else {
              location.text = storeLocation
-            locationTitle.text = "Location"
+            locationTitle.text = "location"
         }
       
         
@@ -376,10 +376,10 @@ class postEvent: UIViewController {
     @IBAction func switchDates(sender: UIButton) {
         if self.date.text == self.startDate {
             self.date.text = self.endDate
-            dateTitle.text = "ENDS AT"
+            dateTitle.text = "ends at"
         } else {
             self.date.text = self.startDate
-            dateTitle.text = "STARTS AT"
+            dateTitle.text = "starts at"
         }
        
     }
