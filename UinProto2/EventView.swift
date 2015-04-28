@@ -115,7 +115,7 @@ class postEvent: UIViewController {
                 println(result)
                 var dateFormatter = NSDateFormatter()
                 dateFormatter.locale = NSLocale.currentLocale() // Gets current locale and switches
-                dateFormatter.dateFormat = "MMM. dd, yyyy EEEE"
+                dateFormatter.dateFormat = "MMM. dd, yyyy - h:mm a"
                 self.startDate = dateFormatter.stringFromDate(result["start"] as!NSDate) // Creates date
                 self.endDate = dateFormatter.stringFromDate(result["end"] as!NSDate) // Creates date
                 
