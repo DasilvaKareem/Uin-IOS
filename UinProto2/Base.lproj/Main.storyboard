@@ -2115,8 +2115,8 @@
                                         </connections>
                                     </segmentedControl>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rTI-O2-NXS">
-                                        <rect key="frame" x="307" y="203" width="40" height="29"/>
-                                        <state key="normal" title="Button">
+                                        <rect key="frame" x="307" y="203" width="40" height="30"/>
+                                        <state key="normal">
                                             <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -2130,9 +2130,27 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pvI-y4-kf3">
+                                        <rect key="frame" x="22" y="233" width="42" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e3a-rE-7HV">
+                                        <rect key="frame" x="177" y="233" width="42" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UnK-Fu-whK">
+                                        <rect key="frame" x="305" y="233" width="42" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HLL-in-mLG">
                                         <rect key="frame" x="16" y="182" width="48" height="57"/>
-                                        <state key="normal" title="Button">
+                                        <state key="normal">
                                             <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -2261,8 +2279,8 @@
                                 </variation>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RbH-Ui-uu6">
-                                <rect key="frame" x="186" y="465" width="54" height="27"/>
-                                <state key="normal" title="Button">
+                                <rect key="frame" x="186" y="465" width="54" height="30"/>
+                                <state key="normal">
                                     <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -2362,11 +2380,14 @@
                         <outlet property="freeSegment" destination="UnY-8W-YbY" id="mj6-Mr-sQx"/>
                         <outlet property="hasFoodButton" destination="rTI-O2-NXS" id="nFc-yf-xaI"/>
                         <outlet property="hasFoodIcon" destination="dHJ-cG-NWI" id="RL3-83-Vsa"/>
+                        <outlet property="hasFoodText" destination="UnK-Fu-whK" id="eey-bJ-UZd"/>
                         <outlet property="isFreeButton" destination="RbH-Ui-uu6" id="zzB-bD-NBb"/>
                         <outlet property="isFreeIcon" destination="FpN-kI-76S" id="7cJ-hI-mQw"/>
+                        <outlet property="isFreeText" destination="e3a-rE-7HV" id="jKE-NI-Eqe"/>
                         <outlet property="locationConfirm" destination="gUM-Ce-ObH" id="C00-hl-Zs0"/>
                         <outlet property="onCampusButton" destination="HLL-in-mLG" id="5ss-Zw-Imt"/>
                         <outlet property="onCampusIcon" destination="Yc6-Xm-ogn" id="GuB-pA-yKq"/>
+                        <outlet property="onCampusText" destination="pvI-y4-kf3" id="dFE-mS-XFF"/>
                         <outlet property="oncampusSegement" destination="kz3-zF-mkl" id="W6S-qs-nKg"/>
                         <outlet property="publicSegment" destination="RLM-dx-cX8" id="ZHh-NN-VAy"/>
                         <outlet property="start" destination="J43-Jj-cCa" id="zP4-T1-Lpz"/>
