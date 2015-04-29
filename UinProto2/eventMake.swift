@@ -35,6 +35,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
     @IBOutlet var isFreeText: UILabel!
     @IBOutlet var hasFoodText: UILabel!
     
+    
     var onsite:Bool = true
     var food:Bool = true
     var paid:Bool = true

@@ -20,7 +20,9 @@ class postEvent: UIViewController {
     @IBOutlet var locationTitle: UILabel!
     @IBOutlet var dateTitle: UILabel!
     
-    
+    @IBOutlet var imageShower: UIButton!
+    var image = (UIImage)()
+  
     @IBOutlet var location: UILabel!
     @IBOutlet weak var eventTitle: UILabel!
     @IBOutlet var startTime: UILabel!
@@ -63,7 +65,7 @@ class postEvent: UIViewController {
     var userId = String()
     var eventDescriptionHolder = String()
     var searchEvent = false
-
+    var imageFile = (PFFile)()
     var startDate = (String)()
     var endDate = (String)()
     func checkevent(){
@@ -123,8 +125,22 @@ class postEvent: UIViewController {
               
                 
                 
-                
-            
+                if result["picture"] == nil {
+                    self.imageShower.enabled = false
+                } else {
+                    self.imageFile = result["picture"] as! PFFile
+                    self.imageFile.getDataInBackgroundWithBlock({
+                        (imageData: NSData!, error: NSError!) -> Void in
+                        if error == nil {
+                            self.image = UIImage(data: imageData)!
+                            self.imageShower.setBackgroundImage(UIImage(data: imageData), forState: UIControlState.Normal)
+                        
+                        } else {
+                            println(error)
+                        }
+                    })
+                }
+          
                 self.users = PFUser.currentUser().username
                 self.userId = result["authorID"] as!String!
                 self.address = result["address"] as!String!
@@ -177,6 +193,7 @@ class postEvent: UIViewController {
         if searchEvent == true {
             getEvents()
             eventDescription.text = eventDescriptionHolder
+            
         } else {
             getEvents()
          
@@ -458,6 +475,43 @@ class postEvent: UIViewController {
             editEvent.address = address
             
         }
+        if segue.identifier == "imagePreview" {
+            var imageView:imagePreview = segue.destinationViewController as! imagePreview
+            imageView.eventID = self.eventId
+        }
+    }
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+}
+class imagePreview: UIViewController {
+    var eventID = (String)()
+    var imageFile = (PFFile)()
+    @IBOutlet var eventPicture: UIImageView!
+    override func viewDidLoad() {
+        super.viewDidLoad()
+      
+        var getImage = PFQuery(className: "Event")
+        getImage.getObjectInBackgroundWithId(eventID, block: {
+            (object:PFObject!, error:NSError!) -> Void in
+            if error == nil {
+                self.imageFile = object["picture"] as! PFFile
+                self.imageFile.getDataInBackgroundWithBlock({
+                    (imageData: NSData!, error: NSError!) -> Void in
+                    if error == nil {
+                        self.eventPicture.image = UIImage(data: imageData)
+                       
+                        
+                    } else {
+                        println(error)
+                    }
+                })
+            }
+        })
+     
+
+        
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
