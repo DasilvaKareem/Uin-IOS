@@ -126,8 +126,9 @@ class postEvent: UIViewController {
                 
                 
                 if result["picture"] == nil {
-                    self.imageShower.enabled = false
+                    self.imageShower.removeFromSuperview()
                 } else {
+                    self.imageShower.superview
                     self.imageFile = result["picture"] as! PFFile
                     self.imageFile.getDataInBackgroundWithBlock({
                         (imageData: NSData!, error: NSError!) -> Void in
