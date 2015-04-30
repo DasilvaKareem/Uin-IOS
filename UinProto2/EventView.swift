@@ -21,6 +21,7 @@ class postEvent: UIViewController {
     @IBOutlet var dateTitle: UILabel!
     
     @IBOutlet var imageShower: UIButton!
+    @IBOutlet weak var picture: UIImageView!
     var image = (UIImage)()
   
     @IBOutlet var location: UILabel!
@@ -133,8 +134,9 @@ class postEvent: UIViewController {
                         (imageData: NSData!, error: NSError!) -> Void in
                         if error == nil {
                             self.image = UIImage(data: imageData)!
-                            self.imageShower.setBackgroundImage(UIImage(data: imageData), forState: UIControlState.Normal)
-                        
+                            self.picture.image = UIImage(data: imageData)!
+                            
+                            
                         } else {
                             println(error)
                         }
@@ -501,6 +503,7 @@ class imagePreview: UIViewController {
                     (imageData: NSData!, error: NSError!) -> Void in
                     if error == nil {
                         self.eventPicture.image = UIImage(data: imageData)
+                        UIImageWriteToSavedPhotosAlbum(UIImage(data: imageData), nil, nil, nil)
                        
                         
                     } else {
