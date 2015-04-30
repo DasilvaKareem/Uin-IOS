@@ -293,6 +293,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             calendarQue.getObjectInBackgroundWithId(channelID, block: {
                 (object:PFObject!, error:NSError!) -> Void in
                 if error == nil {
+                    self.navigationItem.title = object["name"] as? String
                     self.alertTime = object["alertTime"] as! NSTimeInterval
                 } else {
                     println(error.debugDescription)
@@ -382,7 +383,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                         break
                     default:
                         
-                    
+                        
                         eventQuery.whereKey("channels", equalTo:self.channelID)
                         eventQuery.whereKey("isPublic", equalTo: true)
                         

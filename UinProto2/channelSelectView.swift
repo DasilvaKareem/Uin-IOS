@@ -99,14 +99,14 @@ class channelSelectView: UITableViewController {
         channelStatus.removeAll(keepCapacity: true)
         var channelQuery = PFQuery(className: "ChannelUser")
         channelQuery.whereKey("userID", equalTo: PFUser.currentUser().objectId)
-    channelQuery.whereKey("expiration", greaterThan: NSDate())
+//    channelQuery.whereKey("expiration", greaterThan: NSDate())
         channelQuery.findObjectsInBackgroundWithBlock({
             (results: [AnyObject]!, error: NSError!) -> Void in
             if error == nil {
                 for object in results {
                     self.channels.append(object["channelID"] as! String)
                     self.channelNames.append(object["channelName"] as! String)
-                  //  self.channelStatus.append(object["authorized"] as! Bool)
+                   self.channelStatus.append(object["authorized"] as! Bool)
                     self.channelType.append("channelSelect")
                     println(object["channelID"] as! String)
                 }
