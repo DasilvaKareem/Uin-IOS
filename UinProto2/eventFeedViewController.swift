@@ -324,6 +324,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                     var query = PFQuery.orQueryWithSubqueries([eventQuery, superQue, newQue ])
                     switch self.channelID {
                         case "localEvent":
+                            self.navigationItem.title = "Local Events"
                             eventQuery.whereKey("inLocalFeed", equalTo: true)
                             eventQuery.whereKey("isPublic", equalTo: true)
                             //Queries all Private events
@@ -349,6 +350,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                        
                         break
                         case "subbedEvents":
+                            self.navigationItem.title = "Subscription Events"
                             var subscriptionQuery = PFQuery(className: "Subscription")
                             subscriptionQuery.whereKey("subscriberID", equalTo: PFUser.currentUser().objectId)
                             eventQuery.whereKey("authorID", matchesKey: "publisherID", inQuery: subscriptionQuery)

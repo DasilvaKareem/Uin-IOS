@@ -142,12 +142,12 @@ class postEvent: UIViewController {
                     })
                 }
           
-                self.users = PFUser.currentUser().username
+                self.users = result["author"] as!String!
                 self.userId = result["authorID"] as!String!
                 self.address = result["address"] as!String!
                 self.storeLocation = result["location"] as!String!
                 self.location.text = result["location"] as!String!
-               self.eventTitle.text = result["title"] as!String!
+                self.eventTitle.text = result["title"] as!String!
                 self.storeTitle = result["title"] as!String!
                 self.date.text = self.startDate
                 self.onsite = result["onCampus"] as!Bool

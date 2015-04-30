@@ -21,6 +21,7 @@ class subscriptions: UITableViewController {
         theMix.flush()
         
         super.viewDidLoad()
+        self.navigationItem.title = "Subscriptions"
         navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
 
   self.navigationController?.navigationBar.backIndicatorImage = nil

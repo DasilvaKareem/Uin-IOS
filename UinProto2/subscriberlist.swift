@@ -18,7 +18,7 @@ class subscriberlist: UITableViewController {
     @IBOutlet var sideBar: UIBarButtonItem!
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.navigationItem.title = "Subscriber"
         var theMix = Mixpanel.sharedInstance()
         theMix.track("Subscribers Opened")
         theMix.flush()
