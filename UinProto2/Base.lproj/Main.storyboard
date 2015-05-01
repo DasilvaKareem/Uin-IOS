@@ -2460,16 +2460,16 @@
                         <viewControllerLayoutGuide type="bottom" id="jic-AG-K1A"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Kti-WY-MHE">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="672"/>
+                        <rect key="frame" x="0.0" y="64" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background" translatesAutoresizingMaskIntoConstraints="NO" id="N8L-tI-dGL">
-                                <rect key="frame" x="-1" y="-36" width="416" height="744"/>
+                                <rect key="frame" x="-1" y="-4" width="416" height="744"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="N8L-tI-dGL" secondAttribute="height" multiplier="207:370" id="gXq-at-bVY"/>
                                 </constraints>
                             </imageView>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="USERNAME" textAlignment="center" minimumFontSize="17" background="loginFormBackground" translatesAutoresizingMaskIntoConstraints="NO" id="zYY-dd-FIE">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="USERNAME" textAlignment="center" minimumFontSize="17" background="loginFormBackground" translatesAutoresizingMaskIntoConstraints="NO" id="zYY-dd-FIE">
                                 <rect key="frame" x="0.0" y="195" width="414" height="48"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="8rW-9h-9uO"/>
@@ -2478,7 +2478,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="PASSWORD" textAlignment="center" minimumFontSize="17" background="loginFormBackground" translatesAutoresizingMaskIntoConstraints="NO" id="cvz-gp-bui">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="PASSWORD" textAlignment="center" minimumFontSize="17" background="loginFormBackground" translatesAutoresizingMaskIntoConstraints="NO" id="cvz-gp-bui">
                                 <rect key="frame" x="0.0" y="289" width="414" height="48"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="TPw-nh-l3h"/>
@@ -2487,7 +2487,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" secureTextEntry="YES"/>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="EMAIL" textAlignment="center" minimumFontSize="17" background="loginFormBackground" translatesAutoresizingMaskIntoConstraints="NO" id="IQo-Pb-sop">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="EMAIL" textAlignment="center" minimumFontSize="17" background="loginFormBackground" translatesAutoresizingMaskIntoConstraints="NO" id="IQo-Pb-sop">
                                 <rect key="frame" x="0.0" y="242" width="414" height="48"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="loV-Wh-SJF"/>
@@ -2496,7 +2496,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress"/>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="CONFIRM PASSWORD" textAlignment="center" minimumFontSize="17" background="loginFormBackground" translatesAutoresizingMaskIntoConstraints="NO" id="7XF-KJ-MBS">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="CONFIRM PASSWORD" textAlignment="center" minimumFontSize="17" background="loginFormBackground" translatesAutoresizingMaskIntoConstraints="NO" id="7XF-KJ-MBS">
                                 <rect key="frame" x="0.0" y="336" width="414" height="48"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="BNg-Gy-AGA"/>
@@ -2506,7 +2506,7 @@
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" secureTextEntry="YES"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LVg-3o-cXj">
-                                <rect key="frame" x="0.0" y="596" width="414" height="76"/>
+                                <rect key="frame" x="0.0" y="660" width="414" height="76"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="LVg-3o-cXj" secondAttribute="height" multiplier="321:59" id="tiM-9D-O25"/>
                                 </constraints>
@@ -2517,7 +2517,7 @@
                                     <action selector="register:" destination="JRi-hN-RoR" eventType="touchUpInside" id="CFK-Tn-Wnw"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OSo-s1-Ykm">
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OSo-s1-Ykm">
                                 <rect key="frame" x="16" y="0.0" width="48" height="35"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="35" id="rak-lN-ob6"/>
@@ -2530,7 +2530,7 @@
                                     <action selector="CancelButton:" destination="JRi-hN-RoR" eventType="touchUpInside" id="fbA-dQ-7HC"/>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="12v-Xl-bPc" userLabel="logoView">
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="12v-Xl-bPc" userLabel="logoView">
                                 <rect key="frame" x="0.0" y="55" width="414" height="99"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="whiteUin" translatesAutoresizingMaskIntoConstraints="NO" id="yqG-HA-L00">
@@ -3329,13 +3329,13 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="sDQ-gL-bJO"/>
-        <segue reference="HoU-hm-rQm"/>
-        <segue reference="Or7-9P-XFG"/>
+        <segue reference="5p4-aC-s6h"/>
         <segue reference="SJU-iS-UV4"/>
+        <segue reference="Or7-9P-XFG"/>
         <segue reference="2sm-MT-g3M"/>
         <segue reference="dfA-l9-WUl"/>
+        <segue reference="FLk-RB-cnt"/>
         <segue reference="UUb-pb-kQq"/>
-        <segue reference="6YY-gj-nOQ"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>

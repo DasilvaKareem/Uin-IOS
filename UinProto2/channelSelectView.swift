@@ -70,16 +70,8 @@ class channelSelectView: UITableViewController {
         userType.removeAll(keepCapacity: true)
         usernameInfo.removeAll(keepCapacity: true)
         usernameSectionTitle.removeAll(keepCapacity: true)
-        var memBoundChange = PFQuery(className: "ChannelUser")
-        memBoundChange.whereKey("userID", equalTo: PFUser.currentUser().objectId)
-        memBoundChange.whereKey("channelID", equalTo: "wEwRowC6io")
-        memBoundChange.getFirstObjectInBackgroundWithBlock({
-            (object:PFObject!, error:NSError!) -> Void in
-            if error == nil {
-                self.memBounded = object["authorized"] as! Bool
-            }
-        })
-        
+    
+   
         getUserInfo()
         getChannels()
         setupGenCounters()
@@ -108,7 +100,7 @@ class channelSelectView: UITableViewController {
         channelStatus.removeAll(keepCapacity: true)
         var channelQuery = PFQuery(className: "ChannelUser")
         channelQuery.whereKey("userID", equalTo: PFUser.currentUser().objectId)
-//    channelQuery.whereKey("expiration", greaterThan: NSDate())
+        channelQuery.whereKey("expiration", greaterThan: NSDate())
         channelQuery.findObjectsInBackgroundWithBlock({
             (results: [AnyObject]!, error: NSError!) -> Void in
             if error == nil {
@@ -117,6 +109,9 @@ class channelSelectView: UITableViewController {
                     self.channelNames.append(object["channelName"] as! String)
                    self.channelStatus.append(object["authorized"] as! Bool)
                     self.channelType.append("channelSelect")
+                    if object.objectId == "wEwRowC6io" || object.objectId == "LAUfZJ3KKc" {
+                        self.memBounded = true
+                    }
                     println(object["channelID"] as! String)
                 }
                 self.tableView.reloadData()
