@@ -85,6 +85,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
        
         self.tabBarController?.tabBar.hidden = false
            self.navigationController?.navigationBar.backIndicatorImage = nil
+        self.navigationItem.title = "My Events"
         subticker()
         updateFeed()
         notifications()

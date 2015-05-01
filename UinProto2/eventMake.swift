@@ -309,7 +309,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
                                 endString = String()
                           
                             }
-                                self.performSegueWithIdentifier("eventback", sender: self)
+                            
                         })
                         //Adds the event to channels it is asccoiated with
                      
@@ -373,6 +373,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
                 
                     }
                 })
+                    self.performSegueWithIdentifier("eventback", sender: self)
             }
             else {
                 var event = PFObject(className: "Event")

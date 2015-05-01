@@ -293,6 +293,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             calendarQue.getObjectInBackgroundWithId(channelID, block: {
                 (object:PFObject!, error:NSError!) -> Void in
                 if error == nil {
+                    self.navigationItem.title = object["name"] as? String
                     self.alertTime = object["alertTime"] as! NSTimeInterval
                 } else {
                     println(error.debugDescription)
@@ -303,7 +304,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     }
       func updateFeed(){
         //Removes all leftover content in the array
-    
+        
         PFGeoPoint.geoPointForCurrentLocationInBackground {
             (geoPoint: PFGeoPoint!, error: NSError!) -> Void in
          
@@ -324,6 +325,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                     var query = PFQuery.orQueryWithSubqueries([eventQuery, superQue, newQue ])
                     switch self.channelID {
                         case "localEvent":
+                            self.navigationItem.title = "Local Events"
                             eventQuery.whereKey("inLocalFeed", equalTo: true)
                             eventQuery.whereKey("isPublic", equalTo: true)
                             //Queries all Private events
@@ -349,6 +351,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                        
                         break
                         case "subbedEvents":
+                            self.navigationItem.title = "Subscription Events"
                             var subscriptionQuery = PFQuery(className: "Subscription")
                             subscriptionQuery.whereKey("subscriberID", equalTo: PFUser.currentUser().objectId)
                             eventQuery.whereKey("authorID", matchesKey: "publisherID", inQuery: subscriptionQuery)
@@ -375,12 +378,26 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                       
                         
                         break
-                        case "trending":
+                        case "schedule":
+                             self.navigationItem.title = "Schedule"
+                            var getAmountSchedule = PFQuery(className: "UserCalendar")
+                            getAmountSchedule.whereKey("userID", equalTo: PFUser.currentUser().objectId)
+                            eventQuery.whereKey("objectId", matchesKey: "eventID", inQuery: getAmountSchedule)
+                             eventQuery.whereKey("isPublic", equalTo: true)
+                            
+                            pubQue.whereKey("subscriber", equalTo: PFUser.currentUser().username)
+                            pubQue.whereKey("isMember", equalTo: true)
+                            superQue.whereKey("objectId", matchesKey: "eventID", inQuery: getAmountSchedule)
+                            superQue.whereKey("isPublic", equalTo: false)
+                            
+                            newQue.whereKey("isPublic", equalTo: false)
+                            newQue.whereKey("objectId", matchesKey: "eventID", inQuery: getAmountSchedule)
+                            newQue.whereKey("author", equalTo: PFUser.currentUser().username)
                             
                         break
                     default:
                         
-                    
+                        
                         eventQuery.whereKey("channels", equalTo:self.channelID)
                         eventQuery.whereKey("isPublic", equalTo: true)
                         
