@@ -19,8 +19,8 @@ class channelSelectView: UITableViewController {
     var channelStatus = [Bool]()
     var memBounded = Bool()
     //General Channels
-    var genChannels = ["local events", "subscription events"]
-    var gentype = ["localEvent","subbedEvents"]
+    var genChannels = ["local events", "subscription events", "Schedule"]
+    var gentype = ["localEvent","subbedEvents","schedule"]
     var genEvents = [String]()
     func setupGenCounters() {
         var localEventCount = PFQuery(className: "Event")
@@ -37,6 +37,14 @@ class channelSelectView: UITableViewController {
         subscriptionEventCount.whereKey("start", greaterThan:  NSDate())
         
         self.genEvents.append("\(subscriptionEventCount.countObjects()) new")
+        
+        //get added to calendar
+        var getAmountSchedule = PFQuery(className: "UserCalendar")
+        getAmountSchedule.whereKey("userID", equalTo: PFUser.currentUser().objectId)
+        var eventQuery = PFQuery(className:"Event")
+        eventQuery.whereKey("objectId", matchesKey: "eventID", inQuery: getAmountSchedule)
+        eventQuery.whereKey("start", greaterThan: NSDate())
+        self.genEvents.append("\(eventQuery.countObjects()) Upcoming")
          self.tableView.reloadData()
         
         //Gets Trend
@@ -54,7 +62,7 @@ class channelSelectView: UITableViewController {
  
     override func viewDidLoad() {
         super.viewDidLoad()
-       
+     
         channels.removeAll(keepCapacity: true)
         channelNames.removeAll(keepCapacity: true)
         channelType.removeAll(keepCapacity: true)
@@ -62,13 +70,7 @@ class channelSelectView: UITableViewController {
         userType.removeAll(keepCapacity: true)
         usernameInfo.removeAll(keepCapacity: true)
         usernameSectionTitle.removeAll(keepCapacity: true)
-        getUserInfo()
-        getChannels()
-        setupGenCounters()
-    }
-    override func viewWillAppear(animated: Bool) {
-    
-    var memBoundChange = PFQuery(className: "ChannelUser")
+        var memBoundChange = PFQuery(className: "ChannelUser")
         memBoundChange.whereKey("userID", equalTo: PFUser.currentUser().objectId)
         memBoundChange.whereKey("channelID", equalTo: "wEwRowC6io")
         memBoundChange.getFirstObjectInBackgroundWithBlock({
@@ -77,7 +79,14 @@ class channelSelectView: UITableViewController {
                 self.memBounded = object["authorized"] as! Bool
             }
         })
-      
+        
+        getUserInfo()
+        getChannels()
+        setupGenCounters()
+    }
+    override func viewWillAppear(animated: Bool) {
+    
+ 
     }
     override func viewDidAppear(animated: Bool) {
  
@@ -120,18 +129,14 @@ class channelSelectView: UITableViewController {
         var subscriberInfo = PFQuery(className: "Subscription") //gets the subcsriber count
         subscriberInfo.whereKey("publisher", equalTo: PFUser.currentUser().username)
         usernameInfo.append(String(subscriberInfo.countObjects()))
-        usernameSectionTitle.append("subscriptions")
-        userType.append("Subscriptions")
+        usernameSectionTitle.append("subscribers")
+        userType.append("Subscribers")
         
         var subscriptionInfo = PFQuery(className: "Subscription") //gets the subscription count
         subscriptionInfo.whereKey("subscriber", equalTo: PFUser.currentUser().username)
         usernameInfo.append(String(subscriptionInfo.countObjects()))
-        usernameSectionTitle.append("subscribers")
-        userType.append("Subscribers")
-        
-    
-        
-   
+        usernameSectionTitle.append("subscriptions")
+        userType.append("Subscriptions")
         
         var notificationsCount = PFQuery(className: "Notification")
         notificationsCount.whereKey("receiver", equalTo: PFUser.currentUser().username)
@@ -266,8 +271,15 @@ class channelSelectView: UITableViewController {
         if indexPath.section == 1 {
          
              cell = tableView.dequeueReusableCellWithIdentifier("profilez") as! channelTableCell
-            cell.channelName.text = genChannels[indexPath.row]
-            cell.channelCount.text = genEvents[indexPath.row]
+            if self.memBounded == true {
+                cell.channelCount.text = "Locked"
+                  cell.channelName.text = genChannels[indexPath.row]
+            } else {
+                cell.channelName.text = genChannels[indexPath.row]
+                cell.channelCount.text = genEvents[indexPath.row]
+            }
+            
+            
             if self.currentIndexPath == indexPath {
                 cell.contentView.backgroundColor = UIColor(red: 65.0/255.0, green: 145.0/255.0, blue: 198.0/255.0, alpha: 1)
                 cell.channelName.textColor = UIColor.whiteColor()
@@ -327,14 +339,15 @@ class channelSelectView: UITableViewController {
                     switch userType[indexPath.row] {
                         
                     case "Subscriptions":
-                        self.performSegueWithIdentifier("Subscribers", sender: self)
+                        self.performSegueWithIdentifier("Subscriptions", sender: self)
                         break
                     case "Subscribers":
-                        self.performSegueWithIdentifier("Subscriptions", sender: self)
+                        self.performSegueWithIdentifier("Subscribers", sender: self)
                         break
                     case "Notifications":
                         self.performSegueWithIdentifier("Notifications", sender: self)
                         break
+                    
                     case "My Events":
                         self.performSegueWithIdentifier("My Events", sender: self)
                     default:

@@ -49,71 +49,7 @@ class LoadingView: UIViewController {
             })
             self.performSegueWithIdentifier("login", sender: self)
         } else {
-            var currentAccount = PFUser.query() //quries users
-            var amountOfUsers = currentAccount.countObjects() //Counts how many users have the $ sign
-            var newUser = PFUser()
-            var nameTemplate = "$\(amountOfUsers)"
-            newUser["pushEnabled"] = true
-            newUser["firstRemoveFromCalendar"] = true
-            newUser["tempAccounts"] = true
-            newUser.username = nameTemplate
-            newUser.password = randomStringWithLength(20) as String
-            newUser.signUpInBackgroundWithBlock({
-                (success:Bool, error:NSError!) -> Void in
-                if error == nil {
-                    var defaultChannel = PFObject(className: "ChannelUser")
-                    defaultChannel["admin"] = false
-                    defaultChannel["canPost"] = false
-                    defaultChannel["validationCode"] = "nil"
-                    defaultChannel["channelID"] = "wEwRowC6io"
-                    defaultChannel["channelName"] = "memboundparents"
-                    defaultChannel["authorized"] = false
-                    defaultChannel["userID"] = PFUser.currentUser().objectId
-                    defaultChannel.saveInBackgroundWithBlock({
-                        (success:Bool, error:NSError!) -> Void in
-                        if error == nil {
-                            println("User has been entered into the channel")
-                        } else {
-                            println("User has not been entered into the channel")
-                        }
-                    })
-                    var defaultChannel2 = PFObject(className: "ChannelUser")
-                    defaultChannel2["admin"] = false
-                    defaultChannel2["canPost"] = false
-                    defaultChannel2["validationCode"] = "nil"
-                    defaultChannel2["channelID"] = "LAUfZJ3KKc"
-                    defaultChannel2["channelName"] = "memboundstudents"
-                    defaultChannel2["authorized"] = false
-                    defaultChannel2["userID"] = PFUser.currentUser().objectId
-                    defaultChannel2.saveInBackgroundWithBlock({
-                        (success:Bool, error:NSError!) -> Void in
-                        if error == nil {
-                            println("User has been entered into the channel")
-                        } else {
-                            println("User has not been entered into the channel")
-                        }
-                    })
-                    var userTimeCheck = PFUser.currentUser()
-                    userTimeCheck["notificationsTimestamp"] = NSDate()
-                    userTimeCheck.saveInBackgroundWithBlock({
-                        (success:Bool, error:NSError!) -> Void in
-                        if error == nil {
-                            println("The stamp was updated")
-                        } else {
-                            println(error.debugDescription)
-                        }
-                    })
-                    self.performSegueWithIdentifier("login", sender: self)
-                    
-                    println("Anon has been created succesfully")
-                    
-                } else {
-                    println("Anon was not made right")
-                    println(error)
-                }
-                
-            })
-         
+              self.performSegueWithIdentifier("createAccount", sender: self)
         }
 
     }

@@ -304,7 +304,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     }
       func updateFeed(){
         //Removes all leftover content in the array
-    
+        
         PFGeoPoint.geoPointForCurrentLocationInBackground {
             (geoPoint: PFGeoPoint!, error: NSError!) -> Void in
          
@@ -378,7 +378,21 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                       
                         
                         break
-                        case "trending":
+                        case "schedule":
+                             self.navigationItem.title = "Schedule"
+                            var getAmountSchedule = PFQuery(className: "UserCalendar")
+                            getAmountSchedule.whereKey("userID", equalTo: PFUser.currentUser().objectId)
+                            eventQuery.whereKey("objectId", matchesKey: "eventID", inQuery: getAmountSchedule)
+                             eventQuery.whereKey("isPublic", equalTo: true)
+                            
+                            pubQue.whereKey("subscriber", equalTo: PFUser.currentUser().username)
+                            pubQue.whereKey("isMember", equalTo: true)
+                            superQue.whereKey("objectId", matchesKey: "eventID", inQuery: getAmountSchedule)
+                            superQue.whereKey("isPublic", equalTo: false)
+                            
+                            newQue.whereKey("isPublic", equalTo: false)
+                            newQue.whereKey("objectId", matchesKey: "eventID", inQuery: getAmountSchedule)
+                            newQue.whereKey("author", equalTo: PFUser.currentUser().username)
                             
                         break
                     default:
