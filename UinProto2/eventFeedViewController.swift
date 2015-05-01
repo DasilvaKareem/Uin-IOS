@@ -51,7 +51,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     //If Feed has a problem
     var appProblem:Bool = Bool()
     var channelID = "localEvent"
-    var alertTime:NSTimeInterval = -6000
+    var alertTime:NSTimeInterval = -3600
     //Search functionailty
     var searchActive:Bool = Bool()
     struct searchItem {
@@ -423,7 +423,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                     query.orderByAscending("start")
                     println(self.currentPoint)
             
-                    //query.whereKey("locationGeopoint", nearGeoPoint: self.currentPoint, withinMiles: 7.0)
+                    query.whereKey("locationGeopoint", nearGeoPoint: self.currentPoint, withinMiles: 7.0)
                     query.whereKey("start", greaterThanOrEqualTo: NSDate())
                     query.whereKey("isDeleted", equalTo: false)
                     query.findObjectsInBackgroundWithBlock {
@@ -480,40 +480,6 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                             println("It failed")
                         }
                     }
-                    
-                
-            
-           /* if error == nil {
-                self.theFeed.superview //Add tableview to screen
-                self.currentPoint = geoPoint
-                //adds content to the array
-                //Queries all public Events
-                var que1 = PFQuery(className: "Event")
-                que1.whereKey("isPublic", equalTo: true)
-                
-                //Queries all Private events
-                var pubQue = PFQuery(className: "Subscription")
-                pubQue.whereKey("subscriber", equalTo: PFUser.currentUser().username)
-                pubQue.whereKey("isMember", equalTo: true)
-                var superQue = PFQuery(className: "Event")
-                superQue.whereKey("author", matchesKey: "publisher", inQuery:pubQue)
-                superQue.whereKey("isPublic", equalTo: false)
-                
-                //Queries all of the current user events
-                var newQue = PFQuery(className: "Event")
-                newQue.whereKey("isPublic", equalTo: false)
-                newQue.whereKey("author", equalTo: PFUser.currentUser().username)
-                
-                
-                var query = PFQuery.orQueryWithSubqueries([que1, superQue, newQue ])
-                query.orderByAscending("start")
-                println(self.currentPoint)
-                query.whereKey("locationGeopoint", nearGeoPoint: self.currentPoint, withinMiles: 7.0)
-                query.whereKey("start", greaterThanOrEqualTo: NSDate())
-                query.whereKey("isDeleted", equalTo: false)
-                self.eventCountNumber = query.countObjects()
-               
-            } */
             
         }
     }
@@ -913,6 +879,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                         event.endDate = self.eventEnd[sender.tag]
                         event.notes = hosted
                         var alarm = EKAlarm(relativeOffset: self.alertTime)
+                        println(self.alertTime)
                         event.addAlarm(alarm)
                         event.location = self.eventlocation[sender.tag]
                         event.calendar = eventStore.defaultCalendarForNewEvents
@@ -1020,7 +987,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             secondViewController.users = usernames[index]
             secondViewController.eventId = objectID[index]
             secondViewController.eventDescriptionHolder = eventDescription[index]
-            
+            secondViewController.alertTime = alertTime
             
         }
         if segue.identifier == "profile" {

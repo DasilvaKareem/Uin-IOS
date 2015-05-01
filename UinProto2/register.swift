@@ -149,6 +149,7 @@ class register: UIViewController, UITextFieldDelegate {
                     
                     if registerError == nil {
                         var defaultChannel = PFObject(className: "ChannelUser")
+                        defaultChannel["expiration"] = NSDate().dateByAddingTimeInterval(250)
                         defaultChannel["admin"] = false
                         defaultChannel["canPost"] = false
                         defaultChannel["validationCode"] = "nil"
@@ -165,6 +166,7 @@ class register: UIViewController, UITextFieldDelegate {
                             }
                         })
                         var defaultChannel2 = PFObject(className: "ChannelUser")
+                        defaultChannel2["expiration"] = NSDate().dateByAddingTimeInterval(250)
                         defaultChannel2["admin"] = false
                         defaultChannel2["canPost"] = false
                         defaultChannel2["validationCode"] = "nil"

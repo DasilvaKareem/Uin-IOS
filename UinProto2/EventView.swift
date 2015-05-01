@@ -44,6 +44,7 @@ class postEvent: UIViewController {
     }
     
     @IBOutlet var theeditButton: UIBarButtonItem!
+    var alertTime:NSTimeInterval = -6000
     var profileEditing = false
     var address = String()
     var users = String()
@@ -326,6 +327,8 @@ class postEvent: UIViewController {
                         println("error  \(error)")
                         var hosted = "Hosted by \(self.users)"
                         var event:EKEvent = EKEvent(eventStore: eventStore)
+                        var alarm = EKAlarm(relativeOffset: self.alertTime)
+                        event.addAlarm(alarm)
                         event.title = self.storeTitle
                         event.startDate = self.storeStartDate
                         event.endDate = self.endStoreDate

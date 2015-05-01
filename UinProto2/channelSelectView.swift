@@ -109,9 +109,12 @@ class channelSelectView: UITableViewController {
                     self.channelNames.append(object["channelName"] as! String)
                    self.channelStatus.append(object["authorized"] as! Bool)
                     self.channelType.append("channelSelect")
-                    if object.objectId == "wEwRowC6io" || object.objectId == "LAUfZJ3KKc" {
-                        self.memBounded = true
+                    if object["authorized"] as! Bool == true {
+                        if object["channelID"] as! String == "wEwRowC6io" || object["channelID"] as! String == "LAUfZJ3KKc" {
+                            self.memBounded = true
+                        }
                     }
+                 
                     println(object["channelID"] as! String)
                 }
                 self.tableView.reloadData()
@@ -121,7 +124,7 @@ class channelSelectView: UITableViewController {
     func getUserInfo(){
      
         
-        var subscriberInfo = PFQuery(className: "Subscription") //gets the subcsriber count
+        var subscriberInfo = PFQuery(className: "Subscription") //gets the subscriber count
         subscriberInfo.whereKey("publisher", equalTo: PFUser.currentUser().username)
         usernameInfo.append(String(subscriberInfo.countObjects()))
         usernameSectionTitle.append("subscribers")
