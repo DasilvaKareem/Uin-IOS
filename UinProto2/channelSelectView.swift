@@ -19,7 +19,7 @@ class channelSelectView: UITableViewController {
     var channelStatus = [Bool]()
     var memBounded = Bool()
     //General Channels
-    var genChannels = ["local events", "subscription events", "Schedule"]
+    var genChannels = ["local events", "subscription events", "schedule"]
     var gentype = ["localEvent","subbedEvents","schedule"]
     var genEvents = [String]()
     func setupGenCounters() {
@@ -44,7 +44,7 @@ class channelSelectView: UITableViewController {
         var eventQuery = PFQuery(className:"Event")
         eventQuery.whereKey("objectId", matchesKey: "eventID", inQuery: getAmountSchedule)
         eventQuery.whereKey("start", greaterThan: NSDate())
-        self.genEvents.append("\(eventQuery.countObjects()) Upcoming")
+        self.genEvents.append("\(eventQuery.countObjects()) upcoming")
          self.tableView.reloadData()
         
         //Gets Trend
