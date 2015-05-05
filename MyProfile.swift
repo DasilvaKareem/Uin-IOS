@@ -352,7 +352,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
-        return 65.0
+        return 64.0
     }
     
     
@@ -363,7 +363,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
     
-        return 23.0
+        return 25.0
     }
     
     

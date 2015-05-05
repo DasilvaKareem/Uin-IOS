@@ -665,7 +665,13 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         return rowsInSection[section]
         
     }
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 25.0
+    }
     
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return 64.0
+    }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
         // Puts the data in a cell

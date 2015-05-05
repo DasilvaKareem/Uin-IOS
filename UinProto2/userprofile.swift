@@ -318,6 +318,8 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
         // Return the number of sections.
         return numSections
         
+        
+        
     }
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if  section == 0 {
@@ -518,14 +520,16 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
         return rowsInSection[section]
         
     }
-    
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return 64.0
+    }
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         
         if section == 0 {
             
             return 150.0
         }
-        return 23.0
+        return 25.0
     }
     
     override func didReceiveMemoryWarning() {
