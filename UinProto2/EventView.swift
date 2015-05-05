@@ -461,27 +461,13 @@ class postEvent: UIViewController {
             theMix.track("Tap Edit (EV)")
             theMix.flush()
             var editEvent:eventMake = segue.destinationViewController as! eventMake
-            editEvent.startTime = storeStartTime
-            //editEvent.end.setTitle(storeEndTime, forState: UIControlState.Normal)
             editEvent.editing = true
-            startString =  "\(storeDate)  \(localStart)"
-            endString = "\(storeEndDate)  \(localEnd)"
-            dateTime1 = storeStartTime
-            dateTime2 = storeEndTime
-            dateStr1 = storeDate
-            dateStr2 = storeEndDate
-            orderDate1 = storeStartDate
-            orderDate2 = endStoreDate
-            editEvent.eventTitlePass = storeTitle
-            editEvent.eventLocation = storeLocation
-            editEvent.onsite =  onsite
-            editEvent.food = food
-            editEvent.paid = cost
             editEvent.eventID = eventId
-            editEvent.address = address
-            
         }
         if segue.identifier == "imagePreview" {
+            var theMix = Mixpanel.sharedInstance()
+            theMix.track("Tap image Preview (EV)")
+            theMix.flush()
             var imageView:imagePreview = segue.destinationViewController as! imagePreview
             imageView.eventID = self.eventId
         }
