@@ -640,6 +640,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
     }
     override func viewWillAppear(animated: Bool) {
             setupDate()
+        setupBooleans()
 
     }
 
