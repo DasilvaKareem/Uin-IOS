@@ -681,8 +681,10 @@ class eventMake: UIViewController, UITextFieldDelegate {
                 endString = dateFormatter.stringFromDate(object["end"] as! NSDate)
                 self.geopoint = object["locationGeopoint"] as! PFGeoPoint
                 if object["isPublic"] as!Bool == true {
+                    self.eventPublic = true
                     self.publicSegment.selectedSegmentIndex = 0
                 } else {
+                    self.eventPublic = false
                     self.publicSegment.selectedSegmentIndex = 1
                     self.publicSegment.tintColor = UIColor(red: 254.0/255.0, green: 186.0/255.0, blue: 1.0/255, alpha:1 ) //Yelow
                 }
