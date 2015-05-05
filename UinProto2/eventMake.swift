@@ -260,14 +260,14 @@ class eventMake: UIViewController, UITextFieldDelegate {
           //Find a  no value for NSobject
         //}
         
-        if dateTime1 == "" {
+        if orderDate1 == "" {
             
-            allError = "Enter a Start Time"
+            allError = "Enter a Start Date"
             
         }
         
-        if dateTime2 == ""{
-            allError = "Enter a End Time"
+        if orderDate2 == ""{
+            allError = "Enter a End Date"
         }
         println(allError)
 
@@ -673,7 +673,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
                 orderDate2 = object["end"] as! NSDate
                 //Convert date into an String for start time and end time
                 var dateFormatter = NSDateFormatter()
-                dateFormatter.dateStyle = NSDateFormatterStyle.LongStyle
+                dateFormatter.dateFormat = "MMM. dd, yyyy - h:mm a"
                 startString = dateFormatter.stringFromDate(object["start"] as! NSDate)
                 endString = dateFormatter.stringFromDate(object["end"] as! NSDate)
                 self.geopoint = object["locationGeopoint"] as! PFGeoPoint
