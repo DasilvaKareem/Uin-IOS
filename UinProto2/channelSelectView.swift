@@ -19,16 +19,21 @@ class channelSelectView: UITableViewController {
     var channelStatus = [Bool]()
     var memBounded = Bool()
     //General Channels
-    var genChannels = ["local events", "subscription events", "schedule"]
-    var gentype = ["localEvent","subbedEvents","schedule"]
+    var genChannels = [String]()
+    var gentype = [String]()
     var genEvents = [String]()
     func setupGenCounters() {
         var localEventCount = PFQuery(className: "Event")
+        genChannels.append("local events")
+        gentype.append("localEvent")
         localEventCount.whereKey("isPublic", equalTo: true)
         localEventCount.whereKey("createdAt", greaterThanOrEqualTo:PFUser.currentUser()["notificationsTimestamp"] as! NSDate)
         self.genEvents.append("\(localEventCount.countObjects()) new")
         
+        
         //Gets Subscriptions Events
+        gentype.append("subbedEvents")
+        genChannels.append("subscription events")
         var subscriptionQuery = PFQuery(className: "Subscription")
         subscriptionQuery.whereKey("subscriberID", equalTo: PFUser.currentUser().objectId)
         var subscriptionEventCount = PFQuery(className: "Event")
@@ -37,18 +42,22 @@ class channelSelectView: UITableViewController {
         subscriptionEventCount.whereKey("start", greaterThan:  NSDate())
         
         self.genEvents.append("\(subscriptionEventCount.countObjects()) new")
-        
+        gentype.append("schedule")
+        self.genChannels.append("schedule")
         //get added to calendar
         var getAmountSchedule = PFQuery(className: "UserCalendar")
         getAmountSchedule.whereKey("userID", equalTo: PFUser.currentUser().objectId)
         var eventQuery = PFQuery(className:"Event")
         eventQuery.whereKey("objectId", matchesKey: "eventID", inQuery: getAmountSchedule)
         eventQuery.whereKey("start", greaterThan: NSDate())
+        
         self.genEvents.append("\(eventQuery.countObjects()) upcoming")
          self.tableView.reloadData()
         
         //Gets Trend
-       
+        
+        
+     
         
         
     }
@@ -63,6 +72,11 @@ class channelSelectView: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
      
+   
+        
+  
+    }
+    override func viewWillAppear(animated: Bool) {
         channels.removeAll(keepCapacity: true)
         channelNames.removeAll(keepCapacity: true)
         channelType.removeAll(keepCapacity: true)
@@ -70,28 +84,31 @@ class channelSelectView: UITableViewController {
         userType.removeAll(keepCapacity: true)
         usernameInfo.removeAll(keepCapacity: true)
         usernameSectionTitle.removeAll(keepCapacity: true)
-    
-   
-        getUserInfo()
-        getChannels()
-        setupGenCounters()
-    }
-    override func viewWillAppear(animated: Bool) {
-    
- 
+        
+        self.getUserInfo()
+        self.getChannels()
+        self.setupGenCounters()
     }
     override func viewDidAppear(animated: Bool) {
  
     }
+    override func viewWillDisappear(animated: Bool) {
+  
+    }
     override func viewDidDisappear(animated: Bool) {
-      
+       /* channels.removeAll(keepCapacity: true)
+        channelNames.removeAll(keepCapacity: true)
+        channelType.removeAll(keepCapacity: true)
         genEvents.removeAll(keepCapacity: true)
         userType.removeAll(keepCapacity: true)
         usernameInfo.removeAll(keepCapacity: true)
         usernameSectionTitle.removeAll(keepCapacity: true)
-        getUserInfo()
-        getChannels()
-        setupGenCounters()
+        
+        self.getUserInfo()
+        self.getChannels()
+        self.setupGenCounters()
+*/
+
     }
     func getChannels(){
         channels.removeAll(keepCapacity: true)
@@ -375,6 +392,7 @@ class channelSelectView: UITableViewController {
             channelQuery.whereKey("channelID", equalTo: channels[indexPath.row])
             var checkAuthorized = channelQuery.getFirstObject()
             if checkAuthorized["authorized"] as! Bool == false {
+                //Membound onboarding event
                 let page1:OnboardingContentViewController = OnboardingContentViewController(title: "Welcome Tiger!", body: "Uin has partnered with MEMbound to give you the best experience possible during your time at New Student Orientation. Enjoy your stay, and don't forget to check the schedule!", image: UIImage(named: "tiger"), buttonText: "", action: {
                     
                 })

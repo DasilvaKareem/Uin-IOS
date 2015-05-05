@@ -779,7 +779,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         cell.poop.tag = event
         var minique = PFQuery(className: "UserCalendar")
         minique.whereKey("userID", equalTo: PFUser.currentUser().objectId)
-        var minique2 = PFQuery(className: "UserCalendar")
+       
         minique.whereKey("eventID", equalTo: objectID[event])
         
         minique.getFirstObjectInBackgroundWithBlock{

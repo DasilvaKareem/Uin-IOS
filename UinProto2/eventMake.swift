@@ -20,10 +20,11 @@ class eventMake: UIViewController, UITextFieldDelegate {
     var eventLocation = ""
     var eventID = (String)()
     var userId = (String)()
-    var eventDisplay = (String)()
     var lat = (CLLocationDegrees)()
     var long = (CLLocationDegrees)()
     var locations = CLLocation()
+    var geopoint = PFGeoPoint()
+
     var address = ""
     var channel = ["xOI5cjHcDo"]
     
@@ -229,7 +230,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
     
     @IBAction func makeEvent(sender: AnyObject) {
         
-       var geopoint = PFGeoPoint(location: locations)
+        geopoint = PFGeoPoint(location: locations)
         var userFollowers = [String]()
         var allError = ""
         
@@ -280,7 +281,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
                     
                     if error == nil {
                         eventItem["address"] = self.address
-                        eventItem["locationGeopoint"] = geopoint
+                        eventItem["locationGeopoint"] = self.geopoint
                         eventItem["start"] = orderDate1
                         eventItem["end"] = orderDate2
                         eventItem["isPublic"] = self.eventPublic
@@ -553,19 +554,22 @@ class eventMake: UIViewController, UITextFieldDelegate {
         }))
         
     }
-    override func viewWillAppear(animated: Bool) {
+    /*
+        Setups the date and location of the event
+    */
+    func setupDate(){
         if eventLocation == "" {
             eventLocationDescription.setTitle("Location", forState: UIControlState.Normal)
             displayLocation.hidden = true
             eventAddress.hidden = true
-             eventLocationDescription.setBackgroundImage(UIImage(named: "addLocation"), forState: UIControlState.Normal)
+            eventLocationDescription.setBackgroundImage(UIImage(named: "addLocation"), forState: UIControlState.Normal)
             locationConfirm.image = UIImage(named: "add")
         } else {
-        
+            
             displayLocation.hidden = false
-           eventLocationDescription.setTitle("", forState: UIControlState.Normal)
+            eventLocationDescription.setTitle("", forState: UIControlState.Normal)
             displayLocation.text = eventLocation
-           
+            
             if address != "" {
                 eventAddress.hidden = false
                 eventAddress.text = address
@@ -573,7 +577,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
                 eventLocationDescription.setBackgroundImage(UIImage(named: "addedLocation"), forState: UIControlState.Normal)
             }
         }
-      
+        
         if (startString == ""){
             start.setTitle("Start Time", forState: UIControlState.Normal)
             startTimeCheck.hidden = true
@@ -582,7 +586,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
             start.setTitle(startString, forState: UIControlState.Normal)
             startTimeCheck.hidden = false
             start.setTitleColor(UIColor(red: 52.0/255.0, green: 127.0/255.0, blue: 191.0/255, alpha:1), forState: UIControlState.Normal)
-         
+            
         }
         if (endString == "") {
             endTimeCheck.hidden = true
@@ -591,8 +595,51 @@ class eventMake: UIViewController, UITextFieldDelegate {
         else {
             end.setTitle(endString, forState: UIControlState.Normal)
             endTimeCheck.hidden = false
-              end.setTitleColor(UIColor(red: 52.0/255.0, green: 127.0/255.0, blue: 191.0/255, alpha:1), forState: UIControlState.Normal)
+            end.setTitleColor(UIColor(red: 52.0/255.0, green: 127.0/255.0, blue: 191.0/255, alpha:1), forState: UIControlState.Normal)
         }
+    }
+    //Se\tups the icons on editing the event
+    func setupBooleans(){
+        if food == true {
+            
+            hasFoodText.text = "Food"
+            hasFoodText.textColor = UIColor(red: 224.0/255.0, green: 69.0/255.0, blue: 69.0/255, alpha:1 ) //Red
+            hasFoodButton.setBackgroundImage(UIImage(named: "yesFood.png"), forState: UIControlState.Normal)
+        }
+        else {
+            
+            hasFoodText.text = "No Food"
+            hasFoodText.textColor = UIColor(red: 165.0/255.0, green: 169.0/255.0, blue: 172.0/255, alpha:1 ) //Gray
+            hasFoodButton.setBackgroundImage(UIImage(named: "noFood.png"), forState: UIControlState.Normal)
+            
+        }
+        if paid == true {
+            isFreeText.text = "Free"
+            isFreeText.textColor = UIColor(red: 93.0/255.0, green: 175.0/255.0, blue: 76.0/255, alpha:1) //Green
+            isFreeButton.setBackgroundImage(UIImage(named: "yesFree.png"), forState: UIControlState.Normal)
+        }
+        else {
+            isFreeText.text = "Not Free"
+            isFreeText.textColor = UIColor(red: 165.0/255.0, green: 169.0/255.0, blue: 172.0/255, alpha:1 ) //Gray
+            isFreeButton.setBackgroundImage(UIImage(named: "noFree.png"), forState: UIControlState.Normal)
+        }
+        if onsite == true {
+            println("OK IT WOKRS")
+            onCampusText.text = "On Campus"
+            onCampusText.textColor =  UIColor(red: 135.0/255.0, green: 84.0/255.0, blue: 194.0/255, alpha:1 ) //Purple
+            onCampusButton.setBackgroundImage(UIImage(named: "onCampus.png"), forState: UIControlState.Normal)
+            
+        }
+        else {
+            
+            
+            onCampusButton.setBackgroundImage(UIImage(named: "offCampus.png"), forState: UIControlState.Normal)
+            onCampusText.text = "Off Campus"
+            onCampusText.textColor = UIColor(red: 165.0/255.0, green: 169.0/255.0, blue: 172.0/255, alpha:1 ) //Gray
+        }
+    }
+    override func viewWillAppear(animated: Bool) {
+            setupDate()
 
     }
 
@@ -609,8 +656,33 @@ class eventMake: UIViewController, UITextFieldDelegate {
             self.navigationItem.rightBarButtonItem = nil
         }
         else {
-            eventTitle.text = eventTitlePass
-            eventLocationDescription.setTitle(eventLocation, forState: UIControlState.Normal)
+            //Set event data to event creation
+            var eventQuery = PFQuery(className: "Event")
+            eventQuery.getObjectInBackgroundWithId(eventID, block: {
+                (object:PFObject!, error:NSError!) -> Void in
+                
+                self.eventTitle.text = object["title"] as! String //Sets the title
+                self.eventDescription.text = object["description"] as! String //Sets the Descriptions
+                self.address = object["address"] as! String //sets the address
+                self.eventLocation = object["location"] as! String
+                self.food = object["hasFood"] as! Bool
+                self.paid = object["isFree"] as! Bool
+                self.onsite = object["onCampus"] as! Bool
+                orderDate1 = object["start"] as! NSDate
+                orderDate2 = object["end"] as! NSDate
+                //Convert date into an String for start time and end time
+                var dateFormatter = NSDateFormatter()
+                dateFormatter.dateStyle = NSDateFormatterStyle.LongStyle
+                startString = dateFormatter.stringFromDate(object["start"] as! NSDate)
+                endString = dateFormatter.stringFromDate(object["end"] as! NSDate)
+                self.geopoint = object["locationGeopoint"] as! PFGeoPoint
+                self.setupDate()
+                self.setupBooleans()
+                
+            
+            })
+           
+         
             var checkPublicStatus = PFQuery(className: "Event")
             var status = checkPublicStatus.getObjectWithId(eventID)
             if status["isPublic"] as!Bool == true {
@@ -621,43 +693,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
             }
         }
    
-        if food == true {
-           
-            hasFoodText.text = "Food"
-            hasFoodText.textColor = UIColor(red: 224.0/255.0, green: 69.0/255.0, blue: 69.0/255, alpha:1 ) //Red
-            hasFoodButton.setBackgroundImage(UIImage(named: "yesFood.png"), forState: UIControlState.Normal)
-        }
-        else {
-         
-            hasFoodText.text = "No Food"
-            hasFoodText.textColor = UIColor(red: 165.0/255.0, green: 169.0/255.0, blue: 172.0/255, alpha:1 ) //Gray
-            hasFoodButton.setBackgroundImage(UIImage(named: "yesFood.png"), forState: UIControlState.Normal)
-            
-        }
-        if paid == true {
-            isFreeText.text = "Free"
-            isFreeText.textColor = UIColor(red: 93.0/255.0, green: 175.0/255.0, blue: 76.0/255, alpha:1) //Green
-            isFreeButton.setBackgroundImage(UIImage(named: "yesFree.png"), forState: UIControlState.Normal)
-        }
-        else {
-            isFreeText.text = "Not Free"
-            isFreeText.textColor = UIColor(red: 165.0/255.0, green: 169.0/255.0, blue: 172.0/255, alpha:1 ) //Gray
-             isFreeButton.setBackgroundImage(UIImage(named: "noFree.png"), forState: UIControlState.Normal)
-        }
-        if onsite == true {
-            println("OK IT WOKRS")
-            onCampusText.text = "On Campus"
-            onCampusText.textColor =  UIColor(red: 135.0/255.0, green: 84.0/255.0, blue: 194.0/255, alpha:1 ) //Purple
-            onCampusButton.setBackgroundImage(UIImage(named: "onCampus.png"), forState: UIControlState.Normal)
-            
-        }
-        else {
-            
-       
-             onCampusButton.setBackgroundImage(UIImage(named: "offCampus.png"), forState: UIControlState.Normal)
-            onCampusText.text = "Off Campus"
-            onCampusText.textColor = UIColor(red: 165.0/255.0, green: 169.0/255.0, blue: 172.0/255, alpha:1 ) //Gray
-        }
+
         
         if PFUser.currentUser() == nil{
             
