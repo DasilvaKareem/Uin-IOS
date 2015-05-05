@@ -230,7 +230,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
     
     @IBAction func makeEvent(sender: AnyObject) {
         
-        geopoint = PFGeoPoint(location: locations)
+  
         var userFollowers = [String]()
         var allError = ""
         
@@ -641,6 +641,9 @@ class eventMake: UIViewController, UITextFieldDelegate {
     override func viewWillAppear(animated: Bool) {
             setupDate()
         setupBooleans()
+        if editing == false {
+                  geopoint = PFGeoPoint(location: locations)
+        }
 
     }
 
@@ -677,21 +680,19 @@ class eventMake: UIViewController, UITextFieldDelegate {
                 startString = dateFormatter.stringFromDate(object["start"] as! NSDate)
                 endString = dateFormatter.stringFromDate(object["end"] as! NSDate)
                 self.geopoint = object["locationGeopoint"] as! PFGeoPoint
+                if object["isPublic"] as!Bool == true {
+                    self.publicSegment.selectedSegmentIndex = 0
+                } else {
+                    self.publicSegment.selectedSegmentIndex = 1
+                    self.publicSegment.tintColor = UIColor(red: 254.0/255.0, green: 186.0/255.0, blue: 1.0/255, alpha:1 ) //Yelow
+                }
                 self.setupDate()
                 self.setupBooleans()
                 
             
             })
-           
-         
-            var checkPublicStatus = PFQuery(className: "Event")
-            var status = checkPublicStatus.getObjectWithId(eventID)
-            if status["isPublic"] as!Bool == true {
-                publicSegment.selectedSegmentIndex = 0
-            } else {
-                publicSegment.selectedSegmentIndex = 1
-                  publicSegment.tintColor = UIColor(red: 254.0/255.0, green: 186.0/255.0, blue: 1.0/255, alpha:1 ) //Yelow
-            }
+      
+        
         }
    
 

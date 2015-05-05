@@ -19,21 +19,17 @@ class channelSelectView: UITableViewController {
     var channelStatus = [Bool]()
     var memBounded = Bool()
     //General Channels
-    var genChannels = [String]()
-    var gentype = [String]()
+    var genChannels = ["local events", "subscription events", "schedule"]
+    var gentype = ["localEvent","subbedEvents","schedule"]
     var genEvents = [String]()
     func setupGenCounters() {
         var localEventCount = PFQuery(className: "Event")
-        genChannels.append("local events")
-        gentype.append("localEvent")
         localEventCount.whereKey("isPublic", equalTo: true)
         localEventCount.whereKey("createdAt", greaterThanOrEqualTo:PFUser.currentUser()["notificationsTimestamp"] as! NSDate)
         self.genEvents.append("\(localEventCount.countObjects()) new")
         
         
         //Gets Subscriptions Events
-        gentype.append("subbedEvents")
-        genChannels.append("subscription events")
         var subscriptionQuery = PFQuery(className: "Subscription")
         subscriptionQuery.whereKey("subscriberID", equalTo: PFUser.currentUser().objectId)
         var subscriptionEventCount = PFQuery(className: "Event")
@@ -42,8 +38,7 @@ class channelSelectView: UITableViewController {
         subscriptionEventCount.whereKey("start", greaterThan:  NSDate())
         
         self.genEvents.append("\(subscriptionEventCount.countObjects()) new")
-        gentype.append("schedule")
-        self.genChannels.append("schedule")
+        
         //get added to calendar
         var getAmountSchedule = PFQuery(className: "UserCalendar")
         getAmountSchedule.whereKey("userID", equalTo: PFUser.currentUser().objectId)
@@ -72,11 +67,6 @@ class channelSelectView: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
      
-   
-        
-  
-    }
-    override func viewWillAppear(animated: Bool) {
         channels.removeAll(keepCapacity: true)
         channelNames.removeAll(keepCapacity: true)
         channelType.removeAll(keepCapacity: true)
@@ -84,10 +74,16 @@ class channelSelectView: UITableViewController {
         userType.removeAll(keepCapacity: true)
         usernameInfo.removeAll(keepCapacity: true)
         usernameSectionTitle.removeAll(keepCapacity: true)
+    
+                self.getUserInfo()
+                self.getChannels()
+                self.setupGenCounters()
         
-        self.getUserInfo()
-        self.getChannels()
-        self.setupGenCounters()
+  
+    }
+    override func viewWillAppear(animated: Bool) {
+    
+ 
     }
     override func viewDidAppear(animated: Bool) {
  
@@ -96,18 +92,13 @@ class channelSelectView: UITableViewController {
   
     }
     override func viewDidDisappear(animated: Bool) {
-       /* channels.removeAll(keepCapacity: true)
-        channelNames.removeAll(keepCapacity: true)
-        channelType.removeAll(keepCapacity: true)
         genEvents.removeAll(keepCapacity: true)
         userType.removeAll(keepCapacity: true)
         usernameInfo.removeAll(keepCapacity: true)
         usernameSectionTitle.removeAll(keepCapacity: true)
-        
-        self.getUserInfo()
-        self.getChannels()
-        self.setupGenCounters()
-*/
+        getUserInfo()
+        getChannels()
+        setupGenCounters()
 
     }
     func getChannels(){
