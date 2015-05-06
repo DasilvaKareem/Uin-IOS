@@ -512,10 +512,10 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             var dateFormatter = NSDateFormatter()
             //Creates table header for event time
             dateFormatter.locale = NSLocale.currentLocale() // Gets current locale and switches
-            dateFormatter.dateFormat = " EEEE, MMM dd" // Formart for date I.E Monday, 03 1996
+            dateFormatter.dateFormat = "EEEE, MMM dd" // Formart for date I.E Monday, 03 1996
             var headerDate = dateFormatter.stringFromDate(i) // Creates date
             convertedDates.append(headerDate)
-            dateFormatter.dateFormat = " MMM dd, yyyy"
+            dateFormatter.dateFormat = "MMM dd, yyyy"
             var shortenTime = dateFormatter.stringFromDate(i)
             self.eventStartDate.append(shortenTime)
             //Creates Time for Event from NSDAte
@@ -536,7 +536,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             //Creates table header for event time
             dateFormatter.locale = NSLocale.currentLocale() // Gets current locale and switches
             var headerDate = dateFormatter.stringFromDate(i) // Creates date
-            dateFormatter.dateFormat = " MMM dd, yyyy"
+            dateFormatter.dateFormat = "MMM dd, yyyy"
             var shortenTime = dateFormatter.stringFromDate(i)
             self.eventEndDate.append(shortenTime)
             //Creates Time for Event from NSDAte
