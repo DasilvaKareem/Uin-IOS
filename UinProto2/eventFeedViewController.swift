@@ -304,7 +304,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     }
       func updateFeed(){
         //Removes all leftover content in the array
-        
+        var geoEnabled = true
         PFGeoPoint.geoPointForCurrentLocationInBackground {
             (geoPoint: PFGeoPoint!, error: NSError!) -> Void in
          
@@ -339,7 +339,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                             newQue.whereKey("author", equalTo: PFUser.currentUser().username)
                             newQue.whereKey("inLocalFeed", equalTo: true)
                             var userTimeCheck = PFUser.currentUser()
-                            userTimeCheck["notificationsTimestamp"] = NSDate()
+                            userTimeCheck["localEventsTimestamp"] = NSDate()
                             userTimeCheck.saveInBackgroundWithBlock({
                                 (success:Bool, error:NSError!) -> Void in
                                 if error == nil {
@@ -366,7 +366,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                             newQue.whereKey("authorID", matchesKey: "publisherID", inQuery:pubQue)
                             newQue.whereKey("author", equalTo: PFUser.currentUser().username)
                             var userTimeCheck = PFUser.currentUser()
-                            userTimeCheck["notificationsTimestamp"] = NSDate()
+                            userTimeCheck["subscriptionsTimestamp"] = NSDate()
                             userTimeCheck.saveInBackgroundWithBlock({
                                 (success:Bool, error:NSError!) -> Void in
                                 if error == nil {
@@ -380,6 +380,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                         break
                         case "schedule":
                              self.navigationItem.title = "Schedule"
+                            geoEnabled = false
                             var getAmountSchedule = PFQuery(className: "UserCalendar")
                             getAmountSchedule.whereKey("userID", equalTo: PFUser.currentUser().objectId)
                             eventQuery.whereKey("objectId", matchesKey: "eventID", inQuery: getAmountSchedule)
@@ -422,8 +423,10 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                     
                     query.orderByAscending("start")
                     println(self.currentPoint)
+                    if geoEnabled == true  {
+                 query.whereKey("locationGeopoint", nearGeoPoint: self.currentPoint, withinMiles: 7.0)
+                    }
             
-                    query.whereKey("locationGeopoint", nearGeoPoint: self.currentPoint, withinMiles: 7.0)
                     query.whereKey("start", greaterThanOrEqualTo: NSDate())
                     query.whereKey("isDeleted", equalTo: false)
                     query.findObjectsInBackgroundWithBlock {

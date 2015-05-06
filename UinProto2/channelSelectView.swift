@@ -25,16 +25,17 @@ class channelSelectView: UITableViewController {
     func setupGenCounters() {
         var localEventCount = PFQuery(className: "Event")
         localEventCount.whereKey("isPublic", equalTo: true)
-        localEventCount.whereKey("createdAt", greaterThanOrEqualTo:PFUser.currentUser()["notificationsTimestamp"] as! NSDate)
+        localEventCount.whereKey("createdAt", greaterThanOrEqualTo:PFUser.currentUser()["localEventsTimestamp"] as! NSDate)
         self.genEvents.append("\(localEventCount.countObjects()) new")
         
-        
+
         //Gets Subscriptions Events
         var subscriptionQuery = PFQuery(className: "Subscription")
         subscriptionQuery.whereKey("subscriberID", equalTo: PFUser.currentUser().objectId)
         var subscriptionEventCount = PFQuery(className: "Event")
         subscriptionEventCount.whereKey("authorID", matchesKey: "publisherID", inQuery: subscriptionQuery)
         subscriptionEventCount.whereKey("isPublic", equalTo: true)
+        subscriptionEventCount.whereKey("createdAt", greaterThanOrEqualTo:PFUser.currentUser()["subscriptionsTimestamp"] as! NSDate)
         subscriptionEventCount.whereKey("start", greaterThan:  NSDate())
         
         self.genEvents.append("\(subscriptionEventCount.countObjects()) new")
