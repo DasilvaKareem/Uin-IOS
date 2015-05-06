@@ -34,6 +34,7 @@
 		61268C1E1A910AB300009E07 /* dateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61268C1D1A910AB300009E07 /* dateCell.swift */; };
 		6136E5E81A9958C7009503A4 /* footerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6136E5E71A9958C7009503A4 /* footerCell.swift */; };
 		6137CA921AA41AE000B74077 /* libstdc++.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6137CA911AA41AE000B74077 /* libstdc++.6.dylib */; };
+		6159C9B51AF9750E00784F28 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6159C9B41AF9750E00784F28 /* Main.storyboard */; };
 		615FA44F1ACA4058007C88F1 /* ParseCrashReporting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 615FA44E1ACA4058007C88F1 /* ParseCrashReporting.framework */; };
 		6172E1FF1A97C49200F17629 /* eventMake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E654811A60C1AD006E76E5 /* eventMake.swift */; };
 		617FA9361AE96DF200494E4F /* channelTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61E6A41E1AE074540098FC5D /* channelTableCell.swift */; };
@@ -54,7 +55,6 @@
 		61E6A41D1AE06FFD0098FC5D /* channelSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61E6A41C1AE06FFD0098FC5D /* channelSelectView.swift */; };
 		61EA5F621A91891B002B1998 /* eventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E6547D1A60B9C8006E76E5 /* eventCell.swift */; };
 		61EA5F641A918E00002B1998 /* settingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61EA5F631A918E00002B1998 /* settingsView.swift */; };
-		9C39FF051AF960770052DDD2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9C39FF041AF960770052DDD2 /* Main.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -105,6 +105,7 @@
 		6136E5E71A9958C7009503A4 /* footerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = footerCell.swift; sourceTree = "<group>"; };
 		6137CA911AA41AE000B74077 /* libstdc++.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.dylib"; path = "usr/lib/libstdc++.6.dylib"; sourceTree = SDKROOT; };
 		614F49A61A8FFD4300E6245A /* subCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = subCell.swift; sourceTree = "<group>"; };
+		6159C9B41AF9750E00784F28 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = ../../../Downloads/Main.storyboard; sourceTree = "<group>"; };
 		615FA44E1ACA4058007C88F1 /* ParseCrashReporting.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseCrashReporting.framework; sourceTree = "<group>"; };
 		617854321ABCC57200694AD4 /* ParseCrashReporting.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ParseCrashReporting.framework; path = "../../Downloads/parse-library-1.6.1 2/ParseCrashReporting.framework"; sourceTree = "<group>"; };
 		618CE0131A76F4A400FF493C /* EventView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventView.swift; sourceTree = "<group>"; };
@@ -122,7 +123,6 @@
 		61E6A41C1AE06FFD0098FC5D /* channelSelectView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = channelSelectView.swift; sourceTree = "<group>"; };
 		61E6A41E1AE074540098FC5D /* channelTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = channelTableCell.swift; sourceTree = "<group>"; };
 		61EA5F631A918E00002B1998 /* settingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = settingsView.swift; sourceTree = "<group>"; };
-		9C39FF041AF960770052DDD2 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = ../../Desktop/Main.storyboard; sourceTree = "<group>"; };
 		BFF64F43CD26D75E1C820539 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "UinProto2/Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		D15603B83CDC98572D79F2CD /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "UinProto2/Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -201,7 +201,7 @@
 			isa = PBXGroup;
 			children = (
 				28E6547D1A60B9C8006E76E5 /* eventCell.swift */,
-				9C39FF041AF960770052DDD2 /* Main.storyboard */,
+				6159C9B41AF9750E00784F28 /* Main.storyboard */,
 				28277E341A4B115E001CCB02 /* AppDelegate.swift */,
 				61DC09F11AC087BD000C5EB5 /* SigningUp */,
 				61DC09F01AC08774000C5EB5 /* EventCreate */,
@@ -292,6 +292,8 @@
 		61E6A41A1ADECF7B0098FC5D /* Subscriptions */ = {
 			isa = PBXGroup;
 			children = (
+				61AFFF501A7EE2AD00858273 /* subscriptions.swift */,
+				61AFFF4E1A7ED7C400858273 /* subscriberlist.swift */,
 			);
 			name = Subscriptions;
 			sourceTree = "<group>";
@@ -299,8 +301,6 @@
 		61E6A4201AE074710098FC5D /* Channels */ = {
 			isa = PBXGroup;
 			children = (
-				61AFFF501A7EE2AD00858273 /* subscriptions.swift */,
-				61AFFF4E1A7ED7C400858273 /* subscriberlist.swift */,
 				61EA5F631A918E00002B1998 /* settingsView.swift */,
 				61E6A41E1AE074540098FC5D /* channelTableCell.swift */,
 				61E6A41C1AE06FFD0098FC5D /* channelSelectView.swift */,
@@ -421,9 +421,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				28277E3F1A4B115E001CCB02 /* LaunchScreen.xib in Resources */,
+				6159C9B51AF9750E00784F28 /* Main.storyboard in Resources */,
 				61144F1C1AA299330034018A /* Podfile in Resources */,
 				28277E3C1A4B115E001CCB02 /* Images.xcassets in Resources */,
-				9C39FF051AF960770052DDD2 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -144,6 +144,9 @@ class register: UIViewController, UITextFieldDelegate {
                 user["pushEnabled"] = true
                 user["firstRemoveFromCalendar"] = true
                 user["tempAccounts"] = false
+                user["notificationsTimestamp"] = NSDate()
+                user["subscriptionsTimestamp"] = NSDate()
+                user["localEventsTimestamp"] = NSDate()
                 user.signUpInBackgroundWithBlock {
                     (succeeded: Bool, registerError: NSError!) -> Void in
                     
@@ -234,6 +237,9 @@ class register: UIViewController, UITextFieldDelegate {
                 user["pushEnabled"] = true
                 user["firstRemoveFromCalendar"] = true
                 user["tempAccounts"] = false
+                user["notificationsTimestamp"] = NSDate()
+                user["subscriptionsTimestamp"] = NSDate()
+                user["localEventsTimestamp"] = NSDate()
                 var theMix = Mixpanel.sharedInstance()
                 theMix.track("Registered with Facebook -register-")
                 

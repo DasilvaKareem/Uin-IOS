@@ -393,9 +393,7 @@ class postEvent: UIViewController {
         } else {
              location.text = storeLocation
             locationTitle.text = "location"
-        }
-      
-        
+        } 
     }
     
     // Switch start time with the end time

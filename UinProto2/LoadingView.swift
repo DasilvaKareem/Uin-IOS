@@ -34,11 +34,15 @@ class LoadingView: UIViewController {
         }
         
         spinner.startAnimating()
-        var user = PFUser.currentUser()
-        //Logs you inside the app if you are signed im
         if PFUser.currentUser() != nil {
             var userTimeCheck = PFUser.currentUser()
+            if userTimeCheck["tempAccounts"] as! Bool == true {
+                PFUser.logOut()
+                self.performSegueWithIdentifier("createAccount", sender: self)
+            }
             userTimeCheck["notificationsTimestamp"] = NSDate()
+            userTimeCheck["subscriptionsTimestamp"] = NSDate()
+            userTimeCheck["localEventsTimestamp"] = NSDate()
             userTimeCheck.saveInBackgroundWithBlock({
                 (success:Bool, error:NSError!) -> Void in
                 if error == nil {
@@ -49,7 +53,7 @@ class LoadingView: UIViewController {
             })
             self.performSegueWithIdentifier("login", sender: self)
         } else {
-              self.performSegueWithIdentifier("createAccount", sender: self)
+            self.performSegueWithIdentifier("createAccount", sender: self)
         }
 
     }

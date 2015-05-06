@@ -234,7 +234,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
         var userFollowers = [String]()
         var allError = ""
         
-        if eventTitle.text == "" {
+        if eventTitle.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()) == "" {
             
             allError = "Enter a Title for your Event"
             println(allError)
@@ -289,13 +289,13 @@ class eventMake: UIViewController, UITextFieldDelegate {
                         eventItem["isFree"] = self.paid
                         eventItem["onCampus"] = self.onsite
                         eventItem["location"] = self.eventLocation
-                        eventItem["title"] = self.eventTitle.text
+                        eventItem["title"] = self.eventTitle.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
                         eventItem["author"] = PFUser.currentUser().username
                         eventItem["authorID"] = PFUser.currentUser().objectId
                         eventItem["isDeleted"] = false
                         eventItem["channels"] = self.channel
                         eventItem["inLocalFeed"] = true
-                        eventItem["description"] = self.eventDescription.text
+                        eventItem["description"] = self.eventDescription.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
                         eventItem.saveInBackgroundWithBlock({
                             (success:Bool, error:NSError!) -> Void in
                             
@@ -534,6 +534,16 @@ class eventMake: UIViewController, UITextFieldDelegate {
                                 (success:Bool, notifyError: NSError!) -> Void in
                                 if notifyError == nil {
                                     println("notifcation has been saved")
+                                    var deleteNotification = PFQuery(className: "Notification")
+                                    deleteNotification.whereKey("eventID", equalTo: self.eventID)
+                                    deleteNotification.findObjectsInBackgroundWithBlock({
+                                        (objects:[AnyObject]!, error:NSError!) -> Void in
+                                        if error == nil {
+                                            for object in objects {
+                                                object.delete()
+                                            }
+                                        }
+                                    })
                                 }
                                 else {
                                     println("fail")
