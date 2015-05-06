@@ -123,10 +123,7 @@ class postEvent: UIViewController {
                 self.startDate = dateFormatter.stringFromDate(result["start"] as!NSDate) // Creates date
                 self.endDate = dateFormatter.stringFromDate(result["end"] as!NSDate) // Creates date
                 
-                
-              
-                
-                
+
                 if result["picture"] == nil {
                     self.imageShower.removeFromSuperview()
                 } else {
@@ -156,6 +153,7 @@ class postEvent: UIViewController {
                 self.onsite = result["onCampus"] as!Bool
                 self.cost = result["isFree"] as!Bool
                 self.food = result["hasFood"] as!Bool
+                self.eventDescription.text = result["description"] as! String
                 
                
                 self.eventId = result.objectId
@@ -196,13 +194,12 @@ class postEvent: UIViewController {
         }
         if searchEvent == true {
             getEvents()
-            eventDescription.text = eventDescriptionHolder
+         
             
         } else {
             getEvents()
          
-            eventDescription.text = eventDescriptionHolder
-           
+            
         }
     
         
@@ -386,25 +383,42 @@ class postEvent: UIViewController {
     }
     // Switch display location with the real addrss
     @IBAction func switchAddress(sender: AnyObject) {
-        
-        if location.text == storeLocation {
-            location.text = address
-            locationTitle.text = "address"
+        if address == storeLocation {
+            address = address + " (address)"
+            storeLocation = storeLocation + " (location)"
+            if location.text == storeLocation {
+                location.text = address
+                locationTitle.text = "address"
+            } else {
+                location.text = storeLocation
+                locationTitle.text = "location"
+            }
         } else {
-             location.text = storeLocation
-            locationTitle.text = "location"
-        } 
+            if location.text == storeLocation {
+                location.text = address
+                locationTitle.text = "address"
+            } else {
+                location.text = storeLocation
+                locationTitle.text = "location"
+            }
+        }
+       
     }
     
     // Switch start time with the end time
     @IBAction func switchDates(sender: UIButton) {
-        if self.date.text == self.startDate {
-            self.date.text = self.endDate
-            dateTitle.text = "ends at"
+        if self.startDate == self.endDate {
+            self.dateTitle.text = "starts at and ends at"
         } else {
-            self.date.text = self.startDate
-            dateTitle.text = "starts at"
+            if self.date.text == self.startDate {
+                self.date.text = self.endDate
+                dateTitle.text = "ends at"
+            } else {
+                self.date.text = self.startDate
+                dateTitle.text = "starts at"
+            }
         }
+      
        
     }
     
