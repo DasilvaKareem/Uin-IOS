@@ -39,7 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Parse.setApplicationId("HawWPTDabdo1FXdxMevotUNmVCwVl62wTkjiFyNg", clientKey: "Gj2fnhH0CkA6G1Hkl5igSQRooXeD3ByVBKjMF1Bq")
         
         //Production Key
-        // Parse.setApplicationId("BFxrzfMk4LK2WDbBdwtfeWmFcZwZwkMLdryiDPwm", clientKey: "tALwULorTkQbcVv3JHqVtTDrrelIZFSebtb0cHJs")
+         //Parse.setApplicationId("BFxrzfMk4LK2WDbBdwtfeWmFcZwZwkMLdryiDPwm", clientKey: "tALwULorTkQbcVv3JHqVtTDrrelIZFSebtb0cHJs")
         
         //Set the user Time stamp
   

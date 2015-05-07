@@ -53,7 +53,8 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     // View Life Cycles
     override func viewWillAppear(animated: Bool) {
         subticker()
-        checkUpdateFeed()
+        updateFeed()
+ 
   
     navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
 
@@ -68,7 +69,6 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     
     override func viewDidDisappear(animated: Bool) {
-        checkUpdateFeed()
         subticker()
         notifications()
     }
@@ -87,7 +87,6 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
            self.navigationController?.navigationBar.backIndicatorImage = nil
         self.navigationItem.title = "My Events"
         subticker()
-        updateFeed()
         notifications()
         //Queries all the events and puts into the arrays above
         refresher = UIRefreshControl()
@@ -111,18 +110,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     }
     //Checks if any new events are created if not update feed will not execute
-    func checkUpdateFeed(){
-        var eventCheck = PFQuery(className: "Event")
-        var eventNumber = eventCheck.countObjects()
-        //Executes updateFeed if the number changes
-        if eventCountNumber != eventCheck {
-            println("No refresh is neccessary")
-            
-        } else {
-            println("You need to refresh the update feed")
-            updateFeed()
-        }
-    }
+
     var amountofsubs = (String)()
     var amountofScript = (String)()
     func subticker(){
@@ -187,7 +175,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     self.eventCountNumber = que.countObjects()
     que.orderByAscending("start")
     que.whereKey("author", equalTo: PFUser.currentUser().username)
-    que.whereKey("start", greaterThanOrEqualTo: NSDate())
+    //que.whereKey("start", greaterThanOrEqualTo: NSDate())
     que.whereKey("isDeleted", equalTo: false)
     
     que.findObjectsInBackgroundWithBlock{
@@ -264,7 +252,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         var i = 0
         
         //Initialisation
-        
+        numSections = 0
         rowsInSection.removeAll(keepCapacity: true)
         sectionNames.removeAll(keepCapacity: true)
         self.localizedTime.removeAll(keepCapacity: true)
@@ -275,10 +263,10 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
             var dateFormatter = NSDateFormatter()
             //Creates table header for event time
             dateFormatter.locale = NSLocale.currentLocale() // Gets current locale and switches
-            dateFormatter.dateFormat = " EEEE MMM, dd yyyy" // Formart for date I.E Monday, 03 1996
+            dateFormatter.dateFormat = "EEEE, MMM dd" // Formart for date I.E Monday, 03 1996
             var headerDate = dateFormatter.stringFromDate(i) // Creates date
             convertedDates.append(headerDate)
-            dateFormatter.dateFormat = " MMM. dd, yyyy"
+            dateFormatter.dateFormat = "MMM dd, yyyy"
             var shortenTime = dateFormatter.stringFromDate(i)
             self.eventStartDate.append(shortenTime)
             //Creates Time for Event from NSDAte
@@ -299,7 +287,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
             //Creates table header for event time
             dateFormatter.locale = NSLocale.currentLocale() // Gets current locale and switches
             var headerDate = dateFormatter.stringFromDate(i) // Creates date
-            dateFormatter.dateFormat = " MMM. dd, yyyy"
+            dateFormatter.dateFormat = "MMM dd, yyyy"
             var shortenTime = dateFormatter.stringFromDate(i)
             self.eventEndDate.append(shortenTime)
             //Creates Time for Event from NSDAte
@@ -382,7 +370,6 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
-        println(rowsInSection[section])
         return rowsInSection[section]
         
     }
