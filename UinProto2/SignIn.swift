@@ -48,51 +48,60 @@ class SignIn: UIViewController, UITextFieldDelegate {
         var permissions = ["public_profile", "email"]
         PFFacebookUtils.logInWithPermissions(permissions, block: {
             (user: PFUser!, error: NSError!) -> Void in
-            if user == nil {
-                NSLog("Uh oh. The user cancelled the Facebook login.")
-                println(error)
-                //self.loginCancelledLabel.alpha = 1
-                
-            } else if user.isNew {
-                NSLog("User signed up and logged in through Facebook!")
-                
-                FBRequestConnection.startForMeWithCompletionHandler({
-                    connection, result, error in
-                    println(result)
-                    self.userFacebook =  result["name"] as!String
-                    self.emailFacebook = result["email"] as!String
-                    var theMix = Mixpanel.sharedInstance()
-                    theMix.track("Registers Info with Facebook (SI)")
-                    self.performSegueWithIdentifier("register", sender: self)
-                
-                })
-                
-            } else {
-                
-                NSLog("User is already signed in with us")
-                var currentInstallation = PFInstallation.currentInstallation()
-                currentInstallation["user"] = PFUser.currentUser().username
-                currentInstallation["userId"] = PFUser.currentUser().objectId
-                currentInstallation.saveInBackgroundWithBlock({
+            if error == nil {
+                if user == nil {
+                    NSLog("Uh oh. The user cancelled the Facebook login.")
+                    println(error)
+                    //self.loginCancelledLabel.alpha = 1
                     
-                    (success:Bool, saveerror: NSError!) -> Void in
+                } else if user.isNew {
+                    NSLog("User signed up and logged in through Facebook!")
                     
-                    if saveerror == nil {
-                        
+                    FBRequestConnection.startForMeWithCompletionHandler({
+                        connection, result, error in
+                        println(result)
+                        self.userFacebook = result["name"] as!String
+                        self.emailFacebook = result["email"] as!String
+                        user.username = result["name"] as!String
+                        user.email = result["name"] as!String
+                        user.save()
                         var theMix = Mixpanel.sharedInstance()
-                        theMix.track("Logged in with Facebook (SI)")
-                        self.performSegueWithIdentifier("login", sender: self)
+                        theMix.track("Registers Info with Facebook (SI)")
+                        self.performSegueWithIdentifier("register", sender: self)
                         
-                    }
-                        
-                    else {
-                        
-                        println("facebook installtions was not succesfull")
-                    }
+                    })
                     
-                })
-              
+                } else {
+                    
+                    NSLog("User is already signed in with us")
+                    var currentInstallation = PFInstallation.currentInstallation()
+                    currentInstallation["user"] = PFUser.currentUser().username
+                    currentInstallation["userId"] = PFUser.currentUser().objectId
+                    currentInstallation.saveInBackgroundWithBlock({
+                        
+                        (success:Bool, saveerror: NSError!) -> Void in
+                        
+                        if saveerror == nil {
+                            
+                            var theMix = Mixpanel.sharedInstance()
+                            theMix.track("Logged in with Facebook (SI)")
+                            self.performSegueWithIdentifier("login", sender: self)
+                            
+                        }
+                            
+                        else {
+                            
+                            println("facebook installtions was not succesfull")
+                        }
+                        
+                    })
+                    
+                }
+            } else {
+                self.displayAlert("Error signing in with Facebook", error: error.debugDescription)
+                println(error.debugDescription)
             }
+
         })
     }
  

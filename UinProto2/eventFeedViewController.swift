@@ -194,9 +194,10 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         }
 
     
-     
+      
     }
     override func viewDidAppear(animated: Bool) {
+        channelSelectView().setupAllChannels()
     }
     
     //2 nav buttons 1 leads to settings while the other send to log in
@@ -302,7 +303,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             })
         }
     }
-      func updateFeed(){
+    func updateFeed(){
         //Removes all leftover content in the array
         var geoEnabled = true
         PFGeoPoint.geoPointForCurrentLocationInBackground {
@@ -429,6 +430,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             
                     query.whereKey("start", greaterThanOrEqualTo: NSDate())
                     query.whereKey("isDeleted", equalTo: false)
+                    query.limit = 15
                     query.findObjectsInBackgroundWithBlock {
                         (results: [AnyObject]!, error: NSError!) -> Void in
                         if error == nil {
@@ -588,6 +590,11 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
         
+    }
+    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        if indexPath.row == 3 {
+            
+        }
     }
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
@@ -782,9 +789,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         cell.poop.tag = event
         var minique = PFQuery(className: "UserCalendar")
         minique.whereKey("userID", equalTo: PFUser.currentUser().objectId)
-       
         minique.whereKey("eventID", equalTo: objectID[event])
-        
         minique.getFirstObjectInBackgroundWithBlock{
             
             (results:PFObject!, error: NSError!) -> Void in
@@ -820,8 +825,13 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                 //Warns user if the this is the first event to be removed
                 if PFUser.currentUser()["firstRemoveFromCalendar"] as!Bool == true{
                     PFUser.currentUser()["firstRemoveFromCalendar"] = false
-                    PFUser.currentUser().save()
-                    self.displayAlert("Remove", error: "Tapping the blue checkmark removes an event from your calendar.")
+                    PFUser.currentUser().saveEventually({
+                        (success:Bool, error:NSError!) -> Void in
+                        if error == nil {
+                            self.displayAlert("Remove", error: "Tapping the blue checkmark removes an event from your calendar.")
+                        }
+                    })
+
                 }
               
                 if results != nil {

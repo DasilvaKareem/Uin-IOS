@@ -14,7 +14,7 @@ class LoadingView: UIViewController {
  
     override func viewDidLoad() {
         super.viewDidLoad()
-
+      
         // Do any additional setup after loading the view.
     }
     override func viewDidAppear(animated: Bool) {
@@ -35,6 +35,7 @@ class LoadingView: UIViewController {
         
         spinner.startAnimating()
         if PFUser.currentUser() != nil {
+              
             var userTimeCheck = PFUser.currentUser()
             if userTimeCheck["tempAccounts"] as! Bool == true {
                 PFUser.logOut()

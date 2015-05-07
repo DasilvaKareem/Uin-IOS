@@ -27,7 +27,7 @@ class subscriptions: UITableViewController {
   self.navigationController?.navigationBar.backIndicatorImage = nil
         // Changes text color on navbar
         var nav = self.navigationController?.navigationBar
-        nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()];
+        nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
         var followque = PFQuery(className: "Subscription")
         followque.whereKey("subscriberID", equalTo: PFUser.currentUser().objectId)
         followque.orderByAscending("createdAt")
@@ -51,7 +51,6 @@ class subscriptions: UITableViewController {
                 }
                 
             }
-            
             
         }
         
