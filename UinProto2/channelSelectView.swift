@@ -44,7 +44,7 @@ class channelSelectView: UITableViewController {
         var getAmountSchedule = PFQuery(className: "UserCalendar")
         getAmountSchedule.whereKey("userID", equalTo: PFUser.currentUser().objectId)
         var eventQuery = PFQuery(className:"Event")
-        eventQuery.whereKey("isDeleted", equalTo: true)
+        eventQuery.whereKey("isDeleted", equalTo: false)
         eventQuery.whereKey("objectId", matchesKey: "eventID", inQuery: getAmountSchedule)
         eventQuery.whereKey("start", greaterThan: NSDate())
         
