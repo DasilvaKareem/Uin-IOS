@@ -149,11 +149,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
         query.findObjectsInBackgroundWithBlock {
             (results: [AnyObject]!, error: NSError!) -> Void in
             if error == nil {
-                
-                
-                
-                
-                
+
                 self.onsite.removeAll(keepCapacity: true)
                 self.paid.removeAll(keepCapacity: true)
                 self.food.removeAll(keepCapacity: true)
