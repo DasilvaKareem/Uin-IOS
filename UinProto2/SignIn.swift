@@ -85,6 +85,18 @@ class SignIn: UIViewController, UITextFieldDelegate {
                             
                             var theMix = Mixpanel.sharedInstance()
                             theMix.track("Logged in with Facebook (SI)")
+                            var userTimeCheck = PFUser.currentUser()
+                            userTimeCheck["notificationsTimestamp"] = NSDate()
+                            userTimeCheck["subscriptionsTimestamp"] = NSDate()
+                            userTimeCheck["localEventsTimestamp"] = NSDate()
+                            userTimeCheck.saveInBackgroundWithBlock({
+                                (success:Bool, error:NSError!) -> Void in
+                                if error == nil {
+                                    println("The stamp was updated")
+                                } else {
+                                    println(error.debugDescription)
+                                }
+                            })
                             self.performSegueWithIdentifier("login", sender: self)
                             
                         }

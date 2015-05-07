@@ -153,6 +153,8 @@ class channelSelectView: UITableViewController {
                     if object["authorized"] as! Bool == true {
                         if object["channelID"] as! String == "wEwRowC6io" || object["channelID"] as! String == "LAUfZJ3KKc" {
                             self.memBounded = true
+                        } else {
+                            
                         }
                     }
                  
@@ -162,7 +164,21 @@ class channelSelectView: UITableViewController {
             }
         })
     }
-
+    //Checks if the user is in a session or not
+    func checkLockedStatus() {
+        var checkStatus = PFQuery(className: "ChannelUser")
+        checkStatus.whereKey("userID", equalTo: PFUser.currentUser().objectId)
+        checkStatus.whereKey("authorized", equalTo: true)
+        checkStatus.whereKey("expiration", greaterThan: NSDate())
+        checkStatus.getFirstObjectInBackgroundWithBlock({
+            (object:PFObject!, error:NSError!) -> Void in
+            if error == nil {
+                self.memBounded = true
+            } else {
+                self.memBounded = false
+            }
+        })
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -373,9 +389,14 @@ class channelSelectView: UITableViewController {
                
                 if self.memBounded == true {
                     println("You are membounded")
-                    var alert = UIAlertController(title: "You're still in MEMbound", message: "Check back when your session is over. We'll be waiting on you!", preferredStyle: UIAlertControllerStyle.Alert)
-                    alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: nil))
-                    self.presentViewController(alert, animated: true, completion: nil)
+                        //Re checks if your authorization is still on
+                    self.checkLockedStatus()
+                    if self.memBounded == true {
+                        var alert = UIAlertController(title: "You're still in MEMbound", message: "Check back when your session is over. We'll be waiting on you!", preferredStyle: UIAlertControllerStyle.Alert)
+                        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: nil))
+                        self.presentViewController(alert, animated: true, completion: nil)
+                    }
+                
                 } else {
                     self.performSegueWithIdentifier("channelSelect", sender: self)
                 }
