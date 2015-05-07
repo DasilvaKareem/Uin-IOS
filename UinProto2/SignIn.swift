@@ -98,7 +98,7 @@ class SignIn: UIViewController, UITextFieldDelegate {
                     
                 }
             } else {
-                self.displayAlert("Error signing in with Facebook", error: error.debugDescription)
+                self.displayAlert("Error signing in with Facebook", error: "Try Sigining in again")
                 println(error.debugDescription)
             }
 
