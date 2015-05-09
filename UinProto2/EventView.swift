@@ -153,7 +153,7 @@ class postEvent: UIViewController {
                 self.onsite = result["onCampus"] as!Bool
                 self.cost = result["isFree"] as!Bool
                 self.food = result["hasFood"] as!Bool
-                self.eventDescription.text = result["description"] as! String
+                self.eventDescription.text = result["description"] as? String
                 
                
                 self.eventId = result.objectId

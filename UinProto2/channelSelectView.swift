@@ -99,9 +99,6 @@ class channelSelectView: UITableViewController {
  
     
     func setupAllChannels() {
-        channels.removeAll(keepCapacity: true)
-        channelNames.removeAll(keepCapacity: true)
-        channelType.removeAll(keepCapacity: true)
         genEvents.removeAll(keepCapacity: true)
         gentype.removeAll(keepCapacity: true)
         genChannels.removeAll(keepCapacity: true)
@@ -121,7 +118,7 @@ class channelSelectView: UITableViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-          self.setupAllChannels()
+        
     }
     override func viewWillAppear(animated: Bool) {
         
@@ -141,7 +138,7 @@ class channelSelectView: UITableViewController {
      
         var channelQuery = PFQuery(className: "ChannelUser")
         channelQuery.whereKey("userID", equalTo: PFUser.currentUser().objectId)
-        channelQuery.whereKey("expiration", greaterThan: NSDate())
+        //channelQuery.whereKey("expiration", greaterThan: NSDate())
         channelQuery.findObjectsInBackgroundWithBlock({
             (results: [AnyObject]!, error: NSError!) -> Void in
             if error == nil {
@@ -150,6 +147,7 @@ class channelSelectView: UITableViewController {
                     self.channelNames.append(object["channelName"] as! String)
                    self.channelStatus.append(object["authorized"] as! Bool)
                     self.channelType.append("channelSelect")
+                    //Locks membound channels
                     if object["authorized"] as! Bool == true {
                         if object["channelID"] as! String == "wEwRowC6io" || object["channelID"] as! String == "LAUfZJ3KKc" {
                             self.memBounded = true
@@ -158,9 +156,8 @@ class channelSelectView: UITableViewController {
                         }
                     }
                  
-                    println(object["channelID"] as! String)
+                    self.tableView.reloadData()
                 }
-                
             }
         })
     }

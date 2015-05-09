@@ -143,6 +143,7 @@ class SignIn: UIViewController, UITextFieldDelegate {
         self.view.frame.origin.y = 0.0
     }
     
+    //User singing in with Uin
     @IBAction func signin(sender: AnyObject) {
         var theMix = Mixpanel.sharedInstance()
         theMix.track("Create Account with Uin (SI)")
@@ -184,7 +185,18 @@ class SignIn: UIViewController, UITextFieldDelegate {
                                 (success:Bool, saveerror: NSError!) -> Void in
                                 
                                 if saveerror == nil {
-                                    println("it worked")
+                                    var userTimeCheck = PFUser.currentUser()
+                                    userTimeCheck["notificationsTimestamp"] = NSDate()
+                                    userTimeCheck["subscriptionsTimestamp"] = NSDate()
+                                    userTimeCheck["localEventsTimestamp"] = NSDate()
+                                    userTimeCheck.saveInBackgroundWithBlock({
+                                        (success:Bool, error:NSError!) -> Void in
+                                        if error == nil {
+                                            println("The stamp was updated")
+                                        } else {
+                                            println(error.debugDescription)
+                                        }
+                                    })
                                 }
                                     
                                 else {

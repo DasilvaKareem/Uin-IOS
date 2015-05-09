@@ -159,7 +159,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
       
         
         //Gets current notfications
-        notifications()
+      
         
         //Adds pull to refresh
         refresher = UIRefreshControl()
@@ -172,7 +172,6 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     
     override func viewWillDisappear(animated: Bool) {
         println("View disappear")
-        notifications()
         endSearch()
         
     }
@@ -239,41 +238,6 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         }
     }
    
-  
-    // Checks for notifcations and compares to any notications you recieved during that time
-    var old = (Int)()
-    var newCheck = (Int)()
-    func notifications() {
-        
-        var check = PFQuery(className: "Notification")
-        check.whereKey("receiver", equalTo: PFUser.currentUser().username)
-        check.whereKey("sender", notEqualTo: PFUser.currentUser().username)
-        old = check.countObjects()
-    }
-    
-    func checkNotifications() {
-        
-        var check = PFQuery(className: "Notification")
-        check.whereKey("receiver", equalTo: PFUser.currentUser().username)
-        check.whereKey("sender", notEqualTo: PFUser.currentUser().username)
-         newCheck = check.countObjects()
-        
-        if self.old != self.newCheck {
-            var diffrence = self.newCheck - self.old
-            var tabArray = self.tabBarController?.tabBar.items as NSArray!
-            var tabItem = tabArray.objectAtIndex(1) as! UITabBarItem
-            tabItem.badgeValue = String(diffrence)
-            
-            println("You have gotten a new notification")
-            
-        }
-        else {
-          
-            println("You do not have a any new notification ")
-           
-        }
-    }
-    
     // Alert function
     func displayAlert(title:String, error:String) {
         var alert = UIAlertController(title: title, message: error, preferredStyle: UIAlertControllerStyle.Alert)
@@ -430,7 +394,6 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             
                     query.whereKey("start", greaterThanOrEqualTo: NSDate())
                     query.whereKey("isDeleted", equalTo: false)
-                    query.limit = 15
                     query.findObjectsInBackgroundWithBlock {
                         (results: [AnyObject]!, error: NSError!) -> Void in
                         if error == nil {
@@ -485,7 +448,9 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                             println("It failed")
                         }
                     }
-            
+            if error != nil {
+                self.displayAlert("No GPS Enabled", error: "Turn on your location")
+            }
         }
     }
  
@@ -493,8 +458,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         
         endSearch()
         updateFeed()
-        checkNotifications()
-        notifications()
+        
     }
     
     func populateSectionInfo(){

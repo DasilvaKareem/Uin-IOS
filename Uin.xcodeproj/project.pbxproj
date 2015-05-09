@@ -54,7 +54,7 @@
 		61E6A41D1AE06FFD0098FC5D /* channelSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61E6A41C1AE06FFD0098FC5D /* channelSelectView.swift */; };
 		61EA5F621A91891B002B1998 /* eventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E6547D1A60B9C8006E76E5 /* eventCell.swift */; };
 		61EA5F641A918E00002B1998 /* settingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61EA5F631A918E00002B1998 /* settingsView.swift */; };
-		9CD0B1A61AF9990A0058D15D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9CD0B1A51AF9990A0058D15D /* Main.storyboard */; };
+		EE09DD851AFDC18300809E3E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EE09DD841AFDC18300809E3E /* Main.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -122,9 +122,9 @@
 		61E6A41C1AE06FFD0098FC5D /* channelSelectView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = channelSelectView.swift; sourceTree = "<group>"; };
 		61E6A41E1AE074540098FC5D /* channelTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = channelTableCell.swift; sourceTree = "<group>"; };
 		61EA5F631A918E00002B1998 /* settingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = settingsView.swift; sourceTree = "<group>"; };
-		9CD0B1A51AF9990A0058D15D /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = ../../Downloads/Main.storyboard; sourceTree = "<group>"; };
 		BFF64F43CD26D75E1C820539 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "UinProto2/Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		D15603B83CDC98572D79F2CD /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "UinProto2/Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		EE09DD841AFDC18300809E3E /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -201,8 +201,8 @@
 			isa = PBXGroup;
 			children = (
 				28E6547D1A60B9C8006E76E5 /* eventCell.swift */,
-				9CD0B1A51AF9990A0058D15D /* Main.storyboard */,
 				28277E341A4B115E001CCB02 /* AppDelegate.swift */,
+				EE09DD841AFDC18300809E3E /* Main.storyboard */,
 				61DC09F11AC087BD000C5EB5 /* SigningUp */,
 				61DC09F01AC08774000C5EB5 /* EventCreate */,
 				61C47D091AD9C839004690AE /* Notifications */,
@@ -421,7 +421,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				28277E3F1A4B115E001CCB02 /* LaunchScreen.xib in Resources */,
-				9CD0B1A61AF9990A0058D15D /* Main.storyboard in Resources */,
+				EE09DD851AFDC18300809E3E /* Main.storyboard in Resources */,
 				61144F1C1AA299330034018A /* Podfile in Resources */,
 				28277E3C1A4B115E001CCB02 /* Images.xcassets in Resources */,
 			);
@@ -449,7 +449,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/UinProto2/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/../../../SirLancelot/Desktop/Uin-IOS/UinProto2/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		409A39E3119E2E0457E54945 /* Check Pods Manifest.lock */ = {
@@ -632,17 +632,11 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Cole Roe (33XBMXDS77)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Cole Roe (33XBMXDS77)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)";
 				INFOPLIST_FILE = UinProto2/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"/Users/coleproe/Uin-IOS",
-					"$(inherited)",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "0aa66f89-4ffe-496c-a37e-77616300fa60";
 				SWIFT_OBJC_BRIDGING_HEADER = "UinProto2/UinProto2-Bridging-Header.h";
@@ -658,17 +652,11 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Cole Roe (C59F79Z942)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Cole Roe (C59F79Z942)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)";
 				INFOPLIST_FILE = UinProto2/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"/Users/coleproe/Uin-IOS",
-					"$(inherited)",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "8f8705bc-1d63-45c9-9de1-6e517b596213";
 				SWIFT_OBJC_BRIDGING_HEADER = "UinProto2/UinProto2-Bridging-Header.h";

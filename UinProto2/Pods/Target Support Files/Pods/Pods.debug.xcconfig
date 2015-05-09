@@ -4,4 +4,4 @@ LIBRARY_SEARCH_PATHS = "$(PODS_ROOT)/Mixpanel/Mixpanel"
 OTHER_CFLAGS = $(inherited) -isystem "${PODS_ROOT}/Headers/Public" -isystem "${PODS_ROOT}/Headers/Public/Mixpanel" -isystem "${PODS_ROOT}/Headers/Public/Onboard" -isystem "${PODS_ROOT}/Headers/Public/SWRevealViewController"
 OTHER_LDFLAGS = $(inherited) -ObjC -l"MPCategoryHelpers" -l"Pods-Mixpanel" -l"Pods-Onboard" -l"Pods-SWRevealViewController" -l"icucore" -framework "Accelerate" -framework "CoreGraphics" -framework "CoreTelephony" -framework "Foundation" -framework "QuartzCore" -framework "SystemConfiguration" -framework "UIKit"
 OTHER_LIBTOOLFLAGS = $(OTHER_LDFLAGS)
-PODS_ROOT = ${SRCROOT}/UinProto2/Pods
+PODS_ROOT = ${SRCROOT}/../../../SirLancelot/Desktop/Uin-IOS/UinProto2/Pods

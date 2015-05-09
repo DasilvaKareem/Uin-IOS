@@ -24,9 +24,9 @@
 #define COCOAPODS_VERSION_MINOR_Onboard 1
 #define COCOAPODS_VERSION_PATCH_Onboard 1
 
-// swrevealviewcontroller
-#define COCOAPODS_POD_AVAILABLE_swrevealviewcontroller
-#define COCOAPODS_VERSION_MAJOR_swrevealviewcontroller 2
-#define COCOAPODS_VERSION_MINOR_swrevealviewcontroller 3
-#define COCOAPODS_VERSION_PATCH_swrevealviewcontroller 0
+// SWRevealViewController
+#define COCOAPODS_POD_AVAILABLE_SWRevealViewController
+#define COCOAPODS_VERSION_MAJOR_SWRevealViewController 2
+#define COCOAPODS_VERSION_MINOR_SWRevealViewController 3
+#define COCOAPODS_VERSION_PATCH_SWRevealViewController 0
 
