@@ -157,7 +157,7 @@ class register: UIViewController, UITextFieldDelegate {
                         defaultChannel["canPost"] = false
                         defaultChannel["validationCode"] = "nil"
                         defaultChannel["channelID"] = "wEwRowC6io"
-                        defaultChannel["channelName"] = "memboundparents"
+                        defaultChannel["channelName"] = "MEMbound Parent"
                         defaultChannel["authorized"] = false
                         defaultChannel["userID"] = PFUser.currentUser().objectId
                         defaultChannel.saveInBackgroundWithBlock({
@@ -174,7 +174,7 @@ class register: UIViewController, UITextFieldDelegate {
                         defaultChannel2["canPost"] = false
                         defaultChannel2["validationCode"] = "nil"
                         defaultChannel2["channelID"] = "LAUfZJ3KKc"
-                        defaultChannel2["channelName"] = "memboundstudents"
+                        defaultChannel2["channelName"] = "MEMbound Student"
                         defaultChannel2["authorized"] = false
                         defaultChannel2["userID"] = PFUser.currentUser().objectId
                         defaultChannel2.saveInBackgroundWithBlock({
@@ -261,7 +261,7 @@ class register: UIViewController, UITextFieldDelegate {
                                 defaultChannel["canPost"] = false
                                 defaultChannel["validationCode"] = "nil"
                                 defaultChannel["channelID"] = "wEwRowC6io"
-                                defaultChannel["channelName"] = "memboundparents"
+                                defaultChannel["channelName"] = "MEMbound Parent"
                                 defaultChannel["authorized"] = false
                                 defaultChannel["userID"] = PFUser.currentUser().objectId
                                 defaultChannel.saveInBackgroundWithBlock({
@@ -278,7 +278,7 @@ class register: UIViewController, UITextFieldDelegate {
                                 defaultChannel2["canPost"] = false
                                 defaultChannel2["validationCode"] = "nil"
                                 defaultChannel2["channelID"] = "LAUfZJ3KKc"
-                                defaultChannel2["channelName"] = "memboundstudents"
+                                defaultChannel2["channelName"] = "MEMbound Student"
                                 defaultChannel2["authorized"] = false
                                 defaultChannel2["userID"] = PFUser.currentUser().objectId
                                 defaultChannel2.saveInBackgroundWithBlock({
@@ -307,19 +307,19 @@ class register: UIViewController, UITextFieldDelegate {
                         switch registerError.code {
                             
                         case 125:
-                            self.displayAlert("Oops!", error: "wrong Email")
+                            self.displayAlert("Oops!", error: "Please enter a valid email address.")
                             
                         case 100:
-                            self.displayAlert("Oops!", error: "No internet")
+                            self.displayAlert("Oops!", error: "Please activate your wifi or cellular network.")
                             
                         case 203:
-                            self.displayAlert("Oops", error: "Email Taken")
+                            self.displayAlert("Oops", error: "This email is already taken.")
                             
                         case 202:
-                            self.displayAlert("Oops!", error: "Username taken")
+                            self.displayAlert("Oops!", error: "This username is already taken.")
                             
                         default:
-                            self.displayAlert("Oops!", error: "Failure")
+                            self.displayAlert("Oops!", error: "Something went wrong.")
                         }
                     }
                 }

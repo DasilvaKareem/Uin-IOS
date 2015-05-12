@@ -408,14 +408,14 @@ class channelSelectView: UITableViewController {
             var checkAuthorized = channelQuery.getFirstObject()
             if checkAuthorized["authorized"] as! Bool == false {
                 //Membound onboarding event
-                let page1:OnboardingContentViewController = OnboardingContentViewController(title: "Welcome Tiger!", body: "Uin has partnered with MEMbound to give you the best experience possible during your time at New Student Orientation. Enjoy your stay, and don't forget to check the schedule!", image: UIImage(named: "tiger"), buttonText: "", action: {
+                let page1:OnboardingContentViewController = OnboardingContentViewController(title: "Welcome Tiger!", body: "Uin has partnered with MEMbound to give you the best experience possible during your time at New Student Orientation. Enjoy your stay & don’t forget to check the schedule!", image: UIImage(named: "tiger"), buttonText: "", action: {
                     
                 })
-                let page2:OnboardingContentViewController = OnboardingContentViewController(title: "This is Memphis", body: "Once your session is over, hold on to Uin! When the Fall semester starts there will be all kinds of events here for you and your friends to check out!", image: UIImage(named: "whiteUin"), buttonText: "", action: {
+                let page2:OnboardingContentViewController = OnboardingContentViewController(title: "This is Memphis!", body: "Once your session is over, hold on to Uin! When the Fall semester starts there will be all kinds of events here for you and your friends to check out!", image: UIImage(named: "whiteUin"), buttonText: "", action: {
                     
                 })
-                let page3:OnboardingContentViewController = OnboardingContentViewController(title: "Now, for VIP access...", body: "Please enter the code sent from the university to your email in order to access the MEMbound calendar. Ask around if you don't remember, someone will have it!", image: UIImage(named: "whiteUin"), buttonText: "Enter Code", action: {
-                    var alert = UIAlertController(title: "Enter Code", message: "You should have an email from the university that has your code for this session. If not, ask someone nearby.", preferredStyle: UIAlertControllerStyle.Alert)
+                let page3:OnboardingContentViewController = OnboardingContentViewController(title: "Now, for VIP access...", body: "Please enter the code from the university in order to access the MEMbound calendar. Ask around if you don’t remember, someone will have it!", image: UIImage(named: "whiteUin"), buttonText: "Enter Code", action: {
+                    var alert = UIAlertController(title: "Enter Code", message: "You should have a code from the University for this session. If not, ask someone nearby.", preferredStyle: UIAlertControllerStyle.Alert)
                     alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: nil))
                     alert.addTextFieldWithConfigurationHandler({(textField: UITextField!) in
                         textField.placeholder = "Code"
@@ -446,7 +446,7 @@ class channelSelectView: UITableViewController {
                                     self.tableView.reloadData()
                                 })
                             } else {
-                                println("You did not enter the right code")
+                                println("Please enter a valid code.")
                             }
                         })
                        

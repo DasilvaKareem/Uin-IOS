@@ -150,7 +150,7 @@ class SignIn: UIViewController, UITextFieldDelegate {
         theMix.flush()
         var error = ""
         if username.text == "" || password.text == "" {
-            error = "Please enter a proper Username and Password"
+            error = "Please enter a proper Username and Password."
         }
         if error != "" {
             displayAlert("Oops!", error: error)
@@ -216,15 +216,15 @@ class SignIn: UIViewController, UITextFieldDelegate {
                     switch loginError.code {
                         
                     case 125:
-                        self.displayAlert("Oops!", error: "wrong Email")
+                        self.displayAlert("Oops!", error: "Wrong Email")
                     case 100:
-                        self.displayAlert("Oops!", error: "No internet")
+                        self.displayAlert("Oops!", error: "Please turn on your wifi or cellular data.")
                     case 203:
-                        self.displayAlert("Oops", error: "Email Taken")
+                        self.displayAlert("Oops", error: "This email is already taken.")
                     case 202:
-                        self.displayAlert("Oops!", error: "Username taken")
+                        self.displayAlert("Oops!", error: "This username is already taken.")
                     default:
-                        self.displayAlert("Oops!", error: "Wrong username and password")
+                        self.displayAlert("Oops!", error: "Please enter the correct username and password combination.")
                     }
                 }
             }
