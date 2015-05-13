@@ -391,7 +391,6 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                     if geoEnabled == true  {
                  query.whereKey("locationGeopoint", nearGeoPoint: self.currentPoint, withinMiles: 7.0)
                     }
-            
                     query.whereKey("start", greaterThanOrEqualTo: NSDate())
                     query.whereKey("isDeleted", equalTo: false)
                     query.findObjectsInBackgroundWithBlock {

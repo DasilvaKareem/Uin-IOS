@@ -13,6 +13,7 @@ class SignIn: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var username: UITextField!
     @IBOutlet weak var password: UITextField!
+    @IBOutlet weak var forgotPwd: UIButton!
     
     var userFacebook = (String)()
     var emailFacebook = (String)()
@@ -120,7 +121,7 @@ class SignIn: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
 
         super.viewDidLoad()
-        
+  
         var theMix = Mixpanel.sharedInstance()
         theMix.track("Sign In Opened")
         theMix.flush()
@@ -224,6 +225,7 @@ class SignIn: UIViewController, UITextFieldDelegate {
                     case 202:
                         self.displayAlert("Oops!", error: "Username taken")
                     default:
+                    
                         self.displayAlert("Oops!", error: "Wrong username and password")
                     }
                 }
@@ -256,5 +258,34 @@ class SignIn: UIViewController, UITextFieldDelegate {
                 
             }
         }
+    }
+}
+class ForgotPasswordView: UIViewController {
+    
+    @IBOutlet weak var resultTest: UILabel!
+    @IBOutlet weak var confirmBtn: UIButton!
+    @IBOutlet weak var passwordResetField: UITextField!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+    override func viewDidDisappear(animated: Bool) {
+    
+    }
+    
+    @IBAction func sendReset(sender: AnyObject) {
+        PFUser.requestPasswordResetForEmailInBackground(passwordResetField.text, block: {
+            (success:Bool, error:NSError!) -> Void in
+            if error == nil {
+                self.confirmBtn.setTitle("Resend", forState: UIControlState.Normal)
+                self.resultTest.text = "Sent Email"
+            } else {
+                 self.resultTest.text = "No user found with email address \(self.passwordResetField.text)"
+            }
+        })
+    }
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        
     }
 }

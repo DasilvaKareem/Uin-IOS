@@ -103,12 +103,104 @@ class settingsView: UIViewController {
  
 
     }
+    //Changes the type
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        if segue.identifier == "email" {
+            var accountInfoChangeView:ChangeAccountInfo = segue.destinationViewController as! ChangeAccountInfo
+            accountInfoChangeView.accountChangeType = "email"
+        }
+        if segue.identifier == "password" {
+            var accountInfoChangeView:ChangeAccountInfo = segue.destinationViewController as! ChangeAccountInfo
+            accountInfoChangeView.accountChangeType = "password"
+        }
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
+}
+class ChangeAccountInfo: UIViewController {
+    
+    @IBOutlet weak var newTokenField: UITextField!
+    @IBOutlet weak var newToken: UILabel!
+    @IBOutlet weak var passwordTextField: UITextField!
+    @IBOutlet weak var confirmTextField: UITextField!
+    @IBOutlet weak var changeToken: UILabel!
+    @IBOutlet weak var confirmToken: UILabel!
+    @IBOutlet weak var sendTokenBtn: UIButton!
+    @IBOutlet weak var resultToken: UILabel!
+    
+    
+    var accountChangeType = (String)() //What type of account changing it is
+    
+    @IBAction func sendToken(sender: AnyObject) {
+        
+        if accountChangeType == "password" {
+            if confirmTextField.text == PFUser.currentUser().email && passwordTextField.text == PFUser.currentUser().email {
+                //Saves newTokenField to the current users password
+                PFUser.requestPasswordResetForEmailInBackground(newTokenField.text, block: {
+                    (success:Bool, error:NSError!) -> Void in
+                    if error == nil {
+                        self.resultToken.text = "Password Reset Sent"
+                        self.sendTokenBtn.setTitle("Resend", forState: UIControlState.Normal)
+                    } else {
+                        self.resultToken.text = "Invalid Email address"
+                    }
+                })
+            }
+
+        }
+        //Changes function if type is email
+        if accountChangeType == "email" {
+            if confirmTextField.text == PFUser.currentUser().email && passwordTextField.text == PFUser.currentUser().email {
+                //Saves newTokenField to the current users password
+                PFUser.currentUser().email = newTokenField.text
+                PFUser.currentUser().saveInBackgroundWithBlock({
+                    (sucess:Bool, error:NSError!) -> Void in
+                    if error == nil {
+                        self.resultToken.text = "Email is now changed"
+                    } else {
+                        self.resultToken.text = "Error changing password try again"
+                        println(error.debugDescription)
+                    }
+                })
+            }
+            
+           
+        }
+    }
+    func setupChangeInfo(){
+        if accountChangeType == "email" {
+            newTokenField.placeholder = "enter new email address"
+            changeToken.text = "Enter Current Email"
+            resultToken.text = ""
+            confirmToken.text = "Confirm Email"
+            sendTokenBtn.setTitle("Change Email", forState: UIControlState.Normal)
+        }
+        if accountChangeType == "password" {
+            newTokenField.placeholder = "enter email"
+            changeToken.text = "Confirm email"
+            confirmToken.text = "Confirm Password"
+            resultToken.text = ""
+            sendTokenBtn.setTitle("Password Reset", forState: UIControlState.Normal)
+        }
+        
+    }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+    
+    }
+    override func viewWillAppear(animated: Bool) {
+        setupChangeInfo()
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
 }
 
 

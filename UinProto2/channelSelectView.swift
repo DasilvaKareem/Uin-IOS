@@ -105,10 +105,7 @@ class channelSelectView: UITableViewController {
         userType.removeAll(keepCapacity: true)
         usernameInfo.removeAll(keepCapacity: true)
         usernameSectionTitle.removeAll(keepCapacity: true)
-        channels.removeAll(keepCapacity: true)
-        channelNames.removeAll(keepCapacity: true)
-        channelType.removeAll(keepCapacity: true)
-        channelStatus.removeAll(keepCapacity: true)
+
         
         self.getUserInfo()
         self.setupGenCounters()
@@ -135,7 +132,10 @@ class channelSelectView: UITableViewController {
     }
 
     func getChannels(){
-     
+        channels.removeAll(keepCapacity: true)
+        channelNames.removeAll(keepCapacity: true)
+        channelType.removeAll(keepCapacity: true)
+        channelStatus.removeAll(keepCapacity: true)
         var channelQuery = PFQuery(className: "ChannelUser")
         channelQuery.whereKey("userID", equalTo: PFUser.currentUser().objectId)
         //channelQuery.whereKey("expiration", greaterThan: NSDate())
