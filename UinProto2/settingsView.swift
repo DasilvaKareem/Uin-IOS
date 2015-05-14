@@ -10,6 +10,7 @@ import UIKit
 
 class settingsView: UIViewController {
 
+    @IBOutlet weak var emailBtn: UIButton!
     @IBOutlet var menuTrigger: UIBarButtonItem!
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,6 +19,16 @@ class settingsView: UIViewController {
         theMix.flush()
         
         var user = PFUser.currentUser()
+        if user["emailVerified"] != nil {
+            if user["emailVerified"] as! Bool == true {
+                emailBtn.enabled = false
+            } else {
+                self.emailBtn.enabled = true
+            }
+        } else {
+            emailBtn.enabled = true
+        }
+      
         if user["pushEnabled"] as!Bool == true {
             notifySlider.setOn(true, animated: true)
         }   else {
@@ -103,6 +114,11 @@ class settingsView: UIViewController {
  
 
     }
+    @IBAction func resendEmail(sender: AnyObject) {
+        PFUser.currentUser().email = PFUser.currentUser().email
+        PFUser.currentUser().save()
+    }
+   
     //Changes the type
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
@@ -150,6 +166,8 @@ class ChangeAccountInfo: UIViewController {
                         self.resultToken.text = "Invalid Email address"
                     }
                 })
+            } else {
+                self.resultToken.text = "Email address not found"
             }
 
         }
@@ -167,13 +185,17 @@ class ChangeAccountInfo: UIViewController {
                         println(error.debugDescription)
                     }
                 })
+            }    else {
+                self.resultToken.text = "Email address not found"
             }
             
            
         }
     }
+    
     func setupChangeInfo(){
         if accountChangeType == "email" {
+            self.navigationItem.title = "Change Email"
             newTokenField.placeholder = "enter new email address"
             changeToken.text = "Enter Current Email"
             resultToken.text = ""
@@ -181,6 +203,7 @@ class ChangeAccountInfo: UIViewController {
             sendTokenBtn.setTitle("Change Email", forState: UIControlState.Normal)
         }
         if accountChangeType == "password" {
+             self.navigationItem.title = "Reset Password"
             newTokenField.placeholder = "enter email"
             changeToken.text = "Confirm email"
             confirmToken.text = "Confirm Password"

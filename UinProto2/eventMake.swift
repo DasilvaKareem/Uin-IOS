@@ -241,6 +241,21 @@ class eventMake: UIViewController, UITextFieldDelegate {
             
         }
         
+        if PFUser.currentUser()["emailVerified"] != nil {
+            if PFUser.currentUser()["emailVerifed"] as! Bool == false {
+                 allError = "You need to verify your email first"
+            }
+           
+        } else {
+             allError = "You need to verify your email first"
+            PFUser.currentUser()["emailVerified"]  = false
+            PFUser.currentUser().saveInBackgroundWithBlock({
+                (success:Bool, error:NSError!) -> Void in
+                if error == nil {
+                   
+                }
+            })
+        }
             
         
         if orderDate2.compare(orderDate1) == NSComparisonResult.OrderedAscending  {
