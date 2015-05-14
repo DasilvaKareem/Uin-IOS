@@ -19,13 +19,15 @@ class settingsView: UIViewController {
         theMix.flush()
         
         var user = PFUser.currentUser()
+        //Checks if the user has verified the email
         if user["emailVerified"] != nil {
             if user["emailVerified"] as! Bool == true {
-                emailBtn.enabled = false
+                emailBtn.enabled = false //disables if user alreadies has email verifications
             } else {
                 self.emailBtn.enabled = true
             }
         } else {
+            //enable if the user has a "nil" value for emailverifed
             emailBtn.enabled = true
         }
       
@@ -114,6 +116,7 @@ class settingsView: UIViewController {
  
 
     }
+    //Forces an email verification
     @IBAction func resendEmail(sender: AnyObject) {
         PFUser.currentUser().email = PFUser.currentUser().email
         PFUser.currentUser().save()
@@ -153,7 +156,7 @@ class ChangeAccountInfo: UIViewController {
     var accountChangeType = (String)() //What type of account changing it is
     
     @IBAction func sendToken(sender: AnyObject) {
-        
+        //Sends an password reset fourm if email are both correct
         if accountChangeType == "password" {
             if confirmTextField.text == PFUser.currentUser().email && passwordTextField.text == PFUser.currentUser().email {
                 //Saves newTokenField to the current users password
@@ -171,7 +174,7 @@ class ChangeAccountInfo: UIViewController {
             }
 
         }
-        //Changes function if type is email
+        //Changes email and also resends the email verification if the user is not verified
         if accountChangeType == "email" {
             if confirmTextField.text == PFUser.currentUser().email && passwordTextField.text == PFUser.currentUser().email {
                 //Saves newTokenField to the current users password
@@ -192,7 +195,7 @@ class ChangeAccountInfo: UIViewController {
            
         }
     }
-    
+    //Changes text, placeholder, and Ui depening on what type of change the view provides
     func setupChangeInfo(){
         if accountChangeType == "email" {
             self.navigationItem.title = "Change Email"

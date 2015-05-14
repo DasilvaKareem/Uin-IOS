@@ -272,7 +272,7 @@ class ForgotPasswordView: UIViewController {
     override func viewDidDisappear(animated: Bool) {
     
     }
-    
+    //Sends password reset fourm
     @IBAction func sendReset(sender: AnyObject) {
         PFUser.requestPasswordResetForEmailInBackground(passwordResetField.text, block: {
             (success:Bool, error:NSError!) -> Void in
