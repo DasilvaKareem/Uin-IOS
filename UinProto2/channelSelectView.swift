@@ -70,31 +70,46 @@ class channelSelectView: UITableViewController {
         
         var subscriberInfo = PFQuery(className: "Subscription") //gets the subscriber count
         subscriberInfo.whereKey("publisher", equalTo: PFUser.currentUser().username)
-        usernameInfo.append(String(subscriberInfo.countObjects()))
-        usernameSectionTitle.append("subscribers")
-        userType.append("Subscribers")
-        
-        var subscriptionInfo = PFQuery(className: "Subscription") //gets the subscription count
-        subscriptionInfo.whereKey("subscriber", equalTo: PFUser.currentUser().username)
-        usernameInfo.append(String(subscriptionInfo.countObjects()))
-        usernameSectionTitle.append("subscriptions")
-        userType.append("Subscriptions")
-        
-        var notificationsCount = PFQuery(className: "Notification")
-        notificationsCount.whereKey("receiverID", equalTo: PFUser.currentUser().objectId)
-        notificationsCount.whereKey("receiverID", notEqualTo: PFUser.currentUser().objectId)
-        notificationsCount.whereKey("createdAt", greaterThan: PFUser.currentUser()["notificationsTimestamp"] as! NSDate)
-        usernameInfo.append(String("\(notificationsCount.countObjects()) notifications"))
-        usernameSectionTitle.append("notifications")
-        userType.append("Notifications")
-        var addToCalendarCount = PFQuery(className: "Event")
-        addToCalendarCount.whereKey("authorID", equalTo: PFUser.currentUser().objectId)
-        addToCalendarCount.whereKey("start", greaterThan: NSDate())
-        
-        usernameInfo.append("\(addToCalendarCount.countObjects()) upcoming")
-        usernameSectionTitle.append("my events")
-        userType.append("My Events")
-     
+        subscriberInfo.countObjectsInBackgroundWithBlock({
+            (count:Int32, error:NSError!) -> Void in
+            if error == nil {
+                self.genEvents.removeAll(keepCapacity: true)
+                self.gentype.removeAll(keepCapacity: true)
+                self.genChannels.removeAll(keepCapacity: true)
+                self.userType.removeAll(keepCapacity: true)
+                self.usernameInfo.removeAll(keepCapacity: true)
+                self.usernameSectionTitle.removeAll(keepCapacity: true)
+                self.usernameInfo.append(String(count))
+                self.usernameSectionTitle.append("subscribers")
+                self.userType.append("Subscribers")
+                
+                var subscriptionInfo = PFQuery(className: "Subscription") //gets the subscription count
+                subscriptionInfo.whereKey("subscriber", equalTo: PFUser.currentUser().username)
+                self.usernameInfo.append(String(subscriptionInfo.countObjects()))
+                self.usernameSectionTitle.append("subscriptions")
+                self.userType.append("Subscriptions")
+                
+                var notificationsCount = PFQuery(className: "Notification")
+                notificationsCount.whereKey("receiverID", equalTo: PFUser.currentUser().objectId)
+                notificationsCount.whereKey("receiverID", notEqualTo: PFUser.currentUser().objectId)
+                notificationsCount.whereKey("createdAt", greaterThan: PFUser.currentUser()["notificationsTimestamp"] as! NSDate)
+                self.usernameInfo.append(String("\(notificationsCount.countObjects()) notifications"))
+                self.usernameSectionTitle.append("notifications")
+                self.userType.append("Notifications")
+                var addToCalendarCount = PFQuery(className: "Event")
+                addToCalendarCount.whereKey("authorID", equalTo: PFUser.currentUser().objectId)
+                addToCalendarCount.whereKey("start", greaterThan: NSDate())
+                
+                self.usernameInfo.append("\(addToCalendarCount.countObjects()) upcoming")
+                self.usernameSectionTitle.append("my events")
+                self.userType.append("My Events")
+                self.setupGenCounters()
+                self.getChannels()
+                
+            }
+        })
+       // usernameInfo.append(String(subscriberInfo.countObjects()))
+
     }
  
     
@@ -118,10 +133,11 @@ class channelSelectView: UITableViewController {
         
     }
     override func viewWillAppear(animated: Bool) {
-        
+          getUserInfo()
     }
     override func viewDidAppear(animated: Bool) {
-         self.setupAllChannels()
+         //elf.setupAllChannels()
+      
     }
     override func viewWillDisappear(animated: Bool) {
         
@@ -257,8 +273,10 @@ class channelSelectView: UITableViewController {
         
        var totalSections = usernameSectionTitle +  genEvents + channelNames
         var cell:channelTableCell = tableView.dequeueReusableCellWithIdentifier("profile") as! channelTableCell
-         cell.channelCount.text = usernameInfo[indexPath.row]
-    
+        if indexPath.section == 0 {
+             cell.channelCount.text = usernameInfo[indexPath.row]
+        }
+   
         if indexPath.row == 0 {
            
 
