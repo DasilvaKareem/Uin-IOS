@@ -248,11 +248,27 @@ class eventMake: UIViewController, UITextFieldDelegate {
            
         } else {
              allError = "You need to verify your email first"
-            PFUser.currentUser()["emailVerified"]  = false
+            let email = PFUser.currentUser().email
+            PFUser.currentUser().setObject("test@areuin.co", forKey: "email")
             PFUser.currentUser().saveInBackgroundWithBlock({
                 (success:Bool, error:NSError!) -> Void in
+                
                 if error == nil {
-                   
+                    println("The email was saved")
+                    
+                    PFUser.currentUser().setObject(email, forKey: "email")
+                    PFUser.currentUser().saveInBackgroundWithBlock({
+                        (success:Bool, error:NSError!) -> Void in
+                        
+                        if error == nil {
+                            println("The email was saved")
+                        } else {
+                            println("the email was sent")
+                        }
+                    })
+                    
+                } else {
+                    println("email did not save")
                 }
             })
         }

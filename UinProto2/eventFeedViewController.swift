@@ -181,22 +181,16 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         setupCalendar()
         updateFeed()
         //Setups Ui
-               navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
-        
-         var user = PFUser.currentUser()
-       
+        navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
         if self.revealViewController() != nil {
             menuTrigger.target = self.revealViewController()
             menuTrigger.action = "revealToggle:"
             self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
             self.view.addGestureRecognizer(self.revealViewController().tapGestureRecognizer())
         }
-
-    
-      
     }
     override func viewDidAppear(animated: Bool) {
-        channelSelectView().setupAllChannels()
+        
     }
     
     //2 nav buttons 1 leads to settings while the other send to log in
@@ -272,8 +266,11 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         var geoEnabled = true
         PFGeoPoint.geoPointForCurrentLocationInBackground {
             (geoPoint: PFGeoPoint!, error: NSError!) -> Void in
-         
-                    //Customizes Event Feed 
+            if error != nil {
+                println(error.code)
+                self.displayAlert("No GPS Enabled", error: "Turn on your location")
+            }
+                    //Customizes Event Feed
                     //Adds or remove the create event functionailty
                     println()
                     println()
@@ -284,7 +281,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                     //adds content to the array
                     //Queries all public Events
                     var eventQuery = PFQuery(className: "Event")
-                      var pubQue = PFQuery(className: "Subscription")
+                    var pubQue = PFQuery(className: "Subscription")
                     var superQue = PFQuery(className: "Event")
                     var newQue = PFQuery(className: "Event")
                     var query = PFQuery.orQueryWithSubqueries([eventQuery, superQue, newQue ])
@@ -447,9 +444,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                             println("It failed")
                         }
                     }
-            if error != nil {
-                self.displayAlert("No GPS Enabled", error: "Turn on your location")
-            }
+           
         }
     }
  

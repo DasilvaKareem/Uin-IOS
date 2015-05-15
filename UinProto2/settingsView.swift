@@ -22,9 +22,9 @@ class settingsView: UIViewController {
         //Checks if the user has verified the email
         if user["emailVerified"] != nil {
             if user["emailVerified"] as! Bool == true {
-                emailBtn.enabled = false //disables if user alreadies has email verifications
+                 self.emailBtn.removeFromSuperview() //disables if user alreadies has email verifications
             } else {
-                self.emailBtn.enabled = true
+                emailBtn.enabled = true
             }
         } else {
             //enable if the user has a "nil" value for emailverifed
@@ -118,8 +118,29 @@ class settingsView: UIViewController {
     }
     //Forces an email verification
     @IBAction func resendEmail(sender: AnyObject) {
-        PFUser.currentUser().email = PFUser.currentUser().email
-        PFUser.currentUser().save()
+        let email = PFUser.currentUser().email
+        PFUser.currentUser().setObject("test@areuin.co", forKey: "email")
+        PFUser.currentUser().saveInBackgroundWithBlock({
+            (success:Bool, error:NSError!) -> Void in
+            
+            if error == nil {
+                println("The email was saved")
+                
+                PFUser.currentUser().setObject(email, forKey: "email")
+                PFUser.currentUser().saveInBackgroundWithBlock({
+                    (success:Bool, error:NSError!) -> Void in
+                    
+                    if error == nil {
+                        println("The email was saved")
+                    } else {
+                        println("the email was not saved")
+                    }
+                })
+
+            } else {
+               
+            }
+        })
     }
    
     //Changes the type
