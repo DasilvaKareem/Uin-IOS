@@ -23,35 +23,47 @@ class channelSelectView: UITableViewController {
     var gentype = [String]()
     var genEvents = [String]()
     func setupGenCounters() {
+
         var localEventCount = PFQuery(className: "Event")
         localEventCount.whereKey("isPublic", equalTo: true)
         localEventCount.whereKey("createdAt", greaterThanOrEqualTo:PFUser.currentUser()["localEventsTimestamp"] as! NSDate)
-        self.genEvents.append("\(localEventCount.countObjects()) new")
-        self.genChannels.append("local events")
-        self.gentype.append("localEvent")
-
-        //Gets Subscriptions Events
-        var subscriptionQuery = PFQuery(className: "Subscription")
-        subscriptionQuery.whereKey("subscriberID", equalTo: PFUser.currentUser().objectId)
-        var subscriptionEventCount = PFQuery(className: "Event")
-        subscriptionEventCount.whereKey("authorID", matchesKey: "publisherID", inQuery: subscriptionQuery)
-        subscriptionEventCount.whereKey("isPublic", equalTo: true)
-        subscriptionEventCount.whereKey("createdAt", greaterThanOrEqualTo:PFUser.currentUser()["subscriptionsTimestamp"] as! NSDate)
-        subscriptionEventCount.whereKey("start", greaterThan:  NSDate())
-         self.genChannels.append("subscription events")
-        self.genEvents.append("\(subscriptionEventCount.countObjects()) new")
-        self.gentype.append("subbedEvents")
+        localEventCount.countObjectsInBackgroundWithBlock({
+            (count:Int32, error:NSError!) -> Void in
+            if error == nil {
+                self.genChannels.append("local events")
+                self.gentype.append("localEvent")
+                self.gentype.append("subbedEvents")
+                self.genChannels.append("subscription events")
+                self.genChannels.append("schedule")
+                self.gentype.append("schedule")
+                self.genEvents.append("\(localEventCount.countObjects()) new")
+               
+                
+                //Gets Subscriptions Events
+                var subscriptionQuery = PFQuery(className: "Subscription")
+                subscriptionQuery.whereKey("subscriberID", equalTo: PFUser.currentUser().objectId)
+                var subscriptionEventCount = PFQuery(className: "Event")
+                subscriptionEventCount.whereKey("authorID", matchesKey: "publisherID", inQuery: subscriptionQuery)
+                subscriptionEventCount.whereKey("isPublic", equalTo: true)
+                subscriptionEventCount.whereKey("createdAt", greaterThanOrEqualTo:PFUser.currentUser()["subscriptionsTimestamp"] as! NSDate)
+                subscriptionEventCount.whereKey("start", greaterThan:  NSDate())
         
-        //get added to calendar
-        var getAmountSchedule = PFQuery(className: "UserCalendar")
-        getAmountSchedule.whereKey("userID", equalTo: PFUser.currentUser().objectId)
-        var eventQuery = PFQuery(className:"Event")
-        eventQuery.whereKey("isDeleted", equalTo: false)
-        eventQuery.whereKey("objectId", matchesKey: "eventID", inQuery: getAmountSchedule)
-        eventQuery.whereKey("start", greaterThan: NSDate())
-         self.genChannels.append("schedule")
-        self.gentype.append("schedule")
-        self.genEvents.append("\(eventQuery.countObjects()) upcoming")
+                self.genEvents.append("\(subscriptionEventCount.countObjects()) new")
+         
+                
+                //get added to calendar
+                var getAmountSchedule = PFQuery(className: "UserCalendar")
+                getAmountSchedule.whereKey("userID", equalTo: PFUser.currentUser().objectId)
+                var eventQuery = PFQuery(className:"Event")
+                eventQuery.whereKey("isDeleted", equalTo: false)
+                eventQuery.whereKey("objectId", matchesKey: "eventID", inQuery: getAmountSchedule)
+                eventQuery.whereKey("start", greaterThan: NSDate())
+             
+                self.genEvents.append("\(eventQuery.countObjects()) upcoming")
+                 self.getChannels()
+
+            }
+        })
         
         
         
@@ -104,7 +116,7 @@ class channelSelectView: UITableViewController {
                 self.usernameSectionTitle.append("my events")
                 self.userType.append("My Events")
                 self.setupGenCounters()
-                self.getChannels()
+               
                 
             }
         })
