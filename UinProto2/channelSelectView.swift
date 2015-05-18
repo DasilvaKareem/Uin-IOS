@@ -23,7 +23,7 @@ class channelSelectView: UITableViewController {
     var gentype = [String]()
     var genEvents = [String]()
     func setupGenCounters() {
-
+        //Finds out information and count number of your general calendars and sends things through blocks
         var localEventCount = PFQuery(className: "Event")
         localEventCount.whereKey("isPublic", equalTo: true)
         localEventCount.whereKey("createdAt", greaterThanOrEqualTo:PFUser.currentUser()["localEventsTimestamp"] as! NSDate)
@@ -62,6 +62,7 @@ class channelSelectView: UITableViewController {
                     (count:Int32, error:NSError!) -> Void in
                     if error == nil {
                         self.genEvents.append("\(count) upcoming")
+                        //Runs fucntion to get Channels
                           self.getChannels()
                     }
                 })
@@ -91,6 +92,7 @@ class channelSelectView: UITableViewController {
         subscriberInfo.countObjectsInBackgroundWithBlock({
             (count:Int32, error:NSError!) -> Void in
             if error == nil {
+                //Removes all the previous information
                 self.genEvents.removeAll(keepCapacity: true)
                 self.gentype.removeAll(keepCapacity: true)
                 self.genChannels.removeAll(keepCapacity: true)
@@ -100,7 +102,7 @@ class channelSelectView: UITableViewController {
                 self.usernameInfo.append(String(count))
                 self.usernameSectionTitle.append("subscribers")
                 self.userType.append("Subscribers")
-                
+                //FInd the amount of firest section then send them inside a block
                 var subscriptionInfo = PFQuery(className: "Subscription") //gets the subscription count
                 subscriptionInfo.whereKey("subscriber", equalTo: PFUser.currentUser().username)
                 subscriberInfo.countObjectsInBackgroundWithBlock({
@@ -124,6 +126,7 @@ class channelSelectView: UITableViewController {
                         self.usernameInfo.append("\(addToCalendarCount.countObjects()) upcoming")
                         self.usernameSectionTitle.append("my events")
                         self.userType.append("My Events")
+                        //Run setup Section 2
                         self.setupGenCounters()
                     }
                 })
@@ -298,10 +301,15 @@ class channelSelectView: UITableViewController {
         
        var totalSections = usernameSectionTitle +  genEvents + channelNames
         var cell:channelTableCell = tableView.dequeueReusableCellWithIdentifier("profile") as! channelTableCell
+        //Section 1
+
         if indexPath.section == 0 {
-             cell.channelCount.text = usernameInfo[indexPath.row]
-        }
-   
+            if usernameInfo[indexPath.row].rangeOfString("0") != nil {
+                cell.channelCount.text = ""
+            } else {
+                cell.channelCount.text = usernameInfo[indexPath.row]
+            }
+        
         if indexPath.row == 0 {
            
 
@@ -332,10 +340,11 @@ class channelSelectView: UITableViewController {
                 } else {
                     cell.channelName.textColor = UIColor(red: 211.0/255.0, green: 211.0/255.0, blue: 211.0/255.0, alpha: 1)
                     cell.channelCount.textColor = UIColor(red: 211.0/255.0, green: 211.0/255.0, blue: 211.0/255.0, alpha: 1)
+                }
             }
-
         }
         
+        //Sections 2
         if indexPath.section == 1 {
          
              cell = tableView.dequeueReusableCellWithIdentifier("profilez") as! channelTableCell
@@ -359,6 +368,8 @@ class channelSelectView: UITableViewController {
                 cell.channelCount.textColor = UIColor(red: 211.0/255.0, green: 211.0/255.0, blue: 211.0/255.0, alpha: 1)
             }
         }
+        
+        //Section 3
         if indexPath.section == 2 {
             cell = tableView.dequeueReusableCellWithIdentifier("profiles") as! channelTableCell
             cell.channelName.text = channelNames[indexPath.row]
