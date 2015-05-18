@@ -348,12 +348,20 @@ class channelSelectView: UITableViewController {
         if indexPath.section == 1 {
          
              cell = tableView.dequeueReusableCellWithIdentifier("profilez") as! channelTableCell
+        
+
             if self.memBounded == true {
                 cell.channelCount.text = "Locked"
                   cell.channelName.text = genChannels[indexPath.row]
             } else {
-                cell.channelName.text = genChannels[indexPath.row]
-                cell.channelCount.text = genEvents[indexPath.row]
+                if genEvents[indexPath.row].rangeOfString("0") != nil {
+                    cell.channelCount.text = ""
+                    cell.channelName.text = genChannels[indexPath.row]
+                } else {
+                    cell.channelName.text = genChannels[indexPath.row]
+                    cell.channelCount.text = genEvents[indexPath.row]
+                }
+                
             }
             
             

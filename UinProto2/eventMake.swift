@@ -241,7 +241,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
             
         }
         
-        if PFUser.currentUser()["emailVerified"] != nil {
+      /*  if PFUser.currentUser()["emailVerified"] != nil {
             if PFUser.currentUser()["emailVerifed"] as! Bool == false {
                  allError = "You need to verify your email first"
             }
@@ -271,7 +271,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
                     println("email did not save")
                 }
             })
-        }
+        }*/
             
         
         if orderDate2.compare(orderDate1) == NSComparisonResult.OrderedAscending  {
