@@ -36,7 +36,7 @@ class channelSelectView: UITableViewController {
                 self.genChannels.append("subscription events")
                 self.genChannels.append("schedule")
                 self.gentype.append("schedule")
-                self.genEvents.append("\(localEventCount.countObjects()) new")
+                self.genEvents.append("\(count) new")
                
                 
                 //Gets Subscriptions Events
@@ -58,9 +58,15 @@ class channelSelectView: UITableViewController {
                 eventQuery.whereKey("isDeleted", equalTo: false)
                 eventQuery.whereKey("objectId", matchesKey: "eventID", inQuery: getAmountSchedule)
                 eventQuery.whereKey("start", greaterThan: NSDate())
-             
-                self.genEvents.append("\(eventQuery.countObjects()) upcoming")
-                 self.getChannels()
+                eventQuery.countObjectsInBackgroundWithBlock({
+                    (count:Int32, error:NSError!) -> Void in
+                    if error == nil {
+                        self.genEvents.append("\(count) upcoming")
+                          self.getChannels()
+                    }
+                })
+              
+               
 
             }
         })
@@ -97,25 +103,32 @@ class channelSelectView: UITableViewController {
                 
                 var subscriptionInfo = PFQuery(className: "Subscription") //gets the subscription count
                 subscriptionInfo.whereKey("subscriber", equalTo: PFUser.currentUser().username)
-                self.usernameInfo.append(String(subscriptionInfo.countObjects()))
-                self.usernameSectionTitle.append("subscriptions")
-                self.userType.append("Subscriptions")
-                
-                var notificationsCount = PFQuery(className: "Notification")
-                notificationsCount.whereKey("receiverID", equalTo: PFUser.currentUser().objectId)
-                notificationsCount.whereKey("receiverID", notEqualTo: PFUser.currentUser().objectId)
-                notificationsCount.whereKey("createdAt", greaterThan: PFUser.currentUser()["notificationsTimestamp"] as! NSDate)
-                self.usernameInfo.append(String("\(notificationsCount.countObjects()) notifications"))
-                self.usernameSectionTitle.append("notifications")
-                self.userType.append("Notifications")
-                var addToCalendarCount = PFQuery(className: "Event")
-                addToCalendarCount.whereKey("authorID", equalTo: PFUser.currentUser().objectId)
-                addToCalendarCount.whereKey("start", greaterThan: NSDate())
-                
-                self.usernameInfo.append("\(addToCalendarCount.countObjects()) upcoming")
-                self.usernameSectionTitle.append("my events")
-                self.userType.append("My Events")
-                self.setupGenCounters()
+                subscriberInfo.countObjectsInBackgroundWithBlock({
+                    (count:Int32, error:NSError!) -> Void in
+                    if error == nil {
+                        self.usernameInfo.append(String(count))
+                        self.usernameSectionTitle.append("subscriptions")
+                        self.userType.append("Subscriptions")
+                        
+                        var notificationsCount = PFQuery(className: "Notification")
+                        notificationsCount.whereKey("receiverID", equalTo: PFUser.currentUser().objectId)
+                        notificationsCount.whereKey("receiverID", notEqualTo: PFUser.currentUser().objectId)
+                        notificationsCount.whereKey("createdAt", greaterThan: PFUser.currentUser()["notificationsTimestamp"] as! NSDate)
+                        self.usernameInfo.append(String("\(notificationsCount.countObjects()) notifications"))
+                        self.usernameSectionTitle.append("notifications")
+                        self.userType.append("Notifications")
+                        var addToCalendarCount = PFQuery(className: "Event")
+                        addToCalendarCount.whereKey("authorID", equalTo: PFUser.currentUser().objectId)
+                        addToCalendarCount.whereKey("start", greaterThan: NSDate())
+                        
+                        self.usernameInfo.append("\(addToCalendarCount.countObjects()) upcoming")
+                        self.usernameSectionTitle.append("my events")
+                        self.userType.append("My Events")
+                        self.setupGenCounters()
+                    }
+                })
+
+            
                
                 
             }

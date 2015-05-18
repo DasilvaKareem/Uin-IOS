@@ -65,10 +65,16 @@ class SignIn: UIViewController, UITextFieldDelegate {
                         self.emailFacebook = result["email"] as!String
                         user.username = result["name"] as!String
                         user.email = result["name"] as!String
-                        user.save()
-                        var theMix = Mixpanel.sharedInstance()
-                        theMix.track("Registers Info with Facebook (SI)")
-                        self.performSegueWithIdentifier("register", sender: self)
+                        user.saveInBackgroundWithBlock({
+                            (success:Bool, error:NSError!) -> Void in
+                            if error == nil {
+                                var theMix = Mixpanel.sharedInstance()
+                                theMix.track("Registers Info with Facebook (SI)")
+                                self.performSegueWithIdentifier("register", sender: self)
+                            }
+            
+                        })
+                 
                         
                     })
                     
