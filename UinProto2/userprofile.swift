@@ -430,7 +430,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 })
                 println("user is alreadt subscribed")
                 results.delete()
-                  self.subticker()
+                self.subticker()
                 
             }
                 
@@ -532,7 +532,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+   
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
         // Puts the data in a cell
         

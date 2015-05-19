@@ -49,7 +49,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     var currentPoint = (PFGeoPoint)()
     var eventCountNumber = (Int)()
     //If Feed has a problem
-    var appProblem:Bool = Bool()
+    var appProblem:Bool = false
     var channelID = "localEvent"
     var alertTime:NSTimeInterval = -3600
     //Search functionailty
@@ -533,6 +533,11 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         //Because the loop is broken before a new date is found, that
         //  one needs to be added manually
         rowsInSection.append(i)
+        if numSections == 0 {
+            if rowsInSection.isEmpty {
+                self.appProblem = true
+            }
+        }
     }
     
     //Returns the index of the element at the specified section and row
@@ -932,11 +937,6 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             })
         }
     override func prepareForSegue(segue:UIStoryboardSegue, sender: AnyObject?){
-        println()
-        println()
-        println(segue.identifier)
-        println()
-        println()
         if segue.identifier == "event" {
             var secondViewController : postEvent = segue.destinationViewController as! postEvent
             var theMix = Mixpanel.sharedInstance()

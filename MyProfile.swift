@@ -175,7 +175,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     self.eventCountNumber = que.countObjects()
     que.orderByAscending("start")
     que.whereKey("author", equalTo: PFUser.currentUser().username)
-    //que.whereKey("start", greaterThanOrEqualTo: NSDate())
+    que.whereKey("start", greaterThanOrEqualTo: NSDate())
     que.whereKey("isDeleted", equalTo: false)
     
     que.findObjectsInBackgroundWithBlock{
