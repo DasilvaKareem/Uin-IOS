@@ -33,14 +33,15 @@ class channelSelectView: UITableViewController {
                 self.genEvents.removeAll(keepCapacity: true)
                 self.gentype.removeAll(keepCapacity: true)
                 self.genChannels.removeAll(keepCapacity: true)
-                self.genChannels.append("local events")
+              
            
               
-                self.genChannels.append("subscription events")
-                self.genChannels.append("schedule")
+              
+                
               
                 self.genEvents.append("\(count) new")
                 self.gentype.append("localEvent")
+                  self.genChannels.append("local events")
                 
                 //Gets Subscriptions Events
                 var subscriptionQuery = PFQuery(className: "Subscription")
@@ -53,8 +54,11 @@ class channelSelectView: UITableViewController {
         
                 self.genEvents.append("\(subscriptionEventCount.countObjects()) new")
                   self.gentype.append("subbedEvents")
+                  self.genChannels.append("subscription events")
                 
                 //get added to calendar
+                self.gentype.append("schedule")
+                self.genChannels.append("schedule")
                 var getAmountSchedule = PFQuery(className: "UserCalendar")
                 getAmountSchedule.whereKey("userID", equalTo: PFUser.currentUser().objectId)
                 var eventQuery = PFQuery(className:"Event")
@@ -66,7 +70,7 @@ class channelSelectView: UITableViewController {
                     if error == nil {
                         
                         self.genEvents.append("\(count) upcoming")
-                          self.gentype.append("schedule")
+                        
                         //Runs fucntion to get Channels
                           self.getChannels()
                     }
@@ -92,16 +96,16 @@ class channelSelectView: UITableViewController {
     func getUserInfo(){
         
         
-        self.userType.removeAll(keepCapacity: true)
-        self.usernameInfo.removeAll(keepCapacity: true)
-        self.usernameSectionTitle.removeAll(keepCapacity: true)
+        
         var subscriberInfo = PFQuery(className: "Subscription") //gets the subscriber count
         subscriberInfo.whereKey("publisher", equalTo: PFUser.currentUser().username)
         subscriberInfo.countObjectsInBackgroundWithBlock({
             (count:Int32, error:NSError!) -> Void in
             if error == nil {
                 //Removes all the previous information
-         
+                self.userType.removeAll(keepCapacity: true)
+                self.usernameInfo.removeAll(keepCapacity: true)
+                self.usernameSectionTitle.removeAll(keepCapacity: true)
                 self.usernameInfo.append(String(count))
                 self.usernameSectionTitle.append("subscribers")
                 self.userType.append("Subscribers")
