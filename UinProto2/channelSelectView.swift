@@ -111,11 +111,11 @@ class channelSelectView: UITableViewController {
                 self.userType.append("Subscribers")
                 //FInd the amount of firest section then send them inside a block
                 var subscriptionInfo = PFQuery(className: "Subscription") //gets the subscription count
-                subscriptionInfo.whereKey("subscriber", equalTo: PFUser.currentUser().username)
-                subscriberInfo.countObjectsInBackgroundWithBlock({
-                    (count:Int32, error:NSError!) -> Void in
+                subscriptionInfo.whereKey("subscriberID", equalTo: PFUser.currentUser().objectId)
+                subscriptionInfo.countObjectsInBackgroundWithBlock({
+                    (count2:Int32, error:NSError!) -> Void in
                     if error == nil {
-                        self.usernameInfo.append(String(count))
+                        self.usernameInfo.append(String(count2))
                         self.usernameSectionTitle.append("subscriptions")
                         self.userType.append("Subscriptions")
                         
