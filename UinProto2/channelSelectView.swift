@@ -31,11 +31,9 @@ class channelSelectView: UITableViewController {
             (count:Int32, error:NSError!) -> Void in
             if error == nil {
                 self.genChannels.append("local events")
-                self.gentype.append("localEvent")
-                self.gentype.append("subbedEvents")
                 self.genChannels.append("subscription events")
                 self.genChannels.append("schedule")
-                self.gentype.append("schedule")
+            
                 self.genEvents.append("\(count) new")
                
                 
@@ -86,7 +84,9 @@ class channelSelectView: UITableViewController {
     var usernameSectionTitle = [String]()
     func getUserInfo(){
         
-        
+        self.gentype.append("localEvent")
+        self.gentype.append("subbedEvents")
+        self.gentype.append("schedule")
         var subscriberInfo = PFQuery(className: "Subscription") //gets the subscriber count
         subscriberInfo.whereKey("publisher", equalTo: PFUser.currentUser().username)
         subscriberInfo.countObjectsInBackgroundWithBlock({
