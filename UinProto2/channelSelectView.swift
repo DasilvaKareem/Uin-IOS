@@ -30,12 +30,17 @@ class channelSelectView: UITableViewController {
         localEventCount.countObjectsInBackgroundWithBlock({
             (count:Int32, error:NSError!) -> Void in
             if error == nil {
+                self.genEvents.removeAll(keepCapacity: true)
+                self.gentype.removeAll(keepCapacity: true)
+                self.genChannels.removeAll(keepCapacity: true)
                 self.genChannels.append("local events")
+           
+              
                 self.genChannels.append("subscription events")
                 self.genChannels.append("schedule")
-            
+              
                 self.genEvents.append("\(count) new")
-               
+                self.gentype.append("localEvent")
                 
                 //Gets Subscriptions Events
                 var subscriptionQuery = PFQuery(className: "Subscription")
@@ -47,7 +52,7 @@ class channelSelectView: UITableViewController {
                 subscriptionEventCount.whereKey("start", greaterThan:  NSDate())
         
                 self.genEvents.append("\(subscriptionEventCount.countObjects()) new")
-         
+                  self.gentype.append("subbedEvents")
                 
                 //get added to calendar
                 var getAmountSchedule = PFQuery(className: "UserCalendar")
@@ -59,7 +64,9 @@ class channelSelectView: UITableViewController {
                 eventQuery.countObjectsInBackgroundWithBlock({
                     (count:Int32, error:NSError!) -> Void in
                     if error == nil {
+                        
                         self.genEvents.append("\(count) upcoming")
+                          self.gentype.append("schedule")
                         //Runs fucntion to get Channels
                           self.getChannels()
                     }
@@ -84,21 +91,17 @@ class channelSelectView: UITableViewController {
     var usernameSectionTitle = [String]()
     func getUserInfo(){
         
-        self.gentype.append("localEvent")
-        self.gentype.append("subbedEvents")
-        self.gentype.append("schedule")
+        
+        self.userType.removeAll(keepCapacity: true)
+        self.usernameInfo.removeAll(keepCapacity: true)
+        self.usernameSectionTitle.removeAll(keepCapacity: true)
         var subscriberInfo = PFQuery(className: "Subscription") //gets the subscriber count
         subscriberInfo.whereKey("publisher", equalTo: PFUser.currentUser().username)
         subscriberInfo.countObjectsInBackgroundWithBlock({
             (count:Int32, error:NSError!) -> Void in
             if error == nil {
                 //Removes all the previous information
-                self.genEvents.removeAll(keepCapacity: true)
-                self.gentype.removeAll(keepCapacity: true)
-                self.genChannels.removeAll(keepCapacity: true)
-                self.userType.removeAll(keepCapacity: true)
-                self.usernameInfo.removeAll(keepCapacity: true)
-                self.usernameSectionTitle.removeAll(keepCapacity: true)
+         
                 self.usernameInfo.append(String(count))
                 self.usernameSectionTitle.append("subscribers")
                 self.userType.append("Subscribers")
@@ -596,9 +599,11 @@ class channelSelectView: UITableViewController {
             var row = indexPath?.row
       
             if indexPath?.section == 1 {
+                println(row!)
                 eventFeed.channelID = gentype[row!]
             }
             if indexPath?.section == 2 {
+                    println(row!)
                 eventFeed.channelID = channels[row!]
             }
             
