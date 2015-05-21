@@ -429,6 +429,9 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                                 self.eventDescription.append(object["description"] as! String)
                                 
                             }
+                            if self.userId.isEmpty {
+                                self.appProblem = true
+                            }
                             self.populateSectionInfo()
                             self.theFeed.reloadData()
                             self.refresher.endRefreshing()
@@ -658,7 +661,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             cell.foodText.text = ""
             cell.onCampusText.text = ""
             cell.costText.text = ""
-            cell.eventName.text = "App problem"
+            cell.eventName.text = "No events in this Calendar"
             cell.people.text = ""
             cell.privateImage.image = nil
             cell.time.text = ""
@@ -753,21 +756,23 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         var minique = PFQuery(className: "UserCalendar")
         minique.whereKey("userID", equalTo: PFUser.currentUser().objectId)
         minique.whereKey("eventID", equalTo: objectID[event])
-        minique.getFirstObjectInBackgroundWithBlock{
+        minique.whereKey("start", greaterThan: NSDate())
+        minique.whereKey("isDeleted", greaterThan: false)
+            minique.getFirstObjectInBackgroundWithBlock{
             
-            (results:PFObject!, error: NSError!) -> Void in
+                (results:PFObject!, error: NSError!) -> Void in
             
-            if error == nil {
+                if error == nil {
                 
-                cell.poop.setImage(UIImage(named: "addedToCalendar.png"), forState: UIControlState.Normal)
+                    cell.poop.setImage(UIImage(named: "addedToCalendar.png"), forState: UIControlState.Normal)
                 
-            }   else {
+                }   else {
                 
-                cell.poop.setImage(UIImage(named: "addToCalendar.png"), forState: UIControlState.Normal)
+                    cell.poop.setImage(UIImage(named: "addToCalendar.png"), forState: UIControlState.Normal)
+                }
             }
-        }
-              cell.poop.addTarget(self, action: "followButton:", forControlEvents: UIControlEvents.TouchUpInside)
-        }
+                cell.poop.addTarget(self, action: "followButton:", forControlEvents: UIControlEvents.TouchUpInside)
+            }
         }
         return cell
         

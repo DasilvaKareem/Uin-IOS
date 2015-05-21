@@ -46,6 +46,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     var sectionNames = [String]()
     var eventAddress = [String]()
     var eventCountNumber = (Int)()
+    var noEventCheck = false
  
 
     
@@ -221,8 +222,12 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     
     }
-    
-    self.populateSectionInfo()
+        //Checks if no events are stored
+        if self.eventTitle.isEmpty {
+            self.noEventCheck = true
+        } else {
+             self.populateSectionInfo()
+        }
     self.theFeed.reloadData()
     self.refresher.endRefreshing()
     
@@ -350,7 +355,9 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         
     }
    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-    
+    if self.noEventCheck {
+        return 0.0
+    }
         return 25.0
     }
     
@@ -361,6 +368,9 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         // #warning Potentially incomplete method implementation.
         // Return the number of sections.
         println(numSections)
+        if self.noEventCheck {
+            return 1
+        }
         return numSections
         
     }
@@ -370,6 +380,9 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
+        if self.noEventCheck {
+            return 1
+        }
         return rowsInSection[section]
         
     }
@@ -378,13 +391,11 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-       
-        println()
-       println("this is header")
-        println()
-        
-        
+    
              var cell:dateCell = tableView.dequeueReusableCellWithIdentifier("dateCell") as! dateCell
+        if self.noEventCheck {
+            return nil
+        }
             cell.dateItem.text = sectionNames[section]
             return cell
 
@@ -405,7 +416,19 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         var cell:eventCell = tableView.dequeueReusableCellWithIdentifier("cell2") as! eventCell
      
         var event = getEventIndex(indexPath.section, row: indexPath.row)
-
+        if noEventCheck == true {
+            cell.onCampusIcon.image = nil
+            cell.foodIcon.image = nil
+            cell.freeIcon.image = nil
+            cell.poop.hidden = true
+            cell.foodText.text = ""
+            cell.onCampusText.text = ""
+            cell.costText.text = ""
+            cell.eventName.text = "No events in this Calendar"
+            cell.people.text = ""
+            cell.privateImage.image = nil
+            cell.time.text = ""
+        } else {
 
         if onsite[event] == true {
             
@@ -467,8 +490,9 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         //println(objectID[event])
         var minique = PFQuery(className: "UserCalendar")
         minique.whereKey("userID", equalTo: PFUser.currentUser().objectId)
-        var minique2 = PFQuery(className: "UserCalendar")
         minique.whereKey("eventID", equalTo: objectID[event])
+        minique.whereKey("start", greaterThan: NSDate())
+        minique.whereKey("isDeleted", greaterThan: false)
         
         minique.getFirstObjectInBackgroundWithBlock{
             
@@ -487,7 +511,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
             
         }
         cell.poop.addTarget(self, action: "followButton:", forControlEvents: UIControlEvents.TouchUpInside)
-        
+        }
         return cell
     }
     
