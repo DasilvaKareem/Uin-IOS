@@ -305,7 +305,7 @@ class channelSelectView: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
+        println(self.currentIndexPath)
        var totalSections = usernameSectionTitle +  genEvents + channelNames
         var cell:channelTableCell = tableView.dequeueReusableCellWithIdentifier("profile") as! channelTableCell
         //Section 1
@@ -330,6 +330,7 @@ class channelSelectView: UITableViewController {
         
         cell.channelName.text = totalSections[indexPath.row]
         cell.channelName.tag = indexPath.row
+           
         if self.currentIndexPath == indexPath {
             cell.contentView.backgroundColor = UIColor(red: 65.0/255.0, green: 145.0/255.0, blue: 198.0/255.0, alpha: 1)
             cell.channelName.textColor = UIColor.whiteColor()
@@ -370,8 +371,7 @@ class channelSelectView: UITableViewController {
                 }
                 
             }
-            
-            
+          
             if self.currentIndexPath == indexPath {
                 cell.contentView.backgroundColor = UIColor(red: 65.0/255.0, green: 145.0/255.0, blue: 198.0/255.0, alpha: 1)
                 cell.channelName.textColor = UIColor.whiteColor()
@@ -381,6 +381,16 @@ class channelSelectView: UITableViewController {
                 cell.contentView.backgroundColor = nil
                 cell.channelName.textColor = UIColor(red: 211.0/255.0, green: 211.0/255.0, blue: 211.0/255.0, alpha: 1)
                 cell.channelCount.textColor = UIColor(red: 211.0/255.0, green: 211.0/255.0, blue: 211.0/255.0, alpha: 1)
+            }
+            if self.currentIndexPath.length == 0  {
+                println()
+                println("nothing is selecected")
+                println()
+                if indexPath.row == 0 {
+                    cell.contentView.backgroundColor = UIColor(red: 65.0/255.0, green: 145.0/255.0, blue: 198.0/255.0, alpha: 1)
+                    cell.channelName.textColor = UIColor.whiteColor()
+                    cell.channelCount.textColor = UIColor.whiteColor()
+                }
             }
         }
         
@@ -512,6 +522,7 @@ class channelSelectView: UITableViewController {
                                     object2.save()
                                     
                                     self.getChannels()
+                                    self.performSegueWithIdentifier("channelSelect", sender: self)
                                     self.tableView.reloadData()
                                 })
                             } else {
@@ -565,6 +576,7 @@ class channelSelectView: UITableViewController {
                                     
                                     self.getChannels()
                                     self.tableView.reloadData()
+                                    self.performSegueWithIdentifier("channelSelect", sender: self)
                                 })
                             } else {
                                 println("You did not enter the right code")
