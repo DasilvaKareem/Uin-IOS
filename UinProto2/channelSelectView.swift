@@ -70,9 +70,10 @@ class channelSelectView: UITableViewController {
                     if error == nil {
                         
                         self.genEvents.append("\(count) upcoming")
-                        
+                       
                         //Runs fucntion to get Channels
                           self.getChannels()
+                         self.tableView.reloadData()
                     }
                 })
               
@@ -141,6 +142,8 @@ class channelSelectView: UITableViewController {
             
                
                 
+            } else {
+                println("error has occrued")
             }
         })
        // usernameInfo.append(String(subscriberInfo.countObjects()))
@@ -165,10 +168,11 @@ class channelSelectView: UITableViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+     
     }
     override func viewWillAppear(animated: Bool) {
-          getUserInfo()
+        getUserInfo()
+       
     }
     override func viewDidAppear(animated: Bool) {
          //elf.setupAllChannels()
@@ -183,16 +187,17 @@ class channelSelectView: UITableViewController {
     }
 
     func getChannels(){
-        channels.removeAll(keepCapacity: true)
-        channelNames.removeAll(keepCapacity: true)
-        channelType.removeAll(keepCapacity: true)
-        channelStatus.removeAll(keepCapacity: true)
+
         var channelQuery = PFQuery(className: "ChannelUser")
         channelQuery.whereKey("userID", equalTo: PFUser.currentUser().objectId)
         //channelQuery.whereKey("expiration", greaterThan: NSDate())
         channelQuery.findObjectsInBackgroundWithBlock({
             (results: [AnyObject]!, error: NSError!) -> Void in
             if error == nil {
+                self.channels.removeAll(keepCapacity: true)
+                self.channelNames.removeAll(keepCapacity: true)
+                self.channelType.removeAll(keepCapacity: true)
+                self.channelStatus.removeAll(keepCapacity: true)
                 for object in results {
                     self.channels.append(object["channelID"] as! String)
                     self.channelNames.append(object["channelName"] as! String)
@@ -207,8 +212,9 @@ class channelSelectView: UITableViewController {
                         }
                     }
                  
-                    self.tableView.reloadData()
+                   
                 }
+                //self.tableView.reloadData()
             }
         })
     }

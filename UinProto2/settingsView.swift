@@ -20,7 +20,7 @@ class settingsView: UIViewController {
         
         var user = PFUser.currentUser()
         //Checks if the user has verified the email
-       /* if user["emailVerified"] != nil {
+        if user["emailVerified"] != nil {
             if user["emailVerified"] as! Bool == true {
                  self.emailBtn.removeFromSuperview() //disables if user alreadies has email verifications
             } else {
@@ -29,7 +29,7 @@ class settingsView: UIViewController {
         } else {
             //enable if the user has a "nil" value for emailverifed
             emailBtn.enabled = true
-        }*/
+        }
 
         if user["pushEnabled"] as!Bool == true {
             notifySlider.setOn(true, animated: true)
