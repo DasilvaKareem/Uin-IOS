@@ -388,7 +388,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                     if geoEnabled == true  {
                  query.whereKey("locationGeopoint", nearGeoPoint: self.currentPoint, withinMiles: 7.0)
                     }
-                    query.whereKey("start", greaterThanOrEqualTo: NSDate())
+                 query.whereKey("start", greaterThanOrEqualTo: NSDate())
                     query.whereKey("isDeleted", equalTo: false)
                     query.findObjectsInBackgroundWithBlock {
                         (results: [AnyObject]!, error: NSError!) -> Void in
@@ -756,8 +756,6 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         var minique = PFQuery(className: "UserCalendar")
         minique.whereKey("userID", equalTo: PFUser.currentUser().objectId)
         minique.whereKey("eventID", equalTo: objectID[event])
-        minique.whereKey("start", greaterThan: NSDate())
-        minique.whereKey("isDeleted", greaterThan: false)
             minique.getFirstObjectInBackgroundWithBlock{
             
                 (results:PFObject!, error: NSError!) -> Void in
@@ -771,7 +769,8 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                     cell.poop.setImage(UIImage(named: "addToCalendar.png"), forState: UIControlState.Normal)
                 }
             }
-                cell.poop.addTarget(self, action: "followButton:", forControlEvents: UIControlEvents.TouchUpInside)
+      
+         cell.poop.addTarget(self, action: "followButton:", forControlEvents: UIControlEvents.TouchUpInside)
             }
         }
         return cell

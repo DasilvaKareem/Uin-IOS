@@ -426,11 +426,13 @@ class channelSelectView: UITableViewController {
 
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
          var allTypes = userType + gentype + channelType
+          self.tableView.reloadData()
         var cell:channelTableCell = tableView.cellForRowAtIndexPath(indexPath) as! channelTableCell
+        self.currentIndexPath = indexPath
         cell.contentView.backgroundColor = UIColor(red: 65.0/255.0, green: 145.0/255.0, blue: 198.0/255.0, alpha: 1)
         cell.channelCount.textColor = UIColor.whiteColor()
         cell.channelName.textColor = UIColor.whiteColor()
-        self.currentIndexPath = indexPath
+        self.tableView.reloadData()
     
         
                if indexPath.section == 0 {
@@ -457,8 +459,6 @@ class channelSelectView: UITableViewController {
                     default:
                         break
                     }
-                
-     
         }
      
             if indexPath.section == 1 {
