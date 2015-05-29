@@ -283,10 +283,12 @@ class ForgotPasswordView: UIViewController {
         PFUser.requestPasswordResetForEmailInBackground(passwordResetField.text, block: {
             (success:Bool, error:NSError!) -> Void in
             if error == nil {
-                self.confirmBtn.setTitle("Resend", forState: UIControlState.Normal)
-                self.resultTest.text = "Sent Email"
+                self.confirmBtn.setTitle("Send Again", forState: UIControlState.Normal)
+                self.resultTest.text = "Email Sent"
+                self.resultTest.textColor = UIColor.greenColor()
             } else {
-                 self.resultTest.text = "No user found with email address \(self.passwordResetField.text)"
+                 self.resultTest.text = "Could not find: \(self.passwordResetField.text)"
+                self.resultTest.textColor = UIColor.redColor()
             }
         })
     }

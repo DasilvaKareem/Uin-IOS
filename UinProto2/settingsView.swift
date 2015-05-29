@@ -119,7 +119,7 @@ class settingsView: UIViewController {
     //Forces an email verification
     @IBAction func resendEmail(sender: AnyObject) {
         let email = PFUser.currentUser().email
-        PFUser.currentUser().setObject("test@areuin.co", forKey: "email")
+        PFUser.currentUser().setObject("test13@areuin.co", forKey: "email")
         PFUser.currentUser().saveInBackgroundWithBlock({
             (success:Bool, error:NSError!) -> Void in
             
@@ -179,20 +179,19 @@ class ChangeAccountInfo: UIViewController {
     @IBAction func sendToken(sender: AnyObject) {
         //Sends an password reset fourm if email are both correct
         if accountChangeType == "password" {
-            if confirmTextField.text == PFUser.currentUser().email && passwordTextField.text == PFUser.currentUser().email {
+ 
                 //Saves newTokenField to the current users password
-                PFUser.requestPasswordResetForEmailInBackground(newTokenField.text, block: {
+                PFUser.requestPasswordResetForEmailInBackground(PFUser.currentUser().email, block: {
                     (success:Bool, error:NSError!) -> Void in
                     if error == nil {
                         self.resultToken.text = "Password Reset Sent"
                         self.sendTokenBtn.setTitle("Resend", forState: UIControlState.Normal)
                     } else {
                         self.resultToken.text = "Invalid Email address"
+                        println(error.debugDescription)
                     }
                 })
-            } else {
-                self.resultToken.text = "Email address not found"
-            }
+         
 
         }
         //Changes email and also resends the email verification if the user is not verified
@@ -203,14 +202,16 @@ class ChangeAccountInfo: UIViewController {
                 PFUser.currentUser().saveInBackgroundWithBlock({
                     (sucess:Bool, error:NSError!) -> Void in
                     if error == nil {
-                        self.resultToken.text = "Email is now changed"
+                        self.resultToken.text = "Email Changed"
+                        self.resultToken.textColor = UIColor.greenColor()
                     } else {
-                        self.resultToken.text = "Error changing password try again"
-                        println(error.debugDescription)
+                        self.resultToken.text = "Oops! Please try again."
+                        self.resultToken.textColor = UIColor.redColor()
                     }
                 })
             }    else {
-                self.resultToken.text = "Email address not found"
+                self.resultToken.text = "Invalid Email"
+                self.resultToken.textColor = UIColor.redColor()
             }
             
            
@@ -222,17 +223,25 @@ class ChangeAccountInfo: UIViewController {
             self.navigationItem.title = "Change Email"
             newTokenField.placeholder = "enter new email address"
             changeToken.text = "Enter Current Email"
+            passwordTextField.placeholder = "enter current email address"
+            confirmTextField.placeholder = "confirm your email address"
             resultToken.text = ""
             confirmToken.text = "Confirm Email"
             sendTokenBtn.setTitle("Change Email", forState: UIControlState.Normal)
+            newToken.text = "New Email Address"
         }
         if accountChangeType == "password" {
-             self.navigationItem.title = "Reset Password"
-            newTokenField.placeholder = "enter email"
-            changeToken.text = "Confirm email"
-            confirmToken.text = "Confirm Password"
+            self.resultToken.text = ""
+            self.confirmToken.text = "email support@areuin.co for help"
+            self.resultToken.text = ""
+            changeToken.text = "Reset password via email."
+            newToken.text = ""
+            newTokenField.removeFromSuperview()
+            passwordTextField.removeFromSuperview()
+            confirmTextField.removeFromSuperview()
+             self.navigationItem.title = "Password Reset"
             resultToken.text = ""
-            sendTokenBtn.setTitle("Password Reset", forState: UIControlState.Normal)
+            sendTokenBtn.setTitle("Request Password Reset", forState: UIControlState.Normal)
         }
         
     }
