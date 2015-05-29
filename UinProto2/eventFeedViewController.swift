@@ -654,6 +654,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         var cell:eventCell = tableView.dequeueReusableCellWithIdentifier("cell2") as! eventCell
         var poopled = ["no internet"]
         if appProblem == true {
+            cell.eventName.numberOfLines = 3
             cell.onCampusIcon.image = nil
             cell.foodIcon.image = nil
             cell.freeIcon.image = nil
@@ -661,7 +662,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             cell.foodText.text = ""
             cell.onCampusText.text = ""
             cell.costText.text = ""
-            cell.eventName.text = "No events in this Calendar"
+            cell.eventName.text = "There are no events in this calendar. Why don't you be the first to create one?"
             cell.people.text = ""
             cell.privateImage.image = nil
             cell.time.text = ""

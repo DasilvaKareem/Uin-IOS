@@ -417,6 +417,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
      
         var event = getEventIndex(indexPath.section, row: indexPath.row)
         if noEventCheck == true {
+            cell.eventName.numberOfLines = 3
             cell.onCampusIcon.image = nil
             cell.foodIcon.image = nil
             cell.freeIcon.image = nil
@@ -424,7 +425,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
             cell.foodText.text = ""
             cell.onCampusText.text = ""
             cell.costText.text = ""
-            cell.eventName.text = "No events in this Calendar"
+            cell.eventName.text = "You haven't created any events yet! Go right ahead and we'll join the party!"
             cell.people.text = ""
             cell.privateImage.image = nil
             cell.time.text = ""
