@@ -57,25 +57,17 @@ class channelSelectView: UITableViewController {
                   self.genChannels.append("subscription events")
                 
                 //get added to calendar
-                self.gentype.append("schedule")
-                self.genChannels.append("schedule")
+               
                 var getAmountSchedule = PFQuery(className: "UserCalendar")
                 getAmountSchedule.whereKey("userID", equalTo: PFUser.currentUser().objectId)
                 var eventQuery = PFQuery(className:"Event")
                 eventQuery.whereKey("isDeleted", equalTo: false)
                 eventQuery.whereKey("objectId", matchesKey: "eventID", inQuery: getAmountSchedule)
                 eventQuery.whereKey("start", greaterThan: NSDate())
-                eventQuery.countObjectsInBackgroundWithBlock({
-                    (count:Int32, error:NSError!) -> Void in
-                    if error == nil {
-                        
-                        self.genEvents.append("\(count) upcoming")
-                       
-                        //Runs fucntion to get Channels
-                          self.getChannels()
-                         self.tableView.reloadData()
-                    }
-                })
+                self.genEvents.append("\(eventQuery.countObjects()) upcoming")
+                self.gentype.append("schedule")
+                self.genChannels.append("schedule")
+                self.getChannels()
               
                
 
@@ -214,8 +206,9 @@ class channelSelectView: UITableViewController {
                  
                    
                 }
-                //self.tableView.reloadData()
+                
             }
+            self.tableView.reloadData()
         })
     }
     //Checks if the user is in a session or not
@@ -432,13 +425,12 @@ class channelSelectView: UITableViewController {
 
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
          var allTypes = userType + gentype + channelType
-          self.tableView.reloadData()
         var cell:channelTableCell = tableView.cellForRowAtIndexPath(indexPath) as! channelTableCell
         self.currentIndexPath = indexPath
         cell.contentView.backgroundColor = UIColor(red: 65.0/255.0, green: 145.0/255.0, blue: 198.0/255.0, alpha: 1)
         cell.channelCount.textColor = UIColor.whiteColor()
         cell.channelName.textColor = UIColor.whiteColor()
-        self.tableView.reloadData()
+      
     
         
                if indexPath.section == 0 {
@@ -452,16 +444,20 @@ class channelSelectView: UITableViewController {
                         
                     case "Subscriptions":
                         self.performSegueWithIdentifier("Subscriptions", sender: self)
+                        self.tableView.reloadData()
                         break
                     case "Subscribers":
                         self.performSegueWithIdentifier("Subscribers", sender: self)
+                        self.tableView.reloadData()
                         break
                     case "Notifications":
                         self.performSegueWithIdentifier("Notifications", sender: self)
+                        self.tableView.reloadData()
                         break
                     
                     case "My Events":
                         self.performSegueWithIdentifier("My Events", sender: self)
+                        self.tableView.reloadData()
                     default:
                         break
                     }
@@ -481,6 +477,7 @@ class channelSelectView: UITableViewController {
                 
                 } else {
                     self.performSegueWithIdentifier("channelSelect", sender: self)
+                    self.tableView.reloadData()
                 }
             }
         
