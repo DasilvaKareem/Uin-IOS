@@ -86,7 +86,7 @@ class register: UIViewController, UITextFieldDelegate {
     
     func keyboardWillShow(sender: NSNotification) {
         
-        self.view.frame.origin.y = -150
+        self.view.frame.origin.y = -50
     }
     func keyboardWillHide(sender: NSNotification) {
         
@@ -109,7 +109,7 @@ class register: UIViewController, UITextFieldDelegate {
         
         
         if username.text.rangeOfCharacterFromSet(characterSet) != nil {
-            error = "You either entered an illegal charcter"
+            error = "You entered an illegal charcter"
         }
 
 

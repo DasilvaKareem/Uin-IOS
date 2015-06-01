@@ -273,11 +273,32 @@ class ForgotPasswordView: UIViewController {
     @IBOutlet weak var passwordResetField: UITextField!
     
     override func viewDidLoad() {
+        
+        
+        
         super.viewDidLoad()
+        
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name:UIKeyboardWillShowNotification, object: nil);
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillHide:"), name:UIKeyboardWillHideNotification, object: nil);
+
     }
+    
+    
+    func keyboardWillShow(sender: NSNotification) {
+        self.view.frame.origin.y = -85
+    }
+    func keyboardWillHide(sender: NSNotification) {
+        self.view.frame.origin.y = 0.0
+    }
+
+    
+    
     override func viewDidDisappear(animated: Bool) {
     
     }
+    
+    
     //Sends password reset fourm
     @IBAction func sendReset(sender: AnyObject) {
         PFUser.requestPasswordResetForEmailInBackground(passwordResetField.text, block: {
@@ -296,4 +317,5 @@ class ForgotPasswordView: UIViewController {
         super.didReceiveMemoryWarning()
         
     }
+    
 }

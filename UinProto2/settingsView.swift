@@ -217,7 +217,7 @@ class ChangeAccountInfo: UIViewController {
            
         }
     }
-    //Changes text, placeholder, and Ui depening on what type of change the view provides
+    //Changes text, placeholder, and UI depending on what type of change the view provides
     func setupChangeInfo(){
         if accountChangeType == "email" {
             self.navigationItem.title = "Change Email"
@@ -247,9 +247,19 @@ class ChangeAccountInfo: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name:UIKeyboardWillShowNotification, object: nil);
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillHide:"), name:UIKeyboardWillHideNotification, object: nil);
         
-    
     }
+    
+    
+    func keyboardWillShow(sender: NSNotification) {
+        self.view.frame.origin.y = -55
+    }
+    func keyboardWillHide(sender: NSNotification) {
+        self.view.frame.origin.y = 0.0
+    }
+    
     override func viewWillAppear(animated: Bool) {
         setupChangeInfo()
     }
