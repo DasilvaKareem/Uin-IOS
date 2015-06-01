@@ -9,7 +9,7 @@
 import UIKit
 
 class settingsView: UIViewController {
-
+    
     @IBOutlet weak var emailBtn: UIButton!
     @IBOutlet var menuTrigger: UIBarButtonItem!
     override func viewDidLoad() {

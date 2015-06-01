@@ -11,27 +11,14 @@ import UIKit
 class LoadingView: UIViewController {
 
     @IBOutlet var spinner: UIActivityIndicatorView!
- 
+    var tried = false
     override func viewDidLoad() {
         super.viewDidLoad()
       
         // Do any additional setup after loading the view.
     }
     override func viewDidAppear(animated: Bool) {
-        func randomStringWithLength (len : Int) -> NSString {
-            
-            let letters : NSString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-            
-            var randomString : NSMutableString = NSMutableString(capacity: len)
-            
-            for (var i=0; i < len; i++){
-                var length = UInt32 (letters.length)
-                var rand = arc4random_uniform(length)
-                randomString.appendFormat("%C", letters.characterAtIndex(Int(rand)))
-            }
-    
-            return randomString
-        }
+   
         
         spinner.startAnimating()
         if PFUser.currentUser() != nil {
@@ -54,7 +41,41 @@ class LoadingView: UIViewController {
             })
             self.performSegueWithIdentifier("login", sender: self)
         } else {
-            self.performSegueWithIdentifier("createAccount", sender: self)
+            if self.tried == false {
+                let page1:OnboardingContentViewController = OnboardingContentViewController(title: "Welcome Tiger!", body: "Uin has partnered with MEMbound to give you the best experience possible during your time at New Student Orientation. Enjoy your stay, and don't forget to check the schedule!", image: UIImage(named: "tiger"), buttonText: "", action: {
+                    
+                })
+                let page2:OnboardingContentViewController = OnboardingContentViewController(title: "This is Memphis", body: "Once your session is over, hold on to Uin! When the Fall semester starts there will be all kinds of events here for you and your friends to check out!", image: UIImage(named: "whiteUin"), buttonText: "", action: {
+                    
+                })
+                let page3:OnboardingContentViewController = OnboardingContentViewController(title: "This is Memphis", body: "Once your session is over, hold on to Uin! When the Fall semester starts there will be all kinds of events here for you and your friends to check out!", image: UIImage(named: "whiteUin"), buttonText: "", action: {
+                    
+                })
+                //THIS ONE HAS BUTTON ON IT
+                //CHANGE TEXT BY BUTTON TEXT
+                let page4:OnboardingContentViewController = OnboardingContentViewController(title: "This is Memphis", body: "Once your session is over, hold on to Uin! When the Fall semester starts there will be all kinds of events here for you and your friends to check out!", image: UIImage(named: "whiteUin"), buttonText: "vcb", action: {
+                     self.performSegueWithIdentifier("createAccount", sender: self)
+                })
+                let allPages:OnboardingViewController = OnboardingViewController(backgroundImage: UIImage(named: "memboundBackground"), contents: [page1,page2, page3,page4])
+                allPages.underIconPadding = 40
+                allPages.underTitlePadding = 20
+                allPages.bottomPadding = 35
+                allPages.titleFontSize = 24
+                allPages.bodyFontSize = 18
+                allPages.buttonFontSize = 20
+                // skip button
+                allPages.skipButton.enabled = true
+                allPages.allowSkipping = true
+                allPages.skipHandler = {
+                    self.tried = true
+                   self.dismissViewControllerAnimated(true, completion: nil)
+                }
+                self.presentViewController(allPages, animated: true, completion: nil)
+                
+
+            } else {
+                self.performSegueWithIdentifier("createAccount", sender: self)
+            }
         }
 
     }
