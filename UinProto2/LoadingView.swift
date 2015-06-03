@@ -45,6 +45,7 @@ class LoadingView: UIViewController {
                 let page1:OnboardingContentViewController = OnboardingContentViewController(title: "Welcome Tiger!", body: "Uin has partnered with MEMbound to give you the best experience possible during your time at New Student Orientation. Enjoy your stay, and don't forget to check the schedule!", image: UIImage(named: "tiger"), buttonText: "", action: {
                     
                 })
+            
                 let page2:OnboardingContentViewController = OnboardingContentViewController(title: "This is Memphis", body: "Once your session is over, hold on to Uin! When the Fall semester starts there will be all kinds of events here for you and your friends to check out!", image: UIImage(named: "whiteUin"), buttonText: "", action: {
                     
                 })
@@ -54,6 +55,8 @@ class LoadingView: UIViewController {
                 //THIS ONE HAS BUTTON ON IT
                 //CHANGE TEXT BY BUTTON TEXT
                 let page4:OnboardingContentViewController = OnboardingContentViewController(title: "This is Memphis", body: "Once your session is over, hold on to Uin! When the Fall semester starts there will be all kinds of events here for you and your friends to check out!", image: UIImage(named: "whiteUin"), buttonText: "vcb", action: {
+                    self.tried = true
+                    self.dismissViewControllerAnimated(true, completion: nil)
                      self.performSegueWithIdentifier("createAccount", sender: self)
                 })
                 let allPages:OnboardingViewController = OnboardingViewController(backgroundImage: UIImage(named: "memboundBackground"), contents: [page1,page2, page3,page4])
@@ -63,6 +66,7 @@ class LoadingView: UIViewController {
                 allPages.titleFontSize = 24
                 allPages.bodyFontSize = 18
                 allPages.buttonFontSize = 20
+                
                 // skip button
                 allPages.skipButton.enabled = true
                 allPages.allowSkipping = true
