@@ -9,7 +9,7 @@
 import UIKit
 import EventKit
 
-class eventFeedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UITextFieldDelegate {
+class eventFeedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UITextFieldDelegate, UIScrollViewDelegate {
     
     
     @IBOutlet weak var theFeed: UITableView!
@@ -21,6 +21,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     var onsite = [Bool]()
     var paid = [Bool]()
     var food = [Bool]()
+    var shouldKeep = true
     //Text that is display on cell
     var eventTitle = [String]()
     var eventAddress = [String]()
@@ -179,7 +180,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
       
         println()
         setupCalendar()
-        updateFeed()
+        updateFeed(shouldKeep)
         //Setups Ui
         navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
         if self.revealViewController() != nil {
@@ -261,7 +262,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             })
         }
     }
-    func updateFeed(){
+    func updateFeed(shouldKeepList:Bool){
         //Removes all leftover content in the array
         var geoEnabled = true
         PFGeoPoint.geoPointForCurrentLocationInBackground {
@@ -386,31 +387,36 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                     query.orderByAscending("start")
                     println(self.currentPoint)
                     if geoEnabled == true  {
-                 query.whereKey("locationGeopoint", nearGeoPoint: self.currentPoint, withinMiles: 7.0)
+                 //query.whereKey("locationGeopoint", nearGeoPoint: self.currentPoint, withinMiles: 7.0)
                     }
-                 query.whereKey("start", greaterThanOrEqualTo: NSDate())
+        
+                 //query.whereKey("start", greaterThanOrEqualTo: NSDate())
                     query.whereKey("isDeleted", equalTo: false)
+                    query.limit = 20
+                    query.whereKey("objectId", notContainedIn: self.objectID)
                     query.findObjectsInBackgroundWithBlock {
                         (results: [AnyObject]!, error: NSError!) -> Void in
                         if error == nil {
-                        
-                            self.eventAddress.removeAll(keepCapacity: true)
-                            self.onsite.removeAll(keepCapacity: true)
-                            self.paid.removeAll(keepCapacity: true)
-                            self.food.removeAll(keepCapacity: true)
-                            self.eventTitle.removeAll(keepCapacity: true)
-                            self.eventlocation.removeAll(keepCapacity: true)
-                            self.eventStartTime.removeAll(keepCapacity: true)
-                            self.eventEndTime.removeAll(keepCapacity: true)
-                            self.eventStartDate.removeAll(keepCapacity: true)
-                            self.eventEndDate.removeAll(keepCapacity: true)
-                            self.usernames.removeAll(keepCapacity: true)
-                            self.objectID.removeAll(keepCapacity: true)
-                            self.publicPost.removeAll(keepCapacity: true)
-                            self.eventStart.removeAll(keepCapacity: true)
-                            self.eventEnd.removeAll(keepCapacity: true)
-                            self.localizedTime.removeAll(keepCapacity: true)
-                            self.localizedEndTime.removeAll(keepCapacity: true)
+                            if shouldKeepList == true {
+                                self.eventAddress.removeAll(keepCapacity: true)
+                                self.onsite.removeAll(keepCapacity: true)
+                                self.paid.removeAll(keepCapacity: true)
+                                self.food.removeAll(keepCapacity: true)
+                                self.eventTitle.removeAll(keepCapacity: true)
+                                self.eventlocation.removeAll(keepCapacity: true)
+                                self.eventStartTime.removeAll(keepCapacity: true)
+                                self.eventEndTime.removeAll(keepCapacity: true)
+                                self.eventStartDate.removeAll(keepCapacity: true)
+                                self.eventEndDate.removeAll(keepCapacity: true)
+                                self.usernames.removeAll(keepCapacity: true)
+                                self.objectID.removeAll(keepCapacity: true)
+                                self.publicPost.removeAll(keepCapacity: true)
+                                self.eventStart.removeAll(keepCapacity: true)
+                                self.eventEnd.removeAll(keepCapacity: true)
+                                self.localizedTime.removeAll(keepCapacity: true)
+                                self.localizedEndTime.removeAll(keepCapacity: true)
+                            }
+                       
                             
                             for object in results{
                                 
@@ -433,7 +439,10 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                                 self.appProblem = true
                             }
                             self.populateSectionInfo()
-                            self.theFeed.reloadData()
+                            if results.count != 0 {
+                                self.theFeed.reloadData()
+                            }
+                           
                             self.refresher.endRefreshing()
                             
                         }
@@ -450,11 +459,11 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
            
         }
     }
- 
+    
     func refresh() {
-        
+       
         endSearch()
-        updateFeed()
+        updateFeed(shouldKeep)
         
     }
     
@@ -558,10 +567,9 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         
     }
     func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        if indexPath.row == 3 {
-            
-        }
+        
     }
+    
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
         var cell:dateCell = tableView.dequeueReusableCellWithIdentifier("dateCell") as! dateCell
@@ -649,10 +657,16 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         return 64.0
     }
     
+ 
+  
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
         // Puts the data in a cell
         var cell:eventCell = tableView.dequeueReusableCellWithIdentifier("cell2") as! eventCell
-        var poopled = ["no internet"]
+       
+        println()
+        println(indexPath.section)
+        println(indexPath.row)
+        println()
         if appProblem == true {
             cell.eventName.numberOfLines = 3
             cell.onCampusIcon.image = nil
@@ -702,12 +716,15 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             
         } else {
             
-    
+        
         var event = getEventIndex(indexPath.section, row: indexPath.row)
+            if indexPath.section == numSections - 3{
+                updateFeed(false)
+            }
         cell.poop.hidden = false
         var section = indexPath.section
         var row = indexPath.row
-        
+           
         //Puts image for three icons
         if onsite[event] == true {
             cell.onCampusIcon.image = UIImage(named: "onCampus.png")

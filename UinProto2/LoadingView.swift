@@ -67,6 +67,7 @@ class LoadingView: UIViewController {
                 allPages.titleFontSize = 24
                 allPages.bodyFontSize = 18
                 allPages.buttonFontSize = 20
+                
                 // skip button
                 allPages.skipButton.enabled = true
                 allPages.allowSkipping = true
