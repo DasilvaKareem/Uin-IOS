@@ -180,7 +180,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
       
         println()
         setupCalendar()
-        updateFeed(shouldKeep)
+        updateFeed(false)
         //Setups Ui
         navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
         if self.revealViewController() != nil {
@@ -390,8 +390,8 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                  //query.whereKey("locationGeopoint", nearGeoPoint: self.currentPoint, withinMiles: 7.0)
                     }
         
-                 //query.whereKey("start", greaterThanOrEqualTo: NSDate())
-                    query.whereKey("isDeleted", equalTo: false)
+               //  query.whereKey("start", greaterThanOrEqualTo: NSDate())
+                   // query.whereKey("isDeleted", equalTo: false)
                     query.limit = 20
                     query.whereKey("objectId", notContainedIn: self.objectID)
                     query.findObjectsInBackgroundWithBlock {
@@ -437,6 +437,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                             }
                             if self.userId.isEmpty {
                                 self.appProblem = true
+                                self.theFeed.reloadData()
                             }
                             self.populateSectionInfo()
                             if results.count != 0 {
