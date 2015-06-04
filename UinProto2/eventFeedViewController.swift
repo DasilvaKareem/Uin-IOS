@@ -721,12 +721,15 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             
         
         var event = getEventIndex(indexPath.section, row: indexPath.row)
-            if indexPath.section == numSections - 3{
-                if self.shouldKeep == true {
-                    updateFeed(false)
+            if self.searchActive == false {
+                if indexPath.section == numSections - 3{
+                    if self.shouldKeep == true {
+                        updateFeed(false)
+                    }
+                    
                 }
-               
             }
+           
         cell.poop.hidden = false
         var section = indexPath.section
         var row = indexPath.row
