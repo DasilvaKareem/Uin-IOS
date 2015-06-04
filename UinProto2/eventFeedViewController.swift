@@ -387,11 +387,11 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                     query.orderByAscending("start")
                     println(self.currentPoint)
                     if geoEnabled == true  {
-                 //query.whereKey("locationGeopoint", nearGeoPoint: self.currentPoint, withinMiles: 7.0)
+                 query.whereKey("locationGeopoint", nearGeoPoint: self.currentPoint, withinMiles: 7.0)
                     }
         
-                 //query.whereKey("start", greaterThanOrEqualTo: NSDate())
-                    //query.whereKey("isDeleted", equalTo: false)
+                 query.whereKey("start", greaterThanOrEqualTo: NSDate())
+                    query.whereKey("isDeleted", equalTo: false)
                     query.limit = 20
                     query.whereKey("objectId", notContainedIn: self.objectID)
                     query.findObjectsInBackgroundWithBlock {
