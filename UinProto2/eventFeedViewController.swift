@@ -390,6 +390,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                     }
                  query.whereKey("start", greaterThanOrEqualTo: NSDate())
                     query.whereKey("isDeleted", equalTo: false)
+                query.limit = 10
                     query.findObjectsInBackgroundWithBlock {
                         (results: [AnyObject]!, error: NSError!) -> Void in
                         if error == nil {
@@ -821,6 +822,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                             event.notes = hosted
                             event.location = self.eventlocation[sender.tag]
                             event.calendar = eventStore.defaultCalendarForNewEvents
+                            
                         }
                     })
                     var predicate2 = eventStore.predicateForEventsWithStartDate(self.eventStart[sender.tag], endDate: self.eventEnd[sender.tag], calendars:nil)

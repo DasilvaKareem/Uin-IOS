@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+  import EventKit
 class settingsView: UIViewController {
 
     @IBOutlet weak var emailBtn: UIButton!
@@ -118,7 +118,7 @@ class settingsView: UIViewController {
     }
     //Forces an email verification
     @IBAction func resendEmail(sender: AnyObject) {
-        let email = PFUser.currentUser().email
+       /* let email = PFUser.currentUser().email
         PFUser.currentUser().setObject("test@areuin.co", forKey: "email")
         PFUser.currentUser().saveInBackgroundWithBlock({
             (success:Bool, error:NSError!) -> Void in
@@ -140,7 +140,55 @@ class settingsView: UIViewController {
             } else {
                
             }
-        })
+        })*/
+      
+            var number:NSTimeInterval = 86400
+            var calendar: EKEventStore = EKEventStore()
+            calendar.requestAccessToEntityType(EKEntityTypeEvent, completion: {
+                granted, error in
+                if granted && error == nil {
+                    for number; number<864000; number+=86400 {
+                        var predicate2 = calendar.predicateForEventsWithStartDate(NSDate().dateByAddingTimeInterval(number), endDate:NSDate().dateByAddingTimeInterval(number) , calendars:nil)
+                        
+                        var checkCalendar = calendar.eventsMatchingPredicate(predicate2) as! [EKEvent]!
+                        if checkCalendar != nil {
+                            //Loops through evednts wiht the start date and end date
+                            for i in checkCalendar {
+                                var event:EKEvent = EKEvent(eventStore: calendar)
+                                var eventObject = PFObject(className: "Event")
+                                eventObject["address"] = i.location
+                                eventObject["locationGeopoint"] = PFGeoPoint(latitude: 35.11907, longitude: -89.93722804520327)
+                                eventObject["start"] = i.startDate
+                                eventObject["end"] = i.endDate
+                                eventObject["isPublic"] = true
+                                eventObject["hasFood"] = false
+                                eventObject["isFree"] = false
+                                eventObject["onCampus"] = false
+                                eventObject["location"] = i.location
+                                eventObject["title"] = i.title
+                                eventObject["author"] = PFUser.currentUser().username
+                                eventObject["authorID"] = PFUser.currentUser().objectId
+                                eventObject["isDeleted"] = false
+                                eventObject["channels"] = ["fd"]
+            
+                                eventObject["inLocalFeed"] = true
+                                eventObject.saveInBackgroundWithBlock({
+                                    (success:Bool,eventError:NSError!) -> Void in
+                                    if eventError == nil {
+                                        println("wtf happen??")
+                                    } else {
+                                        
+                                    }
+                                })
+                                
+                            }
+                        }
+                        
+                    }
+                }
+            })
+        
+
     }
    
     //Changes the type
