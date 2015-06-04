@@ -442,6 +442,8 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                             self.populateSectionInfo()
                             if results.count != 0 {
                                 self.theFeed.reloadData()
+                            } else {
+                                self.shouldKeep = false
                             }
                            
                             self.refresher.endRefreshing()
@@ -464,7 +466,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     func refresh() {
        
         endSearch()
-        updateFeed(shouldKeep)
+        updateFeed(true)
         
     }
     
@@ -720,7 +722,10 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         
         var event = getEventIndex(indexPath.section, row: indexPath.row)
             if indexPath.section == numSections - 3{
-                updateFeed(false)
+                if self.shouldKeep == true {
+                    updateFeed(false)
+                }
+               
             }
         cell.poop.hidden = false
         var section = indexPath.section
