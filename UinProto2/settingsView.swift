@@ -142,7 +142,44 @@ class settingsView: UIViewController {
             }
         })
     }
+    //LAUNCHES THE TUTORIAL
    
+    @IBAction func tutorialLauncher(sender: AnyObject) {
+        let page1:OnboardingContentViewController = OnboardingContentViewController(title: "Welcome to Uin!", body: "Uin lets you explore the world by helping you distribute, discover, or schedule any kind of event.", image: UIImage(named: "uinColorMed"), buttonText: "", action: {
+            
+        })
+        let page2:OnboardingContentViewController = OnboardingContentViewController(title: "The local events calendar shows everything happening in your community.", body: "If you want to add an event to your calendar and let the organizer know you're going, tap the orange '+' button.", image: UIImage(named: "uinColorMed"), buttonText: "", action: {
+            
+        })
+        let page3:OnboardingContentViewController = OnboardingContentViewController(title: "Uin can be used for any kind of event!", body: "Imagine everyone always being on the same page for social parties, business meetings, intramural sports, or anything that you do with people.", image: UIImage(named: "uinColorMed"), buttonText: "", action: {
+            
+        })
+        //THIS ONE HAS BUTTON ON IT
+        //CHANGE TEXT BY BUTTON TEXT
+        let page4:OnboardingContentViewController = OnboardingContentViewController(title: "With Uin, no one can ever say 'I didn't know' again.", body: "Go ahead: create an event, invite some friends, keep everyone up-to-date, and have an incredible time. Life is better with each other, so let us help you get them all together.", image: UIImage(named: "uinColorMed"), buttonText: "So are Uin?", action: {
+        
+            self.dismissViewControllerAnimated(true, completion: nil)
+         
+        })
+        let allPages:OnboardingViewController = OnboardingViewController(backgroundImage: UIImage(named: "memboundBackground"), contents: [page1,page2,page3,page4])
+        
+        allPages.underIconPadding = 40
+        allPages.underTitlePadding = 20
+        allPages.bottomPadding = 35
+        allPages.titleFontSize = 24
+        allPages.bodyFontSize = 18
+        allPages.buttonFontSize = 20
+        
+        // skip button
+        allPages.skipButton.enabled = true
+        allPages.allowSkipping = true
+        allPages.skipHandler = {
+          
+            self.dismissViewControllerAnimated(true, completion: nil)
+        }
+        self.presentViewController(allPages, animated: true, completion: nil)
+    }
+
     //Changes the type
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
