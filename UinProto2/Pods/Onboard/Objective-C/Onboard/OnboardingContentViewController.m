@@ -47,7 +47,8 @@ static CGFloat const kMainPageControlHeight = 35;
     _body = body;
     _image = image;
     _buttonText = buttonText;
-    _actionHandler = action ?: ^{};
+
+    self.buttonActionHandler = action;
     
     // default auto-navigation
     self.movesToNextViewController = NO;
@@ -89,7 +90,9 @@ static CGFloat const kMainPageControlHeight = 35;
     // default blocks
     self.viewWillAppearBlock = ^{};
     self.viewDidAppearBlock = ^{};
-    
+    self.viewWillDisappearBlock = ^{};
+    self.viewDidDisappearBlock = ^{};
+
     return self;
 }
 
@@ -110,7 +113,11 @@ static CGFloat const kMainPageControlHeight = 35;
     }
     
     // call our view will appear block
-    self.viewWillAppearBlock();
+    if (self.viewWillAppearBlock) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.viewWillAppearBlock();
+        });
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -123,7 +130,37 @@ static CGFloat const kMainPageControlHeight = 35;
     }
     
     // call our view did appear block
-    self.viewDidAppearBlock();
+    if (self.viewDidAppearBlock) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.viewDidAppearBlock();
+        });
+    }
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+
+    // call our view will disappear block
+    if (self.viewWillDisappearBlock) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.viewWillDisappearBlock();
+        });
+    }
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+
+    // call our view did disappear block
+    if (self.viewDidDisappearBlock) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.viewDidDisappearBlock();
+        });
+    }
+}
+
+- (void)setButtonActionHandler:(dispatch_block_t)action {
+    _buttonActionHandler = action ?: ^{};
 }
 
 - (void)generateView {
@@ -196,7 +233,9 @@ static CGFloat const kMainPageControlHeight = 35;
     }
     
     // call the provided action handler
-    _actionHandler();
+    if (_buttonActionHandler) {
+        _buttonActionHandler();
+    }
 }
 
 @end
