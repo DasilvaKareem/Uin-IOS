@@ -102,6 +102,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
         self.searchActive = true;
+        self.appProblem = false
         self.searchBar.setShowsCancelButton(true, animated: true)
     }
     
@@ -180,7 +181,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
       
         println()
         setupCalendar()
-        updateFeed(false)
+        updateFeed(true)
         //Setups Ui
         navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
         if self.revealViewController() != nil {
@@ -387,7 +388,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                     query.orderByAscending("start")
                     println(self.currentPoint)
                     if geoEnabled == true  {
-                 query.whereKey("locationGeopoint", nearGeoPoint: self.currentPoint, withinMiles: 7.0)
+                 //query.whereKey("locationGeopoint", nearGeoPoint: self.currentPoint, withinMiles: 7.0)
                     }
         
                  query.whereKey("start", greaterThanOrEqualTo: NSDate())
@@ -435,18 +436,23 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                                 self.eventDescription.append(object["description"] as! String)
                                 
                             }
+                            //If no events are present display app problm cells
                             if self.userId.isEmpty {
                                 self.appProblem = true
                                 self.theFeed.reloadData()
-                            }
-                            self.populateSectionInfo()
-                            if results.count != 0 {
-                                self.theFeed.reloadData()
                             } else {
-                                self.shouldKeep = false
+                                    if results.count != 0 {
+                                        //Creates sections
+                                        self.populateSectionInfo()
+                                        self.theFeed.reloadData()
+                                        } else {
+                                            self.shouldKeep = false
+                                    }
+                                
+                                self.refresher.endRefreshing()
                             }
-                           
-                            self.refresher.endRefreshing()
+                            
+                        
                             
                         }
                             
@@ -466,7 +472,10 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     func refresh() {
        
         endSearch()
+        //Removes all object ids and resets the amount of events to the begining
+        self.objectID.removeAll(keepCapacity: true)
         updateFeed(true)
+        
         
     }
     
