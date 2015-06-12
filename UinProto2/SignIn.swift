@@ -266,7 +266,7 @@ class SignIn: UIViewController, UITextFieldDelegate {
         }
     }
 }
-class ForgotPasswordView: UIViewController {
+class ForgotPasswordView: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var resultTest: UILabel!
     @IBOutlet weak var confirmBtn: UIButton!
@@ -284,7 +284,14 @@ class ForgotPasswordView: UIViewController {
 
     }
     
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+        self.view.endEditing(true)
+    }
     
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
     func keyboardWillShow(sender: NSNotification) {
         self.view.frame.origin.y = -85
     }
