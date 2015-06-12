@@ -181,6 +181,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
       
         println()
         setupCalendar()
+         self.objectID.removeAll(keepCapacity: true)
         updateFeed(true)
         //Setups Ui
         navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
