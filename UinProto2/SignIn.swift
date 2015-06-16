@@ -123,6 +123,21 @@ class SignIn: UIViewController, UITextFieldDelegate {
 
         })
     }
+    
+    @IBAction func twitterLogin(sender: AnyObject) {
+        PFTwitterUtils.logInWithBlock {
+            (user: PFUser?, error: NSError?) -> Void in
+            if let user = user {
+                if user.isNew {
+                    println("User signed up and logged in with Twitter!")
+                } else {
+                    println("User logged in with Twitter!")
+                }
+            } else {
+                println("Uh oh. The user cancelled the Twitter login.")
+            }
+        }
+    }
  
     override func viewDidLoad() {
 

@@ -32,7 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // development key
         Mixpanel.sharedInstanceWithToken("9955bea4e861e38f30086091b171d9fdoirthg9e78r")
-        
+
 
         ParseCrashReporting.enable()
         //devolpment key
@@ -41,8 +41,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Parse.setApplicationId("0ShUBAdjISFynDKChHvUdDaL5wcMUke0NTbY6myP", clientKey: "3dXP6g3Em7gfIIbsrBWog1yDLzhMuzonjp6u5spJ")
         //Production Key
          //Parse.setApplicationId("BFxrzfMk4LK2WDbBdwtfeWmFcZwZwkMLdryiDPwm", clientKey: "tALwULorTkQbcVv3JHqVtTDrrelIZFSebtb0cHJs")
-        
-        //Set the user Time stamp
+                PFTwitterUtils.initializeWithConsumerKey("8UEyO7HCWxgi6qtNOrHlkNXQk",  consumerSecret:"UwR53WCjwtmac7RthglrliwtoJuNg8rT3R7bne3pkM5gzhu053")        //Set the user Time stamp
   
         var theMix = Mixpanel.sharedInstance()
         theMix.track("App Open")
