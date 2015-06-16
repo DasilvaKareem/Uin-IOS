@@ -22,7 +22,7 @@ class LoadingView: UIViewController {
         
         spinner.startAnimating()
         if PFUser.currentUser() != nil {
-              
+               PFUser.logOut()
             var userTimeCheck = PFUser.currentUser()
             if userTimeCheck["tempAccounts"] as! Bool == true {
                 PFUser.logOut()
