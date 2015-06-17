@@ -28,6 +28,21 @@ class iconCreateViewController: UIViewController, UICollectionViewDataSource, UI
     var inActiveImage = [UIImage]()
     var caption = [String]()
     
+    var iconId2 = [Int]()
+    var iconImage2 = [UIImage]()
+    var inActiveImage2 = [UIImage]()
+    var caption2 = [String]()
+    
+    var iconId3 = [Int]()
+    var iconImage3 = [UIImage]()
+    var inActiveImage3 = [UIImage]()
+    var caption3 = [String]()
+    
+    var iconId4 = [Int]()
+    var iconImage4 = [UIImage]()
+    var inActiveImage4 = [UIImage]()
+    var caption4 = [String]()
+    
     //Gets data from parse and display images into collection view
     func getIcons(){
         var query = PFQuery(className: "EventTag")
@@ -38,14 +53,38 @@ class iconCreateViewController: UIViewController, UICollectionViewDataSource, UI
                 var placeHolder = (PFFile)()
                 println("got objects")
                 for object in objects {
+                    if self.iconId.count < 7 {
+                        if self.iconId2.count < 7 {
+                              self.iconId3.append(object["tagId"] as! Int)
+                        }
+                         self.iconId2.append(object["tagId"] as! Int)
+                    }
                     self.iconId.append(object["tagId"] as! Int) //Get tag id
+           
+                    if self.caption.count < 7 {
+                        if self.caption2.count < 7 {
+                            self.caption3.append(object["caption"] as! String)
+                        } else {
+                            self.caption2.append(object["caption"] as! String)
+                        }
+                     
+                    }
                     self.caption.append(object["caption"] as! String) // get the caption
                     //Gets the active from parse and makes into an image
                     placeHolder = object["activeImage"] as! PFFile
                     placeHolder.getDataInBackgroundWithBlock({
                         (imageData: NSData!, error: NSError!) -> Void in
                         if error == nil {
-                            self.iconImage.append(UIImage(data: imageData)!)
+                            if self.iconImage.count < 7 {
+                                if self.iconImage2.count < 7 {
+                                    self.iconImage3.append(UIImage(data: imageData)!)
+                                }
+                                self.iconImage2.append(UIImage(data: imageData)!)
+                            }
+                          
+                            
+                           self.iconImage.append(UIImage(data: imageData)!)
+                            
                         }
                     })
                     
@@ -54,7 +93,16 @@ class iconCreateViewController: UIViewController, UICollectionViewDataSource, UI
                     placeHolder.getDataInBackgroundWithBlock({
                         (imageData: NSData!, error: NSError!) -> Void in
                         if error == nil {
+                            if self.inActiveImage.count < 7 {
+                                if self.inActiveImage2.count < 7 {
+                                    self.inActiveImage3.append(UIImage(data: imageData)!)
+                                }
+                                self.inActiveImage2.append(UIImage(data: imageData)!)
+                            }
+                          
+                          
                             self.inActiveImage.append(UIImage(data: imageData)!)
+
                         }
                     })
                     
@@ -62,7 +110,7 @@ class iconCreateViewController: UIViewController, UICollectionViewDataSource, UI
                 }
                 //println(self.iconId)
                 //println(self.caption)
-                self.iconCollection.reloadData()
+                //self.iconCollection.reloadData()
             } else {
                 println(error.debugDescription)
             }
@@ -87,7 +135,27 @@ class iconCreateViewController: UIViewController, UICollectionViewDataSource, UI
         let cell:iconCell = iconCollection.dequeueReusableCellWithReuseIdentifier("icon", forIndexPath: indexPath) as! iconCell
         
         cell.backgroundColor = UIColor.blackColor()
-        println(caption)
+        println(indexPath.section)
+        cell.iconCaption.textColor = UIColor.whiteColor()
+        if indexPath.section == 0 {
+            if caption.count != 0 {
+              cell.iconCaption.text = caption[indexPath.row]
+            }
+            
+        }
+        if indexPath.section == 1 {
+            if caption.count != 0 {
+               cell.iconCaption.text = caption2[indexPath.row]
+            }
+          
+        }
+        if indexPath.section == 2 {
+            if caption.count != 0 {
+                cell.iconCaption.text = caption3[indexPath.row]
+            }
+            
+        }
+        
        // cell.iconCaption.text = caption[2]
         
        
@@ -95,7 +163,7 @@ class iconCreateViewController: UIViewController, UICollectionViewDataSource, UI
     }
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     
-        return 1
+        return 7
     }
     
      func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {

@@ -128,7 +128,7 @@ class SignIn: UIViewController, UITextFieldDelegate {
         PFTwitterUtils.logInWithBlock {
             (user: PFUser?, error: NSError?) -> Void in
             if let user = user {
-                println(user.)
+                println(user)
                 if user.isNew {
                     println("User signed up and logged in with Twitter!")
                 } else {
