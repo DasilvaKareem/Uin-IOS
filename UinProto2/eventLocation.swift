@@ -68,9 +68,14 @@ class eventLocationView: UIViewController, MKMapViewDelegate, CLLocationManagerD
         return true
     }
  
-    //Submits the locations to event make view
-    @IBAction func checkLocation(sender: AnyObject) {
+    //Submits the locations to eventReview
+    @IBAction func submitEvent2(sender: AnyObject) {
+        displayLocation.text = gLocation
+        var geopoint = PFGeoPoint(location:eventGeoLocation)
+        geopoint = gGPS
+        eventLocation.text = gAddress
     }
+    
 
     
     override func viewWillAppear(animated: Bool) {
