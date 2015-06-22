@@ -33,6 +33,8 @@ var gDescrption = (String)()
 var gAddress = (String)()
 var gGPS = (PFGeoPoint)()
 var gLocation = (String)()
+var gStart = (NSDate)()
+var gEnd = (NSDate)()
 
 class eventReview: UIViewController {
     

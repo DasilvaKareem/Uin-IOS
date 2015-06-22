@@ -66,4 +66,9 @@ self.tabBarController?.tabBar.hidden = true
         endString = dateStr2 + " " + dateTime2
         endTime.text = endString
     }
+    
+    
+    @IBAction func submitTime(sender: AnyObject) {
+        self.performSegueWithIdentifier("event3", sender: self)
+    }
 }

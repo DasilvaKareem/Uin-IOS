@@ -74,6 +74,7 @@ class eventLocationView: UIViewController, MKMapViewDelegate, CLLocationManagerD
         var geopoint = PFGeoPoint(location:eventGeoLocation)
         geopoint = gGPS
         eventLocation.text = gAddress
+        self.performSegueWithIdentifier("event2", sender: self)
     }
     
 

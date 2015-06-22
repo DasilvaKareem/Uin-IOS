@@ -43,6 +43,13 @@ class iconCreateViewController: UIViewController, UICollectionViewDataSource, UI
     var inActiveImage4 = [UIImage]()
     var caption4 = [String]()
     
+    
+    
+    @IBAction func submitData(sender: AnyObject) {
+        self.performSegueWithIdentifier("event4", sender: self)
+    }
+
+    
     //Gets data from parse and display images into collection view
     func getIcons(){
         var query = PFQuery(className: "EventTag")
