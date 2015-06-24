@@ -70,10 +70,13 @@ class eventLocationView: UIViewController, MKMapViewDelegate, CLLocationManagerD
  
     //Submits the locations to eventReview
     @IBAction func submitEvent2(sender: AnyObject) {
-        displayLocation.text = gLocation
+        gLocation = displayLocation.text
         var geopoint = PFGeoPoint(location:eventGeoLocation)
         geopoint = gGPS
-        eventLocation.text = gAddress
+        gAddress = eventLocation.text
+        println(gAddress)
+        println(gLocation)
+        println(gGPS)
         self.performSegueWithIdentifier("event2", sender: self)
     }
     

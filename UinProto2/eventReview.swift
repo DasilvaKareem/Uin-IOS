@@ -16,7 +16,16 @@ import UIKit
         
         
         @IBAction func submitEvent(sender: AnyObject) {
-            self.performSegueWithIdentifier("create1", sender: self)
+            //Checks if event descritpion and title are empty
+            if eventTitle.text.isEmpty {
+                
+            } else {
+                gTitle = eventTitle.text
+                gDescrption = eventDescription.text
+                self.performSegueWithIdentifier("create1", sender: self)
+            
+            }
+           
         }
         
         override func viewDidLoad() {
@@ -38,6 +47,18 @@ var gEnd = (NSDate)()
 
 class eventReview: UIViewController {
     
+    //Labels
+   
+ 
+    @IBOutlet weak var eTitle: UILabel!
+    @IBOutlet weak var eDescription: UILabel!
+    @IBOutlet weak var address: UILabel!
+    @IBOutlet weak var location: UILabel!
+    
+    @IBOutlet weak var start: UILabel!
+    
+    @IBOutlet weak var end: UILabel!
+    
     //Checks if all event info is stored
     func validateEvent() {
         var error = ""
@@ -48,9 +69,21 @@ class eventReview: UIViewController {
             error == "Please fill out an event description"
         }
     }
-    
+    func displayInfo(){
+        eTitle.text = gTitle
+        eDescription.text = gDescrption
+        address.text = gAddress
+        location.text = gLocation
+        //convert NSDate to strings
+        var dateTimeformat = NSDateFormatter()
+        dateTimeformat.dateStyle = NSDateFormatterStyle.MediumStyle
+        start.text =  dateTimeformat.stringFromDate(gStart)
+        end.text = dateTimeformat.stringFromDate(gEnd)
+      
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
+        displayInfo()
     }
     
     override func didReceiveMemoryWarning() {
