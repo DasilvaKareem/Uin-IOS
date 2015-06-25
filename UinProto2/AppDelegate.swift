@@ -38,9 +38,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //devolpment key
         //Parse.setApplicationId("HawWPTDabdo1FXdxMevotUNmVCwVl62wTkjiFyNg", clientKey: "Gj2fnhH0CkA6G1Hkl5igSQRooXeD3ByVBKjMF1Bq")
      
-        Parse.setApplicationId("0ShUBAdjISFynDKChHvUdDaL5wcMUke0NTbY6myP", clientKey: "3dXP6g3Em7gfIIbsrBWog1yDLzhMuzonjp6u5spJ")
+        //Parse.setApplicationId("0ShUBAdjISFynDKChHvUdDaL5wcMUke0NTbY6myP", clientKey: "3dXP6g3Em7gfIIbsrBWog1yDLzhMuzonjp6u5spJ")
         //Production Key
-         //Parse.setApplicationId("BFxrzfMk4LK2WDbBdwtfeWmFcZwZwkMLdryiDPwm", clientKey: "tALwULorTkQbcVv3JHqVtTDrrelIZFSebtb0cHJs")
+         Parse.setApplicationId("BFxrzfMk4LK2WDbBdwtfeWmFcZwZwkMLdryiDPwm", clientKey: "tALwULorTkQbcVv3JHqVtTDrrelIZFSebtb0cHJs")
                 PFTwitterUtils.initializeWithConsumerKey("8UEyO7HCWxgi6qtNOrHlkNXQk",  consumerSecret:"UwR53WCjwtmac7RthglrliwtoJuNg8rT3R7bne3pkM5gzhu053")        //Set the user Time stamp
   
         var theMix = Mixpanel.sharedInstance()

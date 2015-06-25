@@ -11,6 +11,7 @@ import UIKit
 class eventCalendar: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet weak var calendarFeed: UITableView!
+    var Cname = [String]() //Calendar names
     
     
     @IBAction func submitData(sender: AnyObject) {
@@ -18,7 +19,21 @@ class eventCalendar: UIViewController, UITableViewDelegate, UITableViewDataSourc
     
     func getCalendars(){
         //get calendars from parse and display them
-        
+        var query = PFQuery(className: "ChannelUser")
+        query.whereKey("userID", equalTo: PFUser.currentUser().objectId)
+        //query.whereKey("canPost", equalTo: true)
+        query.findObjectsInBackgroundWithBlock({
+            (objects:[AnyObject]!, error:NSError!) -> Void in
+            if error == nil {
+                for object in objects {
+                    
+                    self.Cname.append(object["channelName"] as! String)
+                }
+                self.calendarFeed.reloadData()
+            } else {
+                println("No calendars for you bud")
+            }
+        })
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,16 +50,16 @@ class eventCalendar: UIViewController, UITableViewDelegate, UITableViewDataSourc
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell:calendarCell = tableView.dequeueReusableCellWithIdentifier("calendar") as! calendarCell
-        
+        cell.name.text = Cname[indexPath.row]
         
         return cell
     }
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        return Cname.count
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 2
+        return 1
     }
     /*
     // MARK: - Navigation
@@ -61,4 +76,5 @@ class eventCalendar: UIViewController, UITableViewDelegate, UITableViewDataSourc
 class calendarCell: UITableViewCell {
     
     
+    @IBOutlet weak var name: UILabel!
 }
