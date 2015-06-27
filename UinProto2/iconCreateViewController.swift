@@ -18,6 +18,8 @@ class iconCreateViewController: UIViewController, UICollectionViewDataSource, UI
     var counter = 0
     
     func keepTrack(){
+        var tags = [Int]()
+        
         if counter != 3 {
             counter++
         }
@@ -64,6 +66,7 @@ class iconCreateViewController: UIViewController, UICollectionViewDataSource, UI
     func getIcons(){
         var query = PFQuery(className: "kareem")
         query.fromLocalDatastore()
+        query.orderByAscending("tagId")
         query.findObjectsInBackgroundWithBlock({
             (objects:[AnyObject]! , error: NSError!) -> Void in
             if error == nil {
@@ -255,18 +258,65 @@ class iconCreateViewController: UIViewController, UICollectionViewDataSource, UI
     
         return 7
     }
-
+    var tags = [Int]()
 
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
        // keepTrack()
       
-        var cell:iconCell = iconCollection.dequeueReusableCellWithReuseIdentifier("icon", forIndexPath: indexPath) as! iconCell
-        cell.iconCaption.text = "fdsfsdfds"
-        self.iconCollection.reloadData()
-        println(indexPath)
+        var cell:iconCell = iconCollection.cellForItemAtIndexPath(indexPath) as! iconCell
         
-        
+        if indexPath.section == 0 {
+            if caption.count != 0 {
+                cell.iconImage.image = iconImage[indexPath.row]
+                tags.append(self.iconId[indexPath.row])
+            }
+            
+        } else {
+            if indexPath.section == 1 {
+                if caption2.count != 0 {
+                    cell.iconImage.image = iconImage2[indexPath.row]
+                     tags.append(self.iconId2[indexPath.row])
+                }
+                
+            } else {
+                if indexPath.section == 2 {
+                    if caption3.count != 0 {
+                        cell.iconImage.image = iconImage3[indexPath.row]
+                        tags.append(self.iconId3[indexPath.row])
+                    }
+                    
+                } else {
+                    if indexPath.section == 3 {
+                        if caption4.count != 0 {
+                            cell.iconImage.image = iconImage4[indexPath.row]
+                             tags.append(self.iconId4[indexPath.row])
+                        }
+                    } else {
+                        if indexPath.section == 4 {
+                            if caption5.count != 0 {
+                                cell.iconImage.image = iconImage5[indexPath.row]
+                                tags.append(self.iconId5[indexPath.row])
+                            }
+                        } else {
+                            if indexPath.section == 5 {
+                                if caption6.count != 0 {
+                                    // cell.iconCaption.text = caption6[indexPath.row]
+                                }
+                            }
+                            
+                        }
+                        
+                    }
+                }
+            }
+        }
 
+        
+        
+        if tags.count > 3 {
+            self.tags.removeAtIndex(0)
+            println(tags)
+        }
         
     }
 
