@@ -118,6 +118,16 @@ class iconCreateViewController: UIViewController, UICollectionViewDataSource, UI
                                     self.inActiveImage3.append(UIImage(data: imageData)!)
                                 }
                                 self.inActiveImage2.append(UIImage(data: imageData)!)
+                                if self.inActiveImage3.count > 3 {
+                                    self.inActiveImage4.append(UIImage(data: imageData)!)
+                                    if self.inActiveImage4.count > 3 {
+                                        self.inActiveImage5.append(UIImage(data: imageData)!)
+                                        if self.inActiveImage5.count > 3 {
+                                            self.inActiveImage6.append(UIImage(data: imageData)!)
+                                            
+                                        }
+                                    }
+                                }
                             }
                           
                           
@@ -125,7 +135,33 @@ class iconCreateViewController: UIViewController, UICollectionViewDataSource, UI
 
                         }
                     })
-                    
+                    placeHolder = object["activeImage"] as! PFFile
+                    placeHolder.getDataInBackgroundWithBlock({
+                        (imageData: NSData!, error: NSError!) -> Void in
+                        if error == nil {
+                            
+                            if self.iconImage.count > 3 {
+                                if self.iconImage2.count > 3 {
+                                    self.iconImage3.append(UIImage(data: imageData)!)
+                                }
+                                self.iconImage2.append(UIImage(data: imageData)!)
+                                if self.iconImage3.count > 3 {
+                                    self.iconImage4.append(UIImage(data: imageData)!)
+                                    if self.iconImage4.count > 3 {
+                                        self.iconImage5.append(UIImage(data: imageData)!)
+                                        if self.iconImage5.count > 3 {
+                                            self.iconImage6.append(UIImage(data: imageData)!)
+                                            
+                                        }
+                                    }
+                                }
+                            }
+                            
+                            
+                            self.iconImage.append(UIImage(data: imageData)!)
+                            
+                        }
+                    })
                    
                 }
                 //println(self.iconId)
@@ -181,11 +217,13 @@ class iconCreateViewController: UIViewController, UICollectionViewDataSource, UI
                 } else {
                     if indexPath.section == 3 {
                         if caption4.count != 0 {
+                             cell.iconImage.image = inActiveImage4[indexPath.row]
                             cell.iconCaption.text = caption4[indexPath.row]
                         }
                     } else {
                         if indexPath.section == 4 {
                             if caption5.count != 0 {
+                                 cell.iconImage.image = inActiveImage5[indexPath.row]
                                 cell.iconCaption.text = caption5[indexPath.row]
                             }
                         } else {
@@ -220,9 +258,18 @@ class iconCreateViewController: UIViewController, UICollectionViewDataSource, UI
 
 
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        keepTrack()
-        println(counter)
+       // keepTrack()
+      
+        var cell:iconCell = iconCollection.dequeueReusableCellWithReuseIdentifier("icon", forIndexPath: indexPath) as! iconCell
+        cell.iconCaption.text = "fdsfsdfds"
+        self.iconCollection.reloadData()
+        println(indexPath)
+        
+        
+
+        
     }
+
 
 
     /*
