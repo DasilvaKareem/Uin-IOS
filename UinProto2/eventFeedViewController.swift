@@ -193,7 +193,20 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         }
     }
     override func viewDidAppear(animated: Bool) {
+        var query = PFQuery(className: "example")
+        query.fromLocalDatastore()
+        query.findObjectsInBackgroundWithBlock({
+            (lol:[AnyObject]!, error:NSError!)-> Void in
+            if error == nil {
+                for object in lol {
+                    println(object["data"])
+                }
+            }
+            
+        })
+        println()
         
+        println()
     }
     
     //2 nav buttons 1 leads to settings while the other send to log in

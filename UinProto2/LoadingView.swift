@@ -14,7 +14,7 @@ class LoadingView: UIViewController {
     var tried = false
     override func viewDidLoad() {
         super.viewDidLoad()
-      
+        getIcons()
         // Do any additional setup after loading the view.
     }
     override func viewDidAppear(animated: Bool) {
@@ -22,7 +22,7 @@ class LoadingView: UIViewController {
         
         spinner.startAnimating()
         if PFUser.currentUser() != nil {
-               PFUser.logOut()
+            
             var userTimeCheck = PFUser.currentUser()
             if userTimeCheck["tempAccounts"] as! Bool == true {
                 PFUser.logOut()
@@ -84,11 +84,39 @@ class LoadingView: UIViewController {
         }
 
     }
+    
+    func getIcons(){
+        var activeImage = [UIImage]()
+        var inActiveImage = [UIImage]()
+        var query = PFQuery(className: "EventTag")
+         query.findObjectsInBackgroundWithBlock({
+            (objects:[AnyObject]!, error:NSError!) -> Void in
+            if error == nil {
+                for object in objects {
+                    println(object)
+                    var iconCollection = PFObject(className: "kareem")
+                    iconCollection["caption"] = object["caption"] as! String
+                    iconCollection["activeImage"] = object["activeImage"] as! PFFile
+                    iconCollection["inactiveImage"] = object["inactiveImage"] as! PFFile
+                    iconCollection["tagid"] = object["tagId"] as! Int
+                    iconCollection.pin()
+                    
+                }
+            
+            } else {
+                
+            }
+        })
+        
+        
+        
+        
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+        
     }
-    
 
     /*
     // MARK: - Navigation

@@ -62,7 +62,8 @@ class iconCreateViewController: UIViewController, UICollectionViewDataSource, UI
     
     //Gets data from parse and display images into collection view
     func getIcons(){
-        var query = PFQuery(className: "EventTag")
+        var query = PFQuery(className: "kareem")
+        query.fromLocalDatastore()
         query.findObjectsInBackgroundWithBlock({
             (objects:[AnyObject]! , error: NSError!) -> Void in
             if error == nil {
@@ -70,20 +71,21 @@ class iconCreateViewController: UIViewController, UICollectionViewDataSource, UI
                 var placeHolder = (PFFile)()
                 println("got objects")
                 for object in objects {
+                    println(object)
                     if self.iconId.count > 3 {
                         if self.iconId2.count > 3 {
                             if self.iconId3.count > 3 {
                                 if self.iconId4.count > 3 {
-                                    self.iconId5.append(object["tagId"] as! Int)
+                                    self.iconId5.append(object["tagid"] as! Int)
                                 }
-                                self.iconId4.append(object["tagId"] as! Int)
+                                self.iconId4.append(object["tagid"] as! Int)
                             }
-                              self.iconId3.append(object["tagId"] as! Int)
+                              self.iconId3.append(object["tagid"] as! Int)
                             
                         }
-                         self.iconId2.append(object["tagId"] as! Int)
+                         self.iconId2.append(object["tagid"] as! Int)
                     }
-                    self.iconId.append(object["tagId"] as! Int) //Get tag id
+                    self.iconId.append(object["tagid"] as! Int) //Get tag id
            
                     if self.caption.count > 3 {
                         if self.caption2.count > 3 {
@@ -107,7 +109,7 @@ class iconCreateViewController: UIViewController, UICollectionViewDataSource, UI
 
                     //Gets the inactive from parse and makes into an image
                     placeHolder = object["inactiveImage"] as! PFFile
-                   /* placeHolder.getDataInBackgroundWithBlock({
+                   placeHolder.getDataInBackgroundWithBlock({
                         (imageData: NSData!, error: NSError!) -> Void in
                         if error == nil {
                             
@@ -122,12 +124,12 @@ class iconCreateViewController: UIViewController, UICollectionViewDataSource, UI
                             self.inActiveImage.append(UIImage(data: imageData)!)
 
                         }
-                    })*/
+                    })
                     
                    
                 }
                 //println(self.iconId)
-                //println(self.caption)
+                println(self.caption)
                self.iconCollection.reloadData()
             } else {
                 println(error.debugDescription)
@@ -158,21 +160,21 @@ class iconCreateViewController: UIViewController, UICollectionViewDataSource, UI
         
         if indexPath.section == 0 {
             if caption.count != 0 {
-                // cell.iconImage.image = inActiveImage[indexPath.row]
+                 cell.iconImage.image = inActiveImage[indexPath.row]
               cell.iconCaption.text = caption[indexPath.row]
             }
             
         } else {
             if indexPath.section == 1 {
                 if caption2.count != 0 {
-                   //  cell.iconImage.image = inActiveImage2[indexPath.row]
+                    cell.iconImage.image = inActiveImage2[indexPath.row]
                     cell.iconCaption.text = caption2[indexPath.row]
                 }
                 
             } else {
                 if indexPath.section == 2 {
                     if caption3.count != 0 {
-                    //    cell.iconImage.image = inActiveImage3[indexPath.row]
+                      cell.iconImage.image = inActiveImage3[indexPath.row]
                         cell.iconCaption.text = caption3[indexPath.row]
                     }
                     
