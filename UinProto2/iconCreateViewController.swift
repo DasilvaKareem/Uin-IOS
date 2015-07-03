@@ -67,9 +67,8 @@ class iconCreateViewController: UIViewController, UICollectionViewDataSource, UI
         var query = PFQuery(className: "kareem")
         query.fromLocalDatastore()
         query.orderByAscending("tagId")
-        query.findObjectsInBackgroundWithBlock({
-            (objects:[AnyObject]! , error: NSError!) -> Void in
-            if error == nil {
+        var objects = query.findObjects()
+
                 
                 var placeHolder = (PFFile)()
                 println("got objects")
@@ -170,10 +169,7 @@ class iconCreateViewController: UIViewController, UICollectionViewDataSource, UI
                 //println(self.iconId)
                 println(self.caption)
                self.iconCollection.reloadData()
-            } else {
-                println(error.debugDescription)
-            }
-        })
+        
     }
     override func viewDidLoad() {
         

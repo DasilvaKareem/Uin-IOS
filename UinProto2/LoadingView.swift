@@ -89,6 +89,7 @@ class LoadingView: UIViewController {
         var activeImage = [UIImage]()
         var inActiveImage = [UIImage]()
         var query = PFQuery(className: "EventTag")
+        query.orderByAscending("tagid")
          query.findObjectsInBackgroundWithBlock({
             (objects:[AnyObject]!, error:NSError!) -> Void in
             if error == nil {
