@@ -95,12 +95,17 @@ class LoadingView: UIViewController {
             if error == nil {
                 for object in objects {
                     println(object)
-                    var iconCollection = PFObject(className: "kareem")
+                  var iconCollection = PFObject(className: "kareem")
                     iconCollection["caption"] = object["caption"] as! String
                     iconCollection["activeImage"] = object["activeImage"] as! PFFile
-                    iconCollection["inactiveImage"] = object["inactiveImage"] as! PFFile
+                    var data =  object["activeImage"] as! PFFile
+                    
+                    iconCollection["activeImage"] = data.getData()
+                    var data2 = object["inactiveImage"] as! PFFile
+                    iconCollection["inactiveImage"] = data2.getData()
                     iconCollection["tagid"] = object["tagId"] as! Int
-                    iconCollection.pin()
+                    iconCollection.pinWithName("poop")
+                    
                     
                 }
             

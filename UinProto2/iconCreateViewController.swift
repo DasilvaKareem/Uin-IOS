@@ -65,7 +65,7 @@ class iconCreateViewController: UIViewController, UICollectionViewDataSource, UI
     //Gets data from parse and display images into collection view
     func getIcons(){
         var query = PFQuery(className: "kareem")
-        query.fromLocalDatastore()
+        query.fromLocalDatastore().fromPinWithName("poop")
         query.orderByAscending("tagId")
         var objects = query.findObjects()
 
@@ -110,22 +110,20 @@ class iconCreateViewController: UIViewController, UICollectionViewDataSource, UI
 
 
                     //Gets the inactive from parse and makes into an image
-                    placeHolder = object["inactiveImage"] as! PFFile
-                   placeHolder.getDataInBackgroundWithBlock({
-                        (imageData: NSData!, error: NSError!) -> Void in
-                        if error == nil {
+                  
+                 
                             
                             if self.inActiveImage.count > 3 {
                                 if self.inActiveImage2.count > 3 {
-                                    self.inActiveImage3.append(UIImage(data: imageData)!)
+                                    self.inActiveImage3.append(UIImage(data: object["inactiveImage"] as! NSData)!)
                                 }
-                                self.inActiveImage2.append(UIImage(data: imageData)!)
+                                self.inActiveImage2.append(UIImage(data: object["inactiveImage"] as! NSData)!)
                                 if self.inActiveImage3.count > 3 {
-                                    self.inActiveImage4.append(UIImage(data: imageData)!)
+                                    self.inActiveImage4.append(UIImage(data: object["inactiveImage"] as! NSData)!)
                                     if self.inActiveImage4.count > 3 {
-                                        self.inActiveImage5.append(UIImage(data: imageData)!)
+                                        self.inActiveImage5.append(UIImage(data: object["inactiveImage"] as! NSData)!)
                                         if self.inActiveImage5.count > 3 {
-                                            self.inActiveImage6.append(UIImage(data: imageData)!)
+                                            self.inActiveImage6.append(UIImage(data: object["inactiveImage"] as! NSData)!)
                                             
                                         }
                                     }
@@ -133,26 +131,21 @@ class iconCreateViewController: UIViewController, UICollectionViewDataSource, UI
                             }
                           
                           
-                            self.inActiveImage.append(UIImage(data: imageData)!)
+                            self.inActiveImage.append(UIImage(data:object["inactiveImage"] as! NSData)!)
 
-                        }
-                    })
-                    placeHolder = object["activeImage"] as! PFFile
-                    placeHolder.getDataInBackgroundWithBlock({
-                        (imageData: NSData!, error: NSError!) -> Void in
-                        if error == nil {
-                            
+                 
+                    
                             if self.iconImage.count > 3 {
                                 if self.iconImage2.count > 3 {
-                                    self.iconImage3.append(UIImage(data: imageData)!)
+                                    self.iconImage3.append(UIImage(data: object["activeImage"] as! NSData)!)
                                 }
-                                self.iconImage2.append(UIImage(data: imageData)!)
+                                self.iconImage2.append(UIImage(data: object["activeImage"] as! NSData)!)
                                 if self.iconImage3.count > 3 {
-                                    self.iconImage4.append(UIImage(data: imageData)!)
+                                    self.iconImage4.append(UIImage(data: object["activeImage"] as! NSData)!)
                                     if self.iconImage4.count > 3 {
-                                        self.iconImage5.append(UIImage(data: imageData)!)
+                                        self.iconImage5.append(UIImage(data: object["activeImage"] as! NSData)!)
                                         if self.iconImage5.count > 3 {
-                                            self.iconImage6.append(UIImage(data: imageData)!)
+                                            self.iconImage6.append(UIImage(data: object["activeImage"] as! NSData)!)
                                             
                                         }
                                     }
@@ -160,10 +153,8 @@ class iconCreateViewController: UIViewController, UICollectionViewDataSource, UI
                             }
                             
                             
-                            self.iconImage.append(UIImage(data: imageData)!)
-                            
-                        }
-                    })
+                            self.iconImage.append(UIImage(data: object["activeImage"] as! NSData)!)
+                  
                    
                 }
                 //println(self.iconId)
@@ -263,6 +254,7 @@ class iconCreateViewController: UIViewController, UICollectionViewDataSource, UI
         
         if indexPath.section == 0 {
             if caption.count != 0 {
+                `
                 cell.iconImage.image = iconImage[indexPath.row]
                 tags.append(self.iconId[indexPath.row])
             }
