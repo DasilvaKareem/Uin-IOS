@@ -79,10 +79,16 @@ class iconCreateViewController: UIViewController, UICollectionViewDataSource, UI
                 println("got objects")
                 for object in objects {
                     println(object)
-                    if self.iconId.count > 3 {
-                        if self.iconId2.count > 3 {
-                            if self.iconId3.count > 3 {
-                                if self.iconId4.count > 3 {
+                    if self.iconId.count > 2 {
+                        if self.iconId2.count > 2 {
+                            if self.iconId3.count > 2 {
+                                if self.iconId4.count > 2 {
+                                    if self.iconId5.count > 2  {
+                                        if self.iconId6.count > 2  {
+                                            self.iconId7.append(object["tagid"] as! Int)
+                                        }
+                                        self.iconId6.append(object["tagid"] as! Int)
+                                    }
                                     self.iconId5.append(object["tagid"] as! Int)
                                 }
                                 self.iconId4.append(object["tagid"] as! Int)
@@ -91,14 +97,19 @@ class iconCreateViewController: UIViewController, UICollectionViewDataSource, UI
                             
                         }
                          self.iconId2.append(object["tagid"] as! Int)
+                    } else {
+                          self.iconId.append(object["tagid"] as! Int) //Get tag id
                     }
-                    self.iconId.append(object["tagid"] as! Int) //Get tag id
+                  
            
                     if self.caption.count > 2  {
-                        if self.caption2.count > 3 {
-                            if self.caption3.count > 3 {
-                                if self.caption4.count > 3 {
-                                    if self.caption5.count > 3 {
+                        if self.caption2.count > 2 {
+                            if self.caption3.count > 2 {
+                                if self.caption4.count > 2 {
+                                    if self.caption5.count > 2 {
+                                        if self.caption6.count > 2 {
+                                            self.caption7.append(object["caption"] as! String)
+                                        }
                                         self.caption6.append(object["caption"] as! String)
                                     }
                                     self.caption5.append(object["caption"] as! String)
@@ -138,32 +149,36 @@ class iconCreateViewController: UIViewController, UICollectionViewDataSource, UI
                     } else {
                           self.inActiveImage.append(UIImage(data:object["inactiveImage"] as! NSData)!)
                     }
-                    pr
+                    
                     println(inActiveImage.count)
                           
                     
 
                  
                     
-                            if self.iconImage.count > 3 {
-                                if self.iconImage2.count > 3 {
-                                    self.iconImage3.append(UIImage(data: object["activeImage"] as! NSData)!)
-                                }
-                                self.iconImage2.append(UIImage(data: object["activeImage"] as! NSData)!)
-                                if self.iconImage3.count > 3 {
-                                    self.iconImage4.append(UIImage(data: object["activeImage"] as! NSData)!)
-                                    if self.iconImage4.count > 3 {
-                                        self.iconImage5.append(UIImage(data: object["activeImage"] as! NSData)!)
-                                        if self.iconImage5.count > 3 {
-                                            self.iconImage6.append(UIImage(data: object["activeImage"] as! NSData)!)
-                                            
+                    if self.iconImage.count >= 3 {
+                        
+                        if self.iconImage2.count >= 3 {
+                            if self.iconImage3.count >= 3 {
+                                if self.iconImage4.count >= 3 {
+                                    if self.iconImage5.count >= 3 {
+                                        if self.iconImage6.count >= 3 {
+                                            self.iconImage7.append(UIImage(data: object["activeImage"] as! NSData)!)
                                         }
+                                        self.iconImage6.append(UIImage(data: object["activeImage"] as! NSData)!)
                                     }
+                                    self.iconImage5.append(UIImage(data: object["activeImage"] as! NSData)!)
                                 }
+                                self.iconImage4.append(UIImage(data: object["activeImage"] as! NSData)!)
                             }
-                            
-                            
-                            self.iconImage.append(UIImage(data: object["activeImage"] as! NSData)!)
+                            self.iconImage3.append(UIImage(data: object["activeImage"] as! NSData)!)
+                        }
+                        
+                        self.iconImage2.append(UIImage(data: object["activeImage"] as! NSData)!)
+                    } else {
+                        self.iconImage.append(UIImage(data:object["activeImage"] as! NSData)!)
+                    }
+
                   
                    
                 }
@@ -192,7 +207,7 @@ class iconCreateViewController: UIViewController, UICollectionViewDataSource, UI
         let cell:iconCell = iconCollection.dequeueReusableCellWithReuseIdentifier("icon", forIndexPath: indexPath) as! iconCell
         
       
-        println(indexPath.section)
+        println(caption3.count)
         
         if indexPath.section == 0 {
             if caption.count != 0 {
@@ -229,12 +244,12 @@ class iconCreateViewController: UIViewController, UICollectionViewDataSource, UI
                         } else {
                             if indexPath.section == 5 {
                                 if caption6.count != 0 {
-                                   // cell.iconCaption.text = caption6[indexPath.row]
+                                   cell.iconCaption.text = caption6[indexPath.row]
                                    cell.iconImage.image = inActiveImage6[indexPath.row]
                                 }
                             } else {
                                 if indexPath.section == 6 {
-                                   
+                                    cell.iconCaption.text = caption7[indexPath.row]
                                     cell.iconImage.image = inActiveImage7[indexPath.row]
                                 }
                             }
@@ -269,8 +284,7 @@ class iconCreateViewController: UIViewController, UICollectionViewDataSource, UI
         var cell:iconCell = iconCollection.cellForItemAtIndexPath(indexPath) as! iconCell
         
         
-        //only allows 3 icons to be selected
-        if tags.count < 3 {
+        //only allows 3 icons to be selected also selects icons
             
             if indexPath.section == 0 {
                 if caption.count != 0 {
@@ -297,34 +311,144 @@ class iconCreateViewController: UIViewController, UICollectionViewDataSource, UI
                 
             } else {
                 if indexPath.section == 1 {
-                    if caption2.count != 0 {
-                        cell.iconImage.image = iconImage2[indexPath.row]
-                        tags.append(self.iconId2[indexPath.row])
+                    if caption.count != 0 {
+                        //Checks if the tag is already selected
+                        if cell.iconImage.image == iconImage2[indexPath.row] {
+                            //the icon is already clicked
+                            cell.iconImage.image = inActiveImage2[indexPath.row]
+                            //find the same tag id then removes it
+                            var i = 0
+                            for tag in tags {
+                                if tag == iconId2[indexPath.row] {
+                                    tags.removeAtIndex(i)
+                                }
+                                i++
+                            }
+                        } else {
+                            //the icon is not selected
+                            cell.iconImage.image = iconImage2[indexPath.row]
+                            tags.append(self.iconId[indexPath.row])
+                        }
+                        
+                        
                     }
                     
                 } else {
                     if indexPath.section == 2 {
-                        if caption3.count != 0 {
-                            cell.iconImage.image = iconImage3[indexPath.row]
-                            tags.append(self.iconId3[indexPath.row])
+                        if caption.count != 0 {
+                            //Checks if the tag is already selected
+                            if cell.iconImage.image == iconImage3[indexPath.row] {
+                                //the icon is already clicked
+                                cell.iconImage.image = inActiveImage3[indexPath.row]
+                                //find the same tag id then removes it
+                                var i = 0
+                                for tag in tags {
+                                    if tag == iconId3[indexPath.row] {
+                                        tags.removeAtIndex(i)
+                                    }
+                                    i++
+                                }
+                            } else {
+                                //the icon is not selected
+                                cell.iconImage.image = iconImage3[indexPath.row]
+                                tags.append(self.iconId3[indexPath.row])
+                            }
+                            
+                            
                         }
                         
                     } else {
                         if indexPath.section == 3 {
-                            if caption4.count != 0 {
-                                cell.iconImage.image = iconImage4[indexPath.row]
-                                tags.append(self.iconId4[indexPath.row])
+                            if caption.count != 0 {
+                                //Checks if the tag is already selected
+                                if cell.iconImage.image == iconImage4[indexPath.row] {
+                                    //the icon is already clicked
+                                    cell.iconImage.image = inActiveImage4[indexPath.row]
+                                    //find the same tag id then removes it
+                                    var i = 0
+                                    for tag in tags {
+                                        if tag == iconId[indexPath.row] {
+                                            tags.removeAtIndex(i)
+                                        }
+                                        i++
+                                    }
+                                } else {
+                                    //the icon is not selected
+                                    cell.iconImage.image = iconImage4[indexPath.row]
+                                    tags.append(self.iconId4[indexPath.row])
+                                }
+                                
+                                
                             }
                         } else {
                             if indexPath.section == 4 {
-                                if caption5.count != 0 {
-                                    cell.iconImage.image = iconImage5[indexPath.row]
-                                    tags.append(self.iconId5[indexPath.row])
+                                if caption.count != 0 {
+                                    //Checks if the tag is already selected
+                                    if cell.iconImage.image == iconImage5[indexPath.row] {
+                                        //the icon is already clicked
+                                        cell.iconImage.image = inActiveImage5[indexPath.row]
+                                        //find the same tag id then removes it
+                                        var i = 0
+                                        for tag in tags {
+                                            if tag == iconId5[indexPath.row] {
+                                                tags.removeAtIndex(i)
+                                            }
+                                            i++
+                                        }
+                                    } else {
+                                        //the icon is not selected
+                                        cell.iconImage.image = iconImage5[indexPath.row]
+                                        tags.append(self.iconId[indexPath.row])
+                                    }
+                                    
+                                    
                                 }
                             } else {
                                 if indexPath.section == 5 {
-                                    if caption6.count != 0 {
-                                        // cell.iconCaption.text = caption6[indexPath.row]
+                                    if caption.count != 0 {
+                                        //Checks if the tag is already selected
+                                        if cell.iconImage.image == iconImage6[indexPath.row] {
+                                            //the icon is already clicked
+                                            cell.iconImage.image = inActiveImage6[indexPath.row]
+                                            //find the same tag id then removes it
+                                            var i = 0
+                                            for tag in tags {
+                                                if tag == iconId6[indexPath.row] {
+                                                    tags.removeAtIndex(i)
+                                                }
+                                                i++
+                                            }
+                                        } else {
+                                            //the icon is not selected
+                                            cell.iconImage.image = iconImage6[indexPath.row]
+                                            tags.append(self.iconId6[indexPath.row])
+                                        }
+                                        
+                                        
+                                    }
+                                } else {
+                                    if indexPath.section == 6 {
+                                        if caption.count != 0 {
+                                            //Checks if the tag is already selected
+                                            if cell.iconImage.image == iconImage7[indexPath.row] {
+                                                //the icon is already clicked
+                                                cell.iconImage.image = inActiveImage7[indexPath.row]
+                                                //find the same tag id then removes it
+                                                var i = 0
+                                                for tag in tags {
+                                                    if tag == iconId7[indexPath.row] {
+                                                        tags.removeAtIndex(i)
+                                                    }
+                                                    i++
+                                                }
+                                            } else {
+                                                //the icon is not selected
+                                                cell.iconImage.image = iconImage7[indexPath.row]
+                                                tags.append(self.iconId7[indexPath.row])
+                                            }
+                                            
+                                            
+                                        }
                                     }
                                 }
                                 
@@ -337,7 +461,7 @@ class iconCreateViewController: UIViewController, UICollectionViewDataSource, UI
             
 
             println(tags)
-        }
+       
         
     }
 
