@@ -63,7 +63,14 @@ class iconCreateViewController: UIViewController, UICollectionViewDataSource, UI
     
     
     @IBAction func submitData(sender: AnyObject) {
-        self.performSegueWithIdentifier("event4", sender: self)
+        if tags.count != 3 {
+            println("You can only have 3 tags selected")
+        } else {
+          firstIcon = tags[0]
+          secondIcon = tags[1]
+          thirdIcon = tags[2]
+          self.performSegueWithIdentifier("event4", sender: self)
+        }
     }
 
     
@@ -279,13 +286,14 @@ class iconCreateViewController: UIViewController, UICollectionViewDataSource, UI
     var tags = [Int]()
 
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-       // keepTrack()
+        //keepTrack()
       
         var cell:iconCell = iconCollection.cellForItemAtIndexPath(indexPath) as! iconCell
         
         
         //only allows 3 icons to be selected also selects icons
-            
+        
+        
             if indexPath.section == 0 {
                 if caption.count != 0 {
                     //Checks if the tag is already selected

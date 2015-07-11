@@ -18,9 +18,9 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     @IBOutlet var menuTrigger: UIBarButtonItem!
     var refresher: UIRefreshControl!
     //Icons variables
-    var onsite = [Bool]()
-    var paid = [Bool]()
-    var food = [Bool]()
+    var tag1 = [Int]()
+    var tag2 = [Int]()
+    var tag3 = [Int]()
     var shouldKeep = true
     //Text that is display on cell
     var eventTitle = [String]()
@@ -414,9 +414,9 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                         if error == nil {
                             if shouldKeepList == true {
                                 self.eventAddress.removeAll(keepCapacity: true)
-                                self.onsite.removeAll(keepCapacity: true)
-                                self.paid.removeAll(keepCapacity: true)
-                                self.food.removeAll(keepCapacity: true)
+                                self.tag1.removeAll(keepCapacity: true)
+                                self.tag2.removeAll(keepCapacity: true)
+                                self.tag3.removeAll(keepCapacity: true)
                                 self.eventTitle.removeAll(keepCapacity: true)
                                 self.eventlocation.removeAll(keepCapacity: true)
                                 self.eventStartTime.removeAll(keepCapacity: true)
@@ -439,9 +439,9 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                                 self.objectID.append(object.objectId as String)
                                 self.usernames.append(object["author"] as!String)
                                 self.eventTitle.append(object["title"] as!String)
-                                self.food.append(object["hasFood"] as!Bool)
-                                self.paid.append(object["isFree"] as!Bool)
-                                self.onsite.append(object["onCampus"] as!Bool)
+                                self.tag1.append(object["tag1"] as! Int)
+                                self.tag2.append(object["tag2"] as! Int)
+                                self.tag3.append(object["tag3"] as! Int)
                                 self.eventEnd.append(object["end"] as!NSDate)
                                 self.eventStart.append(object["start"] as!NSDate)
                                 self.eventlocation.append(object["location"] as!String)

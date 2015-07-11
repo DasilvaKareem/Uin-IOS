@@ -44,6 +44,9 @@ var gGPS = (PFGeoPoint)()
 var gLocation = (String)()
 var gStart = (NSDate)()
 var gEnd = (NSDate)()
+var firstIcon = (Int)()
+var secondIcon = (Int)()
+var thirdIcon = (Int)()
 
 class eventReview: UIViewController {
     
@@ -79,7 +82,38 @@ class eventReview: UIViewController {
         dateTimeformat.dateStyle = NSDateFormatterStyle.MediumStyle
         start.text =  dateTimeformat.stringFromDate(gStart)
         end.text = dateTimeformat.stringFromDate(gEnd)
+        println(firstIcon)
+        println(secondIcon)
+        println(thirdIcon)
+        
       
+    }
+    func createEvent(){
+        
+        var event = PFObject(className: "Event")
+        event["title"] = gTitle
+        event["description"] = gDescrption
+        event["address"] = gAddress
+        event["author"] = PFUser.currentUser().username
+        event["start"] = gStart
+        event["end"] = gEnd
+        event["isDeleted"] = false
+        event["location"] = gLocation
+        event["isPublic"] = true
+        event["tag1"] = firstIcon
+        event["tag2"] = secondIcon
+        event["tag3"] = thirdIcon
+        event.saveInBackgroundWithBlock({
+            (success:Bool , error:NSError!)-> Void in
+            if error == nil {
+                println("Event is made")
+            } else {
+                println("Event was not made")
+            }
+        })
+        
+        
+        
     }
     override func viewDidLoad() {
         super.viewDidLoad()

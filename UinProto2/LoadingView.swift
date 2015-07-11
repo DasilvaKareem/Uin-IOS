@@ -42,6 +42,7 @@ class LoadingView: UIViewController {
             
             self.performSegueWithIdentifier("login", sender: self)
         } else {
+            getIcons()
             if self.tried == false {
                 let page1:OnboardingContentViewController = OnboardingContentViewController(title: "Welcome to Uin!", body: "Uin lets you explore the world by helping you distribute, discover, or schedule any kind of event.", image: UIImage(named: "uinColorMed"), buttonText: "", action: {
                     
