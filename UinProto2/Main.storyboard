@@ -1887,8 +1887,8 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="36"/>
                                 <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yXZ-Qa-Qy1">
-                                <rect key="frame" x="143" y="322" width="128" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yXZ-Qa-Qy1">
+                                <rect key="frame" x="151" y="322" width="112" height="30"/>
                                 <state key="normal" title="forgot password">
                                     <color key="titleColor" red="0.53333333329999999" green="0.53333333329999999" blue="0.53333333329999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -1903,12 +1903,14 @@
                             <constraint firstItem="eLE-3D-m4D" firstAttribute="leading" secondItem="AOw-nX-tM3" secondAttribute="leadingMargin" id="9Z7-z2-qPL"/>
                             <constraint firstItem="ZvI-wf-h4j" firstAttribute="top" secondItem="eLE-3D-m4D" secondAttribute="bottom" constant="8" id="9o5-vB-VvL"/>
                             <constraint firstItem="X78-Ym-8wj" firstAttribute="top" secondItem="ZvI-wf-h4j" secondAttribute="bottom" constant="8" id="AU8-Af-u1p"/>
+                            <constraint firstAttribute="centerX" secondItem="yXZ-Qa-Qy1" secondAttribute="centerX" id="G9g-yr-25m"/>
                             <constraint firstAttribute="centerX" secondItem="txI-i0-rx0" secondAttribute="centerX" constant="-0.5" id="LF4-0O-rga"/>
                             <constraint firstItem="pxE-9r-tSb" firstAttribute="top" secondItem="txI-i0-rx0" secondAttribute="bottom" constant="11" id="LlU-FT-iuE"/>
                             <constraint firstAttribute="centerX" secondItem="pxE-9r-tSb" secondAttribute="centerX" id="P8h-gh-b9K"/>
                             <constraint firstAttribute="centerX" secondItem="oX0-9p-ll7" secondAttribute="centerX" constant="-0.5" id="PUz-rX-n5v"/>
                             <constraint firstItem="X78-Ym-8wj" firstAttribute="leading" secondItem="AOw-nX-tM3" secondAttribute="leadingMargin" id="RJy-Fe-Nim"/>
                             <constraint firstItem="dqG-0l-fa8" firstAttribute="top" secondItem="X78-Ym-8wj" secondAttribute="bottom" constant="8" id="Vsz-CH-drO"/>
+                            <constraint firstItem="yXZ-Qa-Qy1" firstAttribute="top" secondItem="dqG-0l-fa8" secondAttribute="bottom" constant="8" id="Xqv-5K-YkB"/>
                             <constraint firstAttribute="trailingMargin" secondItem="dqG-0l-fa8" secondAttribute="trailing" constant="-16" id="fnR-nE-9WI"/>
                             <constraint firstItem="pxE-9r-tSb" firstAttribute="top" secondItem="oX0-9p-ll7" secondAttribute="bottom" constant="8" id="fxp-zT-DVE"/>
                             <constraint firstItem="ZvI-wf-h4j" firstAttribute="leading" secondItem="AOw-nX-tM3" secondAttribute="leadingMargin" constant="-16" id="hbf-1W-v0V"/>
