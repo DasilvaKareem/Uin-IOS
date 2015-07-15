@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="3w6-nh-uVA">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="0me-jO-edR">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
@@ -321,31 +321,16 @@
                                     <segue destination="6lS-Ca-3sI" kind="show" id="hit-n2-Ivo"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="whiteUin" translatesAutoresizingMaskIntoConstraints="NO" id="Zkc-Og-ftw">
-                                <rect key="frame" x="179" y="33" width="56" height="56"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" background="whiteBox" translatesAutoresizingMaskIntoConstraints="NO" id="pUy-Ei-U2x">
+                                <rect key="frame" x="0.0" y="286" width="414" height="79"/>
+                                <color key="tintColor" red="0.20392156859999999" green="0.49803921569999998" blue="0.74901960779999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="56" id="4Xi-xZ-Xhc"/>
-                                    <constraint firstAttribute="width" constant="56" id="ZfQ-Fw-4ni"/>
+                                    <constraint firstAttribute="height" constant="79" id="7hH-gz-D94"/>
                                 </constraints>
                             </imageView>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="enter email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="pUy-Ei-U2x">
                                 <rect key="frame" x="61" y="237" width="292" height="30"/>
                                 <color key="tintColor" red="0.20392156859999999" green="0.49803921569999998" blue="0.74901960779999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="79" id="7hH-gz-D94"/>
-                                </constraints>
-                                <color key="textColor" red="0.27058823529999998" green="0.27058823529999998" blue="0.27058823529999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="39"/>
-                                <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
-                            </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Oops! Did you forget your password?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iNN-ra-y08">
-                                <rect key="frame" x="16" y="74" width="382" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.40784313729999999" green="0.40784313729999999" blue="0.40784313729999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="It's fine. We forget ours sometimes, too!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L2A-Ni-pZ3">
-                                <rect key="frame" x="28" y="113" width="358" height="51"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="51" id="4aP-qT-XxB"/>
                                 </constraints>
@@ -4710,6 +4695,25 @@
             </objects>
             <point key="canvasLocation" x="-3190" y="1580"/>
         </scene>
+        <!--View Controller-->
+        <scene sceneID="4rq-js-yUD">
+            <objects>
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="jAl-S5-1m7" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="OeY-RP-f80"/>
+                        <viewControllerLayoutGuide type="bottom" id="4wp-AQ-npd"/>
+                    </layoutGuides>
+                    <view key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="jJb-P6-3S8">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <toolbarItems/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jc5-X5-7YS" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="89" y="95"/>
+        </scene>
     </scenes>
     <resources>
         <image name="add" width="21" height="20"/>
@@ -4751,6 +4755,7 @@
         <segue reference="HoU-hm-rQm"/>
         <segue reference="HpO-lG-beR"/>
         <segue reference="FLk-RB-cnt"/>
+        <segue reference="5Lw-yn-nUI"/>
         <segue reference="0eG-3o-QAg"/>
         <segue reference="2sm-MT-g3M"/>
         <segue reference="iGO-0G-7z5"/>
