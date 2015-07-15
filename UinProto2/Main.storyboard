@@ -172,7 +172,7 @@
                                     </mask>
                                 </variation>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bmU-eU-Jo8">
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bmU-eU-Jo8">
                                 <rect key="frame" x="144" y="390" width="126" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="9gM-jW-Xqq"/>
@@ -1125,10 +1125,10 @@
                         <viewControllerLayoutGuide type="bottom" id="Deu-p4-ZlA"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="o6Q-YF-Ra6">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hfP-J6-hJh">
+                            <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hfP-J6-hJh">
                                 <rect key="frame" x="0.0" y="64" width="414" height="672"/>
                             </imageView>
                         </subviews>
@@ -1393,7 +1393,7 @@
         <!--Verify Email-->
         <scene sceneID="wr8-IY-Lp0">
             <objects>
-                <viewController title="Verify Email" id="aFu-HP-nKG" sceneMemberID="viewController">
+                <viewController title="Verify Email" id="aFu-HP-nKG" customClass="registrationProcess" customModule="UinProto2" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="IZi-zD-06P"/>
                         <viewControllerLayoutGuide type="bottom" id="a2Q-vH-Hu9"/>
@@ -1409,16 +1409,6 @@
                                     <constraint firstAttribute="width" constant="48" id="Wf2-dl-lgd"/>
                                 </constraints>
                             </imageView>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" background="whiteBox" translatesAutoresizingMaskIntoConstraints="NO" id="ldZ-UT-LBx">
-                                <rect key="frame" x="0.0" y="106" width="368" height="79"/>
-                                <color key="tintColor" red="0.25098039220000001" green="0.57254901960000004" blue="0.77647058820000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="79" id="hPC-nO-ji3"/>
-                                </constraints>
-                                <color key="textColor" red="0.27058823529411763" green="0.27058823529411763" blue="0.27058823529411763" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="36"/>
-                                <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
-                            </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=".edu email" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kAr-gU-PWF">
                                 <rect key="frame" x="16" y="76" width="112" height="21"/>
                                 <constraints>
@@ -1439,6 +1429,9 @@
                                     <color key="titleColor" red="0.25098039215686274" green="0.5725490196078431" blue="0.77647058823529413" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="nextView:" destination="aFu-HP-nKG" eventType="touchUpInside" id="qIi-AU-60G"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please check your inbox and confirm your email before proceeding." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aLE-B9-K1b">
                                 <rect key="frame" x="88" y="199" width="238" height="88"/>
@@ -1479,6 +1472,9 @@
                                 <state key="normal" image="arrow1">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="verifyEmail:" destination="aFu-HP-nKG" eventType="touchUpInside" id="RJT-sx-Z8g"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Vh-m4-bTL">
                                 <rect key="frame" x="16" y="20" width="83" height="30"/>
@@ -1492,6 +1488,16 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" background="whiteBox" translatesAutoresizingMaskIntoConstraints="NO" id="ldZ-UT-LBx">
+                                <rect key="frame" x="0.0" y="106" width="368" height="79"/>
+                                <color key="tintColor" red="0.25098039220000001" green="0.57254901960000004" blue="0.77647058820000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="79" id="hPC-nO-ji3"/>
+                                </constraints>
+                                <color key="textColor" red="0.27058823529411763" green="0.27058823529411763" blue="0.27058823529411763" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="36"/>
+                                <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" red="0.91764705882352937" green="0.91764705882352937" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -1517,6 +1523,10 @@
                         </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
+                    <connections>
+                        <outlet property="emailSignUp" destination="ldZ-UT-LBx" id="13P-NA-toB"/>
+                        <outlet property="emailVerify" destination="Y2a-VT-boh" id="y0s-5e-Vxw"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="578-LU-IBJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1525,7 +1535,7 @@
         <!--Basic Info-->
         <scene sceneID="zq9-5n-XSV">
             <objects>
-                <viewController title="Basic Info" id="e1I-NR-mt6" sceneMemberID="viewController">
+                <viewController title="Basic Info" id="e1I-NR-mt6" customClass="basicSignUp" customModule="UinProto2" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="TpA-7i-eVA"/>
                         <viewControllerLayoutGuide type="bottom" id="HKS-iH-1Ef"/>
@@ -1614,21 +1624,21 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" adjustsFontSizeToFit="NO" minimumFontSize="17" background="whiteBox" translatesAutoresizingMaskIntoConstraints="NO" id="qFW-Mq-VXx">
-                                <rect key="frame" x="0.0" y="300" width="414" height="79"/>
-                                <color key="tintColor" red="0.25098039220000001" green="0.57254901960000004" blue="0.77647058820000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="79" id="pkL-TU-NXx"/>
-                                </constraints>
-                                <color key="textColor" red="0.27058823529999998" green="0.27058823529999998" blue="0.27058823529999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="36"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" adjustsFontSizeToFit="NO" minimumFontSize="17" background="whiteBox" translatesAutoresizingMaskIntoConstraints="NO" id="NQV-KD-QD1">
                                 <rect key="frame" x="0.0" y="183" width="414" height="79"/>
                                 <color key="tintColor" red="0.25098039220000001" green="0.57254901960000004" blue="0.77647058820000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="79" id="eoy-XV-I78"/>
+                                </constraints>
+                                <color key="textColor" red="0.27058823529999998" green="0.27058823529999998" blue="0.27058823529999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="36"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" adjustsFontSizeToFit="NO" minimumFontSize="17" background="whiteBox" translatesAutoresizingMaskIntoConstraints="NO" id="qFW-Mq-VXx">
+                                <rect key="frame" x="0.0" y="300" width="414" height="79"/>
+                                <color key="tintColor" red="0.25098039220000001" green="0.57254901960000004" blue="0.77647058820000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="79" id="pkL-TU-NXx"/>
                                 </constraints>
                                 <color key="textColor" red="0.27058823529999998" green="0.27058823529999998" blue="0.27058823529999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="36"/>
@@ -1782,10 +1792,10 @@
             </objects>
             <point key="canvasLocation" x="-5230" y="338"/>
         </scene>
-        <!--View Controller-->
+        <!--Login-->
         <scene sceneID="yUK-jY-boG">
             <objects>
-                <viewController id="tN0-2J-GuP" sceneMemberID="viewController">
+                <viewController id="tN0-2J-GuP" customClass="Login" customModule="UinProto2" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="kwh-60-Wgs"/>
                         <viewControllerLayoutGuide type="bottom" id="psI-Qi-T1A"/>
@@ -1893,6 +1903,9 @@
                                     <color key="titleColor" red="0.53333333329999999" green="0.53333333329999999" blue="0.53333333329999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <segue destination="nwH-4U-6D2" kind="show" id="zSD-r8-NGg"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="0.91764705882352937" green="0.91764705882352937" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1928,7 +1941,7 @@
         <!--More Info-->
         <scene sceneID="SuY-er-xkn">
             <objects>
-                <viewController title="More Info" id="hve-Aa-xGt" sceneMemberID="viewController">
+                <viewController title="More Info" id="hve-Aa-xGt" customClass="extraSignUp" customModule="UinProto2" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="rpf-vJ-eT0"/>
                         <viewControllerLayoutGuide type="bottom" id="1WI-WV-u8U"/>
@@ -2822,7 +2835,7 @@
                         <viewControllerLayoutGuide type="bottom" id="aqp-ks-fTf"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="ZDo-64-3If">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -4247,7 +4260,7 @@
             <objects>
                 <tableViewController id="Jmg-T4-Y6o" customClass="notificationsView" customModule="UinProto2" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="71" sectionHeaderHeight="22" sectionFooterHeight="22" id="z0l-re-tqW">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="672"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -4461,13 +4474,14 @@
         <image name="whiteUin" width="68" height="64"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="hit-n2-Ivo"/>
+        <segue reference="Pnz-vN-aTm"/>
         <segue reference="5p4-aC-s6h"/>
+        <segue reference="hit-n2-Ivo"/>
+        <segue reference="zSD-r8-NGg"/>
         <segue reference="FLk-RB-cnt"/>
         <segue reference="5Lw-yn-nUI"/>
         <segue reference="0eG-3o-QAg"/>
         <segue reference="4Rv-40-Ngm"/>
-        <segue reference="Pnz-vN-aTm"/>
         <segue reference="dfA-l9-WUl"/>
         <segue reference="Icg-Rt-Vk3"/>
     </inferredMetricsTieBreakers>
