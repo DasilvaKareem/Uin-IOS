@@ -425,8 +425,7 @@
 				2617C29D1C72B0E8C7FBE9FA /* Pods.debug.xcconfig */,
 				1E5F402BCD8E55BB625D4A7A /* Pods.release.xcconfig */,
 			);
-			name = Pods;
-			path = "Target Support Files/Pods";
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		720F5312242C89CF671791AE /* Pods */ = {
@@ -674,7 +673,8 @@
 			children = (
 				2B94CD254106356219F529DA /* Pods */,
 			);
-			name = "Targets Support Files";
+			name = "Support Files";
+			path = "../Target Support Files/Pods-SWRevealViewController";
 			sourceTree = "<group>";
 		};
 		E8100E5EA71FB2A113E409E5 /* Support Files */ = {
@@ -1008,7 +1008,7 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 			};
-			name = Release;
+			name = Debug;
 		};
 		300481378C422E4E78B69265 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -1028,6 +1028,7 @@
 		};
 		48FCDAA899F77F7B2E9CDE86 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C504B08AA88078790991C969 /* Pods-Onboard-Private.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -1063,7 +1064,7 @@
 				STRIP_INSTALLED_PRODUCT = NO;
 				SYMROOT = "${SRCROOT}/../build";
 			};
-			name = Debug;
+			name = Release;
 		};
 		5BB337697D9BD7FFD93F1EB3 /* Debug */ = {
 			isa = XCBuildConfiguration;

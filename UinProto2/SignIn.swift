@@ -60,20 +60,24 @@ class SignIn: UIViewController, UITextFieldDelegate {
                     
                     FBRequestConnection.startForMeWithCompletionHandler({
                         connection, result, error in
-                        println(result)
-                        self.userFacebook = result["name"] as!String
-                        self.emailFacebook = result["email"] as!String
-                        user.username = result["name"] as!String
-                        user.email = result["name"] as!String
-                        user.saveInBackgroundWithBlock({
-                            (success:Bool, error:NSError!) -> Void in
-                            if error == nil {
-                                var theMix = Mixpanel.sharedInstance()
-                                theMix.track("Registers Info with Facebook (SI)")
-                                self.performSegueWithIdentifier("register", sender: self)
-                            }
-            
-                        })
+                        if error == nil {
+                            println(result)
+                            user["firstName"] = result["first_name"]
+                            user["lastName"] = result["last_name"]
+                            user["name"] = result["name"]
+                            user.email = result["email"] as!String
+                            user["gender"] = result["gender"]
+                            user.saveInBackgroundWithBlock({
+                                (success:Bool, error:NSError!) -> Void in
+                                if error == nil {
+                                    var theMix = Mixpanel.sharedInstance()
+                                    theMix.track("Registers Info with Facebook (SI)")
+                                    self.performSegueWithIdentifier("login", sender: self)
+                                }
+                                
+                            })
+                        }
+          
                  
                         
                     })

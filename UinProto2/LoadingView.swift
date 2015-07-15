@@ -24,10 +24,10 @@ class LoadingView: UIViewController {
         if PFUser.currentUser() != nil {
             
             var userTimeCheck = PFUser.currentUser()
-            if userTimeCheck["tempAccounts"] as! Bool == true {
+           // if userTimeCheck["tempAccounts"] as! Bool == true {
                 PFUser.logOut()
                 self.performSegueWithIdentifier("createAccount", sender: self)
-            }
+           // }
             userTimeCheck["notificationsTimestamp"] = NSDate()
             userTimeCheck["subscriptionsTimestamp"] = NSDate()
             userTimeCheck["localEventsTimestamp"] = NSDate()

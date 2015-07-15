@@ -2,19 +2,19 @@
 
 [![Build Status](https://travis-ci.org/mamaral/Onboard.svg?branch=master)](https://travis-ci.org/mamaral/Onboard)
 [![License](http://img.shields.io/:license-mit-blue.svg)](http://doge.mit-license.org)
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/mamaral/onboard/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+![Badge w/ Version](https://img.shields.io/cocoapods/v/Onboard.svg)
 
 Onboard provides developers with a quick and easy means to create a beautiful, engaging, and useful onboarding experience with only a few lines of code.
 
-
 ![demo](Screenshots/city.gif)
+![demo](Screenshots/almanac.gif)
 ![demo](Screenshots/solar.gif)
 ![demo](Screenshots/waves.gif)
 ![demo](Screenshots/gemr.gif)
 ![demo](Screenshots/tripnary.gif)
 
 
-Compatibility
+Swift Compatibility
 ====
 
 I currently have implementations written in both Objective-C and Swift, although currently due to time constraints the Swift implementation does not have all of the customization features available in the Objective-C version, namely the skipping feature, customizing different fonts for different components on the same page, etc. I will do my best to get the Swift version to match the Objective-C version as soon as possible, and any pull requests are welcomed in the meantime!
@@ -196,6 +196,13 @@ Thanks to [goelv](https://github.com/goelv) for this! You did a superb job!
 ![demo](Screenshots/tripnary3.PNG)
 ![demo](Screenshots/tripnary4.PNG)
 ![demo](Screenshots/tripnary5.PNG)
+
+[Almanac - coming soon!](https://github.com/rldaulton)
+===
+
+![demo](Screenshots/almanac1.png)
+![demo](Screenshots/almanac2.png)
+![demo](Screenshots/almanac3.png)
 
 More Samples
 =============
