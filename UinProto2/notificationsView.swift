@@ -29,10 +29,10 @@ class notificationsView: UITableViewController {
     
     override func viewDidAppear(animated: Bool) {
         
-        var userTimeCheck = PFUser.currentUser()
+        var userTimeCheck = PFUser.currentUser()!
         userTimeCheck["notificationsTimestamp"] = NSDate()
         userTimeCheck.saveInBackgroundWithBlock({
-            (success:Bool, error:NSError!) -> Void in
+            (success:Bool, error:NSError?) -> Void in
             if error == nil {
                 println("The stamp was updated")
             } else {
@@ -83,9 +83,9 @@ class notificationsView: UITableViewController {
         
         */
         var followQue = PFQuery(className: "Subscription")
-        followQue.whereKey("subscriberID", equalTo: PFUser.currentUser().objectId)
+        followQue.whereKey("subscriberID", equalTo: PFUser.currentUser()?.objectId)
         followQue.findObjectsInBackgroundWithBlock{
-            (objects:[AnyObject]!, folError:NSError!) -> Void in
+            (objects:[AnyObject]?, folError:NSError?) -> Void in
             
             if folError == nil {
                 

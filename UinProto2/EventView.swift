@@ -34,7 +34,7 @@ class postEvent: UIViewController {
     @IBOutlet weak var isSite: UIImageView!
     @IBOutlet weak var isPaid: UIImageView!
     @IBAction func gotoProfile(sender: AnyObject) {
-        if PFUser.currentUser().objectId != userId {
+        if PFUser.currentUser()?.objectId != userId {
             self.performSegueWithIdentifier("gotoprofile", sender: self)
         } else {
             self.performSegueWithIdentifier("editEvent", sender: self)
@@ -72,13 +72,13 @@ class postEvent: UIViewController {
     var endDate = (String)()
     func checkevent(){
         var minique = PFQuery(className: "UserCalendar")
-        minique.whereKey("user", equalTo: PFUser.currentUser().username)
+        minique.whereKey("user", equalTo: PFUser.currentUser()?.username as! String)
        
         minique.whereKey("eventID", equalTo: eventId)
         
         minique.getFirstObjectInBackgroundWithBlock{
             
-            (results:PFObject!, error: NSError!) -> Void in
+            (results:PFObject?, error: NSError?) -> Void in
             
             if error == nil {
                 self.longBar.setImage(UIImage(named: "addedToCalendarBig.png"), forState: UIControlState.Normal)
