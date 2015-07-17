@@ -72,12 +72,13 @@ class postEvent: UIViewController {
     var endDate = (String)()
     func checkevent(){
         var minique = PFQuery(className: "UserCalendar")
-        minique.whereKey("user", equalTo: PFUser.currentUser()?.username as! String)
-       
+        var currentUser = PFUser.currentUser()?.username
+        minique.whereKey("user", equalTo: currentUser!)
+        
         minique.whereKey("eventID", equalTo: eventId)
         
         minique.getFirstObjectInBackgroundWithBlock{
-            
+        
             (results:PFObject?, error: NSError?) -> Void in
             
             if error == nil {
@@ -114,35 +115,20 @@ class postEvent: UIViewController {
     func getEvents() {
        var getEvents = PFQuery(className: "Event")
         getEvents.getObjectInBackgroundWithId(eventId, block: {
-            (result: PFObject!, error: NSError!) -> Void in
+            (result: PFObject?, error: NSError?) -> Void in
             if error == nil {
+                if let result = result as PFObject? {
                 println(result)
                 var dateFormatter = NSDateFormatter()
                 dateFormatter.locale = NSLocale.currentLocale() // Gets current locale and switches
                 dateFormatter.dateFormat = "MMM. dd, yyyy - h:mm a"
-                self.startDate = dateFormatter.stringFromDate(result["start"] as!NSDate) // Creates date
+                self.startDate = dateFormatter.stringFromDate(result["start"] as! NSDate) // Creates date
                 self.endDate = dateFormatter.stringFromDate(result["end"] as!NSDate) // Creates date
                 
 
-                if result["picture"] == nil {
-                    self.imageShower.removeFromSuperview()
-                } else {
-                    self.imageShower.superview
-                    self.imageFile = result["picture"] as! PFFile
-                    self.imageFile.getDataInBackgroundWithBlock({
-                        (imageData: NSData!, error: NSError!) -> Void in
-                        if error == nil {
-                            self.image = UIImage(data: imageData)!
-                            self.picture.image = UIImage(data: imageData)!
-                            
-                            
-                        } else {
-                            println(error)
-                        }
-                    })
-                }
+            
           
-                self.users = result["author"] as!String!
+                self.users = result["author"] as! String
                 self.userId = result["authorID"] as!String!
                 self.address = result["address"] as!String!
                 self.storeLocation = result["location"] as!String!
@@ -156,10 +142,12 @@ class postEvent: UIViewController {
                 self.eventDescription.text = result["description"] as? String
                 
                
-                self.eventId = result.objectId
+                self.eventId = result.objectId!
                 self.putIcons()
             }
+        }
         })
+    
     }
     override func viewDidAppear(animated: Bool) {
      
@@ -239,7 +227,7 @@ class postEvent: UIViewController {
     @IBAction func addtocalendar(sender: AnyObject) {
         
         var que = PFQuery(className: "UserCalendar")
-        que.whereKey("user", equalTo: PFUser.currentUser().username)
+        que.whereKey("user", equalTo: PFUser.currentUser()!.username)
         que.whereKey("author", equalTo: users)
         que.whereKey("eventID", equalTo:eventId)
         que.getFirstObjectInBackgroundWithBlock({

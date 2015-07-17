@@ -12,13 +12,13 @@ class procress {
 
 }
 class registrationProcess: UIViewController {
-    
+   
     @IBOutlet weak var emailSignUp: UITextField!
     @IBOutlet weak var emailVerify: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+       PFUser.logOut()
         // Do any additional setup after loading the view.
     }
     
@@ -33,8 +33,9 @@ class registrationProcess: UIViewController {
             user.username = emailSignUp.text
             user.password = "123Test"
             user.email = emailSignUp.text
+            
             user.signUpInBackgroundWithBlock({
-                (success:Bool, error:NSError!) -> Void in
+                (success:Bool, error:NSError?) -> Void in
                 if error == nil {
                     println("Made temp account")
                 }
@@ -42,13 +43,14 @@ class registrationProcess: UIViewController {
         }
     }
         
-    
+   
     var characterSet:NSCharacterSet = NSCharacterSet(charactersInString: "@memphis.edu")
     @IBAction func nextView(sender: AnyObject) {
-        if ( PFUser.currentUser().email.rangeOfCharacterFromSet(characterSet) != nil) {
-            if PFUser.currentUser()["emailVerifed"] as! Bool == true {
-                println("This guy is ready to procreed")
-            }
+         var user = PFUser.currentUser()
+        
+        
+        if ( user?.email!.rangeOfCharacterFromSet(characterSet) != nil) {
+           
         } else {
             println("you do not have a memphis.edu")
         }

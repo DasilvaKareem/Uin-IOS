@@ -88,8 +88,10 @@ class notificationsView: UITableViewController {
             (objects:[AnyObject]?, folError:NSError?) -> Void in
             
             if folError == nil {
-                
-                for object in objects{
+                if let objects = objects as? [AnyObject] {
+                    
+                }
+                for object in objects {
                     println("it worked")
                     self.folusernames.append(object["publisher"] as!String)
                 }
