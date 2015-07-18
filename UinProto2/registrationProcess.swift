@@ -35,11 +35,13 @@ class homePage: UIViewController {
                             user["lastName"] = result["last_name"]
                             user.username = result["email"] as! String
                             user.email = result["email"] as!String
+                            user["profileReady"] = false
                             user["gender"] = result["gender"]
                             user.saveInBackgroundWithBlock({
                                 (success:Bool, error:NSError!) -> Void in
                                 if error == nil {
                                    println("The user is saved")
+                                    self.performSegueWithIdentifier("push", sender: self)
                                 }
                                 
                             })
@@ -52,7 +54,7 @@ class homePage: UIViewController {
                 } else {
                     
                     NSLog("User is already signed in with us")
-             
+                    self.performSegueWithIdentifier("push", sender: self)
                     
                 }
             }
@@ -87,15 +89,14 @@ class registrationProcess: UIViewController {
     }
     
     @IBAction func verifyEmail(sender: AnyObject) {
-        if ( emailSignUp.text.rangeOfCharacterFromSet(characterSet) != nil) {
-           var user = PFUser()
-            user.username = emailSignUp.text
-            user.password = "123Test"
-            user.email = emailSignUp.text
-            user.signUpInBackgroundWithBlock({
-                (success:Bool, error:NSError!) -> Void in
+        if PFUser.currentUser() != nil {
+            PFUser.currentUser().email = emailSignUp.text
+            PFUser.currentUser().saveInBackgroundWithBlock({
+                (succss:Bool, error:NSError!) -> Void in
                 if error == nil {
-                    println("Made temp account")
+                    println("email is changed")
+                } else {
+                    println("email was not saved")
                 }
             })
         }
@@ -105,10 +106,11 @@ class registrationProcess: UIViewController {
     var characterSet:NSCharacterSet = NSCharacterSet(charactersInString: "@memphis.edu")
     @IBAction func nextView(sender: AnyObject) {
         //Sign user in
-        PFUser.logInWithUsername(PFUser.currentUser().username, password: "123Test")
-        if ( PFUser.currentUser().email.rangeOfString("@memphis.edu") != nil) {
+        
+        if ( PFUser.currentUser().email.rangeOfString(".com") != nil) {
             if PFUser.currentUser()["emailVerified"]  as! Bool == true {
                 println("This guy is ready to procreed")
+                self.performSegueWithIdentifier("push", sender: self)
             } else {
                 println("This guy email is not Verified")
             }
@@ -150,6 +152,7 @@ class basicSignUp: UIViewController {
             (success:Bool, error:NSError!) -> Void in
             if error == nil {
                 println("updated username fields")
+                self.performSegueWithIdentifier("push", sender: self)
             } else {
                 println("Not sucessfuk")
             }
@@ -201,13 +204,14 @@ class extraSignUp: UIViewController, UIPickerViewDataSource, UIPickerViewDelegat
     
     @IBAction func submitData(sender: AnyObject) {
         var user = PFUser.currentUser()
+    
         if gender.selectedSegmentIndex == 1 {
             user["gender"] = "male"
         } else {
             user["gender"] = "female"
         }
         if age.text.toInt() != nil {
-            user["gender"] = age.text.toInt()
+            user["age"] = age.text.toInt()
         } else {
             println("This is not a real number")
         }
@@ -216,9 +220,11 @@ class extraSignUp: UIViewController, UIPickerViewDataSource, UIPickerViewDelegat
         } else {
             
         }
+        user["profileReady"] = true
         user.saveInBackgroundWithBlock({
             (success:Bool, error:NSError!) -> Void in
             if error == nil {
+                self.performSegueWithIdentifier("push", sender: self)
                 println("user object was saved")
             } else {
                 println("user object was not saved")
