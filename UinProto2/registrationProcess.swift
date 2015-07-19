@@ -34,7 +34,7 @@ class homePage: UIViewController {
                             user["firstName"] = result["first_name"]
                             user["lastName"] = result["last_name"]
                             user.username = result["email"] as! String
-                            user.email = result["email"] as!String
+                            
                             user["profileReady"] = false
                             user["gender"] = result["gender"]
                             user.saveInBackgroundWithBlock({
@@ -62,10 +62,85 @@ class homePage: UIViewController {
         })
 
     }
+
+    @IBAction func twitterLogin(sender: AnyObject) {
+      
+        PFTwitterUtils.logInWithBlock {
+            
+            (user: PFUser?, error: NSError?) -> Void in
+            
+            if let user = user {
+                
+           
+                
+                if user.isNew {
+                    var token : NSString = PFTwitterUtils.twitter().authToken
+                    var secret : NSString = PFTwitterUtils.twitter().authTokenSecret
+                    var usern : NSString = PFTwitterUtils.twitter().screenName
+                    
+                    var credential : ACAccountCredential = ACAccountCredential(OAuthToken: token as String, tokenSecret: secret as String)
+                    var verify : NSURL = NSURL(string: "https://api.twitter.com/1.1/account/verify_credentials.json")!
+                    var request : NSMutableURLRequest = NSMutableURLRequest(URL: verify)
+                    
+                    //You don't need this line
+                    //request.HTTPMethod = "GET"
+                    
+                    PFTwitterUtils.twitter().signRequest(request)
+                    
+                    //Using just the standard NSURLResponse.
+                    var response: NSURLResponse? = nil
+                    var error: NSError? = nil
+                    var data = NSURLConnection.sendSynchronousRequest(request,
+                        returningResponse: &response, error: nil) as NSData?
+                    
+                    if error != nil {
+                        println("error \(error)")
+                    } else {
+                        //This will print the status code repsonse. Should be 200.
+                        //You can just println(response) to see the complete server response
+                        println((response as! NSHTTPURLResponse).statusCode)
+                        //Converting the NSData to JSON
+                        let json: NSDictionary = NSJSONSerialization.JSONObjectWithData(data!,
+                            options: NSJSONReadingOptions.MutableContainers, error: nil) as! NSDictionary
+                        println(json)
+                        let url = NSURL(string: json["profile_image_url"] as! String)
+                        let data = NSData(contentsOfURL: url!) //make sure your image in this url does exist, otherwise unwrap in a if let check
+                        
+                        user["profilePicture"] = PFFile(name: "profilePic.jpg", data: data)
+                        user.saveInBackgroundWithBlock({
+                            (success:Bool, error:NSError!) -> Void in
+                            if error == nil {
+                                self.performSegueWithIdentifier("push", sender: self)
+
+                            } else {
+                                
+                            }
+                        })
+                        
+                    }
+                    println("User signed up and logged in with Twitter!")
+                    
+                } else {
+                    
+                    println("User logged in with Twitter!")
+                    
+                }
+                
+            } else {
+                
+                println("Uh oh. The user cancelled the Twitter login.")
+                
+            }
+            
+        }
+        
+
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        PFUser.logOut()
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

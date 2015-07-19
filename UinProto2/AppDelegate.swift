@@ -46,6 +46,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         var theMix = Mixpanel.sharedInstance()
         theMix.track("App Open")
         theMix.flush()
+        PFTwitterUtils.initializeWithConsumerKey("8UEyO7HCWxgi6qtNOrHlkNXQk",  consumerSecret:"UwR53WCjwtmac7RthglrliwtoJuNg8rT3R7bne3pkM5gzhu053")
         
         
         var window: UIWindow?
