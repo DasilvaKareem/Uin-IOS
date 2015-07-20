@@ -122,6 +122,7 @@ class homePage: UIViewController {
                     
                 } else {
                     
+                    self.performSegueWithIdentifier("push", sender: self)
                     println("User logged in with Twitter!")
                     
                 }
@@ -182,7 +183,7 @@ class registrationProcess: UIViewController {
     @IBAction func nextView(sender: AnyObject) {
         //Sign user in
         
-        if ( PFUser.currentUser().email.rangeOfString(".com") != nil) {
+        if ( PFUser.currentUser().email.rangeOfString(".edu") != nil) {
             if PFUser.currentUser()["emailVerified"]  as! Bool == true {
                 println("This guy is ready to procreed")
                 self.performSegueWithIdentifier("push", sender: self)
@@ -218,8 +219,19 @@ class basicSignUp: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    @IBAction func submitData(sender: AnyObject) {
+    func queryData(){
+        var query = PFUser.currentUser()
+        if query["firstName"] != nil {
+            fName.text = query["firstName"] as! String
+        }
+        if query["lasttName"] != nil {
+              lName.text = query["lastName"] as! String
+        }
+        
+      
+        
+    }
+    @IBAction func submitData(sender : AnyObject) {
         var user = PFUser.currentUser()
         user["firstName"] = fName.text.capitalizedString
         user["lName"] = lName.text.capitalizedString
@@ -251,8 +263,8 @@ class extraSignUp: UIViewController, UIPickerViewDataSource, UIPickerViewDelegat
     @IBOutlet weak var classifcation: UIPickerView!
     
     @IBOutlet weak var age: UITextField!
-    var classes = ["FreshMan", "Sophmore", "Junior","Senior", "Graduate"]
-    var userClass = (String)()
+    var classes = ["Freshman", "Sophmore", "Junior","Senior", "Graduate"]
+    var userClass = "Freshman"
     override func viewDidLoad() {
         super.viewDidLoad()
     
@@ -290,11 +302,8 @@ class extraSignUp: UIViewController, UIPickerViewDataSource, UIPickerViewDelegat
         } else {
             println("This is not a real number")
         }
-        if userClass.isEmpty {
-            user["classifcation"] = userClass
-        } else {
-            
-        }
+        
+        user["classifcation"] = userClass
         user["profileReady"] = true
         user.saveInBackgroundWithBlock({
             (success:Bool, error:NSError!) -> Void in
