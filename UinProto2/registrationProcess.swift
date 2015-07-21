@@ -165,11 +165,13 @@ class registrationProcess: UIViewController {
     
     @IBOutlet weak var emailSignUp: UITextField!
     @IBOutlet weak var emailVerify: UIButton!
+    @IBOutlet weak var nextLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
        
       emailVerify.hidden = true
+        nextLabel.hidden = true
         // Do any additional setup after loading the view.
     }
     
@@ -186,6 +188,7 @@ class registrationProcess: UIViewController {
                 if error == nil {
                     println("email is changed")
                     self.emailVerify.hidden = false
+                    self.nextLabel.hidden = false
                 } else {
                     println("email was not saved")
                 }

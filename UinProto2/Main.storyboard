@@ -1526,6 +1526,7 @@
                     <connections>
                         <outlet property="emailSignUp" destination="ldZ-UT-LBx" id="13P-NA-toB"/>
                         <outlet property="emailVerify" destination="Y2a-VT-boh" id="y0s-5e-Vxw"/>
+                        <outlet property="nextLabel" destination="YxN-Br-PaF" id="Cyp-b0-IUW"/>
                         <segue destination="e1I-NR-mt6" kind="show" identifier="push" id="yEn-yz-RLq"/>
                     </connections>
                 </viewController>
@@ -1804,11 +1805,12 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
                         <segue destination="aFu-HP-nKG" kind="show" identifier="push" id="BxE-Hg-VCv"/>
+                        <segue destination="hBV-vc-Cch" kind="show" identifier="login" id="ydG-6f-XVZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="A3G-8e-hmK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-5230" y="338"/>
+            <point key="canvasLocation" x="-3561" y="654"/>
         </scene>
         <!--Login-->
         <scene sceneID="yUK-jY-boG">
@@ -2244,7 +2246,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hAy-16-lNr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3896" y="898"/>
+            <point key="canvasLocation" x="-4300" y="1154"/>
         </scene>
         <!--Change Account Info-->
         <scene sceneID="PP1-kJ-Gii">
@@ -2855,7 +2857,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bhb-th-QI5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2773" y="1512"/>
+            <point key="canvasLocation" x="-2740" y="1526"/>
         </scene>
         <!--Item-->
         <scene sceneID="0ff-dl-ynZ">
@@ -4507,8 +4509,8 @@
     <inferredMetricsTieBreakers>
         <segue reference="dfA-l9-WUl"/>
         <segue reference="4Rv-40-Ngm"/>
-        <segue reference="8wi-ZU-E8s"/>
-        <segue reference="Or7-9P-XFG"/>
+        <segue reference="ydG-6f-XVZ"/>
+        <segue reference="5Lw-yn-nUI"/>
         <segue reference="0eG-3o-QAg"/>
         <segue reference="Pnz-vN-aTm"/>
         <segue reference="Icg-Rt-Vk3"/>
