@@ -37,6 +37,18 @@ class homePage: UIViewController {
                             
                             user["profileReady"] = false
                             user["gender"] = result["gender"]
+                            var fbSession = PFFacebookUtils.session()
+                            var accessToken = fbSession.accessTokenData.accessToken
+                            let url = NSURL(string: "https://graph.facebook.com/me/picture?type=large&return_ssl_resources=1&access_token="+accessToken)
+                            let urlRequest = NSURLRequest(URL: url!)
+                            
+                            NSURLConnection.sendAsynchronousRequest(urlRequest, queue: NSOperationQueue.mainQueue()) { (response:NSURLResponse!, data:NSData!, error:NSError!) -> Void in
+                                
+                                // Display the image
+                              
+                                user["profilePicture"] = PFFile(name: "profilepic.jpg", data: data)
+                                
+                            }
                             user.saveInBackgroundWithBlock({
                                 (success:Bool, error:NSError!) -> Void in
                                 if error == nil {
@@ -166,11 +178,12 @@ class registrationProcess: UIViewController {
     @IBOutlet weak var emailSignUp: UITextField!
     @IBOutlet weak var emailVerify: UIButton!
     @IBOutlet weak var nextLabel: UILabel!
+    @IBOutlet weak var nextButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
        
-      emailVerify.hidden = true
+      nextButton.hidden = true
         nextLabel.hidden = true
         // Do any additional setup after loading the view.
     }
@@ -187,7 +200,7 @@ class registrationProcess: UIViewController {
                 (succss:Bool, error:NSError!) -> Void in
                 if error == nil {
                     println("email is changed")
-                    self.emailVerify.hidden = false
+                    self.nextButton.hidden = false
                     self.nextLabel.hidden = false
                 } else {
                     println("email was not saved")
@@ -200,7 +213,7 @@ class registrationProcess: UIViewController {
     var characterSet:NSCharacterSet = NSCharacterSet(charactersInString: "@memphis.edu")
     @IBAction func nextView(sender: AnyObject) {
         //Sign user in
-        PFUser.logInWithUsername(PFUser.currentUser().username, password: PFUser.currentUser().password)
+       
         if ( PFUser.currentUser().email.rangeOfString(".edu") != nil) {
             if PFUser.currentUser()["emailVerified"]  as! Bool == true {
                 println("This guy is ready to procreed")
@@ -309,7 +322,7 @@ class extraSignUp: UIViewController, UIPickerViewDataSource, UIPickerViewDelegat
     
     @IBAction func submitData(sender: AnyObject) {
         var user = PFUser.currentUser()
-    
+        var error = ""
         if gender.selectedSegmentIndex == 1 {
             user["gender"] = "male"
         } else {
@@ -319,20 +332,24 @@ class extraSignUp: UIViewController, UIPickerViewDataSource, UIPickerViewDelegat
             user["age"] = age.text.toInt()
         } else {
             println("This is not a real number")
+            error = "please enter a real number"
         }
         
         user["classifcation"] = userClass
-        user["profileReady"] = true
-        user.saveInBackgroundWithBlock({
-            (success:Bool, error:NSError!) -> Void in
-            if error == nil {
-                self.performSegueWithIdentifier("push", sender: self)
-                println("user object was saved")
-            } else {
-                println("user object was not saved")
-            }
-        })
-        
+        if error == "" {
+            user["profileReady"] = true
+            user.saveInBackgroundWithBlock({
+                (success:Bool, error:NSError!) -> Void in
+                if error == nil {
+                    self.performSegueWithIdentifier("push", sender: self)
+                    println("user object was saved")
+                } else {
+                    println("user object was not saved")
+                }
+            })
+            
+        }
+       
 
         
     }
