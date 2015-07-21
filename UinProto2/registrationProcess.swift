@@ -54,7 +54,12 @@ class homePage: UIViewController {
                 } else {
                     
                     NSLog("User is already signed in with us")
-                    self.performSegueWithIdentifier("push", sender: self)
+                    if PFUser.currentUser()["profileReady"] as! Bool {
+                        self.performSegueWithIdentifier("login", sender: self)
+                    } else {
+                        self.performSegueWithIdentifier("push", sender: self)
+
+                    }
                     
                 }
             }
@@ -105,7 +110,12 @@ class homePage: UIViewController {
                         println(json)
                         let url = NSURL(string: json["profile_image_url"] as! String)
                         let data = NSData(contentsOfURL: url!) //make sure your image in this url does exist, otherwise unwrap in a if let check
-                        
+                        var name = json["name"] as! String
+                        let fullNameArr = name.componentsSeparatedByString(" ")
+                        var firstName: String = fullNameArr[0]
+                        var lastName: String = fullNameArr[1]
+                        user["firstName"] = firstName
+                        user["lastName"] = lastName
                         user["profilePicture"] = PFFile(name: "profilePic.jpg", data: data)
                         user.saveInBackgroundWithBlock({
                             (success:Bool, error:NSError!) -> Void in
@@ -121,8 +131,12 @@ class homePage: UIViewController {
                     println("User signed up and logged in with Twitter!")
                     
                 } else {
-                    
-                    self.performSegueWithIdentifier("push", sender: self)
+                    if PFUser.currentUser()["profileReady"] as! Bool {
+                        self.performSegueWithIdentifier("login", sender: self)
+                    } else {
+                         self.performSegueWithIdentifier("push", sender: self)
+                    }
+                   
                     println("User logged in with Twitter!")
                     
                 }
@@ -155,7 +169,7 @@ class registrationProcess: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
        
-      
+      emailVerify.hidden = true
         // Do any additional setup after loading the view.
     }
     
@@ -171,6 +185,7 @@ class registrationProcess: UIViewController {
                 (succss:Bool, error:NSError!) -> Void in
                 if error == nil {
                     println("email is changed")
+                    self.emailVerify.hidden = false
                 } else {
                     println("email was not saved")
                 }
@@ -182,7 +197,7 @@ class registrationProcess: UIViewController {
     var characterSet:NSCharacterSet = NSCharacterSet(charactersInString: "@memphis.edu")
     @IBAction func nextView(sender: AnyObject) {
         //Sign user in
-        
+        PFUser.logInWithUsername(PFUser.currentUser().username, password: PFUser.currentUser().password)
         if ( PFUser.currentUser().email.rangeOfString(".edu") != nil) {
             if PFUser.currentUser()["emailVerified"]  as! Bool == true {
                 println("This guy is ready to procreed")
