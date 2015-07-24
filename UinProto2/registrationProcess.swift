@@ -238,6 +238,7 @@ class registrationProcess: UIViewController {
 }
 class basicSignUp: UIViewController {
     @IBOutlet weak var fName: UITextField!
+    @IBOutlet weak var profilePic: UIImageView!
     
     @IBOutlet weak var lName: UITextField!
     override func viewDidLoad() {
@@ -252,12 +253,20 @@ class basicSignUp: UIViewController {
     }
     func queryData(){
         var query = PFUser.currentUser()
+        
         if query["firstName"] != nil {
             fName.text = query["firstName"] as! String
         }
         if query["lasttName"] != nil {
               lName.text = query["lastName"] as! String
         }
+        var file = query["profilePicture"] as! PFFile
+        file.getDataInBackgroundWithBlock({
+            (data:NSData!, error:NSError!) -> Void in
+            if error == nil {
+                self.profilePic.image = UIImage(data: data)
+            }
+        })
         
       
         

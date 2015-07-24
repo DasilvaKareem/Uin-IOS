@@ -163,7 +163,7 @@ class channelSelectView: UITableViewController {
      
     }
     override func viewWillAppear(animated: Bool) {
-        getUserInfo()
+       
        
     }
     override func viewDidAppear(animated: Bool) {
@@ -277,17 +277,17 @@ class channelSelectView: UITableViewController {
 
         if section == 0 {
              var cell:channelHeaderCell = tableView.dequeueReusableCellWithIdentifier("header") as! channelHeaderCell
-            cell.headerLabel.text = PFUser.currentUser().username
+            cell.headerLabel.text = "Calendars"
 
             return cell
         }
         if section == 1 {
-            cell.sectionHeader.text = "GENERAL CALENDARS"
+            cell.sectionHeader.text = "Control"
             cell.channelSeparator.image = UIImage(named: "sidebarLine.png")
             
         }
         if section == 2 {
-            cell.sectionHeader.text = "MY CALENDARS"
+            cell.sectionHeader.text = "Engagement"
             cell.channelSeparator.image = UIImage(named: "sidebarLine.png")
             
         }
