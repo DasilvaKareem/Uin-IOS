@@ -2253,7 +2253,7 @@
         <!--post event-->
         <scene sceneID="aq3-51-i68">
             <objects>
-                <viewController id="g9f-Qt-XD7" sceneMemberID="viewController">
+                <viewController id="g9f-Qt-XD7" customClass="eventLanding" customModule="UinProto2" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="5Ss-nK-GoT"/>
                         <viewControllerLayoutGuide type="bottom" id="z8P-La-hbB"/>
@@ -2292,6 +2292,10 @@
                                         <exclude reference="29O-Rt-mb4"/>
                                     </mask>
                                 </variation>
+                                <connections>
+                                    <action selector="submitEvent:" destination="g9f-Qt-XD7" eventType="touchUpInside" id="3vN-Lp-dUe"/>
+                                    <segue destination="nrW-cQ-Dpy" kind="show" identifier="create1" id="Bl9-3j-yXY"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="location" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pud-AM-KjT">
                                 <rect key="frame" x="16" y="691" width="69" height="22"/>
@@ -2354,6 +2358,10 @@
                     <navigationItem key="navigationItem" title="post event" id="bmc-wh-ytT"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
+                    <connections>
+                        <outlet property="eventDescription" destination="keI-VN-vR1" id="OB1-r1-Oqf"/>
+                        <outlet property="eventTitle" destination="XgG-AC-2ji" id="v63-wZ-TAZ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IxO-iw-cmI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -2585,7 +2593,7 @@
         <!--tags-->
         <scene sceneID="eAv-E9-JUg">
             <objects>
-                <viewController id="Dho-Kl-TM2" sceneMemberID="viewController">
+                <viewController id="Dho-Kl-TM2" customClass="iconCreateViewController" customModule="UinProto2" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="TIF-3S-pQG"/>
                         <viewControllerLayoutGuide type="bottom" id="7E3-33-gFC"/>
@@ -2644,7 +2652,7 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="rVe-0B-xXS">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="rVe-0B-xXS" customClass="iconCell" customModule="UinProto2" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -2663,6 +2671,10 @@
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
+                                        <connections>
+                                            <outlet property="iconCaption" destination="8ZA-Nj-pwE" id="6Cd-Pj-csN"/>
+                                            <outlet property="iconImage" destination="a6X-Ee-sbW" id="Iv9-0b-VXZ"/>
+                                        </connections>
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
@@ -2685,6 +2697,9 @@
                     <navigationItem key="navigationItem" title="tags" id="SYl-Ui-u2k"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
+                    <connections>
+                        <outlet property="iconCollection" destination="Kjy-Tv-V0M" id="i3V-0w-Bml"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tIi-jn-ijQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -4461,7 +4476,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="inputForm" translatesAutoresizingMaskIntoConstraints="NO" id="YBY-BJ-uQb">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="inputForm" translatesAutoresizingMaskIntoConstraints="NO" id="YBY-BJ-uQb">
                                 <rect key="frame" x="0.0" y="372" width="414" height="32"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="32" id="HNM-fo-ufu"/>
@@ -4626,7 +4641,7 @@
                                     <action selector="isFreeSwitch:" destination="wj6-a8-ugv" eventType="touchUpInside" id="8rL-Er-xob"/>
                                 </connections>
                             </button>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" ambiguous="YES" selected="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="RLM-dx-cX8">
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="RLM-dx-cX8">
                                 <rect key="frame" x="63" y="439" width="288" height="29"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="288" id="UB9-dg-eAS"/>
