@@ -14,14 +14,67 @@ class LoadingView: UIViewController {
     var tried = false
     override func viewDidLoad() {
         super.viewDidLoad()
-      
+        PFUser.logOut()
         // Do any additional setup after loading the view.
     }
     override func viewDidAppear(animated: Bool) {
    
         
         spinner.startAnimating()
-        if PFUser.currentUser() != nil {
+        //Checks for the cache images on the app
+        var query = PFQuery(className: "tagCollection")
+        query.fromLocalDatastore()
+        query.fromPinWithName("tags")
+        query.findObjectsInBackgroundWithBlock({
+            (objects:[AnyObject]!, error:NSError!) -> Void in
+            if error == nil {
+                println("they are images process")
+                //println(objects)
+                //check if any objects are store
+                if objects.count == 0 {
+                    println("No images are stored ")
+                    //begin of cahcing images
+                    var activeImage = [UIImage]()
+                    var inActiveImage = [UIImage]()
+                    var query = PFQuery(className: "EventTag")
+                    query.orderByAscending("tagid")
+                    query.findObjectsInBackgroundWithBlock({
+                        (objects:[AnyObject]!, error:NSError!) -> Void in
+                        if error == nil {
+                            for object in objects {
+                                println(object)
+                                //Stores images caption into a object and pin it with the name "tags"
+                                var iconCollection = PFObject(className: "tagCollection")
+                                iconCollection["caption"] = object["caption"] as! String
+                                iconCollection["activeImage"] = object["activeImage"] as! PFFile
+                                var data =  object["activeImage"] as! PFFile
+                                
+                                iconCollection["activeImage"] = data.getData()
+                                var data2 = object["inactiveImage"] as! PFFile
+                                iconCollection["inactiveImage"] = data2.getData()
+                                iconCollection["tagid"] = object["tagId"] as! Int
+                                iconCollection.pinWithName("tags")
+                                
+                                
+                            }
+                            println("Images are now stored")
+                            
+                        } else {
+                            println("error has happened")
+                        }
+                    })
+                    
+                    
+                    //end of caching images
+                } else {
+                    println("images are already stored")
+                }
+            } else {
+               
+            }
+        })
+        
+       /* if PFUser.currentUser() != nil {
               
             var userTimeCheck = PFUser.currentUser()
            // if userTimeCheck["tempAccounts"] as! Bool == true {
@@ -82,7 +135,7 @@ class LoadingView: UIViewController {
                 self.performSegueWithIdentifier("createAccount", sender: self)
             }
         }
-
+        */
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

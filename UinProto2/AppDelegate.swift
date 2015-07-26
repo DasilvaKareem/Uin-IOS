@@ -35,14 +35,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
 
         ParseCrashReporting.enable()
+        
+        Parse.enableLocalDatastore() //enables datastore
         //devolpment key
         Parse.setApplicationId("0ShUBAdjISFynDKChHvUdDaL5wcMUke0NTbY6myP", clientKey: "3dXP6g3Em7gfIIbsrBWog1yDLzhMuzonjp6u5spJ")
         
         //Production Key
          //Parse.setApplicationId("BFxrzfMk4LK2WDbBdwtfeWmFcZwZwkMLdryiDPwm", clientKey: "tALwULorTkQbcVv3JHqVtTDrrelIZFSebtb0cHJs")
         
-        //Set the user Time stamp
-  
+        
+        
         var theMix = Mixpanel.sharedInstance()
         theMix.track("App Open")
         theMix.flush()

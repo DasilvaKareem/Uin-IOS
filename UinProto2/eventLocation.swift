@@ -10,8 +10,8 @@ import UIKit
 import MapKit
 
 class eventLocationView: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate, UITextFieldDelegate {
-   
-     //Stores user current lcoation address
+    
+    //Stores user current lcoation address
     @IBAction func getUserLocation(sender: AnyObject) {
         var geo = CLGeocoder()
         var geocoder = CLGeocoder()
@@ -29,7 +29,7 @@ class eventLocationView: UIViewController, MKMapViewDelegate, CLLocationManagerD
             }
         })
     }
-   var passedDisplayLocation = (String)()
+    var passedDisplayLocation = (String)()
     @IBOutlet var displayLocation: UITextField!
     var locationmgr : CLLocationManager! // locatiom manger
     @IBOutlet var map: MKMapView! // lol map
@@ -39,7 +39,7 @@ class eventLocationView: UIViewController, MKMapViewDelegate, CLLocationManagerD
     var eventGeoLocation = (CLLocation)() //Cordination of event
     
     //Keyboard functions and modfies them
-   
+    
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         self.view.endEditing(true)
     }
@@ -67,14 +67,23 @@ class eventLocationView: UIViewController, MKMapViewDelegate, CLLocationManagerD
         })
         return true
     }
- 
-    //Submits the locations to event make view
-    @IBAction func checkLocation(sender: AnyObject) {
+    
+    //Submits the locations to eventReview
+    @IBAction func submitEvent2(sender: AnyObject) {
+        gLocation = displayLocation.text
+        var geopoint = PFGeoPoint(location:eventGeoLocation)
+        geopoint = gGPS
+        gAddress = eventLocation.text
+        println(gAddress)
+        println(gLocation)
+        println(gGPS)
+        self.performSegueWithIdentifier("event2", sender: self)
     }
-
+    
+    
     
     override func viewWillAppear(animated: Bool) {
-            self.displayLocation.text = passedDisplayLocation
+        self.displayLocation.text = passedDisplayLocation
     }
     //Keeps track of the center cordinate location
     func mapView(mapView: MKMapView!, regionDidChangeAnimated animated: Bool) {
@@ -88,10 +97,10 @@ class eventLocationView: UIViewController, MKMapViewDelegate, CLLocationManagerD
             self.eventGeoLocation = location
         })
     }
-   
-
-
-
+    
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         map.delegate = self
@@ -101,22 +110,22 @@ class eventLocationView: UIViewController, MKMapViewDelegate, CLLocationManagerD
         locationmgr.delegate = self
         locationmgr.requestWhenInUseAuthorization()
         map.showsUserLocation = true
-       locationmgr.startUpdatingLocation()
+        locationmgr.startUpdatingLocation()
         println(map.userLocation.location)
         
-       
-
         
-    
-      
+        
+        
+        
+        
         
         // Do any additional setup after loading the view.
     }
     
     
-
     
-     func locationManager(locationmgr: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
+    
+    func locationManager(locationmgr: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
         let location = locations.last as! CLLocation
         println("it is moving and running")
         let center = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
@@ -124,7 +133,7 @@ class eventLocationView: UIViewController, MKMapViewDelegate, CLLocationManagerD
         let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
         var geocode = CLGeocoder()
         locationmgr.stopUpdatingLocation()
-       
+        
         geocode.reverseGeocodeLocation(location, completionHandler: {
             (placemarks: [AnyObject]!, error: NSError!) -> Void in
             let placemark = placemarks?[0] as? CLPlacemark
@@ -132,11 +141,11 @@ class eventLocationView: UIViewController, MKMapViewDelegate, CLLocationManagerD
             self.eventLocation.text = placemark?.name
             self.map.setRegion(region, animated: false)
         })
-
+        
         
     }
     
-  
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -145,8 +154,8 @@ class eventLocationView: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     
     // MARK: - Navigation
-
-  
+    
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "location" {
             var event:eventMake = segue.destinationViewController as! eventMake
@@ -157,6 +166,6 @@ class eventLocationView: UIViewController, MKMapViewDelegate, CLLocationManagerD
             
         }
     }
-
-
+    
+    
 }

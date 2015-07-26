@@ -124,6 +124,11 @@ class eventReview: UIViewController {
         
         
     }
+    
+    
+    @IBAction func submitEvent(sender: AnyObject) {
+        createEvent()
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         displayInfo()
