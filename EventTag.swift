@@ -14,6 +14,7 @@ class iconCreateViewController: UIViewController, UICollectionViewDataSource, UI
     
     @IBOutlet weak var iconCollection: UICollectionView!
     
+    @IBOutlet weak var tagCollection: UICollectionView!
     //Counter setup
     var counter = 0
     
@@ -76,8 +77,8 @@ class iconCreateViewController: UIViewController, UICollectionViewDataSource, UI
     
     //Gets data from parse and display images into collection view
     func getIcons(){
-        var query = PFQuery(className: "kareem")
-        query.fromLocalDatastore().fromPinWithName("poop")
+        var query = PFQuery(className: "tagCollection")
+        query.fromLocalDatastore().fromPinWithName("tags")
         query.orderByAscending("tagId")
         var objects = query.findObjects()
         
@@ -85,7 +86,7 @@ class iconCreateViewController: UIViewController, UICollectionViewDataSource, UI
         var placeHolder = (PFFile)()
         println("got objects")
         for object in objects {
-            println(object)
+            
             if self.iconId.count > 2 {
                 if self.iconId2.count > 2 {
                     if self.iconId3.count > 2 {
@@ -157,7 +158,7 @@ class iconCreateViewController: UIViewController, UICollectionViewDataSource, UI
                 self.inActiveImage.append(UIImage(data:object["inactiveImage"] as! NSData)!)
             }
             
-            println(inActiveImage.count)
+           // println(inActiveImage.count)
             
             
             
@@ -189,16 +190,16 @@ class iconCreateViewController: UIViewController, UICollectionViewDataSource, UI
             
             
         }
-        //println(self.iconId)
-        println(self.caption)
-        self.iconCollection.reloadData()
+      
+        self.tagCollection.reloadData()
         
     }
     override func viewDidLoad() {
         
-        getIcons()
-        super.viewDidLoad()
         
+        super.viewDidLoad()
+       // getIcons()
+        //self.iconCollection.reloadData()
         // Do any additional setup after loading the view.
     }
     override func viewWillAppear(animated: Bool) {
@@ -210,16 +211,17 @@ class iconCreateViewController: UIViewController, UICollectionViewDataSource, UI
         // Dispose of any resources that can be recreated.
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell:iconCell = iconCollection.dequeueReusableCellWithReuseIdentifier("icon", forIndexPath: indexPath) as! iconCell
+     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        let cell:iconCell = tagCollection.dequeueReusableCellWithReuseIdentifier("icon", forIndexPath: indexPath) as! iconCell
         
         
-        println(caption3.count)
-        
+        //println(caption3.count)
+        println("HEY DUDE")
+        println(indexPath.row)
         if indexPath.section == 0 {
             if caption.count != 0 {
                 cell.iconImage.image = inActiveImage[indexPath.row]
-                cell.iconCaption.text = caption[indexPath.row]
+                cell.iconCaption.text = "pooooop"
             }
             
         } else {
@@ -288,7 +290,7 @@ class iconCreateViewController: UIViewController, UICollectionViewDataSource, UI
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         //keepTrack()
         
-        var cell:iconCell = iconCollection.cellForItemAtIndexPath(indexPath) as! iconCell
+        var cell:iconCell = tagCollection.cellForItemAtIndexPath(indexPath) as! iconCell
         
         
         //only allows 3 icons to be selected also selects icons
@@ -473,7 +475,7 @@ class iconCreateViewController: UIViewController, UICollectionViewDataSource, UI
         
     }
     
-    
+
     
     /*
     // MARK: - Navigation
