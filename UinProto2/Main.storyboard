@@ -2250,10 +2250,10 @@
             </objects>
             <point key="canvasLocation" x="-4300" y="1154"/>
         </scene>
-        <!--View Controller-->
+        <!--Orginazation Page-->
         <scene sceneID="WW7-Rs-lx1">
             <objects>
-                <viewController id="6sl-c9-kyj" sceneMemberID="viewController">
+                <viewController id="6sl-c9-kyj" customClass="OrginazationPage" customModule="UinProto2" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="owS-YU-UDQ"/>
                         <viewControllerLayoutGuide type="bottom" id="UyB-Q8-5xt"/>
@@ -2304,10 +2304,14 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <connections>
+                        <outlet property="orgDesciption" destination="nnm-hD-cAj" id="ZYd-Sy-41X"/>
+                        <outlet property="orgName" destination="zSX-Vf-hVu" id="19F-Yu-AR3"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LCw-Ue-oSf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-6400" y="2010"/>
+            <point key="canvasLocation" x="-6399" y="2014"/>
         </scene>
         <!--Orginzation ViewC-->
         <scene sceneID="dmH-v7-nM3">
@@ -2365,7 +2369,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mVa-S5-AOx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-6468" y="2740"/>
+            <point key="canvasLocation" x="-6534" y="2792"/>
         </scene>
         <!--post event-->
         <scene sceneID="aq3-51-i68">
