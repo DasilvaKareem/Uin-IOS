@@ -18,9 +18,9 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     @IBOutlet var menuTrigger: UIBarButtonItem!
     var refresher: UIRefreshControl!
     //Icons variables
-    var onsite = [Bool]()
-    var paid = [Bool]()
-    var food = [Bool]()
+    var tag1 = [String]()
+    var tag2 = [String]()
+    var tag3 = [String]()
     var shouldKeep = true
     //Text that is display on cell
     var eventTitle = [String]()
@@ -291,27 +291,11 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                             self.navigationItem.title = "Local Events"
                             eventQuery.whereKey("inLocalFeed", equalTo: true)
                             eventQuery.whereKey("isPublic", equalTo: true)
+                            
+                            
                             //Queries all Private events
-                            pubQue.whereKey("subscriber", equalTo: PFUser.currentUser().username)
-                            pubQue.whereKey("isMember", equalTo: true)
-                            superQue.whereKey("author", matchesKey: "publisher", inQuery:pubQue)
-                            superQue.whereKey("inLocalFeed", equalTo: true)
-                            superQue.whereKey("isPublic", equalTo: false)
-                            //Queries all of the current user events
-                            newQue.whereKey("isPublic", equalTo: false)
-                            newQue.whereKey("author", equalTo: PFUser.currentUser().username)
-                            newQue.whereKey("inLocalFeed", equalTo: true)
-                            var userTimeCheck = PFUser.currentUser()
-                            userTimeCheck["localEventsTimestamp"] = NSDate()
-                            userTimeCheck.saveInBackgroundWithBlock({
-                                (success:Bool, error:NSError!) -> Void in
-                                if error == nil {
-                                    println("The stamp was updated")
-                                } else {
-                                    println(error.debugDescription)
-                                }
-                            })
-                       
+                           
+                            
                         break
                         case "subbedEvents":
                             self.navigationItem.title = "Subscription Events"
@@ -385,23 +369,24 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
            
                     
                     query.orderByAscending("start")
+                    query.includeKey("Organization")
                     println(self.currentPoint)
-                    if geoEnabled == true  {
+                   /* if geoEnabled == true  {
                  query.whereKey("locationGeopoint", nearGeoPoint: self.currentPoint, withinMiles: 7.0)
-                    }
+                    }*/
         
-                 query.whereKey("start", greaterThanOrEqualTo: NSDate())
+                 //query.whereKey("start", greaterThanOrEqualTo: NSDate())
                     query.whereKey("isDeleted", equalTo: false)
                     query.limit = 20
-                    query.whereKey("objectId", notContainedIn: self.objectID)
+                    //query.whereKey("objectId", notContainedIn: self.objectID)
                     query.findObjectsInBackgroundWithBlock {
                         (results: [AnyObject]!, error: NSError!) -> Void in
                         if error == nil {
                             if shouldKeepList == true {
                                 self.eventAddress.removeAll(keepCapacity: true)
-                                self.onsite.removeAll(keepCapacity: true)
-                                self.paid.removeAll(keepCapacity: true)
-                                self.food.removeAll(keepCapacity: true)
+                                self.tag1.removeAll(keepCapacity: true)
+                                self.tag2.removeAll(keepCapacity: true)
+                                self.tag3.removeAll(keepCapacity: true)
                                 self.eventTitle.removeAll(keepCapacity: true)
                                 self.eventlocation.removeAll(keepCapacity: true)
                                 self.eventStartTime.removeAll(keepCapacity: true)
@@ -416,21 +401,25 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                                 self.localizedTime.removeAll(keepCapacity: true)
                                 self.localizedEndTime.removeAll(keepCapacity: true)
                             }
-                       
-                            
+                            println()
+                           // println(results)
+                            println()
                             for object in results{
-                                
+                                let poop = object["author"] as! PFObject
+                                let op = poop.objectForKey("name") as! String
+                                println(op)
+                                println(poop.objectForKey("name"))
                                 self.publicPost.append(object["isPublic"] as!Bool)
                                 self.objectID.append(object.objectId as String)
-                                self.usernames.append(object["author"] as!String)
+                               // self.usernames.append(poop["name"] as! String)
                                 self.eventTitle.append(object["title"] as!String)
-                                self.food.append(object["hasFood"] as!Bool)
-                                self.paid.append(object["isFree"] as!Bool)
-                                self.onsite.append(object["onCampus"] as!Bool)
+                                self.tag1.append(object["tag1"] as! String)
+                                self.tag2.append(object["tag2"] as! String)
+                                self.tag3.append(object["tag3"] as! String)
                                 self.eventEnd.append(object["end"] as!NSDate)
                                 self.eventStart.append(object["start"] as!NSDate)
                                 self.eventlocation.append(object["location"] as!String)
-                                self.userId.append(object["authorID"] as!String)
+                               // self.userId.append(object["authorID"] as!String)
                                 self.eventAddress.append(object["address"] as!String)
                                 self.eventDescription.append(object["description"] as! String)
                                 
@@ -735,11 +724,14 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         var row = indexPath.row
            
         //Puts image for three icons
-        if onsite[event] == true {
+        if tag1[event] == ""{
+        }
+            
+       /* if onsite[event] == true {
             cell.onCampusIcon.image = UIImage(named: "onCampus.png")
             cell.onCampusText.text = "On-Campus"
             cell.onCampusText.textColor = UIColor.darkGrayColor()
-        }
+        }*/
         else{
             cell.onCampusIcon.image = UIImage(named: "offCampus.png")
             cell.onCampusText.text = "Off-Campus"
@@ -977,7 +969,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             var row = indexPath?.row
             var index = getEventIndex(section!, row: row!)
             
-            secondViewController.storeStartDate = eventStart[index]
+            /*secondViewController.storeStartDate = eventStart[index]
             secondViewController.endStoreDate =  eventEnd[index]
             secondViewController.userId = userId[index]
             secondViewController.address = eventAddress[index]
@@ -995,7 +987,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             secondViewController.users = usernames[index]
             secondViewController.eventId = objectID[index]
             secondViewController.eventDescriptionHolder = eventDescription[index]
-            secondViewController.alertTime = alertTime
+            secondViewController.alertTime = alertTime*/
             
         }
         if segue.identifier == "profile" {
