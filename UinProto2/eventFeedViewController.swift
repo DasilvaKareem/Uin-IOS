@@ -724,49 +724,191 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         var row = indexPath.row
            
         //Puts image for three icons
-        if tag1[event] == ""{
-        }
             
-       /* if onsite[event] == true {
-            cell.onCampusIcon.image = UIImage(named: "onCampus.png")
-            cell.onCampusText.text = "On-Campus"
-            cell.onCampusText.textColor = UIColor.darkGrayColor()
-        }*/
-        else{
-            cell.onCampusIcon.image = UIImage(named: "offCampus.png")
-            cell.onCampusText.text = "Off-Campus"
-            cell.onCampusText.textColor = UIColor.lightGrayColor()
-        }
         
-        if food[event] == true {
-            cell.foodIcon.image = UIImage(named: "yesFood.png")
-            cell.foodText.text = "Food"
-            cell.foodText.textColor = UIColor.darkGrayColor()
-        }
-        else{
-            cell.foodIcon.image = UIImage(named: "noFood.png")
-            cell.foodText.text = "No Food"
-            cell.foodText.textColor = UIColor.lightGrayColor()
-            
-        }
-        if paid[event] == true {
-            cell.freeIcon.image = UIImage(named: "yesFree.png")
-            cell.costText.text = "Free"
-            cell.costText.textColor = UIColor.darkGrayColor()
-        }
-        else{
-            cell.freeIcon.image = UIImage(named: "noFree.png")
-            cell.costText.text = "Not Free"
-            cell.costText.textColor = UIColor.lightGrayColor()
-        }
-        
-        if publicPost[event] != true {
-            cell.privateImage.image = UIImage(named: "privateEvent.png")
-        }
-        
-        else {
-            cell.privateImage.image = nil
-        }
+      
+            switch tag1[event] {
+            case "PvApxif2rw": //Popcorn
+                break
+                
+            case "LP5fLvLurL": //recuitment
+                break
+                
+            case "8HvnDADGY2": // run
+                break
+                
+            case "BX9RsT3EpW": //tour
+                break
+            case "u2EAfQk9Lf": //intramural
+                break
+                
+            case "ayCBAVwQ93": //sales event
+                break
+                
+            case "D1nxE6j63a": //dance
+                break
+                
+            case "XiWPxYMwEO": //games
+                break
+                
+            case "6IkmbdKMnn": //meetup
+                break
+                
+            case "wLt1TPYiyV": //religous
+                break
+                
+            case "f8ZpiOF9cg": //conference
+                break
+                
+            case "leITfmSo7E": //party
+                break
+            case "s5XU11BTs3": // drinking
+                break
+                
+            case "a3pMl70t39": //Outdoors
+                break
+                
+            case "V6fIqmoG05": //philanthropy
+                break
+            case "mch3EIhozC": //music
+                break
+                
+            case "AjosKs2UWi": //byob
+                break
+                
+            case "Ymclya9lwu": //performance
+                break
+            case "XYV5giSlCO": // food
+                break
+                
+            case "GawBDHRtfo": //free
+                break
+                
+            default:
+                cell.onCampusIcon.image = nil
+                
+            }
+            switch tag2[event] {
+            case "PvApxif2rw": //Popcorn
+                break
+                
+            case "LP5fLvLurL": //recuitment
+                break
+                
+            case "8HvnDADGY2": // run
+                break
+                
+            case "BX9RsT3EpW": //tour
+                break
+            case "u2EAfQk9Lf": //intramural
+                break
+                
+            case "ayCBAVwQ93": //sales event
+                break
+                
+            case "D1nxE6j63a": //dance
+                break
+                
+            case "XiWPxYMwEO": //games
+                break
+                
+            case "6IkmbdKMnn": //meetup
+                break
+                
+            case "wLt1TPYiyV": //religous
+                break
+                
+            case "f8ZpiOF9cg": //conference
+                break
+                
+            case "leITfmSo7E": //party
+            break
+            case "s5XU11BTs3": // drinking
+                break
+                
+            case "a3pMl70t39": //Outdoors
+                break
+                
+            case "V6fIqmoG05": //philanthropy
+                break
+            case "mch3EIhozC": //music
+                break
+                
+            case "AjosKs2UWi": //byob
+                break
+                
+            case "Ymclya9lwu": //performance
+                break
+            case "XYV5giSlCO": // food
+                break
+                
+            case "GawBDHRtfo": //free
+                break
+           
+            default:
+                cell.onCampusIcon.image = nil
+            }
+            switch tag3[event] {
+            case "PvApxif2rw": //Popcorn
+                break
+                
+            case "LP5fLvLurL": //recuitment
+                break
+                
+            case "8HvnDADGY2": // run
+                break
+                
+            case "BX9RsT3EpW": //tour
+                break
+            case "u2EAfQk9Lf": //intramural
+                break
+                
+            case "ayCBAVwQ93": //sales event
+                break
+                
+            case "D1nxE6j63a": //dance
+                break
+                
+            case "XiWPxYMwEO": //games
+                break
+                
+            case "6IkmbdKMnn": //meetup
+                break
+                
+            case "wLt1TPYiyV": //religous
+                break
+                
+            case "f8ZpiOF9cg": //conference
+                break
+                
+            case "leITfmSo7E": //party
+                break
+            case "s5XU11BTs3": // drinking
+                break
+                
+            case "a3pMl70t39": //Outdoors
+                break
+                
+            case "V6fIqmoG05": //philanthropy
+                break
+            case "mch3EIhozC": //music
+                break
+                
+            case "AjosKs2UWi": //byob
+                break
+                
+            case "Ymclya9lwu": //performance
+                break
+            case "XYV5giSlCO": // food
+                break
+                
+            case "GawBDHRtfo": //free
+                break
+                
+            default:
+                cell.onCampusIcon.image = nil
+            }
+   
         
         cell.people.text = usernames[event]
         cell.time.text = localizedTime[event]
