@@ -66,6 +66,19 @@ class eventReview: UIViewController {
     @IBOutlet weak var eDescription: UILabel!
     @IBOutlet weak var address: UILabel!
     @IBOutlet weak var location: UILabel!
+    @IBAction func changeTitle(sender: AnyObject) {
+        self.performSegueWithIdentifier("changeTitleDescription", sender: self)
+    }
+    @IBAction func changeAddressLocation(sender: AnyObject) {
+        self.performSegueWithIdentifier("changeAddressLocation", sender: self)
+    }
+    
+    @IBAction func changeStartEndTime(sender: AnyObject) {
+        self.performSegueWithIdentifier("changeStartEndTime", sender: self)
+    }
+    @IBAction func changeTags(sender: AnyObject) {
+        self.performSegueWithIdentifier("changeTags", sender: self)
+    }
     
     @IBOutlet weak var start: UILabel!
     
@@ -94,7 +107,6 @@ class eventReview: UIViewController {
         println(firstIcon)
         println(secondIcon)
         println(thirdIcon)
-        
         
     }
     func createEvent(){
