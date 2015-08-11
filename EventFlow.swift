@@ -29,8 +29,8 @@ class eventLanding: UIViewController {
         if eventTitle.text.isEmpty {
             
         } else {
-            gTitle = eventTitle.text
-            gDescrption = eventDescription.text
+            eventReviewTitle = eventTitle.text
+            eventReviewDescrption = eventDescription.text
             self.performSegueWithIdentifier("create1", sender: self)
             
         }
