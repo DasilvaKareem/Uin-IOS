@@ -198,39 +198,13 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     @IBAction func eventMake(sender: AnyObject) {
         var user = PFUser.currentUser()
         //Checks if the account is a temporary account
-        if user["tempAccounts"] as! Bool == false {
-           self.performSegueWithIdentifier("eventMake", sender: self)
+       
+           self.performSegueWithIdentifier("event", sender: self)
             var theMix = Mixpanel.sharedInstance()
             theMix.track("Tap Create Event (EF)")
             theMix.flush()
             
 
-        } else {
-            var theMix = Mixpanel.sharedInstance()
-            theMix.track("Tap Create Account (EF)")
-            theMix.flush()
-            
-            var alert = UIAlertController(title: "Create an account to do this!", message: "It'll only take a few seconds...", preferredStyle: UIAlertControllerStyle.Alert)
-            alert.addAction(UIAlertAction(title: "Create an account", style: .Default, handler: { action in
-                
-               self.performSegueWithIdentifier("createAccount", sender: self)
-                
-            }))
-            alert.addAction(UIAlertAction(title: "Sign in", style: UIAlertActionStyle.Default, handler: { action in
-                
-                 self.performSegueWithIdentifier("signInAccount", sender: self)
-                
-            }))
-            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: { action in    
-                
-            }))
-            
-          self.presentViewController(alert, animated: true, completion: nil)
-            
-            func preferredStatusBarStyle() -> UIStatusBarStyle {
-                return UIStatusBarStyle.Default
-            }
-        }
     }
    
     // Alert function
@@ -716,26 +690,18 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         
             
         } else {
-            
-        
         var event = getEventIndex(indexPath.section, row: indexPath.row)
             if self.searchActive == false {
                 if indexPath.section == numSections - 3{
                     if self.shouldKeep == true {
                         updateFeed(false)
                     }
-                    
                 }
             }
-           
         cell.poop.hidden = false
         var section = indexPath.section
         var row = indexPath.row
-           
         //Puts image for three icons
-            
-        
-      
             switch tag1[event] {
             case "PvApxif2rw": //Popcorn
                 cell.icon1.image = UIImage(named: "popcorn.png")
@@ -1254,26 +1220,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             var section = indexPath?.section
             var row = indexPath?.row
             var index = getEventIndex(section!, row: row!)
-            
-            /*secondViewController.storeStartDate = eventStart[index]
-            secondViewController.endStoreDate =  eventEnd[index]
-            secondViewController.userId = userId[index]
-            secondViewController.address = eventAddress[index]
-            secondViewController.storeLocation = eventlocation[index]
-            secondViewController.storeTitle = eventTitle[index]
-            secondViewController.storeStartTime = eventStartTime[index]
-            secondViewController.storeEndTime = eventEndTime[index]
-            secondViewController.storeDate = eventStartDate[index]
-            secondViewController.storeEndDate = eventEndDate[index]
-            secondViewController.onsite = onsite[index]
-            secondViewController.cost = paid[index]
-            secondViewController.food = food[index]
-            secondViewController.localStart = localizedTime[index]
-            secondViewController.localEnd = localizedEndTime[index]
-            secondViewController.users = usernames[index]
             secondViewController.eventId = objectID[index]
-            secondViewController.eventDescriptionHolder = eventDescription[index]
-            secondViewController.alertTime = alertTime*/
             
         }
         if segue.identifier == "profile" {

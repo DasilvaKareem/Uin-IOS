@@ -815,7 +815,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
             var row = indexPath?.row
             
             var index = getEventIndex(section!, row: row!)
-            secondViewController.address = eventAddress[index]
+           /* secondViewController.address = eventAddress[index]
             secondViewController.storeStartDate = eventStart[index]
             secondViewController.endStoreDate =  eventEnd[index]
             secondViewController.storeLocation = eventlocation[index]
@@ -830,7 +830,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
             secondViewController.localStart = localizedTime[index]
             secondViewController.localEnd = localizedEndTime[index]
             secondViewController.users = usernames[index]
-            secondViewController.eventId = objectID[index]
+            secondViewController.eventId = objectID[index]*/
             
             
         }

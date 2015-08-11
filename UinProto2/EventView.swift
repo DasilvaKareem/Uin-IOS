@@ -14,9 +14,6 @@ class postEvent: UIViewController {
     @IBOutlet var eventDescription: UILabel!
     @IBOutlet var calendarCount: UILabel!
     @IBOutlet var peopleView: UIImageView!
-    @IBOutlet weak var foodIcon: UILabel!
-    @IBOutlet weak var freeIcon: UILabel!
-    @IBOutlet weak var onCampusIcon: UILabel!
     @IBOutlet var locationTitle: UILabel!
     @IBOutlet var dateTitle: UILabel!
     
@@ -29,10 +26,17 @@ class postEvent: UIViewController {
     @IBOutlet var startTime: UILabel!
     @IBOutlet var endTime: UILabel!
     @IBOutlet weak var date: UILabel!
-    @IBOutlet weak var isFood: UIImageView!
     @IBOutlet weak var username: UIButton!
-    @IBOutlet weak var isSite: UIImageView!
-    @IBOutlet weak var isPaid: UIImageView!
+    
+    @IBOutlet weak var firstTag: UIImageView!
+    @IBOutlet weak var secondTag: UIImageView!
+    @IBOutlet weak var thirdTag: UIImageView!
+    @IBOutlet weak var firstTagDescriptor: UILabel!
+    @IBOutlet weak var secondTagDescriptor: UILabel!
+    @IBOutlet weak var thirdTagDescriptor: UILabel!
+    
+    
+
     @IBAction func gotoProfile(sender: AnyObject) {
         if PFUser.currentUser().objectId != organizationID {
             self.performSegueWithIdentifier("gotoprofile", sender: self)
@@ -47,7 +51,7 @@ class postEvent: UIViewController {
     var alertTime:NSTimeInterval = -6000
     var profileEditing = false
     var address = String()
-    var organization= String()
+    var organization = String()
     var storeTitle = String()
     var storeLocation = String()
     var storeStartTime = String()
@@ -56,9 +60,9 @@ class postEvent: UIViewController {
     var storeDate = String()
     var storeSum = String()
     var data = Int()
-    var icon1 = Bool()
-    var icon2 = Bool()
-    var icon3 = Bool()
+    var icon1 = String()
+    var icon2 = String()
+    var icon3 = String()
     var storeStartDate = NSDate()
     var endStoreDate = NSDate()
     var eventId = String()
@@ -121,22 +125,24 @@ class postEvent: UIViewController {
                 var dateFormatter = NSDateFormatter()
                 dateFormatter.locale = NSLocale.currentLocale() // Gets current locale and switches
                 dateFormatter.dateFormat = "MMM. dd, yyyy - h:mm a"
-                self.startDate = dateFormatter.stringFromDate(result["start"] as!NSDate) // Creates date
-                self.endDate = dateFormatter.stringFromDate(result["end"] as!NSDate) // Creates date
+                let start =  result["start"] as! NSDate
+                
+                self.startDate = dateFormatter.stringFromDate(start) // Creates date
+                self.endDate = dateFormatter.stringFromDate(result["end"] as! NSDate) // Creates date
                 
                 let author = result["author"] as! PFObject
                 
                 self.organization = author["name"] as! String
-                self.organizationID = author.objectId as! String
+                self.organizationID = author.objectId
                 self.address = result["address"] as!String!
                 self.storeLocation = result["location"] as!String!
                 self.location.text = result["location"] as!String!
                 self.eventTitle.text = result["title"] as!String!
                 self.storeTitle = result["title"] as!String!
                 self.date.text = self.startDate
-                self.onsite = result["onCampus"] as!Bool
-                self.cost = result["isFree"] as!Bool
-                self.food = result["hasFood"] as!Bool
+                self.icon1 = result["tag1"] as! String
+                self.icon2 = result["tag2"] as! String
+                self.icon3 = result["tag3"] as! String
                 self.eventDescription.text = result["description"] as? String
                 
                
@@ -156,11 +162,13 @@ class postEvent: UIViewController {
         theMix.flush()
         super.viewDidLoad()
         
-        if users == PFUser.currentUser().username{
+        //If event is owned by organization the org can edit the event
+        /*if organizationID == PFUser.currentUser()["organization"] as! String{
             self.navigationItem.rightBarButtonItem?.title = "Edit"
         } else {
-            self.navigationItem.rightBarButtonItem?.title = self.users
-        }
+            self.navigationItem.rightBarButtonItem?.title = organizationID
+        }*/
+    
         self.tabBarController?.tabBar.hidden = true
         if profileEditing == true {
         
@@ -178,23 +186,14 @@ class postEvent: UIViewController {
         }
         if searchEvent == true {
             getEvents()
-         
-            
         } else {
             getEvents()
-         
-            
         }
-    
-        
-        checkevent()
-        if PFUser.currentUser().username == users {
-           
-        }
+            checkevent()
     }
     
     @IBAction func eventShare(sender: AnyObject) {
-        let textToShare = "Check out '\(storeTitle)' hosted by '\(users)' at '\(self.storeLocation)' on Uin! " + "iOS: http://apple.co/1G2pLXs " + "Android: http://bit.ly/1NwYAD9"
+        let textToShare = "Check out '\(storeTitle)' hosted by '\(organization)' at '\(self.storeLocation)' on Uin! " + "iOS: http://apple.co/1G2pLXs " + "Android: http://bit.ly/1NwYAD9"
     
             let objectsToShare = [textToShare]
             let poop = UIActivityTypePostToFacebook
@@ -222,7 +221,7 @@ class postEvent: UIViewController {
     //Adds the event to calenar and creats a notifcations,push, and changes the button itself
     @IBAction func addtocalendar(sender: AnyObject) {
         
-        var que = PFQuery(className: "UserCalendar")
+       /* var que = PFQuery(className: "UserCalendar")
         que.whereKey("user", equalTo: PFUser.currentUser().username)
         que.whereKey("author", equalTo: users)
         que.whereKey("eventID", equalTo:eventId)
@@ -364,6 +363,7 @@ class postEvent: UIViewController {
              
             }
         })
+*/
     }
     // Switch display location with the real addrss
     @IBAction func switchAddress(sender: AnyObject) {
@@ -409,38 +409,334 @@ class postEvent: UIViewController {
     @IBOutlet var longBar: UIButton!
     
     func putIcons(){
+        switch icon1 {
+        case "PvApxif2rw": //Popcorn
+            firstTag.image = UIImage(named: "popcorn.png")
+            firstTagDescriptor.text = "Popcorn"
+            break
+            
+        case "LP5fLvLurL": //recuitment
+            firstTag.image = UIImage(named: "recruitment.png")
+           firstTagDescriptor.text = "recruitment"
+            
+            break
+            
+        case "8HvnDADGY2": // run
+            firstTag.image = UIImage(named: "run.png")
+            firstTagDescriptor.text = "run"
+            break
+            
+        case "BX9RsT3EpW": //tour
+            firstTag.image = UIImage(named: "tour.png")
+            firstTagDescriptor.text = "tour"
+            break
+        case "u2EAfQk9Lf": //intramural
+            firstTag.image = UIImage(named: "intramural.png")
+             firstTagDescriptor.text = "Intramural"
+            break
+            
+        case "ayCBAVwQ93": //sales event
+            firstTag.image = UIImage(named: "sales.png")
+             firstTagDescriptor.text = "Sales"
+            break
+            
+        case "D1nxE6j63a": //dance
+            firstTag.image = UIImage(named: "dance.png")
+             firstTagDescriptor.text = "Dance"
+            break
+            
+        case "XiWPxYMwEO": //games
+             firstTag.image = UIImage(named: "games.png")
+             firstTagDescriptor.text = "Games"
+            break
+            
+        case "6IkmbdKMnn": //meetup
+             firstTag.image = UIImage(named: "meet.png")
+             firstTagDescriptor.text = "meet"
+            break
+            
+        case "wLt1TPYiyV": //religous
+             firstTag.image = UIImage(named: "religous.png")
+             firstTagDescriptor.text = "Religous"
+            break
+            
+        case "f8ZpiOF9cg": //conference
+             firstTag.image = UIImage(named: "conference.png")
+             firstTagDescriptor.text = "conference"
+            break
+            
+        case "leITfmSo7E": //party
+             firstTag.image = UIImage(named: "party.png")
+             firstTagDescriptor.text = "Party"
+            break
+        case "s5XU11BTs3": // drinking
+             firstTag.image = UIImage(named: "drinking.png")
+             firstTagDescriptor.text = "drinking"
+            break
+            
+        case "a3pMl70t39": //Outdoors
+             firstTag.image = UIImage(named: "outdoors.png")
+             firstTagDescriptor.text = "outdoors"
+            break
+            
+        case "V6fIqmoG05": //philanthropy
+             firstTag.image = UIImage(named: "phil.png")
+             firstTagDescriptor.text = "Philanthropy"
+            break
+        case "mch3EIhozC": //music
+             firstTag.image = UIImage(named: "music.png")
+             firstTagDescriptor.text = "Music"
+            break
+            
+        case "AjosKs2UWi": //byob
+             firstTag.image = UIImage(named: "byob.png")
+             firstTagDescriptor.text = "Byob"
+            break
+            
+        case "Ymclya9lwu": //performance
+             firstTag.image = UIImage(named: "performance.png")
+             firstTagDescriptor.text = "Performance"
+            break
+        case "XYV5giSlCO": // food
+             firstTag.image = UIImage(named: "food.png")
+             firstTagDescriptor.text = "Food"
+            break
+            
+        case "GawBDHRtfo": //free
+             firstTag.image = UIImage(named: "free.png")
+             firstTagDescriptor.text = "Free"
+            break
+        case "8OXtrEEL7c"://On campus
+             firstTag.image = UIImage(named: "onCampus.png")
+             firstTagDescriptor.text = "Oncampus"
+            break
+            
+        default:
+             firstTag.image = nil
+             firstTagDescriptor.text = ""
+            
+            
+        }
         
-        if  onsite == true {
-            isSite.image = UIImage(named: "onCampus.png")
-            onCampusIcon.text = "On-Campus"
-            onCampusIcon.textColor = UIColor.darkGrayColor()
+        switch icon2 {
+        case "PvApxif2rw": //Popcorn
+            secondTag.image = UIImage(named: "popcorn.png")
+            secondTagDescriptor.text = "Popcorn"
+            break
+            
+        case "LP5fLvLurL": //recuitment
+            secondTag.image = UIImage(named: "recruitment.png")
+            secondTagDescriptor.text = "recruitment"
+            
+            break
+            
+        case "8HvnDADGY2": // run
+            secondTag.image = UIImage(named: "run.png")
+            secondTagDescriptor.text = "run"
+            break
+            
+        case "BX9RsT3EpW": //tour
+            secondTag.image = UIImage(named: "tour.png")
+            secondTagDescriptor.text = "tour"
+            break
+        case "u2EAfQk9Lf": //intramural
+            secondTag.image = UIImage(named: "intramural.png")
+            secondTagDescriptor.text = "Intramural"
+            break
+            
+        case "ayCBAVwQ93": //sales event
+            secondTag.image = UIImage(named: "sales.png")
+            secondTagDescriptor.text = "Sales"
+            break
+            
+        case "D1nxE6j63a": //dance
+            secondTag.image = UIImage(named: "dance.png")
+            secondTagDescriptor.text = "Dance"
+            break
+            
+        case "XiWPxYMwEO": //games
+            secondTag.image = UIImage(named: "games.png")
+            secondTagDescriptor.text = "Games"
+            break
+            
+        case "6IkmbdKMnn": //meetup
+            secondTag.image = UIImage(named: "meet.png")
+            secondTagDescriptor.text = "meet"
+            break
+            
+        case "wLt1TPYiyV": //religous
+            secondTag.image = UIImage(named: "religous.png")
+            secondTagDescriptor.text = "Religous"
+            break
+            
+        case "f8ZpiOF9cg": //conference
+            secondTag.image = UIImage(named: "conference.png")
+            secondTagDescriptor.text = "conference"
+            break
+            
+        case "leITfmSo7E": //party
+            secondTag.image = UIImage(named: "party.png")
+            secondTagDescriptor.text = "Party"
+            break
+        case "s5XU11BTs3": // drinking
+            secondTag.image = UIImage(named: "drinking.png")
+            secondTagDescriptor.text = "drinking"
+            break
+            
+        case "a3pMl70t39": //Outdoors
+            secondTag.image = UIImage(named: "outdoors.png")
+            secondTagDescriptor.text = "outdoors"
+            break
+            
+        case "V6fIqmoG05": //philanthropy
+            secondTag.image = UIImage(named: "phil.png")
+            secondTagDescriptor.text = "Philanthropy"
+            break
+        case "mch3EIhozC": //music
+            secondTag.image = UIImage(named: "music.png")
+            secondTagDescriptor.text = "Music"
+            break
+            
+        case "AjosKs2UWi": //byob
+            secondTag.image = UIImage(named: "byob.png")
+            secondTagDescriptor.text = "Byob"
+            break
+            
+        case "Ymclya9lwu": //performance
+            secondTag.image = UIImage(named: "performance.png")
+            secondTagDescriptor.text = "Performance"
+            break
+        case "XYV5giSlCO": // food
+            secondTag.image = UIImage(named: "food.png")
+            secondTagDescriptor.text = "Food"
+            break
+            
+        case "GawBDHRtfo": //free
+            secondTag.image = UIImage(named: "free.png")
+            secondTagDescriptor.text = "Free"
+            break
+        case "8OXtrEEL7c"://On campus
+            secondTag.image = UIImage(named: "onCampus.png")
+            secondTagDescriptor.text = "Oncampus"
+            break
+            
+        default:
+            secondTag.image = nil
+            secondTagDescriptor.text = ""
+            
+            
         }
-        else{
-            isSite.image = UIImage(named: "offCampus.png")
-            onCampusIcon.text = "Off-Campus"
-            onCampusIcon.textColor = UIColor.lightGrayColor()
+        switch icon3 {
+        case "PvApxif2rw": //Popcorn
+            thirdTag.image = UIImage(named: "popcorn.png")
+            thirdTagDescriptor.text = "Popcorn"
+            break
+            
+        case "LP5fLvLurL": //recuitment
+            thirdTag.image = UIImage(named: "recruitment.png")
+            thirdTagDescriptor.text = "recruitment"
+            
+            break
+            
+        case "8HvnDADGY2": // run
+            thirdTag.image = UIImage(named: "run.png")
+            thirdTagDescriptor.text = "run"
+            break
+            
+        case "BX9RsT3EpW": //tour
+            thirdTag.image = UIImage(named: "tour.png")
+            thirdTagDescriptor.text = "tour"
+            break
+        case "u2EAfQk9Lf": //intramural
+            thirdTag.image = UIImage(named: "intramural.png")
+            thirdTagDescriptor.text = "Intramural"
+            break
+            
+        case "ayCBAVwQ93": //sales event
+            thirdTag.image = UIImage(named: "sales.png")
+            thirdTagDescriptor.text = "Sales"
+            break
+            
+        case "D1nxE6j63a": //dance
+            thirdTag.image = UIImage(named: "dance.png")
+            thirdTagDescriptor.text = "Dance"
+            break
+            
+        case "XiWPxYMwEO": //games
+            thirdTag.image = UIImage(named: "games.png")
+            thirdTagDescriptor.text = "Games"
+            break
+            
+        case "6IkmbdKMnn": //meetup
+            thirdTag.image = UIImage(named: "meet.png")
+            thirdTagDescriptor.text = "meet"
+            break
+            
+        case "wLt1TPYiyV": //religous
+            thirdTag.image = UIImage(named: "religous.png")
+            thirdTagDescriptor.text = "Religous"
+            break
+            
+        case "f8ZpiOF9cg": //conference
+            thirdTag.image = UIImage(named: "conference.png")
+            thirdTagDescriptor.text = "conference"
+            break
+            
+        case "leITfmSo7E": //party
+            thirdTag.image = UIImage(named: "party.png")
+            thirdTagDescriptor.text = "Party"
+            break
+        case "s5XU11BTs3": // drinking
+            thirdTag.image = UIImage(named: "drinking.png")
+            thirdTagDescriptor.text = "drinking"
+            break
+            
+        case "a3pMl70t39": //Outdoors
+            thirdTag.image = UIImage(named: "outdoors.png")
+            thirdTagDescriptor.text = "outdoors"
+            break
+            
+        case "V6fIqmoG05": //philanthropy
+            thirdTag.image = UIImage(named: "phil.png")
+            thirdTagDescriptor.text = "Philanthropy"
+            break
+        case "mch3EIhozC": //music
+            thirdTag.image = UIImage(named: "music.png")
+            thirdTagDescriptor.text = "Music"
+            break
+            
+        case "AjosKs2UWi": //byob
+            thirdTag.image = UIImage(named: "byob.png")
+            thirdTagDescriptor.text = "Byob"
+            break
+            
+        case "Ymclya9lwu": //performance
+            thirdTag.image = UIImage(named: "performance.png")
+            thirdTagDescriptor.text = "Performance"
+            break
+        case "XYV5giSlCO": // food
+            thirdTag.image = UIImage(named: "food.png")
+            thirdTagDescriptor.text = "Food"
+            break
+            
+        case "GawBDHRtfo": //free
+            thirdTag.image = UIImage(named: "free.png")
+            thirdTagDescriptor.text = "Free"
+            break
+        case "8OXtrEEL7c"://On campus
+            thirdTag.image = UIImage(named: "onCampus.png")
+            thirdTagDescriptor.text = "Oncampus"
+            break
+            
+        default:
+            thirdTag.image = nil
+            thirdTagDescriptor.text = ""
+            
+            
         }
-        
-        if food == true {
-            isFood.image = UIImage(named: "yesFood.png")
-            foodIcon.text = "Food"
-            foodIcon.textColor = UIColor.darkGrayColor()
-        }
-        else{
-            isFood.image = UIImage(named: "noFood.png")
-            foodIcon.text = "No Food"
-            foodIcon.textColor = UIColor.lightGrayColor()
-        }
-        if cost == true {
-            isPaid.image = UIImage(named: "yesFree.png")
-            freeIcon.text = "Free"
-            freeIcon.textColor = UIColor.darkGrayColor()
-        }
-        else{
-            isPaid.image = UIImage(named: "noFree.png")
-            freeIcon.text = "Not Free"
-            freeIcon.textColor = UIColor.lightGrayColor()
-        }
+
+
+
     }
     override func prepareForSegue(segue:UIStoryboardSegue, sender: AnyObject?){
         
@@ -449,8 +745,8 @@ class postEvent: UIViewController {
             theMix.track("Tap Username (EV)")
             theMix.flush()
             var theotherprofile:userprofile = segue.destinationViewController as! userprofile
-            theotherprofile.theUser = users
-            theotherprofile.userId = userId
+            theotherprofile.theUser = organization
+            theotherprofile.userId = organizationID
         }
         if segue.identifier == "editEvent" {
             var theMix = Mixpanel.sharedInstance()

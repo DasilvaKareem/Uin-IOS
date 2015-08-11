@@ -733,7 +733,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
             var row = indexPath?.row
             
             var index = getEventIndex(section!, row: row!)
-            secondViewController.storeStartDate = eventStart[index]
+           /* secondViewController.storeStartDate = eventStart[index]
             secondViewController.endStoreDate =  eventEnd[index]
             secondViewController.userId = userId[index]
             secondViewController.address = eventAddress[index]
@@ -749,7 +749,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
             secondViewController.localStart = localizedTime[index]
             secondViewController.localEnd = localizedEndTime[index]
             secondViewController.users = usernames[index]
-            secondViewController.eventId = objectID[index]
+            secondViewController.eventId = objectID[index]*/
            
            
             

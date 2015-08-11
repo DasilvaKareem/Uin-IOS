@@ -705,11 +705,12 @@
                         <segue destination="y9y-G9-w9b" kind="show" identifier="event" id="2Fl-qT-9is"/>
                         <segue destination="Odt-cu-E3D" kind="show" identifier="profile" id="dXs-6q-ma4"/>
                         <segue destination="y9y-G9-w9b" kind="show" identifier="searchEvent" id="2sm-MT-g3M"/>
+                        <segue destination="g9f-Qt-XD7" kind="show" identifier="event" id="OBp-Yu-fQu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gUf-sa-8yM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2472" y="677"/>
+            <point key="canvasLocation" x="-2404" y="1555"/>
         </scene>
         <!--Event-->
         <scene sceneID="thA-zf-fYh">
@@ -829,16 +830,6 @@
                                             <constraint firstAttribute="width" constant="19" id="c5f-Qy-Uaa"/>
                                         </constraints>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NRP-OS-EJL">
-                                        <rect key="frame" x="165" y="31" width="85" height="21"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="21" id="O6J-j4-vdn"/>
-                                            <constraint firstAttribute="width" constant="85" id="wgx-tR-c5p"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="76f-MK-Hwv">
                                         <rect key="frame" x="305" y="31" width="85" height="21"/>
                                         <constraints>
@@ -854,6 +845,16 @@
                                         <constraints>
                                             <constraint firstAttribute="width" constant="86" id="aU3-gZ-WFZ"/>
                                             <constraint firstAttribute="height" constant="21" id="agO-xs-Ptn"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NRP-OS-EJL">
+                                        <rect key="frame" x="165" y="31" width="85" height="21"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="21" id="O6J-j4-vdn"/>
+                                            <constraint firstAttribute="width" constant="85" id="wgx-tR-c5p"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -1096,17 +1097,17 @@
                         <outlet property="dateTitle" destination="TRG-3k-hR9" id="Y70-zu-J7j"/>
                         <outlet property="eventDescription" destination="d1b-Pj-u2k" id="RDw-jV-bQI"/>
                         <outlet property="eventTitle" destination="BTs-Tc-lLL" id="bvi-7G-oi6"/>
-                        <outlet property="foodIcon" destination="76f-MK-Hwv" id="ZXp-6V-DbB"/>
-                        <outlet property="freeIcon" destination="NRP-OS-EJL" id="Rfr-4b-Z8p"/>
+                        <outlet property="firstTag" destination="QKs-Cl-h33" id="lSD-Zu-KBt"/>
+                        <outlet property="firstTagDescriptor" destination="LUW-PS-q79" id="b0G-Og-qeH"/>
                         <outlet property="imageShower" destination="t3U-DR-dSi" id="KWy-Va-TeT"/>
-                        <outlet property="isFood" destination="gGR-lF-G3t" id="B9W-oF-4QE"/>
-                        <outlet property="isPaid" destination="MIg-rS-88A" id="mlD-iL-c6N"/>
-                        <outlet property="isSite" destination="QKs-Cl-h33" id="SuW-Vg-uaC"/>
                         <outlet property="location" destination="Bqs-Ky-LC0" id="8ga-7V-UJY"/>
                         <outlet property="locationTitle" destination="EhB-JZ-mhd" id="BZQ-4e-zjp"/>
                         <outlet property="longBar" destination="oEx-xt-2dS" id="DcI-u4-98n"/>
-                        <outlet property="onCampusIcon" destination="LUW-PS-q79" id="3eb-G6-QaS"/>
                         <outlet property="picture" destination="vbc-De-RPc" id="dcS-Da-Iot"/>
+                        <outlet property="secondTag" destination="MIg-rS-88A" id="1UQ-bE-ZyO"/>
+                        <outlet property="secondTagDescriptor" destination="NRP-OS-EJL" id="16E-LR-QBE"/>
+                        <outlet property="thirdTag" destination="gGR-lF-G3t" id="t5L-mJ-1Su"/>
+                        <outlet property="thirdTagDescriptor" destination="76f-MK-Hwv" id="e4y-Re-fam"/>
                         <segue destination="Odt-cu-E3D" kind="show" identifier="gotoprofile" id="Icg-Rt-Vk3"/>
                         <segue destination="wj6-a8-ugv" kind="show" identifier="editEvent" id="C0P-bS-fxh"/>
                         <segue destination="Jab-jy-L9B" kind="show" identifier="" id="j6T-dp-ncw"/>
@@ -2486,7 +2487,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IxO-iw-cmI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-5692" y="2196"/>
+            <point key="canvasLocation" x="-5692" y="2225"/>
         </scene>
         <!--location-->
         <scene sceneID="p1W-C6-zR7">
@@ -4657,7 +4658,7 @@
                                     </mask>
                                 </variation>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RbH-Ui-uu6">
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RbH-Ui-uu6">
                                 <rect key="frame" x="190" y="346" width="34" height="34"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="34" id="DnT-FN-K74"/>
@@ -4710,7 +4711,7 @@
                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e3a-rE-7HV">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e3a-rE-7HV">
                                 <rect key="frame" x="159" y="384" width="97" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="97" id="BaH-MM-XL4"/>
@@ -4720,7 +4721,7 @@
                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UnK-Fu-whK">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UnK-Fu-whK">
                                 <rect key="frame" x="320" y="384" width="90" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="90" id="1NZ-by-dxj"/>
@@ -4750,7 +4751,7 @@
                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rTI-O2-NXS">
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rTI-O2-NXS">
                                 <rect key="frame" x="354" y="346" width="23" height="34"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="23" id="JiI-CZ-QDc"/>
@@ -5820,13 +5821,14 @@
     <inferredMetricsTieBreakers>
         <segue reference="ydG-6f-XVZ"/>
         <segue reference="Or7-9P-XFG"/>
-        <segue reference="SJU-iS-UV4"/>
-        <segue reference="2sm-MT-g3M"/>
         <segue reference="hrZ-5I-9po"/>
+        <segue reference="2sm-MT-g3M"/>
+        <segue reference="SJU-iS-UV4"/>
         <segue reference="dXs-6q-ma4"/>
+        <segue reference="OBp-Yu-fQu"/>
+        <segue reference="dfA-l9-WUl"/>
         <segue reference="FLk-RB-cnt"/>
         <segue reference="gDP-CS-jgW"/>
-        <segue reference="dfA-l9-WUl"/>
         <segue reference="0eG-3o-QAg"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
