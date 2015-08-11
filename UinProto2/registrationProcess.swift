@@ -213,18 +213,27 @@ class registrationProcess: UIViewController {
     var characterSet:NSCharacterSet = NSCharacterSet(charactersInString: "@memphis.edu")
     @IBAction func nextView(sender: AnyObject) {
         //Sign user in
+     
+      
+                    
+                    NSLog("User is already signed in with us")
+                    if ( PFUser.currentUser().email.rangeOfString(".edu") != nil) {
+                        if PFUser.currentUser()["emailVerified"]  as! Bool == true {
+                            println("This guy is ready to procreed")
+                            self.performSegueWithIdentifier("push", sender: self)
+                        } else {
+                            println("This guy email is not Verified")
+                        }
+                    } else {
+                        println("you do not have a memphis.edu")
+                    }
+                    
+                }
+    
+            
+        
        
-        if ( PFUser.currentUser().email.rangeOfString(".edu") != nil) {
-            if PFUser.currentUser()["emailVerified"]  as! Bool == true {
-                println("This guy is ready to procreed")
-                self.performSegueWithIdentifier("push", sender: self)
-            } else {
-                println("This guy email is not Verified")
-            }
-        } else {
-            println("you do not have a memphis.edu")
-        }
-    }
+    
     /*
     // MARK: - Navigation
     
@@ -243,7 +252,7 @@ class basicSignUp: UIViewController {
     @IBOutlet weak var lName: UITextField!
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        queryData()
         // Do any additional setup after loading the view.
     }
     

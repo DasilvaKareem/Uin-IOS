@@ -112,13 +112,7 @@ class eventLocationView: UIViewController, MKMapViewDelegate, CLLocationManagerD
         map.showsUserLocation = true
         locationmgr.startUpdatingLocation()
         println(map.userLocation.location)
-        
-        
-        
-        
-        
-        
-        
+
         // Do any additional setup after loading the view.
     }
     

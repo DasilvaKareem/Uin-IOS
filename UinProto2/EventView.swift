@@ -34,7 +34,7 @@ class postEvent: UIViewController {
     @IBOutlet weak var isSite: UIImageView!
     @IBOutlet weak var isPaid: UIImageView!
     @IBAction func gotoProfile(sender: AnyObject) {
-        if PFUser.currentUser().objectId != userId {
+        if PFUser.currentUser().objectId != organizationID {
             self.performSegueWithIdentifier("gotoprofile", sender: self)
         } else {
             self.performSegueWithIdentifier("editEvent", sender: self)
@@ -47,7 +47,7 @@ class postEvent: UIViewController {
     var alertTime:NSTimeInterval = -6000
     var profileEditing = false
     var address = String()
-    var users = String()
+    var organization= String()
     var storeTitle = String()
     var storeLocation = String()
     var storeStartTime = String()
@@ -56,15 +56,15 @@ class postEvent: UIViewController {
     var storeDate = String()
     var storeSum = String()
     var data = Int()
-    var onsite = Bool()
-    var food = Bool()
-    var cost = Bool()
+    var icon1 = Bool()
+    var icon2 = Bool()
+    var icon3 = Bool()
     var storeStartDate = NSDate()
     var endStoreDate = NSDate()
     var eventId = String()
     var localStart = String()
     var localEnd = String()
-    var userId = String()
+    var organizationID = String()
     var eventDescriptionHolder = String()
     var searchEvent = false
     var imageFile = (PFFile)()
@@ -113,37 +113,21 @@ class postEvent: UIViewController {
 
     func getEvents() {
        var getEvents = PFQuery(className: "Event")
+        getEvents.includeKey("author")
         getEvents.getObjectInBackgroundWithId(eventId, block: {
             (result: PFObject!, error: NSError!) -> Void in
             if error == nil {
-                println(result)
+                
                 var dateFormatter = NSDateFormatter()
                 dateFormatter.locale = NSLocale.currentLocale() // Gets current locale and switches
                 dateFormatter.dateFormat = "MMM. dd, yyyy - h:mm a"
                 self.startDate = dateFormatter.stringFromDate(result["start"] as!NSDate) // Creates date
                 self.endDate = dateFormatter.stringFromDate(result["end"] as!NSDate) // Creates date
                 
-
-                if result["picture"] == nil {
-                    self.imageShower.removeFromSuperview()
-                } else {
-                    self.imageShower.superview
-                    self.imageFile = result["picture"] as! PFFile
-                    self.imageFile.getDataInBackgroundWithBlock({
-                        (imageData: NSData!, error: NSError!) -> Void in
-                        if error == nil {
-                            self.image = UIImage(data: imageData)!
-                            self.picture.image = UIImage(data: imageData)!
-                            
-                            
-                        } else {
-                            println(error)
-                        }
-                    })
-                }
-          
-                self.users = result["author"] as!String!
-                self.userId = result["authorID"] as!String!
+                let author = result["author"] as! PFObject
+                
+                self.organization = author["name"] as! String
+                self.organizationID = author.objectId as! String
                 self.address = result["address"] as!String!
                 self.storeLocation = result["location"] as!String!
                 self.location.text = result["location"] as!String!

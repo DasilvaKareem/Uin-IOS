@@ -46,7 +46,7 @@ class datepickers: UIViewController {
         dateTime1 =  dateTimeformat.stringFromDate(datepicker1.date)
         orderDate1 = datepicker1.date
         startString = dateStr1 + " " + dateTime1
-        startTIme.text = startString
+       // startTIme.text = startString
         
         
     }

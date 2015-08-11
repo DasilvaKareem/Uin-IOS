@@ -26,6 +26,11 @@ class eventCell: UITableViewCell {
     @IBOutlet weak var people: UILabel!
     @IBOutlet weak var time: UILabel!
     
+    @IBOutlet weak var icon1: UIImageView!
+    @IBOutlet weak var icon2: UIImageView!
+    @IBOutlet weak var icon3: UIImageView!
+    
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

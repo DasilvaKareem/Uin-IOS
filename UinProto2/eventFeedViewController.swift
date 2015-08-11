@@ -262,6 +262,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             })
         }
     }
+    
     func updateFeed(shouldKeepList:Bool){
         //Removes all leftover content in the array
         var geoEnabled = true
@@ -271,21 +272,15 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                 println(error.code)
                 self.displayAlert("No GPS Enabled", error: "Turn on your location")
             }
-                    //Customizes Event Feed
-                    //Adds or remove the create event functionailty
-                    println()
-                    println()
-                    println(self.channelID)
-                    println()
-                    println()
-                    self.currentPoint = geoPoint
+            
+                    self.currentPoint = geoPoint //sets the user gps to a global point
                     //adds content to the array
                     //Queries all public Events
                     var eventQuery = PFQuery(className: "Event")
                     var pubQue = PFQuery(className: "Subscription")
                     var superQue = PFQuery(className: "Event")
                     var newQue = PFQuery(className: "Event")
-                    var query = PFQuery.orQueryWithSubqueries([eventQuery, superQue, newQue ])
+                    var query = PFQuery.orQueryWithSubqueries([eventQuery ])
                     switch self.channelID {
                         case "localEvent":
                             self.navigationItem.title = "Local Events"
@@ -345,7 +340,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                         break
                     default:
                         
-                        
+            
                         eventQuery.whereKey("channels", equalTo:self.channelID)
                         eventQuery.whereKey("isPublic", equalTo: true)
                         
@@ -369,16 +364,15 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
            
                     
                     query.orderByAscending("start")
-                    query.includeKey("Organization")
-                    println(self.currentPoint)
+                    query.includeKey("author")
                    /* if geoEnabled == true  {
                  query.whereKey("locationGeopoint", nearGeoPoint: self.currentPoint, withinMiles: 7.0)
+                 println(self.currentPoint)
                     }*/
-        
                  //query.whereKey("start", greaterThanOrEqualTo: NSDate())
                     query.whereKey("isDeleted", equalTo: false)
                     query.limit = 20
-                    //query.whereKey("objectId", notContainedIn: self.objectID)
+                    query.whereKey("objectId", notContainedIn: self.objectID)
                     query.findObjectsInBackgroundWithBlock {
                         (results: [AnyObject]!, error: NSError!) -> Void in
                         if error == nil {
@@ -404,22 +398,39 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                             println()
                            // println(results)
                             println()
+                            
                             for object in results{
-                                let poop = object["author"] as! PFObject
-                                let op = poop.objectForKey("name") as! String
-                                println(op)
-                                println(poop.objectForKey("name"))
+                                let author:PFObject = object["author"] as! PFObject //Makes pointer in PFobject
                                 self.publicPost.append(object["isPublic"] as!Bool)
                                 self.objectID.append(object.objectId as String)
-                               // self.usernames.append(poop["name"] as! String)
-                                self.eventTitle.append(object["title"] as!String)
-                                self.tag1.append(object["tag1"] as! String)
-                                self.tag2.append(object["tag2"] as! String)
-                                self.tag3.append(object["tag3"] as! String)
+                                self.usernames.append(author["name"] as! String)
+                                self.eventTitle.append(object["title"] as! String)
+                                //Checks if the tag1 is nil then enters a blank icon
+                                if (object["tag1"]  === nil)  {
+                                    self.tag1.append("")
+                                } else {
+                                    
+                                    self.tag1.append(object["tag1"] as! String)
+                                }
+                                
+                                //Checks if the tag2 is nil then enters a blank icon
+                                if (object["tag2"]  === nil)  {
+                                    self.tag2.append("")
+                                } else {
+                                    
+                                    self.tag2.append(object["tag2"] as! String)
+                                }
+                                //Checks if the tag3 is nil then enters a blank icon
+                                if (object["tag3"]  === nil)  {
+                                   self.tag3.append("")
+                                } else {
+                                     self.tag3.append(object["tag3"] as! String)
+                                }
+
                                 self.eventEnd.append(object["end"] as!NSDate)
                                 self.eventStart.append(object["start"] as!NSDate)
                                 self.eventlocation.append(object["location"] as!String)
-                               // self.userId.append(object["authorID"] as!String)
+                                self.userId.append(author.objectId)
                                 self.eventAddress.append(object["address"] as!String)
                                 self.eventDescription.append(object["description"] as! String)
                                 
@@ -661,9 +672,9 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         println()
         if appProblem == true {
             cell.eventName.numberOfLines = 3
-            cell.onCampusIcon.image = nil
-            cell.foodIcon.image = nil
-            cell.freeIcon.image = nil
+            //cell.onCampusIcon.image = nil
+            //cell.foodIcon.image = nil
+            //cell.freeIcon.image = nil
             cell.poop.hidden = true
             cell.foodText.text = ""
             cell.onCampusText.text = ""
@@ -677,9 +688,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             println("search is active")
           
             if filteredSearchItems.count == 0 {
-                cell.onCampusIcon.image = nil
-                cell.foodIcon.image = nil
-                cell.freeIcon.image = nil
+             
                 cell.poop.hidden = true
                 cell.foodText.text = ""
                 cell.onCampusText.text = ""
@@ -729,192 +738,327 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
       
             switch tag1[event] {
             case "PvApxif2rw": //Popcorn
+                cell.icon1.image = UIImage(named: "popcorn.png")
+                cell.onCampusText.text = "Popcorn"
                 break
                 
             case "LP5fLvLurL": //recuitment
+                cell.icon1.image = UIImage(named: "recruitment.png")
+                cell.onCampusText.text = "recruitment"
+                
                 break
                 
             case "8HvnDADGY2": // run
+                cell.icon1.image = UIImage(named: "run.png")
+                cell.onCampusText.text = "run"
                 break
                 
             case "BX9RsT3EpW": //tour
+                cell.icon1.image = UIImage(named: "tour.png")
+                cell.onCampusText.text = "tour"
                 break
             case "u2EAfQk9Lf": //intramural
+                cell.icon1.image = UIImage(named: "intramural.png")
+                cell.onCampusText.text = "Intramural"
                 break
                 
             case "ayCBAVwQ93": //sales event
+                cell.icon1.image = UIImage(named: "sales.png")
+                cell.onCampusText.text = "Sales"
                 break
                 
             case "D1nxE6j63a": //dance
+                cell.icon1.image = UIImage(named: "dance.png")
+                cell.onCampusText.text = "Dance"
                 break
                 
             case "XiWPxYMwEO": //games
+                cell.icon1.image = UIImage(named: "games.png")
+                cell.onCampusText.text = "Games"
                 break
                 
             case "6IkmbdKMnn": //meetup
+                cell.icon1.image = UIImage(named: "meet.png")
+                cell.onCampusText.text = "meet"
                 break
                 
             case "wLt1TPYiyV": //religous
+                cell.icon1.image = UIImage(named: "religous.png")
+                cell.onCampusText.text = "Religous"
                 break
                 
             case "f8ZpiOF9cg": //conference
+                cell.icon1.image = UIImage(named: "conference.png")
+                cell.onCampusText.text = "conference"
                 break
                 
             case "leITfmSo7E": //party
+                cell.icon1.image = UIImage(named: "party.png")
+                cell.onCampusText.text = "Party"
                 break
             case "s5XU11BTs3": // drinking
+                cell.icon1.image = UIImage(named: "drinking.png")
+                cell.onCampusText.text = "drinking"
                 break
                 
             case "a3pMl70t39": //Outdoors
+                cell.icon1.image = UIImage(named: "outdoors.png")
+                cell.onCampusText.text = "outdoors"
                 break
                 
             case "V6fIqmoG05": //philanthropy
+                cell.icon1.image = UIImage(named: "phil.png")
+                cell.onCampusText.text = "Philanthropy"
                 break
             case "mch3EIhozC": //music
+                cell.icon1.image = UIImage(named: "music.png")
+                cell.onCampusText.text = "Music"
                 break
                 
             case "AjosKs2UWi": //byob
+                cell.icon1.image = UIImage(named: "byob.png")
+                cell.onCampusText.text = "Byob"
                 break
                 
             case "Ymclya9lwu": //performance
+                cell.icon1.image = UIImage(named: "performance.png")
+                cell.onCampusText.text = "Performance"
                 break
             case "XYV5giSlCO": // food
+                cell.icon1.image = UIImage(named: "food.png")
+                cell.onCampusText.text = "Food"
                 break
                 
             case "GawBDHRtfo": //free
+                cell.icon1.image = UIImage(named: "free.png")
+                cell.onCampusText.text = "Free"
+                break
+            case "8OXtrEEL7c"://On campus
+                cell.icon1.image = UIImage(named: "onCampus.png")
                 break
                 
             default:
-                cell.onCampusIcon.image = nil
+                cell.icon1.image = nil
+                cell.onCampusText.text = ""
                 
             }
             switch tag2[event] {
             case "PvApxif2rw": //Popcorn
+                cell.icon2.image = UIImage(named: "popcorn.png")
+                cell.foodText.text = "Popcorn"
                 break
                 
             case "LP5fLvLurL": //recuitment
+                cell.icon1.image = UIImage(named: "recruitment.png")
+                cell.foodText.text = "recruitment"
+                
                 break
                 
             case "8HvnDADGY2": // run
+                cell.icon2.image = UIImage(named: "run.png")
+                cell.foodText.text = "run"
                 break
                 
             case "BX9RsT3EpW": //tour
+                cell.icon2.image = UIImage(named: "tour.png")
+                cell.foodText.text = "tour"
                 break
             case "u2EAfQk9Lf": //intramural
+                cell.icon2.image = UIImage(named: "intramural.png")
+                cell.foodText.text = "Intramural"
                 break
                 
             case "ayCBAVwQ93": //sales event
+                cell.icon2.image = UIImage(named: "sales.png")
+                cell.foodText.text = "Sales"
                 break
                 
             case "D1nxE6j63a": //dance
+                cell.icon2.image = UIImage(named: "dance.png")
+                cell.foodText.text = "Dance"
                 break
                 
             case "XiWPxYMwEO": //games
+                cell.icon2.image = UIImage(named: "games.png")
+                cell.foodText.text = "Games"
                 break
                 
             case "6IkmbdKMnn": //meetup
+                cell.icon2.image = UIImage(named: "meet.png")
+                cell.foodText.text = "meet"
                 break
                 
             case "wLt1TPYiyV": //religous
+                cell.icon2.image = UIImage(named: "religous.png")
+                cell.foodText.text = "Religous"
                 break
                 
             case "f8ZpiOF9cg": //conference
+                cell.icon2.image = UIImage(named: "conference.png")
+                cell.foodText.text = "conference"
                 break
                 
             case "leITfmSo7E": //party
-            break
+                cell.icon2.image = UIImage(named: "party.png")
+                cell.foodText.text = "Party"
+                break
             case "s5XU11BTs3": // drinking
+                cell.icon2.image = UIImage(named: "drinking.png")
+                cell.foodText.text = "drinking"
                 break
                 
             case "a3pMl70t39": //Outdoors
+                cell.icon2.image = UIImage(named: "outdoors.png")
+                cell.foodText.text = "outdoors"
                 break
                 
             case "V6fIqmoG05": //philanthropy
+                cell.icon2.image = UIImage(named: "phil.png")
+                cell.foodText.text = "Philanthropy"
                 break
             case "mch3EIhozC": //music
+                cell.icon2.image = UIImage(named: "music.png")
+                cell.foodText.text = "Music"
                 break
                 
             case "AjosKs2UWi": //byob
+                cell.icon2.image = UIImage(named: "byob.png")
+                cell.foodText.text = "Byob"
                 break
                 
             case "Ymclya9lwu": //performance
+                cell.icon2.image = UIImage(named: "performance.png")
+                cell.foodText.text = "Performance"
                 break
             case "XYV5giSlCO": // food
+                cell.icon2.image = UIImage(named: "food.png")
+                cell.foodText.text = "Food"
                 break
                 
             case "GawBDHRtfo": //free
+                cell.icon2.image = UIImage(named: "free.png")
+                cell.foodText.text = "Free"
                 break
-           
+            case "8OXtrEEL7c"://On campus
+                cell.icon2.image = UIImage(named: "onCampus.png")
+                break
+                
             default:
-                cell.onCampusIcon.image = nil
+                cell.icon2.image = nil
+                cell.foodText.text = ""
+                
             }
             switch tag3[event] {
             case "PvApxif2rw": //Popcorn
+                cell.icon3.image = UIImage(named: "popcorn.png")
+                cell.costText.text = "Popcorn"
                 break
                 
             case "LP5fLvLurL": //recuitment
+                cell.icon3.image = UIImage(named: "recruitment.png")
+                cell.costText.text = "recruitment"
+                
                 break
                 
             case "8HvnDADGY2": // run
+                cell.icon3.image = UIImage(named: "run.png")
+                cell.costText.text = "run"
                 break
                 
             case "BX9RsT3EpW": //tour
+                cell.icon3.image = UIImage(named: "tour.png")
+                cell.costText.text = "tour"
                 break
             case "u2EAfQk9Lf": //intramural
+                cell.icon3.image = UIImage(named: "intramural.png")
+                cell.costText.text = "Intramural"
                 break
                 
             case "ayCBAVwQ93": //sales event
+                cell.icon3.image = UIImage(named: "sales.png")
+                cell.costText.text = "Sales"
                 break
                 
             case "D1nxE6j63a": //dance
+                cell.icon3.image = UIImage(named: "dance.png")
+                cell.costText.text = "Dance"
                 break
                 
             case "XiWPxYMwEO": //games
+                cell.icon3.image = UIImage(named: "games.png")
+                cell.costText.text = "Games"
                 break
                 
             case "6IkmbdKMnn": //meetup
+                cell.icon3.image = UIImage(named: "meet.png")
+                cell.costText.text = "meet"
                 break
                 
             case "wLt1TPYiyV": //religous
+                cell.icon3.image = UIImage(named: "religous.png")
+                cell.costText.text = "Religous"
                 break
                 
             case "f8ZpiOF9cg": //conference
+                cell.icon3.image = UIImage(named: "conference.png")
+                cell.costText.text = "conference"
                 break
                 
             case "leITfmSo7E": //party
+                cell.icon3.image = UIImage(named: "party.png")
+                cell.costText.text = "Party"
                 break
             case "s5XU11BTs3": // drinking
+                cell.icon3.image = UIImage(named: "drinking.png")
+                cell.costText.text = "drinking"
                 break
                 
             case "a3pMl70t39": //Outdoors
+                cell.icon3.image = UIImage(named: "outdoors.png")
+                cell.costText.text = "outdoors"
                 break
                 
             case "V6fIqmoG05": //philanthropy
+                cell.icon3.image = UIImage(named: "phil.png")
+                cell.costText.text = "Philanthropy"
                 break
             case "mch3EIhozC": //music
+                cell.icon3.image = UIImage(named: "music.png")
+                cell.costText.text = "Music"
                 break
                 
             case "AjosKs2UWi": //byob
+                cell.icon3.image = UIImage(named: "byob.png")
+                cell.costText.text = "Byob"
                 break
                 
             case "Ymclya9lwu": //performance
+                cell.icon3.image = UIImage(named: "performance.png")
+                cell.costText.text = "Performance"
                 break
             case "XYV5giSlCO": // food
+                cell.icon3.image = UIImage(named: "food.png")
+                cell.costText.text = "Food"
                 break
                 
             case "GawBDHRtfo": //free
+                cell.icon3.image = UIImage(named: "free.png")
+                cell.costText.text = "Free"
+                break
+            case "8OXtrEEL7c"://On campus
+                cell.icon3.image = UIImage(named: "oncampus.png")
                 break
                 
             default:
-                cell.onCampusIcon.image = nil
+                cell.icon3.image = nil
+                cell.costText.text = ""
             }
-   
         
         cell.people.text = usernames[event]
         cell.time.text = localizedTime[event]
         cell.eventName.text = eventTitle[event]
         cell.poop.tag = event
-        var minique = PFQuery(className: "UserCalendar")
+       /* var minique = PFQuery(className: "UserCalendar")
         minique.whereKey("userID", equalTo: PFUser.currentUser().objectId)
         minique.whereKey("eventID", equalTo: objectID[event])
             minique.getFirstObjectInBackgroundWithBlock{
@@ -929,7 +1073,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                 
                     cell.poop.setImage(UIImage(named: "addToCalendar.png"), forState: UIControlState.Normal)
                 }
-            }
+            }*/
       
          cell.poop.addTarget(self, action: "followButton:", forControlEvents: UIControlEvents.TouchUpInside)
             }
