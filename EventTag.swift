@@ -59,9 +59,9 @@ class iconCreateViewController: UIViewController, UICollectionViewDataSource, UI
         if tags.count != 3 {
             println("You can only have 3 tags selected")
         } else {
-          //  firstIcon = tags[0]
-            //secondIcon = tags[1]
-            //thirdIcon = tags[2]
+             firstIcon = tags[0]
+              secondIcon = tags[1]
+              thirdIcon = tags[2]
             self.performSegueWithIdentifier("event4", sender: self)
         }
     }

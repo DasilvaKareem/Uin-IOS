@@ -66,7 +66,7 @@ class homePage: UIViewController {
                 } else {
                     
                     NSLog("User is already signed in with us")
-                    if PFUser.currentUser()["profileReady"] as! Bool {
+                    if PFUser.currentUser()["profileReady"] as! Bool == true {
                         self.performSegueWithIdentifier("login", sender: self)
                     } else {
                         self.performSegueWithIdentifier("push", sender: self)
@@ -74,6 +74,9 @@ class homePage: UIViewController {
                     }
                     
                 }
+            } else {
+                println("Something")
+                println(error)
             }
             
         })
@@ -143,7 +146,7 @@ class homePage: UIViewController {
                     println("User signed up and logged in with Twitter!")
                     
                 } else {
-                    if PFUser.currentUser()["profileReady"] as! Bool {
+                    if PFUser.currentUser()["profileReady"] as! Bool == true {
                         self.performSegueWithIdentifier("login", sender: self)
                     } else {
                          self.performSegueWithIdentifier("push", sender: self)
@@ -168,6 +171,14 @@ class homePage: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         PFUser.logOut()
+     
+    
+    }
+    override func viewDidAppear(animated: Bool) {
+        if PFUser.currentUser() == nil {
+            self.performSegueWithIdentifier("login", sender: self)
+        }
+        
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -216,14 +227,10 @@ class registrationProcess: UIViewController {
      
       
                     
-                    NSLog("User is already signed in with us")
-                    if ( PFUser.currentUser().email.rangeOfString(".edu") != nil) {
-                        if PFUser.currentUser()["emailVerified"]  as! Bool == true {
+        
+                    if ( PFUser.currentUser().email.rangeOfString("memphis.edu") != nil) {
                             println("This guy is ready to procreed")
                             self.performSegueWithIdentifier("push", sender: self)
-                        } else {
-                            println("This guy email is not Verified")
-                        }
                     } else {
                         println("you do not have a memphis.edu")
                     }
@@ -360,6 +367,7 @@ class extraSignUp: UIViewController, UIPickerViewDataSource, UIPickerViewDelegat
                 (success:Bool, error:NSError!) -> Void in
                 if error == nil {
                     self.performSegueWithIdentifier("push", sender: self)
+                    
                     println("user object was saved")
                 } else {
                     println("user object was not saved")

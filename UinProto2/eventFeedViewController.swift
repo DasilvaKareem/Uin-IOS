@@ -198,11 +198,15 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     @IBAction func eventMake(sender: AnyObject) {
         var user = PFUser.currentUser()
         //Checks if the account is a temporary account
-       
-           self.performSegueWithIdentifier("event", sender: self)
+        if user["organization"] !== nil {
+            self.performSegueWithIdentifier("eventPush", sender: self)
             var theMix = Mixpanel.sharedInstance()
             theMix.track("Tap Create Event (EF)")
             theMix.flush()
+        } else {
+            displayAlert("You need to signed in as Organization", error: "Please sign or create Organization")
+        }
+        
             
 
     }

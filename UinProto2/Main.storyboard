@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Dho-Kl-TM2">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="dis-4S-wc4">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
@@ -74,7 +74,7 @@
                         <viewControllerLayoutGuide type="bottom" id="khG-XJ-1JP"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="aLF-VF-EaY">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="64" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background" translatesAutoresizingMaskIntoConstraints="NO" id="lP3-YR-TzH">
@@ -262,7 +262,7 @@
                         <viewControllerLayoutGuide type="bottom" id="dJS-Gi-aHg"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="jeT-Wr-e9r">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="64" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ISd-xX-Gb8">
@@ -705,12 +705,12 @@
                         <segue destination="y9y-G9-w9b" kind="show" identifier="event" id="2Fl-qT-9is"/>
                         <segue destination="Odt-cu-E3D" kind="show" identifier="profile" id="dXs-6q-ma4"/>
                         <segue destination="y9y-G9-w9b" kind="show" identifier="searchEvent" id="2sm-MT-g3M"/>
-                        <segue destination="g9f-Qt-XD7" kind="show" identifier="event" id="OBp-Yu-fQu"/>
+                        <segue destination="g9f-Qt-XD7" kind="show" identifier="eventPush" id="OBp-Yu-fQu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gUf-sa-8yM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2404" y="1555"/>
+            <point key="canvasLocation" x="-3048" y="2395"/>
         </scene>
         <!--Event-->
         <scene sceneID="thA-zf-fYh">
@@ -1115,7 +1115,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5rQ-t6-Cuv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1327" y="4097"/>
+            <point key="canvasLocation" x="-2445" y="2433"/>
         </scene>
         <!--Image Preview-->
         <scene sceneID="dGl-XA-80x">
@@ -1813,7 +1813,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="A3G-8e-hmK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3693" y="358"/>
+            <point key="canvasLocation" x="-3813" y="453"/>
         </scene>
         <!--Login-->
         <scene sceneID="yUK-jY-boG">
@@ -2370,7 +2370,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mVa-S5-AOx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-6534" y="2792"/>
+            <point key="canvasLocation" x="-6921" y="2614"/>
         </scene>
         <!--post event-->
         <scene sceneID="aq3-51-i68">
@@ -2620,7 +2620,7 @@
                         <outlet property="displayLocation" destination="zxq-UE-1ep" id="9st-66-6SM"/>
                         <outlet property="eventLocation" destination="D8F-lW-8el" id="OnC-Rd-hto"/>
                         <outlet property="map" destination="2hH-1R-tts" id="bG8-Pu-TcZ"/>
-                        <segue destination="aOp-6U-OWe" kind="show" id="MFs-Uy-KCA"/>
+                        <segue destination="aOp-6U-OWe" kind="show" identifier="event2" id="MFs-Uy-KCA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KXw-Ok-0MC" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2667,7 +2667,7 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="0XJ-ye-CBt">
+                            <datePicker contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="0XJ-ye-CBt">
                                 <rect key="frame" x="1" y="101" width="412" height="162"/>
                                 <date key="date" timeIntervalSinceReferenceDate="459386649.99545997">
                                     <!--2015-07-23 23:24:09 +0000-->
@@ -2685,7 +2685,7 @@
                                 <color key="textColor" red="0.53333333329999999" green="0.53333333329999999" blue="0.53333333329999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="end time" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Otp-vN-Bao">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="end time" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Otp-vN-Bao">
                                 <rect key="frame" x="8" y="271" width="390" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="LDK-Ql-dVj"/>
@@ -2694,7 +2694,7 @@
                                 <color key="textColor" red="0.53333333329999999" green="0.53333333329999999" blue="0.53333333329999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="9UE-Ec-lzq">
+                            <datePicker contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="9UE-Ec-lzq">
                                 <rect key="frame" x="0.0" y="300" width="414" height="162"/>
                                 <date key="date" timeIntervalSinceReferenceDate="459386647.92007601">
                                     <!--2015-07-23 23:24:07 +0000-->
@@ -2707,6 +2707,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="4fg-HT-lJ4" firstAttribute="leading" secondItem="eOr-3j-wQ3" secondAttribute="leadingMargin" constant="-16" id="3Mm-ao-2go"/>
+                            <constraint firstItem="4fg-HT-lJ4" firstAttribute="top" secondItem="9UE-Ec-lzq" secondAttribute="bottom" constant="190" id="BLe-ZY-RHL"/>
                             <constraint firstItem="9UE-Ec-lzq" firstAttribute="leading" secondItem="eOr-3j-wQ3" secondAttribute="leadingMargin" constant="-16" id="Fx7-Sb-Vuj"/>
                             <constraint firstItem="0XJ-ye-CBt" firstAttribute="top" secondItem="hl7-X8-uUv" secondAttribute="bottom" constant="8" id="LPT-Xe-phq"/>
                             <constraint firstItem="hl7-X8-uUv" firstAttribute="leading" secondItem="eOr-3j-wQ3" secondAttribute="leadingMargin" constant="-8" id="QPT-la-Vs4"/>
@@ -2731,12 +2732,12 @@
                     <connections>
                         <outlet property="datepicker1" destination="0XJ-ye-CBt" id="1YU-zh-BkM"/>
                         <outlet property="datepicker2" destination="9UE-Ec-lzq" id="hcS-BO-XcP"/>
-                        <segue destination="Dho-Kl-TM2" kind="show" id="4kn-mq-orv"/>
+                        <segue destination="Dho-Kl-TM2" kind="show" identifier="event3" id="4kn-mq-orv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Q9b-lO-QYX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-5692" y="3888"/>
+            <point key="canvasLocation" x="-5727" y="4027"/>
         </scene>
         <!--tags-->
         <scene sceneID="eAv-E9-JUg">
@@ -2764,6 +2765,9 @@
                                         <exclude reference="c7c-ks-Hcl"/>
                                     </mask>
                                 </variation>
+                                <connections>
+                                    <action selector="submitData:" destination="Dho-Kl-TM2" eventType="touchUpInside" id="Cdo-GM-yxS"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="calendars" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sih-23-w9M">
                                 <rect key="frame" x="16" y="687" width="79" height="22"/>
@@ -2791,7 +2795,7 @@
                                 </constraints>
                             </imageView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Kjy-Tv-V0M">
-                                <rect key="frame" x="0.0" y="101" width="345" height="503"/>
+                                <rect key="frame" x="8" y="101" width="263" height="320"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="r58-KB-95f">
                                     <size key="itemSize" width="94" height="101"/>
@@ -2851,12 +2855,12 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
                         <outlet property="tagCollection" destination="Kjy-Tv-V0M" id="2Hl-ZM-Ihz"/>
-                        <segue destination="6x6-dH-oi6" kind="show" id="Idn-V3-2sC"/>
+                        <segue destination="6x6-dH-oi6" kind="show" identifier="event4" id="Idn-V3-2sC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tIi-jn-ijQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-5700" y="4719"/>
+            <point key="canvasLocation" x="-5904" y="5095"/>
         </scene>
         <!--calendars-->
         <scene sceneID="zm4-gj-nc0">
@@ -4280,7 +4284,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UWH-K3-qfm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1681" y="1398"/>
+            <point key="canvasLocation" x="-1933" y="1512"/>
         </scene>
         <!--Subscriptions-->
         <scene sceneID="Iem-Sc-1BZ">
@@ -4918,11 +4922,11 @@
                         <viewControllerLayoutGuide type="bottom" id="jic-AG-K1A"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Kti-WY-MHE">
-                        <rect key="frame" x="0.0" y="64" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="672"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background" translatesAutoresizingMaskIntoConstraints="NO" id="N8L-tI-dGL">
-                                <rect key="frame" x="-1" y="-4" width="416" height="744"/>
+                                <rect key="frame" x="-1" y="-36" width="416" height="744"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="N8L-tI-dGL" secondAttribute="height" multiplier="207:370" id="gXq-at-bVY"/>
                                 </constraints>
@@ -4964,7 +4968,7 @@
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" secureTextEntry="YES"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LVg-3o-cXj">
-                                <rect key="frame" x="0.0" y="660" width="414" height="76"/>
+                                <rect key="frame" x="0.0" y="596" width="414" height="76"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="LVg-3o-cXj" secondAttribute="height" multiplier="321:59" id="tiM-9D-O25"/>
                                 </constraints>
@@ -5477,7 +5481,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pLK-ob-fYj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-548" y="3993"/>
+            <point key="canvasLocation" x="-444" y="4130"/>
         </scene>
         <!--Events-->
         <scene sceneID="TSZ-Vn-d3L">
@@ -5600,7 +5604,7 @@
                     </connections>
                 </tableViewCell>
             </objects>
-            <point key="canvasLocation" x="-2056" y="3130"/>
+            <point key="canvasLocation" x="-2356" y="3558"/>
         </scene>
         <!--Notifcations -->
         <scene sceneID="d0P-Zu-y5t">
@@ -5825,15 +5829,15 @@
     <inferredMetricsTieBreakers>
         <segue reference="ydG-6f-XVZ"/>
         <segue reference="Or7-9P-XFG"/>
-        <segue reference="hrZ-5I-9po"/>
-        <segue reference="2sm-MT-g3M"/>
-        <segue reference="SJU-iS-UV4"/>
-        <segue reference="dXs-6q-ma4"/>
-        <segue reference="OBp-Yu-fQu"/>
-        <segue reference="dfA-l9-WUl"/>
-        <segue reference="FLk-RB-cnt"/>
-        <segue reference="gDP-CS-jgW"/>
         <segue reference="0eG-3o-QAg"/>
+        <segue reference="SJU-iS-UV4"/>
+        <segue reference="OBp-Yu-fQu"/>
+        <segue reference="2sm-MT-g3M"/>
+        <segue reference="dXs-6q-ma4"/>
+        <segue reference="hrZ-5I-9po"/>
+        <segue reference="gDP-CS-jgW"/>
+        <segue reference="dfA-l9-WUl"/>
+        <segue reference="6YY-gj-nOQ"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>

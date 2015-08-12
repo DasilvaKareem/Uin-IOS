@@ -53,9 +53,9 @@ var gGPS = (PFGeoPoint)()
 var gLocation = (String)()
 var gStart = (NSDate)()
 var gEnd = (NSDate)()
-var firstIcon = (Int)()
-var secondIcon = (Int)()
-var thirdIcon = (Int)()
+var firstIcon = (String)()
+var secondIcon = (String)()
+var thirdIcon = (String)()
 
 class eventReview: UIViewController {
     
@@ -103,7 +103,7 @@ class eventReview: UIViewController {
         event["title"] = gTitle
         event["description"] = gDescrption
         event["address"] = gAddress
-        event["author"] = PFUser.currentUser().username
+        event["author"] = PFUser.currentUser()["organization"]
         event["start"] = gStart
         event["end"] = gEnd
         event["isDeleted"] = false
