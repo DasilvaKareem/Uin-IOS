@@ -102,13 +102,14 @@ class eventReview: UIViewController {
         //convert NSDate to strings
         var dateTimeformat = NSDateFormatter()
         dateTimeformat.dateStyle = NSDateFormatterStyle.MediumStyle
-        start.text =  dateTimeformat.stringFromDate(gStart)
+        start.text = dateTimeformat.stringFromDate(gStart)
         end.text = dateTimeformat.stringFromDate(gEnd)
         println(firstIcon)
         println(secondIcon)
         println(thirdIcon)
         
     }
+    
     func createEvent(){
         
         var event = PFObject(className: "Event")
@@ -126,16 +127,32 @@ class eventReview: UIViewController {
         event["tag3"] = thirdIcon
         event.saveInBackgroundWithBlock({
             (success:Bool , error:NSError!)-> Void in
-            if error == nil {
-                println("Event is made")
+            let alertStartError = UIAlertView()
+            alertStartError.title = "Error"
+            alertStartError.message = "You need to create a start date."
+            alertStartError.addButtonWithTitle("Dismiss")
+            if (self.start.text?.isEmpty != nil) {
+                alertStartError.show()
             } else {
-                println("Event was not made")
+                //do nothing
+            }
+            let alertEndError = UIAlertView()
+            alertEndError.title = "Error"
+            alertEndError.message = "You need to create an end date."
+            alertEndError.addButtonWithTitle("Dismiss")
+            if (self.end.text?.isEmpty != nil) {
+                alertEndError.show()
+            } else {
+                //do nothing
+            }
+
+            if error == nil {
+                print("Event is made")
+            } else {
+                print("Event was not made")
             }
         })
-        
-        
-        
-    }
+            }
     
     
     @IBAction func submitEvent(sender: AnyObject) {
@@ -150,7 +167,3 @@ class eventReview: UIViewController {
         
     }
 }
-
-
-
-
