@@ -98,13 +98,12 @@ class eventReview: UIViewController {
         if end.text!.isEmpty == true {
             error == "Please fill out an end time"
         }
-        let compareResult = gStart.compare(gEnd)
+        let compareResult = eventReviewStart.compare(eventReviewEnd)
         if compareResult == NSComparisonResult.OrderedDescending {
             error == "End time cannot be before start time."
         }
     }
-    
-    func displayInfo(){
+    func displayInfo() {
         eTitle.text = eventReviewTitle
         //eDescription.text = gDescrption
         address.text = eventReviewAddress
@@ -112,29 +111,28 @@ class eventReview: UIViewController {
         //convert NSDate to strings
         var dateTimeformat = NSDateFormatter()
         dateTimeformat.dateStyle = NSDateFormatterStyle.MediumStyle
-        start.text = dateTimeformat.stringFromDate(gStart)
-        end.text = dateTimeformat.stringFromDate(gEnd)
-        println(firstIcon)
-        println(secondIcon)
-        println(thirdIcon)
-        
+        start.text =  dateTimeformat.stringFromDate(eventReviewStart)
+        end.text = dateTimeformat.stringFromDate(eventReviewEnd)
+        println(eventReviewFirstIcon)
+        println(eventReviewSecondIcon)
+        println(eventReviewThirdIcon)
     }
     
-    func createEvent(){
+    func createEvent() {
         
         var event = PFObject(className: "Event")
-        event["title"] = gTitle
-        event["description"] = gDescrption
-        event["address"] = gAddress
+        event["title"] = eventReviewTitle
+        event["description"] = eventReviewDescrption
+        event["address"] = eventReviewAddress
         event["author"] = PFUser.currentUser().username
-        event["start"] = gStart
-        event["end"] = gEnd
+        event["start"] = eventReviewStart
+        event["end"] = eventReviewEnd
         event["isDeleted"] = false
-        event["location"] = gLocation
+        event["location"] = eventReviewLocation
         event["isPublic"] = true
-        event["tag1"] = firstIcon
-        event["tag2"] = secondIcon
-        event["tag3"] = thirdIcon
+        event["tag1"] = eventReviewFirstIcon
+        event["tag2"] = eventReviewSecondIcon
+        event["tag3"] = eventReviewThirdIcon
         event.saveInBackgroundWithBlock({
             (success:Bool , error:NSError!)-> Void in
             if error == nil {
@@ -143,14 +141,13 @@ class eventReview: UIViewController {
                 print("Event was not made")
             }
         })
-            }
-    
+    }
     
     @IBAction func submitEvent(sender: AnyObject) {
         createEvent()
         validateEvent()
     }
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         displayInfo()
