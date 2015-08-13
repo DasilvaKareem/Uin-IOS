@@ -1108,14 +1108,13 @@
                         <outlet property="secondTagDescriptor" destination="NRP-OS-EJL" id="16E-LR-QBE"/>
                         <outlet property="thirdTag" destination="gGR-lF-G3t" id="t5L-mJ-1Su"/>
                         <outlet property="thirdTagDescriptor" destination="76f-MK-Hwv" id="e4y-Re-fam"/>
-                        <segue destination="Odt-cu-E3D" kind="show" identifier="gotoprofile" id="Icg-Rt-Vk3"/>
-                        <segue destination="wj6-a8-ugv" kind="show" identifier="editEvent" id="C0P-bS-fxh"/>
                         <segue destination="Jab-jy-L9B" kind="show" identifier="" id="j6T-dp-ncw"/>
+                        <segue destination="6sl-c9-kyj" kind="show" identifier="gotoprofile" id="1YL-9y-FO2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5rQ-t6-Cuv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2445" y="2433"/>
+            <point key="canvasLocation" x="-2257" y="2383"/>
         </scene>
         <!--Image Preview-->
         <scene sceneID="dGl-XA-80x">
@@ -1353,7 +1352,6 @@
                                             <outlet property="poop" destination="hna-cf-79l" id="qCH-xI-cUn"/>
                                             <outlet property="privateImage" destination="Efg-h1-bgg" id="HIt-ZE-GPI"/>
                                             <outlet property="time" destination="ZB6-Ml-Vye" id="LXd-Py-02Z"/>
-                                            <segue destination="y9y-G9-w9b" kind="show" identifier="example" id="4Rv-40-Ngm"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -2260,11 +2258,11 @@
                         <viewControllerLayoutGuide type="bottom" id="UyB-Q8-5xt"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="SsF-ex-f9g">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="OrgName" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zSX-Vf-hVu">
-                                <rect key="frame" x="35" y="40" width="74" height="21"/>
+                                <rect key="frame" x="35" y="40" width="218" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
@@ -2312,7 +2310,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LCw-Ue-oSf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-6399" y="2014"/>
+            <point key="canvasLocation" x="-2877" y="2426"/>
         </scene>
         <!--Orginzation ViewC-->
         <scene sceneID="dmH-v7-nM3">
@@ -4666,7 +4664,7 @@
                                     </mask>
                                 </variation>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RbH-Ui-uu6">
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RbH-Ui-uu6">
                                 <rect key="frame" x="190" y="346" width="34" height="34"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="34" id="DnT-FN-K74"/>
@@ -4719,7 +4717,7 @@
                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e3a-rE-7HV">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e3a-rE-7HV">
                                 <rect key="frame" x="159" y="384" width="97" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="97" id="BaH-MM-XL4"/>
@@ -4729,7 +4727,7 @@
                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UnK-Fu-whK">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UnK-Fu-whK">
                                 <rect key="frame" x="320" y="384" width="90" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="90" id="1NZ-by-dxj"/>
@@ -4759,7 +4757,7 @@
                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rTI-O2-NXS">
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rTI-O2-NXS">
                                 <rect key="frame" x="354" y="346" width="23" height="34"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="23" id="JiI-CZ-QDc"/>
@@ -5827,17 +5825,18 @@
         <image name="whiteUin" width="68" height="64"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="ydG-6f-XVZ"/>
         <segue reference="Or7-9P-XFG"/>
+        <segue reference="ydG-6f-XVZ"/>
         <segue reference="0eG-3o-QAg"/>
-        <segue reference="SJU-iS-UV4"/>
-        <segue reference="OBp-Yu-fQu"/>
+        <segue reference="hrZ-5I-9po"/>
         <segue reference="2sm-MT-g3M"/>
         <segue reference="dXs-6q-ma4"/>
-        <segue reference="hrZ-5I-9po"/>
-        <segue reference="gDP-CS-jgW"/>
-        <segue reference="dfA-l9-WUl"/>
+        <segue reference="OBp-Yu-fQu"/>
+        <segue reference="SJU-iS-UV4"/>
+        <segue reference="1YL-9y-FO2"/>
+        <segue reference="j6T-dp-ncw"/>
         <segue reference="6YY-gj-nOQ"/>
+        <segue reference="gDP-CS-jgW"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>

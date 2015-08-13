@@ -106,7 +106,13 @@ class channelSelectView: UITableViewController {
        
     }
     override func viewDidAppear(animated: Bool) {
-         self.setupAllChannels()
+        if PFUser.currentUser()["organization"] === nil {
+            //setup for user
+            self.setupAllChannels()
+        } else {
+            //setup for people
+        }
+        
       
     }
     override func viewWillDisappear(animated: Bool) {

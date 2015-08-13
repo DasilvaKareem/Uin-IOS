@@ -105,6 +105,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         var theMix = Mixpanel.sharedInstance()
         theMix.track("App Close")
         theMix.flush()
+        println("The app is closed")
+         //var timer = NSTimer.scheduledTimerWithTimeInterval(2.0, target: self, selector: Selector("update"), userInfo: nil, repeats: true)
+      
+    
+    }
+    
+    func update() {
+       
+       /* var userLocation = PFObject(className: "UserLocation")
+        PFGeoPoint.geoPointForCurrentLocationInBackground({
+            (geoPoint: PFGeoPoint!, error: NSError!) -> Void in
+            if error == nil {
+                userLocation["currentGPSPoint"] = geoPoint
+               // userLocation["user"] = self.user
+                userLocation.save()
+                println("Gps saved")
+            } else {
+                
+                println("No gps cord avaible")
+            }
+            
+        })
+        println("Hey i am running in the background")*/
     }
 
     func applicationWillEnterForeground(application: UIApplication) {

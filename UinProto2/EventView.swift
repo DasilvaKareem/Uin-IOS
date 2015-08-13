@@ -744,9 +744,8 @@ class postEvent: UIViewController {
             var theMix = Mixpanel.sharedInstance()
             theMix.track("Tap Username (EV)")
             theMix.flush()
-            var theotherprofile:userprofile = segue.destinationViewController as! userprofile
-            theotherprofile.theUser = organization
-            theotherprofile.userId = organizationID
+            var orginzationPages:OrginazationPage = segue.destinationViewController as! OrginazationPage
+            orginzationPages.orgID = organizationID
         }
         if segue.identifier == "editEvent" {
             var theMix = Mixpanel.sharedInstance()
