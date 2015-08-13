@@ -21,7 +21,6 @@ class eventLanding: UIViewController {
     
     @IBOutlet weak var eventTitle: UITextField!
   
-    
     @IBOutlet weak var eventDescription: UITextField!
     
     @IBAction func submitEvent(sender: AnyObject) {
@@ -93,7 +92,18 @@ class eventReview: UIViewController {
         if gDescrption.isEmpty == true {
             error == "Please fill out an event description"
         }
+        if start.text!.isEmpty == true {
+            error == "Please fill out a start time"
+        }
+        if end.text!.isEmpty == true {
+            error == "Please fill out an end time"
+        }
+        let compareResult = gStart.compare(gEnd)
+        if compareResult == NSComparisonResult.OrderedDescending {
+            error == "End time cannot be before start time."
+        }
     }
+    
     func displayInfo(){
         eTitle.text = gTitle
         eDescription.text = gDescrption
@@ -127,25 +137,6 @@ class eventReview: UIViewController {
         event["tag3"] = thirdIcon
         event.saveInBackgroundWithBlock({
             (success:Bool , error:NSError!)-> Void in
-            let alertStartError = UIAlertView()
-            alertStartError.title = "Error"
-            alertStartError.message = "You need to create a start date."
-            alertStartError.addButtonWithTitle("Dismiss")
-            if (self.start.text?.isEmpty != nil) {
-                alertStartError.show()
-            } else {
-                //do nothing
-            }
-            let alertEndError = UIAlertView()
-            alertEndError.title = "Error"
-            alertEndError.message = "You need to create an end date."
-            alertEndError.addButtonWithTitle("Dismiss")
-            if (self.end.text?.isEmpty != nil) {
-                alertEndError.show()
-            } else {
-                //do nothing
-            }
-
             if error == nil {
                 print("Event is made")
             } else {
@@ -157,7 +148,9 @@ class eventReview: UIViewController {
     
     @IBAction func submitEvent(sender: AnyObject) {
         createEvent()
+        validateEvent()
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         displayInfo()

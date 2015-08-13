@@ -36,7 +36,6 @@ class datepickers: UIViewController {
     @IBOutlet var datepicker1: UIDatePicker!
     @IBAction func theDatePicker(sender: AnyObject) {
         
-        
         var dateFormatter = NSDateFormatter()
         dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle
         dateStr1 = dateFormatter.stringFromDate(datepicker1.date)
@@ -71,4 +70,4 @@ class datepickers: UIViewController {
     @IBAction func submitTime(sender: AnyObject) {
         self.performSegueWithIdentifier("event3", sender: self)
     }
-}
+    }
