@@ -28,8 +28,8 @@ class eventLanding: UIViewController {
         if eventTitle.text.isEmpty {
             
         } else {
-            gTitle = eventTitle.text
-            gDescrption = eventDescription.text
+            eventReviewTitle = eventTitle.text
+            eventReviewDescrption = eventDescription.text
             self.performSegueWithIdentifier("create1", sender: self)
             
         }
@@ -45,16 +45,16 @@ class eventLanding: UIViewController {
     }
 }
 //Global variables that contain event details
-var gTitle = (String)()
-var gDescrption = (String)()
-var gAddress = (String)()
-var gGPS = (PFGeoPoint)()
-var gLocation = (String)()
-var gStart = (NSDate)()
-var gEnd = (NSDate)()
-var firstIcon = (Int)()
-var secondIcon = (Int)()
-var thirdIcon = (Int)()
+var eventReviewTitle = (String)()
+var eventReviewDescrption = (String)()
+var eventReviewAddress = (String)()
+var eventReviewGPS = (PFGeoPoint)()
+var eventReviewLocation = (String)()
+var eventReviewStart = (NSDate)()
+var eventReviewEnd = (NSDate)()
+var eventReviewFirstIcon = (Int)()
+var eventReviewSecondIcon = (Int)()
+var eventReviewThirdIcon = (Int)()
 
 class eventReview: UIViewController {
     
@@ -86,10 +86,10 @@ class eventReview: UIViewController {
     //Checks if all event info is stored
     func validateEvent() {
         var error = ""
-        if gTitle.isEmpty == true {
+        if eventReviewTitle.isEmpty == true {
             error == "Please fill out an event title"
         }
-        if gDescrption.isEmpty == true {
+        if eventReviewDescrption.isEmpty == true {
             error == "Please fill out an event description"
         }
         if start.text!.isEmpty == true {
@@ -105,10 +105,10 @@ class eventReview: UIViewController {
     }
     
     func displayInfo(){
-        eTitle.text = gTitle
-        eDescription.text = gDescrption
-        address.text = gAddress
-        location.text = gLocation
+        eTitle.text = eventReviewTitle
+        //eDescription.text = gDescrption
+        address.text = eventReviewAddress
+        location.text = eventReviewLocation
         //convert NSDate to strings
         var dateTimeformat = NSDateFormatter()
         dateTimeformat.dateStyle = NSDateFormatterStyle.MediumStyle
