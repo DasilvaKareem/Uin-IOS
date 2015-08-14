@@ -170,12 +170,12 @@ class homePage: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        PFUser.logOut()
+        //PFUser.logOut()
      
     
     }
     override func viewDidAppear(animated: Bool) {
-        if PFUser.currentUser() == nil {
+        if PFUser.currentUser() != nil {
             self.performSegueWithIdentifier("login", sender: self)
         }
         

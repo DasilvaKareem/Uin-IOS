@@ -197,7 +197,7 @@ class channelSelectView: UITableViewController {
         if section == 0 {
             var cell:channelHeaderCell = tableView.dequeueReusableCellWithIdentifier("header") as! channelHeaderCell
             cell.headerLabel.text = "Name"
-            
+           
             return cell
         }
         if section == 1 {
@@ -221,6 +221,7 @@ class channelSelectView: UITableViewController {
         
         return cell
     }
+
     override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if section != 0 {
             return 30.0

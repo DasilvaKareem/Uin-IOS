@@ -9,7 +9,7 @@
 import UIKit
 import EventKit
 
-class postEvent: UIViewController {
+class postEvent: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
     
     @IBOutlet var eventDescription: UILabel!
     @IBOutlet var calendarCount: UILabel!
@@ -20,7 +20,7 @@ class postEvent: UIViewController {
     @IBOutlet var imageShower: UIButton!
     @IBOutlet weak var picture: UIImageView!
     var image = (UIImage)()
-  
+    
     @IBOutlet var location: UILabel!
     @IBOutlet weak var eventTitle: UILabel!
     @IBOutlet var startTime: UILabel!
@@ -36,7 +36,9 @@ class postEvent: UIViewController {
     @IBOutlet weak var thirdTagDescriptor: UILabel!
     
     
+    @IBOutlet weak var wigoCollectionView: UICollectionView!
 
+    
     @IBAction func gotoProfile(sender: AnyObject) {
         if PFUser.currentUser().objectId != organizationID {
             self.performSegueWithIdentifier("gotoprofile", sender: self)
@@ -94,7 +96,7 @@ class postEvent: UIViewController {
                 self.calendarCount.textColor = UIColor(red: 254.0/255.0, green: 186.0/255.0, blue: 1.0/255, alpha:1 ) //yellow color
             }
         }
-        getCount()
+        //getCount()
     }
     //Gets the amount of people added to calendar
     func getCount() {
@@ -161,7 +163,7 @@ class postEvent: UIViewController {
         theMix.track("Event View Opened")
         theMix.flush()
         super.viewDidLoad()
-        
+        getWhosGoing()
         //If event is owned by organization the org can edit the event
         /*if organizationID == PFUser.currentUser()["organization"] as! String{
             self.navigationItem.rightBarButtonItem?.title = "Edit"
@@ -206,6 +208,8 @@ class postEvent: UIViewController {
       
     
     }
+    
+    
     func displayAlert(title:String, error:String) {
         
         var alert = UIAlertController(title: title, message: error, preferredStyle: UIAlertControllerStyle.Alert)
@@ -221,149 +225,7 @@ class postEvent: UIViewController {
     //Adds the event to calenar and creats a notifcations,push, and changes the button itself
     @IBAction func addtocalendar(sender: AnyObject) {
         
-       /* var que = PFQuery(className: "UserCalendar")
-        que.whereKey("user", equalTo: PFUser.currentUser().username)
-        que.whereKey("author", equalTo: users)
-        que.whereKey("eventID", equalTo:eventId)
-        que.getFirstObjectInBackgroundWithBlock({
-            
-            (results:PFObject!, queerror: NSError!) -> Void in
-            
-            if queerror == nil {
-              results.delete()
-                self.getCount()
-                self.longBar.setImage(UIImage(named: "addToCalendarBig.png"), forState: UIControlState.Normal)
-               
-                self.calendarCount.textColor = UIColor(red: 254.0/255.0, green: 186.0/255.0, blue: 1.0/255, alpha:1 ) //yellow color
-                if results != nil {
-            var eventStore : EKEventStore = EKEventStore()
-            eventStore.requestAccessToEntityType(EKEntityTypeEvent, completion: {
-                
-                granted, error in
-                if (granted) && (error == nil) {
-                    println("granted \(granted)")
-                    println("error  \(error)")
-                    var hosted = "Hosted by \(self.users)"
-                    var event:EKEvent = EKEvent(eventStore: eventStore)
-                    event.title = self.storeTitle
-                    
-                    event.startDate = self.storeStartDate
-                    event.endDate = self.endStoreDate
-                    event.notes = hosted
-                    event.location = self.storeLocation
-                    event.calendar = eventStore.defaultCalendarForNewEvents
-                }
-            })
-                    var predicate2 = eventStore.predicateForEventsWithStartDate(self.storeStartDate, endDate: self.endStoreDate, calendars:nil)
-                    var eV = eventStore.eventsMatchingPredicate(predicate2) as! [EKEvent]!
-                    println("Result is there")
-                    if eV != nil {
-
-                        println("EV is not nil")
-                        for i in eV {
-                            println("\(i.title) this is the i.title")
-                            println(self.storeTitle)
-                            if i.title == self.storeTitle  {
-                               
-                                println("removed")
-                                var theMix = Mixpanel.sharedInstance()
-                                theMix.track("Removed from Calendar (EV)")
-                                theMix.flush()
-                                eventStore.removeEvent(i, span: EKSpanThisEvent, error: nil)
-                            }
-                        }
-                    }
-                }
-            }
-            
-            else {
-                var going = PFObject(className: "UserCalendar")
-                going["user"] = PFUser.currentUser().username
-                going["userID"] = PFUser.currentUser().objectId
-                going["event"] = self.storeTitle
-                going["author"] = self.users
-                going["eventID"] = self.eventId
-                going.saveInBackgroundWithBlock{
-                    
-                    (succeded:Bool, savError:NSError!) -> Void in
-                    
-                    if savError == nil {
-                        self.getCount()
-                        println("the user is going to the event")
-                        self.longBar.setImage(UIImage(named: "addedToCalendarBig.png"), forState: UIControlState.Normal)
-            
-                        self.calendarCount.textColor = UIColor(red: 52.0/255.0, green: 127.0/255.0, blue: 191.0/255, alpha:1 ) //blue color
-                        
-                    }
-                }
-          
-                var eventStore : EKEventStore = EKEventStore()
-                eventStore.requestAccessToEntityType(EKEntityTypeEvent, completion: {
-                    
-                    granted, error in
-                    if (granted) && (error == nil) {
-                 
-                        println("granted \(granted)")
-                        println("error  \(error)")
-                        var hosted = "Hosted by \(self.users)"
-                        var event:EKEvent = EKEvent(eventStore: eventStore)
-                        var alarm = EKAlarm(relativeOffset: self.alertTime)
-                        event.addAlarm(alarm)
-                        event.title = self.storeTitle
-                        event.startDate = self.storeStartDate
-                        event.endDate = self.endStoreDate
-                        event.notes = hosted
-                        event.location = self.storeLocation
-                        event.calendar = eventStore.defaultCalendarForNewEvents
-                        eventStore.saveEvent(event, span: EKSpanThisEvent, error: nil)
-                        var theMix = Mixpanel.sharedInstance()
-                        theMix.track("Added to Calendar (EV)")
-                        theMix.flush()
-                        println("saved")
-                    
-                    }
-                })
-                
-                if self.users != PFUser.currentUser().username {
-                    var notify = PFObject(className: "Notification")
-                    notify["senderID"] = PFUser.currentUser().objectId
-                    notify["sender"] = PFUser.currentUser().username
-                    notify["receiverID"] =  self.userId
-                    notify["receiver"] = self.users
-                    notify["type"] =  "calendar"
-                    notify.saveInBackgroundWithBlock({
-                        (success:Bool, notifyError: NSError!) -> Void in
-                        
-                        if notifyError == nil {
-                            
-                            println("notifcation has been saved")
-                            
-                        }
-                        else{
-                            println(notifyError)
-                        }
-                    })
-                    var push = PFPush()
-                    var pfque = PFInstallation.query()
-                    pfque.whereKey("user", equalTo: self.users)
-                    push.setQuery(pfque)
-                    if PFUser.currentUser()["tempAccounts"] as!Bool == true {
-                        push.setMessage("Someone has added your event to their calendar")
-                    } else {
-                           push.setMessage("\(PFUser.currentUser().username) has added your event to their calendar")
-                    }
-                    push.sendPushInBackgroundWithBlock({
-                        
-                        (success:Bool, pushError: NSError!) -> Void in
-                        if pushError == nil {
-                            println("The push was sent")
-                        }
-                    })
-                }
-             
-            }
-        })
-*/
+   
     }
     // Switch display location with the real addrss
     @IBAction func switchAddress(sender: AnyObject) {
@@ -738,6 +600,68 @@ class postEvent: UIViewController {
 
 
     }
+    //Setups wigo feature and collectionview
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        
+        return wigoImage.count
+    }
+    
+    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+        
+        return 1
+    }
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        let cell:WigoCell = wigoCollectionView.dequeueReusableCellWithReuseIdentifier("icon", forIndexPath: indexPath) as! WigoCell
+        println(wigoImage)
+        while(wigoImage.count == 0 ) {
+            cell.profilePic.image = nil
+            return cell
+        }
+        cell.profilePic.image = wigoImage[indexPath.row]
+        
+        return cell
+    }
+
+    var wigoImage = [UIImage]()
+    func getWhosGoing(){
+        var userImage = (PFFile)()
+        var wigoQuery = PFQuery(className: "WigoFeature")
+        wigoQuery.whereKey("event", equalTo: PFObject(withoutDataWithClassName: "Event", objectId: eventId))
+        //wigoQuery.limit = 5
+        wigoQuery.includeKey("user")
+        wigoQuery.includeKey("event")
+        wigoQuery.findObjectsInBackgroundWithBlock({
+            (objects:[AnyObject]!, error:NSError!) -> Void in
+            if error == nil {
+               // println(objects)
+                for object in objects {
+                    println(object)
+                    var wigoUser = object["user"] as! PFObject
+                    println(wigoUser["profilePicture"] as! PFFile)
+                    userImage = wigoUser["profilePicture"] as! PFFile
+                    userImage.getDataInBackgroundWithBlock({
+                        (data:NSData!, error:NSError!) -> Void in
+                        if error == nil {
+                           // println(data)
+                            self.wigoImage.append(UIImage(data: data)!)
+                             self.wigoCollectionView.reloadData()
+                             println(self.wigoImage)
+                        } else {
+                            println("No data found")
+                        }
+                    })
+                    
+            
+                }
+               
+               
+            } else {
+                println("Error was found")
+            }
+        })
+        
+        
+    }
     override func prepareForSegue(segue:UIStoryboardSegue, sender: AnyObject?){
         
         if segue.identifier == "gotoprofile" {
@@ -767,6 +691,13 @@ class postEvent: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+}
+
+class WigoCell: UICollectionViewCell {
+    //Image of people
+    
+    @IBOutlet weak var profilePic: UIImageView!
+    
 }
 class imagePreview: UIViewController {
     var eventID = (String)()

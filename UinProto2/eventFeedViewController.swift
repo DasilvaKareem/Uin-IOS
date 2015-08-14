@@ -17,6 +17,8 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     @IBOutlet var eventCreate: UIBarButtonItem!
     @IBOutlet var menuTrigger: UIBarButtonItem!
     var refresher: UIRefreshControl!
+    
+    var eventObject = [PFObject]()
     //Icons variables
     var tag1 = [String]()
     var tag2 = [String]()
@@ -378,6 +380,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                             println()
                             
                             for object in results{
+                                self.eventObject.append(object as! PFObject)
                                 let author:PFObject = object["author"] as! PFObject //Makes pointer in PFobject
                                 self.publicPost.append(object["isPublic"] as!Bool)
                                 self.objectID.append(object.objectId as String)
@@ -1052,168 +1055,12 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         
     }
     func followButton(sender: UIButton){
-        // Adds the event to calendar
+        var uined = PFObject(className: "WigoFeature")
+        uined["user"] = PFUser.currentUser()
+        uined["event"] = eventObject[sender.tag]
+        uined.save()
+        println("user has been wigoed")
         
-      var que = PFQuery(className: "UserCalendar")
-        que.whereKey("user", equalTo: PFUser.currentUser().username)
-        que.whereKey("author", equalTo: self.usernames[sender.tag])
-        que.whereKey("eventID", equalTo:self.objectID[sender.tag])
-        que.getFirstObjectInBackgroundWithBlock({
-            (results:PFObject!, queerror: NSError!) -> Void in
-            if queerror == nil {
-                //Deletes the event
-                results.delete()
-              
-                //Warns user if the this is the first event to be removed
-                if PFUser.currentUser()["firstRemoveFromCalendar"] as!Bool == true{
-                    PFUser.currentUser()["firstRemoveFromCalendar"] = false
-                    PFUser.currentUser().saveEventually({
-                        (success:Bool, error:NSError!) -> Void in
-                        if error == nil {
-                            self.displayAlert("Remove", error: "Tapping the blue checkmark removes an event from your calendar.")
-                        }
-                    })
-
-                }
-              
-                if results != nil {
-                      sender.setImage(UIImage(named: "addToCalendar.png"), forState: UIControlState.Normal)
-                    UIView.animateWithDuration(0.5, delay: 0.0, usingSpringWithDamping: 0.3, initialSpringVelocity: 3.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: ({
-                        sender.frame.offset(dx: 0, dy: 5.0)
-                    }), completion: nil)
-                    var eventStore : EKEventStore = EKEventStore()
-                    eventStore.requestAccessToEntityType(EKEntityTypeEvent, completion: {
-                        
-                        granted, error in
-                        if (granted) && (error == nil) {
-                            println("granted \(granted)")
-                            println("error  \(error)")
-                            var hosted = "Hosted by \(self.usernames[sender.tag]) address:\(self.eventAddress[sender.tag])"
-                            var event:EKEvent = EKEvent(eventStore: eventStore)
-                            event.title = self.eventTitle[sender.tag]
-                            event.startDate = self.eventStart[sender.tag]
-                            event.endDate = self.eventEnd[sender.tag]
-                            event.notes = hosted
-                            event.location = self.eventlocation[sender.tag]
-                            event.calendar = eventStore.defaultCalendarForNewEvents
-                        }
-                    })
-                    var predicate2 = eventStore.predicateForEventsWithStartDate(self.eventStart[sender.tag], endDate: self.eventEnd[sender.tag], calendars:nil)
-                    var eV = eventStore.eventsMatchingPredicate(predicate2) as! [EKEvent]!
-                    println("Result is there")
-                    if eV != nil { //
-                        println("EV is not nil")
-                        for i in eV {
-                            println("\(i.title) this is the i.title")
-                            println(self.eventTitle[sender.tag])
-                            if i.title == self.eventTitle[sender.tag]  {
-                                println("removed")
-                                var theMix = Mixpanel.sharedInstance()
-                                theMix.track("Removed from Calendar (EF)")
-                                eventStore.removeEvent(i, span: EKSpanThisEvent, error: nil)
-                            }
-                        }
-                    }
-                
-                    
-                }
-            } else {
-                sender.setImage(UIImage(named: "addedToCalendar.png"), forState: UIControlState.Normal)
-                UIView.animateWithDuration(0.5, delay: 0.0, usingSpringWithDamping: 0.3, initialSpringVelocity: 3.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: ({
-                    sender.frame.offset(dx: 0, dy: 5.0)
-                }), completion: nil)
-                var eventStore : EKEventStore = EKEventStore()
-                eventStore.requestAccessToEntityType(EKEntityTypeEvent, completion: {
-                    
-                    granted, error in
-                    if (granted) && (error == nil) {
-                        println("granted \(granted)")
-                        println("error  \(error)")
-                        var hosted = "Hosted by \(self.usernames[sender.tag]) address:\(self.eventAddress[sender.tag])\(self.eventDescription[sender.tag])"
-                        var event:EKEvent = EKEvent(eventStore: eventStore)
-                        println()
-                        println(self.eventTitle[sender.tag])
-                        println(self.eventStart[sender.tag])
-                        println(self.eventEnd[sender.tag])
-                        event.title = self.eventTitle[sender.tag]
-                        event.startDate = self.eventStart[sender.tag]
-                        event.endDate = self.eventEnd[sender.tag]
-                        event.notes = hosted
-                        var alarm = EKAlarm(relativeOffset: self.alertTime)
-                        println(self.alertTime)
-                        event.addAlarm(alarm)
-                        event.location = self.eventlocation[sender.tag]
-                        event.calendar = eventStore.defaultCalendarForNewEvents
-                        eventStore.saveEvent(event, span: EKSpanThisEvent, error: nil)
-                        
-                        var going = PFObject(className: "UserCalendar")
-                        going["user"] = PFUser.currentUser().username
-                        going["userID"] = PFUser.currentUser().objectId
-                        going["event"] = self.eventTitle[sender.tag]
-                        going["author"] = self.usernames[sender.tag]
-                        going["eventID"] = self.objectID[sender.tag]
-                        going.saveInBackgroundWithBlock{
-                            (succeded:Bool, savError:NSError!) -> Void in
-                            if savError == nil {
-                                println("it worked")
-                                
-                                
-                            }
-                        }
-                        var theMix = Mixpanel.sharedInstance()
-                        theMix.track("Added to Calendar (EF)")
-                        println("saved")
-                    }
-                })
-                println("the object does not exist")
-                var push = PFPush()
-                var pfque = PFInstallation.query()
-                pfque.whereKey("user", equalTo: self.usernames[sender.tag])
-                push.setQuery(pfque)
-                var pushCheck = PFUser.query() //Checks if users has push enabled
-                var userCheck = pushCheck.getObjectWithId(self.userId[sender.tag])
-                println()
-                println(userCheck)
-                println()
-                if userCheck["pushEnabled"] as!Bool {
-                    if PFUser.currentUser()["tempAccounts"] as!Bool == true {
-                        push.setMessage("Someone has added your event to their calendar")
-                    } else {
-                        
-                        push.setMessage("\(PFUser.currentUser().username) has added your event to their calendar")
-                    }
-                    push.sendPushInBackgroundWithBlock({
-                        (success:Bool, pushError: NSError!) -> Void  in
-                        if pushError == nil {
-                            println("Push was Sent")
-                        }
-                    })
-                } else {
-                    println("user does not have push enabled")
-                }
-            
-                
-                if self.usernames[sender.tag] != PFUser.currentUser().username {
-                    var notify = PFObject(className: "Notification")
-                    notify["sender"] = PFUser.currentUser().username
-                    notify["receiver"] = self.usernames[sender.tag]
-                    notify["senderID"] = PFUser.currentUser().objectId
-                    notify["receiverID"] = self.userId[sender.tag]
-                    notify["eventID"] = self.objectID[sender.tag]
-                    notify["type"] =  "calendar"
-                    notify.saveInBackgroundWithBlock({
-                        (success:Bool, notifyError: NSError!) -> Void in
-                        if notifyError == nil {
-                            println("notifcation has been saved")
-                        }
-                        else{
-                            println(notifyError)
-                            }
-                        })
-                    }
-                println("Saved Event")
-                }
-            })
         }
     override func prepareForSegue(segue:UIStoryboardSegue, sender: AnyObject?){
         if segue.identifier == "event" {
@@ -1225,6 +1072,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             var row = indexPath?.row
             var index = getEventIndex(section!, row: row!)
             secondViewController.eventId = objectID[index]
+           
             
         }
         if segue.identifier == "profile" {
