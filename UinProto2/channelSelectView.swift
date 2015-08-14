@@ -110,7 +110,7 @@ class channelSelectView: UITableViewController {
             //setup for user
             self.setupAllChannels()
         } else {
-            //setup for people
+            //setup for org
         }
         
       
