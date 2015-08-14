@@ -14,6 +14,7 @@ class eventCell: UITableViewCell {
 
     
 
+    @IBOutlet weak var wigoCollectionView: UICollectionView!
     @IBOutlet var foodText: UILabel!
     @IBOutlet weak var costText: UILabel!
     @IBOutlet weak var onCampusText: UILabel!

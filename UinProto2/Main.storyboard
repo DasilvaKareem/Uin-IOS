@@ -480,7 +480,7 @@
                                             <outlet property="dateItem" destination="qk1-iD-Lwg" id="54K-jc-arP"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell autoresizesSubviews="NO" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell2" rowHeight="64" id="jmM-dJ-0eA" customClass="eventCell" customModule="UinProto2" customModuleProvider="target">
+                                    <tableViewCell autoresizesSubviews="NO" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell2" rowHeight="140" id="jmM-dJ-0eA" customClass="eventCell" customModule="UinProto2" customModuleProvider="target">
                                         <rect key="frame" x="10" y="254" width="320" height="72"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jmM-dJ-0eA" id="L8j-4Z-nNt">
@@ -589,12 +589,45 @@
                                                         </mask>
                                                     </variation>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6DV-v7-Ju6" userLabel="privateEventUIImage">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6DV-v7-Ju6" userLabel="privateEventUIImage">
                                                     <rect key="frame" x="-12" y="-1" width="20" height="63"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="20" id="0Py-L3-WOv"/>
                                                     </constraints>
                                                 </imageView>
+                                                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="aFe-NC-owh">
+                                                    <rect key="frame" x="35" y="73" width="347" height="58"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Mtf-k9-giv">
+                                                        <size key="itemSize" width="50" height="50"/>
+                                                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                    </collectionViewFlowLayout>
+                                                    <cells>
+                                                        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="icon" id="L6F-eJ-ga3" customClass="WigoCell" customModule="UinProto2" customModuleProvider="target">
+                                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                                                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                                                <autoresizingMask key="autoresizingMask"/>
+                                                                <subviews>
+                                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9u1-Ht-sdi">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="43" height="47"/>
+                                                                    </imageView>
+                                                                </subviews>
+                                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                            </view>
+                                                            <connections>
+                                                                <outlet property="profilePic" destination="9u1-Ht-sdi" id="JzZ-KW-3Ac"/>
+                                                            </connections>
+                                                        </collectionViewCell>
+                                                    </cells>
+                                                    <connections>
+                                                        <outlet property="dataSource" destination="Fbc-Ey-Gr7" id="w3k-xV-eTq"/>
+                                                        <outlet property="delegate" destination="Fbc-Ey-Gr7" id="7UX-Gk-Gd2"/>
+                                                    </connections>
+                                                </collectionView>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="n03-0y-I5X" firstAttribute="top" secondItem="7Sb-sW-Oie" secondAttribute="bottom" constant="1" id="0k5-Lb-nFG"/>
@@ -645,6 +678,7 @@
                                             <outlet property="poop" destination="1QH-D4-qkU" id="OaK-wG-yFi"/>
                                             <outlet property="privateImage" destination="6DV-v7-Ju6" id="L4k-Fq-cdw"/>
                                             <outlet property="time" destination="cLn-9g-WhW" id="GIC-Uk-zv5"/>
+                                            <outlet property="wigoCollectionView" destination="aFe-NC-owh" id="EcI-AZ-gV6"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -2370,7 +2404,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LCw-Ue-oSf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2877" y="2426"/>
+            <point key="canvasLocation" x="-2598" y="2406"/>
         </scene>
         <!--Orginzation ViewC-->
         <scene sceneID="dmH-v7-nM3">

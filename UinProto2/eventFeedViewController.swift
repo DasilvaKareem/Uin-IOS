@@ -9,7 +9,7 @@
 import UIKit
 import EventKit
 
-class eventFeedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UITextFieldDelegate, UIScrollViewDelegate {
+class eventFeedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UITextFieldDelegate, UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate {
     
     
     @IBOutlet weak var theFeed: UITableView!
@@ -18,6 +18,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     @IBOutlet var menuTrigger: UIBarButtonItem!
     var refresher: UIRefreshControl!
     
+    @IBOutlet weak var wigoCollectionView: UICollectionView!
     var eventObject = [PFObject]()
     //Icons variables
     var tag1 = [String]()
@@ -142,6 +143,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         //Loads search Items
         searchBar.delegate = self
         getSearchItems()
+        getWhosGoing()
         var theMix = Mixpanel.sharedInstance()
         theMix.track("Event Feed Opened")
         theMix.flush()
@@ -638,7 +640,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 64.0
+        return 130.0
     }
     
  
@@ -1054,12 +1056,110 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         return cell
         
     }
+    
+    //Collection view fofr wigo
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        
+        return wigoImage.count
+    }
+    
+    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+        
+        return 1
+    }
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("icon", forIndexPath: indexPath) as! WigoCell
+        println(wigoImage)
+        while(wigoImage.count == 0 ) {
+            cell.profilePic.image = nil
+            return cell
+        }
+        cell.profilePic.image = wigoImage[indexPath.row]
+        
+        return cell
+    }
+    
+    var wigoImage = [UIImage]()
+    func getWhosGoing(){
+       // var indexPath = theFeed.indexPathForSelectedRow() //get index of data for selected row
+        //var section = indexPath?.section
+        //var row = indexPath?.row
+       // var index = getEventIndex(section!, row: row!)
+        var userImage = (PFFile)()
+        var wigoQuery = PFQuery(className: "WigoFeature")
+        //wigoQuery.whereKey("event", equalTo: PFObject(withoutDataWithClassName: "Event", objectId: objectID[index]))
+        //wigoQuery.limit = 5
+        wigoQuery.includeKey("user")
+        wigoQuery.includeKey("event")
+        wigoQuery.findObjectsInBackgroundWithBlock({
+            (objects:[AnyObject]!, error:NSError!) -> Void in
+            if error == nil {
+                // println(objects)
+                for object in objects {
+                                        var wigoUser = object["user"] as! PFObject
+                    println(wigoUser["profilePicture"] as! PFFile)
+                    userImage = wigoUser["profilePicture"] as! PFFile
+                    userImage.getDataInBackgroundWithBlock({
+                        (data:NSData!, error:NSError!) -> Void in
+                        if error == nil {
+                            // println(data)
+                            self.wigoImage.append(UIImage(data: data)!)
+                            
+                            println(self.wigoImage)
+                        } else {
+                            println("No data found")
+                        }
+                    })
+                    
+                    
+                }
+                self.theFeed.reloadData()
+                
+                
+            } else {
+                println("Error was found")
+            }
+        })
+        
+        
+    }
+
+    
     func followButton(sender: UIButton){
-        var uined = PFObject(className: "WigoFeature")
-        uined["user"] = PFUser.currentUser()
-        uined["event"] = eventObject[sender.tag]
-        uined.save()
-        println("user has been wigoed")
+        //Checks if user has Wigo'd already
+        var query = PFQuery(className: "WigoFeature")
+        query.whereKey("event", equalTo: eventObject[sender.tag])
+        query.whereKey("user", equalTo: PFUser.currentUser())
+        query.getFirstObjectInBackgroundWithBlock({
+            (object:PFObject!, error:NSError!) -> Void in
+            if error == nil {
+                //Deletes the object
+                object.deleteInBackgroundWithBlock({
+                    (success:Bool, error:NSError!) -> Void in
+                    if error == nil {
+                        println("object deleted")
+                    }
+                })
+               
+            } else {
+                //Saves object
+                if error.code == 101 {
+                    var uined = PFObject(className: "WigoFeature")
+                    uined["user"] = PFUser.currentUser()
+                    uined["event"] = self.eventObject[sender.tag]
+                    uined.saveInBackgroundWithBlock({
+                        (success:Bool, error:NSError!) -> Void in
+                        if error == nil {
+                             println("user has been wigoed")
+                        }
+                    })
+                    
+                }
+                
+            }
+        })
+       
+  
         
         }
     override func prepareForSegue(segue:UIStoryboardSegue, sender: AnyObject?){
