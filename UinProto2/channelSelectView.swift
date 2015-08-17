@@ -81,8 +81,7 @@ class channelSelectView: UITableViewController {
         self.genEvents.append(" 0 upcoming")
         self.gentype.append("schedule")
         self.genChannels.append("Attending")
-        //End setup
-        self.getChannels()
+       
     }
 
     
@@ -121,7 +120,7 @@ class channelSelectView: UITableViewController {
 
     func getChannels(){
         //This is where you setup all your channels for the user :its blank becasue idk the directions
-        self.tableView.reloadData()
+        
         
     }
     //Checks if the user is in a session or not

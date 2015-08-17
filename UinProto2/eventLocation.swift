@@ -72,7 +72,7 @@ class eventLocationView: UIViewController, MKMapViewDelegate, CLLocationManagerD
     @IBAction func submitEvent2(sender: AnyObject) {
         gLocation = displayLocation.text
         var geopoint = PFGeoPoint(location:eventGeoLocation)
-        geopoint = gGPS
+        gGPS = geopoint
         gAddress = eventLocation.text
         println(gAddress)
         println(gLocation)

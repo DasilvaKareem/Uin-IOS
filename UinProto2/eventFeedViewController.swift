@@ -762,7 +762,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                 cell.onCampusText.text = ""
                 
             }
-            switch tag2[event] {
+            switch tag3[event] {
             case "PvApxif2rw": //Popcorn
                 cell.icon2.image = UIImage(named: "popcorn.png")
                 cell.foodText.text = "Popcorn"
@@ -868,7 +868,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                 cell.foodText.text = ""
                 
             }
-            switch tag3[event] {
+            switch tag2[event] {
             case "PvApxif2rw": //Popcorn
                 cell.icon3.image = UIImage(named: "popcorn.png")
                 cell.costText.text = "Popcorn"
@@ -1131,6 +1131,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                 object.deleteInBackgroundWithBlock({
                     (success:Bool, error:NSError!) -> Void in
                     if error == nil {
+                        self.theFeed.reloadData()
                         println("object deleted")
                     }
                 })
