@@ -11,7 +11,19 @@ class procress {
 
 
 }
-class homePage: UIViewController {
+class homePage: UIViewController, UITextFieldDelegate {
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+        self.view.endEditing(true)
+    }
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        
+        textField.resignFirstResponder()
+        
+        return true
+        
+    }
+
+    
     
     @IBAction func facebookLogin(sender: AnyObject) {
         var fbloginView:FBLoginView = FBLoginView(readPermissions: ["email", "public_profile"])
@@ -170,7 +182,7 @@ class homePage: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //PFUser.logOut()
+        PFUser.logOut()
      
     
     }
@@ -184,12 +196,23 @@ class homePage: UIViewController {
         super.didReceiveMemoryWarning()
     }
 }
-class registrationProcess: UIViewController {
+class registrationProcess: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var emailSignUp: UITextField!
     @IBOutlet weak var emailVerify: UIButton!
     @IBOutlet weak var nextLabel: UILabel!
     @IBOutlet weak var nextButton: UIButton!
+    
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+        self.view.endEditing(true)
+    }
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        
+        textField.resignFirstResponder()
+        
+        return true
+        
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -252,7 +275,18 @@ class registrationProcess: UIViewController {
     */
     
 }
-class basicSignUp: UIViewController {
+class basicSignUp: UIViewController, UITextFieldDelegate {
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+        self.view.endEditing(true)
+    }
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        
+        textField.resignFirstResponder()
+        
+        return true
+        
+    }
+    
     @IBOutlet weak var fName: UITextField!
     @IBOutlet weak var profilePic: UIImageView!
     

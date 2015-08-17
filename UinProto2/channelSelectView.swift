@@ -187,7 +187,7 @@ class channelSelectView: UITableViewController {
         
         if section == 0 {
             var cell:channelHeaderCell = tableView.dequeueReusableCellWithIdentifier("header") as! channelHeaderCell
-            cell.headerLabel.text = "Name"
+            cell.headerLabel.text = PFUser.currentUser()["firstName"] as! String
            
             return cell
         }

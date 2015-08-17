@@ -618,7 +618,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             if filteredSearchItems.count == 0 {
              
                 cell.poop.hidden = true
-                cell.foodText.text = ""
+                cell.costText.text = ""
                 cell.onCampusText.text = ""
                 cell.costText.text = ""
                 cell.eventName.text = "No items found"
@@ -631,7 +631,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                 cell.foodIcon.image = nil
                 cell.freeIcon.image = nil
                 cell.poop.hidden = true
-                cell.foodText.text = ""
+                cell.costText.text = ""
                 cell.onCampusText.text = ""
                 cell.costText.text = ""
                 cell.eventName.text = items.name
@@ -762,208 +762,209 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                 cell.onCampusText.text = ""
                 
             }
-            switch tag3[event] {
-            case "PvApxif2rw": //Popcorn
-                cell.icon2.image = UIImage(named: "popcorn.png")
-                cell.foodText.text = "Popcorn"
-                break
-                
-            case "LP5fLvLurL": //recuitment
-                cell.icon1.image = UIImage(named: "recruitment.png")
-                cell.foodText.text = "recruitment"
-                
-                break
-                
-            case "8HvnDADGY2": // run
-                cell.icon2.image = UIImage(named: "run.png")
-                cell.foodText.text = "run"
-                break
-                
-            case "BX9RsT3EpW": //tour
-                cell.icon2.image = UIImage(named: "tour.png")
-                cell.foodText.text = "tour"
-                break
-            case "u2EAfQk9Lf": //intramural
-                cell.icon2.image = UIImage(named: "intramural.png")
-                cell.foodText.text = "Intramural"
-                break
-                
-            case "ayCBAVwQ93": //sales event
-                cell.icon2.image = UIImage(named: "sales.png")
-                cell.foodText.text = "Sales"
-                break
-                
-            case "D1nxE6j63a": //dance
-                cell.icon2.image = UIImage(named: "dance.png")
-                cell.foodText.text = "Dance"
-                break
-                
-            case "XiWPxYMwEO": //games
-                cell.icon2.image = UIImage(named: "games.png")
-                cell.foodText.text = "Games"
-                break
-                
-            case "6IkmbdKMnn": //meetup
-                cell.icon2.image = UIImage(named: "meet.png")
-                cell.foodText.text = "meet"
-                break
-                
-            case "wLt1TPYiyV": //religous
-                cell.icon2.image = UIImage(named: "religous.png")
-                cell.foodText.text = "Religous"
-                break
-                
-            case "f8ZpiOF9cg": //conference
-                cell.icon2.image = UIImage(named: "conference.png")
-                cell.foodText.text = "conference"
-                break
-                
-            case "leITfmSo7E": //party
-                cell.icon2.image = UIImage(named: "party.png")
-                cell.foodText.text = "Party"
-                break
-            case "s5XU11BTs3": // drinking
-                cell.icon2.image = UIImage(named: "drinking.png")
-                cell.foodText.text = "drinking"
-                break
-                
-            case "a3pMl70t39": //Outdoors
-                cell.icon2.image = UIImage(named: "outdoors.png")
-                cell.foodText.text = "outdoors"
-                break
-                
-            case "V6fIqmoG05": //philanthropy
-                cell.icon2.image = UIImage(named: "phil.png")
-                cell.foodText.text = "Philanthropy"
-                break
-            case "mch3EIhozC": //music
-                cell.icon2.image = UIImage(named: "music.png")
-                cell.foodText.text = "Music"
-                break
-                
-            case "AjosKs2UWi": //byob
-                cell.icon2.image = UIImage(named: "byob.png")
-                cell.foodText.text = "Byob"
-                break
-                
-            case "Ymclya9lwu": //performance
-                cell.icon2.image = UIImage(named: "performance.png")
-                cell.foodText.text = "Performance"
-                break
-            case "XYV5giSlCO": // food
-                cell.icon2.image = UIImage(named: "food.png")
-                cell.foodText.text = "Food"
-                break
-                
-            case "GawBDHRtfo": //free
-                cell.icon2.image = UIImage(named: "free.png")
-                cell.foodText.text = "Free"
-                break
-            case "8OXtrEEL7c"://On campus
-                cell.icon2.image = UIImage(named: "onCampus.png")
-                break
-                
-            default:
-                cell.icon2.image = nil
-                cell.foodText.text = ""
-                
-            }
             switch tag2[event] {
             case "PvApxif2rw": //Popcorn
-                cell.icon3.image = UIImage(named: "popcorn.png")
+                cell.icon2.image = UIImage(named: "popcorn.png")
                 cell.costText.text = "Popcorn"
                 break
                 
             case "LP5fLvLurL": //recuitment
-                cell.icon3.image = UIImage(named: "recruitment.png")
+                cell.icon1.image = UIImage(named: "recruitment.png")
                 cell.costText.text = "recruitment"
                 
                 break
                 
             case "8HvnDADGY2": // run
-                cell.icon3.image = UIImage(named: "run.png")
+                cell.icon2.image = UIImage(named: "run.png")
                 cell.costText.text = "run"
                 break
                 
             case "BX9RsT3EpW": //tour
-                cell.icon3.image = UIImage(named: "tour.png")
+                cell.icon2.image = UIImage(named: "tour.png")
                 cell.costText.text = "tour"
                 break
             case "u2EAfQk9Lf": //intramural
-                cell.icon3.image = UIImage(named: "intramural.png")
+                cell.icon2.image = UIImage(named: "intramural.png")
                 cell.costText.text = "Intramural"
                 break
                 
             case "ayCBAVwQ93": //sales event
-                cell.icon3.image = UIImage(named: "sales.png")
+                cell.icon2.image = UIImage(named: "sales.png")
                 cell.costText.text = "Sales"
                 break
                 
             case "D1nxE6j63a": //dance
-                cell.icon3.image = UIImage(named: "dance.png")
+                cell.icon2.image = UIImage(named: "dance.png")
                 cell.costText.text = "Dance"
                 break
                 
             case "XiWPxYMwEO": //games
-                cell.icon3.image = UIImage(named: "games.png")
+                cell.icon2.image = UIImage(named: "games.png")
                 cell.costText.text = "Games"
                 break
                 
             case "6IkmbdKMnn": //meetup
-                cell.icon3.image = UIImage(named: "meet.png")
+                cell.icon2.image = UIImage(named: "meet.png")
                 cell.costText.text = "meet"
                 break
                 
             case "wLt1TPYiyV": //religous
-                cell.icon3.image = UIImage(named: "religous.png")
+                cell.icon2.image = UIImage(named: "religous.png")
                 cell.costText.text = "Religous"
                 break
                 
             case "f8ZpiOF9cg": //conference
-                cell.icon3.image = UIImage(named: "conference.png")
+                cell.icon2.image = UIImage(named: "conference.png")
                 cell.costText.text = "conference"
                 break
                 
             case "leITfmSo7E": //party
-                cell.icon3.image = UIImage(named: "party.png")
+                cell.icon2.image = UIImage(named: "party.png")
                 cell.costText.text = "Party"
                 break
             case "s5XU11BTs3": // drinking
-                cell.icon3.image = UIImage(named: "drinking.png")
+                cell.icon2.image = UIImage(named: "drinking.png")
                 cell.costText.text = "drinking"
                 break
                 
             case "a3pMl70t39": //Outdoors
-                cell.icon3.image = UIImage(named: "outdoors.png")
+                cell.icon2.image = UIImage(named: "outdoors.png")
                 cell.costText.text = "outdoors"
                 break
                 
             case "V6fIqmoG05": //philanthropy
-                cell.icon3.image = UIImage(named: "phil.png")
+                cell.icon2.image = UIImage(named: "phil.png")
                 cell.costText.text = "Philanthropy"
                 break
             case "mch3EIhozC": //music
-                cell.icon3.image = UIImage(named: "music.png")
+                cell.icon2.image = UIImage(named: "music.png")
                 cell.costText.text = "Music"
                 break
                 
             case "AjosKs2UWi": //byob
-                cell.icon3.image = UIImage(named: "byob.png")
+                cell.icon2.image = UIImage(named: "byob.png")
                 cell.costText.text = "Byob"
                 break
                 
             case "Ymclya9lwu": //performance
-                cell.icon3.image = UIImage(named: "performance.png")
+                cell.icon2.image = UIImage(named: "performance.png")
                 cell.costText.text = "Performance"
                 break
             case "XYV5giSlCO": // food
-                cell.icon3.image = UIImage(named: "food.png")
+                cell.icon2.image = UIImage(named: "food.png")
                 cell.costText.text = "Food"
                 break
                 
             case "GawBDHRtfo": //free
-                cell.icon3.image = UIImage(named: "free.png")
+                cell.icon2.image = UIImage(named: "free.png")
                 cell.costText.text = "Free"
+                break
+            case "8OXtrEEL7c"://On campus
+                cell.icon2.image = UIImage(named: "onCampus.png")
+                cell.costText.text = "On Campus"
+                break
+                
+            default:
+                cell.icon2.image = nil
+                cell.costText.text = ""
+                
+            }
+            switch tag3[event] {
+            case "PvApxif2rw": //Popcorn
+                cell.icon3.image = UIImage(named: "popcorn.png")
+                cell.foodText.text = "Popcorn"
+                break
+                
+            case "LP5fLvLurL": //recuitment
+                cell.icon3.image = UIImage(named: "recruitment.png")
+                cell.foodText.text = "recruitment"
+                
+                break
+                
+            case "8HvnDADGY2": // run
+                cell.icon3.image = UIImage(named: "run.png")
+                cell.foodText.text = "run"
+                break
+                
+            case "BX9RsT3EpW": //tour
+                cell.icon3.image = UIImage(named: "tour.png")
+                cell.foodText.text = "tour"
+                break
+            case "u2EAfQk9Lf": //intramural
+                cell.icon3.image = UIImage(named: "intramural.png")
+                cell.foodText.text = "Intramural"
+                break
+                
+            case "ayCBAVwQ93": //sales event
+                cell.icon3.image = UIImage(named: "sales.png")
+                cell.foodText.text = "Sales"
+                break
+                
+            case "D1nxE6j63a": //dance
+                cell.icon3.image = UIImage(named: "dance.png")
+                cell.foodText.text = "Dance"
+                break
+                
+            case "XiWPxYMwEO": //games
+                cell.icon3.image = UIImage(named: "games.png")
+                cell.foodText.text = "Games"
+                break
+                
+            case "6IkmbdKMnn": //meetup
+                cell.icon3.image = UIImage(named: "meet.png")
+                cell.foodText.text = "meet"
+                break
+                
+            case "wLt1TPYiyV": //religous
+                cell.icon3.image = UIImage(named: "religous.png")
+                cell.foodText.text = "Religous"
+                break
+                
+            case "f8ZpiOF9cg": //conference
+                cell.icon3.image = UIImage(named: "conference.png")
+                cell.foodText.text = "conference"
+                break
+                
+            case "leITfmSo7E": //party
+                cell.icon3.image = UIImage(named: "party.png")
+                cell.foodText.text = "Party"
+                break
+            case "s5XU11BTs3": // drinking
+                cell.icon3.image = UIImage(named: "drinking.png")
+                cell.foodText.text = "drinking"
+                break
+                
+            case "a3pMl70t39": //Outdoors
+                cell.icon3.image = UIImage(named: "outdoors.png")
+                cell.foodText.text = "outdoors"
+                break
+                
+            case "V6fIqmoG05": //philanthropy
+                cell.icon3.image = UIImage(named: "phil.png")
+                cell.foodText.text = "Philanthropy"
+                break
+            case "mch3EIhozC": //music
+                cell.icon3.image = UIImage(named: "music.png")
+                cell.foodText.text = "Music"
+                break
+                
+            case "AjosKs2UWi": //byob
+                cell.icon3.image = UIImage(named: "byob.png")
+                cell.foodText.text = "Byob"
+                break
+                
+            case "Ymclya9lwu": //performance
+                cell.icon3.image = UIImage(named: "performance.png")
+                cell.foodText.text = "Performance"
+                break
+            case "XYV5giSlCO": // food
+                cell.icon3.image = UIImage(named: "food.png")
+                cell.foodText.text = "Food"
+                break
+                
+            case "GawBDHRtfo": //free
+                cell.icon3.image = UIImage(named: "free.png")
+                cell.foodText.text = "Free"
                 break
             case "8OXtrEEL7c"://On campus
                 cell.icon3.image = UIImage(named: "oncampus.png")
@@ -971,7 +972,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                 
             default:
                 cell.icon3.image = nil
-                cell.costText.text = ""
+                cell.foodText.text = ""
             }
         
         cell.people.text = usernames[event]
