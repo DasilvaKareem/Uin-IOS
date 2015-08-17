@@ -10,7 +10,6 @@ import UIKit
 
 class channelSelectView: UITableViewController {
     
-    
     var currentIndexPath:NSIndexPath = NSIndexPath()
     //Channel Sections
     var channels = [String]()
@@ -43,16 +42,18 @@ class channelSelectView: UITableViewController {
                 self.usernameSectionTitle.append("following")
                 self.userType.append("following")
         
-                //Setups second items in username section title
-                self.usernameInfo.append("0")
-                self.usernameSectionTitle.append("subscriptions")
-                self.userType.append("Subscriptions")
-        
-        
                 //Setups thrid item in username section
                 self.usernameInfo.append("0")
                 self.usernameSectionTitle.append("notifications")
                 self.userType.append("Notifications")
+        
+                /*//Setups second items in username section title
+                self.usernameInfo.append("0")
+                self.usernameSectionTitle.append("subscriptions")
+                self.userType.append("Subscriptions")*/
+        
+        
+        
         
             }
     
@@ -67,19 +68,19 @@ class channelSelectView: UITableViewController {
         //Setups first part of gen counters
         self.genEvents.append("0")
         self.gentype.append("local")
-        self.genChannels.append("local")
+        self.genChannels.append("campus")
         //Ends setup
         
         //Setups 2nd part og gencounters
         self.genEvents.append("0 new")
-        self.gentype.append("subbedEvents")
+        self.gentype.append("uinEvents")
         self.genChannels.append("following")
         //Ends setup
         
         //third part of gen counters
         self.genEvents.append(" 0 upcoming")
         self.gentype.append("schedule")
-        self.genChannels.append("i'm in")
+        self.genChannels.append("Attending")
         //End setup
         self.getChannels()
     }
@@ -106,13 +107,8 @@ class channelSelectView: UITableViewController {
        
     }
     override func viewDidAppear(animated: Bool) {
-        if PFUser.currentUser()["organization"] === nil {
-            //setup for user
+      
             self.setupAllChannels()
-        } else {
-            //setup for org
-        }
-        
       
     }
     override func viewWillDisappear(animated: Bool) {
@@ -186,10 +182,6 @@ class channelSelectView: UITableViewController {
         }
         return totalSections.count
     }
-    
-    
-
-
    
     override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         var cell:channelSectionCell = tableView.dequeueReusableCellWithIdentifier("sectionHeader") as! channelSectionCell
@@ -264,8 +256,7 @@ class channelSelectView: UITableViewController {
             
                 cell.channelName.textColor = UIColor.whiteColor()
                 cell.channelCount.textColor = UIColor.whiteColor()
-                 cell.contentView.backgroundColor = UIColor(red: 245.0/255.0, green: 166.0/255.0, blue: 35.0/255.0, alpha: 1)
-            
+
         } else {
             cell.contentView.backgroundColor = nil
                 if indexPath.row == 0 || indexPath.row == 1 {
@@ -360,7 +351,7 @@ class channelSelectView: UITableViewController {
       
     
         
-               if indexPath.section == 0 {
+               if indexPath.section == 1 {
                 //changes background cell color to orange
                 
                     cell.contentView.backgroundColor = UIColor(red: 245.0/255.0, green: 166.0/255.0, blue: 35.0/255.0, alpha: 1)
@@ -369,8 +360,8 @@ class channelSelectView: UITableViewController {
               
                     switch userType[indexPath.row] {
                         
-                    case "Subscriptions":
-                        self.performSegueWithIdentifier("Subscriptions", sender: self)
+                    case "following":
+                        self.performSegueWithIdentifier("following", sender: self)
                         self.tableView.reloadData()
                         break
                     case "Subscribers":
@@ -382,153 +373,27 @@ class channelSelectView: UITableViewController {
                         self.tableView.reloadData()
                         break
                     
-                    case "My Events":
-                        self.performSegueWithIdentifier("My Events", sender: self)
+                    case "campus":
+                        self.performSegueWithIdentifier("campus", sender: self)
                         self.tableView.reloadData()
                     default:
                         break
                     }
         }
      
-            if indexPath.section == 1 {
+            if indexPath.section == 2 {
                
-                if self.memBounded == true {
-                    println("You are membounded")
-                        //Re checks if your authorization is still on
-                    self.checkLockedStatus()
-                    if self.memBounded == true {
-                        var alert = UIAlertController(title: "You're still in MEMbound", message: "Check back when your session is over. We'll be waiting on you!", preferredStyle: UIAlertControllerStyle.Alert)
-                        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: nil))
-                        self.presentViewController(alert, animated: true, completion: nil)
-                    }
-                
-                } else {
+               
                     self.performSegueWithIdentifier("channelSelect", sender: self)
                     self.tableView.reloadData()
-                }
-            }
-        
-      
-        if indexPath.section == 2 {
-            var text = String()
-            var channelQuery = PFQuery(className: "ChannelUser")
-            channelQuery.whereKey("userID", equalTo: PFUser.currentUser().objectId)
-            channelQuery.whereKey("channelID", equalTo: channels[indexPath.row])
-            var checkAuthorized = channelQuery.getFirstObject()
-            if checkAuthorized["authorized"] as! Bool == false {
-                //Membound onboarding event
-                let page1:OnboardingContentViewController = OnboardingContentViewController(title: "Welcome Tiger!", body: "Uin has partnered with MEMbound to give you the best experience possible during your time at New Student Orientation. Enjoy your stay, and don't forget to check the schedule!", image: UIImage(named: "tiger"), buttonText: "", action: {
-                    
-                })
-                let page2:OnboardingContentViewController = OnboardingContentViewController(title: "This is Memphis", body: "Once your session is over, hold on to Uin! When the Fall semester starts there will be all kinds of events here for you and your friends to check out!", image: UIImage(named: "whiteUin"), buttonText: "", action: {
-                    
-                })
-                let page3:OnboardingContentViewController = OnboardingContentViewController(title: "Now, for VIP access...", body: "Please enter the code sent from the university to your email in order to access the MEMbound calendar. Ask around if you don't remember, someone will have it!", image: UIImage(named: "whiteUin"), buttonText: "Enter Code", action: {
-                    var alert = UIAlertController(title: "Enter Code", message: "You should have an email from the university that has your code for this session. If not, ask someone nearby.", preferredStyle: UIAlertControllerStyle.Alert)
-                    alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: nil))
-                    alert.addTextFieldWithConfigurationHandler({(textField: UITextField!) in
-                        textField.placeholder = "Code"
-                        textField.secureTextEntry = false
-                        text = textField.text
-                        println(textField.text)
-                    })
-                    alert.addAction(UIAlertAction(title: "Enter", style: .Default, handler:{ (alertAction:UIAlertAction!) in
-                        
-                        let textf = alert.textFields?[0] as! UITextField
-                        var pinCheck = PFQuery(className: "ChannelCodeInfo")
-                        pinCheck.whereKey("channelID", equalTo: self.channels[indexPath.row])
-                        pinCheck.whereKey("validationCode", equalTo:textf.text )
-                        pinCheck.getFirstObjectInBackgroundWithBlock({
-                            (object1:PFObject!, error:NSError!) -> Void in
-                            if error == nil {
-                                var expDate = object1["expiration"] as! NSDate
-                                var changeBound = PFQuery(className: "ChannelUser")
-                                changeBound.whereKey("userID", equalTo: PFUser.currentUser().objectId)
-                                changeBound.whereKey("channelID", equalTo: self.channels[indexPath.row])
-                                changeBound.getFirstObjectInBackgroundWithBlock({
-                                    (object2:PFObject!, error:NSError!) -> Void in
-                                    object2["authorized"] = true
-                                    object2["expiration"] = expDate
-                                    object2.save()
-                                    
-                                    self.getChannels()
-                                    self.performSegueWithIdentifier("channelSelect", sender: self)
-                                    self.tableView.reloadData()
-                                })
-                            } else {
-                                println("You did not enter the right code")
-                            }
-                        })
-                       
-                    }))
-                    self.dismissViewControllerAnimated(true, completion: nil)
-                    self.presentViewController(alert, animated: true, completion: nil)
-                })
                 
-                let allPages:OnboardingViewController = OnboardingViewController(backgroundImage: UIImage(named: "memboundBackground"), contents: [page1,page2,page3])
-                allPages.underIconPadding = 40
-                allPages.underTitlePadding = 20
-                allPages.bottomPadding = 35
-                allPages.titleFontSize = 24
-                allPages.bodyFontSize = 18
-                allPages.buttonFontSize = 20
-                // skip button
-                allPages.skipButton.enabled = true
-                allPages.allowSkipping = true
-                allPages.skipHandler = {
-                    println("it was skipped")
-                    var alert = UIAlertController(title: "Enter Code", message: "You should have an email from the university that has your code for this session. If not, ask someone nearby.", preferredStyle: UIAlertControllerStyle.Alert)
-                    alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: nil))
-                    alert.addTextFieldWithConfigurationHandler({(textField: UITextField!) in
-                        textField.placeholder = "Code"
-                        textField.secureTextEntry = false
-                        text = textField.text
-                        println(textField.text)
-                    })
-                    alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler:{ (alertAction:UIAlertAction!) in
-                        
-                        let textf = alert.textFields?[0] as! UITextField
-                        var pinCheck = PFQuery(className: "ChannelCodeInfo")
-                        pinCheck.whereKey("channelID", equalTo: self.channels[indexPath.row])
-                        pinCheck.whereKey("validationCode", equalTo:textf.text )
-                        pinCheck.getFirstObjectInBackgroundWithBlock({
-                            (object1:PFObject!, error:NSError!) -> Void in
-                            if error == nil {
-                                var expDate = object1["expiration"] as! NSDate
-                                var changeBound = PFQuery(className: "ChannelUser")
-                                changeBound.whereKey("userID", equalTo: PFUser.currentUser().objectId)
-                                changeBound.whereKey("channelID", equalTo: self.channels[indexPath.row])
-                                changeBound.getFirstObjectInBackgroundWithBlock({
-                                    (object2:PFObject!, error:NSError!) -> Void in
-                                    object2["authorized"] = true
-                                    object2["expiration"] = expDate
-                                    object2.save()
-                                    
-                                    self.getChannels()
-                                    self.tableView.reloadData()
-                                    self.performSegueWithIdentifier("channelSelect", sender: self)
-                                })
-                            } else {
-                                println("You did not enter the right code")
-                            }
-                        })
-                        
-                    }))
-                    self.dismissViewControllerAnimated(true, completion: nil)
-                    self.presentViewController(alert, animated: true, completion: nil)
-
-                }
-                self.presentViewController(allPages, animated: true, completion: nil)
             }
-           
-             else {
-                  self.performSegueWithIdentifier("channelSelect", sender: self)
-            }
-          
-            
-        }
         
       
+        if indexPath.section == 3{
+        
+      
+        }
     }
     // MARK: - Navigation
 
@@ -544,11 +409,11 @@ class channelSelectView: UITableViewController {
             let eventFeed:eventFeedViewController = nav.topViewController as! eventFeedViewController
             var row = indexPath?.row
       
-            if indexPath?.section == 1 {
+            if indexPath?.section == 2 {
                 println(row!)
                 eventFeed.channelID = gentype[row!]
             }
-            if indexPath?.section == 2 {
+            if indexPath?.section == 3 {
                     println(row!)
                 eventFeed.channelID = channels[row!]
             }
@@ -557,7 +422,5 @@ class channelSelectView: UITableViewController {
             
         }
     }
-
-
 }
 

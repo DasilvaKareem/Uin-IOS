@@ -612,7 +612,8 @@ class postEvent: UIViewController, UICollectionViewDataSource, UICollectionViewD
     }
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell:WigoCell = wigoCollectionView.dequeueReusableCellWithReuseIdentifier("icon", forIndexPath: indexPath) as! WigoCell
-        println(wigoImage)
+        cell.profilePic.layer.cornerRadius = cell.profilePic.frame.size.width / 2
+        cell.profilePic.clipsToBounds = true
         while(wigoImage.count == 0 ) {
             cell.profilePic.image = nil
             return cell

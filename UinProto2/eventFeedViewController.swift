@@ -143,7 +143,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         //Loads search Items
         searchBar.delegate = self
         getSearchItems()
-        getWhosGoing()
+        //getWhosGoing()
         var theMix = Mixpanel.sharedInstance()
         theMix.track("Event Feed Opened")
         theMix.flush()
@@ -259,10 +259,6 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                     //adds content to the array
                     //Queries all public Events
                     var eventQuery = PFQuery(className: "Event")
-                    var pubQue = PFQuery(className: "Subscription")
-                    var superQue = PFQuery(className: "Event")
-                    var newQue = PFQuery(className: "Event")
-                    var query = PFQuery.orQueryWithSubqueries([eventQuery ])
                     switch self.channelID {
                         case "localEvent":
                             self.navigationItem.title = "Local Events"
@@ -274,88 +270,40 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                            
                             
                         break
-                        case "subbedEvents":
+                        case "uinEvents":
                             self.navigationItem.title = "Subscription Events"
-                            var subscriptionQuery = PFQuery(className: "Subscription")
-                            subscriptionQuery.whereKey("subscriberID", equalTo: PFUser.currentUser().objectId)
-                            eventQuery.whereKey("authorID", matchesKey: "publisherID", inQuery: subscriptionQuery)
-                            
-                           //Queries all Private events
-                            pubQue.whereKey("subscriberID", equalTo: PFUser.currentUser().objectId)
-                            pubQue.whereKey("isMember", equalTo: true)
-                            superQue.whereKey("authorID", matchesKey: "publisherID", inQuery:pubQue)
-                            superQue.whereKey("isPublic", equalTo: false)
-                            //Queries all of the current user events
-                            newQue.whereKey("isPublic", equalTo: false)
-                            newQue.whereKey("authorID", matchesKey: "publisherID", inQuery:pubQue)
-                            newQue.whereKey("author", equalTo: PFUser.currentUser().username)
-                            var userTimeCheck = PFUser.currentUser()
-                            userTimeCheck["subscriptionsTimestamp"] = NSDate()
-                            userTimeCheck.saveInBackgroundWithBlock({
-                                (success:Bool, error:NSError!) -> Void in
-                                if error == nil {
-                                    println("The stamp was updated")
-                                } else {
-                                    println(error.debugDescription)
-                                }
-                            })
+                            eventQuery.whereKey("inLocalFeed", equalTo: true)
+                            eventQuery.whereKey("isPublic", equalTo: true)
                       
                         
                         break
                         case "schedule":
                              self.navigationItem.title = "Schedule"
                             geoEnabled = false
-                            var getAmountSchedule = PFQuery(className: "UserCalendar")
-                            getAmountSchedule.whereKey("userID", equalTo: PFUser.currentUser().objectId)
-                            eventQuery.whereKey("objectId", matchesKey: "eventID", inQuery: getAmountSchedule)
+                             eventQuery.whereKey("inLocalFeed", equalTo: true)
                              eventQuery.whereKey("isPublic", equalTo: true)
-                            
-                            pubQue.whereKey("subscriber", equalTo: PFUser.currentUser().username)
-                            pubQue.whereKey("isMember", equalTo: true)
-                            superQue.whereKey("objectId", matchesKey: "eventID", inQuery: getAmountSchedule)
-                            superQue.whereKey("isPublic", equalTo: false)
-                            
-                            newQue.whereKey("isPublic", equalTo: false)
-                            newQue.whereKey("objectId", matchesKey: "eventID", inQuery: getAmountSchedule)
-                            newQue.whereKey("author", equalTo: PFUser.currentUser().username)
-                            
                         break
                     default:
-                        
-            
-                        eventQuery.whereKey("channels", equalTo:self.channelID)
+                        eventQuery.whereKey("inLocalFeed", equalTo: true)
                         eventQuery.whereKey("isPublic", equalTo: true)
-                        
-                        //Queries all Private events
-                       
-                        pubQue.whereKey("subscriber", equalTo: PFUser.currentUser().username)
-                        pubQue.whereKey("isMember", equalTo: true)
-                     
-                        superQue.whereKey("channels", equalTo:self.channelID)
-                          
-                        superQue.whereKey("isPublic", equalTo: false)
-                        
-                        //Queries all of the current user events
+            
                       
-                        newQue.whereKey("isPublic", equalTo: false)
-                        newQue.whereKey("channels", equalTo:self.channelID)
-                        newQue.whereKey("author", equalTo: PFUser.currentUser().username)
             
                         break
                     }
            
                     
-                    query.orderByAscending("start")
-                    query.includeKey("author")
+                    eventQuery.orderByAscending("start")
+                    eventQuery.includeKey("author")
                    /* if geoEnabled == true  {
                  query.whereKey("locationGeopoint", nearGeoPoint: self.currentPoint, withinMiles: 7.0)
                  println(self.currentPoint)
                     }*/
                  //query.whereKey("start", greaterThanOrEqualTo: NSDate())
-                    query.whereKey("isDeleted", equalTo: false)
-                    query.limit = 20
-                    query.whereKey("objectId", notContainedIn: self.objectID)
-                    query.findObjectsInBackgroundWithBlock {
+                    eventQuery.whereKey("isDeleted", equalTo: false)
+                    eventQuery.limit = 20
+                    eventQuery.whereKey("objectId", notContainedIn: self.objectID)
+                    eventQuery.findObjectsInBackgroundWithBlock {
                         (results: [AnyObject]!, error: NSError!) -> Void in
                         if error == nil {
                             if shouldKeepList == true {
@@ -649,10 +597,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         // Puts the data in a cell
         var cell:eventCell = tableView.dequeueReusableCellWithIdentifier("cell2") as! eventCell
        
-        println()
-        println(indexPath.section)
-        println(indexPath.row)
-        println()
+        
         if appProblem == true {
             cell.eventName.numberOfLines = 3
             //cell.onCampusIcon.image = nil
@@ -1051,40 +996,89 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             }*/
       
          cell.poop.addTarget(self, action: "followButton:", forControlEvents: UIControlEvents.TouchUpInside)
+            
+            
+            var file = (PFFile)()
+            var query = PFQuery(className:"WigoFeature")
+            query.whereKey("event", equalTo: eventObject[event])
+            query.includeKey("user")
+            query.includeKey("event")
+            query.findObjectsInBackgroundWithBlock({
+                (objects:[AnyObject]!, error:NSError!) -> Void in
+                if error == nil {
+                    for object in objects {
+                        // self.theFeed.reloadData()
+                        var wigoUser = object["user"] as! PFObject
+                        println(wigoUser["profilePicture"] as! PFFile)
+                        file = wigoUser["profilePicture"] as! PFFile
+                        var data = file.getData()
+                        
+                        self.images.append(UIImage(data: data)!)
+                       
+                        
+                    }
+                     cell.wigoCollectionView.reloadData()
+
+                }
+            })
+            
+
             }
+        
         }
         return cell
         
     }
-    
+    var images = [UIImage]()
     //Collection view fofr wigo
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        
-        return wigoImage.count
+      
+        return images.count
     }
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         
         return 1
     }
+  
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("icon", forIndexPath: indexPath) as! WigoCell
-        println(wigoImage)
-        while(wigoImage.count == 0 ) {
+        cell.profilePic.layer.cornerRadius = cell.profilePic.frame.size.width / 2
+        cell.profilePic.clipsToBounds = true
+        var event = getEventIndex(indexPath.section, row: indexPath.row)
+        if images.count == 0 {
             cell.profilePic.image = nil
-            return cell
+        } else {
+            cell.profilePic.image = images[event]
         }
-        cell.profilePic.image = wigoImage[indexPath.row]
+        
+        self.images.removeAll(keepCapacity: true)
+        
+        
+        
+        
+        
+        
+        println(images)
         
         return cell
     }
     
     var wigoImage = [UIImage]()
-    func getWhosGoing(){
+    
+    
+    
+    
+    
+    
+    
+    private func getWhosGoing(){
+        wigoImage.removeAll(keepCapacity: true)
        // var indexPath = theFeed.indexPathForSelectedRow() //get index of data for selected row
         //var section = indexPath?.section
         //var row = indexPath?.row
-       // var index = getEventIndex(section!, row: row!)
+       //var index = getEventIndex(section!, row: row!)
         var userImage = (PFFile)()
         var wigoQuery = PFQuery(className: "WigoFeature")
         //wigoQuery.whereKey("event", equalTo: PFObject(withoutDataWithClassName: "Event", objectId: objectID[index]))
@@ -1096,7 +1090,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             if error == nil {
                 // println(objects)
                 for object in objects {
-                                        var wigoUser = object["user"] as! PFObject
+                    var wigoUser = object["user"] as! PFObject
                     println(wigoUser["profilePicture"] as! PFFile)
                     userImage = wigoUser["profilePicture"] as! PFFile
                     userImage.getDataInBackgroundWithBlock({
@@ -1151,6 +1145,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                         (success:Bool, error:NSError!) -> Void in
                         if error == nil {
                              println("user has been wigoed")
+                            self.theFeed.reloadData()
                         }
                     })
                     

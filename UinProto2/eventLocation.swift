@@ -94,6 +94,7 @@ class eventLocationView: UIViewController, MKMapViewDelegate, CLLocationManagerD
             (placemarks: [AnyObject]!, error: NSError!) -> Void in
             let placemark = placemarks?[0] as? CLPlacemark
             self.eventLocation.text = placemark?.name
+            println(placemark?.addressDictionary)
             self.eventGeoLocation = location
         })
     }
@@ -106,6 +107,7 @@ class eventLocationView: UIViewController, MKMapViewDelegate, CLLocationManagerD
         map.delegate = self
         eventLocation.delegate = self
         displayLocation.delegate = self
+       
         locationmgr = CLLocationManager()
         locationmgr.delegate = self
         locationmgr.requestWhenInUseAuthorization()

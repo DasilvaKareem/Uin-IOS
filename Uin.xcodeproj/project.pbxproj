@@ -31,6 +31,7 @@
 		61144F201AA299F50034018A /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61144F1F1AA299F50034018A /* Social.framework */; };
 		61144F221AA29A010034018A /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61144F211AA29A010034018A /* Accounts.framework */; };
 		611A9B0C1B7DFD880000979A /* EventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618CE0131A76F4A400FF493C /* EventView.swift */; };
+		611A9B0F1B7E66360000979A /* orgnizationSwitcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611A9B0D1B7E653B0000979A /* orgnizationSwitcher.swift */; };
 		61268C1E1A910AB300009E07 /* dateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61268C1D1A910AB300009E07 /* dateCell.swift */; };
 		6131C0AE1B55F48F005095AF /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6131C0AD1B55F48F005095AF /* Login.swift */; };
 		6131C0B01B55FF90005095AF /* registrationProcess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6131C0AF1B55FF90005095AF /* registrationProcess.swift */; };
@@ -105,6 +106,7 @@
 		61144F1D1AA299EC0034018A /* libPods-Mixpanel.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-Mixpanel.a"; path = "UinProto2/Pods/build/Debug-iphoneos/libPods-Mixpanel.a"; sourceTree = "<group>"; };
 		61144F1F1AA299F50034018A /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		61144F211AA29A010034018A /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
+		611A9B0D1B7E653B0000979A /* orgnizationSwitcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = orgnizationSwitcher.swift; sourceTree = "<group>"; };
 		61268C1D1A910AB300009E07 /* dateCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = dateCell.swift; sourceTree = "<group>"; };
 		613069F11A745289001CAF4F /* MyProfile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MyProfile.swift; path = ../MyProfile.swift; sourceTree = "<group>"; };
 		6131C0AD1B55F48F005095AF /* Login.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
@@ -213,6 +215,7 @@
 				28E6547D1A60B9C8006E76E5 /* eventCell.swift */,
 				28277E341A4B115E001CCB02 /* AppDelegate.swift */,
 				EE09DD841AFDC18300809E3E /* Main.storyboard */,
+				611A9B0D1B7E653B0000979A /* orgnizationSwitcher.swift */,
 				617B86D11B6FDBE400EC901C /* OrginzationViewC.swift */,
 				6131C0AF1B55FF90005095AF /* registrationProcess.swift */,
 				6131C0AD1B55F48F005095AF /* Login.swift */,
@@ -489,6 +492,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				611A9B0F1B7E66360000979A /* orgnizationSwitcher.swift in Sources */,
 				611A9B0C1B7DFD880000979A /* EventView.swift in Sources */,
 				617B86D01B61D7FC00EC901C /* EventTag.swift in Sources */,
 				EE2311C71B03E9D8002BFA3D /* settingsView.swift in Sources */,
