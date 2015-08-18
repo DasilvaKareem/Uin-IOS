@@ -45,6 +45,50 @@ class eventLanding: UIViewController {
         
     }
 }
+class reciepentView: UIViewController, UITableViewDataSource, UITableViewDelegate {
+    
+    @IBOutlet weak var recipentFeed: UITableView!
+    var calendar = ["Private", "Public"]
+    var recipentSelect = (String)()
+    
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 1
+    }
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return calendar.count
+    }
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        var cell:recipentCell = recipentFeed.dequeueReusableCellWithIdentifier("cell2") as! recipentCell
+        cell.recipent.text = calendar[indexPath.row]
+        return cell
+    }
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        recipentSelect = calendar[indexPath.row]
+        self.performSegueWithIdentifier("event5", sender: self)
+        
+    }
+    
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "event5" {
+            greciepent = recipentSelect
+        }
+    }
+}
+class recipentCell: UITableViewCell {
+    @IBOutlet weak var recipent: UILabel!
+    
+}
+
 //Global variables that contain event details
 var gTitle = (String)()
 var gDescrption = (String)()
@@ -56,6 +100,7 @@ var gEnd = (NSDate)()
 var firstIcon = (String)()
 var secondIcon = (String)()
 var thirdIcon = (String)()
+var greciepent = (String)()
 
 class eventReview: UIViewController {
     
@@ -94,7 +139,7 @@ class eventReview: UIViewController {
         start.text =  dateTimeformat.stringFromDate(gStart)
         end.text = dateTimeformat.stringFromDate(gEnd)
         tags.text = "\(firstIcon), \(secondIcon), \(thirdIcon) "
-        recipents.text = "Campus Feed(Public)"
+        recipents.text = greciepent
         
     }
     func createEvent(){

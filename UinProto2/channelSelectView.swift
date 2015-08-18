@@ -120,6 +120,9 @@ class channelSelectView: UITableViewController {
 
     func getChannels(){
         //This is where you setup all your channels for the user :its blank becasue idk the directions
+        self.channelType.removeAll(keepCapacity: true)
+        self.channels.removeAll(keepCapacity: true)
+        self.channelNames.removeAll(keepCapacity: true)
         channels.append("Organization")
         channelNames.append("Organization")
         channelType.append("Organization")
