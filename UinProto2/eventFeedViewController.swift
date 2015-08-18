@@ -659,7 +659,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             switch tag1[event] {
             case "PvApxif2rw": //Popcorn
                 cell.icon1.image = UIImage(named: "popcorn.png")
-                cell.onCampusText.text = "Popcorn"
+                cell.onCampusText.text = "popcorn"
                 break
                 
             case "LP5fLvLurL": //recuitment
@@ -679,32 +679,32 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                 break
             case "u2EAfQk9Lf": //intramural
                 cell.icon1.image = UIImage(named: "intramural.png")
-                cell.onCampusText.text = "Intramural"
+                cell.onCampusText.text = "intramural"
                 break
                 
             case "ayCBAVwQ93": //sales event
                 cell.icon1.image = UIImage(named: "sales.png")
-                cell.onCampusText.text = "Sales"
+                cell.onCampusText.text = "sales event"
                 break
                 
             case "D1nxE6j63a": //dance
                 cell.icon1.image = UIImage(named: "dance.png")
-                cell.onCampusText.text = "Dance"
+                cell.onCampusText.text = "dance"
                 break
                 
             case "XiWPxYMwEO": //games
                 cell.icon1.image = UIImage(named: "games.png")
-                cell.onCampusText.text = "Games"
+                cell.onCampusText.text = "games"
                 break
                 
             case "6IkmbdKMnn": //meetup
                 cell.icon1.image = UIImage(named: "meet.png")
-                cell.onCampusText.text = "meet"
+                cell.onCampusText.text = "meeting"
                 break
                 
             case "wLt1TPYiyV": //religous
                 cell.icon1.image = UIImage(named: "religous.png")
-                cell.onCampusText.text = "Religous"
+                cell.onCampusText.text = "religous"
                 break
                 
             case "f8ZpiOF9cg": //conference
@@ -714,7 +714,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                 
             case "leITfmSo7E": //party
                 cell.icon1.image = UIImage(named: "party.png")
-                cell.onCampusText.text = "Party"
+                cell.onCampusText.text = "party"
                 break
             case "s5XU11BTs3": // drinking
                 cell.icon1.image = UIImage(named: "drinking.png")
@@ -728,30 +728,30 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                 
             case "V6fIqmoG05": //philanthropy
                 cell.icon1.image = UIImage(named: "phil.png")
-                cell.onCampusText.text = "Philanthropy"
+                cell.onCampusText.text = "philanthropy"
                 break
             case "mch3EIhozC": //music
                 cell.icon1.image = UIImage(named: "music.png")
-                cell.onCampusText.text = "Music"
+                cell.onCampusText.text = "music"
                 break
                 
             case "AjosKs2UWi": //byob
                 cell.icon1.image = UIImage(named: "byob.png")
-                cell.onCampusText.text = "Byob"
+                cell.onCampusText.text = "byob"
                 break
                 
             case "Ymclya9lwu": //performance
                 cell.icon1.image = UIImage(named: "performance.png")
-                cell.onCampusText.text = "Performance"
+                cell.onCampusText.text = "performance"
                 break
             case "XYV5giSlCO": // food
                 cell.icon1.image = UIImage(named: "food.png")
-                cell.onCampusText.text = "Food"
+                cell.onCampusText.text = "food"
                 break
                 
             case "GawBDHRtfo": //free
                 cell.icon1.image = UIImage(named: "free.png")
-                cell.onCampusText.text = "Free"
+                cell.onCampusText.text = "free"
                 break
             case "8OXtrEEL7c"://On campus
                 cell.icon1.image = UIImage(named: "onCampus.png")
