@@ -172,7 +172,7 @@ class iconCreateViewController: UIViewController, UICollectionViewDataSource, UI
             //find the same tag id then removes it
             for id in tags {
                 var count = 0
-                if id == iconId[indexPath.row] {
+                if id == caption[indexPath.row] {
                     self.tags.removeAtIndex(count)
                 }
                 count++

@@ -120,7 +120,9 @@ class channelSelectView: UITableViewController {
 
     func getChannels(){
         //This is where you setup all your channels for the user :its blank becasue idk the directions
-        
+        channels.append("Organization")
+        channelNames.append("Organization")
+        channelType.append("Organization")
         
     }
     //Checks if the user is in a session or not
@@ -314,6 +316,7 @@ class channelSelectView: UITableViewController {
         if indexPath.section == 3 {
             cell = tableView.dequeueReusableCellWithIdentifier("profiles") as! channelTableCell
             cell.channelName.text = channelNames[indexPath.row]
+            cell.channelCount.text = ""
             //Affect the cell apperance
             if self.currentIndexPath == indexPath {
                 cell.contentView.backgroundColor = UIColor(red: 65.0/255.0, green: 145.0/255.0, blue: 198.0/255.0, alpha: 1)
@@ -326,11 +329,7 @@ class channelSelectView: UITableViewController {
                 cell.channelCount.textColor = UIColor(red: 211.0/255.0, green: 211.0/255.0, blue: 211.0/255.0, alpha: 1)
             }
             //Locks the image
-            if channelStatus[indexPath.row] == false {
-                cell.channelCount.text = "Locked"
-            } else {
-                cell.channelCount.text = "Open"
-            }
+           
            
         }
       
@@ -390,7 +389,8 @@ class channelSelectView: UITableViewController {
         
       
         if indexPath.section == 3{
-        
+            self.performSegueWithIdentifier("organization", sender: self)
+            self.tableView.reloadData()
       
         }
     }

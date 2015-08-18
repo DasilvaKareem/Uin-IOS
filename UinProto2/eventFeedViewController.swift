@@ -1074,7 +1074,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     
     
     
-    private func getWhosGoing(){
+        func getWhosGoing(){
         wigoImage.removeAll(keepCapacity: true)
        // var indexPath = theFeed.indexPathForSelectedRow() //get index of data for selected row
         //var section = indexPath?.section
@@ -1147,7 +1147,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                         (success:Bool, error:NSError!) -> Void in
                         if error == nil {
                              println("user has been wigoed")
-                            self.theFeed.reloadData()
+                            
                         }
                     })
                     

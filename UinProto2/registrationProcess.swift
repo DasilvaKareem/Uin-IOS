@@ -182,7 +182,7 @@ class homePage: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        PFUser.logOut()
+        //PFUser.logOut()
      
     
     }

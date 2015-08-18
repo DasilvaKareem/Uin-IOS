@@ -71,6 +71,8 @@ class eventReview: UIViewController {
     
     @IBOutlet weak var end: UILabel!
     
+    @IBOutlet weak var recipents: UILabel!
+    @IBOutlet weak var tags: UILabel!
     //Checks if all event info is stored
     func validateEvent() {
         var error = ""
@@ -91,10 +93,8 @@ class eventReview: UIViewController {
         dateTimeformat.dateStyle = NSDateFormatterStyle.MediumStyle
         start.text =  dateTimeformat.stringFromDate(gStart)
         end.text = dateTimeformat.stringFromDate(gEnd)
-        println(firstIcon)
-        println(secondIcon)
-        println(thirdIcon)
-        
+        tags.text = "\(firstIcon), \(secondIcon), \(thirdIcon) "
+        recipents.text = "Campus Feed(Public)"
         
     }
     func createEvent(){
