@@ -164,7 +164,7 @@ class postEvent: UIViewController, UICollectionViewDataSource, UICollectionViewD
         theMix.flush()
         super.viewDidLoad()
         getWhosGoing()
-        username.setTitle(organization, forState:UIControlState.Normal)
+        //username.setTitle(organization, forState:UIControlState.Normal)
         //If event is owned by organization the org can edit the event
         /*if organizationID == PFUser.currentUser()["organization"] as! String{
             self.navigationItem.rightBarButtonItem?.title = "Edit"

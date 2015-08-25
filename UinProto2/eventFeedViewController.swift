@@ -1000,6 +1000,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             
             
             var file = (PFFile)()
+           
             var query = PFQuery(className:"WigoFeature")
             query.whereKey("event", equalTo: eventObject[event])
             query.includeKey("user")
@@ -1012,9 +1013,11 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                         var wigoUser = object["user"] as! PFObject
                         println(wigoUser["profilePicture"] as! PFFile)
                         file = wigoUser["profilePicture"] as! PFFile
+                    
                         var data = file.getData()
                         
                         self.images.append(UIImage(data: data)!)
+                        wigoUser["firstName"] as! String
                        
                         
                     }

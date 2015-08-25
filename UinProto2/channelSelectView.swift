@@ -123,8 +123,20 @@ class channelSelectView: UITableViewController {
         self.channelType.removeAll(keepCapacity: true)
         self.channels.removeAll(keepCapacity: true)
         self.channelNames.removeAll(keepCapacity: true)
-        channels.append("Organization")
-        channelNames.append("Organization")
+        channels.append("Your Organization")
+        channelNames.append("Your Organization")
+        channelType.append("Organization")
+        
+        channels.append("Edit Organization")
+        channelNames.append("Edit Organization")
+        channelType.append("Organization")
+        
+        channels.append("Notifcations")
+        channelNames.append("Notifcations")
+        channelType.append("Organization")
+        
+        channels.append("Followers")
+        channelNames.append("Followers")
         channelType.append("Organization")
         
     }
@@ -209,7 +221,7 @@ class channelSelectView: UITableViewController {
             
         }
         if section == 3 {
-            cell.sectionHeader.text = ""
+            cell.sectionHeader.text = "Organizations"
             cell.channelSeparator.image = UIImage(named: "sidebarLine.png")
             
         }
@@ -392,9 +404,32 @@ class channelSelectView: UITableViewController {
         
       
         if indexPath.section == 3{
-            self.performSegueWithIdentifier("organization", sender: self)
+         
+            switch channels[indexPath.row]{
+            case "Your Organization":
+                self.performSegueWithIdentifier("gotoprofile", sender: self)
+                break
+                
+                case "Edit Organization":
+                self.performSegueWithIdentifier("organization", sender: self)
+                break
+                
+                case "Notifcations":
+                self.performSegueWithIdentifier("Notifications", sender: self)
+                break
+                
+                case "Followers":
+                self.performSegueWithIdentifier("Subscribers", sender: self)
+                break
+                
+            default:
+                break
+            }
+            
+
+            
             self.tableView.reloadData()
-      
+          
         }
     }
     // MARK: - Navigation
