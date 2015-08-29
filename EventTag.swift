@@ -211,8 +211,9 @@ class iconCreateViewController: UIViewController, UICollectionViewDataSource, UI
                     if tags.count == 3 {
                         println("You can only have 3")
                     } else {
+                        cell.iconImage.image = iconImage2[indexPath.row]
                          self.tags.append(iconId2[indexPath.row])
-                         cell.iconImage.image = iconImage2[indexPath.row]
+                        
                     }
                    
                     
@@ -237,8 +238,9 @@ class iconCreateViewController: UIViewController, UICollectionViewDataSource, UI
                         if tags.count == 3 {
                             println("You can only have 3")
                         } else {
+                             cell.iconImage.image = iconImage3[indexPath.row]
                             self.tags.append(iconId3[indexPath.row])
-                            cell.iconImage.image = iconImage3[indexPath.row]
+                           
                         }
                         
                         
@@ -267,8 +269,9 @@ class iconCreateViewController: UIViewController, UICollectionViewDataSource, UI
                                 if tags.count == 3 {
                                     println("You can only have 3")
                                 } else {
+                                     cell.iconImage.image = iconImage4[indexPath.row]
                                    self.tags.append(iconId4[indexPath.row])
-                                   cell.iconImage.image = iconImage4[indexPath.row]
+                                  
                                 }
                                 
                                

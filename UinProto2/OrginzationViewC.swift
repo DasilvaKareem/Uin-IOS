@@ -16,7 +16,9 @@ class OrginzationViewC: UIViewController {
     @IBOutlet weak var menuTrigger: UIBarButtonItem!
     var id = (String)() // contains creation org object id
     override func viewDidLoad() {
+        
         super.viewDidLoad()
+        editing = true
         navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
         // Changes text color on navbar
         var nav = self.navigationController?.navigationBar
@@ -31,6 +33,14 @@ class OrginzationViewC: UIViewController {
             self.view.addGestureRecognizer(self.revealViewController().tapGestureRecognizer())
         }
         // Do any additional setup after loading the view.
+        
+        if editing == true {
+            let user = PFUser.currentUser()["organization"] as! PFObject
+            orgName.text = user["name"] as! String
+            orgDescription.text = user["description"] as! String
+            
+            
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -39,9 +49,7 @@ class OrginzationViewC: UIViewController {
     }
     
     @IBAction func CreateOrg(sender: AnyObject) {
-        if PFUser.currentUser() == nil {
-            println("You are not singed in")
-        }
+
         //Sets details for the orginzation
         var adminArray:NSArray = [PFUser.currentUser()] // array of admins
         var Organization = PFObject(className: "Organization")
@@ -99,12 +107,15 @@ class OrginazationPage: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        println()
+        println(orgID)
+        println()
         //Querys for data about the ORganization
         var query = PFQuery(className: "Organization")
         query.getObjectInBackgroundWithId(orgID, block: {
             (object:PFObject!, error:NSError!) -> Void in
             if error == nil {
+                
                 self.orgName.text = object["name"] as? String
                 self.orgDesciption.text = object["description"] as? String
             }

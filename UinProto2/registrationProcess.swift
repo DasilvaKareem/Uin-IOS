@@ -233,6 +233,7 @@ class registrationProcess: UIViewController, UITextFieldDelegate {
             PFUser.currentUser().saveInBackgroundWithBlock({
                 (succss:Bool, error:NSError!) -> Void in
                 if error == nil {
+            
                     println("email is changed")
                     self.nextButton.hidden = false
                     self.nextLabel.hidden = false

@@ -404,7 +404,9 @@ class channelSelectView: UITableViewController {
         
       
         if indexPath.section == 3{
-         
+            if PFUser.currentUser()["organization"] === nil {
+                self.performSegueWithIdentifier("newOrg", sender: self)
+            }
             switch channels[indexPath.row]{
             case "Your Organization":
                 self.performSegueWithIdentifier("gotoprofile", sender: self)
@@ -457,6 +459,19 @@ class channelSelectView: UITableViewController {
             
             
             
+        }
+        
+        if segue.identifier == "gotoprofile" {
+            let nav:OrginazationPage = segue.destinationViewController as! OrginazationPage
+            let org = PFUser.currentUser()["organization"] as! PFObject
+            nav.orgID =  org.objectId
+         
+            
+        }
+        if segue.identifier == "organization" {
+            let nav = segue.destinationViewController as! UINavigationController
+            let editOrg:OrginzationViewC = nav.topViewController as! OrginzationViewC
+            editOrg.editing = true
         }
     }
 }
