@@ -168,12 +168,15 @@ class iconCreateViewController: UIViewController, UICollectionViewDataSource, UI
        if indexPath.section == 0 {
         if cell.iconImage.image == iconImage[indexPath.row] {
             //the icon is already clicked
-            cell.iconImage.image = inActiveImage[indexPath.row]
+            var count = 0
+
             //find the same tag id then removes it
             for id in tags {
-                var count = 0
                 if id == caption[indexPath.row] {
+                    
                     self.tags.removeAtIndex(count)
+                    cell.iconImage.image = inActiveImage[indexPath.row]
+                    
                 }
                 count++
             }//removes icon id from array
@@ -194,14 +197,17 @@ class iconCreateViewController: UIViewController, UICollectionViewDataSource, UI
             if indexPath.section == 1 {
                 if cell.iconImage.image == iconImage2[indexPath.row] {
                     //the icon is already clicked
-                    cell.iconImage.image = inActiveImage2[indexPath.row]
+                     var count = 0
                     //find the same tag id then removes it
                     for id in tags {
-                        var count = 0
+                       
                         if id == iconId2[indexPath.row] {
                             self.tags.removeAtIndex(count)
+                            cell.iconImage.image = inActiveImage2[indexPath.row]
+                        } else {
+                          count++
                         }
-                        count++
+                        
                     }
                     
                     
@@ -222,14 +228,20 @@ class iconCreateViewController: UIViewController, UICollectionViewDataSource, UI
                 if indexPath.section == 2 {
                     if cell.iconImage.image == iconImage3[indexPath.row] {
                         //the icon is already clicked
-                        cell.iconImage.image = inActiveImage3[indexPath.row]
+                        var count = 0
                         //find the same tag id then removes it
                         for id in tags {
-                            var count = 0
+                            
+                            
+                            println(count)
                             if id == iconId3[indexPath.row] {
-                                self.tags.removeAtIndex(count)
+                                 self.tags.removeAtIndex(count)
+                                cell.iconImage.image = inActiveImage3[indexPath.row]
+                               
+                            } else {
+                                count++
                             }
-                            count++
+                            
                         }
                         
                         
@@ -253,14 +265,18 @@ class iconCreateViewController: UIViewController, UICollectionViewDataSource, UI
                             //Checks if the tag is already selected
                             if cell.iconImage.image == iconImage4[indexPath.row] {
                                 //the icon is already clicked
-                                cell.iconImage.image = inActiveImage4[indexPath.row]
+                                var count = 0
+                                
                                 //find the same tag id then removes it
                                 for id in tags {
-                                    var count = 0
+                                    
                                     if id == iconId4[indexPath.row] {
                                         self.tags.removeAtIndex(count)
+                                        cell.iconImage.image = inActiveImage4[indexPath.row]
+                                    } else {
+                                         count++
                                     }
-                                    count++
+                                   
                                 }
                                     
                                 
@@ -283,12 +299,14 @@ class iconCreateViewController: UIViewController, UICollectionViewDataSource, UI
                         if indexPath.section == 4 {
                             if cell.iconImage.image == iconImage5[indexPath.row] {
                                 //the icon is already clicked
-                                cell.iconImage.image = inActiveImage5[indexPath.row]
+                                var count = 0
+                                
                                 //find the same tag id then removes it
                                 for id in tags {
-                                    var count = 0
+                                    
                                     if id == iconId5[indexPath.row] {
                                         self.tags.removeAtIndex(count)
+                                        cell.iconImage.image = inActiveImage5[indexPath.row]
                                     }
                                     count++
                                 }
@@ -308,12 +326,14 @@ class iconCreateViewController: UIViewController, UICollectionViewDataSource, UI
                             if indexPath.section == 5 {
                                 if cell.iconImage.image == iconImage6[indexPath.row] {
                                     //the icon is already clicked
-                                    cell.iconImage.image = inActiveImage6[indexPath.row]
+                                    var count = 0
+                                   
                                     //find the same tag id then removes it
                                     for id in tags {
-                                        var count = 0
+                                        
                                         if id == iconId6[indexPath.row] {
                                             self.tags.removeAtIndex(count)
+                                             cell.iconImage.image = inActiveImage6[indexPath.row]
                                         }
                                         count++
                                     }
@@ -333,11 +353,13 @@ class iconCreateViewController: UIViewController, UICollectionViewDataSource, UI
                                 if indexPath.section == 6 {
                                     if cell.iconImage.image == iconImage7[indexPath.row] {
                                         //the icon is already clicked
-                                        cell.iconImage.image = inActiveImage7[indexPath.row]
+                                        var count = 0
+                                       
                                         //find the same tag id then removes it
                                         for id in tags {
-                                            var count = 0
+                                            
                                             if id == iconId7[indexPath.row] {
+                                                 cell.iconImage.image = inActiveImage7[indexPath.row]
                                                 self.tags.removeAtIndex(count)
                                             }
                                             count++

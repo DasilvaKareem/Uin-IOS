@@ -620,11 +620,13 @@ class postEvent: UIViewController, UICollectionViewDataSource, UICollectionViewD
             return cell
         }
         cell.profilePic.image = wigoImage[indexPath.row]
+        cell.name.text = wigoNames[indexPath.row]
         
         return cell
     }
 
     var wigoImage = [UIImage]()
+    var wigoNames = [String]()
     func getWhosGoing(){
         var userImage = (PFFile)()
         var wigoQuery = PFQuery(className: "WigoFeature")
@@ -639,6 +641,7 @@ class postEvent: UIViewController, UICollectionViewDataSource, UICollectionViewD
                 for object in objects {
                     println(object)
                     var wigoUser = object["user"] as! PFObject
+                    self.wigoNames.append(wigoUser["firstName"] as! String)
                     println(wigoUser["profilePicture"] as! PFFile)
                     userImage = wigoUser["profilePicture"] as! PFFile
                     userImage.getDataInBackgroundWithBlock({
@@ -698,6 +701,7 @@ class postEvent: UIViewController, UICollectionViewDataSource, UICollectionViewD
 class WigoCell: UICollectionViewCell {
     //Image of people
     
+    @IBOutlet weak var name: UILabel!
     @IBOutlet weak var profilePic: UIImageView!
     
 }

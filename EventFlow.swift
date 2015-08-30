@@ -17,13 +17,21 @@
 import UIKit
 
 //First event screen
-class eventLanding: UIViewController {
+class eventLanding: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var eventTitle: UITextField!
   
     
     @IBOutlet weak var eventDescription: UITextField!
     
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+        self.view.endEditing(true)
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
     @IBAction func submitEvent(sender: AnyObject) {
         //Checks if event descritpion and title are empty
         if eventTitle.text.isEmpty {
@@ -36,16 +44,19 @@ class eventLanding: UIViewController {
         }
         
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        eventTitle.delegate = self
+        eventDescription.delegate = self
+
     }
     override func didReceiveMemoryWarning() {
         
     }
 }
-class reciepentView: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class reciepentView: UIViewController, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate {
+    
     
     @IBOutlet weak var recipentFeed: UITableView!
     var calendar = ["Private", "Public"]

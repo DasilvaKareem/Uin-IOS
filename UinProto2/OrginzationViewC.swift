@@ -18,7 +18,7 @@ class OrginzationViewC: UIViewController {
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        editing = true
+        
         navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
         // Changes text color on navbar
         var nav = self.navigationController?.navigationBar
@@ -99,17 +99,31 @@ class OrginzationViewC: UIViewController {
 }
 class OrginazationPage: UIViewController {
     
+    @IBOutlet weak var menuTrigger: UIBarButtonItem!
     @IBOutlet weak var orgName: UILabel!
     
     @IBOutlet weak var orgDesciption: UILabel!
     
     var orgID = (String)()
-    
+    func setupNav(){
+        navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
+        // Changes text color on navbar
+        var nav = self.navigationController?.navigationBar
+        nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()];
+        
+        navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
+        if self.revealViewController() != nil {
+            menuTrigger.target = self.revealViewController()
+            menuTrigger.action = "revealToggle:"
+            self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
+            self.view.addGestureRecognizer(self.revealViewController().tapGestureRecognizer())
+        }
+
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
-        println()
-        println(orgID)
-        println()
+        
+      setupNav()
         //Querys for data about the ORganization
         var query = PFQuery(className: "Organization")
         query.getObjectInBackgroundWithId(orgID, block: {

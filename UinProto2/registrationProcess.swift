@@ -216,7 +216,9 @@ class registrationProcess: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-       
+       emailSignUp.delegate = self
+    
+        
       nextButton.hidden = true
         nextLabel.hidden = true
         // Do any additional setup after loading the view.
@@ -294,6 +296,9 @@ class basicSignUp: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var lName: UITextField!
     override func viewDidLoad() {
         super.viewDidLoad()
+        fName.delegate = self
+        lName.delegate = self
+    
         queryData()
         // Do any additional setup after loading the view.
     }
@@ -308,7 +313,7 @@ class basicSignUp: UIViewController, UITextFieldDelegate {
         if query["firstName"] != nil {
             fName.text = query["firstName"] as! String
         }
-        if query["lasttName"] != nil {
+        if query["lastName"] != nil {
               lName.text = query["lastName"] as! String
         }
         var file = query["profilePicture"] as! PFFile
@@ -348,17 +353,27 @@ class basicSignUp: UIViewController, UITextFieldDelegate {
     */
     
 }
-class extraSignUp: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
+class extraSignUp: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate {
     
     @IBOutlet weak var gender: UISegmentedControl!
     @IBOutlet weak var classifcation: UIPickerView!
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+        self.view.endEditing(true)
+    }
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        
+        textField.resignFirstResponder()
+        
+        return true
+        
+    }
     
     @IBOutlet weak var age: UITextField!
     var classes = ["Freshman", "Sophmore", "Junior","Senior", "Graduate"]
     var userClass = "Freshman"
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+        age.delegate = self
         // Do any additional setup after loading the view.
     }
     func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {

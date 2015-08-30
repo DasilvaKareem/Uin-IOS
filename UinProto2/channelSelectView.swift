@@ -406,28 +406,30 @@ class channelSelectView: UITableViewController {
         if indexPath.section == 3{
             if PFUser.currentUser()["organization"] === nil {
                 self.performSegueWithIdentifier("newOrg", sender: self)
-            }
-            switch channels[indexPath.row]{
-            case "Your Organization":
-                self.performSegueWithIdentifier("gotoprofile", sender: self)
-                break
-                
+            } else {
+                switch channels[indexPath.row]{
+                case "Your Organization":
+                    self.performSegueWithIdentifier("gotoprofile", sender: self)
+                    break
+                    
                 case "Edit Organization":
-                self.performSegueWithIdentifier("organization", sender: self)
-                break
-                
+                    self.performSegueWithIdentifier("organization", sender: self)
+                    break
+                    
                 case "Notifcations":
-                self.performSegueWithIdentifier("Notifications", sender: self)
-                break
-                
+                    self.performSegueWithIdentifier("Notifications", sender: self)
+                    break
+                    
                 case "Followers":
-                self.performSegueWithIdentifier("Subscribers", sender: self)
-                break
+                    self.performSegueWithIdentifier("Subscribers", sender: self)
+                    break
+                    
+                default:
+                    break
+                }
                 
-            default:
-                break
             }
-            
+           
 
             
             self.tableView.reloadData()
@@ -462,9 +464,11 @@ class channelSelectView: UITableViewController {
         }
         
         if segue.identifier == "gotoprofile" {
-            let nav:OrginazationPage = segue.destinationViewController as! OrginazationPage
+            let nav = segue.destinationViewController as! UINavigationController
+            let editOrg:OrginazationPage = nav.topViewController as! OrginazationPage
+        
             let org = PFUser.currentUser()["organization"] as! PFObject
-            nav.orgID =  org.objectId
+            editOrg.orgID =  org.objectId
          
             
         }

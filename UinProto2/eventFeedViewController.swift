@@ -1018,14 +1018,14 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                         
                         self.images.append(UIImage(data: data)!)
                         wigoUser["firstName"] as! String
-                       
+                      
                         
                     }
-                     cell.wigoCollectionView.reloadData()
+                    
 
                 }
             })
-            
+             cell.wigoCollectionView.reloadData()
 
             }
         
