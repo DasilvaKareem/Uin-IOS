@@ -56,13 +56,23 @@ class iconCreateViewController: UIViewController, UICollectionViewDataSource, UI
     
     
     @IBAction func submitData(sender: AnyObject) {
-        if tags.count != 3 {
+        if tags.count > 3 {
             println("You can only have 3 tags selected")
         } else {
-             firstIcon = tags[0]
-              secondIcon = tags[1]
-              thirdIcon = tags[2]
-            self.performSegueWithIdentifier("event4", sender: self)
+            if tags.count == 1 {
+                firstIcon = tags[0]
+            }
+            if tags.count == 2 {
+                secondIcon = tags[1]
+                firstIcon = tags[0]
+            }
+            if tags.count == 3 {
+                 thirdIcon = tags[2]
+                secondIcon = tags[1]
+                firstIcon = tags[0]
+            }
+    
+        self.performSegueWithIdentifier("event4", sender: self)
         }
     }
     
