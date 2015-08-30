@@ -142,9 +142,28 @@ class postEvent: UIViewController, UICollectionViewDataSource, UICollectionViewD
                 self.eventTitle.text = result["title"] as!String!
                 self.storeTitle = result["title"] as!String!
                 self.date.text = self.startDate
-                self.icon1 = result["tag1"] as! String
-                self.icon2 = result["tag2"] as! String
-                self.icon3 = result["tag3"] as! String
+                
+                if (result["tag1"]  === nil)  {
+                    self.icon1 = ""
+                } else {
+                    
+                    self.icon1 = result["tag1"] as! String
+                }
+                
+                //Checks if the tag2 is nil then enters a blank icon
+                if (result["tag2"]  === nil)  {
+                    self.icon2 = ""
+                } else {
+                    
+                    self.icon2 = result["tag2"] as! String
+                }
+                //Checks if the tag3 is nil then enters a blank icon
+                if (result["tag3"]  === nil)  {
+                    self.icon3 = ""
+                } else {
+                    self.icon3 = result["tag3"] as! String
+                }
+            
                 self.eventDescription.text = result["description"] as? String
                 
                
