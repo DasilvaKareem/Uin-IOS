@@ -168,8 +168,10 @@ class postEvent: UIViewController, UICollectionViewDataSource, UICollectionViewD
                 
                
                 self.eventId = result.objectId
+                 self.theeditButton.title = self.organization
                 self.putIcons()
             }
+           
         })
     }
     override func viewDidAppear(animated: Bool) {
@@ -183,7 +185,7 @@ class postEvent: UIViewController, UICollectionViewDataSource, UICollectionViewD
         theMix.flush()
         super.viewDidLoad()
         getWhosGoing()
-        //username.setTitle(organization, forState:UIControlState.Normal)
+        
         //If event is owned by organization the org can edit the event
         /*if organizationID == PFUser.currentUser()["organization"] as! String{
             self.navigationItem.rightBarButtonItem?.title = "Edit"
@@ -212,6 +214,8 @@ class postEvent: UIViewController, UICollectionViewDataSource, UICollectionViewD
             getEvents()
         }
             checkevent()
+       
+        
     }
     
     @IBAction func eventShare(sender: AnyObject) {
