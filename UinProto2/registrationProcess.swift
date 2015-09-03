@@ -143,6 +143,7 @@ class homePage: UIViewController, UITextFieldDelegate {
                         var lastName: String = fullNameArr[1]
                         user["firstName"] = firstName
                         user["lastName"] = lastName
+                        user["profileReady"] = false
                         user["profilePicture"] = PFFile(name: "profilePic.jpg", data: data)
                         user.saveInBackgroundWithBlock({
                             (success:Bool, error:NSError!) -> Void in
@@ -188,7 +189,10 @@ class homePage: UIViewController, UITextFieldDelegate {
     }
     override func viewDidAppear(animated: Bool) {
         if PFUser.currentUser() != nil {
-            self.performSegueWithIdentifier("login", sender: self)
+            if PFUser.currentUser()["profileReady"] as! Bool == true {
+                self.performSegueWithIdentifier("login", sender: self)
+            }
+            
         }
         
     }
