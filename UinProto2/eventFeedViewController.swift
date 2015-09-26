@@ -22,25 +22,36 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     var paid = [Bool]()
     var food = [Bool]()
     //Text that is display on cell
-    var eventTitle = [String]()
-    var eventAddress = [String]()
-    var eventlocation = [String]()
-    var eventStartTime = [String]()
-    var eventEndTime = [String]()
-    var eventStartDate = [String]()
-    var eventEndDate = [String]()
+  
     var usernames = [String]()
-    var eventDescription = [String]()
-    //Event specfici ID and publicty status
-    var objectID = [String]()
-    var publicPost = [Bool]()
-    //Start and end date of Event
-    var eventEnd = [NSDate]()
-    var eventStart = [NSDate]()
-    var localizedTime = [String]() //Gets the current locale
-    var localizedEndTime = [String]() //Gets the current locale
-    //Id of the author of the event
-    var userId = [String]()
+    //Creats  single event  objects
+    struct Event {
+        var organizationID = (String)()
+        var title = (String)()
+        var address = (String)()
+        var location = (String)()
+        //Start and end date of Event
+        var end = (NSDate)()
+        var start = (NSDate)()
+        var tag1 = (String)()
+        var tag2 = (String)()
+        var tag3 = (String)()
+        var eventID = (String)()
+        var publicPost = (Bool)()
+    }
+    var events = [Event]() //holds all the events in the feed
+    func setEvent(){
+        var query = PFQuery(className: "Event")
+        
+        query.findObjectsInBackgroundWithBlock({
+            objects, error in
+            for object in objects {
+                var event = Event(organizationID: object["userId"] as! String, title: object["title"] as! String, address: object["address"] as! String, location: object["location"] as! location, end: object["end"] as NSDate!, start: object["end"] as! NSDate!, tag1: object["tag1"] as! String, tag2: object["tag2"] as! String, tag3: object["tag3"] as! String, eventID: object.objectID, publicPost: object["public"] as! Bool)
+                events.append(event)
+            }
+        })
+    }
+   
     //Date Header information
     var numSections = 0 //Number of unique Ids
     var rowsInSection = [Int]() //Number of events in each date
