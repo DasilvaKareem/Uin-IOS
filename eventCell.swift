@@ -14,15 +14,15 @@ class eventCell: UITableViewCell {
 
     
 
-    @IBOutlet var foodText: UILabel!
-    @IBOutlet weak var costText: UILabel!
-    @IBOutlet weak var onCampusText: UILabel!
+    @IBOutlet var tag2Text: UILabel!
+    @IBOutlet weak var tag3Text: UILabel!
+    @IBOutlet weak var tag1Text: UILabel!
     @IBOutlet weak var eventName: UILabel!
     @IBOutlet weak var privateImage: UIImageView!
-    @IBOutlet weak var onCampusIcon: UIImageView!
-    @IBOutlet weak var freeIcon: UIImageView!
-    @IBOutlet weak var foodIcon: UIImageView!
-    @IBOutlet weak var poop: UIButton!
+    @IBOutlet weak var tag1: UIImageView!
+    @IBOutlet weak var tag2: UIImageView!
+    @IBOutlet weak var tag3: UIImageView!
+    @IBOutlet weak var uinBtn: UIButton!
     @IBOutlet weak var people: UILabel!
     @IBOutlet weak var time: UILabel!
     

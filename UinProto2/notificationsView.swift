@@ -369,14 +369,6 @@ if segue.identifier == "calendar" {
     theotherprofile.eventId = item.eventID
     theotherprofile.searchEvent = true
         }
-if segue.identifier == "sub" {
-var indexpath = tableView.indexPathForSelectedRow()
-var row = indexpath?.row
-//selects the view controller
-var theotherprofile:userprofile = segue.destinationViewController as! userprofile
-var item = notificationItems[row!]
-theotherprofile.theUser = item.senderUsername
-theotherprofile.userId = item.senderID
-        }
+
     }
 }

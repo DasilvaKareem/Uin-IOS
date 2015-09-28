@@ -11,16 +11,13 @@ import EventKit
 
 class eventFeedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UITextFieldDelegate {
     
-    
+
     @IBOutlet weak var theFeed: UITableView!
     
     @IBOutlet var eventCreate: UIBarButtonItem!
     @IBOutlet var menuTrigger: UIBarButtonItem!
     var refresher: UIRefreshControl!
-    //Icons variables
-    var onsite = [Bool]()
-    var paid = [Bool]()
-    var food = [Bool]()
+
     //Text that is display on cell
   
     var usernames = [String]()
@@ -43,12 +40,27 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     func setEvent(){
         var query = PFQuery(className: "Event")
         
+        
         query.findObjectsInBackgroundWithBlock({
-            objects, error in
+           objects, error in
+            println(objects.count)
             for object in objects {
-                var event = Event(organizationID: object["userId"] as! String, title: object["title"] as! String, address: object["address"] as! String, location: object["location"] as! location, end: object["end"] as NSDate!, start: object["end"] as! NSDate!, tag1: object["tag1"] as! String, tag2: object["tag2"] as! String, tag3: object["tag3"] as! String, eventID: object.objectID, publicPost: object["public"] as! Bool)
-                events.append(event)
+                println(object)
+                var event = Event()
+                event.address = object["address"] as! String
+                event.end = object["end"] as! NSDate!
+                event.start = object["start"] as! NSDate!
+                event.tag1 = "3"
+                event.tag2 = "3"
+                event.tag3 = "3"
+                event.publicPost = object["isPublic"] as! Bool
+                event.location = object["location"] as! String
+                event.title = object["title"] as! String
+                event.organizationID = object["authorID"] as! String
+                self.events.append(event)
             }
+            self.populateSectionInfo()
+            self.theFeed.reloadData()
         })
     }
    
@@ -149,11 +161,11 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         
         //Loads search Items
         searchBar.delegate = self
-        getSearchItems()
+        //getSearchItems()
         var theMix = Mixpanel.sharedInstance()
         theMix.track("Event Feed Opened")
         theMix.flush()
-        
+        setEvent()
         //Creates search about tableview
         var newBounds:CGRect = self.theFeed.bounds
         newBounds.origin.y = newBounds.origin.y - searchBar.bounds.size.height
@@ -163,7 +175,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
 
         //Changes the navbar background
         navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
-        
+    
         // Changes text color on navbar
         var nav = self.navigationController?.navigationBar
         nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()];
@@ -273,190 +285,11 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         }
     }
     func updateFeed(){
-        //Removes all leftover content in the array
-        var geoEnabled = true
-        PFGeoPoint.geoPointForCurrentLocationInBackground {
-            (geoPoint: PFGeoPoint!, error: NSError!) -> Void in
-            if error != nil {
-                println(error.code)
-                self.displayAlert("No GPS Enabled", error: "Turn on your location")
-            }
-                    //Customizes Event Feed
-                    //Adds or remove the create event functionailty
-                    println()
-                    println()
-                    println(self.channelID)
-                    println()
-                    println()
-                    self.currentPoint = geoPoint
-                    //adds content to the array
-                    //Queries all public Events
-                    var eventQuery = PFQuery(className: "Event")
-                    var pubQue = PFQuery(className: "Subscription")
-                    var superQue = PFQuery(className: "Event")
-                    var newQue = PFQuery(className: "Event")
-                    var query = PFQuery.orQueryWithSubqueries([eventQuery, superQue, newQue ])
-                    switch self.channelID {
-                        case "localEvent":
-                            self.navigationItem.title = "Local Events"
-                            eventQuery.whereKey("inLocalFeed", equalTo: true)
-                            eventQuery.whereKey("isPublic", equalTo: true)
-                            //Queries all Private events
-                            pubQue.whereKey("subscriber", equalTo: PFUser.currentUser().username)
-                            pubQue.whereKey("isMember", equalTo: true)
-                            superQue.whereKey("author", matchesKey: "publisher", inQuery:pubQue)
-                            superQue.whereKey("inLocalFeed", equalTo: true)
-                            superQue.whereKey("isPublic", equalTo: false)
-                            //Queries all of the current user events
-                            newQue.whereKey("isPublic", equalTo: false)
-                            newQue.whereKey("author", equalTo: PFUser.currentUser().username)
-                            newQue.whereKey("inLocalFeed", equalTo: true)
-                            var userTimeCheck = PFUser.currentUser()
-                            userTimeCheck["localEventsTimestamp"] = NSDate()
-                            userTimeCheck.saveInBackgroundWithBlock({
-                                (success:Bool, error:NSError!) -> Void in
-                                if error == nil {
-                                    println("The stamp was updated")
-                                } else {
-                                    println(error.debugDescription)
-                                }
-                            })
-                       
-                        break
-                        case "subbedEvents":
-                            self.navigationItem.title = "Subscription Events"
-                            var subscriptionQuery = PFQuery(className: "Subscription")
-                            subscriptionQuery.whereKey("subscriberID", equalTo: PFUser.currentUser().objectId)
-                            eventQuery.whereKey("authorID", matchesKey: "publisherID", inQuery: subscriptionQuery)
+       //where updating the feed takes place
+        
                             
-                           //Queries all Private events
-                            pubQue.whereKey("subscriberID", equalTo: PFUser.currentUser().objectId)
-                            pubQue.whereKey("isMember", equalTo: true)
-                            superQue.whereKey("authorID", matchesKey: "publisherID", inQuery:pubQue)
-                            superQue.whereKey("isPublic", equalTo: false)
-                            //Queries all of the current user events
-                            newQue.whereKey("isPublic", equalTo: false)
-                            newQue.whereKey("authorID", matchesKey: "publisherID", inQuery:pubQue)
-                            newQue.whereKey("author", equalTo: PFUser.currentUser().username)
-                            var userTimeCheck = PFUser.currentUser()
-                            userTimeCheck["subscriptionsTimestamp"] = NSDate()
-                            userTimeCheck.saveInBackgroundWithBlock({
-                                (success:Bool, error:NSError!) -> Void in
-                                if error == nil {
-                                    println("The stamp was updated")
-                                } else {
-                                    println(error.debugDescription)
-                                }
-                            })
-                      
-                        
-                        break
-                        case "schedule":
-                             self.navigationItem.title = "Schedule"
-                            geoEnabled = false
-                            var getAmountSchedule = PFQuery(className: "UserCalendar")
-                            getAmountSchedule.whereKey("userID", equalTo: PFUser.currentUser().objectId)
-                            eventQuery.whereKey("objectId", matchesKey: "eventID", inQuery: getAmountSchedule)
-                             eventQuery.whereKey("isPublic", equalTo: true)
-                            
-                            pubQue.whereKey("subscriber", equalTo: PFUser.currentUser().username)
-                            pubQue.whereKey("isMember", equalTo: true)
-                            superQue.whereKey("objectId", matchesKey: "eventID", inQuery: getAmountSchedule)
-                            superQue.whereKey("isPublic", equalTo: false)
-                            
-                            newQue.whereKey("isPublic", equalTo: false)
-                            newQue.whereKey("objectId", matchesKey: "eventID", inQuery: getAmountSchedule)
-                            newQue.whereKey("author", equalTo: PFUser.currentUser().username)
-                            
-                        break
-                    default:
-                        
-                        
-                        eventQuery.whereKey("channels", equalTo:self.channelID)
-                        eventQuery.whereKey("isPublic", equalTo: true)
-                        
-                        //Queries all Private events
-                       
-                        pubQue.whereKey("subscriber", equalTo: PFUser.currentUser().username)
-                        pubQue.whereKey("isMember", equalTo: true)
-                     
-                        superQue.whereKey("channels", equalTo:self.channelID)
-                          
-                        superQue.whereKey("isPublic", equalTo: false)
-                        
-                        //Queries all of the current user events
-                      
-                        newQue.whereKey("isPublic", equalTo: false)
-                        newQue.whereKey("channels", equalTo:self.channelID)
-                        newQue.whereKey("author", equalTo: PFUser.currentUser().username)
-            
-                        break
-                    }
-           
-                    
-                    query.orderByAscending("start")
-                    println(self.currentPoint)
-                    if geoEnabled == true  {
-                 query.whereKey("locationGeopoint", nearGeoPoint: self.currentPoint, withinMiles: 7.0)
-                    }
-                    query.whereKey("start", greaterThanOrEqualTo: NSDate())
-                    query.whereKey("isDeleted", equalTo: false)
-                    query.findObjectsInBackgroundWithBlock {
-                        (results: [AnyObject]!, error: NSError!) -> Void in
-                        if error == nil {
-                        
-                            self.eventAddress.removeAll(keepCapacity: true)
-                            self.onsite.removeAll(keepCapacity: true)
-                            self.paid.removeAll(keepCapacity: true)
-                            self.food.removeAll(keepCapacity: true)
-                            self.eventTitle.removeAll(keepCapacity: true)
-                            self.eventlocation.removeAll(keepCapacity: true)
-                            self.eventStartTime.removeAll(keepCapacity: true)
-                            self.eventEndTime.removeAll(keepCapacity: true)
-                            self.eventStartDate.removeAll(keepCapacity: true)
-                            self.eventEndDate.removeAll(keepCapacity: true)
-                            self.usernames.removeAll(keepCapacity: true)
-                            self.objectID.removeAll(keepCapacity: true)
-                            self.publicPost.removeAll(keepCapacity: true)
-                            self.eventStart.removeAll(keepCapacity: true)
-                            self.eventEnd.removeAll(keepCapacity: true)
-                            self.localizedTime.removeAll(keepCapacity: true)
-                            self.localizedEndTime.removeAll(keepCapacity: true)
-                            
-                            for object in results{
-                                
-                                self.publicPost.append(object["isPublic"] as!Bool)
-                                self.objectID.append(object.objectId as String)
-                                self.usernames.append(object["author"] as!String)
-                                self.eventTitle.append(object["title"] as!String)
-                                self.food.append(object["hasFood"] as!Bool)
-                                self.paid.append(object["isFree"] as!Bool)
-                                self.onsite.append(object["onCampus"] as!Bool)
-                                self.eventEnd.append(object["end"] as!NSDate)
-                                self.eventStart.append(object["start"] as!NSDate)
-                                self.eventlocation.append(object["location"] as!String)
-                                self.userId.append(object["authorID"] as!String)
-                                self.eventAddress.append(object["address"] as!String)
-                                self.eventDescription.append(object["description"] as! String)
-                                
-                            }
-                            self.populateSectionInfo()
-                            self.theFeed.reloadData()
-                            self.refresher.endRefreshing()
-                            
-                        }
-                            
-                            
-                        else {
-                            if error.code == 100 {
-                                println("No internet")
-                                self.displayAlert("No Internet", error: "You have no internet connection")
-                            }
-                            println("It failed")
-                        }
-                    }
-           
-        }
+        
+        
     }
  
     func refresh() {
@@ -465,7 +298,8 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         updateFeed()
         
     }
-    
+    var localizedTime = [String]()
+    var localizedEndTime = [String]()
     func populateSectionInfo(){
         var convertedDates = [String]()
         var currentDate = ""
@@ -477,46 +311,46 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         sectionNames.removeAll(keepCapacity: true)
         self.localizedTime.removeAll(keepCapacity: true)
         self.localizedEndTime.removeAll(keepCapacity: true)
-        for i in eventStart {
+        for i in events {
             //SORTS OUT EVENT STARTING TIME AND CREATES EVENT HEADER TIMES AND SHORTNED TIMES
             
             var dateFormatter = NSDateFormatter()
             //Creates table header for event time
             dateFormatter.locale = NSLocale.currentLocale() // Gets current locale and switches
             dateFormatter.dateFormat = "EEEE, MMM dd" // Formart for date I.E Monday, 03 1996
-            var headerDate = dateFormatter.stringFromDate(i) // Creates date
+            var headerDate = dateFormatter.stringFromDate(i.start) // Creates date
             convertedDates.append(headerDate)
             dateFormatter.dateFormat = "MMM dd, yyyy"
-            var shortenTime = dateFormatter.stringFromDate(i)
-            self.eventStartDate.append(shortenTime)
+            var shortenTime = dateFormatter.stringFromDate(i.start)
+            
             //Creates Time for Event from NSDAte
             var timeFormatter = NSDateFormatter() //Formats time
             timeFormatter.locale = NSLocale.currentLocale()
             timeFormatter.timeStyle = NSDateFormatterStyle.ShortStyle
-            var localTime = timeFormatter.stringFromDate(i)
-            self.eventStartTime.append(localTime)
+            var localTime = timeFormatter.stringFromDate(i.start)
+            
             self.localizedTime.append(localTime)
             
             
         }
         
-        for i in eventEnd {
+        for i in events {
              //SORTS OUT EVENT ENDING TIME AND CREATES EVENT HEADER TIMES AND SHORTNED TIMES
             
             var dateFormatter = NSDateFormatter()
             //Creates table header for event time
             dateFormatter.locale = NSLocale.currentLocale() // Gets current locale and switches
-            var headerDate = dateFormatter.stringFromDate(i) // Creates date
+            var headerDate = dateFormatter.stringFromDate(i.end) // Creates date
             dateFormatter.dateFormat = "MMM dd, yyyy"
-            var shortenTime = dateFormatter.stringFromDate(i)
-            self.eventEndDate.append(shortenTime)
+            var shortenTime = dateFormatter.stringFromDate(i.end)
+            
             //Creates Time for Event from NSDAte
             var timeFormatter = NSDateFormatter() //Formats time
             timeFormatter.locale = NSLocale.currentLocale()
             timeFormatter.timeStyle = NSDateFormatterStyle.ShortStyle
-            var localTime = timeFormatter.stringFromDate(i)
+            var localTime = timeFormatter.stringFromDate(i.end)
             self.localizedEndTime.append(localTime)
-            self.eventEndTime.append(localTime)
+            
         }
     
         
@@ -565,11 +399,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         // Dispose of any resources that can be recreated.
         
     }
-    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        if indexPath.row == 3 {
-            
-        }
-    }
+    
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
         var cell:dateCell = tableView.dequeueReusableCellWithIdentifier("dateCell") as! dateCell
@@ -660,293 +490,41 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
         // Puts the data in a cell
         var cell:eventCell = tableView.dequeueReusableCellWithIdentifier("cell2") as! eventCell
-        var poopled = ["no internet"]
-        if appProblem == true {
-            cell.onCampusIcon.image = nil
-            cell.foodIcon.image = nil
-            cell.freeIcon.image = nil
-            cell.poop.hidden = true
-            cell.foodText.text = ""
-            cell.onCampusText.text = ""
-            cell.costText.text = ""
-            cell.eventName.text = "App problem"
-            cell.people.text = ""
-            cell.privateImage.image = nil
-            cell.time.text = ""
-        } else {
-        if searchActive == true {
-            println("search is active")
-          
-            if filteredSearchItems.count == 0 {
-                cell.onCampusIcon.image = nil
-                cell.foodIcon.image = nil
-                cell.freeIcon.image = nil
-                cell.poop.hidden = true
-                cell.foodText.text = ""
-                cell.onCampusText.text = ""
-                cell.costText.text = ""
-                cell.eventName.text = "No items found"
-                cell.people.text = ""
-                cell.privateImage.image = nil
-                cell.time.text = ""
-            } else {
-                var items = filteredSearchItems[indexPath.row]
-                cell.onCampusIcon.image = nil
-                cell.foodIcon.image = nil
-                cell.freeIcon.image = nil
-                cell.poop.hidden = true
-                cell.foodText.text = ""
-                cell.onCampusText.text = ""
-                cell.costText.text = ""
-                cell.eventName.text = items.name
-                cell.people.text = items.type
-                cell.privateImage.image = nil
-                cell.time.text = ""
-                
-            }
-            
-        
-            
-        } else {
+       
             
     
         var event = getEventIndex(indexPath.section, row: indexPath.row)
-        cell.poop.hidden = false
+        
         var section = indexPath.section
         var row = indexPath.row
-        
-        //Puts image for three icons
-        if onsite[event] == true {
-            cell.onCampusIcon.image = UIImage(named: "onCampus.png")
-            cell.onCampusText.text = "On-Campus"
-            cell.onCampusText.textColor = UIColor.darkGrayColor()
-        }
-        else{
-            cell.onCampusIcon.image = UIImage(named: "offCampus.png")
-            cell.onCampusText.text = "Off-Campus"
-            cell.onCampusText.textColor = UIColor.lightGrayColor()
-        }
-        
-        if food[event] == true {
-            cell.foodIcon.image = UIImage(named: "yesFood.png")
-            cell.foodText.text = "Food"
-            cell.foodText.textColor = UIColor.darkGrayColor()
-        }
-        else{
-            cell.foodIcon.image = UIImage(named: "noFood.png")
-            cell.foodText.text = "No Food"
-            cell.foodText.textColor = UIColor.lightGrayColor()
+            //Puts image for three icons
+            var icon1:Icon = setIcon(events[event].tag1) //icon object for tag 1
+            var icon2:Icon = setIcon(events[event].tag2) //icon object for tag 2
+            var icon3:Icon = setIcon(events[event].tag3) //icon object for tag 3
+            cell.tag1.image = icon1.iconImage
+            cell.tag1Text.text = icon1.caption
             
-        }
-        if paid[event] == true {
-            cell.freeIcon.image = UIImage(named: "yesFree.png")
-            cell.costText.text = "Free"
-            cell.costText.textColor = UIColor.darkGrayColor()
-        }
-        else{
-            cell.freeIcon.image = UIImage(named: "noFree.png")
-            cell.costText.text = "Not Free"
-            cell.costText.textColor = UIColor.lightGrayColor()
-        }
-        
-        if publicPost[event] != true {
-            cell.privateImage.image = UIImage(named: "privateEvent.png")
-        }
-        
-        else {
-            cell.privateImage.image = nil
-        }
-        
-        cell.people.text = usernames[event]
+            cell.tag2.image = icon2.iconImage
+            cell.tag2Text.text = icon2.caption
+            
+            cell.tag3.image = icon3.iconImage
+            cell.tag3Text.text = icon3.caption
+
+        cell.people.text = events[event].organizationID
         cell.time.text = localizedTime[event]
-        cell.eventName.text = eventTitle[event]
-        cell.poop.tag = event
-        var minique = PFQuery(className: "UserCalendar")
-        minique.whereKey("userID", equalTo: PFUser.currentUser().objectId)
-        minique.whereKey("eventID", equalTo: objectID[event])
-        minique.getFirstObjectInBackgroundWithBlock{
-            
-            (results:PFObject!, error: NSError!) -> Void in
-            
-            if error == nil {
-                
-                cell.poop.setImage(UIImage(named: "addedToCalendar.png"), forState: UIControlState.Normal)
-                
-            }   else {
-                
-                cell.poop.setImage(UIImage(named: "addToCalendar.png"), forState: UIControlState.Normal)
-            }
-        }
-              cell.poop.addTarget(self, action: "followButton:", forControlEvents: UIControlEvents.TouchUpInside)
-        }
-        }
+        cell.eventName.text = "hey"
+        cell.uinBtn.tag = event
+        cell.uinBtn.addTarget(self, action: "followButton:", forControlEvents: UIControlEvents.TouchUpInside)
+        
+        
         return cell
         
     }
+    
     func followButton(sender: UIButton){
         // Adds the event to calendar
         
-      var que = PFQuery(className: "UserCalendar")
-        que.whereKey("user", equalTo: PFUser.currentUser().username)
-        que.whereKey("author", equalTo: self.usernames[sender.tag])
-        que.whereKey("eventID", equalTo:self.objectID[sender.tag])
-        que.getFirstObjectInBackgroundWithBlock({
-            (results:PFObject!, queerror: NSError!) -> Void in
-            if queerror == nil {
-                //Deletes the event
-                results.delete()
-              
-                //Warns user if the this is the first event to be removed
-                if PFUser.currentUser()["firstRemoveFromCalendar"] as!Bool == true{
-                    PFUser.currentUser()["firstRemoveFromCalendar"] = false
-                    PFUser.currentUser().saveEventually({
-                        (success:Bool, error:NSError!) -> Void in
-                        if error == nil {
-                            self.displayAlert("Remove", error: "Tapping the blue checkmark removes an event from your calendar.")
-                        }
-                    })
-
-                }
-              
-                if results != nil {
-                      sender.setImage(UIImage(named: "addToCalendar.png"), forState: UIControlState.Normal)
-                    UIView.animateWithDuration(0.5, delay: 0.0, usingSpringWithDamping: 0.3, initialSpringVelocity: 3.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: ({
-                        sender.frame.offset(dx: 0, dy: 5.0)
-                    }), completion: nil)
-                    var eventStore : EKEventStore = EKEventStore()
-                    eventStore.requestAccessToEntityType(EKEntityTypeEvent, completion: {
-                        
-                        granted, error in
-                        if (granted) && (error == nil) {
-                            println("granted \(granted)")
-                            println("error  \(error)")
-                            var hosted = "Hosted by \(self.usernames[sender.tag]) address:\(self.eventAddress[sender.tag])"
-                            var event:EKEvent = EKEvent(eventStore: eventStore)
-                            event.title = self.eventTitle[sender.tag]
-                            event.startDate = self.eventStart[sender.tag]
-                            event.endDate = self.eventEnd[sender.tag]
-                            event.notes = hosted
-                            event.location = self.eventlocation[sender.tag]
-                            event.calendar = eventStore.defaultCalendarForNewEvents
-                        }
-                    })
-                    var predicate2 = eventStore.predicateForEventsWithStartDate(self.eventStart[sender.tag], endDate: self.eventEnd[sender.tag], calendars:nil)
-                    var eV = eventStore.eventsMatchingPredicate(predicate2) as! [EKEvent]!
-                    println("Result is there")
-                    if eV != nil { //
-                        println("EV is not nil")
-                        for i in eV {
-                            println("\(i.title) this is the i.title")
-                            println(self.eventTitle[sender.tag])
-                            if i.title == self.eventTitle[sender.tag]  {
-                                println("removed")
-                                var theMix = Mixpanel.sharedInstance()
-                                theMix.track("Removed from Calendar (EF)")
-                                eventStore.removeEvent(i, span: EKSpanThisEvent, error: nil)
-                            }
-                        }
-                    }
-                
-                    
-                }
-            } else {
-                sender.setImage(UIImage(named: "addedToCalendar.png"), forState: UIControlState.Normal)
-                UIView.animateWithDuration(0.5, delay: 0.0, usingSpringWithDamping: 0.3, initialSpringVelocity: 3.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: ({
-                    sender.frame.offset(dx: 0, dy: 5.0)
-                }), completion: nil)
-                var eventStore : EKEventStore = EKEventStore()
-                eventStore.requestAccessToEntityType(EKEntityTypeEvent, completion: {
-                    
-                    granted, error in
-                    if (granted) && (error == nil) {
-                        println("granted \(granted)")
-                        println("error  \(error)")
-                        var hosted = "Hosted by \(self.usernames[sender.tag]) address:\(self.eventAddress[sender.tag])\(self.eventDescription[sender.tag])"
-                        var event:EKEvent = EKEvent(eventStore: eventStore)
-                        println()
-                        println(self.eventTitle[sender.tag])
-                        println(self.eventStart[sender.tag])
-                        println(self.eventEnd[sender.tag])
-                        event.title = self.eventTitle[sender.tag]
-                        event.startDate = self.eventStart[sender.tag]
-                        event.endDate = self.eventEnd[sender.tag]
-                        event.notes = hosted
-                        var alarm = EKAlarm(relativeOffset: self.alertTime)
-                        println(self.alertTime)
-                        event.addAlarm(alarm)
-                        event.location = self.eventlocation[sender.tag]
-                        event.calendar = eventStore.defaultCalendarForNewEvents
-                        eventStore.saveEvent(event, span: EKSpanThisEvent, error: nil)
-                        
-                        var going = PFObject(className: "UserCalendar")
-                        going["user"] = PFUser.currentUser().username
-                        going["userID"] = PFUser.currentUser().objectId
-                        going["event"] = self.eventTitle[sender.tag]
-                        going["author"] = self.usernames[sender.tag]
-                        going["eventID"] = self.objectID[sender.tag]
-                        going.saveInBackgroundWithBlock{
-                            (succeded:Bool, savError:NSError!) -> Void in
-                            if savError == nil {
-                                println("it worked")
-                                
-                                
-                            }
-                        }
-                        var theMix = Mixpanel.sharedInstance()
-                        theMix.track("Added to Calendar (EF)")
-                        println("saved")
-                    }
-                })
-                println("the object does not exist")
-                var push = PFPush()
-                var pfque = PFInstallation.query()
-                pfque.whereKey("user", equalTo: self.usernames[sender.tag])
-                push.setQuery(pfque)
-                var pushCheck = PFUser.query() //Checks if users has push enabled
-                var userCheck = pushCheck.getObjectWithId(self.userId[sender.tag])
-                println()
-                println(userCheck)
-                println()
-                if userCheck["pushEnabled"] as!Bool {
-                    if PFUser.currentUser()["tempAccounts"] as!Bool == true {
-                        push.setMessage("Someone has added your event to their calendar")
-                    } else {
-                        
-                        push.setMessage("\(PFUser.currentUser().username) has added your event to their calendar")
-                    }
-                    push.sendPushInBackgroundWithBlock({
-                        (success:Bool, pushError: NSError!) -> Void  in
-                        if pushError == nil {
-                            println("Push was Sent")
-                        }
-                    })
-                } else {
-                    println("user does not have push enabled")
-                }
-            
-                
-                if self.usernames[sender.tag] != PFUser.currentUser().username {
-                    var notify = PFObject(className: "Notification")
-                    notify["sender"] = PFUser.currentUser().username
-                    notify["receiver"] = self.usernames[sender.tag]
-                    notify["senderID"] = PFUser.currentUser().objectId
-                    notify["receiverID"] = self.userId[sender.tag]
-                    notify["eventID"] = self.objectID[sender.tag]
-                    notify["type"] =  "calendar"
-                    notify.saveInBackgroundWithBlock({
-                        (success:Bool, notifyError: NSError!) -> Void in
-                        if notifyError == nil {
-                            println("notifcation has been saved")
-                        }
-                        else{
-                            println(notifyError)
-                            }
-                        })
-                    }
-                println("Saved Event")
-                }
-            })
-        }
+              }
     override func prepareForSegue(segue:UIStoryboardSegue, sender: AnyObject?){
         if segue.identifier == "event" {
             var secondViewController : postEvent = segue.destinationViewController as! postEvent
@@ -957,36 +535,12 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             var row = indexPath?.row
             var index = getEventIndex(section!, row: row!)
             
-            secondViewController.storeStartDate = eventStart[index]
-            secondViewController.endStoreDate =  eventEnd[index]
-            secondViewController.userId = userId[index]
-            secondViewController.address = eventAddress[index]
-            secondViewController.storeLocation = eventlocation[index]
-            secondViewController.storeTitle = eventTitle[index]
-            secondViewController.storeStartTime = eventStartTime[index]
-            secondViewController.storeEndTime = eventEndTime[index]
-            secondViewController.storeDate = eventStartDate[index]
-            secondViewController.storeEndDate = eventEndDate[index]
-            secondViewController.onsite = onsite[index]
-            secondViewController.cost = paid[index]
-            secondViewController.food = food[index]
-            secondViewController.localStart = localizedTime[index]
-            secondViewController.localEnd = localizedEndTime[index]
-            secondViewController.users = usernames[index]
-            secondViewController.eventId = objectID[index]
-            secondViewController.eventDescriptionHolder = eventDescription[index]
-            secondViewController.alertTime = alertTime
+  
             
         }
         if segue.identifier == "profile" {
             //Gets the indexpath for the filtered item
-            var indexpath = theFeed.indexPathForSelectedRow()
-            var row = indexpath?.row
-            //selects the view controller
-            var theotherprofile:userprofile = segue.destinationViewController as! userprofile
-            var item = filteredSearchItems[row!]
-            theotherprofile.theUser = item.name
-            theotherprofile.userId = item.id
+           
         }
         if segue.identifier == "searchEvent"{
             //Gets the indexpath for the filtered item

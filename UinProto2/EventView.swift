@@ -460,14 +460,7 @@ class postEvent: UIViewController {
     }
     override func prepareForSegue(segue:UIStoryboardSegue, sender: AnyObject?){
         
-        if segue.identifier == "gotoprofile" {
-            var theMix = Mixpanel.sharedInstance()
-            theMix.track("Tap Username (EV)")
-            theMix.flush()
-            var theotherprofile:userprofile = segue.destinationViewController as! userprofile
-            theotherprofile.theUser = users
-            theotherprofile.userId = userId
-        }
+
         if segue.identifier == "editEvent" {
             var theMix = Mixpanel.sharedInstance()
             theMix.track("Tap Edit (EV)")

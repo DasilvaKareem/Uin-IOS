@@ -184,12 +184,5 @@ class subscriberlist: UITableViewController {
         }
     }
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "userprofile" {
-            var indexpath = tableView.indexPathForSelectedRow()
-            var row = indexpath?.row
-            var userProfile:userprofile = segue.destinationViewController as! userprofile
-            userProfile.userId = foluserID[row!]
-            userProfile.theUser = folusernames[row!]
-        }
-    }
+            }
 }

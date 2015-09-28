@@ -97,14 +97,6 @@ class subscriptions: UITableViewController {
     
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "userprofile" {
-            var indexpath = tableView.indexPathForSelectedRow()
-            var row = indexpath?.row
-            //selects the view controller
-            var userProfile:userprofile = segue.destinationViewController as! userprofile
-            userProfile.userId = folUserID[row!]
-            userProfile.theUser = folusernames[row!]
-            
-        }
+    
     }
 }
