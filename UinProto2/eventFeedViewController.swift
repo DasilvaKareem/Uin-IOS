@@ -503,6 +503,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             var icon3:Icon = setIcon(events[event].tag3) //icon object for tag 3
             cell.tag1.image = icon1.iconImage
             cell.tag1Text.text = icon1.caption
+        
             
             cell.tag2.image = icon2.iconImage
             cell.tag2Text.text = icon2.caption
@@ -512,7 +513,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
 
         cell.people.text = events[event].organizationID
         cell.time.text = localizedTime[event]
-        cell.eventName.text = "hey"
+        cell.eventName.text = events[event].title
         cell.uinBtn.tag = event
         cell.uinBtn.addTarget(self, action: "followButton:", forControlEvents: UIControlEvents.TouchUpInside)
         
