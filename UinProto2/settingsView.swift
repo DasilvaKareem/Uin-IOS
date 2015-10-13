@@ -14,11 +14,11 @@ class settingsView: UIViewController {
     @IBOutlet var menuTrigger: UIBarButtonItem!
     override func viewDidLoad() {
         super.viewDidLoad()
-        var theMix = Mixpanel.sharedInstance()
+        let theMix = Mixpanel.sharedInstance()
         theMix.track("Settings Opened")
         theMix.flush()
         
-        var user = PFUser.currentUser()
+        let user = PFUser.currentUser()
         //Checks if the user has verified the email
        /* if user["emailVerified"] != nil {
             if user["emailVerified"] as! Bool == true {
@@ -38,7 +38,7 @@ class settingsView: UIViewController {
         }
         navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
         // Changes text color on navbar
-        var nav = self.navigationController?.navigationBar
+        let nav = self.navigationController?.navigationBar
         nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()];
         self.tabBarController?.tabBar.hidden = true
        
@@ -53,43 +53,43 @@ class settingsView: UIViewController {
     
     @IBOutlet var notifySlider: UISwitch!
     @IBAction func notifySwitch(sender: AnyObject) {
-        var theMix = Mixpanel.sharedInstance()
+        let theMix = Mixpanel.sharedInstance()
         theMix.track("Notifications Off/On (S)")
         theMix.flush()
         
         var user = PFUser.currentUser()
         if notifySlider.on == true {
             var subscriptionUsernames = [String]()
-            var user = PFUser.currentUser()
+            let user = PFUser.currentUser()
             user["pushEnabled"] = true
             user.save()
-            var query = PFQuery(className: "Subscription")
+            let query = PFQuery(className: "Subscription")
             query.whereKey("subscriberID", equalTo: PFUser.currentUser().objectId)
             query.findObjectsInBackgroundWithBlock({
         
                 (objects:[AnyObject]!, queError:NSError!) -> Void in
 
                 if queError == nil {
-                    println(subscriptionUsernames)
+                    print(subscriptionUsernames)
                     for object in objects {
                         subscriptionUsernames.append(object["publisherID"] as!String)
                     }
                         var user = PFUser.currentUser()
-                        var currentInstallation = PFInstallation.currentInstallation()
+                        let currentInstallation = PFInstallation.currentInstallation()
                         currentInstallation.setValue(subscriptionUsernames, forKey: "channels")
                         currentInstallation.save()
                 }
             })
         }
         else {
-            var install = PFInstallation.currentInstallation()
-            var channels = install.channels
+            let install = PFInstallation.currentInstallation()
+            let channels = install.channels
             if channels != nil {
                 install.removeObjectsInArray(channels, forKey: "channels")
                 install.save()
 
             }
-            var user = PFUser.currentUser()
+            let user = PFUser.currentUser()
             user["pushEnabled"] = false
             user.save()
         }
@@ -97,13 +97,13 @@ class settingsView: UIViewController {
     }
     
     @IBAction func logout(sender: AnyObject) {
-        var theMix = Mixpanel.sharedInstance()
+        let theMix = Mixpanel.sharedInstance()
         theMix.track("Logout (S)")
         theMix.flush()
         
-       println("you pressed it")
-        var install = PFInstallation.currentInstallation()
-        var channels = install.channels
+       print("you pressed it")
+        let install = PFInstallation.currentInstallation()
+        let channels = install.channels
         if channels == nil {
             PFUser.logOut()
             self.performSegueWithIdentifier("logout", sender: self)
@@ -124,16 +124,16 @@ class settingsView: UIViewController {
             (success:Bool, error:NSError!) -> Void in
             
             if error == nil {
-                println("The email was saved")
+                print("The email was saved")
                 
                 PFUser.currentUser().setObject(email, forKey: "email")
                 PFUser.currentUser().saveInBackgroundWithBlock({
                     (success:Bool, error:NSError!) -> Void in
                     
                     if error == nil {
-                        println("The email was saved")
+                        print("The email was saved")
                     } else {
-                        println("the email was not saved")
+                        print("the email was not saved")
                     }
                 })
 
@@ -147,11 +147,11 @@ class settingsView: UIViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
         if segue.identifier == "email" {
-            var accountInfoChangeView:ChangeAccountInfo = segue.destinationViewController as! ChangeAccountInfo
+            let accountInfoChangeView:ChangeAccountInfo = segue.destinationViewController as! ChangeAccountInfo
             accountInfoChangeView.accountChangeType = "email"
         }
         if segue.identifier == "password" {
-            var accountInfoChangeView:ChangeAccountInfo = segue.destinationViewController as! ChangeAccountInfo
+            let accountInfoChangeView:ChangeAccountInfo = segue.destinationViewController as! ChangeAccountInfo
             accountInfoChangeView.accountChangeType = "password"
         }
     }
@@ -206,7 +206,7 @@ class ChangeAccountInfo: UIViewController {
                         self.resultToken.text = "Email is now changed"
                     } else {
                         self.resultToken.text = "Error changing password try again"
-                        println(error.debugDescription)
+                        print(error.debugDescription)
                     }
                 })
             }    else {

@@ -24,7 +24,7 @@ class channelSelectView: UITableViewController {
     var genEvents = [String]()
     func setupGenCounters() {
         //Finds out information and count number of your general calendars and sends things through blocks
-        var localEventCount = PFQuery(className: "Event")
+        let localEventCount = PFQuery(className: "Event")
         localEventCount.whereKey("isPublic", equalTo: true)
         localEventCount.whereKey("createdAt", greaterThanOrEqualTo:PFUser.currentUser()["localEventsTimestamp"] as! NSDate)
         localEventCount.countObjectsInBackgroundWithBlock({
@@ -44,9 +44,9 @@ class channelSelectView: UITableViewController {
                   self.genChannels.append("local events")
                 
                 //Gets Subscriptions Events
-                var subscriptionQuery = PFQuery(className: "Subscription")
+                let subscriptionQuery = PFQuery(className: "Subscription")
                 subscriptionQuery.whereKey("subscriberID", equalTo: PFUser.currentUser().objectId)
-                var subscriptionEventCount = PFQuery(className: "Event")
+                let subscriptionEventCount = PFQuery(className: "Event")
                 subscriptionEventCount.whereKey("authorID", matchesKey: "publisherID", inQuery: subscriptionQuery)
                 subscriptionEventCount.whereKey("isPublic", equalTo: true)
                 subscriptionEventCount.whereKey("createdAt", greaterThanOrEqualTo:PFUser.currentUser()["subscriptionsTimestamp"] as! NSDate)
@@ -59,9 +59,9 @@ class channelSelectView: UITableViewController {
                 //get added to calendar
                 self.gentype.append("schedule")
                 self.genChannels.append("schedule")
-                var getAmountSchedule = PFQuery(className: "UserCalendar")
+                let getAmountSchedule = PFQuery(className: "UserCalendar")
                 getAmountSchedule.whereKey("userID", equalTo: PFUser.currentUser().objectId)
-                var eventQuery = PFQuery(className:"Event")
+                let eventQuery = PFQuery(className:"Event")
                 eventQuery.whereKey("isDeleted", equalTo: false)
                 eventQuery.whereKey("objectId", matchesKey: "eventID", inQuery: getAmountSchedule)
                 eventQuery.whereKey("start", greaterThan: NSDate())
@@ -97,7 +97,7 @@ class channelSelectView: UITableViewController {
         
         
         
-        var subscriberInfo = PFQuery(className: "Subscription") //gets the subscriber count
+        let subscriberInfo = PFQuery(className: "Subscription") //gets the subscriber count
         subscriberInfo.whereKey("publisher", equalTo: PFUser.currentUser().username)
         subscriberInfo.countObjectsInBackgroundWithBlock({
             (count:Int32, error:NSError!) -> Void in
@@ -110,7 +110,7 @@ class channelSelectView: UITableViewController {
                 self.usernameSectionTitle.append("subscribers")
                 self.userType.append("Subscribers")
                 //FInd the amount of firest section then send them inside a block
-                var subscriptionInfo = PFQuery(className: "Subscription") //gets the subscription count
+                let subscriptionInfo = PFQuery(className: "Subscription") //gets the subscription count
                 subscriptionInfo.whereKey("subscriberID", equalTo: PFUser.currentUser().objectId)
                 subscriptionInfo.countObjectsInBackgroundWithBlock({
                     (count2:Int32, error:NSError!) -> Void in
@@ -119,14 +119,14 @@ class channelSelectView: UITableViewController {
                         self.usernameSectionTitle.append("subscriptions")
                         self.userType.append("Subscriptions")
                         
-                        var notificationsCount = PFQuery(className: "Notification")
+                        let notificationsCount = PFQuery(className: "Notification")
                         notificationsCount.whereKey("receiverID", equalTo: PFUser.currentUser().objectId)
                         notificationsCount.whereKey("receiverID", notEqualTo: PFUser.currentUser().objectId)
                         notificationsCount.whereKey("createdAt", greaterThan: PFUser.currentUser()["notificationsTimestamp"] as! NSDate)
                         self.usernameInfo.append(String("\(notificationsCount.countObjects()) notifications"))
                         self.usernameSectionTitle.append("notifications")
                         self.userType.append("Notifications")
-                        var addToCalendarCount = PFQuery(className: "Event")
+                        let addToCalendarCount = PFQuery(className: "Event")
                         addToCalendarCount.whereKey("authorID", equalTo: PFUser.currentUser().objectId)
                         addToCalendarCount.whereKey("start", greaterThan: NSDate())
                         
@@ -187,7 +187,7 @@ class channelSelectView: UITableViewController {
         channelNames.removeAll(keepCapacity: true)
         channelType.removeAll(keepCapacity: true)
         channelStatus.removeAll(keepCapacity: true)
-        var channelQuery = PFQuery(className: "ChannelUser")
+        let channelQuery = PFQuery(className: "ChannelUser")
         channelQuery.whereKey("userID", equalTo: PFUser.currentUser().objectId)
         //channelQuery.whereKey("expiration", greaterThan: NSDate())
         channelQuery.findObjectsInBackgroundWithBlock({
@@ -214,7 +214,7 @@ class channelSelectView: UITableViewController {
     }
     //Checks if the user is in a session or not
     func checkLockedStatus() {
-        var checkStatus = PFQuery(className: "ChannelUser")
+        let checkStatus = PFQuery(className: "ChannelUser")
         checkStatus.whereKey("userID", equalTo: PFUser.currentUser().objectId)
         checkStatus.whereKey("authorized", equalTo: true)
         checkStatus.whereKey("expiration", greaterThan: NSDate())
@@ -254,7 +254,7 @@ class channelSelectView: UITableViewController {
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
-        var totalSections = usernameSectionTitle +  genChannels + channelNames
+        let totalSections = usernameSectionTitle +  genChannels + channelNames
         
         if section ==  0 {
             return usernameSectionTitle.count
@@ -274,10 +274,10 @@ class channelSelectView: UITableViewController {
 
    
     override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        var cell:channelSectionCell = tableView.dequeueReusableCellWithIdentifier("sectionHeader") as! channelSectionCell
+        let cell:channelSectionCell = tableView.dequeueReusableCellWithIdentifier("sectionHeader") as! channelSectionCell
 
         if section == 0 {
-             var cell:channelHeaderCell = tableView.dequeueReusableCellWithIdentifier("header") as! channelHeaderCell
+             let cell:channelHeaderCell = tableView.dequeueReusableCellWithIdentifier("header") as! channelHeaderCell
             cell.headerLabel.text = PFUser.currentUser().username
 
             return cell
@@ -454,7 +454,7 @@ class channelSelectView: UITableViewController {
             if indexPath.section == 1 {
                
                 if self.memBounded == true {
-                    println("You are membounded")
+                    print("You are membounded")
                         //Re checks if your authorization is still on
                     self.checkLockedStatus()
                     if self.memBounded == true {
@@ -474,7 +474,7 @@ class channelSelectView: UITableViewController {
             var channelQuery = PFQuery(className: "ChannelUser")
             channelQuery.whereKey("userID", equalTo: PFUser.currentUser().objectId)
             channelQuery.whereKey("channelID", equalTo: channels[indexPath.row])
-            var checkAuthorized = channelQuery.getFirstObject()
+            let checkAuthorized = channelQuery.getFirstObject()
             if checkAuthorized["authorized"] as! Bool == false {
                 //Membound onboarding event
                 let page1:OnboardingContentViewController = OnboardingContentViewController(title: "Welcome Tiger!", body: "Uin has partnered with MEMbound to give you the best experience possible during your time at New Student Orientation. Enjoy your stay, and don't forget to check the schedule!", image: UIImage(named: "tiger"), buttonText: "", action: {
@@ -486,15 +486,15 @@ class channelSelectView: UITableViewController {
                 let page3:OnboardingContentViewController = OnboardingContentViewController(title: "Now, for VIP access...", body: "Please enter the code sent from the university to your email in order to access the MEMbound calendar. Ask around if you don't remember, someone will have it!", image: UIImage(named: "whiteUin"), buttonText: "Enter Code", action: {
                     var alert = UIAlertController(title: "Enter Code", message: "You should have an email from the university that has your code for this session. If not, ask someone nearby.", preferredStyle: UIAlertControllerStyle.Alert)
                     alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: nil))
-                    alert.addTextFieldWithConfigurationHandler({(textField: UITextField!) in
+                    alert.addTextFieldWithConfigurationHandler({(textField: UITextField) in
                         textField.placeholder = "Code"
                         textField.secureTextEntry = false
-                        text = textField.text
-                        println(textField.text)
+                        text = textField.text!
+                        print(textField.text)
                     })
-                    alert.addAction(UIAlertAction(title: "Enter", style: .Default, handler:{ (alertAction:UIAlertAction!) in
+                    alert.addAction(UIAlertAction(title: "Enter", style: .Default, handler:{ (alertAction:UIAlertAction) in
                         
-                        let textf = alert.textFields?[0] as! UITextField
+                        let textf = alert.textFields![0] as! UITextField
                         var pinCheck = PFQuery(className: "ChannelCodeInfo")
                         pinCheck.whereKey("channelID", equalTo: self.channels[indexPath.row])
                         pinCheck.whereKey("validationCode", equalTo:textf.text )
@@ -515,7 +515,7 @@ class channelSelectView: UITableViewController {
                                     self.tableView.reloadData()
                                 })
                             } else {
-                                println("You did not enter the right code")
+                                print("You did not enter the right code")
                             }
                         })
                        
@@ -535,18 +535,18 @@ class channelSelectView: UITableViewController {
                 allPages.skipButton.enabled = true
                 allPages.allowSkipping = true
                 allPages.skipHandler = {
-                    println("it was skipped")
+                    print("it was skipped")
                     var alert = UIAlertController(title: "Enter Code", message: "You should have an email from the university that has your code for this session. If not, ask someone nearby.", preferredStyle: UIAlertControllerStyle.Alert)
                     alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: nil))
-                    alert.addTextFieldWithConfigurationHandler({(textField: UITextField!) in
+                    alert.addTextFieldWithConfigurationHandler({(textField: UITextField) in
                         textField.placeholder = "Code"
                         textField.secureTextEntry = false
-                        text = textField.text
-                        println(textField.text)
+                        text = textField.text!
+                        print(textField.text)
                     })
-                    alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler:{ (alertAction:UIAlertAction!) in
+                    alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler:{ (alertAction:UIAlertAction) in
                         
-                        let textf = alert.textFields?[0] as! UITextField
+                        let textf = alert.textFields![0]
                         var pinCheck = PFQuery(className: "ChannelCodeInfo")
                         pinCheck.whereKey("channelID", equalTo: self.channels[indexPath.row])
                         pinCheck.whereKey("validationCode", equalTo:textf.text )
@@ -567,7 +567,7 @@ class channelSelectView: UITableViewController {
                                     self.tableView.reloadData()
                                 })
                             } else {
-                                println("You did not enter the right code")
+                                print("You did not enter the right code")
                             }
                         })
                         
@@ -595,19 +595,19 @@ class channelSelectView: UITableViewController {
         
    
         if segue.identifier == "channelSelect" {
-              var allInfo = usernameInfo + gentype + channels
+              let allInfo = usernameInfo + gentype + channels
           
-            var indexPath = tableView.indexPathForSelectedRow()
+            let indexPath = tableView.indexPathForSelectedRow
             let nav = segue.destinationViewController as! UINavigationController
             let eventFeed:eventFeedViewController = nav.topViewController as! eventFeedViewController
-            var row = indexPath?.row
+            let row = indexPath?.row
       
             if indexPath?.section == 1 {
-                println(row!)
+                print(row!)
                 eventFeed.channelID = gentype[row!]
             }
             if indexPath?.section == 2 {
-                    println(row!)
+                    print(row!)
                 eventFeed.channelID = channels[row!]
             }
             

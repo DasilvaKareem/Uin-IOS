@@ -14,7 +14,7 @@ class LoadingView: UIViewController {
  
     override func viewDidLoad() {
         super.viewDidLoad()
-      
+      PFUser.logOut()
         // Do any additional setup after loading the view.
     }
     override func viewDidAppear(animated: Bool) {
@@ -22,11 +22,11 @@ class LoadingView: UIViewController {
             
             let letters : NSString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
             
-            var randomString : NSMutableString = NSMutableString(capacity: len)
+            let randomString : NSMutableString = NSMutableString(capacity: len)
             
             for (var i=0; i < len; i++){
-                var length = UInt32 (letters.length)
-                var rand = arc4random_uniform(length)
+                let length = UInt32 (letters.length)
+                let rand = arc4random_uniform(length)
                 randomString.appendFormat("%C", letters.characterAtIndex(Int(rand)))
             }
     
@@ -34,28 +34,12 @@ class LoadingView: UIViewController {
         }
         
         spinner.startAnimating()
-        if PFUser.currentUser() != nil {
-              
-            var userTimeCheck = PFUser.currentUser()
-            if userTimeCheck["tempAccounts"] as! Bool == true {
-                PFUser.logOut()
-                self.performSegueWithIdentifier("createAccount", sender: self)
-            }
-            userTimeCheck["notificationsTimestamp"] = NSDate()
-            userTimeCheck["subscriptionsTimestamp"] = NSDate()
-            userTimeCheck["localEventsTimestamp"] = NSDate()
-            userTimeCheck.saveInBackgroundWithBlock({
-                (success:Bool, error:NSError!) -> Void in
-                if error == nil {
-                    println("The stamp was updated")
-                } else {
-                    println(error.debugDescription)
-                }
-            })
-            self.performSegueWithIdentifier("login", sender: self)
-        } else {
-            self.performSegueWithIdentifier("createAccount", sender: self)
-        }
+       
+            let storyboard = UIStoryboard(name: "EventFlowSB", bundle: nil)
+            let poop:UIViewController = storyboard.instantiateInitialViewController()!
+            
+            self.presentViewController(poop, animated: true, completion: nil)
+       
 
     }
     override func didReceiveMemoryWarning() {

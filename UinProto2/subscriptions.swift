@@ -16,7 +16,7 @@ class subscriptions: UITableViewController {
    
     @IBOutlet var sideBar: UIBarButtonItem!
     override func viewDidLoad() {
-        var theMix = Mixpanel.sharedInstance()
+        let theMix = Mixpanel.sharedInstance()
         theMix.track("Subscriptions Opened")
         theMix.flush()
         
@@ -26,9 +26,9 @@ class subscriptions: UITableViewController {
 
   self.navigationController?.navigationBar.backIndicatorImage = nil
         // Changes text color on navbar
-        var nav = self.navigationController?.navigationBar
+        let nav = self.navigationController?.navigationBar
         nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
-        var followque = PFQuery(className: "Subscription")
+        let followque = PFQuery(className: "Subscription")
         followque.whereKey("subscriberID", equalTo: PFUser.currentUser().objectId)
         followque.orderByAscending("createdAt")
         followque.findObjectsInBackgroundWithBlock{

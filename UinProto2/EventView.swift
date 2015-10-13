@@ -71,7 +71,7 @@ class postEvent: UIViewController {
     var startDate = (String)()
     var endDate = (String)()
     func checkevent(){
-        var minique = PFQuery(className: "UserCalendar")
+        let minique = PFQuery(className: "UserCalendar")
         minique.whereKey("user", equalTo: PFUser.currentUser().username)
        
         minique.whereKey("eventID", equalTo: eventId)
@@ -94,9 +94,9 @@ class postEvent: UIViewController {
     }
     //Gets the amount of people added to calendar
     func getCount() {
-        var minique2 = PFQuery(className: "UserCalendar")
+        let minique2 = PFQuery(className: "UserCalendar")
         minique2.whereKey("eventID", equalTo: eventId)
-        var goingCount = minique2.countObjects()
+        let goingCount = minique2.countObjects()
         self.calendarCount.text = String(goingCount)
     }
     //Queries from object ID
@@ -106,18 +106,18 @@ class postEvent: UIViewController {
         if profileEditing == false {
             navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
             // Changes text color on navbar
-            var nav = self.navigationController?.navigationBar
+            let nav = self.navigationController?.navigationBar
             nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()];
         }
     }
 
     func getEvents() {
-       var getEvents = PFQuery(className: "Event")
+       let getEvents = PFQuery(className: "Event")
         getEvents.getObjectInBackgroundWithId(eventId, block: {
             (result: PFObject!, error: NSError!) -> Void in
             if error == nil {
-                println(result)
-                var dateFormatter = NSDateFormatter()
+                print(result)
+                let dateFormatter = NSDateFormatter()
                 dateFormatter.locale = NSLocale.currentLocale() // Gets current locale and switches
                 dateFormatter.dateFormat = "MMM. dd, yyyy - h:mm a"
                 self.startDate = dateFormatter.stringFromDate(result["start"] as!NSDate) // Creates date
@@ -137,7 +137,7 @@ class postEvent: UIViewController {
                             
                             
                         } else {
-                            println(error)
+                            print(error)
                         }
                     })
                 }
@@ -167,7 +167,7 @@ class postEvent: UIViewController {
     
     override func viewDidLoad() {
         
-        var theMix = Mixpanel.sharedInstance()
+        let theMix = Mixpanel.sharedInstance()
         theMix.track("Event View Opened")
         theMix.flush()
         super.viewDidLoad()
@@ -182,14 +182,14 @@ class postEvent: UIViewController {
         
             navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
             // Changes text color on navbar
-            var nav = self.navigationController?.navigationBar
+            let nav = self.navigationController?.navigationBar
             nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()];
             
         } else {
             
             navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
             // Changes text color on navbar
-            var nav = self.navigationController?.navigationBar
+            let nav = self.navigationController?.navigationBar
             nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()];
         }
         if searchEvent == true {
@@ -254,12 +254,12 @@ class postEvent: UIViewController {
                 self.calendarCount.textColor = UIColor(red: 254.0/255.0, green: 186.0/255.0, blue: 1.0/255, alpha:1 ) //yellow color
                 if results != nil {
             var eventStore : EKEventStore = EKEventStore()
-            eventStore.requestAccessToEntityType(EKEntityTypeEvent, completion: {
+            eventStore.requestAccessToEntityType(EKEntityType.Event, completion: {
                 
                 granted, error in
                 if (granted) && (error == nil) {
-                    println("granted \(granted)")
-                    println("error  \(error)")
+                    print("granted \(granted)")
+                    print("error  \(error)")
                     var hosted = "Hosted by \(self.users)"
                     var event:EKEvent = EKEvent(eventStore: eventStore)
                     event.title = self.storeTitle
@@ -272,21 +272,22 @@ class postEvent: UIViewController {
                 }
             })
                     var predicate2 = eventStore.predicateForEventsWithStartDate(self.storeStartDate, endDate: self.endStoreDate, calendars:nil)
-                    var eV = eventStore.eventsMatchingPredicate(predicate2) as! [EKEvent]!
-                    println("Result is there")
+                    var eV = eventStore.eventsMatchingPredicate(predicate2) as [EKEvent]!
+                    print("Result is there")
                     if eV != nil {
 
-                        println("EV is not nil")
+                        print("EV is not nil")
                         for i in eV {
-                            println("\(i.title) this is the i.title")
-                            println(self.storeTitle)
+                            print("\(i.title) this is the i.title")
+                            print(self.storeTitle)
                             if i.title == self.storeTitle  {
                                
-                                println("removed")
+                                print("removed")
                                 var theMix = Mixpanel.sharedInstance()
                                 theMix.track("Removed from Calendar (EV)")
                                 theMix.flush()
-                                eventStore.removeEvent(i, span: EKSpanThisEvent, error: nil)
+                                // eventStore.removeEvent(i, span: EKSpanThisEvent!)
+                                
                             }
                         }
                     }
@@ -306,7 +307,7 @@ class postEvent: UIViewController {
                     
                     if savError == nil {
                         self.getCount()
-                        println("the user is going to the event")
+                        print("the user is going to the event")
                         self.longBar.setImage(UIImage(named: "addedToCalendarBig.png"), forState: UIControlState.Normal)
             
                         self.calendarCount.textColor = UIColor(red: 52.0/255.0, green: 127.0/255.0, blue: 191.0/255, alpha:1 ) //blue color
@@ -315,13 +316,13 @@ class postEvent: UIViewController {
                 }
           
                 var eventStore : EKEventStore = EKEventStore()
-                eventStore.requestAccessToEntityType(EKEntityTypeEvent, completion: {
+                eventStore.requestAccessToEntityType(EKEntityType.Event, completion: {
                     
                     granted, error in
                     if (granted) && (error == nil) {
                  
-                        println("granted \(granted)")
-                        println("error  \(error)")
+                        print("granted \(granted)")
+                        print("error  \(error)")
                         var hosted = "Hosted by \(self.users)"
                         var event:EKEvent = EKEvent(eventStore: eventStore)
                         var alarm = EKAlarm(relativeOffset: self.alertTime)
@@ -332,11 +333,13 @@ class postEvent: UIViewController {
                         event.notes = hosted
                         event.location = self.storeLocation
                         event.calendar = eventStore.defaultCalendarForNewEvents
-                        eventStore.saveEvent(event, span: EKSpanThisEvent, error: nil)
+                        
+                        //eventStore.saveEvent(event, span: EKSpanThisEvent)
+                       
                         var theMix = Mixpanel.sharedInstance()
                         theMix.track("Added to Calendar (EV)")
                         theMix.flush()
-                        println("saved")
+                        print("saved")
                     
                     }
                 })
@@ -353,11 +356,11 @@ class postEvent: UIViewController {
                         
                         if notifyError == nil {
                             
-                            println("notifcation has been saved")
+                            print("notifcation has been saved")
                             
                         }
                         else{
-                            println(notifyError)
+                            print(notifyError)
                         }
                     })
                     var push = PFPush()
@@ -373,7 +376,7 @@ class postEvent: UIViewController {
                         
                         (success:Bool, pushError: NSError!) -> Void in
                         if pushError == nil {
-                            println("The push was sent")
+                            print("The push was sent")
                         }
                     })
                 }
@@ -462,18 +465,18 @@ class postEvent: UIViewController {
         
 
         if segue.identifier == "editEvent" {
-            var theMix = Mixpanel.sharedInstance()
+            let theMix = Mixpanel.sharedInstance()
             theMix.track("Tap Edit (EV)")
             theMix.flush()
-            var editEvent:eventMake = segue.destinationViewController as! eventMake
+            let editEvent:eventMake = segue.destinationViewController as! eventMake
             editEvent.editing = true
             editEvent.eventID = eventId
         }
         if segue.identifier == "imagePreview" {
-            var theMix = Mixpanel.sharedInstance()
+            let theMix = Mixpanel.sharedInstance()
             theMix.track("Tap image Preview (EV)")
             theMix.flush()
-            var imageView:imagePreview = segue.destinationViewController as! imagePreview
+            let imageView:imagePreview = segue.destinationViewController as! imagePreview
             imageView.eventID = self.eventId
         }
     }
@@ -498,11 +501,11 @@ class imagePreview: UIViewController {
                     (imageData: NSData!, error: NSError!) -> Void in
                     if error == nil {
                         self.eventPicture.image = UIImage(data: imageData)
-                        UIImageWriteToSavedPhotosAlbum(UIImage(data: imageData), nil, nil, nil)
+                        UIImageWriteToSavedPhotosAlbum(UIImage(data: imageData)!, nil, nil, nil)
                        
                         
                     } else {
-                        println(error)
+                        print(error)
                     }
                 })
             }

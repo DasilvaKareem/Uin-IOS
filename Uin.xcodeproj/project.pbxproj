@@ -49,10 +49,12 @@
 		61BFF8211A8FDF6C00E2D059 /* notificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BFF8201A8FDF6C00E2D059 /* notificationsView.swift */; };
 		61C47D0A1AD9C90F004690AE /* subCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614F49A61A8FFD4300E6245A /* subCell.swift */; };
 		61D5BD091BC2D88B007DC0AA /* EventFlowSB.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 61D5BD081BC2D88B007DC0AA /* EventFlowSB.storyboard */; };
+		61D5BD0B1BC73036007DC0AA /* LogInVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61D5BD0A1BC73036007DC0AA /* LogInVC.swift */; };
 		61D8F33F1BB877350084E655 /* IconSetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61D8F33E1BB877350084E655 /* IconSetup.swift */; };
 		61E6A41B1AE035AE0098FC5D /* eventFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E6547F1A60B9FC006E76E5 /* eventFeedViewController.swift */; };
 		61E6A41D1AE06FFD0098FC5D /* channelSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61E6A41C1AE06FFD0098FC5D /* channelSelectView.swift */; };
 		61EA5F621A91891B002B1998 /* eventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E6547D1A60B9C8006E76E5 /* eventCell.swift */; };
+		61FD40DA1BCB3C31000F0EAB /* FeedSB.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 61FD40D91BCB3C31000F0EAB /* FeedSB.storyboard */; settings = {ASSET_TAGS = (); }; };
 		EE09DD851AFDC18300809E3E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EE09DD841AFDC18300809E3E /* Main.storyboard */; };
 		EE2311C71B03E9D8002BFA3D /* settingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61EA5F631A918E00002B1998 /* settingsView.swift */; };
 /* End PBXBuildFile section */
@@ -119,11 +121,13 @@
 		61B451561A9EB7C900285930 /* ParseFacebookUtils.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseFacebookUtils.framework; sourceTree = "<group>"; };
 		61BFF8201A8FDF6C00E2D059 /* notificationsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = notificationsView.swift; sourceTree = "<group>"; };
 		61D5BD081BC2D88B007DC0AA /* EventFlowSB.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = EventFlowSB.storyboard; sourceTree = "<group>"; };
+		61D5BD0A1BC73036007DC0AA /* LogInVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogInVC.swift; sourceTree = "<group>"; };
 		61D8F33E1BB877350084E655 /* IconSetup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IconSetup.swift; sourceTree = "<group>"; };
 		61DC09EE1AC08727000C5EB5 /* eventLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = eventLocation.swift; sourceTree = "<group>"; };
 		61E6A41C1AE06FFD0098FC5D /* channelSelectView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = channelSelectView.swift; sourceTree = "<group>"; };
 		61E6A41E1AE074540098FC5D /* channelTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = channelTableCell.swift; sourceTree = "<group>"; };
 		61EA5F631A918E00002B1998 /* settingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = settingsView.swift; sourceTree = "<group>"; };
+		61FD40D91BCB3C31000F0EAB /* FeedSB.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = FeedSB.storyboard; sourceTree = "<group>"; };
 		BFF64F43CD26D75E1C820539 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "UinProto2/Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		D15603B83CDC98572D79F2CD /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "UinProto2/Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		EE09DD841AFDC18300809E3E /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
@@ -219,7 +223,6 @@
 				28F8364A1A4FB25D00F45A0B /* customcell.swift */,
 				28277E6D1A4B161C001CCB02 /* UInProto.m */,
 				28277E3B1A4B115E001CCB02 /* Images.xcassets */,
-				61D5BD081BC2D88B007DC0AA /* EventFlowSB.storyboard */,
 				28277E3D1A4B115E001CCB02 /* LaunchScreen.xib */,
 				28277E6C1A4B161B001CCB02 /* UinProto2-Bridging-Header.h */,
 				28277E321A4B115E001CCB02 /* Supporting Files */,
@@ -275,6 +278,8 @@
 		61DC09F11AC087BD000C5EB5 /* SigningUp */ = {
 			isa = PBXGroup;
 			children = (
+				61D5BD081BC2D88B007DC0AA /* EventFlowSB.storyboard */,
+				61D5BD0A1BC73036007DC0AA /* LogInVC.swift */,
 				61A5126B1AB7946400CE2483 /* LoadingView.swift */,
 				28277E771A4B1D0E001CCB02 /* register.swift */,
 				28277E751A4B1804001CCB02 /* SignIn.swift */,
@@ -285,6 +290,7 @@
 		61E6A4191ADEC2770098FC5D /* eventFeed */ = {
 			isa = PBXGroup;
 			children = (
+				61FD40D91BCB3C31000F0EAB /* FeedSB.storyboard */,
 				613069F11A745289001CAF4F /* MyProfile.swift */,
 				61A4E77B1A7E7A690041FB13 /* userprofile.swift */,
 				618CE0131A76F4A400FF493C /* EventView.swift */,
@@ -381,7 +387,9 @@
 		28277E271A4B115E001CCB02 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0620;
+				LastSwiftMigration = 0700;
+				LastSwiftUpdateCheck = 0700;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Kareem Dasilva";
 				TargetAttributes = {
 					28277E2E1A4B115E001CCB02 = {
@@ -429,6 +437,7 @@
 				EE09DD851AFDC18300809E3E /* Main.storyboard in Resources */,
 				61144F1C1AA299330034018A /* Podfile in Resources */,
 				28277E3C1A4B115E001CCB02 /* Images.xcassets in Resources */,
+				61FD40DA1BCB3C31000F0EAB /* FeedSB.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -492,6 +501,7 @@
 				61A5126C1AB7946400CE2483 /* LoadingView.swift in Sources */,
 				61268C1E1A910AB300009E07 /* dateCell.swift in Sources */,
 				61B634C71A7F1E5F00139F60 /* FollowCell.swift in Sources */,
+				61D5BD0B1BC73036007DC0AA /* LogInVC.swift in Sources */,
 				61BFF8211A8FDF6C00E2D059 /* notificationsView.swift in Sources */,
 				61A4E77F1A7E84920041FB13 /* register.swift in Sources */,
 				28F8364B1A4FB25D00F45A0B /* customcell.swift in Sources */,
@@ -557,6 +567,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Cole Roe (33XBMXDS77)";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"/Users/coleproe/Uin-IOS/",
 					"$(inherited)",
@@ -641,6 +652,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.areuin.uin;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "0aa66f89-4ffe-496c-a37e-77616300fa60";
 				SWIFT_OBJC_BRIDGING_HEADER = "UinProto2/UinProto2-Bridging-Header.h";
@@ -661,6 +673,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.areuin.uin;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "8f8705bc-1d63-45c9-9de1-6e517b596213";
 				SWIFT_OBJC_BRIDGING_HEADER = "UinProto2/UinProto2-Bridging-Header.h";
@@ -686,6 +699,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = com.areuin.uin;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "0aa66f89-4ffe-496c-a37e-77616300fa60";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/UinProto2.app/UinProto2";
@@ -707,6 +721,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = com.areuin.uin;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "8f8705bc-1d63-45c9-9de1-6e517b596213";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/UinProto2.app/UinProto2";

@@ -18,7 +18,7 @@ class register: UIViewController, UITextFieldDelegate {
     var emailPlace = ""
     var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
 
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         self.view.endEditing(true)
     }
     func textFieldShouldReturn(textField: UITextField) -> Bool {
@@ -33,7 +33,7 @@ class register: UIViewController, UITextFieldDelegate {
     
     func displayAlert(title:String, error:String) {
         
-        var alert = UIAlertController(title: title, message: error, preferredStyle: UIAlertControllerStyle.Alert)
+        let alert = UIAlertController(title: title, message: error, preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { action in
         }))
         self.presentViewController(alert, animated: true, completion: nil)
@@ -44,7 +44,7 @@ class register: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        var theMix = Mixpanel.sharedInstance()
+        let theMix = Mixpanel.sharedInstance()
         theMix.track("Register Opened")
         theMix.flush()
         
@@ -108,7 +108,7 @@ class register: UIViewController, UITextFieldDelegate {
         var error = ""
         
         
-        if username.text.rangeOfCharacterFromSet(characterSet) != nil {
+        if username.text!.rangeOfCharacterFromSet(characterSet) != nil {
             error = "You either entered an illegal charcter"
         }
 
@@ -137,10 +137,10 @@ class register: UIViewController, UITextFieldDelegate {
              
                 var user = PFUser()
                
-                user.username = username.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-                user["display"] = username.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-                user.password = password.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-                user.email = email.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+                user.username = username.text!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+                user["display"] = username.text!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+                user.password = password.text!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+                user.email = email.text!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
                 user["pushEnabled"] = true
                 user["firstRemoveFromCalendar"] = true
                 user["tempAccounts"] = false
@@ -163,9 +163,9 @@ class register: UIViewController, UITextFieldDelegate {
                         defaultChannel.saveInBackgroundWithBlock({
                             (success:Bool, error:NSError!) -> Void in
                             if error == nil {
-                                println("User has been entered into the channel")
+                                print("User has been entered into the channel")
                             } else {
-                                println("User has not been entered into the channel")
+                                print("User has not been entered into the channel")
                             }
                         })
                         var defaultChannel2 = PFObject(className: "ChannelUser")
@@ -180,9 +180,9 @@ class register: UIViewController, UITextFieldDelegate {
                         defaultChannel2.saveInBackgroundWithBlock({
                             (success:Bool, error:NSError!) -> Void in
                             if error == nil {
-                                println("User has been entered into the channel")
+                                print("User has been entered into the channel")
                             } else {
-                                println("User has not been entered into the channel")
+                                print("User has not been entered into the channel")
                             }
                         })
                         var theMix = Mixpanel.sharedInstance()
@@ -195,17 +195,17 @@ class register: UIViewController, UITextFieldDelegate {
                             (success:Bool, saveerror: NSError!) -> Void in
                             
                             if saveerror == nil {
-                                println("it worked")
+                                print("it worked")
                             }
                                 
                             else {
-                                println("It didnt work")
+                                print("It didnt work")
                             }
                         })
                         self.performSegueWithIdentifier("registerS", sender: self)
                     }
                     else {
-                        println(registerError.code)
+                        print(registerError.code)
                         switch registerError.code {
                             
                         case 125:
@@ -230,10 +230,10 @@ class register: UIViewController, UITextFieldDelegate {
             else {
                 
                 var user = PFUser.currentUser()
-                user.username = username.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-                user["display"] = username.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-                user.password = password.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-                user.email = email.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+                user.username = username.text!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+                user["display"] = username.text!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+                user.password = password.text!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+                user.email = email.text!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
                 user["pushEnabled"] = true
                 user["firstRemoveFromCalendar"] = true
                 user["tempAccounts"] = false
@@ -267,9 +267,9 @@ class register: UIViewController, UITextFieldDelegate {
                                 defaultChannel.saveInBackgroundWithBlock({
                                     (success:Bool, error:NSError!) -> Void in
                                     if error == nil {
-                                        println("User has been entered into the channel")
+                                        print("User has been entered into the channel")
                                     } else {
-                                        println("User has not been entered into the channel")
+                                        print("User has not been entered into the channel")
                                     }
                                 })
                                 var defaultChannel2 = PFObject(className: "ChannelUser")
@@ -284,18 +284,18 @@ class register: UIViewController, UITextFieldDelegate {
                                 defaultChannel2.saveInBackgroundWithBlock({
                                     (success:Bool, error:NSError!) -> Void in
                                     if error == nil {
-                                        println("User has been entered into the channel")
+                                        print("User has been entered into the channel")
                                     } else {
-                                        println("User has not been entered into the channel")
+                                        print("User has not been entered into the channel")
                                     }
                                 })
-                                println("it worked")
+                                print("it worked")
                                 
                             }
                                 
                             else {
 
-                                println("It didnt work")
+                                print("It didnt work")
                             }
                             
                         })
@@ -303,7 +303,7 @@ class register: UIViewController, UITextFieldDelegate {
                         
                     }
                     else {
-                        println(registerError.code)
+                        print(registerError.code)
                         switch registerError.code {
                             
                         case 125:
@@ -330,7 +330,7 @@ class register: UIViewController, UITextFieldDelegate {
     @IBAction func CancelButton(sender: AnyObject) {
         if editing == true {
             
-            var user = PFUser.currentUser()
+            let user = PFUser.currentUser()
             user.deleteInBackgroundWithBlock({
                 
                 (succes:Bool, error:NSError!) -> Void in
@@ -339,7 +339,7 @@ class register: UIViewController, UITextFieldDelegate {
                     self.performSegueWithIdentifier("backToHome", sender: sender)
                 }
                 else {
-                    println(error)
+                    print(error)
                 }
             })
         }

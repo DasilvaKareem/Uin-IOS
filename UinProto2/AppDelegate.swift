@@ -43,7 +43,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         //Set the user Time stamp
   
-        var theMix = Mixpanel.sharedInstance()
+        let theMix = Mixpanel.sharedInstance()
         theMix.track("App Open")
         theMix.flush()
         
@@ -59,14 +59,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
      
         
        
-        let userNotificationTypes = (UIUserNotificationType.Alert |
-            UIUserNotificationType.Badge |
-            UIUserNotificationType.Sound);
+        let userNotificationTypes: UIUserNotificationType = ([UIUserNotificationType.Alert, UIUserNotificationType.Badge, UIUserNotificationType.Sound]);
         
         let settings = UIUserNotificationSettings(forTypes: userNotificationTypes, categories: nil)
         application.registerUserNotificationSettings(settings)
         application.registerForRemoteNotifications()
-        
+        PFTwitterUtils.initializeWithConsumerKey("8UEyO7HCWxgi6qtNOrHlkNXQk",  consumerSecret:"UwR53WCjwtmac7RthglrliwtoJuNg8rT3R7bne3pkM5gzhu053")
        
     
         
@@ -80,7 +78,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         installation.setDeviceTokenFromData(deviceToken)
         installation.save()
 
-        println("Success")
+        print("Success")
     
         
         
@@ -88,7 +86,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application( application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError ) {
         
-        println("Fail!")
+        print("Fail!")
     
     }
    
@@ -99,7 +97,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidEnterBackground(application: UIApplication) {
-        var theMix = Mixpanel.sharedInstance()
+        let theMix = Mixpanel.sharedInstance()
         theMix.track("App Close")
         theMix.flush()
     }
@@ -130,7 +128,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
 
     
-    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
+    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
         return FBAppCall.handleOpenURL(url, sourceApplication:sourceApplication,
             withSession:PFFacebookUtils.session())
     }

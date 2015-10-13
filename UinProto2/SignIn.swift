@@ -19,7 +19,7 @@ class SignIn: UIViewController, UITextFieldDelegate {
     var emailFacebook = (String)()
     
     
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         self.view.endEditing(true)
     }
     
@@ -42,17 +42,17 @@ class SignIn: UIViewController, UITextFieldDelegate {
     @IBAction func facebook(sender: AnyObject) {
         
         //Logins into Facebook
-        var theMix = Mixpanel.sharedInstance()
+        let theMix = Mixpanel.sharedInstance()
         theMix.track("Tap Facebook (SI)")
         
         var fbloginView:FBLoginView = FBLoginView(readPermissions: ["email", "public_profile"])
-        var permissions = ["public_profile", "email"]
+        let permissions = ["public_profile", "email"]
         PFFacebookUtils.logInWithPermissions(permissions, block: {
             (user: PFUser!, error: NSError!) -> Void in
             if error == nil {
                 if user == nil {
                     NSLog("Uh oh. The user cancelled the Facebook login.")
-                    println(error)
+                    print(error)
                     //self.loginCancelledLabel.alpha = 1
                     
                 } else if user.isNew {
@@ -60,7 +60,7 @@ class SignIn: UIViewController, UITextFieldDelegate {
                     
                     FBRequestConnection.startForMeWithCompletionHandler({
                         connection, result, error in
-                        println(result)
+                        print(result)
                         self.userFacebook = result["name"] as!String
                         self.emailFacebook = result["email"] as!String
                         user.username = result["name"] as!String
@@ -68,7 +68,7 @@ class SignIn: UIViewController, UITextFieldDelegate {
                         user.saveInBackgroundWithBlock({
                             (success:Bool, error:NSError!) -> Void in
                             if error == nil {
-                                var theMix = Mixpanel.sharedInstance()
+                                let theMix = Mixpanel.sharedInstance()
                                 theMix.track("Registers Info with Facebook (SI)")
                                 self.performSegueWithIdentifier("register", sender: self)
                             }
@@ -81,7 +81,7 @@ class SignIn: UIViewController, UITextFieldDelegate {
                 } else {
                     
                     NSLog("User is already signed in with us")
-                    var currentInstallation = PFInstallation.currentInstallation()
+                    let currentInstallation = PFInstallation.currentInstallation()
                     currentInstallation["user"] = PFUser.currentUser().username
                     currentInstallation["userId"] = PFUser.currentUser().objectId
                     currentInstallation.saveInBackgroundWithBlock({
@@ -90,18 +90,18 @@ class SignIn: UIViewController, UITextFieldDelegate {
                         
                         if saveerror == nil {
                             
-                            var theMix = Mixpanel.sharedInstance()
+                            let theMix = Mixpanel.sharedInstance()
                             theMix.track("Logged in with Facebook (SI)")
-                            var userTimeCheck = PFUser.currentUser()
+                            let userTimeCheck = PFUser.currentUser()
                             userTimeCheck["notificationsTimestamp"] = NSDate()
                             userTimeCheck["subscriptionsTimestamp"] = NSDate()
                             userTimeCheck["localEventsTimestamp"] = NSDate()
                             userTimeCheck.saveInBackgroundWithBlock({
                                 (success:Bool, error:NSError!) -> Void in
                                 if error == nil {
-                                    println("The stamp was updated")
+                                    print("The stamp was updated")
                                 } else {
-                                    println(error.debugDescription)
+                                    print(error.debugDescription)
                                 }
                             })
                             self.performSegueWithIdentifier("login", sender: self)
@@ -110,7 +110,7 @@ class SignIn: UIViewController, UITextFieldDelegate {
                             
                         else {
                             
-                            println("facebook installtions was not succesfull")
+                            print("facebook installtions was not succesfull")
                         }
                         
                     })
@@ -118,7 +118,7 @@ class SignIn: UIViewController, UITextFieldDelegate {
                 }
             } else {
                 self.displayAlert("Error", error: "We're sorry! Please try again. If this problem persists, please send an email with the issue to support@areuin.co. Thank you!")
-                println(error.debugDescription)
+                print(error.debugDescription)
             }
 
         })
@@ -128,7 +128,7 @@ class SignIn: UIViewController, UITextFieldDelegate {
 
         super.viewDidLoad()
   
-        var theMix = Mixpanel.sharedInstance()
+        let theMix = Mixpanel.sharedInstance()
         theMix.track("Sign In Opened")
         theMix.flush()
         
@@ -152,7 +152,7 @@ class SignIn: UIViewController, UITextFieldDelegate {
     
     //User singing in with Uin
     @IBAction func signin(sender: AnyObject) {
-        var theMix = Mixpanel.sharedInstance()
+        let theMix = Mixpanel.sharedInstance()
         theMix.track("Create Account with Uin (SI)")
         theMix.flush()
         var error = ""
@@ -169,21 +169,21 @@ class SignIn: UIViewController, UITextFieldDelegate {
 
                 if loginError == nil {
                   
-                    var query = PFQuery(className: "Subscription")
+                    let query = PFQuery(className: "Subscription")
                     query.whereKey("subscriber", equalTo: PFUser.currentUser().username)
                     query.findObjectsInBackgroundWithBlock({
                         
                         (objects:[AnyObject]!, queError:NSError!) -> Void in
                         
                         if queError == nil {
-                            println(subscriptionUsernames)
+                            print(subscriptionUsernames)
                             for object in objects {
                                 
                                 subscriptionUsernames.append(object["publisherID"] as!String)
                                 
                             }
                             var user = PFUser.currentUser()
-                            var currentInstallation = PFInstallation.currentInstallation()
+                            let currentInstallation = PFInstallation.currentInstallation()
                             currentInstallation["user"] = PFUser.currentUser().username
                             currentInstallation["userId"] = PFUser.currentUser().objectId
                             currentInstallation.setValue(subscriptionUsernames, forKey: "channels")
@@ -192,26 +192,26 @@ class SignIn: UIViewController, UITextFieldDelegate {
                                 (success:Bool, saveerror: NSError!) -> Void in
                                 
                                 if saveerror == nil {
-                                    var userTimeCheck = PFUser.currentUser()
+                                    let userTimeCheck = PFUser.currentUser()
                                     userTimeCheck["notificationsTimestamp"] = NSDate()
                                     userTimeCheck["subscriptionsTimestamp"] = NSDate()
                                     userTimeCheck["localEventsTimestamp"] = NSDate()
                                     userTimeCheck.saveInBackgroundWithBlock({
                                         (success:Bool, error:NSError!) -> Void in
                                         if error == nil {
-                                            println("The stamp was updated")
+                                            print("The stamp was updated")
                                         } else {
-                                            println(error.debugDescription)
+                                            print(error.debugDescription)
                                         }
                                     })
                                 }
                                     
                                 else {
-                                    println("It didnt work")
+                                    print("It didnt work")
                                 }
                             })
                          }   else {
-                            println(queError)
+                            print(queError)
                         }
                  
                     })
@@ -219,7 +219,7 @@ class SignIn: UIViewController, UITextFieldDelegate {
                     
                 }
                 else{
-                    println(loginError.code)
+                    print(loginError.code)
                     switch loginError.code {
                         
                     case 125:
@@ -256,7 +256,7 @@ class SignIn: UIViewController, UITextFieldDelegate {
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "register" {
-            var create : register = segue.destinationViewController as! register
+            let create : register = segue.destinationViewController as! register
             if self.emailFacebook != "" {
                 create.emailPlace = self.emailFacebook
                 create.userPlace = self.userFacebook

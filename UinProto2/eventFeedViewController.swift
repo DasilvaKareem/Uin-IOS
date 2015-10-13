@@ -38,14 +38,14 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     var events = [Event]() //holds all the events in the feed
     func setEvent(){
-        var query = PFQuery(className: "Event")
+        let query = PFQuery(className: "Event")
         
         
         query.findObjectsInBackgroundWithBlock({
            objects, error in
-            println(objects.count)
+            print(objects.count)
             for object in objects {
-                println(object)
+                print(object)
                 var event = Event()
                 event.address = object["address"] as! String
                 event.end = object["end"] as! NSDate!
@@ -92,7 +92,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
 
     func getSearchItems() {
         
-        var eventQuery = PFQuery(className: "Event")
+        let eventQuery = PFQuery(className: "Event")
         eventQuery.whereKey("start", greaterThanOrEqualTo: NSDate())
         eventQuery.whereKey("isPublic", equalTo: true)
         eventQuery.findObjectsInBackgroundWithBlock({
@@ -102,7 +102,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                     self.searchItems.append(searchItem(type: "Event", name: object["title"] as! String, id: object.objectId as String))
 
                 }
-                var userQuery = PFUser.query()
+                let userQuery = PFUser.query()
                 userQuery.whereKey("tempAccounts", equalTo: false)
                 userQuery.findObjectsInBackgroundWithBlock({
                     (results: [AnyObject]!, error: NSError!) -> Void in
@@ -120,7 +120,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func searchBarResultsListButtonClicked(searchBar: UISearchBar) {
         self.searchActive = false
-        println("THe result button was button")
+        print("THe result button was button")
     }
     func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
         self.searchActive = true;
@@ -162,7 +162,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         //Loads search Items
         searchBar.delegate = self
         //getSearchItems()
-        var theMix = Mixpanel.sharedInstance()
+        let theMix = Mixpanel.sharedInstance()
         theMix.track("Event Feed Opened")
         theMix.flush()
         setEvent()
@@ -177,7 +177,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
     
         // Changes text color on navbar
-        var nav = self.navigationController?.navigationBar
+        let nav = self.navigationController?.navigationBar
         nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()];
       
         
@@ -194,13 +194,13 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     override func viewWillDisappear(animated: Bool) {
-        println("View disappear")
+        print("View disappear")
         endSearch()
         
     }
     override func viewWillAppear(animated: Bool) {
       
-        println()
+        print("")
         setupCalendar()
         updateFeed()
         //Setups Ui
@@ -271,14 +271,14 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func setupCalendar(){
         if channelID != "localEvent" || channelID != "subbedEvents" {
-            var calendarQue = PFQuery(className: "Channel")
+            let calendarQue = PFQuery(className: "Channel")
             calendarQue.getObjectInBackgroundWithId(channelID, block: {
                 (object:PFObject!, error:NSError!) -> Void in
                 if error == nil {
                     self.navigationItem.title = object["name"] as? String
                     self.alertTime = object["alertTime"] as! NSTimeInterval
                 } else {
-                    println(error.debugDescription)
+                    print(error.debugDescription)
                 }
                 
             })
@@ -314,20 +314,20 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         for i in events {
             //SORTS OUT EVENT STARTING TIME AND CREATES EVENT HEADER TIMES AND SHORTNED TIMES
             
-            var dateFormatter = NSDateFormatter()
+            let dateFormatter = NSDateFormatter()
             //Creates table header for event time
             dateFormatter.locale = NSLocale.currentLocale() // Gets current locale and switches
             dateFormatter.dateFormat = "EEEE, MMM dd" // Formart for date I.E Monday, 03 1996
-            var headerDate = dateFormatter.stringFromDate(i.start) // Creates date
+            let headerDate = dateFormatter.stringFromDate(i.start) // Creates date
             convertedDates.append(headerDate)
             dateFormatter.dateFormat = "MMM dd, yyyy"
             var shortenTime = dateFormatter.stringFromDate(i.start)
             
             //Creates Time for Event from NSDAte
-            var timeFormatter = NSDateFormatter() //Formats time
+            let timeFormatter = NSDateFormatter() //Formats time
             timeFormatter.locale = NSLocale.currentLocale()
             timeFormatter.timeStyle = NSDateFormatterStyle.ShortStyle
-            var localTime = timeFormatter.stringFromDate(i.start)
+            let localTime = timeFormatter.stringFromDate(i.start)
             
             self.localizedTime.append(localTime)
             
@@ -337,7 +337,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         for i in events {
              //SORTS OUT EVENT ENDING TIME AND CREATES EVENT HEADER TIMES AND SHORTNED TIMES
             
-            var dateFormatter = NSDateFormatter()
+            let dateFormatter = NSDateFormatter()
             //Creates table header for event time
             dateFormatter.locale = NSLocale.currentLocale() // Gets current locale and switches
             var headerDate = dateFormatter.stringFromDate(i.end) // Creates date
@@ -345,10 +345,10 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             var shortenTime = dateFormatter.stringFromDate(i.end)
             
             //Creates Time for Event from NSDAte
-            var timeFormatter = NSDateFormatter() //Formats time
+            let timeFormatter = NSDateFormatter() //Formats time
             timeFormatter.locale = NSLocale.currentLocale()
             timeFormatter.timeStyle = NSDateFormatterStyle.ShortStyle
-            var localTime = timeFormatter.stringFromDate(i.end)
+            let localTime = timeFormatter.stringFromDate(i.end)
             self.localizedEndTime.append(localTime)
             
         }
@@ -402,7 +402,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
-        var cell:dateCell = tableView.dequeueReusableCellWithIdentifier("dateCell") as! dateCell
+        let cell:dateCell = tableView.dequeueReusableCellWithIdentifier("dateCell") as! dateCell
         if appProblem {
             return nil
         } else {
@@ -438,23 +438,23 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             
             endSearch()
             self.performSegueWithIdentifier("event", sender: self)
-            println("search is \(self.searchActive)")
+            print("search is \(self.searchActive)")
             
         } else {
             if filteredSearchItems.count == 0 {
-                println("No items selected")
+                print("No items selected")
             } else {
-                var item = filteredSearchItems[indexPath.row]
+                let item = filteredSearchItems[indexPath.row]
                 
                 if item.type == "Event" {
                     endSearch()
                     self.performSegueWithIdentifier("searchEvent", sender: self)
-                    println("search is \(self.searchActive)")
+                    print("search is \(self.searchActive)")
                     
                 } else {
                     endSearch()
                     self.performSegueWithIdentifier("profile", sender: self)
-                    println("search is \(self.searchActive)")
+                    print("search is \(self.searchActive)")
                 }
             }
         }
@@ -489,18 +489,18 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
         // Puts the data in a cell
-        var cell:eventCell = tableView.dequeueReusableCellWithIdentifier("cell2") as! eventCell
+        let cell:eventCell = tableView.dequeueReusableCellWithIdentifier("cell2") as! eventCell
        
             
     
-        var event = getEventIndex(indexPath.section, row: indexPath.row)
+        let event = getEventIndex(indexPath.section, row: indexPath.row)
         
         var section = indexPath.section
         var row = indexPath.row
             //Puts image for three icons
-            var icon1:Icon = setIcon(events[event].tag1) //icon object for tag 1
-            var icon2:Icon = setIcon(events[event].tag2) //icon object for tag 2
-            var icon3:Icon = setIcon(events[event].tag3) //icon object for tag 3
+            let icon1:Icon = setIcon(events[event].tag1) //icon object for tag 1
+            let icon2:Icon = setIcon(events[event].tag2) //icon object for tag 2
+            let icon3:Icon = setIcon(events[event].tag3) //icon object for tag 3
             cell.tag1.image = icon1.iconImage
             cell.tag1Text.text = icon1.caption
         
@@ -529,11 +529,11 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     override func prepareForSegue(segue:UIStoryboardSegue, sender: AnyObject?){
         if segue.identifier == "event" {
             var secondViewController : postEvent = segue.destinationViewController as! postEvent
-            var theMix = Mixpanel.sharedInstance()
+            let theMix = Mixpanel.sharedInstance()
             theMix.track("Opened Event View (EF)")
-            var indexPath = theFeed.indexPathForSelectedRow() //get index of data for selected row
-            var section = indexPath?.section
-            var row = indexPath?.row
+            let indexPath = theFeed.indexPathForSelectedRow //get index of data for selected row
+            let section = indexPath?.section
+            let row = indexPath?.row
             var index = getEventIndex(section!, row: row!)
             
   
@@ -545,10 +545,10 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         }
         if segue.identifier == "searchEvent"{
             //Gets the indexpath for the filtered item
-            var indexpath = theFeed.indexPathForSelectedRow()
-            var row = indexpath?.row
-            var item = filteredSearchItems[row!]
-            var theotherprofile:postEvent = segue.destinationViewController as! postEvent
+            let indexpath = theFeed.indexPathForSelectedRow
+            let row = indexpath?.row
+            let item = filteredSearchItems[row!]
+            let theotherprofile:postEvent = segue.destinationViewController as! postEvent
             theotherprofile.eventId = item.id
             theotherprofile.searchEvent = true
         }

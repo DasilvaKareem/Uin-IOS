@@ -19,7 +19,7 @@ class subscriberlist: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = "Subscriber"
-        var theMix = Mixpanel.sharedInstance()
+        let theMix = Mixpanel.sharedInstance()
         theMix.track("Subscribers Opened")
         theMix.flush()
         
@@ -28,11 +28,11 @@ class subscriberlist: UITableViewController {
           self.navigationController?.navigationBar.backIndicatorImage = nil
      
         // Changes text color on navbar
-        var nav = self.navigationController?.navigationBar
+        let nav = self.navigationController?.navigationBar
         nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()];
         
         //Queries for all the people who are subscribed to you
-        var followque = PFQuery(className: "Subscription")
+        let followque = PFQuery(className: "Subscription")
         followque.whereKey("publisher", equalTo: PFUser.currentUser().username)
         followque.orderByAscending("createdAt")
         followque.findObjectsInBackgroundWithBlock{
@@ -94,7 +94,7 @@ class subscriberlist: UITableViewController {
         let cell:FollowCell = self.tableView.dequeueReusableCellWithIdentifier("cell3") as! FollowCell
         cell.member.tag = indexPath.row
         cell.username.text = folusernames[indexPath.row]
-        var membersave = PFQuery(className:"Subscription")
+        let membersave = PFQuery(className:"Subscription")
         membersave.getObjectInBackgroundWithId(objectId[indexPath.row]) {
             (result: PFObject!, error: NSError!) -> Void in
             if error == nil {
@@ -125,7 +125,7 @@ class subscriberlist: UITableViewController {
             break;
         }  //Switch
         
-        var membersave = PFQuery(className:"Subscription")
+        let membersave = PFQuery(className:"Subscription")
         membersave.getObjectInBackgroundWithId(objectId[sender.tag]) {
             (result: PFObject!, error: NSError!) -> Void in
             if error == nil {
@@ -134,8 +134,8 @@ class subscriberlist: UITableViewController {
                     (succeeded: Bool, registerError: NSError!) -> Void in
                     if registerError == nil {
                         
-                        var push = PFPush()
-                        var pfque = PFInstallation.query()
+                        let push = PFPush()
+                        let pfque = PFInstallation.query()
                         pfque.whereKey("user", equalTo:self.folusernames[sender.tag] )
                         push.setQuery(pfque)
                        
@@ -144,14 +144,14 @@ class subscriberlist: UITableViewController {
                         push.sendPushInBackgroundWithBlock({
                             (success:Bool, pushError: NSError!) -> Void in
                             if pushError == nil {
-                                println("Push was Sent")
+                                print("Push was Sent")
                             } else {
-                                println("Push was not sent")
+                                print("Push was not sent")
                             }
                         })
                         
                         //Creates an in app notfication
-                        var notify = PFObject(className: "Notification")
+                        let notify = PFObject(className: "Notification")
                         notify["senderID"] = PFUser.currentUser().objectId
                         notify["sender"] = PFUser.currentUser().username
                         notify["receiver"] = self.folusernames[sender.tag]
@@ -163,14 +163,14 @@ class subscriberlist: UITableViewController {
                             
                             if notifyError == nil {
                                 
-                                println("notifcation has been saved")
+                                print("notifcation has been saved")
                                 
                             }
                             
                             
                         })
 
-                        println("Worked!")
+                        print("Worked!")
                         
                     }
                     

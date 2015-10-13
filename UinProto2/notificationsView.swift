@@ -29,14 +29,14 @@ class notificationsView: UITableViewController {
     
     override func viewDidAppear(animated: Bool) {
         
-        var userTimeCheck = PFUser.currentUser()
+        let userTimeCheck = PFUser.currentUser()
         userTimeCheck["notificationsTimestamp"] = NSDate()
         userTimeCheck.saveInBackgroundWithBlock({
             (success:Bool, error:NSError!) -> Void in
             if error == nil {
-                println("The stamp was updated")
+                print("The stamp was updated")
             } else {
-                println(error.debugDescription)
+                print(error.debugDescription)
             }
         })
     }
@@ -52,13 +52,13 @@ class notificationsView: UITableViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        var theMix = Mixpanel.sharedInstance()
+        let theMix = Mixpanel.sharedInstance()
         theMix.track("Notifications Opened")
         theMix.flush()
        
         navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
         // Changes text color on navbar
-        var nav = self.navigationController?.navigationBar
+        let nav = self.navigationController?.navigationBar
         nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()];
         notify()
         //refresher
@@ -82,7 +82,7 @@ class notificationsView: UITableViewController {
             Queries users Subscriptions and A2Cs then find last 15 notifcations
         
         */
-        var followQue = PFQuery(className: "Subscription")
+        let followQue = PFQuery(className: "Subscription")
         followQue.whereKey("subscriberID", equalTo: PFUser.currentUser().objectId)
         followQue.findObjectsInBackgroundWithBlock{
             (objects:[AnyObject]!, folError:NSError!) -> Void in
@@ -90,11 +90,11 @@ class notificationsView: UITableViewController {
             if folError == nil {
                 
                 for object in objects{
-                    println("it worked")
+                    print("it worked")
                     self.folusernames.append(object["publisher"] as!String)
                 }
-                println(self.folusernames)
-                var addedQue = PFQuery(className: "UserCalendar")
+                print(self.folusernames)
+                let addedQue = PFQuery(className: "UserCalendar")
                 addedQue.whereKey("userID", equalTo: PFUser.currentUser().objectId)
                 addedQue.whereKeyExists("author")
                 addedQue.findObjectsInBackgroundWithBlock{
@@ -106,44 +106,44 @@ class notificationsView: UITableViewController {
                             self.addedUsernames.append(object["author"] as!String)
                         }
                     
-                        var eventQuery = PFQuery(className: "Notification")
+                        let eventQuery = PFQuery(className: "Notification")
                         eventQuery.whereKey("type", equalTo: "event" )
                         eventQuery.whereKey("sender", containedIn: self.folusernames)
                         eventQuery.whereKeyExists("eventID")
                         eventQuery.whereKey("sender", notEqualTo: PFUser.currentUser().username)
                         
-                        var subQuery = PFQuery(className: "Notification")
+                        let subQuery = PFQuery(className: "Notification")
                         subQuery.whereKey("type", equalTo: "sub")
                         subQuery.whereKey("receiverID", equalTo: PFUser.currentUser().objectId)
                         
-                        var deleteQuery = PFQuery(className: "Notification")
+                        let deleteQuery = PFQuery(className: "Notification")
                         deleteQuery.whereKey("type", equalTo: "deleteEvent" )
                         deleteQuery.whereKeyExists("eventID")
                         deleteQuery.whereKey("sender", containedIn: self.addedUsernames)
                         deleteQuery.whereKey("sender", notEqualTo: PFUser.currentUser().username)
                         
-                        var editQuery = PFQuery(className: "Notification")
+                        let editQuery = PFQuery(className: "Notification")
                         editQuery.whereKey("type", equalTo: "editedEvent" )
                         editQuery.whereKeyExists("eventID")
                         editQuery.whereKey("sender", containedIn: self.addedUsernames)
                         editQuery.whereKey("sender", notEqualTo: PFUser.currentUser().username)
                         
-                        var calendarQuery = PFQuery(className: "Notification")
+                        let calendarQuery = PFQuery(className: "Notification")
                         calendarQuery.whereKey("receiver", equalTo: PFUser.currentUser().username)
                         calendarQuery.whereKeyExists("eventID")
                         calendarQuery.whereKey("type", equalTo: "calendar")
                         
-                        var memberQuery = PFQuery(className: "Notification")
+                        let memberQuery = PFQuery(className: "Notification")
                         memberQuery.whereKey("receiver", equalTo: PFUser.currentUser().username)
                         memberQuery.whereKey("type", equalTo: "member")
                         
                         
-                        var query = PFQuery.orQueryWithSubqueries([memberQuery, subQuery, calendarQuery, eventQuery, editQuery, deleteQuery ])
+                        let query = PFQuery.orQueryWithSubqueries([memberQuery, subQuery, calendarQuery, eventQuery, editQuery, deleteQuery ])
                         query.limit = 15
                         query.orderByDescending("createdAt")
                         query.findObjectsInBackgroundWithBlock({
                             (objects:[AnyObject]!,subError:NSError!) -> Void in
-                            println("it queryed")
+                            print("it queryed")
                             self.notificationItems.removeAll(keepCapacity: true)
                             if subError == nil {
                                 //Setups NSSString and NSmutableatrString so we can make them nice and colorful
@@ -159,10 +159,10 @@ class notificationsView: UITableViewController {
                                     case "event":
                                         
                                         //Creates an Atr. String that has yellow color
-                                        var getEventname = PFQuery(className: "Event")
-                                        var eventObject = getEventname.getObjectWithId(object["eventID"] as!String)
-                                        var eventName =  eventObject["title"] as!NSString
-                                        var current = object["sender"] as!NSString
+                                        let getEventname = PFQuery(className: "Event")
+                                        let eventObject = getEventname.getObjectWithId(object["eventID"] as!String)
+                                        let eventName =  eventObject["title"] as!NSString
+                                        let current = object["sender"] as!NSString
                                         unEditedNote = "\(current) has created the event \(eventName)"
                                         note = NSMutableAttributedString(string: unEditedNote as String)
                                         //Add string attr here
@@ -172,10 +172,10 @@ class notificationsView: UITableViewController {
                                         break
                                     case "editedEvent":
                                         //Creates an Atr. String that has green color
-                                        var getEventname = PFQuery(className: "Event")
-                                        var eventObject = getEventname.getObjectWithId(object["eventID"] as!String)
-                                        var eventName =  eventObject["title"] as!NSString
-                                        var current = object["sender"] as!NSString
+                                        let getEventname = PFQuery(className: "Event")
+                                        let eventObject = getEventname.getObjectWithId(object["eventID"] as!String)
+                                        let eventName =  eventObject["title"] as!NSString
+                                        let current = object["sender"] as!NSString
                                         //Converts into a NSMutableString so we can get atr from the variables
                                         unEditedNote = "\(current) has edited the event, \(eventName)"
                                         note = NSMutableAttributedString(string: unEditedNote as String)
@@ -186,10 +186,10 @@ class notificationsView: UITableViewController {
                                         break
                                     case "deleteEvent":
                                         //Creates an Atr. String that has red color
-                                        var getEventname = PFQuery(className: "Event")
-                                        var eventObject = getEventname.getObjectWithId(object["eventID"] as!String)
-                                        var eventName =  eventObject["title"] as!NSString
-                                        var current = object["sender"] as!NSString
+                                        let getEventname = PFQuery(className: "Event")
+                                        let eventObject = getEventname.getObjectWithId(object["eventID"] as!String)
+                                        let eventName =  eventObject["title"] as!NSString
+                                        let current = object["sender"] as!NSString
                                         //Converts into a NSMutableString so we can get atr from the variables
                                        unEditedNote = "\(current) has cancelled the event \(eventName)"
                                         note = NSMutableAttributedString(string: unEditedNote as String)
@@ -199,13 +199,13 @@ class notificationsView: UITableViewController {
                                         break
                                     case "calendar":
                                         //Creates an Atr. String that has blue color
-                                        var getEventname = PFQuery(className: "Event")
-                                        var eventObject = getEventname.getObjectWithId(object["eventID"] as!String)
-                                        var eventName =  eventObject["title"] as!NSString
-                                        var current = object["sender"] as!NSString
+                                        let getEventname = PFQuery(className: "Event")
+                                        let eventObject = getEventname.getObjectWithId(object["eventID"] as!String)
+                                        let eventName =  eventObject["title"] as!NSString
+                                        let current = object["sender"] as!NSString
                                         //Converts into a NSMutableString so we can get atr from the variables
                                         //Checks if the user is a anon users and changes the notfications
-                                        var characterSet:NSMutableCharacterSet = NSMutableCharacterSet(charactersInString: "$")
+                                        let characterSet:NSMutableCharacterSet = NSMutableCharacterSet(charactersInString: "$")
                                     
                                         if current.rangeOfCharacterFromSet(characterSet).location != NSNotFound {
                                             unEditedNote = "Someone has added your event, \(eventName), to their calendar" //Use fixed length becasue someone is always someone LOL
@@ -223,7 +223,7 @@ class notificationsView: UITableViewController {
                                         
                                     case "sub":
                                         //Creates an Atr. String that has purplish color
-                                        var current = object["sender"] as!NSString
+                                        let current = object["sender"] as!NSString
                                         unEditedNote = "\(current) subscribed to you"
                                         //Converts into a NSMutableString so we can get atr from the variables
                                         note = NSMutableAttributedString(string: unEditedNote as String)
@@ -236,7 +236,7 @@ class notificationsView: UITableViewController {
                                         
                                     case "member":
                                         //Creates an Atr. String that has purplish color
-                                        var current = object["sender"] as!NSString
+                                        let current = object["sender"] as!NSString
                                         unEditedNote = "\(current) has change your member status"
                                         //Converts into a NSMutableString so we can get atr from the variables
                                         note = NSMutableAttributedString(string: unEditedNote as String)
@@ -246,19 +246,19 @@ class notificationsView: UITableViewController {
                                         
                                         break
                                     default:
-                                        println("unknown has happen please refer back to parse database")
+                                        print("unknown has happen please refer back to parse database")
                                         break
                                     }
                                 }
                                 for i in self.times {
-                                    var dateFormatter = NSDateFormatter()
+                                    let dateFormatter = NSDateFormatter()
                                     //Creates table header for event time
                                     dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
-                                    var completeDate = dateFormatter.stringFromDate(i)
+                                    let completeDate = dateFormatter.stringFromDate(i)
                                     //Creates Time for Event from NSDAte
-                                    var timeFormatter = NSDateFormatter() //Formats time
+                                    let timeFormatter = NSDateFormatter() //Formats time
                                     timeFormatter.timeStyle = NSDateFormatterStyle.ShortStyle
-                                    var localTime = timeFormatter.stringFromDate(i)
+                                    let localTime = timeFormatter.stringFromDate(i)
                                     self.localTime.append("\(completeDate) \(localTime)")
                                 }
                                 self.tableView.reloadData()
@@ -266,9 +266,9 @@ class notificationsView: UITableViewController {
                             }
                         })
                     } else {
-                        println("failed to get fetch addedusernames")
+                        print("failed to get fetch addedusernames")
                     }
-                    println(self.addedUsernames)
+                    print(self.addedUsernames)
                 }
 
             }
@@ -287,7 +287,7 @@ class notificationsView: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        var items = notificationItems[indexPath.row]
+        let items = notificationItems[indexPath.row]
         switch items.type {
         case "event":
             self.performSegueWithIdentifier("event", sender: self)
@@ -307,7 +307,7 @@ class notificationsView: UITableViewController {
         case "member":
             self.performSegueWithIdentifier("sub", sender: self)
         default:
-            println("error")
+            print("error")
         }
     }
     
@@ -325,7 +325,7 @@ class notificationsView: UITableViewController {
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell:subCell = tableView.dequeueReusableCellWithIdentifier("Cell") as! subCell
-        var items = notificationItems[indexPath.row]
+        let items = notificationItems[indexPath.row]
         switch items.type {
             case "event":
                 cell.noteImage.image = UIImage(named: "noteCreated")
@@ -346,7 +346,7 @@ class notificationsView: UITableViewController {
                 cell.noteImage.image = UIImage(named: "noteSubbed")
             break
         default:
-            println("error")
+            print("error")
         }
         cell.timeStamp.text = localTime[indexPath.row]
         cell.notifyMessage.attributedText = items.message
@@ -354,18 +354,18 @@ class notificationsView: UITableViewController {
     }
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
   if segue.identifier == "event" {
-    var indexpath = tableView.indexPathForSelectedRow()
-    var row = indexpath?.row
-    var item = notificationItems[row!]
-    var theotherprofile:postEvent = segue.destinationViewController as! postEvent
+    let indexpath = tableView.indexPathForSelectedRow
+    let row = indexpath?.row
+    let item = notificationItems[row!]
+    let theotherprofile:postEvent = segue.destinationViewController as! postEvent
     theotherprofile.eventId = item.eventID
     theotherprofile.searchEvent = true
         }
 if segue.identifier == "calendar" {
-    var indexpath = tableView.indexPathForSelectedRow()
-    var row = indexpath?.row
-    var item = notificationItems[row!]
-    var theotherprofile:postEvent = segue.destinationViewController as! postEvent
+    let indexpath = tableView.indexPathForSelectedRow
+    let row = indexpath?.row
+    let item = notificationItems[row!]
+    let theotherprofile:postEvent = segue.destinationViewController as! postEvent
     theotherprofile.eventId = item.eventID
     theotherprofile.searchEvent = true
         }
