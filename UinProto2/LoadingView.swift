@@ -36,7 +36,7 @@ class LoadingView: UIViewController {
         spinner.startAnimating()
        
             let storyboard = UIStoryboard(name: "EventFlowSB", bundle: nil)
-            let poop:UIViewController = storyboard.instantiateInitialViewController()!
+            let poop:UIViewController = storyboard.instantiateInitialViewController()
             
             self.presentViewController(poop, animated: true, completion: nil)
        

@@ -2,64 +2,47 @@
 
 [![Build Status](https://travis-ci.org/mamaral/Onboard.svg?branch=master)](https://travis-ci.org/mamaral/Onboard)
 [![License](http://img.shields.io/:license-mit-blue.svg)](http://doge.mit-license.org)
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/mamaral/onboard/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-
-Onboard provides developers with a quick and easy means to create a beautiful, engaging, and useful onboarding experience with only a few lines of code.
-
+![Badge w/ Version](https://img.shields.io/cocoapods/v/Onboard.svg)
 
 ![demo](Screenshots/city.gif)
+![demo](Screenshots/almanac.gif)
 ![demo](Screenshots/solar.gif)
-![demo](Screenshots/waves.gif)
-![demo](Screenshots/gemr.gif)
 ![demo](Screenshots/tripnary.gif)
 
-
-Compatibility
-====
-
-I currently have implementations written in both Objective-C and Swift, although currently due to time constraints the Swift implementation does not have all of the customization features available in the Objective-C version, namely the skipping feature, customizing different fonts for different components on the same page, etc. I will do my best to get the Swift version to match the Objective-C version as soon as possible, and any pull requests are welcomed in the meantime!
+#[Click Here For More Examples](examples.md)
 
 
 Usage
 =====
 
-CocoaPods
---------
 Adding the following to your `Podfile` and running `pod install` should do the trick:
 
 ```
 pod 'Onboard'
 ```
 
-Manual
-------
-Drop the OnboardingViewController and OnboardingContentViewController header and implementation files into your project, import them into your AppDelegate, and you're ready to create an awesome onboarding experience for your users!
+*If you don't want to use CocoaPods*, you can grab the files located in the *Source* folder and pull them into your project manually.
 
-Create individual pages by creating an OnboardingContentViewController, providing it a title, body, image, text for an action button, and within the action block handle whatever you want to do when the users press the button. If you don't want a button, you can leave both the button text and action handler nil.
+Each onboarding experience is comprised of two primary components - the background and the content pages. The background includes the static background image/video, the page control, and the skip button. The content pages are made up of four pieces, an image/icon, title, body, and action button.
 
-Objective-C
--------
+Create individual pages by creating instances of `OnboardingContentViewController`. Provide a title, body, image, text for an action button, and within the action block handle whatever you want to do when the users press the button. If you don't want a button, you can leave both the button text and action handler nil.
 
+####Objective-C
 ```objective-c
 OnboardingContentViewController *firstPage = [OnboardingContentViewController contentWithTitle:@"Page Title" body:@"Page body goes here." image:[UIImage imageNamed:@"icon"] buttonText:@"Text For Button" action:^{
     // do something here when users press the button, like ask for location services permissions, register for push notifications, connect to social media, or finish the onboarding process
 }];
 ```
-
-Swift
--------
-
-```objective-c
-let firstPage: OnboardingContentViewController = OnboardingContentViewController(title: "Page Title", body: "Page Body.", image: UIImage(named: "icon"), buttonText: "Button Text") {
-    // do something here when the user presses the button
-}
+####Swift
+```Swift
+let firstPage = OnboardingContentViewController(title: "Page Title", body: "Page body goes here.", image: UIImage(named: "icon"), buttonText: "Text For Button") { () -> Void in
+    // do something here when users press the button, like ask for location services permissions, register for push notifications, connect to social media, or finish the onboarding process
+    }
 ```
 
-Then create the OnboardingViewController by providing either a background image or a URL to a local video file in your project, and an array of OnboardingContentViewControllers you just created. You can then present the view modally and get the onboarding process started!
+Then create the `OnboardingViewController` by providing either a background image or a URL to a local video file in your project, and an array of content view controllers you just created. You can then present the view modally and get the onboarding process started!
 
-Objective-C
--------
-
+####Objective-C
 ```objective-c
 // Image
 OnboardingViewController *onboardingVC = [OnboardingViewController onboardWithBackgroundImage:[UIImage imageNamed:@"background"] contents:@[firstPage, secondPage, thirdPage]];
@@ -71,13 +54,19 @@ NSURL *movieURL = [NSURL fileURLWithPath:moviePath];
 
 OnboardingViewController *onboardingVC = [OnboardingViewController onboardWithBackgroundVideoURL:movieURL contents:@[firstPage, secondPage, thirdPage]];
 ```
+####Swift
+```swift
+// Image
+OnboardingViewController *onboardingVC = [OnboardingViewController onboardWithBackgroundImage:[UIImage imageNamed:@"background"] contents:@[firstPage, secondPage, thirdPage]];
 
-Swift
--------
-
-```objective-c
-let onboardingVC: OnboardingViewController = OnboardingViewController(backgroundImage: UIImage(named: "background"), contents: [firstPage, secondPage, thirdPage])
+// Video
+let bundle = NSBundle.mainBundle()
+let moviePath = bundle.pathForResource("yourVid", ofType: "mp4")
+let movieURL = NSURL(fileURLWithPath: moviePath!)
+    
+let onboardingVC = OnboardingViewController(backgroundVideoURL: movieUrl, contents: [firstPage, secondPage, thirdPage])
 ```
+
 
 With only a few lines of code you have a beautiful, end-to-end onboarding process that will get your users excited to use your awesome application.
 
@@ -173,51 +162,6 @@ Notes
 
 I'm not currently supporting landscape at the moment, so I would recommend either using this in an application that only supports portrait, or wrapping it in a subclassed UINavigationController that only supports portrait.
 
-Apps Using Onboard
-=============
-
-If your app is currently using onboard, let me know and I would love to feature it here!
-
-[Gemr](http://www.gemr.com/ "Gemr")
-===
-
-
-![demo](Screenshots/gemr1.PNG)
-![demo](Screenshots/gemr2.PNG)
-![demo](Screenshots/gemr3.PNG)
-
-[Tripnary](http://tripnary.com/ "Tripnary")
-===
-
-Thanks to [goelv](https://github.com/goelv) for this! You did a superb job!
-
-![demo](Screenshots/tripnary1.PNG)
-![demo](Screenshots/tripnary2.PNG)
-![demo](Screenshots/tripnary3.PNG)
-![demo](Screenshots/tripnary4.PNG)
-![demo](Screenshots/tripnary5.PNG)
-
-More Samples
-=============
-
-![demo](Screenshots/city1.png)
-![demo](Screenshots/city2.png)
-![demo](Screenshots/city3.png)
-
-![demo](Screenshots/solar1.png)
-![demo](Screenshots/solar2.png)
-![demo](Screenshots/solar3.png)
-
-![demo](Screenshots/space1.png)
-![demo](Screenshots/space2.png)
-![demo](Screenshots/space3.png)
-![demo](Screenshots/space4.png)
-
-![demo](Screenshots/purple1.png)
-![demo](Screenshots/purple2.png)
-![demo](Screenshots/purple3.png)
-![demo](Screenshots/purple4.png)
-
 
 Community
 =====
@@ -229,4 +173,3 @@ License
 =====
 
 This project is made available under the MIT license. See LICENSE.txt for details.
-

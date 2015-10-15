@@ -54,7 +54,7 @@
 		61E6A41B1AE035AE0098FC5D /* eventFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E6547F1A60B9FC006E76E5 /* eventFeedViewController.swift */; };
 		61E6A41D1AE06FFD0098FC5D /* channelSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61E6A41C1AE06FFD0098FC5D /* channelSelectView.swift */; };
 		61EA5F621A91891B002B1998 /* eventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E6547D1A60B9C8006E76E5 /* eventCell.swift */; };
-		61FD40DA1BCB3C31000F0EAB /* FeedSB.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 61FD40D91BCB3C31000F0EAB /* FeedSB.storyboard */; settings = {ASSET_TAGS = (); }; };
+		61FD40DA1BCB3C31000F0EAB /* FeedSB.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 61FD40D91BCB3C31000F0EAB /* FeedSB.storyboard */; };
 		EE09DD851AFDC18300809E3E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EE09DD841AFDC18300809E3E /* Main.storyboard */; };
 		EE2311C71B03E9D8002BFA3D /* settingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61EA5F631A918E00002B1998 /* settingsView.swift */; };
 /* End PBXBuildFile section */
@@ -353,6 +353,7 @@
 				28277E2C1A4B115E001CCB02 /* Frameworks */,
 				28277E2D1A4B115E001CCB02 /* Resources */,
 				15A624E520A3CB76F430ACCC /* Copy Pods Resources */,
+				5439D9BFDB1140AF3740B263 /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -479,6 +480,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		5439D9BFDB1140AF3740B263 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
