@@ -532,9 +532,9 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             let theMix = Mixpanel.sharedInstance()
             theMix.track("Opened Event View (EF)")
             let indexPath = theFeed.indexPathForSelectedRow //get index of data for selected row
-            let section = indexPath.section
-            let row = indexPath?;row
-            var index = getEventIndex(section!, row: row!)
+            let section = indexPath!.section
+            let row = indexPath;row
+            var index = getEventIndex(section, row: row!)
             
   
             
@@ -546,8 +546,8 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         if segue.identifier == "searchEvent"{
             //Gets the indexpath for the filtered item
             let indexpath = theFeed.indexPathForSelectedRow
-            let row = indexpath.row
-            let item = filteredSearchItems[row!]
+            let row = indexpath!.row
+            let item = filteredSearchItems[row]
             let theotherprofile:postEvent = segue.destinationViewController as! postEvent
             theotherprofile.eventId = item.id
             theotherprofile.searchEvent = true
