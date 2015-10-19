@@ -402,6 +402,7 @@
                                 </state>
                                 <connections>
                                     <action selector="createAccount:" destination="x3Y-vi-CKp" eventType="touchUpInside" id="nzj-0b-ww4"/>
+                                    <action selector="submitData:" destination="86n-U0-Ecg" eventType="touchUpInside" id="03W-Bg-8Hz"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ivP-SW-nth">
@@ -484,12 +485,12 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="k4n-L4-Yhn">
-                                <rect key="frame" x="0.0" y="287" width="414" height="162"/>
+                                <rect key="frame" x="0.0" y="287" width="414" height="147"/>
                                 <animations/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="tintColor" red="0.25098039220000001" green="0.57254901960000004" blue="0.77647058820000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="162" id="Ws2-iE-Auf"/>
+                                    <constraint firstAttribute="height" constant="147" id="Ws2-iE-Auf"/>
                                 </constraints>
                                 <connections>
                                     <outlet property="dataSource" destination="XyT-Vw-Kgz" id="EPF-dX-Vha"/>
@@ -508,9 +509,6 @@
                                     <color key="titleColor" red="0.25098039220000001" green="0.57254901960000004" blue="0.77647058820000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
-                                <connections>
-                                    <action selector="submitData:" destination="XyT-Vw-Kgz" eventType="touchUpInside" id="dPf-NM-zgk"/>
-                                </connections>
                             </button>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="FcO-aK-VD3">
                                 <rect key="frame" x="101" y="116" width="213" height="29"/>
@@ -594,6 +592,7 @@
                         <constraints>
                             <constraint firstAttribute="centerX" secondItem="qzF-QE-SXk" secondAttribute="centerX" id="800-KL-3tX"/>
                             <constraint firstAttribute="trailing" secondItem="QUq-bv-GWQ" secondAttribute="trailing" id="8lK-yn-SOO"/>
+                            <constraint firstItem="s3U-3t-9ac" firstAttribute="leading" secondItem="0cH-bU-RJ7" secondAttribute="leadingMargin" constant="23" id="9bA-3U-fca"/>
                             <constraint firstItem="Rtp-rV-Y4p" firstAttribute="top" secondItem="3fI-Nc-fDX" secondAttribute="bottom" constant="8" id="EOv-uI-ZV2"/>
                             <constraint firstAttribute="centerX" secondItem="s3U-3t-9ac" secondAttribute="centerX" id="EbN-JF-11m"/>
                             <constraint firstItem="MJt-5D-xG9" firstAttribute="leading" secondItem="0cH-bU-RJ7" secondAttribute="leadingMargin" constant="-4" id="Fbf-Jh-NeR"/>
@@ -610,6 +609,7 @@
                             <constraint firstItem="qzF-QE-SXk" firstAttribute="top" secondItem="s3U-3t-9ac" secondAttribute="bottom" constant="11" id="oyF-cg-HoB"/>
                             <constraint firstItem="uzp-EM-yRG" firstAttribute="leading" secondItem="0cH-bU-RJ7" secondAttribute="leadingMargin" constant="-4" id="r66-4V-YSe"/>
                             <constraint firstItem="QUq-bv-GWQ" firstAttribute="leading" secondItem="0cH-bU-RJ7" secondAttribute="leading" id="wIR-AQ-4Fx"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="s3U-3t-9ac" secondAttribute="trailing" constant="23" id="xA1-X7-qgu"/>
                             <constraint firstItem="3fI-Nc-fDX" firstAttribute="trailing" secondItem="0cH-bU-RJ7" secondAttribute="trailingMargin" constant="4" id="zEE-f7-vkI"/>
                             <constraint firstAttribute="trailing" secondItem="k4n-L4-Yhn" secondAttribute="trailing" id="zKI-Qo-Nbk"/>
                         </constraints>

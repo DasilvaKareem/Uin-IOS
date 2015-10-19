@@ -533,8 +533,8 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             theMix.track("Opened Event View (EF)")
             let indexPath = theFeed.indexPathForSelectedRow //get index of data for selected row
             let section = indexPath!.section
-            let row = indexPath;row
-            var index = getEventIndex(section, row: row!)
+            let row = indexPath!.row
+            var index = getEventIndex(section, row: row)
             
   
             
