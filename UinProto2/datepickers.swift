@@ -24,10 +24,10 @@ class datepickers: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-self.tabBarController?.tabBar.hidden = true
+        self.tabBarController?.tabBar.hidden = true
         // Do any additional setup after loading the view.
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -37,33 +37,38 @@ self.tabBarController?.tabBar.hidden = true
     @IBAction func theDatePicker(sender: AnyObject) {
         
         
-        let dateFormatter = NSDateFormatter()
+        var dateFormatter = NSDateFormatter()
         dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle
         dateStr1 = dateFormatter.stringFromDate(datepicker1.date)
-      
-        let dateTimeformat = NSDateFormatter()
-       dateTimeformat.timeStyle = NSDateFormatterStyle.ShortStyle
+        
+        var dateTimeformat = NSDateFormatter()
+        dateTimeformat.timeStyle = NSDateFormatterStyle.ShortStyle
         dateTime1 =  dateTimeformat.stringFromDate(datepicker1.date)
         orderDate1 = datepicker1.date
         startString = dateStr1 + " " + dateTime1
-        startTIme.text = startString
+       // startTIme.text = startString
         
-       
+        
     }
     
     @IBOutlet var datepicker2: UIDatePicker!
     @IBAction func thesecondDate(sender: AnyObject) {
         
-       
+        
         //startTIme.text = endString
-        let dateFormatter = NSDateFormatter()
+        var dateFormatter = NSDateFormatter()
         dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle
-        let dateTimeformat = NSDateFormatter()
+        var dateTimeformat = NSDateFormatter()
         dateTimeformat.timeStyle = NSDateFormatterStyle.ShortStyle
         dateTime2 = dateTimeformat.stringFromDate(datepicker2.date)
         dateStr2 = dateFormatter.stringFromDate(datepicker2.date)
         orderDate2 = datepicker2.date
         endString = dateStr2 + " " + dateTime2
         endTime.text = endString
+    }
+    
+    
+    @IBAction func submitTime(sender: AnyObject) {
+        self.performSegueWithIdentifier("event3", sender: self)
     }
 }
