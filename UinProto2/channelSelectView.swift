@@ -215,7 +215,7 @@ class channelSelectView: UITableViewController {
     //Checks if the user is in a session or not
     func checkLockedStatus() {
         let checkStatus = PFQuery(className: "ChannelUser")
-        checkStatus.whereKey("userID", equalTo: PFUser.currentUser(!).objectId)
+        checkStatus.whereKey("userID", equalTo: PFUser.currentUser()!.objectId!)
         checkStatus.whereKey("authorized", equalTo: true)
         checkStatus.whereKey("expiration", greaterThan: NSDate())
         checkStatus.getFirstObjectInBackgroundWithBlock({
@@ -472,7 +472,7 @@ class channelSelectView: UITableViewController {
         if indexPath.section == 2 {
             var text = String()
             var channelQuery = PFQuery(className: "ChannelUser")
-            channelQuery.whereKey("userID", equalTo: PFUser.currentUser().objectI!,d)
+            channelQuery.whereKey("userID", equalTo: PFUser.currentUser()!.objectId!)
             channelQuery.whereKey("channelID", equalTo: channels[indexPath.row])
             let checkAuthorized = channelQuery.getFirstObject()
             if checkAuthorized["authorized"] as! Bool == false {
@@ -509,7 +509,7 @@ class channelSelectView: UITableViewController {
                                     (object2:PFObject?, error:NSError?) -> Void in
                                     object2["authorized"] = true
                                     object2["expiration"] = expDate
-                                    object!;2.save()
+                                    object2!.save()
                                     
                                     self.getChannels()
                                     self.tableView.reloadData()

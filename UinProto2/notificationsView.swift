@@ -95,7 +95,7 @@ class notificationsView: UITableViewController {
                 }
                 print(self.folusernames)
                 let addedQue = PFQuery(className: "UserCalendar")
-                addedQue.whereKey("userID", equalTo: PFUser.currentUser()!.objectId)
+                addedQue.whereKey("userID", equalTo: PFUser.currentUser()!.objectId!)
                 addedQue.whereKeyExists("author")
                 addedQue.findObjectsInBackgroundWithBlock{
                     (objects:[PFObject]?,folError:NSError?) -> Void in
@@ -110,7 +110,7 @@ class notificationsView: UITableViewController {
                         eventQuery.whereKey("type", equalTo: "event" )
                         eventQuery.whereKey("sender", containedIn: self.folusernames)
                         eventQuery.whereKeyExists("eventID")
-                        eventQuery.whereKey("sender", notEqualTo: PFUser.currentUser()!.username)
+                        eventQuery.whereKey("sender", notEqualTo: PFUser.currentUser()!.username!)
                         
                         let subQuery = PFQuery(className: "Notification")
                         subQuery.whereKey("type", equalTo: "sub")
@@ -126,15 +126,15 @@ class notificationsView: UITableViewController {
                         editQuery.whereKey("type", equalTo: "editedEvent" )
                         editQuery.whereKeyExists("eventID")
                         editQuery.whereKey("sender", containedIn: self.addedUsernames)
-                        editQuery.whereKey("sender", notEqualTo: PFUser.currentUser(!).username)
+                        editQuery.whereKey("sender", notEqualTo: PFUser.currentUser()!.username!)
                         
                         let calendarQuery = PFQuery(className: "Notification")
-                        calendarQuery.whereKey("receiver", equalTo: PFUser.currentUser()!.usernam!,e)
+                        calendarQuery.whereKey("receiver", equalTo: PFUser.currentUser()!.username!)
                         calendarQuery.whereKeyExists("eventID")
                         calendarQuery.whereKey("type", equalTo: "calendar")
                         
                         let memberQuery = PFQuery(className: "Notification")
-                        memberQuery.whereKey("receiver", equalTo: PFUser.currentUser(!).username)
+                        memberQuery.whereKey("receiver", equalTo: PFUser.currentUser()!.username!)
                         memberQuery.whereKey("type", equalTo: "member")
                         
                         
@@ -153,7 +153,7 @@ class notificationsView: UITableViewController {
                                 for object in objects! {
                                     
                                     //Adds the time so we can get time stamp
-                                    self.times.append(object.createdAt)
+                                    self.times.append(object.createdAt!)
                 
                                     switch object["type"] as!String {
                                     case "event":

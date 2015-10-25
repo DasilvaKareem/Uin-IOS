@@ -527,7 +527,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
                         checkPushEnabled!.whereKey("pushEnabled", equalTo: true)
                         checkPushEnabled!.whereKey("tempAccount", equalTo: false)
                         findPeople.whereKey("eventID", equalTo:self.eventID )
-                        findPeople.whereKey("user", notEqualTo: PFUser.currentUser()!.username)
+                        findPeople.whereKey("user", notEqualTo: PFUser.currentUser()!.username!)
                         findPeople.whereKey("user", matchesKey: "username", inQuery: checkPushEnabled!)
                         findPeople.findObjectsInBackgroundWithBlock({
                             (results:[PFObject]?, error:NSError?) -> Void in

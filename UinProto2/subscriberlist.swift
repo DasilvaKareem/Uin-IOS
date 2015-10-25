@@ -33,7 +33,7 @@ class subscriberlist: UITableViewController {
         
         //Queries for all the people who are subscribed to you
         let followque = PFQuery(className: "Subscription")
-        followque.whereKey("publisher", equalTo: PFUser.currentUser().username)
+        followque.whereKey("publisher", equalTo: PFUser.currentUser()!.username!)
         followque.orderByAscending("createdAt")
         followque.findObjectsInBackgroundWithBlock{
             
@@ -44,7 +44,7 @@ class subscriberlist: UITableViewController {
                 self.objectId.removeAll(keepCapacity: true)
                 self.folusernames.removeAll(keepCapacity: true)
                 self.folmembers.removeAll(keepCapacity: true)
-                for object in objects{
+                for object in objects!{
                     self.objectId.append(object.objectId as String)
                     self.folmembers.append(object["isMember"] as!Bool)
                     self.folusernames.append(object["subscriber"] as!String)
@@ -130,16 +130,16 @@ class subscriberlist: UITableViewController {
             (result: PFObject?, error: NSError?) -> Void in
             if error == nil {
                  result["isMember"] = self.member
-                result.saveInBackgroundWithBlock{
+                result!.saveInBackgroundWithBlock{
                     (succeeded: Bool, registerError: NSError?) -> Void in
                     if registerError == nil {
                         
                         let push = PFPush()
                         let pfque = PFInstallation.query()
-                        pfque.whereKey("user", equalTo:self.folusernames[sender.tag] )
+                        pfque!.whereKey("user", equalTo:self.folusernames[sender.tag] )
                         push.setQuery(pfque)
                        
-                        push.setMessage("\(PFUser.currentUser().username) has changed your membership status")
+                        push.setMessage("\(PFUser.currentUser()!.username) has changed your membership status")
                 
                         push.sendPushInBackgroundWithBlock({
                             (success:Bool, pushError: NSError?) -> Void in
@@ -152,8 +152,8 @@ class subscriberlist: UITableViewController {
                         
                         //Creates an in app notfication
                         let notify = PFObject(className: "Notification")
-                        notify["senderID"] = PFUser.currentUser().objectId
-                        notify["sender"] = PFUser.currentUser().username
+                        notify["senderID"] = PFUser.currentUser()!.objectId
+                        notify["sender"] = PFUser.currentUser()!.username
                         notify["receiver"] = self.folusernames[sender.tag]
                         notify["receiverID"] = self.foluserID[sender.tag]
                         notify["type"] =  "member"
@@ -178,7 +178,7 @@ class subscriberlist: UITableViewController {
 
             } else {
                
-                NSLog("%@", error)
+                NSLog("%@", error!)
             
             }
         }

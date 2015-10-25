@@ -29,7 +29,7 @@ class subscriptions: UITableViewController {
         let nav = self.navigationController?.navigationBar
         nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
         let followque = PFQuery(className: "Subscription")
-        followque.whereKey("subscriberID", equalTo: PFUser.currentUser().objectId)
+        followque.whereKey("subscriberID", equalTo: PFUser.currentUser()!.objectId!)
         followque.orderByAscending("createdAt")
         followque.findObjectsInBackgroundWithBlock{
             
@@ -39,7 +39,7 @@ class subscriptions: UITableViewController {
             if folError == nil {
                 
                 
-                for object in objects{
+                for object in objects!{
                     
                     self.folusernames.append(object["publisher"] as!String)
                     self.folUserID.append(object["publisherID"] as!String)
