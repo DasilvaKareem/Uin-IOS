@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Parse
 
 class LoadingView: UIViewController {
 
@@ -14,7 +15,7 @@ class LoadingView: UIViewController {
  
     override func viewDidLoad() {
         super.viewDidLoad()
-      PFUser.logOut()
+      //PFUser.logOut()
         // Do any additional setup after loading the view.
     }
     override func viewDidAppear(animated: Bool) {
@@ -34,11 +35,15 @@ class LoadingView: UIViewController {
         }
         
         spinner.startAnimating()
-       
+        if PFUser.currentUser() == nil {
             let storyboard = UIStoryboard(name: "EventFlowSB", bundle: nil)
             let poop:UIViewController = storyboard.instantiateInitialViewController()!
             
             self.presentViewController(poop, animated: true, completion: nil)
+        } else {
+            self.performSegueWithIdentifier("login", sender: self)
+        }
+        
        
 
     }
