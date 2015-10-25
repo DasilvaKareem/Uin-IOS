@@ -22,74 +22,9 @@ class channelSelectView: UITableViewController {
     var genChannels = [String]()
     var gentype = [String]()
     var genEvents = [String]()
-    func setupGenCounters() {
-        //Finds out information and count number of your general calendars and sends things through blocks
-        let localEventCount = PFQuery(className: "Event")
-        localEventCount.whereKey("isPublic", equalTo: true)
-        localEventCount.whereKey("createdAt", greaterThanOrEqualTo:PFUser.currentUser()!["localEventsTimestamp"] as! NSDate)
-        localEventCount.countObjectsInBackgroundWithBlock({
-            (count:Int32, error:NSError?) -> Void in
-            if error == nil {
-                self.genEvents.removeAll(keepCapacity: true)
-                self.gentype.removeAll(keepCapacity: true)
-                self.genChannels.removeAll(keepCapacity: true)
-              
-           
-              
-              
-                
-              
-                self.genEvents.append("\(count) new")
-                self.gentype.append("localEvent")
-                  self.genChannels.append("local events")
-                
-                //Gets Subscriptions Events
-                let subscriptionQuery = PFQuery(className: "Subscription")
-                subscriptionQuery.whereKey("subscriberID", equalTo: PFUser.currentUser()!.objectId!)
-                let subscriptionEventCount = PFQuery(className: "Event")
-                subscriptionEventCount.whereKey("authorID", matchesKey: "publisherID", inQuery: subscriptionQuery)
-                subscriptionEventCount.whereKey("isPublic", equalTo: true)
-               // subscriptionEventCount.whereKey("createdAt", greaterThanOrEqualTo:PFUser.currentUser()["subscriptionsTimestamp"] as! NSDate)
-                subscriptionEventCount.whereKey("start", greaterThan:  NSDate())
-        
-               // self.genEvents.append("\(subscriptionEventCount.countObjects()) new")
-                  self.gentype.append("subbedEvents")
-                  self.genChannels.append("subscription events")
-                
-                //get added to calendar
-                self.gentype.append("schedule")
-                self.genChannels.append("schedule")
-                let getAmountSchedule = PFQuery(className: "UserCalendar")
-                getAmountSchedule.whereKey("userID", equalTo: PFUser.currentUser()!.objectId!)
-                let eventQuery = PFQuery(className:"Event")
-                eventQuery.whereKey("isDeleted", equalTo: false)
-                eventQuery.whereKey("objectId", matchesKey: "eventID", inQuery: getAmountSchedule)
-                eventQuery.whereKey("start", greaterThan: NSDate())
-                eventQuery.countObjectsInBackgroundWithBlock({
-                    (count:Int32, error:NSError?) -> Void in
-                    if error == nil {
-                        
-                        self.genEvents.append("\(count) upcoming")
-                        
-                        //Runs fucntion to get Channels
-                          self.getChannels()
-                    }
-                })
-              
-               
-
-            }
-        })
-        
-        
-        
-        
-     
-        
-        
-    }
+    
     //Sections
-   //User Section
+    //User Section
     var userType = [String]()
     var usernameInfo = [String]()
     var usernameSectionTitle = [String]()
@@ -97,71 +32,69 @@ class channelSelectView: UITableViewController {
         
         
         
-        let subscriberInfo = PFQuery(className: "Subscription") //gets the subscriber count
-        subscriberInfo.whereKey("publisher", equalTo: PFUser.currentUser()!.username!)
-        subscriberInfo.countObjectsInBackgroundWithBlock({
-            (count:Int32, error:NSError?) -> Void in
-            if error == nil {
-                //Removes all the previous information
-                self.userType.removeAll(keepCapacity: true)
-                self.usernameInfo.removeAll(keepCapacity: true)
-                self.usernameSectionTitle.removeAll(keepCapacity: true)
-                self.usernameInfo.append(String(count))
-                self.usernameSectionTitle.append("subscribers")
-                self.userType.append("Subscribers")
-                //FInd the amount of firest section then send them inside a block
-                let subscriptionInfo = PFQuery(className: "Subscription") //gets the subscription count
-                subscriptionInfo.whereKey("subscriberID", equalTo: PFUser.currentUser()!.objectId!)
-                subscriptionInfo.countObjectsInBackgroundWithBlock({
-                    (count2:Int32, error:NSError?) -> Void in
-                    if error == nil {
-                        self.usernameInfo.append(String(count2))
-                        self.usernameSectionTitle.append("subscriptions")
-                        self.userType.append("Subscriptions")
-                        
-                        let notificationsCount = PFQuery(className: "Notification")
-                        notificationsCount.whereKey("receiverID", equalTo: PFUser.currentUser()!.objectId!)
-                        
-                        //notificationsCount.whereKey("receiverID", notEqualTo: PFUser.currentUser).objectI
-                        notificationsCount.whereKey("createdAt", greaterThan: PFUser.currentUser()!["notificationsTimestamp"] as! NSDate)
-                       // self.usernameInfo.append(String("\(notificationsCount.countObjects()) notifications"))
-                        self.usernameSectionTitle.append("notifications")
-                        self.userType.append("Notifications")
-                        let addToCalendarCount = PFQuery(className: "Event")
-                        addToCalendarCount.whereKey("authorID", equalTo: PFUser.currentUser()!.objectId!)
-                        addToCalendarCount.whereKey("start", greaterThan: NSDate())
-                        
-                       // self.usernameInfo.append("\(addToCalendarCount.countObjects()) upcoming")
-                        self.usernameSectionTitle.append("my events")
-                        self.userType.append("My Events")
-                        //Run setup Section 2
-                        self.setupGenCounters()
-                    }
-                })
-
-            
-               
-                
-            }
-        })
-       // usernameInfo.append(String(subscriberInfo.countObjects()))
-
+        
+        //Removes all the previous information
+        self.userType.removeAll(keepCapacity: true)
+        self.usernameInfo.removeAll(keepCapacity: true)
+        self.usernameSectionTitle.removeAll(keepCapacity: true)
+        
+        //Setups first item in username section title
+        self.usernameInfo.append("0")
+        self.usernameSectionTitle.append("following")
+        self.userType.append("following")
+        
+        //Setups second items in username section title
+        self.usernameInfo.append("0")
+        self.usernameSectionTitle.append("subscriptions")
+        self.userType.append("Subscriptions")
+        
+        
+        //Setups thrid item in username section
+        self.usernameInfo.append("0")
+        self.usernameSectionTitle.append("notifications")
+        self.userType.append("Notifications")
+        
     }
- 
+    
+    
+    func setupGenCounters() {
+        //Finds out information and count number of your general calendars and sends things through blocks
+        
+        self.genEvents.removeAll(keepCapacity: true)
+        self.gentype.removeAll(keepCapacity: true)
+        self.genChannels.removeAll(keepCapacity: true)
+        
+        //Setups first part of gen counters
+        self.genEvents.append("0")
+        self.gentype.append("local")
+        self.genChannels.append("local")
+        //Ends setup
+        
+        //Setups 2nd part og gencounters
+        self.genEvents.append("0 new")
+        self.gentype.append("subbedEvents")
+        self.genChannels.append("following")
+        //Ends setup
+        
+        //third part of gen counters
+        self.genEvents.append(" 0 upcoming")
+        self.gentype.append("schedule")
+        self.genChannels.append("i'm in")
+        //End setup
+        self.getChannels()
+    }
+    
+    
+    
     
     func setupAllChannels() {
-        genEvents.removeAll(keepCapacity: true)
-        gentype.removeAll(keepCapacity: true)
-        genChannels.removeAll(keepCapacity: true)
-        userType.removeAll(keepCapacity: true)
-        usernameInfo.removeAll(keepCapacity: true)
-        usernameSectionTitle.removeAll(keepCapacity: true)
-
+        
+        
         
         self.getUserInfo()
         self.setupGenCounters()
         self.getChannels()
-   
+        
         self.tableView.reloadData()
     }
     override func viewDidLoad() {
@@ -169,71 +102,33 @@ class channelSelectView: UITableViewController {
         
     }
     override func viewWillAppear(animated: Bool) {
-          getUserInfo()
+        
+        
     }
     override func viewDidAppear(animated: Bool) {
-         //elf.setupAllChannels()
-      
+        self.setupAllChannels()
+        
     }
     override func viewWillDisappear(animated: Bool) {
         
     }
     override func viewDidDisappear(animated: Bool) {
         
-
+        
     }
-
+    
     func getChannels(){
-        channels.removeAll(keepCapacity: true)
-        channelNames.removeAll(keepCapacity: true)
-        channelType.removeAll(keepCapacity: true)
-        channelStatus.removeAll(keepCapacity: true)
-        let channelQuery = PFQuery(className: "ChannelUser")
-        channelQuery.whereKey("userID", equalTo: PFUser.currentUser()!.objectId!)
-        //channelQuery.whereKey("expiration", greaterThan: NSDate())
-        channelQuery.findObjectsInBackgroundWithBlock({
-            (results: [PFObject]?, error:NSError?) -> Void in
-            if error == nil {
-                for object in results! {
-                    self.channels.append(object["channelID"] as! String)
-                    self.channelNames.append(object["channelName"] as! String)
-                   self.channelStatus.append(object["authorized"] as! Bool)
-                    self.channelType.append("channelSelect")
-                    //Locks membound channels
-                    if object["authorized"] as! Bool == true {
-                        if object["channelID"] as! String == "wEwRowC6io" || object["channelID"] as! String == "LAUfZJ3KKc" {
-                            self.memBounded = true
-                        } else {
-                            
-                        }
-                    }
-                 
-                    self.tableView.reloadData()
-                }
-            }
-        })
+        //This is where you setup all your channels for the user :its blank becasue idk the directions
+        self.tableView.reloadData()
+        
     }
-    //Checks if the user is in a session or not
-    func checkLockedStatus() {
-        let checkStatus = PFQuery(className: "ChannelUser")
-        checkStatus.whereKey("userID", equalTo: PFUser.currentUser()!.objectId!)
-        checkStatus.whereKey("authorized", equalTo: true)
-        checkStatus.whereKey("expiration", greaterThan: NSDate())
-        checkStatus.getFirstObjectInBackgroundWithBlock({
-            (object:PFObject?, error:NSError?) -> Void in
-            if error == nil {
-                self.memBounded = true
-            } else {
-                self.memBounded = false
-            }
-        })
-    }
-
+  
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
     // MARK: - Table view data source
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return 37.0
@@ -245,51 +140,60 @@ class channelSelectView: UITableViewController {
         
         
     }
-
+    
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Potentially incomplete method implementation.
         // Return the number of sections.
-        return 3
+        return 4
     }
-
+    
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
-        let totalSections = usernameSectionTitle +  genChannels + channelNames
-        
-        if section ==  0 {
-            return usernameSectionTitle.count
+        var totalSections = usernameSectionTitle +  genChannels + channelNames
+        if section == 0 {
+            return 0
         }
         if section ==  1 {
-            return genChannels.count
+            return usernameSectionTitle.count
         }
         if section ==  2 {
-        
+            return genChannels.count
+        }
+        if section ==  3 {
+            
             return channelNames.count
         }
         return totalSections.count
     }
     
     
-
-
-   
+    
+    
+    
     override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let cell:channelSectionCell = tableView.dequeueReusableCellWithIdentifier("sectionHeader") as! channelSectionCell
-
+        var cell:channelSectionCell = tableView.dequeueReusableCellWithIdentifier("sectionHeader") as! channelSectionCell
+        
         if section == 0 {
-             let cell:channelHeaderCell = tableView.dequeueReusableCellWithIdentifier("header") as! channelHeaderCell
-            cell.headerLabel.text = PFUser.currentUser()!.username
-
+            var cell:channelHeaderCell = tableView.dequeueReusableCellWithIdentifier("header") as! channelHeaderCell
+            cell.headerLabel.text = "Name"
+            
             return cell
         }
         if section == 1 {
-            cell.sectionHeader.text = "GENERAL CALENDARS"
+            
+            cell.sectionHeader.text = "Profile"
             cell.channelSeparator.image = UIImage(named: "sidebarLine.png")
+            
             
         }
         if section == 2 {
-            cell.sectionHeader.text = "MY CALENDARS"
+            cell.sectionHeader.text = "Calendars"
+            cell.channelSeparator.image = UIImage(named: "sidebarLine.png")
+            
+        }
+        if section == 3 {
+            cell.sectionHeader.text = ""
             cell.channelSeparator.image = UIImage(named: "sidebarLine.png")
             
         }
@@ -304,44 +208,45 @@ class channelSelectView: UITableViewController {
         
         return 37.0
     }
-
+    
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-       var totalSections = usernameSectionTitle +  genEvents + channelNames
+        var totalSections = usernameSectionTitle +  genEvents + channelNames
         var cell:channelTableCell = tableView.dequeueReusableCellWithIdentifier("profile") as! channelTableCell
         //Section 1
-
-        if indexPath.section == 0 {
+        
+        if indexPath.section == 1 {
             if usernameInfo[indexPath.row].rangeOfString("0") != nil {
                 cell.channelCount.text = ""
             } else {
                 cell.channelCount.text = usernameInfo[indexPath.row]
             }
-        
-        if indexPath.row == 0 {
-           
-
-            cell.channelName.textColor = UIColor(red: 245.0/255.0, green: 166.0/255.0, blue: 35.0/255.0, alpha: 1)
-            cell.channelCount.textColor = UIColor(red: 245.0/255.0, green: 166.0/255.0, blue: 35.0/255.0, alpha: 1)
-        }
-        if indexPath.row == 1 {
-            cell.channelName.textColor = UIColor(red: 245.0/255.0, green: 166.0/255.0, blue: 35.0/255.0, alpha: 1)
-            cell.channelCount.textColor = UIColor(red: 245.0/255.0, green: 166.0/255.0, blue: 35.0/255.0, alpha: 1)
-        }
-        
-        cell.channelName.text = totalSections[indexPath.row]
-        cell.channelName.tag = indexPath.row
-        if self.currentIndexPath == indexPath {
-            cell.contentView.backgroundColor = UIColor(red: 65.0/255.0, green: 145.0/255.0, blue: 198.0/255.0, alpha: 1)
-            cell.channelName.textColor = UIColor.whiteColor()
-            cell.channelCount.textColor = UIColor.whiteColor()
             
+            if indexPath.row == 0 {
+                
+                
+                cell.channelName.textColor = UIColor(red: 245.0/255.0, green: 166.0/255.0, blue: 35.0/255.0, alpha: 1)
+                cell.channelCount.textColor = UIColor(red: 245.0/255.0, green: 166.0/255.0, blue: 35.0/255.0, alpha: 1)
+            }
+            if indexPath.row == 1 {
+                cell.channelName.textColor = UIColor(red: 245.0/255.0, green: 166.0/255.0, blue: 35.0/255.0, alpha: 1)
+                cell.channelCount.textColor = UIColor(red: 245.0/255.0, green: 166.0/255.0, blue: 35.0/255.0, alpha: 1)
+            }
+            
+            cell.channelName.text = totalSections[indexPath.row]
+            cell.channelName.tag = indexPath.row
+            
+            if self.currentIndexPath == indexPath {
+                cell.contentView.backgroundColor = UIColor(red: 65.0/255.0, green: 145.0/255.0, blue: 198.0/255.0, alpha: 1)
                 cell.channelName.textColor = UIColor.whiteColor()
                 cell.channelCount.textColor = UIColor.whiteColor()
-                 cell.contentView.backgroundColor = UIColor(red: 245.0/255.0, green: 166.0/255.0, blue: 35.0/255.0, alpha: 1)
-            
-        } else {
-            cell.contentView.backgroundColor = nil
+                
+                cell.channelName.textColor = UIColor.whiteColor()
+                cell.channelCount.textColor = UIColor.whiteColor()
+                cell.contentView.backgroundColor = UIColor(red: 245.0/255.0, green: 166.0/255.0, blue: 35.0/255.0, alpha: 1)
+                
+            } else {
+                cell.contentView.backgroundColor = nil
                 if indexPath.row == 0 || indexPath.row == 1 {
                     cell.channelName.textColor = UIColor(red: 245.0/255.0, green: 166.0/255.0, blue: 35.0/255.0, alpha: 1)
                     cell.channelCount.textColor = UIColor(red: 245.0/255.0, green: 166.0/255.0, blue: 35.0/255.0, alpha: 1)
@@ -353,14 +258,14 @@ class channelSelectView: UITableViewController {
         }
         
         //Sections 2
-        if indexPath.section == 1 {
-         
-             cell = tableView.dequeueReusableCellWithIdentifier("profilez") as! channelTableCell
-        
-
+        if indexPath.section == 2 {
+            
+            cell = tableView.dequeueReusableCellWithIdentifier("profilez") as! channelTableCell
+            
+            
             if self.memBounded == true {
                 cell.channelCount.text = "Locked"
-                  cell.channelName.text = genChannels[indexPath.row]
+                cell.channelName.text = genChannels[indexPath.row]
             } else {
                 if genEvents[indexPath.row].rangeOfString("0") != nil {
                     cell.channelCount.text = ""
@@ -372,7 +277,6 @@ class channelSelectView: UITableViewController {
                 
             }
             
-            
             if self.currentIndexPath == indexPath {
                 cell.contentView.backgroundColor = UIColor(red: 65.0/255.0, green: 145.0/255.0, blue: 198.0/255.0, alpha: 1)
                 cell.channelName.textColor = UIColor.whiteColor()
@@ -383,10 +287,18 @@ class channelSelectView: UITableViewController {
                 cell.channelName.textColor = UIColor(red: 211.0/255.0, green: 211.0/255.0, blue: 211.0/255.0, alpha: 1)
                 cell.channelCount.textColor = UIColor(red: 211.0/255.0, green: 211.0/255.0, blue: 211.0/255.0, alpha: 1)
             }
+            if self.currentIndexPath.length == 0  {
+              
+                if indexPath.row == 0 {
+                    cell.contentView.backgroundColor = UIColor(red: 65.0/255.0, green: 145.0/255.0, blue: 198.0/255.0, alpha: 1)
+                    cell.channelName.textColor = UIColor.whiteColor()
+                    cell.channelCount.textColor = UIColor.whiteColor()
+                }
+            }
         }
         
         //Section 3
-        if indexPath.section == 2 {
+        if indexPath.section == 3 {
             cell = tableView.dequeueReusableCellWithIdentifier("profiles") as! channelTableCell
             cell.channelName.text = channelNames[indexPath.row]
             //Affect the cell apperance
@@ -406,9 +318,9 @@ class channelSelectView: UITableViewController {
             } else {
                 cell.channelCount.text = "Open"
             }
-           
+            
         }
-      
+        
         return cell
         
     }
@@ -457,7 +369,7 @@ class channelSelectView: UITableViewController {
                 if self.memBounded == true {
                     print("You are membounded", terminator: "")
                         //Re checks if your authorization is still on
-                    self.checkLockedStatus()
+                   
                     if self.memBounded == true {
                         var alert = UIAlertController(title: "You're still in MEMbound", message: "Check back when your session is over. We'll be waiting on you!", preferredStyle: UIAlertControllerStyle.Alert)
                         alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: nil))
