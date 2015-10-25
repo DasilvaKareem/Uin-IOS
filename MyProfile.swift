@@ -116,12 +116,12 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     func subticker(){
         
         var getNumberList = PFQuery(className:"Subscription")
-        getNumberList.whereKey("publisher", equalTo: PFUser.currentUser().username)
+        getNumberList.whereKey("publisher", equalTo: PFUser.currentUser()!.username!)
         var amount = String(getNumberList.countObjects())
         self.amountofsubs = amount
         
         var getNumberList2 = PFQuery(className:"Subscription")
-        getNumberList2.whereKey("subscriber", equalTo: PFUser.currentUser().username)
+        getNumberList2.whereKey("subscriber", equalTo: PFUser.currentUser()!.username!)
         amount = String(getNumberList2.countObjects())
         self.amountofScript = amount
     }
@@ -134,7 +134,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     func notifications() {
         
         var check = PFQuery(className: "Notification")
-        check.whereKey("receiver", equalTo: PFUser.currentUser().username)
+        check.whereKey("receiver", equalTo: PFUser.currentUser()!.username!)
         old = check.countObjects()
         
         
@@ -143,7 +143,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     func checkNotifications() {
         
         var check = PFQuery(className: "Notification")
-        check.whereKey("receiver", equalTo: PFUser.currentUser().username)
+        check.whereKey("receiver", equalTo: PFUser.currentUser()!.username!)
         newCheck = check.countObjects()
         
         if self.old != self.newCheck {
@@ -151,19 +151,19 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
             var tabArray = self.tabBarController?.tabBar.items as NSArray!
             var tabItem = tabArray.objectAtIndex(1) as! UITabBarItem
             tabItem.badgeValue = String(diffrence)
-            println()
-            println()
-            println("You have gotten a new notification")
-            println()
-            println()
+            print("")
+            print("")
+            print("You have gotten a new notification")
+            print("")
+            print("")
         }
         else {
-            println()
-            println()
-            println("You do not have a any new notification ")
+            print("")
+            print("")
+            print("You do not have a any new notification ")
             
-            println()
-            println()
+            print("")
+            print("")
         }
         
         
@@ -174,7 +174,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     var que = PFQuery(className: "Event")
     self.eventCountNumber = que.countObjects()
     que.orderByAscending("start")
-    que.whereKey("author", equalTo: PFUser.currentUser().username)
+    que.whereKey("author", equalTo: PFUser.currentUser()!.username!)
     que.whereKey("start", greaterThanOrEqualTo: NSDate())
     que.whereKey("isDeleted", equalTo: false)
     
@@ -184,7 +184,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     print("Refreshing list: ")
     
     if eventError == nil {
-    println(objects.count)
+    print("objects!.count")
     
     
         self.onsite.removeAll(keepCapacity: true)
@@ -204,7 +204,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         self.userId.removeAll(keepCapacity: true)
         self.eventAddress.removeAll(keepCapacity: true)
     
-    for object in objects{
+    for object in objects!{
     
         self.eventAddress.append(object["address"] as!String)
         self.publicPost.append(object["isPublic"] as!Bool)
@@ -228,11 +228,11 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     }
     else{
-        if eventError.code == 100 {
+        if eventError!.code == 100 {
              self.displayAlert("No Internet", error: "You have no internet connection")
             
         }
-    println("Event Feed Query Error: \(eventError) ")
+    print("Event Feed Query Error: \(eventError) ")
             }
         }
     }
@@ -360,7 +360,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Potentially incomplete method implementation.
         // Return the number of sections.
-        println(numSections)
+       print(numSections)
         return numSections
         
     }
@@ -379,9 +379,9 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
        
-        println()
-       println("this is header")
-        println()
+        print()
+       print("this is header")
+        print()
         
         
              var cell:dateCell = tableView.dequeueReusableCellWithIdentifier("dateCell") as! dateCell
@@ -466,7 +466,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         //Mini query to check if event is already saved
         //println(objectID[event])
         var minique = PFQuery(className: "UserCalendar")
-        minique.whereKey("userID", equalTo: PFUser.currentUser().objectId)
+        minique.whereKey("userID", equalTo: PFUser.currentUser()!.objectId!)
         var minique2 = PFQuery(className: "UserCalendar")
         minique.whereKey("eventID", equalTo: objectID[event])
         
@@ -500,7 +500,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         first = PFUser.currentUser()["firstRemoveFromCalendar"] as!Bool
         
         var que = PFQuery(className: "UserCalendar")
-        que.whereKey("userID", equalTo: PFUser.currentUser().objectId)
+        que.whereKey("userID", equalTo: PFUser.currentUser()!.objectId!)
         que.whereKey("eventID", equalTo:self.objectID[sender.tag])
         
         que.getFirstObjectInBackgroundWithBlock({
@@ -509,8 +509,8 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
             
             
             if queerror == nil {
-                results.delete()
-                println(first)
+                results!.delete()
+                print(first)
                 if first == true {
                     
                     PFUser.currentUser()["firstRemoveFromCalendar"] = false
@@ -540,15 +540,15 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
                     })
                     var predicate2 = eventStore.predicateForEventsWithStartDate(self.eventStart[sender.tag], endDate: self.eventEnd[sender.tag], calendars:nil)
                     var eV = eventStore.eventsMatchingPredicate(predicate2) as! [EKEvent]!
-                    println("Result is there")
+                    print("Result is there")
                     if eV != nil { //
-                        println("EV is not nil")
+                        print("EV is not nil")
                         for i in eV {
-                            println("\(i.title) this is the i.title")
-                            println(self.eventTitle[sender.tag])
+                            print("\(i.title) this is the i.title")
+                            prprintelf.eventTitle[sender.tag];)
                             if i.title == self.eventTitle[sender.tag]  {
                                 
-                                println("removed event")
+                                print("removed event")
                                 var theMix = Mixpanel.sharedInstance()
                                 theMix.track("Removed from Calendar (MP)")
                                 eventStore.removeEvent(i, span: EKSpanThisEvent, error: nil)
@@ -588,39 +588,39 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
                     }
                 })
                 
-                println("the object does not exist")
+                print("the object does not exist")
                 //Sends a push notifications
                 var push = PFPush()
                 var pfque = PFInstallation.query()
-                pfque.whereKey("user", equalTo: self.usernames[sender.tag])
+                pfque!.whereKey("user", equalTo: self.usernames[sender.tag])
                 push.setQuery(pfque)
                 var pushCheck = PFUser.query() //Checks if users has push enabled
-                var userCheck = pushCheck.getObjectWithId(self.userId[sender.tag])
-                println()
-                println(userCheck)
-                println()
+                var userCheck = pushCheck!.getObjectWithId(self.userId[sender.tag])
+                print("")
+                print("userCheck")
+                print("")
                 //Checks if user has push enabled
                 if userCheck["pushEnabled"] as!Bool {
                     if PFUser.currentUser()["tempAccounts"] as!Bool == true {
                         push.setMessage("Someone has added your event to their calendar") //If user is temp changes messages
                     } else {
                         
-                        push.setMessage("\(PFUser.currentUser().username) has added your event to their calendar")
+                        push.setMessage("\(PFUser.currentUser()!.username) has added your event to their calendar")
                     }
                     push.sendPushInBackgroundWithBlock({
                         (success:Bool, pushError: NSError?) -> Void in
                         if pushError == nil {
-                            println("Push was Sent")
+                            print("Push was Sent")
                         }
                     })
                 } else {
-                    println("user does not have push enabled")
+                    print("user does not have push enabled")
                 }
 
             
                 
                 var going = PFObject(className: "UserCalendar")
-                going["userID"] = PFUser.currentUser().objectId
+                going["userID"] = PFUser.currentUser()!.objectId
                 going["event"] = self.eventTitle[sender.tag]
                 going["author"] = self.usernames[sender.tag]
                 going["added"] = true
@@ -631,13 +631,13 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
                     
                     if savError == nil {
                         
-                        println("it worked")
+                        print("it worked")
                         
                     }
                 }
                 
                 
-                println("Saved Event")
+                print("Saved Event")
                 self.theFeed.reloadData()
                 
             }
@@ -650,10 +650,10 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         
         
         
-        if self.usernames[sender.tag] != PFUser.currentUser().username {
+        if self.usernames[sender.tag] != PFUser.currentUser()!.username {
             var notify = PFObject(className: "Notification")
             notify["theID"] = self.objectID[sender.tag]
-            notify["sender"] = PFUser.currentUser().username
+            notify["sender"] = PFUser.currentUser()!.username
             notify["receiver"] = self.usernames[sender.tag]
             notify["type"] =  "calendar"
             notify.saveInBackgroundWithBlock({
@@ -662,11 +662,11 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 
                 if notifyError == nil {
                     
-                    println("notifcation has been saved")
+                    print("notifcation has been saved")
                     
                 }
                 else{
-                    println(notifyError)
+                    print("notifyError")
                 }
                 
                 
@@ -703,9 +703,9 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
             theMix.track("Tap Event View (MP)")
             theMix.flush()
             
-            var indexPath = theFeed.indexPathForSelectedRow() //get index of data for selected row
-            var section = indexPath?.section
-            var row = indexPath?.row
+            var indexPath = theFeed.indexPathForSelectedRow! //get index of data for selected row
+            var section = indexPath.section
+            var row = indexPath.row
             
             var index = getEventIndex(section!, row: row!)
             secondViewController.storeStartDate = eventStart[index]
