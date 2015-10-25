@@ -32,11 +32,7 @@ class settingsView: UIViewController {
             emailBtn.enabled = true
         }*/
 
-        if user["pushEnabled"] as! Bool == true {
-            notifySlider.setOn(true, animated: true)
-        }   else {
-             notifySlider.setOn(false, animated: true)
-        }
+       
         navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navBarBackground.png"), forBarMetrics: UIBarMetrics.Default)
         // Changes text color on navbar
         let nav = self.navigationController?.navigationBar

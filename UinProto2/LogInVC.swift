@@ -18,8 +18,17 @@ class LogInVC: UIViewController {
     @IBOutlet weak var registerPassword: UITextField!
 
     @IBOutlet weak var registerConfirmPassword: UITextField!
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
     
     @IBAction func createAccount(sender: AnyObject) {
+        
    
         //Signs in user
         let user = PFUser()
@@ -69,6 +78,14 @@ class LogInVC: UIViewController {
 
 }
 class LinkUser: UIViewController {
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
     //Link user with facebook or Twitter
     var user = PFUser.currentUser()
     
@@ -96,6 +113,14 @@ class LinkUser: UIViewController {
     }
 }
 class basicSignUp: UIViewController {
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
     @IBOutlet weak var fName: UITextField!
     @IBOutlet weak var profilePic: UIImageView!
     
@@ -111,6 +136,7 @@ class basicSignUp: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     func queryData(){
+        
         let query = PFUser.currentUser() as PFUser!
         
         if query["firstName"] != nil {
@@ -146,12 +172,20 @@ class basicSignUp: UIViewController {
     }
 }
 class extraSignUp: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
     
     @IBOutlet weak var gender: UISegmentedControl!
     @IBOutlet weak var classifcation: UIPickerView!
     
     @IBOutlet weak var age: UITextField!
-    var classes = ["Freshman", "Sophmore", "Junior","Senior", "Graduate"]
+    var classes = ["Freshman", "Sophmore", "Junior","Senior", "Graduate", "N/A"]
     var userClass = "Freshman"
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -601,12 +601,10 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 print("")
                 //Checks if user has push enabled
                 if userCheck["pushEnabled"] as!Bool {
-                    if PFUser.currentUser()["tempAccounts"] as!Bool == true {
-                        push.setMessage("Someone has added your event to their calendar") //If user is temp changes messages
-                    } else {
+                  
                         
                         push.setMessage("\(PFUser.currentUser()!.username) has added your event to their calendar")
-                    }
+                    
                     push.sendPushInBackgroundWithBlock({
                         (success:Bool, pushError: NSError?) -> Void in
                         if pushError == nil {
