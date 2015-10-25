@@ -8,6 +8,7 @@
 
 import UIKit
 import MapKit
+import Parse
 
 class eventMake: UIViewController, UITextFieldDelegate {
     var dateTime = String()
@@ -47,13 +48,13 @@ class eventMake: UIViewController, UITextFieldDelegate {
             onCampusButton.setBackgroundImage(UIImage(named: "emNoLocation"), forState: UIControlState.Normal)
             onCampusText.text = "Off Campus"
             onCampusText.textColor = UIColor(red: 165.0/255.0, green: 169.0/255.0, blue: 172.0/255, alpha:1 ) //Gray
-            print(self.onsite)
+            print(self.onsite, terminator: "")
         } else {
             self.onsite = true
                  onCampusButton.setBackgroundImage(UIImage(named: "emYesLocation"), forState: UIControlState.Normal)
             onCampusText.text = "On Campus"
             onCampusText.textColor =  UIColor(red: 135.0/255.0, green: 84.0/255.0, blue: 194.0/255, alpha:1 ) //Purple
-            print(self.onsite)
+            print(self.onsite, terminator: "")
         }
     }
     
@@ -143,7 +144,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
  
     @IBAction func publicEvent(sender: UISegmentedControl) {
         
-        print(eventPublic)
+        print(eventPublic, terminator: "")
         switch sender.selectedSegmentIndex {
         case 0:
             eventPublic = true
@@ -160,7 +161,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func location(sender: UISegmentedControl) {
-        print(onsite)
+        print(onsite, terminator: "")
         switch sender.selectedSegmentIndex {
         case 0:
             onsite = true
@@ -178,7 +179,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func isFood(sender: UISegmentedControl) {
-        print(food)
+        print(food, terminator: "")
         switch sender.selectedSegmentIndex {
         case 0:
             food = true
@@ -196,7 +197,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func isPaid(sender: UISegmentedControl) {
-        print(paid)
+        print(paid, terminator: "")
         switch sender.selectedSegmentIndex {
         case 0:
             paid = true
@@ -237,7 +238,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
         if eventTitle.text!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()) == "" {
             
             allError = "Enter a Title for your Event"
-            print(allError)
+            print(allError, terminator: "")
             
         }
         
@@ -251,14 +252,14 @@ class eventMake: UIViewController, UITextFieldDelegate {
             let email = PFUser.currentUser().email
             PFUser.currentUser().setObject("test@areuin.co", forKey: "email")
             PFUser.currentUser().saveInBackgroundWithBlock({
-                (success:Bool, error:NSError!) -> Void in
+                (success:Bool, error:NSError?) -> Void in
                 
                 if error == nil {
                     println("The email was saved")
                     
                     PFUser.currentUser().setObject(email, forKey: "email")
                     PFUser.currentUser().saveInBackgroundWithBlock({
-                        (success:Bool, error:NSError!) -> Void in
+                        (success:Bool, error:NSError?) -> Void in
                         
                         if error == nil {
                             println("The email was saved")
@@ -282,7 +283,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
         if eventLocation == ""{
             
             allError = "Enter a location for your Event"
-            print(allError)
+            print(allError, terminator: "")
         }
         if address == ""{
             allError = "Please enter in an address"
@@ -300,7 +301,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
         if orderDate2 == ""{
             allError = "Enter a End Date"
         }
-        print(allError)
+        print(allError, terminator: "")
 
         if allError == "" {
             //If the user is editing the event
@@ -308,27 +309,28 @@ class eventMake: UIViewController, UITextFieldDelegate {
                 var eventQue = PFQuery(className: "Event")
                 eventQue.getObjectInBackgroundWithId(eventID, block: {
                     
-                    (eventItem:PFObject!, error:NSError!) -> Void in
+                    (eventItem:PFObject?, error:NSError?) -> Void in
                     
                     if error == nil {
-                        eventItem["address"] = self.address
-                        eventItem["locationGeopoint"] = self.geopoint
-                        eventItem["start"] = orderDate1
-                        eventItem["end"] = orderDate2
-                        eventItem["isPublic"] = self.eventPublic
-                        eventItem["hasFood"] = self.food
-                        eventItem["isFree"] = self.paid
-                        eventItem["onCampus"] = self.onsite
-                        eventItem["location"] = self.eventLocation
-                        eventItem["title"] = self.eventTitle.text!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-                        eventItem["author"] = PFUser.currentUser().username
-                        eventItem["authorID"] = PFUser.currentUser().objectId
-                        eventItem["isDeleted"] = false
-                        eventItem["channels"] = self.channel
-                        eventItem["inLocalFeed"] = true
-                        eventItem["description"] = self.eventDescription.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-                        eventItem.saveInBackgroundWithBlock({
-                            (success:Bool, error:NSError!) -> Void in
+                        var event = eventItem!
+                        event["address"] = self.address
+                        event["locationGeopoint"] = self.geopoint
+                        event["start"] = orderDate1
+                        event["end"] = orderDate2
+                        event["isPublic"] = self.eventPublic
+                        event["hasFood"] = self.food
+                        event["isFree"] = self.paid
+                        event["onCampus"] = self.onsite
+                        event["location"] = self.eventLocation
+                        event["title"] = self.eventTitle.text!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+                        event["author"] = PFUser.currentUser()!.username
+                        event["authorID"] = PFUser.currentUser()!.objectId
+                        event["isDeleted"] = false
+                        event["channels"] = self.channel
+                        event["inLocalFeed"] = true
+                        event["description"] = self.eventDescription.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+                        event.saveInBackgroundWithBlock({
+                            (success:Bool, error:NSError?) -> Void in
                             
                             if error == nil {
                                 orderDate1 = NSDate()
@@ -349,21 +351,20 @@ class eventMake: UIViewController, UITextFieldDelegate {
                         var findPeople = PFQuery(className: "UserCalendar")
                         var collectedPeople = [String]()
                         //Checks collects all the user that have push enablded
-                        var checkPushEnabled = PFUser.query()
+                        var checkPushEnabled = PFUser.query()!
                         checkPushEnabled.whereKey("pushEnabled", equalTo: true)
-                        checkPushEnabled.whereKey("tempAccount", equalTo: false)
                         findPeople.whereKey("eventID", equalTo:self.eventID )
-                        findPeople.whereKey("user", notEqualTo: PFUser.currentUser().username)
+                        findPeople.whereKey("user", notEqualTo: PFUser.currentUser()!.username!)
                         findPeople.whereKey("user", matchesKey: "username", inQuery: checkPushEnabled)
                         findPeople.findObjectsInBackgroundWithBlock({
-                            (results:[AnyObject]!, Error:NSError!) -> Void in
+                            (results:[PFObject]?, Error:NSError?) -> Void in
                             
-                            for object in results {
+                            for object in results! {
                                 collectedPeople.append(object["user"] as!String)
                             }
                             var push =  PFPush()
                             let data = [
-                                "alert" : "\(PFUser.currentUser().username) has edited the event '\(self.eventTitle.text)'",
+                                "alert" : "\(PFUser.currentUser()!.username) has edited the event '\(self.eventTitle.text)'",
                                 "badge" : "Increment",
                                 "sound" : "default"
                             ]
@@ -371,12 +372,12 @@ class eventMake: UIViewController, UITextFieldDelegate {
                             print("")
                             print(collectedPeople)
                             print("")
-                            pfque.whereKey("user", containedIn: collectedPeople) //Adds all the people who added your event
+                            pfque!.whereKey("user", containedIn: collectedPeople) //Adds all the people who added your event
                             push.setQuery(pfque)
                             push.setData(data)
                             push.sendPushInBackgroundWithBlock({
                                 // Notifies the people you edited your event
-                                (success: Bool, pushError: NSError!) -> Void in
+                                (success: Bool, pushError: NSError?) -> Void in
                                 if pushError == nil {
                                     print("the push was sent")
                                 } else {
@@ -387,14 +388,14 @@ class eventMake: UIViewController, UITextFieldDelegate {
                             })
                         })
                         var notify = PFObject(className: "Notification")
-                        notify["senderID"] = PFUser.currentUser().objectId
-                        notify["receiverID"] = PFUser.currentUser().objectId
-                        notify["sender"] = PFUser.currentUser().username
-                        notify["receiver"] = PFUser.currentUser().username
-                        notify["eventID"] = eventItem.objectId
+                        notify["senderID"] = PFUser.currentUser()!.objectId
+                        notify["receiverID"] = PFUser.currentUser()!.objectId
+                        notify["sender"] = PFUser.currentUser()!.username
+                        notify["receiver"] = PFUser.currentUser()!.username
+                        notify["eventID"] = eventItem!.objectId
                         notify["type"] =  "editedEvent"
                         notify.saveInBackgroundWithBlock({
-                            (success:Bool, notifyError: NSError!) -> Void in
+                            (success:Bool, notifyError: NSError?) -> Void in
                             if notifyError == nil {
                                 print("notifcation has been saved")
                             }
@@ -419,15 +420,15 @@ class eventMake: UIViewController, UITextFieldDelegate {
                 event["onCampus"] = self.onsite
                 event["location"] = self.eventLocation
                 event["title"] = self.eventTitle.text
-                event["author"] = PFUser.currentUser().username
-                event["authorID"] = PFUser.currentUser().objectId
+                event["author"] = PFUser.currentUser()!.username
+                event["authorID"] = PFUser.currentUser()!.objectId
                 event["isDeleted"] = false
                 event["channels"] = self.channel
                 event["description"] = self.eventDescription.text
                 event["inLocalFeed"] = true
                 event.saveInBackgroundWithBlock{
                     
-                    (success:Bool,eventError:NSError!) -> Void in
+                    (success:Bool,eventError:NSError?) -> Void in
                     
                     if (eventError == nil){
                         //Adds the event to channels it is asccoiated with
@@ -435,7 +436,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
                             channelSelect["eventID"] = event.objectId
                             channelSelect["channelID"] = self.channel
                             channelSelect.saveInBackgroundWithBlock({
-                                (success: Bool, error: NSError!) -> Void in
+                                (success: Bool, error: NSError?) -> Void in
                                 if error == nil {
                                     print("Channles selceted are \(self.channel)")
                                 } else {
@@ -454,7 +455,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
                             push.setData(data)
                             push.sendPushInBackgroundWithBlock({
                             
-                                (success: Bool, pushError: NSError!) -> Void in
+                                (success: Bool, pushError: NSError?) -> Void in
                                 if pushError == nil {
                                     
                                     print("the push was sent")
@@ -510,7 +511,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
                 let eventQue = PFQuery(className: "Event")
                 eventQue.getObjectInBackgroundWithId(self.eventID, block: {
                     
-                    (eventItem:PFObject!, error:NSError!) -> Void in
+                    (eventItem:PFObject?, error:NSError?) -> Void in
                     
                     if error == nil {
                         
@@ -529,7 +530,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
                         findPeople.whereKey("user", notEqualTo: PFUser.currentUser().username)
                         findPeople.whereKey("user", matchesKey: "username", inQuery: checkPushEnabled)
                         findPeople.findObjectsInBackgroundWithBlock({
-                            (results:[AnyObject]!, Error:NSError!) -> Void in
+                            (results:[PFObject]?, error:NSError?) -> Void in
                             
                             for object in results {
                                 collectedPeople.append(object["user"] as!String)
@@ -546,7 +547,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
                             push.setData(data)
                             push.sendPushInBackgroundWithBlock({
                                 // Notifies the people you edited your event
-                                (success: Bool, pushError: NSError!) -> Void in
+                                (success: Bool, pushError: NSError?) -> Void in
                                 if pushError == nil {
                                     print("the push was sent")
                                 } else {
@@ -555,20 +556,20 @@ class eventMake: UIViewController, UITextFieldDelegate {
                             })
                             //Creates the notfication for delete event
                             let notify = PFObject(className: "Notification")
-                            notify["senderID"] = PFUser.currentUser().objectId
-                            notify["receiverID"] = PFUser.currentUser().objectId
+                            notify["senderID"] = PFUser.currentUser()!.objectId
+                            notify["receiverID"] = PFUser.currentUser()!.objectId
                             notify["sender"] = PFUser.currentUser().username
-                            notify["receiver"] = PFUser.currentUser().username
+                            notify["receiver"] = PFUser.currentUser()!.username
                             notify["eventID"] = self.eventID
                             notify["type"] =  "deleteEvent"
                             notify.saveInBackgroundWithBlock({
-                                (success:Bool, notifyError: NSError!) -> Void in
+                                (success:Bool, notifyError: NSError?) -> Void in
                                 if notifyError == nil {
                                     print("notifcation has been saved")
                                     let deleteNotification = PFQuery(className: "Notification")
                                     deleteNotification.whereKey("eventID", equalTo: self.eventID)
                                     deleteNotification.findObjectsInBackgroundWithBlock({
-                                        (objects:[AnyObject]!, error:NSError!) -> Void in
+                                        (objects:[PFObject]?, error:NSError?) -> Void in
                                         if error == nil {
                                             for object in objects {
                                                 object.delete()
@@ -587,10 +588,10 @@ class eventMake: UIViewController, UITextFieldDelegate {
                     }
                 })
             case .Cancel:
-                print("cancel")
+                print("cancel", terminator: "")
                 
             case .Default:
-                print("destructive")
+                print("destructive", terminator: "")
             }
         }))
         
@@ -665,7 +666,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
             isFreeButton.setBackgroundImage(UIImage(named: "noFree.png"), forState: UIControlState.Normal)
         }
         if onsite == true {
-            print("OK IT WOKRS")
+            print("OK IT WOKRS", terminator: "")
             onCampusText.text = "On Campus"
             onCampusText.textColor =  UIColor(red: 135.0/255.0, green: 84.0/255.0, blue: 194.0/255, alpha:1 ) //Purple
             onCampusButton.setBackgroundImage(UIImage(named: "onCampus.png"), forState: UIControlState.Normal)
@@ -704,8 +705,8 @@ class eventMake: UIViewController, UITextFieldDelegate {
             //Set event data to event creation
             let eventQuery = PFQuery(className: "Event")
             eventQuery.getObjectInBackgroundWithId(eventID, block: {
-                (object:PFObject!, error:NSError!) -> Void in
-                
+                (objected:PFObject?, error:NSError?) -> Void in
+                let object = objected!
                 self.eventTitle.text = object["title"] as! String //Sets the title
                 self.eventDescription.text = object["description"] as! String //Sets the Descriptions
                 self.address = object["address"] as! String //sets the address

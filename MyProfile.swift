@@ -179,7 +179,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
     que.whereKey("isDeleted", equalTo: false)
     
     que.findObjectsInBackgroundWithBlock{
-    (objects:[AnyObject]!,eventError:NSError!) -> Void in
+    (objects:[PFObject]?,eventError:NSError?) -> Void in
     
     print("Refreshing list: ")
     
@@ -472,7 +472,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         
         minique.getFirstObjectInBackgroundWithBlock{
             
-            (results:PFObject!, error: NSError!) -> Void in
+            (results:PFObject?, error: NSError?) -> Void in
             
             if error == nil {
                 
@@ -505,7 +505,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         
         que.getFirstObjectInBackgroundWithBlock({
             
-            (results:PFObject!, queerror: NSError!) -> Void in
+            (results:PFObject?, queerror: NSError?) -> Void in
             
             
             if queerror == nil {
@@ -608,7 +608,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
                         push.setMessage("\(PFUser.currentUser().username) has added your event to their calendar")
                     }
                     push.sendPushInBackgroundWithBlock({
-                        (success:Bool, pushError: NSError!) -> Void in
+                        (success:Bool, pushError: NSError?) -> Void in
                         if pushError == nil {
                             println("Push was Sent")
                         }
@@ -627,7 +627,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 going["eventID"] = self.objectID[sender.tag]
                 going.saveInBackgroundWithBlock{
                     
-                    (succeded:Bool, savError:NSError!) -> Void in
+                    (succeded:Bool, savError:NSError?) -> Void in
                     
                     if savError == nil {
                         
@@ -658,7 +658,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
             notify["type"] =  "calendar"
             notify.saveInBackgroundWithBlock({
                 
-                (success:Bool, notifyError: NSError!) -> Void in
+                (success:Bool, notifyError: NSError?) -> Void in
                 
                 if notifyError == nil {
                     

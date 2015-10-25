@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Parse
 
 class settingsView: UIViewController {
 
@@ -18,7 +19,7 @@ class settingsView: UIViewController {
         theMix.track("Settings Opened")
         theMix.flush()
         
-        let user = PFUser.currentUser()
+        let user = PFUser.currentUser()!
         //Checks if the user has verified the email
        /* if user["emailVerified"] != nil {
             if user["emailVerified"] as! Bool == true {
@@ -31,7 +32,7 @@ class settingsView: UIViewController {
             emailBtn.enabled = true
         }*/
 
-        if user["pushEnabled"] as!Bool == true {
+        if user["pushEnabled"] as! Bool == true {
             notifySlider.setOn(true, animated: true)
         }   else {
              notifySlider.setOn(false, animated: true)
@@ -57,17 +58,17 @@ class settingsView: UIViewController {
         theMix.track("Notifications Off/On (S)")
         theMix.flush()
         
-        var user = PFUser.currentUser()
+        var user:PFUser = PFUser.currentUser()!
         if notifySlider.on == true {
             var subscriptionUsernames = [String]()
             let user = PFUser.currentUser()
-            user["pushEnabled"] = true
+            user["pushEnabled"] as! Bool = true
             user.save()
             let query = PFQuery(className: "Subscription")
             query.whereKey("subscriberID", equalTo: PFUser.currentUser().objectId)
             query.findObjectsInBackgroundWithBlock({
         
-                (objects:[AnyObject]!, queError:NSError!) -> Void in
+                (objects:[PFObject]?,queError:NSError?) -> Void in
 
                 if queError == nil {
                     print(subscriptionUsernames)
@@ -101,7 +102,7 @@ class settingsView: UIViewController {
         theMix.track("Logout (S)")
         theMix.flush()
         
-       print("you pressed it")
+       print("you pressed it", terminator: "")
         let install = PFInstallation.currentInstallation()
         let channels = install.channels
         if channels == nil {
@@ -121,14 +122,14 @@ class settingsView: UIViewController {
         let email = PFUser.currentUser().email
         PFUser.currentUser().setObject("test@areuin.co", forKey: "email")
         PFUser.currentUser().saveInBackgroundWithBlock({
-            (success:Bool, error:NSError!) -> Void in
+            (success:Bool, error:NSError?) -> Void in
             
             if error == nil {
                 print("The email was saved")
                 
                 PFUser.currentUser().setObject(email, forKey: "email")
                 PFUser.currentUser().saveInBackgroundWithBlock({
-                    (success:Bool, error:NSError!) -> Void in
+                    (success:Bool, error:NSError?) -> Void in
                     
                     if error == nil {
                         print("The email was saved")
@@ -182,7 +183,7 @@ class ChangeAccountInfo: UIViewController {
             if confirmTextField.text == PFUser.currentUser().email && passwordTextField.text == PFUser.currentUser().email {
                 //Saves newTokenField to the current users password
                 PFUser.requestPasswordResetForEmailInBackground(newTokenField.text, block: {
-                    (success:Bool, error:NSError!) -> Void in
+                    (success:Bool, error:NSError?) -> Void in
                     if error == nil {
                         self.resultToken.text = "Password Reset Sent"
                         self.sendTokenBtn.setTitle("Resend", forState: UIControlState.Normal)
@@ -201,7 +202,7 @@ class ChangeAccountInfo: UIViewController {
                 //Saves newTokenField to the current users password
                 PFUser.currentUser().email = newTokenField.text
                 PFUser.currentUser().saveInBackgroundWithBlock({
-                    (sucess:Bool, error:NSError!) -> Void in
+                    (sucess:Bool, error:NSError?) -> Void in
                     if error == nil {
                         self.resultToken.text = "Email is now changed"
                     } else {

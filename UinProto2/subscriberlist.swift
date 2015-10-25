@@ -37,7 +37,7 @@ class subscriberlist: UITableViewController {
         followque.orderByAscending("createdAt")
         followque.findObjectsInBackgroundWithBlock{
             
-            (objects:[AnyObject]!, folError:NSError!) -> Void in
+            (objects:[PFObject]?,folError:NSError?) -> Void in
             
             
             if folError == nil {
@@ -96,7 +96,7 @@ class subscriberlist: UITableViewController {
         cell.username.text = folusernames[indexPath.row]
         let membersave = PFQuery(className:"Subscription")
         membersave.getObjectInBackgroundWithId(objectId[indexPath.row]) {
-            (result: PFObject!, error: NSError!) -> Void in
+            (result: PFObject?, error: NSError?) -> Void in
             if error == nil {
             if result["isMember"] as!Bool == true{
                 cell.member.selectedSegmentIndex = 0
@@ -127,11 +127,11 @@ class subscriberlist: UITableViewController {
         
         let membersave = PFQuery(className:"Subscription")
         membersave.getObjectInBackgroundWithId(objectId[sender.tag]) {
-            (result: PFObject!, error: NSError!) -> Void in
+            (result: PFObject?, error: NSError?) -> Void in
             if error == nil {
                  result["isMember"] = self.member
                 result.saveInBackgroundWithBlock{
-                    (succeeded: Bool, registerError: NSError!) -> Void in
+                    (succeeded: Bool, registerError: NSError?) -> Void in
                     if registerError == nil {
                         
                         let push = PFPush()
@@ -142,7 +142,7 @@ class subscriberlist: UITableViewController {
                         push.setMessage("\(PFUser.currentUser().username) has changed your membership status")
                 
                         push.sendPushInBackgroundWithBlock({
-                            (success:Bool, pushError: NSError!) -> Void in
+                            (success:Bool, pushError: NSError?) -> Void in
                             if pushError == nil {
                                 print("Push was Sent")
                             } else {
@@ -159,7 +159,7 @@ class subscriberlist: UITableViewController {
                         notify["type"] =  "member"
                         notify.saveInBackgroundWithBlock({
                             
-                            (success:Bool, notifyError: NSError!) -> Void in
+                            (success:Bool, notifyError: NSError?) -> Void in
                             
                             if notifyError == nil {
                                 

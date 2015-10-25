@@ -32,7 +32,7 @@ class notificationsView: UITableViewController {
         let userTimeCheck = PFUser.currentUser()
         userTimeCheck["notificationsTimestamp"] = NSDate()
         userTimeCheck.saveInBackgroundWithBlock({
-            (success:Bool, error:NSError!) -> Void in
+            (success:Bool, error:NSError?) -> Void in
             if error == nil {
                 print("The stamp was updated")
             } else {
@@ -85,7 +85,7 @@ class notificationsView: UITableViewController {
         let followQue = PFQuery(className: "Subscription")
         followQue.whereKey("subscriberID", equalTo: PFUser.currentUser().objectId)
         followQue.findObjectsInBackgroundWithBlock{
-            (objects:[AnyObject]!, folError:NSError!) -> Void in
+            (objects:[PFObject]?,folError:NSError?) -> Void in
             
             if folError == nil {
                 
@@ -98,7 +98,7 @@ class notificationsView: UITableViewController {
                 addedQue.whereKey("userID", equalTo: PFUser.currentUser().objectId)
                 addedQue.whereKeyExists("author")
                 addedQue.findObjectsInBackgroundWithBlock{
-                    (objects:[AnyObject]!, folError:NSError!) -> Void in
+                    (objects:[PFObject]?,folError:NSError?) -> Void in
                     
                     if folError == nil {
                         
@@ -142,7 +142,7 @@ class notificationsView: UITableViewController {
                         query.limit = 15
                         query.orderByDescending("createdAt")
                         query.findObjectsInBackgroundWithBlock({
-                            (objects:[AnyObject]!,subError:NSError!) -> Void in
+                            (objects:[PFObject]?,subError:NSError?) -> Void in
                             print("it queryed")
                             self.notificationItems.removeAll(keepCapacity: true)
                             if subError == nil {
@@ -307,7 +307,7 @@ class notificationsView: UITableViewController {
         case "member":
             self.performSegueWithIdentifier("sub", sender: self)
         default:
-            print("error")
+            print("error", terminator: "")
         }
     }
     
@@ -346,7 +346,7 @@ class notificationsView: UITableViewController {
                 cell.noteImage.image = UIImage(named: "noteSubbed")
             break
         default:
-            print("error")
+            print("error", terminator: "")
         }
         cell.timeStamp.text = localTime[indexPath.row]
         cell.notifyMessage.attributedText = items.message

@@ -8,7 +8,7 @@
 
 import UIKit
 import EventKit
-
+import Parse
 class postEvent: UIViewController {
     
     @IBOutlet var eventDescription: UILabel!
@@ -34,7 +34,7 @@ class postEvent: UIViewController {
     @IBOutlet weak var isSite: UIImageView!
     @IBOutlet weak var isPaid: UIImageView!
     @IBAction func gotoProfile(sender: AnyObject) {
-        if PFUser.currentUser().objectId != userId {
+        if PFUser.currentUser()!.objectId != userId {
             self.performSegueWithIdentifier("gotoprofile", sender: self)
         } else {
             self.performSegueWithIdentifier("editEvent", sender: self)
@@ -72,13 +72,13 @@ class postEvent: UIViewController {
     var endDate = (String)()
     func checkevent(){
         let minique = PFQuery(className: "UserCalendar")
-        minique.whereKey("user", equalTo: PFUser.currentUser().username)
+        minique.whereKey("user", equalTo: PFUser.currentUser()!.username)
        
         minique.whereKey("eventID", equalTo: eventId)
         
         minique.getFirstObjectInBackgroundWithBlock{
             
-            (results:PFObject!, error: NSError!) -> Void in
+            (results:PFObject?, error: NSError?) -> Void in
             
             if error == nil {
                 self.longBar.setImage(UIImage(named: "addedToCalendarBig.png"), forState: UIControlState.Normal)
@@ -96,7 +96,7 @@ class postEvent: UIViewController {
     func getCount() {
         let minique2 = PFQuery(className: "UserCalendar")
         minique2.whereKey("eventID", equalTo: eventId)
-        let goingCount = minique2.countObjects()
+        let goingCount = minique2.countObjectsInBackground()
         self.calendarCount.text = String(goingCount)
     }
     //Queries from object ID
@@ -114,9 +114,10 @@ class postEvent: UIViewController {
     func getEvents() {
        let getEvents = PFQuery(className: "Event")
         getEvents.getObjectInBackgroundWithId(eventId, block: {
-            (result: PFObject!, error: NSError!) -> Void in
+            (result: [PFObject]?, error: NSError?) -> Void  in
             if error == nil {
                 print(result)
+                result
                 let dateFormatter = NSDateFormatter()
                 dateFormatter.locale = NSLocale.currentLocale() // Gets current locale and switches
                 dateFormatter.dateFormat = "MMM. dd, yyyy - h:mm a"
@@ -130,7 +131,7 @@ class postEvent: UIViewController {
                     self.imageShower.superview
                     self.imageFile = result["picture"] as! PFFile
                     self.imageFile.getDataInBackgroundWithBlock({
-                        (imageData: NSData!, error: NSError!) -> Void in
+                        (imageData: NSData!, error: NSError?) -> Void in
                         if error == nil {
                             self.image = UIImage(data: imageData)!
                             self.picture.image = UIImage(data: imageData)!
@@ -204,9 +205,7 @@ class postEvent: UIViewController {
     
         
         checkevent()
-        if PFUser.currentUser().username == users {
-           
-        }
+       
     }
     
     @IBAction func eventShare(sender: AnyObject) {
@@ -244,7 +243,7 @@ class postEvent: UIViewController {
         que.whereKey("eventID", equalTo:eventId)
         que.getFirstObjectInBackgroundWithBlock({
             
-            (results:PFObject!, queerror: NSError!) -> Void in
+            (results:PFObject?, queerror: NSError?) -> Void in
             
             if queerror == nil {
               results.delete()
@@ -303,7 +302,7 @@ class postEvent: UIViewController {
                 going["eventID"] = self.eventId
                 going.saveInBackgroundWithBlock{
                     
-                    (succeded:Bool, savError:NSError!) -> Void in
+                    (succeded:Bool, savError:NSError?) -> Void in
                     
                     if savError == nil {
                         self.getCount()
@@ -352,7 +351,7 @@ class postEvent: UIViewController {
                     notify["receiver"] = self.users
                     notify["type"] =  "calendar"
                     notify.saveInBackgroundWithBlock({
-                        (success:Bool, notifyError: NSError!) -> Void in
+                        (success:Bool, notifyError: NSError?) -> Void in
                         
                         if notifyError == nil {
                             
@@ -374,7 +373,7 @@ class postEvent: UIViewController {
                     }
                     push.sendPushInBackgroundWithBlock({
                         
-                        (success:Bool, pushError: NSError!) -> Void in
+                        (success:Bool, pushError: NSError?) -> Void in
                         if pushError == nil {
                             print("The push was sent")
                         }
@@ -479,40 +478,6 @@ class postEvent: UIViewController {
             let imageView:imagePreview = segue.destinationViewController as! imagePreview
             imageView.eventID = self.eventId
         }
-    }
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-}
-class imagePreview: UIViewController {
-    var eventID = (String)()
-    var imageFile = (PFFile)()
-    @IBOutlet var eventPicture: UIImageView!
-    override func viewDidLoad() {
-        super.viewDidLoad()
-      
-        var getImage = PFQuery(className: "Event")
-        getImage.getObjectInBackgroundWithId(eventID, block: {
-            (object:PFObject!, error:NSError!) -> Void in
-            if error == nil {
-                self.imageFile = object["picture"] as! PFFile
-                self.imageFile.getDataInBackgroundWithBlock({
-                    (imageData: NSData!, error: NSError!) -> Void in
-                    if error == nil {
-                        self.eventPicture.image = UIImage(data: imageData)
-                        UIImageWriteToSavedPhotosAlbum(UIImage(data: imageData)!, nil, nil, nil)
-                       
-                        
-                    } else {
-                        print(error)
-                    }
-                })
-            }
-        })
-     
-
-        
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

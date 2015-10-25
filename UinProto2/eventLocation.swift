@@ -77,8 +77,8 @@ class eventLocationView: UIViewController, MKMapViewDelegate, CLLocationManagerD
     }
     //Keeps track of the center cordinate location
     func mapView(mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
-        var geocoder = CLGeocoder()
-        var location = CLLocation(latitude: map.centerCoordinate.latitude, longitude: map.centerCoordinate.longitude)
+        let geocoder = CLGeocoder()
+        let location = CLLocation(latitude: map.centerCoordinate.latitude, longitude: map.centerCoordinate.longitude)
         var location2D = CLLocationCoordinate2D(latitude: map.centerCoordinate.latitude, longitude: map.centerCoordinate.longitude)
         geocoder.reverseGeocodeLocation(location, completionHandler:{
             placemarks, error in
@@ -101,7 +101,7 @@ class eventLocationView: UIViewController, MKMapViewDelegate, CLLocationManagerD
         locationmgr.requestWhenInUseAuthorization()
         map.showsUserLocation = true
        locationmgr.startUpdatingLocation()
-        print(map.userLocation.location)
+        print(map.userLocation.location, terminator: "")
         
        
 
@@ -117,11 +117,11 @@ class eventLocationView: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
      func locationManager(locationmgr: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let location:CLLocation = locations.last!
-        print("it is moving and running")
+        print("it is moving and running", terminator: "")
         let center = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
         let geoLocation = CLLocation(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
         let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
-        var geocode = CLGeocoder()
+        let geocode = CLGeocoder()
         locationmgr.stopUpdatingLocation()
        
         geocode.reverseGeocodeLocation(location, completionHandler: {

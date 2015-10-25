@@ -147,7 +147,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
         query.whereKey("isDeleted", equalTo: false)
         query.whereKey("start", greaterThanOrEqualTo: NSDate())
         query.findObjectsInBackgroundWithBlock {
-            (results: [AnyObject]!, error: NSError!) -> Void in
+            (results: [PFObject]?, error:NSError?) -> Void in
             if error == nil {
 
                 self.onsite.removeAll(keepCapacity: true)
@@ -337,7 +337,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
             } else {
             que.getFirstObjectInBackgroundWithBlock{
     
-                (object:PFObject!, error: NSError!) -> Void in
+                (object:PFObject?, error: NSError?) -> Void in
                 
                 if error == nil {
                     
@@ -403,7 +403,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
         subQuery.whereKey("publisher", equalTo: theUser)
         subQuery.whereKey("subscriber", equalTo: PFUser.currentUser().username)
         subQuery.getFirstObjectInBackgroundWithBlock({
-            (results:PFObject!, error: NSError!) -> Void in
+            (results:PFObject?, error: NSError?) -> Void in
             if error == nil {
                 sender.setTitle("Subscribe", forState: UIControlState.Normal)
                 sender.setTitleColor(UIColor(red: 254.0/255.0, green: 186.0/255.0, blue: 1.0/255.0, alpha: 1.0), forState: UIControlState.Normal)
@@ -414,7 +414,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 var currentInstallation = PFInstallation.currentInstallation()
                 currentInstallation.removeObject(self.userId, forKey: "channels")
                 currentInstallation.saveInBackgroundWithBlock({
-                    (success:Bool, pushError: NSError!) -> Void in
+                    (success:Bool, pushError: NSError?) -> Void in
                     
                     if pushError == nil {
                         println("the installtion did remove")
@@ -443,7 +443,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 var currentInstallation = PFInstallation.currentInstallation()
                 currentInstallation.addUniqueObject(self.userId, forKey: "channels")
                 currentInstallation.saveInBackgroundWithBlock({
-                    (success:Bool, saveerror: NSError!) -> Void in
+                    (success:Bool, saveerror: NSError?) -> Void in
                     if saveerror == nil {
                         println("Subscribed")
                         var theMix = Mixpanel.sharedInstance()
@@ -475,7 +475,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 notify["type"] =  "sub"
                 notify.saveInBackgroundWithBlock({
                     
-                    (success:Bool, notifyError: NSError!) -> Void in
+                    (success:Bool, notifyError: NSError?) -> Void in
                     
                     if notifyError == nil {
                         println("notifcation has been saved")
@@ -494,7 +494,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                     push.setMessage("\(PFUser.currentUser().username) has subscribed to you ")
                     push.sendPushInBackgroundWithBlock({
                         
-                        (success:Bool, pushError: NSError!) -> Void in
+                        (success:Bool, pushError: NSError?) -> Void in
                         
                         if pushError == nil {
                             
@@ -612,7 +612,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
         
         minique.getFirstObjectInBackgroundWithBlock{
             
-            (results:PFObject!, error: NSError!) -> Void in
+            (results:PFObject?, error: NSError?) -> Void in
             
             if error == nil {
                 
@@ -642,7 +642,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
         que.whereKey("eventID", equalTo:self.objectID[sender.tag])
         que.getFirstObjectInBackgroundWithBlock({
             
-            (results:PFObject!, queerror: NSError!) -> Void in
+            (results:PFObject?, queerror: NSError?) -> Void in
             
             
             if queerror == nil {
@@ -751,7 +751,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                         push.setMessage("\(PFUser.currentUser().username) has added your event to their calendar")
                     }
                     push.sendPushInBackgroundWithBlock({
-                        (success:Bool, pushError: NSError!) -> Void in
+                        (success:Bool, pushError: NSError?) -> Void in
                         if pushError == nil {
                             println("Push was Sent")
                         }
@@ -769,7 +769,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 going["eventID"] = self.objectID[sender.tag]
                 going.saveInBackgroundWithBlock{
                     
-                    (succeded:Bool, savError:NSError!) -> Void in
+                    (succeded:Bool, savError:NSError?) -> Void in
                     if savError == nil {
                         
                     }
@@ -788,7 +788,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
             notify["type"] =  "calendar"
             notify.saveInBackgroundWithBlock({
                 
-                (success:Bool, notifyError: NSError!) -> Void in
+                (success:Bool, notifyError: NSError?) -> Void in
                 
                 if notifyError == nil {
                     

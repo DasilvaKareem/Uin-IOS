@@ -8,6 +8,7 @@
 
 import UIKit
 import EventKit
+import Parse
 
 class eventFeedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UITextFieldDelegate {
     
@@ -42,9 +43,9 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         
         
         query.findObjectsInBackgroundWithBlock({
-           objects, error in
-            print(objects.count)
-            for object in objects {
+           (objects: [PFObject]?, error: NSError?) -> Void in
+            print(objects!.count)
+            for object in objects! {
                 print(object)
                 var event = Event()
                 event.address = object["address"] as! String
@@ -96,19 +97,18 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         eventQuery.whereKey("start", greaterThanOrEqualTo: NSDate())
         eventQuery.whereKey("isPublic", equalTo: true)
         eventQuery.findObjectsInBackgroundWithBlock({
-            (results: [AnyObject]!, error: NSError!) -> Void in
+            (results: [PFObject]?, error: NSError?) -> Void in
             if error == nil {
-                for object in results{
-                    self.searchItems.append(searchItem(type: "Event", name: object["title"] as! String, id: object.objectId as String))
+                for object in results!{
+                    self.searchItems.append(searchItem(type: "Event", name: object["title"] as! String, id: object.objectId!))
 
                 }
-                let userQuery = PFUser.query()
-                userQuery.whereKey("tempAccounts", equalTo: false)
+                let userQuery = PFUser.query()!
                 userQuery.findObjectsInBackgroundWithBlock({
-                    (results: [AnyObject]!, error: NSError!) -> Void in
+                    (objects: [PFObject]?, error: NSError?) -> Void in
                     if error == nil {
-                        for object in results{
-                            self.searchItems.append(searchItem(type: "Username", name: object["username"] as! String, id: object.objectId))
+                        for object in results!{
+                            self.searchItems.append(searchItem(type: "Username", name: object["username"] as! String, id: object.objectId!))
                             
                             
                         }
@@ -120,7 +120,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func searchBarResultsListButtonClicked(searchBar: UISearchBar) {
         self.searchActive = false
-        print("THe result button was button")
+        print("THe result button was button", terminator: "")
     }
     func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
         self.searchActive = true;
@@ -194,13 +194,13 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     override func viewWillDisappear(animated: Bool) {
-        print("View disappear")
+        print("View disappear", terminator: "")
         endSearch()
         
     }
     override func viewWillAppear(animated: Bool) {
       
-        print("")
+        print("", terminator: "")
         setupCalendar()
         updateFeed()
         //Setups Ui
@@ -218,41 +218,11 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     
     //2 nav buttons 1 leads to settings while the other send to log in
     @IBAction func eventMake(sender: AnyObject) {
-        var user = PFUser.currentUser()
+       
         //Checks if the account is a temporary account
-        if user["tempAccounts"] as! Bool == false {
+       
            self.performSegueWithIdentifier("eventMake", sender: self)
-            var theMix = Mixpanel.sharedInstance()
-            theMix.track("Tap Create Event (EF)")
-            theMix.flush()
             
-
-        } else {
-            var theMix = Mixpanel.sharedInstance()
-            theMix.track("Tap Create Account (EF)")
-            theMix.flush()
-            
-            var alert = UIAlertController(title: "Create an account to do this!", message: "It'll only take a few seconds...", preferredStyle: UIAlertControllerStyle.Alert)
-            alert.addAction(UIAlertAction(title: "Create an account", style: .Default, handler: { action in
-                
-               self.performSegueWithIdentifier("createAccount", sender: self)
-                
-            }))
-            alert.addAction(UIAlertAction(title: "Sign in", style: UIAlertActionStyle.Default, handler: { action in
-                
-                 self.performSegueWithIdentifier("signInAccount", sender: self)
-                
-            }))
-            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: { action in    
-                
-            }))
-            
-          self.presentViewController(alert, animated: true, completion: nil)
-            
-            func preferredStatusBarStyle() -> UIStatusBarStyle {
-                return UIStatusBarStyle.Default
-            }
-        }
     }
    
     // Alert function
@@ -273,10 +243,11 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         if channelID != "localEvent" || channelID != "subbedEvents" {
             let calendarQue = PFQuery(className: "Channel")
             calendarQue.getObjectInBackgroundWithId(channelID, block: {
-                (object:PFObject!, error:NSError!) -> Void in
+                (object: PFObject?, error: NSError?) -> Void in
                 if error == nil {
-                    self.navigationItem.title = object["name"] as? String
-                    self.alertTime = object["alertTime"] as! NSTimeInterval
+                    let pObject = object!
+                    self.navigationItem.title = pObject["name"] as! String
+                    self.alertTime = pObject["alertTime"] as! NSTimeInterval
                 } else {
                     print(error.debugDescription)
                 }
@@ -438,23 +409,23 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             
             endSearch()
             self.performSegueWithIdentifier("event", sender: self)
-            print("search is \(self.searchActive)")
+            print("search is \(self.searchActive)", terminator: "")
             
         } else {
             if filteredSearchItems.count == 0 {
-                print("No items selected")
+                print("No items selected", terminator: "")
             } else {
                 let item = filteredSearchItems[indexPath.row]
                 
                 if item.type == "Event" {
                     endSearch()
                     self.performSegueWithIdentifier("searchEvent", sender: self)
-                    print("search is \(self.searchActive)")
+                    print("search is \(self.searchActive)", terminator: "")
                     
                 } else {
                     endSearch()
                     self.performSegueWithIdentifier("profile", sender: self)
-                    print("search is \(self.searchActive)")
+                    print("search is \(self.searchActive)", terminator: "")
                 }
             }
         }

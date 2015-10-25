@@ -33,7 +33,7 @@ class subscriptions: UITableViewController {
         followque.orderByAscending("createdAt")
         followque.findObjectsInBackgroundWithBlock{
             
-            (objects:[AnyObject]!, folError:NSError!) -> Void in
+            (objects:[PFObject]?,folError:NSError?) -> Void in
             
             
             if folError == nil {

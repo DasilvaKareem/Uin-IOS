@@ -28,7 +28,7 @@ class channelSelectView: UITableViewController {
         localEventCount.whereKey("isPublic", equalTo: true)
         localEventCount.whereKey("createdAt", greaterThanOrEqualTo:PFUser.currentUser()["localEventsTimestamp"] as! NSDate)
         localEventCount.countObjectsInBackgroundWithBlock({
-            (count:Int32, error:NSError!) -> Void in
+            (count:Int32, error:NSError?) -> Void in
             if error == nil {
                 self.genEvents.removeAll(keepCapacity: true)
                 self.gentype.removeAll(keepCapacity: true)
@@ -66,7 +66,7 @@ class channelSelectView: UITableViewController {
                 eventQuery.whereKey("objectId", matchesKey: "eventID", inQuery: getAmountSchedule)
                 eventQuery.whereKey("start", greaterThan: NSDate())
                 eventQuery.countObjectsInBackgroundWithBlock({
-                    (count:Int32, error:NSError!) -> Void in
+                    (count:Int32, error:NSError?) -> Void in
                     if error == nil {
                         
                         self.genEvents.append("\(count) upcoming")
@@ -100,7 +100,7 @@ class channelSelectView: UITableViewController {
         let subscriberInfo = PFQuery(className: "Subscription") //gets the subscriber count
         subscriberInfo.whereKey("publisher", equalTo: PFUser.currentUser().username)
         subscriberInfo.countObjectsInBackgroundWithBlock({
-            (count:Int32, error:NSError!) -> Void in
+            (count:Int32, error:NSError?) -> Void in
             if error == nil {
                 //Removes all the previous information
                 self.userType.removeAll(keepCapacity: true)
@@ -113,7 +113,7 @@ class channelSelectView: UITableViewController {
                 let subscriptionInfo = PFQuery(className: "Subscription") //gets the subscription count
                 subscriptionInfo.whereKey("subscriberID", equalTo: PFUser.currentUser().objectId)
                 subscriptionInfo.countObjectsInBackgroundWithBlock({
-                    (count2:Int32, error:NSError!) -> Void in
+                    (count2:Int32, error:NSError?) -> Void in
                     if error == nil {
                         self.usernameInfo.append(String(count2))
                         self.usernameSectionTitle.append("subscriptions")
@@ -191,7 +191,7 @@ class channelSelectView: UITableViewController {
         channelQuery.whereKey("userID", equalTo: PFUser.currentUser().objectId)
         //channelQuery.whereKey("expiration", greaterThan: NSDate())
         channelQuery.findObjectsInBackgroundWithBlock({
-            (results: [AnyObject]!, error: NSError!) -> Void in
+            (results: [PFObject]?, error:NSError?) -> Void in
             if error == nil {
                 for object in results {
                     self.channels.append(object["channelID"] as! String)
@@ -219,7 +219,7 @@ class channelSelectView: UITableViewController {
         checkStatus.whereKey("authorized", equalTo: true)
         checkStatus.whereKey("expiration", greaterThan: NSDate())
         checkStatus.getFirstObjectInBackgroundWithBlock({
-            (object:PFObject!, error:NSError!) -> Void in
+            (object:PFObject?, error:NSError?) -> Void in
             if error == nil {
                 self.memBounded = true
             } else {
@@ -454,7 +454,7 @@ class channelSelectView: UITableViewController {
             if indexPath.section == 1 {
                
                 if self.memBounded == true {
-                    print("You are membounded")
+                    print("You are membounded", terminator: "")
                         //Re checks if your authorization is still on
                     self.checkLockedStatus()
                     if self.memBounded == true {
@@ -494,19 +494,19 @@ class channelSelectView: UITableViewController {
                     })
                     alert.addAction(UIAlertAction(title: "Enter", style: .Default, handler:{ (alertAction:UIAlertAction) in
                         
-                        let textf = alert.textFields![0] as! UITextField
+                        let textf = alert.textFields![0] 
                         var pinCheck = PFQuery(className: "ChannelCodeInfo")
                         pinCheck.whereKey("channelID", equalTo: self.channels[indexPath.row])
                         pinCheck.whereKey("validationCode", equalTo:textf.text )
                         pinCheck.getFirstObjectInBackgroundWithBlock({
-                            (object1:PFObject!, error:NSError!) -> Void in
+                            (object1:PFObject?, error:NSError?) -> Void in
                             if error == nil {
                                 var expDate = object1["expiration"] as! NSDate
                                 var changeBound = PFQuery(className: "ChannelUser")
                                 changeBound.whereKey("userID", equalTo: PFUser.currentUser().objectId)
                                 changeBound.whereKey("channelID", equalTo: self.channels[indexPath.row])
                                 changeBound.getFirstObjectInBackgroundWithBlock({
-                                    (object2:PFObject!, error:NSError!) -> Void in
+                                    (object2:PFObject?, error:NSError?) -> Void in
                                     object2["authorized"] = true
                                     object2["expiration"] = expDate
                                     object2.save()
@@ -551,14 +551,14 @@ class channelSelectView: UITableViewController {
                         pinCheck.whereKey("channelID", equalTo: self.channels[indexPath.row])
                         pinCheck.whereKey("validationCode", equalTo:textf.text )
                         pinCheck.getFirstObjectInBackgroundWithBlock({
-                            (object1:PFObject!, error:NSError!) -> Void in
+                            (object1:PFObject?, error:NSError?) -> Void in
                             if error == nil {
                                 var expDate = object1["expiration"] as! NSDate
                                 var changeBound = PFQuery(className: "ChannelUser")
                                 changeBound.whereKey("userID", equalTo: PFUser.currentUser().objectId)
                                 changeBound.whereKey("channelID", equalTo: self.channels[indexPath.row])
                                 changeBound.getFirstObjectInBackgroundWithBlock({
-                                    (object2:PFObject!, error:NSError!) -> Void in
+                                    (object2:PFObject?, error:NSError?) -> Void in
                                     object2["authorized"] = true
                                     object2["expiration"] = expDate
                                     object2.save()

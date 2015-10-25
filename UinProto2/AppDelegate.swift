@@ -34,7 +34,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Mixpanel.sharedInstanceWithToken("9955bea4e861e38f30086091b171d9fdoirthg9e78r")
         
 
-        ParseCrashReporting.enable()
+        //ParseCrashReporting.enable()
         //devolpment key
         Parse.setApplicationId("HawWPTDabdo1FXdxMevotUNmVCwVl62wTkjiFyNg", clientKey: "Gj2fnhH0CkA6G1Hkl5igSQRooXeD3ByVBKjMF1Bq")
         
@@ -69,6 +69,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
         
     PFFacebookUtils.initializeFacebook()
+    
+    Parse.init()
         // Override point for customization after application launch.
         return true
     }
@@ -78,7 +80,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         installation.setDeviceTokenFromData(deviceToken)
         installation.save()
 
-        print("Success")
+        print("Success", terminator: "")
     
         
         
@@ -86,7 +88,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application( application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError ) {
         
-        print("Fail!")
+        print("Fail!", terminator: "")
     
     }
    

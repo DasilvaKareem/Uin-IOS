@@ -48,7 +48,7 @@ class SignIn: UIViewController, UITextFieldDelegate {
         var fbloginView:FBLoginView = FBLoginView(readPermissions: ["email", "public_profile"])
         let permissions = ["public_profile", "email"]
         PFFacebookUtils.logInWithPermissions(permissions, block: {
-            (user: PFUser!, error: NSError!) -> Void in
+            (user: PFUser!, error: NSError?) -> Void in
             if error == nil {
                 if user == nil {
                     NSLog("Uh oh. The user cancelled the Facebook login.")
@@ -66,7 +66,7 @@ class SignIn: UIViewController, UITextFieldDelegate {
                         user.username = result["name"] as!String
                         user.email = result["name"] as!String
                         user.saveInBackgroundWithBlock({
-                            (success:Bool, error:NSError!) -> Void in
+                            (success:Bool, error:NSError?) -> Void in
                             if error == nil {
                                 let theMix = Mixpanel.sharedInstance()
                                 theMix.track("Registers Info with Facebook (SI)")
@@ -86,7 +86,7 @@ class SignIn: UIViewController, UITextFieldDelegate {
                     currentInstallation["userId"] = PFUser.currentUser().objectId
                     currentInstallation.saveInBackgroundWithBlock({
                         
-                        (success:Bool, saveerror: NSError!) -> Void in
+                        (success:Bool, saveerror: NSError?) -> Void in
                         
                         if saveerror == nil {
                             
@@ -97,7 +97,7 @@ class SignIn: UIViewController, UITextFieldDelegate {
                             userTimeCheck["subscriptionsTimestamp"] = NSDate()
                             userTimeCheck["localEventsTimestamp"] = NSDate()
                             userTimeCheck.saveInBackgroundWithBlock({
-                                (success:Bool, error:NSError!) -> Void in
+                                (success:Bool, error:NSError?) -> Void in
                                 if error == nil {
                                     print("The stamp was updated")
                                 } else {
@@ -165,7 +165,7 @@ class SignIn: UIViewController, UITextFieldDelegate {
         else {
             var subscriptionUsernames = [String]()
             PFUser.logInWithUsernameInBackground(username.text, password:password.text) {
-                (user: PFUser!, loginError: NSError!) -> Void in
+                (user: PFUser!, loginError: NSError?) -> Void in
 
                 if loginError == nil {
                   
@@ -173,7 +173,7 @@ class SignIn: UIViewController, UITextFieldDelegate {
                     query.whereKey("subscriber", equalTo: PFUser.currentUser().username)
                     query.findObjectsInBackgroundWithBlock({
                         
-                        (objects:[AnyObject]!, queError:NSError!) -> Void in
+                        (objects:[PFObject]?,queError:NSError?) -> Void in
                         
                         if queError == nil {
                             print(subscriptionUsernames)
@@ -189,7 +189,7 @@ class SignIn: UIViewController, UITextFieldDelegate {
                             currentInstallation.setValue(subscriptionUsernames, forKey: "channels")
                             currentInstallation.saveInBackgroundWithBlock({
                                 
-                                (success:Bool, saveerror: NSError!) -> Void in
+                                (success:Bool, saveerror: NSError?) -> Void in
                                 
                                 if saveerror == nil {
                                     let userTimeCheck = PFUser.currentUser()
@@ -197,7 +197,7 @@ class SignIn: UIViewController, UITextFieldDelegate {
                                     userTimeCheck["subscriptionsTimestamp"] = NSDate()
                                     userTimeCheck["localEventsTimestamp"] = NSDate()
                                     userTimeCheck.saveInBackgroundWithBlock({
-                                        (success:Bool, error:NSError!) -> Void in
+                                        (success:Bool, error:NSError?) -> Void in
                                         if error == nil {
                                             print("The stamp was updated")
                                         } else {
@@ -281,7 +281,7 @@ class ForgotPasswordView: UIViewController {
     //Sends password reset fourm
     @IBAction func sendReset(sender: AnyObject) {
         PFUser.requestPasswordResetForEmailInBackground(passwordResetField.text, block: {
-            (success:Bool, error:NSError!) -> Void in
+            (success:Bool, error:NSError?) -> Void in
             if error == nil {
                 self.confirmBtn.setTitle("Resend", forState: UIControlState.Normal)
                 self.resultTest.text = "Sent Email"

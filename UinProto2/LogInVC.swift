@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Parse
 
 class LogInVC: UIViewController {
     //Manges the registrain and login procress for users
@@ -37,7 +38,7 @@ class LogInVC: UIViewController {
                     print("you do not have a memphis.edu")
                 }
             } else {
-                print("this guy messed up somewhere")
+                print("this guy messed up somewhere", terminator: "")
             }
         })
         //Only allows users who have memphis.edu proceed
@@ -91,7 +92,7 @@ class LinkUser: UIViewController {
      
         if !PFTwitterUtils.isLinkedWithUser(user) {
             PFTwitterUtils.linkUser(user, block: {
-                (succeeded: Bool, error: NSError!) -> Void in
+                (succeeded: Bool, error: NSError?) -> Void in
                 if PFTwitterUtils.isLinkedWithUser(self.user) {
                     print("Woohoo, user logged in with Twitter!", terminator: "")
                 }
@@ -123,7 +124,7 @@ class basicSignUp: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     func queryData(){
-        let query = PFUser.currentUser()
+        let query = PFUser.currentUser() as PFUser!
         
         if query["firstName"] != nil {
             fName.text = query["firstName"] as? String
@@ -133,7 +134,7 @@ class basicSignUp: UIViewController {
         }
        /* var file = query["profilePicture"] as! PFFile
         file.getDataInBackgroundWithBlock({
-            (data:NSData!, error:NSError!) -> Void in
+            (data:NSData!, error:NSError?) -> Void in
             if error == nil {
                 self.profilePic.image = UIImage(data: data)
             }
@@ -143,11 +144,11 @@ class basicSignUp: UIViewController {
         
     }
     @IBAction func submitData(sender : AnyObject) {
-        let user = PFUser.currentUser()
+        let user = PFUser.currentUser()!
         user["firstName"] = fName.text!.capitalizedString
         user["lName"] = lName.text!.capitalizedString
         user.saveInBackgroundWithBlock({
-            (success:Bool, error:NSError!) -> Void in
+            (success:Bool!, error:NSError?) -> Void in
             if error == nil {
                 print("updated username fields")
                 self.performSegueWithIdentifier("next3", sender: self)
@@ -190,7 +191,7 @@ class extraSignUp: UIViewController, UIPickerViewDataSource, UIPickerViewDelegat
     
     
     @IBAction func submitData(sender: AnyObject) {
-        let user = PFUser.currentUser()
+        let user = PFUser.currentUser()!
         var error = ""
         if gender.selectedSegmentIndex == 1 {
             user["gender"] = "male"
@@ -208,7 +209,7 @@ class extraSignUp: UIViewController, UIPickerViewDataSource, UIPickerViewDelegat
         if error == "" {
             user["profileReady"] = true
             user.saveInBackgroundWithBlock({
-                (success:Bool, error:NSError!) -> Void in
+                (success:Bool, error:NSError?) -> Void in
                 if error == nil {
                     let storyboard = UIStoryboard(name: "Main", bundle: nil)
                     let poop:UIViewController = storyboard.instantiateInitialViewController()!
