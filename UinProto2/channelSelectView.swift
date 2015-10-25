@@ -26,7 +26,7 @@ class channelSelectView: UITableViewController {
         //Finds out information and count number of your general calendars and sends things through blocks
         let localEventCount = PFQuery(className: "Event")
         localEventCount.whereKey("isPublic", equalTo: true)
-        localEventCount.whereKey("createdAt", greaterThanOrEqualTo:PFUser.currentUser()["localEventsTimestamp"] as! NSDate)
+        localEventCount.whereKey("createdAt", greaterThanOrEqualTo:PFUser.currentUser()!["localEventsTimestamp"] as! NSDate)
         localEventCount.countObjectsInBackgroundWithBlock({
             (count:Int32, error:NSError?) -> Void in
             if error == nil {
@@ -45,7 +45,7 @@ class channelSelectView: UITableViewController {
                 
                 //Gets Subscriptions Events
                 let subscriptionQuery = PFQuery(className: "Subscription")
-                subscriptionQuery.whereKey("subscriberID", equalTo: PFUser.currentUser().objectId)
+                subscriptionQuery.whereKey("subscriberID", equalTo: PFUser.currentUser().objectId!)
                 let subscriptionEventCount = PFQuery(className: "Event")
                 subscriptionEventCount.whereKey("authorID", matchesKey: "publisherID", inQuery: subscriptionQuery)
                 subscriptionEventCount.whereKey("isPublic", equalTo: true)
