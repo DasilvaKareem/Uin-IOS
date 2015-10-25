@@ -520,8 +520,8 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             let row = indexpath?.row
             let item = filteredSearchItems[row!]
             let theotherprofile:postEvent = segue.destinationViewController as! postEvent
-            theotherprofile.eventId = item.id
-            theotherprofile.searchEvent = true
+            //theotherprofile.eventId = item.id
+           // theotherprofile.searchEvent = true
         }
        
         

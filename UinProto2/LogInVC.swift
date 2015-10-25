@@ -87,19 +87,6 @@ class LinkUser: UIViewController {
         }
 
     }
-
-    @IBAction func linkWithTwitter(sender: AnyObject) {
-     
-        if !PFTwitterUtils.isLinkedWithUser(user) {
-            PFTwitterUtils.linkUser(user, block: {
-                (succeeded: Bool, error: NSError?) -> Void in
-                if PFTwitterUtils.isLinkedWithUser(self.user) {
-                    print("Woohoo, user logged in with Twitter!", terminator: "")
-                }
-            })
-        }
-        
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -148,7 +135,7 @@ class basicSignUp: UIViewController {
         user["firstName"] = fName.text!.capitalizedString
         user["lName"] = lName.text!.capitalizedString
         user.saveInBackgroundWithBlock({
-            (success:Bool!, error:NSError?) -> Void in
+            (success:Bool, error:NSError?) -> Void in
             if error == nil {
                 print("updated username fields")
                 self.performSegueWithIdentifier("next3", sender: self)

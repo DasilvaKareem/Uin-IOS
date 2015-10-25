@@ -255,21 +255,21 @@ class eventMake: UIViewController, UITextFieldDelegate {
                 (success:Bool, error:NSError?) -> Void in
                 
                 if error == nil {
-                    println("The email was saved")
+                    print("The email was saved")
                     
                     PFUser.currentUser().setObject(email, forKey: "email")
                     PFUser.currentUser().saveInBackgroundWithBlock({
                         (success:Bool, error:NSError?) -> Void in
                         
                         if error == nil {
-                            println("The email was saved")
+                            print("The email was saved")
                         } else {
-                            println("the email was sent")
+                            print("the email was sent")
                         }
                     })
                     
                 } else {
-                    println("email did not save")
+                    print("email did not save")
                 }
             })
         }*/
@@ -476,7 +476,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
                         notify["receiver"] = PFUser.currentUser()!.username
                         notify["eventID"] = event.objectId
                         notify["type"] =  "event"
-                        notify.save()
+                       // notify.saveInBackground()
 
                         orderDate1 = NSDate()
                         orderDate2 = NSDate()
@@ -518,8 +518,8 @@ class eventMake: UIViewController, UITextFieldDelegate {
                         let theMix = Mixpanel.sharedInstance()
                         theMix.track("Deleted Event (EM)")
                         var name = PFUser.currentUser()!.username
-                        eventItem["isDeleted"] = true
-                        eventItem!.save()
+                        //eventItem["isDeleted"] = true
+                        //eventItem.saveInBackground()
                  
                         let findPeople = PFQuery(className: "UserCalendar")
                         var collectedPeople = [String]()
@@ -572,7 +572,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
                                         (objects:[PFObject]?, error:NSError?) -> Void in
                                         if error == nil {
                                             for object in objects! {
-                                                object.delete()
+                                                //object.delete()
                                             }
                                         }
                                     })

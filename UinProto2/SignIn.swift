@@ -39,90 +39,7 @@ class SignIn: UIViewController, UITextFieldDelegate {
         }
     }
     
-    @IBAction func facebook(sender: AnyObject) {
-        
-        //Logins into Facebook
-        let theMix = Mixpanel.sharedInstance()
-        theMix.track("Tap Facebook (SI)")
-        
-        var fbloginView:FBLoginView = FBLoginView(readPermissions: ["email", "public_profile"])
-        let permissions = ["public_profile", "email"]
-        PFFacebookUtils.logInWithPermissions(permissions, block: {
-            (user: PFUser!, error: NSError?) -> Void in
-            if error == nil {
-                if user == nil {
-                    NSLog("Uh oh. The user cancelled the Facebook login.")
-                    print(error)
-                    //self.loginCancelledLabel.alpha = 1
-                    
-                } else if user.isNew {
-                    NSLog("User signed up and logged in through Facebook!")
-                    
-                    FBRequestConnection.startForMeWithCompletionHandler({
-                        connection, result, error in
-                        print(result)
-                        self.userFacebook = result["name"] as!String
-                        self.emailFacebook = result["email"] as!String
-                        user.username = result["name"] as!String
-                        user.email = result["name"] as!String
-                        user.saveInBackgroundWithBlock({
-                            (success:Bool, error:NSError?) -> Void in
-                            if error == nil {
-                                let theMix = Mixpanel.sharedInstance()
-                                theMix.track("Registers Info with Facebook (SI)")
-                                self.performSegueWithIdentifier("register", sender: self)
-                            }
-            
-                        })
-                 
-                        
-                    })
-                    
-                } else {
-                    
-                    NSLog("User is already signed in with us")
-                    let currentInstallation = PFInstallation.currentInstallation()
-                    currentInstallation["user"] = PFUser.currentUser().username
-                    currentInstallation["userId"] = PFUser.currentUser().objectId
-                    currentInstallation.saveInBackgroundWithBlock({
-                        
-                        (success:Bool, saveerror: NSError?) -> Void in
-                        
-                        if saveerror == nil {
-                            
-                            let theMix = Mixpanel.sharedInstance()
-                            theMix.track("Logged in with Facebook (SI)")
-                            let userTimeCheck = PFUser.currentUser()
-                            userTimeCheck["notificationsTimestamp"] = NSDate()
-                            userTimeCheck["subscriptionsTimestamp"] = NSDate()
-                            userTimeCheck["localEventsTimestamp"] = NSDate()
-                            userTimeCheck.saveInBackgroundWithBlock({
-                                (success:Bool, error:NSError?) -> Void in
-                                if error == nil {
-                                    print("The stamp was updated")
-                                } else {
-                                    print(error.debugDescription)
-                                }
-                            })
-                            self.performSegueWithIdentifier("login", sender: self)
-                            
-                        }
-                            
-                        else {
-                            
-                            print("facebook installtions was not succesfull")
-                        }
-                        
-                    })
-                    
-                }
-            } else {
-                self.displayAlert("Error", error: "We're sorry! Please try again. If this problem persists, please send an email with the issue to support@areuin.co. Thank you!")
-                print(error.debugDescription)
-            }
-
-        })
-    }
+  
  
     override func viewDidLoad() {
 
@@ -164,8 +81,8 @@ class SignIn: UIViewController, UITextFieldDelegate {
         }
         else {
             var subscriptionUsernames = [String]()
-            PFUser.logInWithUsernameInBackground(username.text, password:password.text) {
-                (user: PFUser!, loginError: NSError?) -> Void in
+            PFUser.logInWithUsernameInBackground(username.text!, password:password.text!) {
+                (user: PFUser?, loginError: NSError?) -> Void in
 
                 if loginError == nil {
                   
@@ -185,18 +102,18 @@ class SignIn: UIViewController, UITextFieldDelegate {
                             var user = PFUser.currentUser()
                             let currentInstallation = PFInstallation.currentInstallation()
                             currentInstallation["user"] = PFUser.currentUser()!.username
-                            currentInstallation["userId"] = PFUser.currentUser(!).objectId
+                            currentInstallation["userId"] = PFUser.currentUser()!.objectId!
                             currentInstallation.setValue(subscriptionUsernames, forKey: "channels")
                             currentInstallation.saveInBackgroundWithBlock({
                                 
                                 (success:Bool, saveerror: NSError?) -> Void in
                                 
                                 if saveerror == nil {
-                                    let userTimeCheck = PFUser.currentUser()
+                                    let userTimeCheck = PFUser.currentUser()!
                                     userTimeCheck["notificationsTimestamp"] = NSDate()
                                     userTimeCheck["subscriptionsTimestamp"] = NSDate()
                                     userTimeCheck["localEventsTimestamp"] = NSDate()
-                                    userTimeCheck!.saveInBackgroundWithBlock({
+                                    userTimeCheck.saveInBackgroundWithBlock({
                                         (success:Bool, error:NSError?) -> Void in
                                         if error == nil {
                                             print("The stamp was updated")

@@ -60,12 +60,12 @@ class settingsView: UIViewController {
         
         var user:PFUser = PFUser.currentUser()!
         if notifySlider.on == true {
-            var subscriptionUsernames = [String]()
-            let user = PFUser.currentUser()
+            /*var subscriptionUsernames = [String]()
+            let user = PFUser.currentUser()!
             user["pushEnabled"] as! Bool = true
-            user.save()
+            user.saveInBackground()
             let query = PFQuery(className: "Subscription")
-            query.whereKey("subscriberID", equalTo: PFUser.currentUser().objectId)
+            query.whereKey("subscriberID", equalTo: user.objectId!)
             query.findObjectsInBackgroundWithBlock({
         
                 (objects:[PFObject]?,queError:NSError?) -> Void in
@@ -78,21 +78,21 @@ class settingsView: UIViewController {
                         var user = PFUser.currentUser()
                         let currentInstallation = PFInstallation.currentInstallation()
                         currentInstallation.setValue(subscriptionUsernames, forKey: "channels")
-                        currentInstallation.save()
+                        currentInstallation.saveInBackground()
                 }
             })
-        }
+       */ }
         else {
             let install = PFInstallation.currentInstallation()
             let channels = install.channels
             if channels != nil {
-                install.removeObjectsInArray(channels, forKey: "channels")
-                install.save()
+              //  install.removeObjectsInArray(channels, forKey: "channels")
+               // install.saveInBackground()
 
             }
             let user = PFUser.currentUser()
-            user["pushEnabled"] = false
-            user.save()
+            //user["pushEnabled"] = false
+           // user.saveInBackground()
         }
         
     }
@@ -109,8 +109,9 @@ class settingsView: UIViewController {
             PFUser.logOut()
             self.performSegueWithIdentifier("logout", sender: self)
         } else {
-            install.removeObjectsInArray(channels, forKey: "channels")
-            install.save()
+            install.removeObjectsInArray(channels!, forKey: "channels")
+            install.saveInBackground()
+
             PFUser.logOut()
             self.performSegueWithIdentifier("logout", sender: self)
         }
@@ -119,7 +120,7 @@ class settingsView: UIViewController {
     }
     //Forces an email verification
     @IBAction func resendEmail(sender: AnyObject) {
-        let email = PFUser.currentUser().email
+       /* let email = PFUser.currentUser().email
         PFUser.currentUser().setObject("test@areuin.co", forKey: "email")
         PFUser.currentUser().saveInBackgroundWithBlock({
             (success:Bool, error:NSError?) -> Void in
@@ -141,7 +142,7 @@ class settingsView: UIViewController {
             } else {
                
             }
-        })
+        })*/
     }
    
     //Changes the type
@@ -180,9 +181,9 @@ class ChangeAccountInfo: UIViewController {
     @IBAction func sendToken(sender: AnyObject) {
         //Sends an password reset fourm if email are both correct
         if accountChangeType == "password" {
-            if confirmTextField.text == PFUser.currentUser().email && passwordTextField.text == PFUser.currentUser().email {
+            if confirmTextField.text == PFUser.currentUser()!.email && passwordTextField.text == PFUser.currentUser()!.email {
                 //Saves newTokenField to the current users password
-                PFUser.requestPasswordResetForEmailInBackground(newTokenField.text, block: {
+                PFUser.requestPasswordResetForEmailInBackground(newTokenField.text!, block: {
                     (success:Bool, error:NSError?) -> Void in
                     if error == nil {
                         self.resultToken.text = "Password Reset Sent"
@@ -198,10 +199,10 @@ class ChangeAccountInfo: UIViewController {
         }
         //Changes email and also resends the email verification if the user is not verified
         if accountChangeType == "email" {
-            if confirmTextField.text == PFUser.currentUser().email && passwordTextField.text == PFUser.currentUser().email {
+            if confirmTextField.text == PFUser.currentUser()!.email && passwordTextField.text == PFUser.currentUser()!.email {
                 //Saves newTokenField to the current users password
-                PFUser.currentUser().email = newTokenField.text
-                PFUser.currentUser().saveInBackgroundWithBlock({
+                PFUser.currentUser()!.email = newTokenField.text
+                PFUser.currentUser()!.saveInBackgroundWithBlock({
                     (sucess:Bool, error:NSError?) -> Void in
                     if error == nil {
                         self.resultToken.text = "Email is now changed"

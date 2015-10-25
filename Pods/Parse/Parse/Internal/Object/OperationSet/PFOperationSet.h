@@ -15,7 +15,7 @@
 
 /*!
  A set of field-level operations that can be performed on an object, corresponding to one
- command. For example, all the data for a single call to save() will be packaged here. It is
+ command. For example, all the data for a single call to saveInBackground() will be packaged here. It is
  assumed that the PFObject that owns the operations handles thread-safety.
  */
 @interface PFOperationSet : NSObject <NSCopying, NSFastEnumeration>

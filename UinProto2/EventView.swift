@@ -10,7 +10,7 @@ import UIKit
 import EventKit
 import Parse
 class postEvent: UIViewController {
-    
+  /*
     @IBOutlet var eventDescription: UILabel!
     @IBOutlet var calendarCount: UILabel!
     @IBOutlet var peopleView: UIImageView!
@@ -67,7 +67,7 @@ class postEvent: UIViewController {
     var userId = String()
     var eventDescriptionHolder = String()
     var searchEvent = false
-    var imageFile = (PFFile)()
+    //var imageFile = (PFFile)()
     var startDate = (String)()
     var endDate = (String)()
     func checkevent(){
@@ -483,4 +483,5 @@ class postEvent: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+*/
 }

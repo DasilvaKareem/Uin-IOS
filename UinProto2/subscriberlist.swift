@@ -45,7 +45,7 @@ class subscriberlist: UITableViewController {
                 self.folusernames.removeAll(keepCapacity: true)
                 self.folmembers.removeAll(keepCapacity: true)
                 for object in objects!{
-                    self.objectId.append(object.objectId as String)
+                    self.objectId.append(object.objectId!)
                     self.folmembers.append(object["isMember"] as!Bool)
                     self.folusernames.append(object["subscriber"] as!String)
                     self.foluserID.append(object["publisherID"] as!String)
@@ -98,7 +98,7 @@ class subscriberlist: UITableViewController {
         membersave.getObjectInBackgroundWithId(objectId[indexPath.row]) {
             (result: PFObject?, error: NSError?) -> Void in
             if error == nil {
-            if result["isMember"] as!Bool == true{
+            if result!["isMember"] as!Bool == true{
                 cell.member.selectedSegmentIndex = 0
             }
             else {
@@ -129,7 +129,7 @@ class subscriberlist: UITableViewController {
         membersave.getObjectInBackgroundWithId(objectId[sender.tag]) {
             (result: PFObject?, error: NSError?) -> Void in
             if error == nil {
-                 result["isMember"] = self.member
+                 result!["isMember"] = self.member
                 result!.saveInBackgroundWithBlock{
                     (succeeded: Bool, registerError: NSError?) -> Void in
                     if registerError == nil {

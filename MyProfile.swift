@@ -464,7 +464,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
         cell.eventName.text = eventTitle[event]
         cell.poop.tag = event
         //Mini query to check if event is already saved
-        //println(objectID[event])
+        //print(objectID[event])
         var minique = PFQuery(className: "UserCalendar")
         minique.whereKey("userID", equalTo: PFUser.currentUser()!.objectId!)
         var minique2 = PFQuery(className: "UserCalendar")
@@ -514,7 +514,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 if first == true {
                     
                     PFUser.currentUser()["firstRemoveFromCalendar"] = false
-                    PFUser().save()
+                    PFUser().saveInBackground()
                     self.displayAlert("Remove", error: "Tapping the blue checkmark removes an event from your calendar.")
                     
                 }
@@ -525,8 +525,8 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
                         
                         granted, error in
                         if (granted) && (error == nil) {
-                            println("granted \(granted)")
-                            println("error  \(error)")
+                            print("granted \(granted)")
+                            print("error  \(error)")
                             var hosted = "Hosted by \(self.usernames[sender.tag])"
                             var event:EKEvent = EKEvent(eventStore: eventStore)
                             
@@ -545,13 +545,13 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
                         print("EV is not nil")
                         for i in eV {
                             print("\(i.title) this is the i.title")
-                            prprintelf.eventTitle[sender.tag];)
+                           
                             if i.title == self.eventTitle[sender.tag]  {
                                 
                                 print("removed event")
                                 var theMix = Mixpanel.sharedInstance()
                                 theMix.track("Removed from Calendar (MP)")
-                                eventStore.removeEvent(i, span: EKSpanThisEvent, error: nil)
+                               //4 eventStore.removeEvent(i, span: EKSpanThisEvent, error: nil)
                             }
                         }
                     }
@@ -568,8 +568,8 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
                     //Saves the event to calenadar
                     granted, error in
                     if (granted) && (error == nil) {
-                        println("granted \(granted)")
-                        println("error  \(error)")
+                        print("granted \(granted)")
+                        print("error  \(error)")
                         var hosted = "Hosted by \(self.usernames[sender.tag])"
                         var event:EKEvent = EKEvent(eventStore: eventStore)
                         event.title = self.eventTitle[sender.tag]
@@ -584,7 +584,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
                         eventStore.saveEvent(event, span: EKSpanThisEvent, error: nil)
                         var theMix = Mixpanel.sharedInstance()
                         theMix.track("Added to Calendar (MP)")
-                        println("saved")
+                        print("saved")
                     }
                 })
                 
@@ -707,7 +707,7 @@ class NewProfile: UIViewController, UITableViewDelegate, UITableViewDataSource {
             var section = indexPath.section
             var row = indexPath.row
             
-            var index = getEventIndex(section!, row: row!)
+            var index = getEventIndex(section, row: row)
             secondViewController.storeStartDate = eventStart[index]
             secondViewController.endStoreDate =  eventEnd[index]
             secondViewController.userId = userId[index]

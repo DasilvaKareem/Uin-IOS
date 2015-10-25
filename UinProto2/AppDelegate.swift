@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import Parse
+import Bolts
+
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -64,7 +67,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let settings = UIUserNotificationSettings(forTypes: userNotificationTypes, categories: nil)
         application.registerUserNotificationSettings(settings)
         application.registerForRemoteNotifications()
-        PFTwitterUtils.initializeWithConsumerKey("8UEyO7HCWxgi6qtNOrHlkNXQk",  consumerSecret:"UwR53WCjwtmac7RthglrliwtoJuNg8rT3R7bne3pkM5gzhu053")
+        //PFTwitterUtils.initializeWithConsumerKey("8UEyO7HCWxgi6qtNOrHlkNXQk",  consumerSecret:"UwR53WCjwtmac7RthglrliwtoJuNg8rT3R7bne3pkM5gzhu053")
        
     
         
@@ -78,7 +81,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let installation = PFInstallation.currentInstallation()
         installation.setDeviceTokenFromData(deviceToken)
-        installation.save()
+        installation.saveInBackground()
 
         print("Success", terminator: "")
     
@@ -115,7 +118,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if install.badge != 0 {
             
             install.badge = 0
-            install.save()
+            install.saveInBackground()
             
         }
        

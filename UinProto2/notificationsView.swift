@@ -29,9 +29,9 @@ class notificationsView: UITableViewController {
     
     override func viewDidAppear(animated: Bool) {
         
-        let userTimeCheck = PFUser.currentUser()
+        let userTimeCheck = PFUser.currentUser()!
         userTimeCheck["notificationsTimestamp"] = NSDate()
-        userTimeCheck!.saveInBackgroundWithBlock({
+        userTimeCheck.saveInBackgroundWithBlock({
             (success:Bool, error:NSError?) -> Void in
             if error == nil {
                 print("The stamp was updated")
@@ -154,13 +154,19 @@ class notificationsView: UITableViewController {
                                     
                                     //Adds the time so we can get time stamp
                                     self.times.append(object.createdAt!)
-                
+                                    let getEventname = PFQuery(className: "Event")
+                                    
+                                    var eventObject:PFObject = (PFObject)()
+                                    getEventname.getObjectInBackgroundWithId("penis", block: {
+                                        (objectss:PFObject?, error:NSError?) -> Void in
+                                        eventObject = objectss!
+                                    })
                                     switch object["type"] as!String {
                                     case "event":
                                         
                                         //Creates an Atr. String that has yellow color
-                                        let getEventname = PFQuery(className: "Event")
-                                        let eventObject = getEventname.getObjectWithId(object["eventID"] as!String)
+                                      
+
                                         let eventName =  eventObject["title"] as!NSString
                                         let current = object["sender"] as!NSString
                                         unEditedNote = "\(current) has created the event \(eventName)"
@@ -173,7 +179,7 @@ class notificationsView: UITableViewController {
                                     case "editedEvent":
                                         //Creates an Atr. String that has green color
                                         let getEventname = PFQuery(className: "Event")
-                                        let eventObject = getEventname.getObjectWithId(object["eventID"] as!String)
+                                       // let eventObject = getEventname.getObjectWithId(object["eventID"] as!String)
                                         let eventName =  eventObject["title"] as!NSString
                                         let current = object["sender"] as!NSString
                                         //Converts into a NSMutableString so we can get atr from the variables
@@ -187,7 +193,7 @@ class notificationsView: UITableViewController {
                                     case "deleteEvent":
                                         //Creates an Atr. String that has red color
                                         let getEventname = PFQuery(className: "Event")
-                                        let eventObject = getEventname.getObjectWithId(object["eventID"] as!String)
+                                       // let eventObject = getEventname.getObjectWithId(object["eventID"] as!String)
                                         let eventName =  eventObject["title"] as!NSString
                                         let current = object["sender"] as!NSString
                                         //Converts into a NSMutableString so we can get atr from the variables
@@ -200,7 +206,7 @@ class notificationsView: UITableViewController {
                                     case "calendar":
                                         //Creates an Atr. String that has blue color
                                         let getEventname = PFQuery(className: "Event")
-                                        let eventObject = getEventname.getObjectWithId(object["eventID"] as!String)
+                                      //  let eventObject = getEventname.getObjectWithId(object["eventID"] as!String)
                                         let eventName =  eventObject["title"] as!NSString
                                         let current = object["sender"] as!NSString
                                         //Converts into a NSMutableString so we can get atr from the variables
@@ -358,16 +364,16 @@ class notificationsView: UITableViewController {
     let row = indexpath?.row
     let item = notificationItems[row!]
     let theotherprofile:postEvent = segue.destinationViewController as! postEvent
-    theotherprofile.eventId = item.eventID
-    theotherprofile.searchEvent = true
+   // theotherprofile.eventId = item.eventID
+   // theotherprofile.searchEvent = true
         }
 if segue.identifier == "calendar" {
     let indexpath = tableView.indexPathForSelectedRow
     let row = indexpath?.row
     let item = notificationItems[row!]
     let theotherprofile:postEvent = segue.destinationViewController as! postEvent
-    theotherprofile.eventId = item.eventID
-    theotherprofile.searchEvent = true
+   // theotherprofile.eventId = item.eventID
+   // theotherprofile.searchEvent = true
         }
 
     }

@@ -72,6 +72,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_resource "Mixpanel/Mixpanel/Media.xcassets/MPLogo.imageset/MPLogo@2x.png"
   install_resource "Mixpanel/Mixpanel/MPNotification.storyboard"
   install_resource "Mixpanel/Mixpanel/MPSurvey.storyboard"
+  install_resource "Parse/Parse/Resources/en.lproj"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_resource "Mixpanel/Mixpanel/Media.xcassets/MPArrowLeft.imageset/MPArrowLeft.png"
@@ -88,6 +89,7 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_resource "Mixpanel/Mixpanel/Media.xcassets/MPLogo.imageset/MPLogo@2x.png"
   install_resource "Mixpanel/Mixpanel/MPNotification.storyboard"
   install_resource "Mixpanel/Mixpanel/MPSurvey.storyboard"
+  install_resource "Parse/Parse/Resources/en.lproj"
 fi
 
 mkdir -p "${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}"

@@ -71,13 +71,9 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
         self.navigationController?.navigationBar.backIndicatorImage = nil
         
         subticker()
-        println()
-        println()
-        println(self.theUser)
+      
         username.title = self.theUser
-        println()
-        println()
-        println()
+       
         updateFeed()
         //Changes the navbar background
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
@@ -122,7 +118,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
     func updateFeed(){
         //Removes all leftover content in the array
         
-        println("Before query")
+        print("Before query")
         
         //adds content to the array
         //Queries all public Events
@@ -197,7 +193,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                     self.displayAlert("No Internet", error: "You have no internet connection")
                 }
                 
-                println("It failed")
+                print("It failed")
                 
             }
         }
@@ -325,7 +321,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
             que.whereKey("subscriber", equalTo:PFUser.currentUser().username)
             que.whereKey("publisher", equalTo: theUser)
             if PFUser.currentUser()["tempAccounts"] as!Bool == true {
-                println("You are a temp account you cannot possibly subscribe to account fool, ya fool")
+                print("You are a temp account you cannot possibly subscribe to account fool, ya fool")
                 cell2.subscribe.setTitleColor(UIColor(red: 254.0/255.0, green: 186.0/255.0, blue: 1.0/255.0, alpha: 1.0), forState: UIControlState.Normal) //Sets as Orange
                 //Creates an alert to subscribe
                 cell2.subscribe.addTarget(self, action: "subbing:", forControlEvents: UIControlEvents.TouchUpInside)
@@ -401,7 +397,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
         } else {
         var subQuery = PFQuery(className: "Subscription")
         subQuery.whereKey("publisher", equalTo: theUser)
-        subQuery.whereKey("subscriber", equalTo: PFUser.currentUser().username)
+        subQuery.whereKey("subscriber", equalTo: PFUser.currentUser()!.username!)
         subQuery.getFirstObjectInBackgroundWithBlock({
             (results:PFObject?, error: NSError?) -> Void in
             if error == nil {
@@ -417,19 +413,19 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                     (success:Bool, pushError: NSError?) -> Void in
                     
                     if pushError == nil {
-                        println("the installtion did remove")
+                        print("the installtion did remove")
                         var theMix = Mixpanel.sharedInstance()
                         theMix.track("Unsubscribed (UP)")
                         theMix.flush()
                         
                     }
                     else{
-                        println("the installtion did not remove")
-                        println(pushError)
+                        print("the installtion did not remove")
+                        print(pushError)
                     }
                 })
-                println("user is alreadt subscribed")
-                results.delete()
+                print("user is alreadt subscribed")
+                //results.delete()
                 self.subticker()
                 
             }
@@ -445,7 +441,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 currentInstallation.saveInBackgroundWithBlock({
                     (success:Bool, saveerror: NSError?) -> Void in
                     if saveerror == nil {
-                        println("Subscribed")
+                        print("Subscribed")
                         var theMix = Mixpanel.sharedInstance()
                         theMix.track("Subscribed (UP)")
                       
@@ -453,7 +449,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                     }
                         
                     else {
-                        println("User did not subscribe")
+                        print("User did not subscribe")
                     }
                 })
                 
@@ -464,7 +460,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 subscribe["subscriberID"] = PFUser.currentUser().objectId
                 subscribe["publisher"] = self.theUser
                 subscribe["publisherID"] = self.userId
-                subscribe.save()
+                subscribe.saveInBackground()
                 
                 //The notfications
                 var notify = PFObject(className: "Notification")
@@ -478,7 +474,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                     (success:Bool, notifyError: NSError?) -> Void in
                     
                     if notifyError == nil {
-                        println("notifcation has been saved")
+                        print("notifcation has been saved")
                     }
                 })
                 //Sends Push notification
@@ -498,7 +494,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                         
                         if pushError == nil {
                             
-                            println("Push was sent")
+                            print("Push was sent")
                         }
                     })
                     
@@ -540,11 +536,11 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
         
         var event = getEventIndex(indexPath.section, row: indexPath.row)
         
-        //println(onsite.count)
-        //println(event)
-        println(onsite[event])
+        //print(onsite.count)
+        //print(event)
+        print(onsite[event])
         print(food[event])
-        println(paid[event])
+        print(paid[event])
         if onsite[event] == true {
             
             cell.onCampusIcon.image = UIImage(named: "onCampus.png")
@@ -604,7 +600,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
         cell.eventName.text = eventTitle[event]
         cell.poop.tag = event
         // Mini query to check if event is already saved
-        //println(objectID[event])
+        //print(objectID[event])
         var minique = PFQuery(className: "UserCalendar")
         minique.whereKey("user", equalTo: PFUser.currentUser().username)
         var minique2 = PFQuery(className: "UserCalendar")
@@ -648,11 +644,11 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
             if queerror == nil {
                 results.delete()
                
-                println(first)
+                print(first)
                 if first == true {
                     
                     PFUser.currentUser()["firstRemoveFromCalendar"] = false
-                    PFUser().save()
+                    PFUser().saveInBackground()
                     self.displayAlert("Remove", error: "Tapping the blue checkmark removes an event from your calendar.")
                     
                 }
@@ -663,14 +659,14 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                         
                         granted, error in
                         if (granted) && (error == nil) {
-                            println("granted \(granted)")
-                            println("error  \(error)")
+                            print("granted \(granted)")
+                            print("error  \(error)")
                             var hosted = "Hosted by \(self.usernames[sender.tag])"
                             var event:EKEvent = EKEvent(eventStore: eventStore)
-                            println(self.eventTitle[sender.tag])
-                            println(self.eventStart[sender.tag])
-                            println(self.eventEnd[sender.tag])
-                            println(self.eventEnd[sender.tag])
+                            print(self.eventTitle[sender.tag])
+                            print(self.eventStart[sender.tag])
+                            print(self.eventEnd[sender.tag])
+                            print(self.eventEnd[sender.tag])
                             event.title = self.eventTitle[sender.tag]
                             event.startDate = self.eventStart[sender.tag]
                             event.endDate = self.eventEnd[sender.tag]
@@ -681,15 +677,15 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                     })
                     var predicate2 = eventStore.predicateForEventsWithStartDate(self.eventStart[sender.tag], endDate: self.eventEnd[sender.tag], calendars:nil)
                     var eV = eventStore.eventsMatchingPredicate(predicate2) as! [EKEvent]!
-                    println("Result is there")
+                    print("Result is there")
                     if eV != nil { //
-                        println("EV is not nil")
+                        print("EV is not nil")
                         for i in eV {
-                            println("\(i.title) this is the i.title")
-                            println(self.eventTitle[sender.tag])
+                            print("\(i.title) this is the i.title")
+                            print(self.eventTitle[sender.tag])
                             if i.title == self.eventTitle[sender.tag]  {
                                 
-                                println("removed")
+                                print("removed")
                                 var theMix = Mixpanel.sharedInstance()
                                 theMix.track("Removed from Calendar (UP)")
                                 eventStore.removeEvent(i, span: EKSpanThisEvent, error: nil)
@@ -705,17 +701,17 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                     
                     granted, error in
                     if (granted) && (error == nil) {
-                        println("granted \(granted)")
-                        println("error  \(error)")
+                        print("granted \(granted)")
+                        print("error  \(error)")
                         var hosted = "Hosted by \(self.usernames[sender.tag])"
                         var event:EKEvent = EKEvent(eventStore: eventStore)
-                        println()
-                        println()
-                        println()
-                        println()
-                        println(self.eventTitle[sender.tag])
-                        println(self.eventStart[sender.tag])
-                        println(self.eventEnd[sender.tag])
+                        print()
+                        print()
+                        print()
+                        print()
+                        print(self.eventTitle[sender.tag])
+                        print(self.eventStart[sender.tag])
+                        print(self.eventEnd[sender.tag])
                         event.title = self.eventTitle[sender.tag]
                         event.startDate = self.eventStart[sender.tag]
                         event.endDate = self.eventEnd[sender.tag]
@@ -728,11 +724,11 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                         eventStore.saveEvent(event, span: EKSpanThisEvent, error: nil)
                         var theMix = Mixpanel.sharedInstance()
                         theMix.track("Added to Calendar (UP)")
-                        println("saved")
+                        print("saved")
                     }
                 })
                 
-                println("the object does not exist")
+                print("the object does not exist")
                 
                 var push = PFPush()
                 var pfque = PFInstallation.query()
@@ -740,9 +736,9 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 push.setQuery(pfque)
                 var pushCheck = PFUser.query() //Checks if users has push enabled
                 var userCheck = pushCheck.getObjectWithId(self.userId)
-                println()
-                println(userCheck)
-                println()
+                print()
+                print(userCheck)
+                print()
                 if userCheck["pushEnabled"] as!Bool {
                     if PFUser.currentUser()["tempAccounts"] as!Bool == true {
                         push.setMessage("Someone has added your event to their calendar")
@@ -753,11 +749,11 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                     push.sendPushInBackgroundWithBlock({
                         (success:Bool, pushError: NSError?) -> Void in
                         if pushError == nil {
-                            println("Push was Sent")
+                            print("Push was Sent")
                         }
                     })
                 } else {
-                    println("user does not have push enabled")
+                    print("user does not have push enabled")
                 }
                 
                 var going = PFObject(className: "UserCalendar")
@@ -774,7 +770,7 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                         
                     }
                 }
-                println("Saved Event")
+                print("Saved Event")
                 
             }
         })
@@ -792,11 +788,11 @@ class userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 
                 if notifyError == nil {
                     
-                    println("notifcation has been saved")
+                    print("notifcation has been saved")
                     
                 }
                 else{
-                    println(notifyError)
+                    print(notifyError)
                 }
             })
         }
