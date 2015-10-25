@@ -29,7 +29,7 @@ class LogInVC: UIViewController {
         user.signUpInBackgroundWithBlock({
             success,error in
             if error == nil {
-                if ( PFUser.currentUser().email.rangeOfString("memphis.edu") != nil) {
+                if ( PFUser.currentUser()!.email!.rangeOfString("memphis.edu") != nil) {
                  
                         print("This guy is ready to procreed")
                         self.performSegueWithIdentifier("next1", sender: self)
@@ -77,8 +77,8 @@ class LinkUser: UIViewController {
     }
 
     @IBAction func linkWithFacebook(sender: AnyObject) {
-        if !PFFacebookUtils.isLinkedWithUser(user) {
-            PFFacebookUtils.linkUser(user, permissions: nil, block: {
+        if !PFFacebookUtils.isLinkedWithUser(user!) {
+            PFFacebookUtils.linkUser(user!, permissions: nil, block: {
                 succeeded, error in
                 if succeeded {
                     print("Woohoo, the user is linked with Facebook!", terminator: "")

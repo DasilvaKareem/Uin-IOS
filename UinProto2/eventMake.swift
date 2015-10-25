@@ -447,11 +447,11 @@ class eventMake: UIViewController, UITextFieldDelegate {
                         
                             var push =  PFPush()
                             let data = [
-                                "alert" : "\(PFUser.currentUser().username) has created an event '\(self.eventTitle.text)'",
+                                "alert" : "\(PFUser.currentUser()!.username) has created an event '\(self.eventTitle.text)'",
                                 "badge" : "Increment",
                                 "sound" : "default"
                             ]
-                            push.setChannel(PFUser.currentUser().objectId)
+                            push.setChannel(PFUser.currentUser()!.objectId)
                             push.setData(data)
                             push.sendPushInBackgroundWithBlock({
                             
@@ -470,10 +470,10 @@ class eventMake: UIViewController, UITextFieldDelegate {
                         
 
                         var notify = PFObject(className: "Notification")
-                        notify["senderID"] = PFUser.currentUser().objectId
-                        notify["receiverID"] = PFUser.currentUser().objectId
-                        notify["sender"] = PFUser.currentUser().username
-                        notify["receiver"] = PFUser.currentUser().username
+                        notify["senderID"] = PFUser.currentUser()!.objectId
+                        notify["receiverID"] = PFUser.currentUser()!.objectId
+                        notify["sender"] = PFUser.currentUser()!.username
+                        notify["receiver"] = PFUser.currentUser()!.username
                         notify["eventID"] = event.objectId
                         notify["type"] =  "event"
                         notify.save()
@@ -517,32 +517,32 @@ class eventMake: UIViewController, UITextFieldDelegate {
                         
                         let theMix = Mixpanel.sharedInstance()
                         theMix.track("Deleted Event (EM)")
-                        var name = PFUser.currentUser().username
+                        var name = PFUser.currentUser()!.username
                         eventItem["isDeleted"] = true
-                        eventItem.save()
+                        eventItem!.save()
                  
                         let findPeople = PFQuery(className: "UserCalendar")
                         var collectedPeople = [String]()
                         let checkPushEnabled = PFUser.query()
-                        checkPushEnabled.whereKey("pushEnabled", equalTo: true)
-                        checkPushEnabled.whereKey("tempAccount", equalTo: false)
+                        checkPushEnabled!.whereKey("pushEnabled", equalTo: true)
+                        checkPushEnabled!.whereKey("tempAccount", equalTo: false)
                         findPeople.whereKey("eventID", equalTo:self.eventID )
-                        findPeople.whereKey("user", notEqualTo: PFUser.currentUser().username)
-                        findPeople.whereKey("user", matchesKey: "username", inQuery: checkPushEnabled)
+                        findPeople.whereKey("user", notEqualTo: PFUser.currentUser()!.username)
+                        findPeople.whereKey("user", matchesKey: "username", inQuery: checkPushEnabled!)
                         findPeople.findObjectsInBackgroundWithBlock({
                             (results:[PFObject]?, error:NSError?) -> Void in
                             
-                            for object in results {
+                            for object in results! {
                                 collectedPeople.append(object["user"] as!String)
                             }
                             let push =  PFPush()
                             let data = [
-                                "alert" : "\(PFUser.currentUser().username) has cancelled the event '\(self.eventTitle.text)'",
+                                "alert" : "\(PFUser.currentUser()!.username) has cancelled the event '\(self.eventTitle.text)'",
                                 "badge" : "Increment",
                                 "sound" : "default"
                             ]
                             let pfque = PFInstallation.query()
-                            pfque.whereKey("user", containedIn: collectedPeople) //Adds all the people who added your event
+                            pfque!.whereKey("user", containedIn: collectedPeople) //Adds all the people who added your event
                             push.setQuery(pfque)
                             push.setData(data)
                             push.sendPushInBackgroundWithBlock({
@@ -558,7 +558,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
                             let notify = PFObject(className: "Notification")
                             notify["senderID"] = PFUser.currentUser()!.objectId
                             notify["receiverID"] = PFUser.currentUser()!.objectId
-                            notify["sender"] = PFUser.currentUser().username
+                            notify["sender"] = PFUser.currentUser()!.username
                             notify["receiver"] = PFUser.currentUser()!.username
                             notify["eventID"] = self.eventID
                             notify["type"] =  "deleteEvent"
@@ -571,7 +571,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
                                     deleteNotification.findObjectsInBackgroundWithBlock({
                                         (objects:[PFObject]?, error:NSError?) -> Void in
                                         if error == nil {
-                                            for object in objects {
+                                            for object in objects! {
                                                 object.delete()
                                             }
                                         }

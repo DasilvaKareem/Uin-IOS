@@ -138,7 +138,7 @@ class register: UIViewController, UITextFieldDelegate {
         if editing == true {
             
             let user = PFUser.currentUser()
-            user.deleteInBackgroundWithBlock({
+            user!.deleteInBackgroundWithBlock({
                 
                 (succes:Bool, error:NSError?) -> Void in
                 if error == nil {

@@ -170,22 +170,22 @@ class SignIn: UIViewController, UITextFieldDelegate {
                 if loginError == nil {
                   
                     let query = PFQuery(className: "Subscription")
-                    query.whereKey("subscriber", equalTo: PFUser.currentUser().username)
+                    query.whereKey("subscriber", equalTo: PFUser.currentUser()!.username!)
                     query.findObjectsInBackgroundWithBlock({
                         
                         (objects:[PFObject]?,queError:NSError?) -> Void in
                         
                         if queError == nil {
                             print(subscriptionUsernames)
-                            for object in objects {
+                            for object in objects! {
                                 
                                 subscriptionUsernames.append(object["publisherID"] as!String)
                                 
                             }
                             var user = PFUser.currentUser()
                             let currentInstallation = PFInstallation.currentInstallation()
-                            currentInstallation["user"] = PFUser.currentUser().username
-                            currentInstallation["userId"] = PFUser.currentUser().objectId
+                            currentInstallation["user"] = PFUser.currentUser()!.username
+                            currentInstallation["userId"] = PFUser.currentUser(!).objectId
                             currentInstallation.setValue(subscriptionUsernames, forKey: "channels")
                             currentInstallation.saveInBackgroundWithBlock({
                                 
@@ -196,7 +196,7 @@ class SignIn: UIViewController, UITextFieldDelegate {
                                     userTimeCheck["notificationsTimestamp"] = NSDate()
                                     userTimeCheck["subscriptionsTimestamp"] = NSDate()
                                     userTimeCheck["localEventsTimestamp"] = NSDate()
-                                    userTimeCheck.saveInBackgroundWithBlock({
+                                    userTimeCheck!.saveInBackgroundWithBlock({
                                         (success:Bool, error:NSError?) -> Void in
                                         if error == nil {
                                             print("The stamp was updated")
@@ -219,8 +219,8 @@ class SignIn: UIViewController, UITextFieldDelegate {
                     
                 }
                 else{
-                    print(loginError.code)
-                    switch loginError.code {
+                    print(loginError!.code)
+                    switch loginError!.code {
                         
                     case 125:
                         self.displayAlert("Oops!", error: "wrong Email")
@@ -280,7 +280,7 @@ class ForgotPasswordView: UIViewController {
     }
     //Sends password reset fourm
     @IBAction func sendReset(sender: AnyObject) {
-        PFUser.requestPasswordResetForEmailInBackground(passwordResetField.text, block: {
+        PFUser.requestPasswordResetForEmailInBackground(passwordResetField.text!, block: {
             (success:Bool, error:NSError?) -> Void in
             if error == nil {
                 self.confirmBtn.setTitle("Resend", forState: UIControlState.Normal)
