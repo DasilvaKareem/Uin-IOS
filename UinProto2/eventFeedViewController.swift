@@ -495,8 +495,18 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func followButton(sender: UIButton){
         // Adds the event to calendar
+        let que = PFQuery(className: "UserCalendar")
+        que.whereKey("author", equalTo: self.events[sender.tag].organizationID)
+        que.whereKey("eventID", equalTo:self.events[sender.tag].eventID)
+        try{
+        que.getFirstObjectInBackgroundWithBlock {
+            (results: PFObject?, queerror: NSError?) -> Void in
+            
+           
+            }
+        }
         
-              }
+    }
     override func prepareForSegue(segue:UIStoryboardSegue, sender: AnyObject?){
         if segue.identifier == "event" {
             var secondViewController : postEvent = segue.destinationViewController as! postEvent
