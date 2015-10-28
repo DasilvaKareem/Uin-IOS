@@ -27,6 +27,24 @@ class LogInVC: UIViewController {
         return true
     }
     
+    @IBAction func cancel(sender: AnyObject) {
+        let user = PFUser.currentUser()
+        user!.deleteInBackgroundWithBlock({
+            
+            (succes:Bool, error:NSError?) -> Void in
+            if error == nil {
+                PFUser.logOut()
+                let storyboard = UIStoryboard(name: "main", bundle: nil)
+                let register:UIViewController = storyboard.instantiateInitialViewController()!
+                
+                self.presentViewController(register, animated: true, completion: nil)
+            }
+            else {
+                print(error)
+            }
+        })
+    }
+
     @IBAction func createAccount(sender: AnyObject) {
         
    
@@ -38,7 +56,7 @@ class LogInVC: UIViewController {
         user.signUpInBackgroundWithBlock({
             success,error in
             if error == nil {
-                if ( PFUser.currentUser()!.email!.rangeOfString("memphis.edu") != nil) {
+                if ( PFUser.currentUser()!.email!.lowercaseString.rangeOfString("memphis.edu") != nil) {
                  
                         print("This guy is ready to procreed")
                         self.performSegueWithIdentifier("next1", sender: self)
@@ -86,6 +104,23 @@ class LinkUser: UIViewController {
         textField.resignFirstResponder()
         return true
     }
+    @IBAction func cancel(sender: AnyObject) {
+        let user = PFUser.currentUser()
+        user!.deleteInBackgroundWithBlock({
+            
+            (succes:Bool, error:NSError?) -> Void in
+            if error == nil {
+                PFUser.logOut()
+                let storyboard = UIStoryboard(name: "main", bundle: nil)
+                let register:UIViewController = storyboard.instantiateInitialViewController()!
+                
+                self.presentViewController(register, animated: true, completion: nil)
+            }
+            else {
+                print(error)
+            }
+        })
+    }
     //Link user with facebook or Twitter
     var user = PFUser.currentUser()
     
@@ -125,6 +160,23 @@ class basicSignUp: UIViewController {
     @IBOutlet weak var profilePic: UIImageView!
     
     @IBOutlet weak var lName: UITextField!
+    @IBAction func cancel(sender: AnyObject) {
+        let user = PFUser.currentUser()
+        user!.deleteInBackgroundWithBlock({
+            
+            (succes:Bool, error:NSError?) -> Void in
+            if error == nil {
+                PFUser.logOut()
+                let storyboard = UIStoryboard(name: "main", bundle: nil)
+                let register:UIViewController = storyboard.instantiateInitialViewController()!
+                
+                self.presentViewController(register, animated: true, completion: nil)
+            }
+            else {
+                print(error)
+            }
+        })
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         //queryData()
@@ -204,7 +256,25 @@ class extraSignUp: UIViewController, UIPickerViewDataSource, UIPickerViewDelegat
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         self.userClass = classes[row]
     }
-    
+    @IBAction func cancel(sender: AnyObject) {
+        let user = PFUser.currentUser()
+        user!.deleteInBackgroundWithBlock({
+            
+            (succes:Bool, error:NSError?) -> Void in
+            if error == nil {
+                PFUser.logOut()
+                let storyboard = UIStoryboard(name: "main", bundle: nil)
+                let register:UIViewController = storyboard.instantiateInitialViewController()!
+                
+                self.presentViewController(register, animated: true, completion: nil)
+            }
+            else {
+                print(error)
+            }
+        })
+
+    }
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

@@ -39,9 +39,9 @@ class LoadingView: UIViewController {
     
     @IBAction func register(sender: AnyObject) {
         let storyboard = UIStoryboard(name: "EventFlowSB", bundle: nil)
-        let poop:UIViewController = storyboard.instantiateInitialViewController()!
+        let register:UIViewController = storyboard.instantiateInitialViewController()!
         
-        self.presentViewController(poop, animated: true, completion: nil)
+        self.presentViewController(register, animated: true, completion: nil)
     }
     /*
     // MARK: - Navigation

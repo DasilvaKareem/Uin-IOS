@@ -74,7 +74,7 @@ class SignIn: UIViewController, UITextFieldDelegate {
         theMix.flush()
         var error = ""
         if username.text == "" || password.text == "" {
-            error = "Please enter a proper Username and Password"
+            error = "Please enter a proper Email and Password"
         }
         if error != "" {
             displayAlert("Oops!", error: error)
@@ -109,18 +109,7 @@ class SignIn: UIViewController, UITextFieldDelegate {
                                 (success:Bool, saveerror: NSError?) -> Void in
                                 
                                 if saveerror == nil {
-                                    let userTimeCheck = PFUser.currentUser()!
-                                    userTimeCheck["notificationsTimestamp"] = NSDate()
-                                    userTimeCheck["subscriptionsTimestamp"] = NSDate()
-                                    userTimeCheck["localEventsTimestamp"] = NSDate()
-                                    userTimeCheck.saveInBackgroundWithBlock({
-                                        (success:Bool, error:NSError?) -> Void in
-                                        if error == nil {
-                                            print("The stamp was updated")
-                                        } else {
-                                            print(error.debugDescription)
-                                        }
-                                    })
+                                print("success")
                                 }
                                     
                                 else {

@@ -3372,10 +3372,10 @@
             </objects>
             <point key="canvasLocation" x="-3728" y="1575"/>
         </scene>
-        <!--View Controller-->
+        <!--Sign In-->
         <scene sceneID="WlT-qs-xj4">
             <objects>
-                <viewController id="AOL-3M-bxh" sceneMemberID="viewController">
+                <viewController id="AOL-3M-bxh" customClass="SignIn" customModule="UinProto2" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="8nF-6u-lGL"/>
                         <viewControllerLayoutGuide type="bottom" id="xOv-bk-BKh"/>
@@ -3393,6 +3393,9 @@
                                 <color key="textColor" red="0.27058823529999998" green="0.27058823529999998" blue="0.27058823529999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="AOL-3M-bxh" id="oRh-Ax-qif"/>
+                                </connections>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" background="inputForm" translatesAutoresizingMaskIntoConstraints="NO" id="tJD-Og-TQ5">
                                 <rect key="frame" x="0.0" y="232" width="414" height="65"/>
@@ -3403,6 +3406,9 @@
                                 <color key="textColor" red="0.27058823529999998" green="0.27058823529999998" blue="0.27058823529999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="AOL-3M-bxh" id="8UK-kO-bJ9"/>
+                                </connections>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="email" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0JS-g3-3Ff">
                                 <rect key="frame" x="16" y="99" width="46" height="22"/>
@@ -3438,6 +3444,9 @@
                                     <color key="titleColor" red="0.25098039220000001" green="0.57254901960000004" blue="0.77647058820000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="signin:" destination="AOL-3M-bxh" eventType="touchUpInside" id="D0p-gE-jnh"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="56N-Ds-fc9">
                                 <rect key="frame" x="16" y="698" width="92" height="28"/>
@@ -3487,7 +3496,9 @@
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
-                        <segue destination="hBV-vc-Cch" kind="show" id="whQ-24-xqE"/>
+                        <outlet property="password" destination="tJD-Og-TQ5" id="6ST-tQ-BIh"/>
+                        <outlet property="username" destination="Mz0-uz-zcv" id="7tK-zK-e1o"/>
+                        <segue destination="hBV-vc-Cch" kind="show" identifier="login" id="whQ-24-xqE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8cS-44-3l1" userLabel="First Responder" sceneMemberID="firstResponder"/>
