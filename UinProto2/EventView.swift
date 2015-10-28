@@ -8,9 +8,8 @@
 
 import UIKit
 import EventKit
-import Parse
 class postEvent: UIViewController {
-  /*
+  
     @IBOutlet var eventDescription: UILabel!
     @IBOutlet var calendarCount: UILabel!
     @IBOutlet var peopleView: UIImageView!
@@ -72,7 +71,7 @@ class postEvent: UIViewController {
     var endDate = (String)()
     func checkevent(){
         let minique = PFQuery(className: "UserCalendar")
-        minique.whereKey("user", equalTo: PFUser.currentUser()!.username)
+        minique.whereKey("user", equalTo: PFUser.currentUser()!.username!)
        
         minique.whereKey("eventID", equalTo: eventId)
         
@@ -113,36 +112,17 @@ class postEvent: UIViewController {
 
     func getEvents() {
        let getEvents = PFQuery(className: "Event")
+       
         getEvents.getObjectInBackgroundWithId(eventId, block: {
-            (result: [PFObject]?, error: NSError?) -> Void  in
+            (results: PFObject?, error: NSError?) -> Void in
             if error == nil {
-                print(result)
-                result
+            
+                var result = results!
                 let dateFormatter = NSDateFormatter()
                 dateFormatter.locale = NSLocale.currentLocale() // Gets current locale and switches
                 dateFormatter.dateFormat = "MMM. dd, yyyy - h:mm a"
                 self.startDate = dateFormatter.stringFromDate(result["start"] as!NSDate) // Creates date
                 self.endDate = dateFormatter.stringFromDate(result["end"] as!NSDate) // Creates date
-                
-
-                if result["picture"] == nil {
-                    self.imageShower.removeFromSuperview()
-                } else {
-                    self.imageShower.superview
-                    self.imageFile = result["picture"] as! PFFile
-                    self.imageFile.getDataInBackgroundWithBlock({
-                        (imageData: NSData!, error: NSError?) -> Void in
-                        if error == nil {
-                            self.image = UIImage(data: imageData)!
-                            self.picture.image = UIImage(data: imageData)!
-                            
-                            
-                        } else {
-                            print(error)
-                        }
-                    })
-                }
-          
                 self.users = result["author"] as!String!
                 self.userId = result["authorID"] as!String!
                 self.address = result["address"] as!String!
@@ -155,9 +135,7 @@ class postEvent: UIViewController {
                 self.cost = result["isFree"] as!Bool
                 self.food = result["hasFood"] as!Bool
                 self.eventDescription.text = result["description"] as? String
-                
-               
-                self.eventId = result.objectId
+                self.eventId = result.objectId!
                 self.putIcons()
             }
         })
@@ -173,7 +151,7 @@ class postEvent: UIViewController {
         theMix.flush()
         super.viewDidLoad()
         
-        if users == PFUser.currentUser().username{
+        if users == PFUser.currentUser()!.username{
             self.navigationItem.rightBarButtonItem?.title = "Edit"
         } else {
             self.navigationItem.rightBarButtonItem?.title = self.users
@@ -193,26 +171,14 @@ class postEvent: UIViewController {
             let nav = self.navigationController?.navigationBar
             nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()];
         }
-        if searchEvent == true {
-            getEvents()
-         
-            
-        } else {
-            getEvents()
-         
-            
-        }
-    
-        
+        getEvents()
         checkevent()
-       
     }
     
     @IBAction func eventShare(sender: AnyObject) {
         let textToShare = "Check out '\(storeTitle)' hosted by '\(users)' at '\(self.storeLocation)' on Uin! " + "iOS: http://apple.co/1G2pLXs " + "Android: http://bit.ly/1NwYAD9"
     
             let objectsToShare = [textToShare]
-            let poop = UIActivityTypePostToFacebook
             let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
             self.presentViewController(activityVC, animated: true, completion: nil)
         
@@ -238,43 +204,25 @@ class postEvent: UIViewController {
     @IBAction func addtocalendar(sender: AnyObject) {
         
         var que = PFQuery(className: "UserCalendar")
-        que.whereKey("user", equalTo: PFUser.currentUser().username)
         que.whereKey("author", equalTo: users)
+        
+        que.whereKey("userID", equalTo: userId)
         que.whereKey("eventID", equalTo:eventId)
         que.getFirstObjectInBackgroundWithBlock({
             
             (results:PFObject?, queerror: NSError?) -> Void in
             
             if queerror == nil {
-              results.delete()
+              results!.deleteInBackground()
                 self.getCount()
                 self.longBar.setImage(UIImage(named: "addToCalendarBig.png"), forState: UIControlState.Normal)
-               
                 self.calendarCount.textColor = UIColor(red: 254.0/255.0, green: 186.0/255.0, blue: 1.0/255, alpha:1 ) //yellow color
                 if results != nil {
-            var eventStore : EKEventStore = EKEventStore()
-            eventStore.requestAccessToEntityType(EKEntityType.Event, completion: {
-                
-                granted, error in
-                if (granted) && (error == nil) {
-                    print("granted \(granted)")
-                    print("error  \(error)")
-                    var hosted = "Hosted by \(self.users)"
-                    var event:EKEvent = EKEvent(eventStore: eventStore)
-                    event.title = self.storeTitle
-                    
-                    event.startDate = self.storeStartDate
-                    event.endDate = self.endStoreDate
-                    event.notes = hosted
-                    event.location = self.storeLocation
-                    event.calendar = eventStore.defaultCalendarForNewEvents
-                }
-            })
+                    var eventStore : EKEventStore = EKEventStore()
                     var predicate2 = eventStore.predicateForEventsWithStartDate(self.storeStartDate, endDate: self.endStoreDate, calendars:nil)
                     var eV = eventStore.eventsMatchingPredicate(predicate2) as [EKEvent]!
                     print("Result is there")
                     if eV != nil {
-
                         print("EV is not nil")
                         for i in eV {
                             print("\(i.title) this is the i.title")
@@ -285,7 +233,7 @@ class postEvent: UIViewController {
                                 var theMix = Mixpanel.sharedInstance()
                                 theMix.track("Removed from Calendar (EV)")
                                 theMix.flush()
-                                // eventStore.removeEvent(i, span: EKSpanThisEvent!)
+                                try! eventStore.removeEvent(i, span: EKSpan.ThisEvent)
                                 
                             }
                         }
@@ -294,10 +242,11 @@ class postEvent: UIViewController {
             }
             
             else {
+                //adds event to calendar
+                self.longBar.setImage(UIImage(named: "addedToCalendarBig.png"), forState: UIControlState.Normal)
+                self.calendarCount.textColor = UIColor(red: 52.0/255.0, green: 127.0/255.0, blue: 191.0/255, alpha:1 ) //blue color
                 var going = PFObject(className: "UserCalendar")
-                going["user"] = PFUser.currentUser().username
-                going["userID"] = PFUser.currentUser().objectId
-                going["event"] = self.storeTitle
+                going["userID"] = PFUser.currentUser()!.objectId!
                 going["author"] = self.users
                 going["eventID"] = self.eventId
                 going.saveInBackgroundWithBlock{
@@ -307,10 +256,6 @@ class postEvent: UIViewController {
                     if savError == nil {
                         self.getCount()
                         print("the user is going to the event")
-                        self.longBar.setImage(UIImage(named: "addedToCalendarBig.png"), forState: UIControlState.Normal)
-            
-                        self.calendarCount.textColor = UIColor(red: 52.0/255.0, green: 127.0/255.0, blue: 191.0/255, alpha:1 ) //blue color
-                        
                     }
                 }
           
@@ -332,8 +277,7 @@ class postEvent: UIViewController {
                         event.notes = hosted
                         event.location = self.storeLocation
                         event.calendar = eventStore.defaultCalendarForNewEvents
-                        
-                        //eventStore.saveEvent(event, span: EKSpanThisEvent)
+                        try! eventStore.saveEvent(event, span: EKSpan.ThisEvent)
                        
                         var theMix = Mixpanel.sharedInstance()
                         theMix.track("Added to Calendar (EV)")
@@ -343,10 +287,10 @@ class postEvent: UIViewController {
                     }
                 })
                 
-                if self.users != PFUser.currentUser().username {
-                    var notify = PFObject(className: "Notification")
-                    notify["senderID"] = PFUser.currentUser().objectId
-                    notify["sender"] = PFUser.currentUser().username
+                if self.users != PFUser.currentUser()!.username {
+                    let notify = PFObject(className: "Notification")
+                    notify["senderID"] = PFUser.currentUser()!.objectId
+                    notify["sender"] = PFUser.currentUser()!.username
                     notify["receiverID"] =  self.userId
                     notify["receiver"] = self.users
                     notify["type"] =  "calendar"
@@ -363,23 +307,17 @@ class postEvent: UIViewController {
                         }
                     })
                     var push = PFPush()
-                    var pfque = PFInstallation.query()
+                    let pfque = PFInstallation.query()!
                     pfque.whereKey("user", equalTo: self.users)
                     push.setQuery(pfque)
-                    if PFUser.currentUser()["tempAccounts"] as!Bool == true {
-                        push.setMessage("Someone has added your event to their calendar")
-                    } else {
-                           push.setMessage("\(PFUser.currentUser().username) has added your event to their calendar")
-                    }
+                    push.setMessage("\(PFUser.currentUser()!.username) has added your event to their calendar")
                     push.sendPushInBackgroundWithBlock({
-                        
                         (success:Bool, pushError: NSError?) -> Void in
                         if pushError == nil {
                             print("The push was sent")
                         }
                     })
                 }
-             
             }
         })
     }
@@ -471,17 +409,11 @@ class postEvent: UIViewController {
             editEvent.editing = true
             editEvent.eventID = eventId
         }
-        if segue.identifier == "imagePreview" {
-            let theMix = Mixpanel.sharedInstance()
-            theMix.track("Tap image Preview (EV)")
-            theMix.flush()
-            let imageView:imagePreview = segue.destinationViewController as! imagePreview
-            imageView.eventID = self.eventId
-        }
+       
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-*/
+
 }

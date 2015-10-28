@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Parse
+
 
 class LoadingView: UIViewController {
 
@@ -23,10 +23,7 @@ class LoadingView: UIViewController {
         
     
         if PFUser.currentUser() == nil {
-            let storyboard = UIStoryboard(name: "EventFlowSB", bundle: nil)
-            let poop:UIViewController = storyboard.instantiateInitialViewController()!
-            
-            self.presentViewController(poop, animated: true, completion: nil)
+           print("not logged in")
         } else {
             self.performSegueWithIdentifier("login", sender: self)
         }
@@ -39,7 +36,13 @@ class LoadingView: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
+    
+    @IBAction func register(sender: AnyObject) {
+        let storyboard = UIStoryboard(name: "EventFlowSB", bundle: nil)
+        let poop:UIViewController = storyboard.instantiateInitialViewController()!
+        
+        self.presentViewController(poop, animated: true, completion: nil)
+    }
     /*
     // MARK: - Navigation
 

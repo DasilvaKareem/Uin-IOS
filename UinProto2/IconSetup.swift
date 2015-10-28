@@ -15,7 +15,24 @@ public struct Icon {
 
 public func setIcon(iconID:String) -> Icon {
     var icon = (Icon)()
-    switch iconID {
+    if(iconID == "food"){
+        icon.iconImage =  UIImage(named: "yesFood.png")!
+        icon.caption = "Food"
+    } else if(iconID == "Campus") {
+        icon.iconImage = UIImage(named: "onCampus.png")!
+        icon.caption = "On Campus"
+        
+    } else if(iconID == "Free"){
+        icon.iconImage = UIImage(named: "yesFree.png")!
+        icon.caption = "Free"
+        
+    } else {
+        icon.caption = ""
+        //icon.iconImage = UIImage.
+    
+    }
+    return icon
+    /*switch iconID {
     case "PvApxif2rw": //Popcorn
         icon.iconImage = UIImage(named: "popcorn.png")!
         icon.caption = "Popcorn"
@@ -143,7 +160,7 @@ public func setIcon(iconID:String) -> Icon {
         icon.caption = ""
         return icon
         
-    }
+    }*/
     
     
 }

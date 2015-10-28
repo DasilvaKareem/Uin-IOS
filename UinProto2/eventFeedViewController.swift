@@ -8,7 +8,6 @@
 
 import UIKit
 import EventKit
-import Parse
 
 class eventFeedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UITextFieldDelegate {
     
@@ -24,7 +23,9 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     var usernames = [String]()
     //Creats  single event  objects
     struct Event {
+        //Add author REAL NAME TO IT
         var organizationID = (String)()
+        
         var title = (String)()
         var address = (String)()
         var location = (String)()
@@ -38,32 +39,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         var publicPost = (Bool)()
     }
     var events = [Event]() //holds all the events in the feed
-    func setEvent(){
-        let query = PFQuery(className: "Event")
-        
-        
-        query.findObjectsInBackgroundWithBlock({
-           (objects: [PFObject]?, error: NSError?) -> Void in
-            print(objects!.count)
-            for object in objects! {
-                print(object)
-                var event = Event()
-                event.address = object["address"] as! String
-                event.end = object["end"] as! NSDate!
-                event.start = object["start"] as! NSDate!
-                event.tag1 = "3"
-                event.tag2 = "3"
-                event.tag3 = "3"
-                event.publicPost = object["isPublic"] as! Bool
-                event.location = object["location"] as! String
-                event.title = object["title"] as! String
-                event.organizationID = object["authorID"] as! String
-                self.events.append(event)
-            }
-            self.populateSectionInfo()
-            self.theFeed.reloadData()
-        })
-    }
+    
    
     //Date Header information
     var numSections = 0 //Number of unique Ids
@@ -165,7 +141,6 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         let theMix = Mixpanel.sharedInstance()
         theMix.track("Event Feed Opened")
         theMix.flush()
-        setEvent()
         //Creates search about tableview
         var newBounds:CGRect = self.theFeed.bounds
         newBounds.origin.y = newBounds.origin.y - searchBar.bounds.size.height
@@ -257,10 +232,38 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     func updateFeed(){
        //where updating the feed takes place
-        
-                            
-        
-        
+        let query = PFQuery(className: "Event")
+        query.findObjectsInBackgroundWithBlock({
+            (objects: [PFObject]?, error: NSError?) -> Void in
+            print(objects!.count)
+            for object in objects! {
+                print(object)
+                var event = Event()
+                event.address = object["address"] as! String
+                event.end = object["end"] as! NSDate!
+                event.start = object["start"] as! NSDate!
+                event.tag1 = ""
+                event.tag2 = ""
+                event.tag3 = ""
+                if object["hasFood"] as! Bool == true {
+                    event.tag1 = "Food"
+                }
+                if object["onCampus"] as! Bool == true {
+                    event.tag2 = "Campus"
+                }
+                if object["isFree"] as! Bool == true {
+                    event.tag3 = "Free"
+                }
+                
+                event.publicPost = object["isPublic"] as! Bool
+                event.location = object["location"] as! String
+                event.title = object["title"] as! String
+                event.organizationID = object["authorID"] as! String
+                self.events.append(event)
+            }
+            self.populateSectionInfo()
+            self.theFeed.reloadData()
+        })
     }
  
     func refresh() {
@@ -481,7 +484,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             
             cell.tag3.image = icon3.iconImage
             cell.tag3Text.text = icon3.caption
-
+        //cell.privateImage.image = UIImage(named: "poop")
         cell.people.text = events[event].organizationID
         cell.time.text = localizedTime[event]
         cell.eventName.text = events[event].title
@@ -498,13 +501,87 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         let que = PFQuery(className: "UserCalendar")
         que.whereKey("author", equalTo: self.events[sender.tag].organizationID)
         que.whereKey("eventID", equalTo:self.events[sender.tag].eventID)
-        try{
+        
         que.getFirstObjectInBackgroundWithBlock {
-            (results: PFObject?, queerror: NSError?) -> Void in
-            
+            (results, queerror) -> Void in
+            if queerror == nil {
+                //Deletes the event
+                results?.deleteInBackground()
+                if results != nil {
+                    sender.setImage(UIImage(named: "addToCalendar.png"), forState: UIControlState.Normal)
+                    UIView.animateWithDuration(0.5, delay: 0.0, usingSpringWithDamping: 0.3, initialSpringVelocity: 3.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: ({
+                        sender.frame.offsetInPlace(dx: 0, dy: 5.0)
+                    }), completion: nil)
+                    let eventStore : EKEventStore = EKEventStore()
+                    let predicate2 = eventStore.predicateForEventsWithStartDate(self.events[sender.tag].start, endDate: self.events[sender.tag].end, calendars:nil)
+                    let eV = eventStore.eventsMatchingPredicate(predicate2) as [EKEvent]!
+                    print("Result is there")
+                    if eV != nil { //
+                        print("EV is not nil")
+                        for i in eV {
+                            print("\(i.title) this is the i.title")
+                            if i.title == self.events[sender.tag].title  {
+                                var theMix = Mixpanel.sharedInstance()
+                                theMix.track("Removed from Calendar (EF)")
+                                try! eventStore.removeEvent(i, span: EKSpan.ThisEvent)
+                            }
+                        }
+                    }
+                    
+                    
+                }
+            } else {
+                sender.setImage(UIImage(named: "addedToCalendar.png"), forState: UIControlState.Normal)
+                UIView.animateWithDuration(0.5, delay: 0.0, usingSpringWithDamping: 0.3, initialSpringVelocity: 3.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: ({
+                    sender.frame.offsetInPlace(dx: 0, dy: 5.0)
+                }), completion: nil)
+                let eventStore : EKEventStore = EKEventStore()
+                eventStore.requestAccessToEntityType(EKEntityType.Event, completion: {
+                    granted, error in
+                    if (granted) && (error == nil) {
+                        print("granted \(granted)")
+                        print("error  \(error)")
+                        var hosted = "Hosted by \(self.usernames[sender.tag]) address:\(self.events[sender.tag].address)"
+                        var event:EKEvent = EKEvent(eventStore: eventStore)
+                        event.title = self.events[sender.tag].title
+                        event.startDate = self.events[sender.tag].start
+                        event.endDate = self.events[sender.tag].end
+                        event.notes = hosted
+                        event.location = self.events[sender.tag].location
+                        event.calendar = eventStore.defaultCalendarForNewEvents
+                        try! eventStore.saveEvent(event, span: EKSpan.ThisEvent, commit: true)
+                        
+                        let going = PFObject(className: "UserCalendar")
+                        going["user"] = PFUser.currentUser()!.username
+                        going["userID"] = PFUser.currentUser()!.objectId
+                        going["event"] = self.events[sender.tag].eventID
+                        going["author"] = self.events[sender.tag].organizationID
+                        going.saveInBackgroundWithBlock{
+                            (succeded:Bool, savError:NSError?) -> Void in
+                            if savError == nil {
+                                print("it worked")
+                                
+                                
+                            }
+                        }
+                        let theMix = Mixpanel.sharedInstance()
+                        theMix.track("Added to Calendar (EF)")
+                        print("saved")
+                    }
+                })
+                print("the object does not exist")
+                var push = PFPush()
+                var pfque = PFInstallation.query()
+                pfque!.whereKey("user", equalTo: self.usernames[sender.tag])
+                push.setQuery(pfque)
+                var pushCheck = PFUser.query() //Checks if users has push enabled
+                pushCheck?.getObjectInBackgroundWithId(self.events[sender.tag].organizationID)
+                print("Saved Event")
+            }
+
            
             }
-        }
+        
         
     }
     override func prepareForSegue(segue:UIStoryboardSegue, sender: AnyObject?){
@@ -515,10 +592,8 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             let indexPath = theFeed.indexPathForSelectedRow //get index of data for selected row
             let section = indexPath?.section
             let row = indexPath?.row
-            var index = getEventIndex(section!, row: row!)
-            
-  
-            
+            let index = getEventIndex(section!, row: row!)
+            secondViewController.eventId = events[index].eventID       
         }
         if segue.identifier == "profile" {
             //Gets the indexpath for the filtered item
@@ -530,8 +605,8 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             let row = indexpath?.row
             let item = filteredSearchItems[row!]
             let theotherprofile:postEvent = segue.destinationViewController as! postEvent
-            //theotherprofile.eventId = item.id
-           // theotherprofile.searchEvent = true
+            theotherprofile.eventId = item.id
+            theotherprofile.searchEvent = true
         }
        
         

@@ -8,7 +8,7 @@
 
 import UIKit
 import MapKit
-import Parse
+
 
 class eventMake: UIViewController, UITextFieldDelegate {
     var dateTime = String()
@@ -242,39 +242,6 @@ class eventMake: UIViewController, UITextFieldDelegate {
             
         }
         
-      /*  if PFUser.currentUser()["emailVerified"] != nil {
-            if PFUser.currentUser()["emailVerifed"] as! Bool == false {
-                 allError = "You need to verify your email first"
-            }
-           
-        } else {
-             allError = "You need to verify your email first"
-            let email = PFUser.currentUser().email
-            PFUser.currentUser().setObject("test@areuin.co", forKey: "email")
-            PFUser.currentUser().saveInBackgroundWithBlock({
-                (success:Bool, error:NSError?) -> Void in
-                
-                if error == nil {
-                    print("The email was saved")
-                    
-                    PFUser.currentUser().setObject(email, forKey: "email")
-                    PFUser.currentUser().saveInBackgroundWithBlock({
-                        (success:Bool, error:NSError?) -> Void in
-                        
-                        if error == nil {
-                            print("The email was saved")
-                        } else {
-                            print("the email was sent")
-                        }
-                    })
-                    
-                } else {
-                    print("email did not save")
-                }
-            })
-        }*/
-            
-        
         if orderDate2.compare(orderDate1) == NSComparisonResult.OrderedAscending  {
             allError = "Your end date is before your start date"
         }
@@ -351,14 +318,10 @@ class eventMake: UIViewController, UITextFieldDelegate {
                         var findPeople = PFQuery(className: "UserCalendar")
                         var collectedPeople = [String]()
                         //Checks collects all the user that have push enablded
-                        var checkPushEnabled = PFUser.query()!
-                        checkPushEnabled.whereKey("pushEnabled", equalTo: true)
-                        findPeople.whereKey("eventID", equalTo:self.eventID )
+                        findPeople.whereKey("eventID", equalTo:self.eventID)
                         findPeople.whereKey("user", notEqualTo: PFUser.currentUser()!.username!)
-                        findPeople.whereKey("user", matchesKey: "username", inQuery: checkPushEnabled)
                         findPeople.findObjectsInBackgroundWithBlock({
                             (results:[PFObject]?, Error:NSError?) -> Void in
-                            
                             for object in results! {
                                 collectedPeople.append(object["user"] as!String)
                             }
@@ -409,7 +372,7 @@ class eventMake: UIViewController, UITextFieldDelegate {
                     self.performSegueWithIdentifier("eventback", sender: self)
             }
             else {
-                var event = PFObject(className: "Event")
+                let event = PFObject(className: "Event")
                 event["address"] = address
                 event["locationGeopoint"] = geopoint
                 event["start"] = orderDate1

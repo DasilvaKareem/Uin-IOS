@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Parse
+
 
 class LogInVC: UIViewController {
     //Manges the registrain and login procress for users

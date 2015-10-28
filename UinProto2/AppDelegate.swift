@@ -7,8 +7,7 @@
 //
 
 import UIKit
-import Parse
-import Bolts
+
 
 
 @UIApplicationMain

@@ -16,8 +16,6 @@
 		61144F1C1AA299330034018A /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 61144F1B1AA299330034018A /* Podfile */; };
 		61268C1E1A910AB300009E07 /* dateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61268C1D1A910AB300009E07 /* dateCell.swift */; };
 		6136E5E81A9958C7009503A4 /* footerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6136E5E71A9958C7009503A4 /* footerCell.swift */; };
-		61940FDD1BDC69D6002D935D /* ParseTwitterUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61940FD81BDC69D6002D935D /* ParseTwitterUtils.framework */; };
-		61940FDE1BDC69D6002D935D /* ParseUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61940FD91BDC69D6002D935D /* ParseUI.framework */; };
 		6199B0C01A97E3C40091F9A6 /* profileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6199B0BF1A97E3C40091F9A6 /* profileCell.swift */; };
 		61A5126C1AB7946400CE2483 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A5126B1AB7946400CE2483 /* LoadingView.swift */; };
 		61AFFF511A7EE2AD00858273 /* subscriptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61AFFF501A7EE2AD00858273 /* subscriptions.swift */; };
@@ -38,7 +36,7 @@
 		61ECD36C1BDD6E6E007310A8 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61144F211AA29A010034018A /* Accounts.framework */; };
 		61ECD36E1BDD6E88007310A8 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 61ECD36D1BDD6E88007310A8 /* libsqlite3.tbd */; };
 		61ECD3701BDD6E91007310A8 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 61ECD36F1BDD6E91007310A8 /* libsqlite3.0.tbd */; };
-		61FD40DA1BCB3C31000F0EAB /* FeedSB.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 61FD40D91BCB3C31000F0EAB /* FeedSB.storyboard */; settings = {ASSET_TAGS = (); }; };
+		61FD40DA1BCB3C31000F0EAB /* FeedSB.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 61FD40D91BCB3C31000F0EAB /* FeedSB.storyboard */; };
 		EDC850721BDC8BDE00D2ADB5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28277E341A4B115E001CCB02 /* AppDelegate.swift */; };
 		EDC850731BDC8BED00D2ADB5 /* LogInVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61D5BD0A1BC73036007DC0AA /* LogInVC.swift */; };
 		EDC850741BDC8BED00D2ADB5 /* register.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28277E771A4B1D0E001CCB02 /* register.swift */; };
@@ -94,7 +92,6 @@
 		28E6547F1A60B9FC006E76E5 /* eventFeedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = eventFeedViewController.swift; sourceTree = "<group>"; };
 		28E654811A60C1AD006E76E5 /* eventMake.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = eventMake.swift; sourceTree = "<group>"; };
 		28F8364A1A4FB25D00F45A0B /* customcell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = customcell.swift; sourceTree = "<group>"; };
-		6107097E1A7028DD000ED950 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		61144F1B1AA299330034018A /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		61144F1D1AA299EC0034018A /* libPods-Mixpanel.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-Mixpanel.a"; path = "UinProto2/Pods/build/Debug-iphoneos/libPods-Mixpanel.a"; sourceTree = "<group>"; };
 		61144F1F1AA299F50034018A /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
@@ -152,8 +149,6 @@
 				61ECD3671BDD6DB5007310A8 /* QuartzCore.framework in Frameworks */,
 				61ECD3661BDD6DB3007310A8 /* MobileCoreServices.framework in Frameworks */,
 				61ECD3631BDD6DA8007310A8 /* CoreGraphics.framework in Frameworks */,
-				61940FDD1BDC69D6002D935D /* ParseTwitterUtils.framework in Frameworks */,
-				61940FDE1BDC69D6002D935D /* ParseUI.framework in Frameworks */,
 				4FA5EA0AE717E498B01BFEBE /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -186,7 +181,6 @@
 				28277E311A4B115E001CCB02 /* Uin */,
 				28277E471A4B115E001CCB02 /* UinProto2Tests */,
 				28277E301A4B115E001CCB02 /* Products */,
-				6107097E1A7028DD000ED950 /* Parse.framework */,
 				B9FAADC1774AEBCBAA29D0E8 /* Pods */,
 				CE893B16E1A0D72BE6FC7F44 /* Frameworks */,
 			);
@@ -570,6 +564,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -621,6 +616,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -667,6 +663,7 @@
 			baseConfigurationReference = BFF64F43CD26D75E1C820539 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Cole Roe (33XBMXDS77)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Cole Roe (33XBMXDS77)";
@@ -688,6 +685,7 @@
 			baseConfigurationReference = D15603B83CDC98572D79F2CD /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Cole Roe (C59F79Z942)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Cole Roe (C59F79Z942)";

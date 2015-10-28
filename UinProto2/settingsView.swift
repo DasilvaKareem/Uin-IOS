@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Parse
+
 
 class settingsView: UIViewController {
 
