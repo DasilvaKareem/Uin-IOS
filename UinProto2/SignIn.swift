@@ -49,8 +49,7 @@ class SignIn: UIViewController, UITextFieldDelegate {
         theMix.track("Sign In Opened")
         theMix.flush()
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name:UIKeyboardWillShowNotification, object: nil);
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillHide:"), name:UIKeyboardWillHideNotification, object: nil);
+     
  
         username.attributedPlaceholder = NSAttributedString(string:"USERNAME",
             attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])

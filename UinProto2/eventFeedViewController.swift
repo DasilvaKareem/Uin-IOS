@@ -494,6 +494,23 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         cell.people.text = events[event].organizationID
         cell.time.text = localizedTime[event]
         cell.eventName.text = events[event].title
+        //cell.uinBtn.setImage(getAddToCalendarStatus(event), forState: UIControlState.Normal)
+        var que = PFQuery(className: "UserCalendar")
+        que.whereKey("userID", equalTo: PFUser.currentUser()!.objectId!)
+        que.whereKey("eventID", equalTo:self.events[event].eventID)
+        que.getFirstObjectInBackgroundWithBlock{
+            
+            (results:PFObject?, error: NSError?) -> Void in
+            
+            if error == nil {
+                
+                cell.uinBtn.setImage(UIImage(named: "addedToCalendar.png"), forState: UIControlState.Normal)
+                
+            }   else {
+                
+                cell.uinBtn.setImage(UIImage(named: "addToCalendar.png"), forState: UIControlState.Normal)
+            }
+        }
         cell.uinBtn.tag = event
         cell.uinBtn.addTarget(self, action: "followButton:", forControlEvents: UIControlEvents.TouchUpInside)
         
@@ -502,11 +519,34 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         
     }
     
+    func getAddToCalendarStatus(eventCount:Int) -> UIImage{
+        
+        var image = (UIImage)()
+        let que = PFQuery(className: "UserCalendar")
+        que.whereKey("userID", equalTo: PFUser.currentUser()!.objectId!)
+        que.whereKey("eventID", equalTo:self.events[eventCount].eventID)
+    
+                
+        do{
+           try que.getFirstObject()
+            image = UIImage(named: "addedToCalendar.png")!
+        }
+        catch{
+            print("lol")
+            image = UIImage(named: "addToCalendar.png")!
+        }
+       
+      
+        print(image)
+        return image
+    }
+    
     func followButton(sender: UIButton){
         // Adds the event to calendar
         let que = PFQuery(className: "UserCalendar")
         que.whereKey("author", equalTo: self.events[sender.tag].organizationID)
         que.whereKey("eventID", equalTo:self.events[sender.tag].eventID)
+        
         
         que.getFirstObjectInBackgroundWithBlock {
             (results, queerror) -> Void in
