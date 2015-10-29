@@ -28,21 +28,12 @@ class LogInVC: UIViewController {
     }
     
     @IBAction func cancel(sender: AnyObject) {
-        let user = PFUser.currentUser()
-        user!.deleteInBackgroundWithBlock({
-            
-            (succes:Bool, error:NSError?) -> Void in
-            if error == nil {
-                PFUser.logOut()
-                let storyboard = UIStoryboard(name: "main", bundle: nil)
+        
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
                 let register:UIViewController = storyboard.instantiateInitialViewController()!
                 
                 self.presentViewController(register, animated: true, completion: nil)
-            }
-            else {
-                print(error)
-            }
-        })
+        
     }
 
     @IBAction func createAccount(sender: AnyObject) {
@@ -111,7 +102,7 @@ class LinkUser: UIViewController {
             (succes:Bool, error:NSError?) -> Void in
             if error == nil {
                 PFUser.logOut()
-                let storyboard = UIStoryboard(name: "main", bundle: nil)
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
                 let register:UIViewController = storyboard.instantiateInitialViewController()!
                 
                 self.presentViewController(register, animated: true, completion: nil)
@@ -167,7 +158,7 @@ class basicSignUp: UIViewController {
             (succes:Bool, error:NSError?) -> Void in
             if error == nil {
                 PFUser.logOut()
-                let storyboard = UIStoryboard(name: "main", bundle: nil)
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
                 let register:UIViewController = storyboard.instantiateInitialViewController()!
                 
                 self.presentViewController(register, animated: true, completion: nil)
@@ -263,7 +254,7 @@ class extraSignUp: UIViewController, UIPickerViewDataSource, UIPickerViewDelegat
             (succes:Bool, error:NSError?) -> Void in
             if error == nil {
                 PFUser.logOut()
-                let storyboard = UIStoryboard(name: "main", bundle: nil)
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
                 let register:UIViewController = storyboard.instantiateInitialViewController()!
                 
                 self.presentViewController(register, animated: true, completion: nil)

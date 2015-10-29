@@ -60,12 +60,7 @@ class SignIn: UIViewController, UITextFieldDelegate {
 
     }
     
-    func keyboardWillShow(sender: NSNotification) {
-        self.view.frame.origin.y = -85
-    }
-    func keyboardWillHide(sender: NSNotification) {
-        self.view.frame.origin.y = 0.0
-    }
+   
     
     //User singing in with Uin
     @IBAction func signin(sender: AnyObject) {

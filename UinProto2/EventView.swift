@@ -117,7 +117,7 @@ class postEvent: UIViewController {
             (results: PFObject?, error: NSError?) -> Void in
             if error == nil {
             
-                var result = results!
+                var result:PFObject = results!
                 let dateFormatter = NSDateFormatter()
                 dateFormatter.locale = NSLocale.currentLocale() // Gets current locale and switches
                 dateFormatter.dateFormat = "MMM. dd, yyyy - h:mm a"

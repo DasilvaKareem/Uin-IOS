@@ -15,7 +15,7 @@ public struct Icon {
 
 public func setIcon(iconID:String) -> Icon {
     var icon = (Icon)()
-    if(iconID == "food"){
+    if(iconID == "Food"){
         icon.iconImage =  UIImage(named: "yesFood.png")!
         icon.caption = "Food"
     } else if(iconID == "Campus") {

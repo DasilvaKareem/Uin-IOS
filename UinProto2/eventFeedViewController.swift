@@ -232,13 +232,18 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     func updateFeed(){
        //where updating the feed takes place
+        events.removeAll()
         let query = PFQuery(className: "Event")
+        query.orderByDescending("start")
+        query.whereKey("start", greaterThanOrEqualTo: NSDate())
+        query.whereKey("isDeleted", equalTo: false)
         query.findObjectsInBackgroundWithBlock({
             (objects: [PFObject]?, error: NSError?) -> Void in
             print(objects!.count)
             for object in objects! {
                 print(object)
                 var event = Event()
+                event.eventID = object.objectId!
                 event.address = object["address"] as! String
                 event.end = object["end"] as! NSDate!
                 event.start = object["start"] as! NSDate!
@@ -263,6 +268,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             }
             self.populateSectionInfo()
             self.theFeed.reloadData()
+            self.refresher.endRefreshing()
         })
     }
  
@@ -593,6 +599,8 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             let section = indexPath?.section
             let row = indexPath?.row
             let index = getEventIndex(section!, row: row!)
+            print(index)
+            print(events[index].eventID)
             secondViewController.eventId = events[index].eventID       
         }
         if segue.identifier == "profile" {
