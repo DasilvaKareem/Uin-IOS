@@ -19,8 +19,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     var refresher: UIRefreshControl!
 
     //Text that is display on cell
-  
-    var usernames = [String]()
+
     //Creats  single event  objects
     struct Event {
         //Add author REAL NAME TO IT
@@ -28,6 +27,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         
         var title = (String)()
         var address = (String)()
+        var author = (String)()
         var location = (String)()
         //Start and end date of Event
         var end = (NSDate)()
@@ -232,43 +232,49 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     func updateFeed(){
        //where updating the feed takes place
-        events.removeAll()
+        
         let query = PFQuery(className: "Event")
-        query.orderByDescending("start")
+        query.orderByAscending("start")
         query.whereKey("start", greaterThanOrEqualTo: NSDate())
         query.whereKey("isDeleted", equalTo: false)
         query.findObjectsInBackgroundWithBlock({
             (objects: [PFObject]?, error: NSError?) -> Void in
             print(objects!.count)
-            for object in objects! {
-                print(object)
-                var event = Event()
-                event.eventID = object.objectId!
-                event.address = object["address"] as! String
-                event.end = object["end"] as! NSDate!
-                event.start = object["start"] as! NSDate!
-                event.tag1 = ""
-                event.tag2 = ""
-                event.tag3 = ""
-                if object["hasFood"] as! Bool == true {
-                    event.tag1 = "Food"
+            if error == nil {
+                self.events.removeAll()
+                for object in objects! {
+                    print(object)
+                    
+                    var event = Event()
+                    event.author = object["author"] as! String
+                    event.eventID = object.objectId!
+                    event.address = object["address"] as! String
+                    event.end = object["end"] as! NSDate!
+                    event.start = object["start"] as! NSDate!
+                    event.tag1 = ""
+                    event.tag2 = ""
+                    event.tag3 = ""
+                    if object["hasFood"] as! Bool == true {
+                        event.tag1 = "Food"
+                    }
+                    if object["onCampus"] as! Bool == true {
+                        event.tag2 = "Campus"
+                    }
+                    if object["isFree"] as! Bool == true {
+                        event.tag3 = "Free"
+                    }
+                    
+                    event.publicPost = object["isPublic"] as! Bool
+                    event.location = object["location"] as! String
+                    event.title = object["title"] as! String
+                    event.organizationID = object["authorID"] as! String
+                    self.events.append(event)
                 }
-                if object["onCampus"] as! Bool == true {
-                    event.tag2 = "Campus"
-                }
-                if object["isFree"] as! Bool == true {
-                    event.tag3 = "Free"
-                }
-                
-                event.publicPost = object["isPublic"] as! Bool
-                event.location = object["location"] as! String
-                event.title = object["title"] as! String
-                event.organizationID = object["authorID"] as! String
-                self.events.append(event)
+                self.populateSectionInfo()
+                self.theFeed.reloadData()
+                self.refresher.endRefreshing()
             }
-            self.populateSectionInfo()
-            self.theFeed.reloadData()
-            self.refresher.endRefreshing()
+            
         })
     }
  
@@ -491,7 +497,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             cell.tag3.image = icon3.iconImage
             cell.tag3Text.text = icon3.caption
         //cell.privateImage.image = UIImage(named: "poop")
-        cell.people.text = events[event].organizationID
+        cell.people.text = events[event].author
         cell.time.text = localizedTime[event]
         cell.eventName.text = events[event].title
         //cell.uinBtn.setImage(getAddToCalendarStatus(event), forState: UIControlState.Normal)
@@ -503,11 +509,8 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             (results:PFObject?, error: NSError?) -> Void in
             
             if error == nil {
-                
                 cell.uinBtn.setImage(UIImage(named: "addedToCalendar.png"), forState: UIControlState.Normal)
-                
             }   else {
-                
                 cell.uinBtn.setImage(UIImage(named: "addToCalendar.png"), forState: UIControlState.Normal)
             }
         }
@@ -544,7 +547,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     func followButton(sender: UIButton){
         // Adds the event to calendar
         let que = PFQuery(className: "UserCalendar")
-        que.whereKey("author", equalTo: self.events[sender.tag].organizationID)
+        que.whereKey("userID", equalTo: PFUser.currentUser()!.objectId!)
         que.whereKey("eventID", equalTo:self.events[sender.tag].eventID)
         
         
@@ -587,7 +590,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                     if (granted) && (error == nil) {
                         print("granted \(granted)")
                         print("error  \(error)")
-                        var hosted = "Hosted by \(self.usernames[sender.tag]) address:\(self.events[sender.tag].address)"
+                        var hosted = "Hosted by \(self.events[sender.tag].author) address:\(self.events[sender.tag].address)"
                         var event:EKEvent = EKEvent(eventStore: eventStore)
                         event.title = self.events[sender.tag].title
                         event.startDate = self.events[sender.tag].start
@@ -600,8 +603,8 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                         let going = PFObject(className: "UserCalendar")
                         going["user"] = PFUser.currentUser()!.username
                         going["userID"] = PFUser.currentUser()!.objectId
-                        going["event"] = self.events[sender.tag].eventID
-                        going["author"] = self.events[sender.tag].organizationID
+                        going["eventID"] = self.events[sender.tag].eventID
+                        going["author"] = self.events[sender.tag].author
                         going.saveInBackgroundWithBlock{
                             (succeded:Bool, savError:NSError?) -> Void in
                             if savError == nil {
@@ -618,17 +621,13 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                 print("the object does not exist")
                 var push = PFPush()
                 var pfque = PFInstallation.query()
-                pfque!.whereKey("user", equalTo: self.usernames[sender.tag])
+                pfque!.whereKey("user", equalTo: self.events[sender.tag].author)
                 push.setQuery(pfque)
                 var pushCheck = PFUser.query() //Checks if users has push enabled
                 pushCheck?.getObjectInBackgroundWithId(self.events[sender.tag].organizationID)
                 print("Saved Event")
             }
-
-           
             }
-        
-        
     }
     override func prepareForSegue(segue:UIStoryboardSegue, sender: AnyObject?){
         if segue.identifier == "event" {
