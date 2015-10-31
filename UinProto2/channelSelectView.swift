@@ -80,6 +80,11 @@ class channelSelectView: UITableViewController {
         self.genEvents.append(" 0 upcoming")
         self.gentype.append("schedule")
         self.genChannels.append("i'm in")
+        
+        //fourth part of gen counters
+        self.genEvents.append("0")
+        self.gentype.append("myevents")
+        self.genChannels.append("My Events")
         //End setup
         self.getChannels()
     }
@@ -172,11 +177,11 @@ class channelSelectView: UITableViewController {
     
     
     override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        var cell:channelSectionCell = tableView.dequeueReusableCellWithIdentifier("sectionHeader") as! channelSectionCell
+        let cell:channelSectionCell = tableView.dequeueReusableCellWithIdentifier("sectionHeader") as! channelSectionCell
         
         if section == 0 {
-            var cell:channelHeaderCell = tableView.dequeueReusableCellWithIdentifier("header") as! channelHeaderCell
-            cell.headerLabel.text = "Name"
+            let cell:channelHeaderCell = tableView.dequeueReusableCellWithIdentifier("header") as! channelHeaderCell
+            cell.headerLabel.text = PFUser.currentUser()!.username
             
             return cell
         }
@@ -328,15 +333,14 @@ class channelSelectView: UITableViewController {
     
 
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-         var allTypes = userType + gentype + channelType
-        var cell:channelTableCell = tableView.cellForRowAtIndexPath(indexPath) as! channelTableCell
+        let cell:channelTableCell = tableView.cellForRowAtIndexPath(indexPath) as! channelTableCell
         cell.contentView.backgroundColor = UIColor(red: 65.0/255.0, green: 145.0/255.0, blue: 198.0/255.0, alpha: 1)
         cell.channelCount.textColor = UIColor.whiteColor()
         cell.channelName.textColor = UIColor.whiteColor()
         self.currentIndexPath = indexPath
     
         
-               if indexPath.section == 0 {
+               if indexPath.section == 1 {
                 //changes background cell color to orange
                 
                     cell.contentView.backgroundColor = UIColor(red: 245.0/255.0, green: 166.0/255.0, blue: 35.0/255.0, alpha: 1)
@@ -356,7 +360,7 @@ class channelSelectView: UITableViewController {
                         break
                     
                     case "My Events":
-                        self.performSegueWithIdentifier("My Events", sender: self)
+                        self.performSegueWithIdentifier("channelSelect", sender: self)
                     default:
                         break
                     }
@@ -364,7 +368,7 @@ class channelSelectView: UITableViewController {
      
         }
      
-            if indexPath.section == 1 {
+            if indexPath.section == 2 {
                
                 if self.memBounded == true {
                     print("You are membounded", terminator: "")
@@ -382,7 +386,7 @@ class channelSelectView: UITableViewController {
             }
         
       
-        if indexPath.section == 2 {
+        if indexPath.section == 3 {
   
                   self.performSegueWithIdentifier("channelSelect", sender: self)
           
@@ -399,18 +403,17 @@ class channelSelectView: UITableViewController {
         
    
         if segue.identifier == "channelSelect" {
-              let allInfo = usernameInfo + gentype + channels
-          
+            
             let indexPath = tableView.indexPathForSelectedRow
             let nav = segue.destinationViewController as! UINavigationController
             let eventFeed:eventFeedViewController = nav.topViewController as! eventFeedViewController
             let row = indexPath?.row
       
-            if indexPath?.section == 1 {
+            if indexPath?.section == 2 {
                 print(row!)
                 eventFeed.channelID = gentype[row!]
             }
-            if indexPath?.section == 2 {
+            if indexPath?.section == 3 {
                     print(row!)
                 eventFeed.channelID = channels[row!]
             }

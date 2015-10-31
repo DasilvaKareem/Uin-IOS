@@ -7,6 +7,35 @@
 //
 
 import UIKit
+public func getCalendar(calendar:String, query:PFQuery){
+    
+    switch calendar {
+    case "localEvent":
+    
+        query.whereKey("inLocalFeed", equalTo: true)
+        query.whereKey("isPublic", equalTo: true)
+        break
+    case "subbedEvents":
+        let subscriptionQuery = PFQuery(className: "Subscription")
+        subscriptionQuery.whereKey("subscriberID", equalTo: PFUser.currentUser()!.objectId!)
+        query.whereKey("authorID", matchesKey: "publisherID", inQuery: subscriptionQuery)
+        break
+    case "schedule":
+
+
+        let getAmountSchedule = PFQuery(className: "UserCalendar")
+        getAmountSchedule.whereKey("userID", equalTo: PFUser.currentUser()!.objectId!)
+        query.whereKey("objectId", matchesKey: "eventID", inQuery: getAmountSchedule)
+        query.whereKey("isPublic", equalTo: true)
+        break
+    case "myevents":
+        query.whereKey("authorID", equalTo: PFUser.currentUser()!.objectId!)
+    default:
+        query.whereKey("inLocalFeed", equalTo: true)
+        query.whereKey("isPublic", equalTo: true)
+        break
+    }
+}
 public struct Icon {
     var caption = ""
     var iconImage = (UIImage)()
@@ -38,20 +67,20 @@ public func setIcon(iconID:String) -> Icon {
         icon.caption = "Popcorn"
         return icon
         break
-        
+    
     case "LP5fLvLurL": //recuitment
         icon.iconImage = UIImage(named: "recruitment.png")!
         icon.caption = "recruitment"
         return icon
-        
+    
         break
-        
+    
     case "8HvnDADGY2": // run
         icon.iconImage = UIImage(named: "run.png")!
         icon.caption = "run"
         return icon
         break
-        
+    
     case "BX9RsT3EpW": //tour
         icon.iconImage = UIImage(named: "tour.png")!
         icon.caption = "tour"
@@ -62,13 +91,13 @@ public func setIcon(iconID:String) -> Icon {
         icon.caption = "Intramural"
         return icon
         break
-        
+    
     case "ayCBAVwQ93": //sales event
         icon.iconImage = UIImage(named: "sales.png")!
         icon.caption = "Sales"
         return icon
         break
-        
+    
     case "D1nxE6j63a": //dance
         icon.iconImage = UIImage(named: "dance.png")!
         icon.caption = "Dance"

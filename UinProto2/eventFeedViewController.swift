@@ -237,6 +237,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         query.orderByAscending("start")
         query.whereKey("start", greaterThanOrEqualTo: NSDate())
         query.whereKey("isDeleted", equalTo: false)
+        getCalendar(channelID, query: query)
         query.findObjectsInBackgroundWithBlock({
             (objects: [PFObject]?, error: NSError?) -> Void in
             print(objects!.count)

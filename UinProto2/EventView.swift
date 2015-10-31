@@ -19,9 +19,7 @@ class postEvent: UIViewController {
     @IBOutlet var locationTitle: UILabel!
     @IBOutlet var dateTitle: UILabel!
     
-    @IBOutlet var imageShower: UIButton!
-    @IBOutlet weak var picture: UIImageView!
-    var image = (UIImage)()
+    var count:Int32 = 0
   
     @IBOutlet var location: UILabel!
     @IBOutlet weak var eventTitle: UILabel!
@@ -70,8 +68,12 @@ class postEvent: UIViewController {
     var startDate = (String)()
     var endDate = (String)()
     func checkevent(){
+        let minique2 = PFQuery(className: "UserCalendar")
+        minique2.whereKey("eventID", equalTo: eventId)
+        self.calendarCount.text = String(minique2.countObjects(nil))
+        
         let minique = PFQuery(className: "UserCalendar")
-        minique.whereKey("user", equalTo: PFUser.currentUser()!.username!)
+        minique.whereKey("userID", equalTo: PFUser.currentUser()!.objectId!)
        
         minique.whereKey("eventID", equalTo: eventId)
         
@@ -89,14 +91,28 @@ class postEvent: UIViewController {
                 self.calendarCount.textColor = UIColor(red: 254.0/255.0, green: 186.0/255.0, blue: 1.0/255, alpha:1 ) //yellow color
             }
         }
-        getCount()
+   
+        
     }
     //Gets the amount of people added to calendar
-    func getCount() {
-        let minique2 = PFQuery(className: "UserCalendar")
+    func getCount(valueChange:Bool) {
+        /*let minique2 = PFQuery(className: "UserCalendar")
         minique2.whereKey("eventID", equalTo: eventId)
-        let goingCount = minique2.countObjectsInBackground()
-        self.calendarCount.text = String(goingCount)
+        minique2.countObjectsInBackgroundWithBlock({
+            (count:Int32, error:NSError?) -> Void in
+            if error == nil {
+               self.calendarCount.text = String(count)
+            } else {
+                print("it failed")
+            }
+        })*/
+        if valueChange {
+           self.calendarCount.text = String(count++)
+        } else {
+            self.calendarCount.text = String(count++)
+        }
+        
+        
     }
     //Queries from object ID
 
@@ -183,11 +199,7 @@ class postEvent: UIViewController {
             self.presentViewController(activityVC, animated: true, completion: nil)
         
     }
-    @IBAction func changeForm(sender: AnyObject) {
-      
-      
-    
-    }
+   
     func displayAlert(title:String, error:String) {
         
         var alert = UIAlertController(title: title, message: error, preferredStyle: UIAlertControllerStyle.Alert)
@@ -204,9 +216,7 @@ class postEvent: UIViewController {
     @IBAction func addtocalendar(sender: AnyObject) {
         
         var que = PFQuery(className: "UserCalendar")
-        que.whereKey("author", equalTo: users)
-        
-        que.whereKey("userID", equalTo: userId)
+        que.whereKey("userID", equalTo: PFUser.currentUser()!.objectId!)
         que.whereKey("eventID", equalTo:eventId)
         que.getFirstObjectInBackgroundWithBlock({
             
@@ -214,7 +224,7 @@ class postEvent: UIViewController {
             
             if queerror == nil {
               results!.deleteInBackground()
-                self.getCount()
+                self.getCount(false)
                 self.longBar.setImage(UIImage(named: "addToCalendarBig.png"), forState: UIControlState.Normal)
                 self.calendarCount.textColor = UIColor(red: 254.0/255.0, green: 186.0/255.0, blue: 1.0/255, alpha:1 ) //yellow color
                 if results != nil {
@@ -254,7 +264,7 @@ class postEvent: UIViewController {
                     (succeded:Bool, savError:NSError?) -> Void in
                     
                     if savError == nil {
-                        self.getCount()
+                        self.getCount(true)
                         print("the user is going to the event")
                     }
                 }
