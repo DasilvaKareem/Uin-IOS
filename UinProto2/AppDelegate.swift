@@ -7,11 +7,11 @@
 //
 
 import UIKit
-
+import MapKit
 
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate {
 
     var window: UIWindow?
 
@@ -56,7 +56,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
                 
                 locationManager = CLLocationManager()
-                locationManager?.requestWhenInUseAuthorization()
+                locationManager?.requestAlwaysAuthorization()
    
      
         
@@ -66,13 +66,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let settings = UIUserNotificationSettings(forTypes: userNotificationTypes, categories: nil)
         application.registerUserNotificationSettings(settings)
         application.registerForRemoteNotifications()
+        
         //PFTwitterUtils.initializeWithConsumerKey("8UEyO7HCWxgi6qtNOrHlkNXQk",  consumerSecret:"UwR53WCjwtmac7RthglrliwtoJuNg8rT3R7bne3pkM5gzhu053")
        
     
         
     PFFacebookUtils.initializeFacebook()
     
-    Parse.init()
+ 
         // Override point for customization after application launch.
         return true
     }
@@ -104,6 +105,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let theMix = Mixpanel.sharedInstance()
         theMix.track("App Close")
         theMix.flush()
+        print("poop")
+        var i = 0
+        var poo = [CLLocation]()
+        let locationmgr = CLLocationManager()
+        locationmgr.delegate = self
+        
+        locationmgr.requestAlwaysAuthorization()
+        if #available(iOS 9.0, *) {
+            print(locationmgr.allowsBackgroundLocationUpdates)
+        } else {
+            // Fallback on earlier versions
+        }
+        locationmgr.startUpdatingLocation()
+        
+        
+        while( i != 50){
+        
+            
+            print(locationmgr.location?.coordinate.latitude)
+            i++
+        }
+        
+      
+   
+        
+       
     }
 
     func applicationWillEnterForeground(application: UIApplication) {

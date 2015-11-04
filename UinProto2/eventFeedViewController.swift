@@ -9,7 +9,8 @@
 import UIKit
 import EventKit
 
-class eventFeedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UITextFieldDelegate {
+
+class eventFeedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, CLLocationManagerDelegate, UITextFieldDelegate {
     
 
     @IBOutlet weak var theFeed: UITableView!
@@ -79,17 +80,6 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                     self.searchItems.append(searchItem(type: "Event", name: object["title"] as! String, id: object.objectId!))
 
                 }
-                let userQuery = PFUser.query()!
-                userQuery.findObjectsInBackgroundWithBlock({
-                    (objects: [PFObject]?, error: NSError?) -> Void in
-                    if error == nil {
-                        for object in results!{
-                            self.searchItems.append(searchItem(type: "Username", name: object["username"] as! String, id: object.objectId!))
-                            
-                            
-                        }
-                    }
-                })
             }
         })
     }
@@ -137,7 +127,11 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         
         //Loads search Items
         searchBar.delegate = self
-        //getSearchItems()
+        var locationManager = CLLocationManager()
+        locationManager.delegate = self
+        locationManager.requestAlwaysAuthorization()
+        
+        getSearchItems()
         let theMix = Mixpanel.sharedInstance()
         theMix.track("Event Feed Opened")
         theMix.flush()
@@ -381,6 +375,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         return offset+row
     }
     
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -446,7 +441,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             }
         }
     }
-    
+
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
@@ -478,45 +473,76 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         // Puts the data in a cell
         let cell:eventCell = tableView.dequeueReusableCellWithIdentifier("cell2") as! eventCell
        
+        if searchActive == true {
+            if filteredSearchItems.count == 0 {
+                cell.tag1.image = nil
+                cell.tag2.image = nil
+                cell.tag3.image = nil
+                cell.uinBtn.hidden = true
+                cell.tag1Text.text = ""
+                cell.tag2Text.text = ""
+                cell.tag3Text.text = ""
+                cell.eventName.text = "No items found"
+                cell.people.text = ""
+                cell.privateImage.image = nil
+                cell.time.text = ""
+            } else {
+                let items = filteredSearchItems[indexPath.row]
+                cell.tag1.image = nil
+                cell.tag2.image = nil
+                cell.tag3.image = nil
+                cell.uinBtn.hidden = true
+                cell.tag1Text.text = ""
+                cell.tag2Text.text = ""
+                cell.tag3Text.text = ""
+                cell.eventName.text = items.name
+                cell.people.text = items.type
+                cell.privateImage.image = nil
+                cell.time.text = ""
+                
+            }
+        } else {
+            let event = getEventIndex(indexPath.section, row: indexPath.row)
             
-    
-        let event = getEventIndex(indexPath.section, row: indexPath.row)
-        
-        var section = indexPath.section
-        var row = indexPath.row
+            let section = indexPath.section
+            let row = indexPath.row
             //Puts image for three icons
             let icon1:Icon = setIcon(events[event].tag1) //icon object for tag 1
             let icon2:Icon = setIcon(events[event].tag2) //icon object for tag 2
             let icon3:Icon = setIcon(events[event].tag3) //icon object for tag 3
             cell.tag1.image = icon1.iconImage
             cell.tag1Text.text = icon1.caption
-        
+            
             
             cell.tag2.image = icon2.iconImage
             cell.tag2Text.text = icon2.caption
             
             cell.tag3.image = icon3.iconImage
             cell.tag3Text.text = icon3.caption
-        //cell.privateImage.image = UIImage(named: "poop")
-        cell.people.text = events[event].author
-        cell.time.text = localizedTime[event]
-        cell.eventName.text = events[event].title
-        //cell.uinBtn.setImage(getAddToCalendarStatus(event), forState: UIControlState.Normal)
-        var que = PFQuery(className: "UserCalendar")
-        que.whereKey("userID", equalTo: PFUser.currentUser()!.objectId!)
-        que.whereKey("eventID", equalTo:self.events[event].eventID)
-        que.getFirstObjectInBackgroundWithBlock{
-            
-            (results:PFObject?, error: NSError?) -> Void in
-            
-            if error == nil {
-                cell.uinBtn.setImage(UIImage(named: "addedToCalendar.png"), forState: UIControlState.Normal)
-            }   else {
-                cell.uinBtn.setImage(UIImage(named: "addToCalendar.png"), forState: UIControlState.Normal)
+            //cell.privateImage.image = UIImage(named: "poop")
+            cell.people.text = events[event].author
+            cell.time.text = localizedTime[event]
+            cell.eventName.text = events[event].title
+            cell.uinBtn.hidden = false
+            //cell.uinBtn.setImage(getAddToCalendarStatus(event), forState: UIControlState.Normal)
+            var que = PFQuery(className: "UserCalendar")
+            que.whereKey("userID", equalTo: PFUser.currentUser()!.objectId!)
+            que.whereKey("eventID", equalTo:self.events[event].eventID)
+            que.getFirstObjectInBackgroundWithBlock{
+                
+                (results:PFObject?, error: NSError?) -> Void in
+                
+                if error == nil {
+                    cell.uinBtn.setImage(UIImage(named: "addedToCalendar.png"), forState: UIControlState.Normal)
+                }   else {
+                    cell.uinBtn.setImage(UIImage(named: "addToCalendar.png"), forState: UIControlState.Normal)
+                }
             }
+            cell.uinBtn.tag = event
+            cell.uinBtn.addTarget(self, action: "followButton:", forControlEvents: UIControlEvents.TouchUpInside)
+
         }
-        cell.uinBtn.tag = event
-        cell.uinBtn.addTarget(self, action: "followButton:", forControlEvents: UIControlEvents.TouchUpInside)
+    
         
         
         return cell

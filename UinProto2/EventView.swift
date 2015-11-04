@@ -31,13 +31,9 @@ class postEvent: UIViewController {
     @IBOutlet weak var isSite: UIImageView!
     @IBOutlet weak var isPaid: UIImageView!
     @IBAction func gotoProfile(sender: AnyObject) {
-        if PFUser.currentUser()!.objectId != userId {
-            self.performSegueWithIdentifier("gotoprofile", sender: self)
-        } else {
+        if PFUser.currentUser()!.objectId == userId {
             self.performSegueWithIdentifier("editEvent", sender: self)
         }
-        
-        
     }
     
     @IBOutlet var theeditButton: UIBarButtonItem!
@@ -166,11 +162,9 @@ class postEvent: UIViewController {
         theMix.track("Event View Opened")
         theMix.flush()
         super.viewDidLoad()
-        
-        if users == PFUser.currentUser()!.username{
+        self.navigationItem.rightBarButtonItem?.title = ""
+        if userId == PFUser.currentUser()!.objectId!{
             self.navigationItem.rightBarButtonItem?.title = "Edit"
-        } else {
-            self.navigationItem.rightBarButtonItem?.title = self.users
         }
         self.tabBarController?.tabBar.hidden = true
         if profileEditing == true {

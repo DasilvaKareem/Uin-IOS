@@ -480,13 +480,13 @@
                                                         <constraint firstAttribute="width" constant="20" id="0Py-L3-WOv"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Event Title" lineBreakMode="tailTruncation" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="7Sb-sW-Oie">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Event Title" lineBreakMode="tailTruncation" numberOfLines="2" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Sb-sW-Oie">
                                                     <rect key="frame" x="59" y="19" width="298" height="24"/>
                                                     <animations/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="24" id="hhJ-if-6W6"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="12"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -1589,11 +1589,12 @@
                     <connections>
                         <outlet property="menuTrigger" destination="dfu-8T-NFl" id="5So-Ec-gxS"/>
                         <outlet property="notifySlider" destination="elY-b3-I8e" id="hUi-wP-CZF"/>
+                        <segue destination="tqR-kA-WJU" kind="show" identifier="logout" id="kYS-Pw-eOr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="71L-vF-8J2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2778" y="1198"/>
+            <point key="canvasLocation" x="-2875" y="-38"/>
         </scene>
         <!--Channel Select View-->
         <scene sceneID="YFt-W4-WTe">
@@ -3627,10 +3628,10 @@
     <inferredMetricsTieBreakers>
         <segue reference="whQ-24-xqE"/>
         <segue reference="5Lw-yn-nUI"/>
-        <segue reference="2sm-MT-g3M"/>
-        <segue reference="SJU-iS-UV4"/>
-        <segue reference="hrZ-5I-9po"/>
         <segue reference="dXs-6q-ma4"/>
+        <segue reference="hrZ-5I-9po"/>
+        <segue reference="SJU-iS-UV4"/>
+        <segue reference="2sm-MT-g3M"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>
