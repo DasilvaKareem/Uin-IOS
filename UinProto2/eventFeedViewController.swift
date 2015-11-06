@@ -71,7 +71,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     func getSearchItems() {
         
         let eventQuery = PFQuery(className: "Event")
-        eventQuery.whereKey("start", greaterThanOrEqualTo: NSDate())
+        eventQuery.whereKey("end", greaterThanOrEqualTo: NSDate())
         eventQuery.whereKey("isPublic", equalTo: true)
         eventQuery.findObjectsInBackgroundWithBlock({
             (results: [PFObject]?, error: NSError?) -> Void in

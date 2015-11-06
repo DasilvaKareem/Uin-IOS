@@ -13,9 +13,10 @@
 		28277E6E1A4B161C001CCB02 /* UInProto.m in Sources */ = {isa = PBXBuildFile; fileRef = 28277E6D1A4B161C001CCB02 /* UInProto.m */; };
 		28F8364B1A4FB25D00F45A0B /* customcell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F8364A1A4FB25D00F45A0B /* customcell.swift */; };
 		4FA5EA0AE717E498B01BFEBE /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 119BEED4DA993FF18EDC1A66 /* libPods.a */; };
-		61144F1C1AA299330034018A /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 61144F1B1AA299330034018A /* Podfile */; };
 		61268C1E1A910AB300009E07 /* dateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61268C1D1A910AB300009E07 /* dateCell.swift */; };
 		6136E5E81A9958C7009503A4 /* footerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6136E5E71A9958C7009503A4 /* footerCell.swift */; };
+		61874C971BEC35AD009190AE /* User.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 61874C961BEC35AD009190AE /* User.storyboard */; };
+		61874C991BEC363F009190AE /* UserProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61874C981BEC363F009190AE /* UserProfileVC.swift */; };
 		6199B0C01A97E3C40091F9A6 /* profileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6199B0BF1A97E3C40091F9A6 /* profileCell.swift */; };
 		61A5126C1AB7946400CE2483 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A5126B1AB7946400CE2483 /* LoadingView.swift */; };
 		61AFFF511A7EE2AD00858273 /* subscriptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61AFFF501A7EE2AD00858273 /* subscriptions.swift */; };
@@ -65,6 +66,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0FB87C24DC68F9646FFD9518 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		119BEED4DA993FF18EDC1A66 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		28277E2F1A4B115E001CCB02 /* UinProto2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UinProto2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		28277E331A4B115E001CCB02 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -92,7 +94,6 @@
 		28E6547F1A60B9FC006E76E5 /* eventFeedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = eventFeedViewController.swift; sourceTree = "<group>"; };
 		28E654811A60C1AD006E76E5 /* eventMake.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = eventMake.swift; sourceTree = "<group>"; };
 		28F8364A1A4FB25D00F45A0B /* customcell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = customcell.swift; sourceTree = "<group>"; };
-		61144F1B1AA299330034018A /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		61144F1D1AA299EC0034018A /* libPods-Mixpanel.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-Mixpanel.a"; path = "UinProto2/Pods/build/Debug-iphoneos/libPods-Mixpanel.a"; sourceTree = "<group>"; };
 		61144F1F1AA299F50034018A /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		61144F211AA29A010034018A /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
@@ -101,6 +102,8 @@
 		6136E5E71A9958C7009503A4 /* footerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = footerCell.swift; sourceTree = "<group>"; };
 		6137CA911AA41AE000B74077 /* libstdc++.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.dylib"; path = "usr/lib/libstdc++.6.dylib"; sourceTree = SDKROOT; };
 		614F49A61A8FFD4300E6245A /* subCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = subCell.swift; sourceTree = "<group>"; };
+		61874C961BEC35AD009190AE /* User.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = User.storyboard; sourceTree = "<group>"; };
+		61874C981BEC363F009190AE /* UserProfileVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileVC.swift; sourceTree = "<group>"; };
 		61887FD11BDC672A00297726 /* ParseFacebookUtils.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseFacebookUtils.framework; sourceTree = "<group>"; };
 		618CE0131A76F4A400FF493C /* EventView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventView.swift; sourceTree = "<group>"; };
 		61940FD51BDC69D6002D935D /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
@@ -130,6 +133,7 @@
 		BFF64F43CD26D75E1C820539 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "UinProto2/Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		D15603B83CDC98572D79F2CD /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "UinProto2/Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		EE09DD841AFDC18300809E3E /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		F467345FDC2BFB81380BB809 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -198,6 +202,7 @@
 		28277E311A4B115E001CCB02 /* Uin */ = {
 			isa = PBXGroup;
 			children = (
+				61874C951BEC359B009190AE /* User */,
 				61D8F33E1BB877350084E655 /* IconSetup.swift */,
 				28E6547D1A60B9C8006E76E5 /* eventCell.swift */,
 				28277E341A4B115E001CCB02 /* AppDelegate.swift */,
@@ -210,7 +215,6 @@
 				6136E5E71A9958C7009503A4 /* footerCell.swift */,
 				61E6A41A1ADECF7B0098FC5D /* Subscriptions */,
 				61AFFF4C1A7ED66300858273 /* FollowCell.swift */,
-				61144F1B1AA299330034018A /* Podfile */,
 				61268C1D1A910AB300009E07 /* dateCell.swift */,
 				28F8364A1A4FB25D00F45A0B /* customcell.swift */,
 				28277E6D1A4B161C001CCB02 /* UInProto.m */,
@@ -246,6 +250,15 @@
 				28277E491A4B115E001CCB02 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		61874C951BEC359B009190AE /* User */ = {
+			isa = PBXGroup;
+			children = (
+				61874C961BEC35AD009190AE /* User.storyboard */,
+				61874C981BEC363F009190AE /* UserProfileVC.swift */,
+			);
+			name = User;
 			sourceTree = "<group>";
 		};
 		61C47D091AD9C839004690AE /* Notifications */ = {
@@ -315,6 +328,8 @@
 			children = (
 				BFF64F43CD26D75E1C820539 /* Pods.debug.xcconfig */,
 				D15603B83CDC98572D79F2CD /* Pods.release.xcconfig */,
+				0FB87C24DC68F9646FFD9518 /* Pods.debug.xcconfig */,
+				F467345FDC2BFB81380BB809 /* Pods.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -434,8 +449,8 @@
 				28277E3F1A4B115E001CCB02 /* LaunchScreen.xib in Resources */,
 				61D5BD091BC2D88B007DC0AA /* EventFlowSB.storyboard in Resources */,
 				EE09DD851AFDC18300809E3E /* Main.storyboard in Resources */,
-				61144F1C1AA299330034018A /* Podfile in Resources */,
 				28277E3C1A4B115E001CCB02 /* Images.xcassets in Resources */,
+				61874C971BEC35AD009190AE /* User.storyboard in Resources */,
 				61FD40DA1BCB3C31000F0EAB /* FeedSB.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -462,7 +477,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/UinProto2/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		409A39E3119E2E0457E54945 /* Check Pods Manifest.lock */ = {
@@ -492,7 +507,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/UinProto2/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -525,6 +540,7 @@
 				6199B0C01A97E3C40091F9A6 /* profileCell.swift in Sources */,
 				61AFFF531A7EE6A800858273 /* datepickers.swift in Sources */,
 				28277E6E1A4B161C001CCB02 /* UInProto.m in Sources */,
+				61874C991BEC363F009190AE /* UserProfileVC.swift in Sources */,
 				61D8F33F1BB877350084E655 /* IconSetup.swift in Sources */,
 				61AFFF511A7EE2AD00858273 /* subscriptions.swift in Sources */,
 			);
@@ -584,10 +600,7 @@
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"Users/kareemdasilva/Code/Uin-IOS",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -603,7 +616,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LIBRARY_SEARCH_PATHS = "Users/kareemdasilva/Code/Uin-IOS";
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PROVISIONING_PROFILE = "0aa66f89-4ffe-496c-a37e-77616300fa60";
@@ -636,10 +649,7 @@
 				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"Users/kareemdasilva/Code/Uin-IOS",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -648,7 +658,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LIBRARY_SEARCH_PATHS = "Users/kareemdasilva/Code/Uin-IOS";
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				ONLY_ACTIVE_ARCH = NO;
 				PROVISIONING_PROFILE = "8f8705bc-1d63-45c9-9de1-6e517b596213";
@@ -660,7 +670,7 @@
 		};
 		28277E4F1A4B115E001CCB02 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BFF64F43CD26D75E1C820539 /* Pods.debug.xcconfig */;
+			baseConfigurationReference = 0FB87C24DC68F9646FFD9518 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
@@ -671,7 +681,7 @@
 				INFOPLIST_FILE = UinProto2/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "/Users/kareemdasilva/Code/Uin-IOS";
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.areuin.uin;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "0aa66f89-4ffe-496c-a37e-77616300fa60";
@@ -682,7 +692,7 @@
 		};
 		28277E501A4B115E001CCB02 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D15603B83CDC98572D79F2CD /* Pods.release.xcconfig */;
+			baseConfigurationReference = F467345FDC2BFB81380BB809 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
@@ -693,7 +703,7 @@
 				INFOPLIST_FILE = UinProto2/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "/Users/kareemdasilva/Code/Uin-IOS";
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.areuin.uin;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "8f8705bc-1d63-45c9-9de1-6e517b596213";
