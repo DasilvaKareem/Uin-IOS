@@ -248,13 +248,13 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                     event.tag2 = ""
                     event.tag3 = ""
                     if object["hasFood"] as! Bool == true {
-                        event.tag1 = "Food"
+                        event.tag3 = "Food"
                     }
                     if object["onCampus"] as! Bool == true {
-                        event.tag2 = "Campus"
+                        event.tag1 = "Campus"
                     }
                     if object["isFree"] as! Bool == true {
-                        event.tag3 = "Free"
+                        event.tag2 = "Free"
                     }
                     
                     event.publicPost = object["isPublic"] as! Bool
