@@ -26,11 +26,6 @@
                                 <animations/>
                                 <state key="normal" title="Followers"/>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="atG-tc-Vfj">
-                                <rect key="frame" x="246" y="304" width="76" height="30"/>
-                                <animations/>
-                                <state key="normal" title="View Event"/>
-                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nPg-7u-jE4">
                                 <rect key="frame" x="357" y="195" width="71" height="21"/>
                                 <animations/>
@@ -45,13 +40,15 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="atG-tc-Vfj">
+                                <rect key="frame" x="246" y="304" width="76" height="30"/>
+                                <animations/>
+                                <state key="normal" title="View Event"/>
+                            </button>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <connections>
-                        <outlet property="follow" destination="06m-wm-RP4" id="bb3-0f-6Cp"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lta-hD-qXs" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

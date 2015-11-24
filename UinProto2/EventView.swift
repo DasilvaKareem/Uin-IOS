@@ -32,10 +32,10 @@ class postEvent: UIViewController {
     @IBOutlet weak var isPaid: UIImageView!
     @IBAction func gotoProfile(sender: AnyObject) {
         if PFUser.currentUser()!.objectId == userId {
-            self.performSegueWithIdentifier("editEvent", sender: self)
+            //self.performSegueWithIdentifier("editEvent", sender: self)
         } else {
-            let userProfile = UserProfileVC()
-            self.navigationController?.pushViewController(userProfile, animated: true)
+          //  let userProfile = UserProfileVC()
+           // self.navigationController?.pushViewController(userProfile, animated: true)
         }
     }
     

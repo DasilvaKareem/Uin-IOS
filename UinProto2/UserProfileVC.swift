@@ -58,7 +58,7 @@ class UserProfileVC: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        checkFollowingStatus()
+        //checkFollowingStatus()
         // Do any additional setup after loading the view.
     }
 
