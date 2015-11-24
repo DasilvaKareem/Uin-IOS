@@ -127,9 +127,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         
         //Loads search Items
         searchBar.delegate = self
-        var locationManager = CLLocationManager()
-        locationManager.delegate = self
-        locationManager.requestAlwaysAuthorization()
+     
         
         getSearchItems()
         let theMix = Mixpanel.sharedInstance()
@@ -182,7 +180,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         }
     }
     override func viewDidAppear(animated: Bool) {
-        
+
     }
     
     //2 nav buttons 1 leads to settings while the other send to log in
@@ -607,10 +605,12 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                     
                 }
             } else {
+                
                 sender.setImage(UIImage(named: "addedToCalendar.png"), forState: UIControlState.Normal)
                 UIView.animateWithDuration(0.5, delay: 0.0, usingSpringWithDamping: 0.3, initialSpringVelocity: 3.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: ({
                     sender.frame.offsetInPlace(dx: 0, dy: 5.0)
                 }), completion: nil)
+                createEventNotifcation(NSDate(), title: self.events[sender.tag].title, hosted: self.events[sender.tag].author, id:self.events[sender.tag].eventID)
                 let eventStore : EKEventStore = EKEventStore()
                 eventStore.requestAccessToEntityType(EKEntityType.Event, completion: {
                     granted, error in
@@ -654,7 +654,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                 pushCheck?.getObjectInBackgroundWithId(self.events[sender.tag].organizationID)
                 print("Saved Event")
             }
-            }
+        }
     }
     override func prepareForSegue(segue:UIStoryboardSegue, sender: AnyObject?){
         if segue.identifier == "event" {

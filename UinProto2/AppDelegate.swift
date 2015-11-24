@@ -105,34 +105,51 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         let theMix = Mixpanel.sharedInstance()
         theMix.track("App Close")
         theMix.flush()
-        print("poop")
-        var i = 0
-        var poo = [CLLocation]()
-        let locationmgr = CLLocationManager()
-        locationmgr.delegate = self
-        
-        locationmgr.requestAlwaysAuthorization()
-        if #available(iOS 9.0, *) {
-            print(locationmgr.allowsBackgroundLocationUpdates)
-        } else {
-            // Fallback on earlier versions
-        }
-        locationmgr.startUpdatingLocation()
+
+    
         
         
-        while( i != 50){
-        
-            
-            print(locationmgr.location?.coordinate.latitude)
-            i++
-        }
+     
         
       
    
         
        
     }
+    func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification) {
+        print("you clicked")
+        //checks if the user
+        if PFUser.currentUser() == nil {
+            print("user is not logged")
+        } else {
+            //user is logged on
+            let locationmgr = CLLocationManager()
+            locationmgr.delegate = self
+            
+            locationmgr.requestAlwaysAuthorization()
+            locationmgr.startUpdatingLocation()
+            print(locationmgr.location)
+            let send = PFObject(className: "UserLocation")
+            send["user"] = PFUser.currentUser()?.objectId
+            send["eventID"] = notification.userInfo!["eventID"]
 
+            if #available(iOS 8.2, *) {
+                let gpsPoint = PFGeoPoint(location: locationmgr.location)
+                send["location"] = gpsPoint
+            } else {
+                // Fallback on earlier versions
+            }
+            send.saveInBackgroundWithBlock({
+                (success:Bool, error:NSError?) -> Void in
+                if error == nil {
+                    print("succes and stop updating location")
+                    locationmgr.stopUpdatingLocation()
+                                           
+                }
+            })
+        }
+        
+    }
     func applicationWillEnterForeground(application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
        }

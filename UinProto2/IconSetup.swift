@@ -7,6 +7,32 @@
 //
 
 import UIKit
+public func createEventNotifcation(startDate:NSDate, title:String, hosted:String, id:String){
+
+    
+    let notification = UILocalNotification()
+    if #available(iOS 8.2, *) {
+        notification.alertTitle = "Check in"
+    } else {
+        // Fallback on earlier versions
+        
+    }
+    notification.alertAction = "Hosted by \(hosted)"
+    notification.alertBody = "Are you attending \(title)"
+    notification.fireDate = startDate
+    notification.userInfo = ["eventID":id]
+    UIApplication.sharedApplication().scheduleLocalNotification(notification)
+
+
+}
+// general struct to get about event
+struct eventDetails {
+    let eventID = (String)()
+    let owner = (String)()
+    let ownerID = (String)()
+    let addedCount = (Int)()
+    
+}
 public func getCalendar(calendar:String, query:PFQuery){
     
     switch calendar {

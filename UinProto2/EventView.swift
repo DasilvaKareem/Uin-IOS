@@ -324,6 +324,14 @@ class postEvent: UIViewController {
                 }
             }
         })
+        
+        let attendace = AttendanceVC()
+        attendace.eventID = eventId
+      
+
+        self.navigationController?.pushViewController(attendace, animated: true)
+        
+       // self.presentViewController(register, animated: true, completion: nil)
     }
     // Switch display location with the real addrss
     @IBAction func switchAddress(sender: AnyObject) {
@@ -413,6 +421,7 @@ class postEvent: UIViewController {
             editEvent.editing = true
             editEvent.eventID = eventId
         }
+       
        
     }
     override func didReceiveMemoryWarning() {

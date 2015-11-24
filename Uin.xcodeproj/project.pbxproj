@@ -22,6 +22,9 @@
 		61AFFF511A7EE2AD00858273 /* subscriptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61AFFF501A7EE2AD00858273 /* subscriptions.swift */; };
 		61AFFF531A7EE6A800858273 /* datepickers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61AFFF521A7EE6A800858273 /* datepickers.swift */; };
 		61B634C71A7F1E5F00139F60 /* FollowCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61AFFF4C1A7ED66300858273 /* FollowCell.swift */; };
+		61C700191C03B124007BB614 /* CreateEventTblVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61C700181C03B124007BB614 /* CreateEventTblVC.swift */; };
+		61C7001B1C03B21A007BB614 /* CreateEventSB.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 61C7001A1C03B21A007BB614 /* CreateEventSB.storyboard */; };
+		61C7001C1C03D41E007BB614 /* AttendanceVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AB2641BFC324400A6EB9B /* AttendanceVC.swift */; };
 		61D5BD091BC2D88B007DC0AA /* EventFlowSB.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 61D5BD081BC2D88B007DC0AA /* EventFlowSB.storyboard */; };
 		61D8F33F1BB877350084E655 /* IconSetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61D8F33E1BB877350084E655 /* IconSetup.swift */; };
 		61EA5F621A91891B002B1998 /* eventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E6547D1A60B9C8006E76E5 /* eventCell.swift */; };
@@ -97,6 +100,7 @@
 		61144F1D1AA299EC0034018A /* libPods-Mixpanel.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-Mixpanel.a"; path = "UinProto2/Pods/build/Debug-iphoneos/libPods-Mixpanel.a"; sourceTree = "<group>"; };
 		61144F1F1AA299F50034018A /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		61144F211AA29A010034018A /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
+		611AB2641BFC324400A6EB9B /* AttendanceVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttendanceVC.swift; sourceTree = "<group>"; };
 		61268C1D1A910AB300009E07 /* dateCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = dateCell.swift; sourceTree = "<group>"; };
 		613069F11A745289001CAF4F /* MyProfile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MyProfile.swift; path = ../MyProfile.swift; sourceTree = "<group>"; };
 		6136E5E71A9958C7009503A4 /* footerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = footerCell.swift; sourceTree = "<group>"; };
@@ -120,6 +124,8 @@
 		61AFFF521A7EE6A800858273 /* datepickers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = datepickers.swift; sourceTree = "<group>"; };
 		61B451541A9EB74200285930 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		61BFF8201A8FDF6C00E2D059 /* notificationsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = notificationsView.swift; sourceTree = "<group>"; };
+		61C700181C03B124007BB614 /* CreateEventTblVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateEventTblVC.swift; sourceTree = "<group>"; };
+		61C7001A1C03B21A007BB614 /* CreateEventSB.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = CreateEventSB.storyboard; sourceTree = "<group>"; };
 		61D5BD081BC2D88B007DC0AA /* EventFlowSB.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = EventFlowSB.storyboard; sourceTree = "<group>"; };
 		61D5BD0A1BC73036007DC0AA /* LogInVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogInVC.swift; sourceTree = "<group>"; };
 		61D8F33E1BB877350084E655 /* IconSetup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IconSetup.swift; sourceTree = "<group>"; };
@@ -276,6 +282,8 @@
 				61DC09EE1AC08727000C5EB5 /* eventLocation.swift */,
 				61AFFF521A7EE6A800858273 /* datepickers.swift */,
 				28E654811A60C1AD006E76E5 /* eventMake.swift */,
+				61C700181C03B124007BB614 /* CreateEventTblVC.swift */,
+				61C7001A1C03B21A007BB614 /* CreateEventSB.storyboard */,
 			);
 			name = EventCreate;
 			sourceTree = "<group>";
@@ -300,6 +308,7 @@
 				61A4E77B1A7E7A690041FB13 /* userprofile.swift */,
 				618CE0131A76F4A400FF493C /* EventView.swift */,
 				28E6547F1A60B9FC006E76E5 /* eventFeedViewController.swift */,
+				611AB2641BFC324400A6EB9B /* AttendanceVC.swift */,
 			);
 			name = eventFeed;
 			sourceTree = "<group>";
@@ -452,6 +461,7 @@
 				28277E3C1A4B115E001CCB02 /* Images.xcassets in Resources */,
 				61874C971BEC35AD009190AE /* User.storyboard in Resources */,
 				61FD40DA1BCB3C31000F0EAB /* FeedSB.storyboard in Resources */,
+				61C7001B1C03B21A007BB614 /* CreateEventSB.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -517,6 +527,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				61C7001C1C03D41E007BB614 /* AttendanceVC.swift in Sources */,
 				EDC850731BDC8BED00D2ADB5 /* LogInVC.swift in Sources */,
 				EDC850741BDC8BED00D2ADB5 /* register.swift in Sources */,
 				EDC850751BDC8BED00D2ADB5 /* SignIn.swift in Sources */,
@@ -534,6 +545,7 @@
 				61EA5F621A91891B002B1998 /* eventCell.swift in Sources */,
 				6136E5E81A9958C7009503A4 /* footerCell.swift in Sources */,
 				61A5126C1AB7946400CE2483 /* LoadingView.swift in Sources */,
+				61C700191C03B124007BB614 /* CreateEventTblVC.swift in Sources */,
 				61268C1E1A910AB300009E07 /* dateCell.swift in Sources */,
 				61B634C71A7F1E5F00139F60 /* FollowCell.swift in Sources */,
 				28F8364B1A4FB25D00F45A0B /* customcell.swift in Sources */,
@@ -579,7 +591,7 @@
 		28277E4C1A4B115E001CCB02 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = YES;
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -628,7 +640,7 @@
 		28277E4D1A4B115E001CCB02 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = YES;
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -677,11 +689,11 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Cole Roe (33XBMXDS77)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Cole Roe (33XBMXDS77)";
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)";
+				FRAMEWORK_SEARCH_PATHS = "$(Inherited)";
 				INFOPLIST_FILE = UinProto2/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)";
+				LIBRARY_SEARCH_PATHS = "$(Inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.areuin.uin;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "0aa66f89-4ffe-496c-a37e-77616300fa60";
@@ -699,11 +711,11 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Cole Roe (C59F79Z942)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Cole Roe (C59F79Z942)";
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)";
+				FRAMEWORK_SEARCH_PATHS = "$(Inherited)";
 				INFOPLIST_FILE = UinProto2/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)";
+				LIBRARY_SEARCH_PATHS = "$(Inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.areuin.uin;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "8f8705bc-1d63-45c9-9de1-6e517b596213";
