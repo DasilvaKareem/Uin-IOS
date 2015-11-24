@@ -136,6 +136,8 @@ class LinkUser: UIViewController {
                 succeeded, error in
                 if succeeded {
                     print("Woohoo, the user is linked with Facebook!", terminator: "")
+                    self.performSegueWithIdentifier("next2", sender: self)
+
                 }
             })
         }
