@@ -53,6 +53,7 @@ class LogInVC: UIViewController {
                         self.performSegueWithIdentifier("next1", sender: self)
                   
                 } else {
+                    alertUser(self, title: "You do not have a memphis.edu", message: "Please enter a memphis edu")
                     print("you do not have a memphis.edu")
                 }
             } else {

@@ -42,6 +42,7 @@ class LoadingView: UIViewController {
         let register:UIViewController = storyboard.instantiateInitialViewController()!
         
         self.presentViewController(register, animated: true, completion: nil)
+        
     }
     /*
     // MARK: - Navigation

@@ -24,7 +24,14 @@ public func createEventNotifcation(startDate:NSDate, title:String, hosted:String
     UIApplication.sharedApplication().scheduleLocalNotification(notification)
 
 
+
 }
+public func alertUser(pViewController:UIViewController, title:String, message:String){
+    let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
+    alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: nil))
+    pViewController.presentViewController(alert, animated: true, completion: nil)
+}
+
 // general struct to get about event
 struct eventDetails {
     let eventID = (String)()

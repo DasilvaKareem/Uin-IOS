@@ -369,20 +369,7 @@ class channelSelectView: UITableViewController {
         }
      
             if indexPath.section == 2 {
-               
-                if self.memBounded == true {
-                    print("You are membounded", terminator: "")
-                        //Re checks if your authorization is still on
-                   
-                    if self.memBounded == true {
-                        var alert = UIAlertController(title: "You're still in MEMbound", message: "Check back when your session is over. We'll be waiting on you!", preferredStyle: UIAlertControllerStyle.Alert)
-                        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: nil))
-                        self.presentViewController(alert, animated: true, completion: nil)
-                    }
-                
-                } else {
                     self.performSegueWithIdentifier("channelSelect", sender: self)
-                }
             }
         
       
