@@ -33,6 +33,9 @@ class postEvent: UIViewController {
     @IBAction func gotoProfile(sender: AnyObject) {
         if PFUser.currentUser()!.objectId == userId {
             self.performSegueWithIdentifier("editEvent", sender: self)
+        } else {
+            let userProfile = UserProfileVC()
+            self.navigationController?.pushViewController(userProfile, animated: true)
         }
     }
     
@@ -60,19 +63,15 @@ class postEvent: UIViewController {
     var userId = String()
     var eventDescriptionHolder = String()
     var searchEvent = false
-    //var imageFile = (PFFile)()
     var startDate = (String)()
     var endDate = (String)()
     func checkevent(){
         let minique2 = PFQuery(className: "UserCalendar")
         minique2.whereKey("eventID", equalTo: eventId)
         self.calendarCount.text = String(minique2.countObjects(nil))
-        
         let minique = PFQuery(className: "UserCalendar")
         minique.whereKey("userID", equalTo: PFUser.currentUser()!.objectId!)
-       
         minique.whereKey("eventID", equalTo: eventId)
-        
         minique.getFirstObjectInBackgroundWithBlock{
             
             (results:PFObject?, error: NSError?) -> Void in

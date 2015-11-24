@@ -41,7 +41,7 @@ class channelSelectView: UITableViewController {
         //Setups first item in username section title
         self.usernameInfo.append("0")
         self.usernameSectionTitle.append("following")
-        self.userType.append("following")
+        self.userType.append("Subscribers")
         
         //Setups second items in username section title
         self.usernameInfo.append("0")

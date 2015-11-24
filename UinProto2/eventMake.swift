@@ -701,26 +701,14 @@ class eventMake: UIViewController, UITextFieldDelegate {
       
         
         }
-   
 
-        
-        if PFUser.currentUser() == nil{
-            
-            self.performSegueWithIdentifier("register", sender: self)
-            
-        }
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    @IBAction func cancelToPlayersViewController(segue:UIStoryboardSegue) {
-        
-    }
+
     
-    @IBAction func savePlayerDetail(segue:UIStoryboardSegue) {
-    
-    }
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "toLocation" {
             let locationView:eventLocationView = segue.destinationViewController as! eventLocationView

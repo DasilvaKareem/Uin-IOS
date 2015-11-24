@@ -526,16 +526,20 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
             var que = PFQuery(className: "UserCalendar")
             que.whereKey("userID", equalTo: PFUser.currentUser()!.objectId!)
             que.whereKey("eventID", equalTo:self.events[event].eventID)
-            que.getFirstObjectInBackgroundWithBlock{
-                
-                (results:PFObject?, error: NSError?) -> Void in
-                
-                if error == nil {
-                    cell.uinBtn.setImage(UIImage(named: "addedToCalendar.png"), forState: UIControlState.Normal)
-                }   else {
-                    cell.uinBtn.setImage(UIImage(named: "addToCalendar.png"), forState: UIControlState.Normal)
+            //Checks if a2c is created if not checks parse for the correct information
+            if cell.uinBtn.imageForState(UIControlState.Normal)?.size == nil {
+                que.getFirstObjectInBackgroundWithBlock{
+                    
+                    (results:PFObject?, error: NSError?) -> Void in
+                    
+                    if error == nil {
+                        cell.uinBtn.setImage(UIImage(named: "addedToCalendar.png"), forState: UIControlState.Normal)
+                    }   else {
+                        cell.uinBtn.setImage(UIImage(named: "addToCalendar.png"), forState: UIControlState.Normal)
+                    }
                 }
             }
+          
             cell.uinBtn.tag = event
             cell.uinBtn.addTarget(self, action: "followButton:", forControlEvents: UIControlEvents.TouchUpInside)
 
@@ -546,6 +550,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         return cell
         
     }
+    
     
     func getAddToCalendarStatus(eventCount:Int) -> UIImage{
         
@@ -595,7 +600,7 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
                         for i in eV {
                             print("\(i.title) this is the i.title")
                             if i.title == self.events[sender.tag].title  {
-                                var theMix = Mixpanel.sharedInstance()
+                                let theMix = Mixpanel.sharedInstance()
                                 theMix.track("Removed from Calendar (EF)")
                                 try! eventStore.removeEvent(i, span: EKSpan.ThisEvent)
                             }
