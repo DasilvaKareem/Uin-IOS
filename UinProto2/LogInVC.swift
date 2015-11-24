@@ -141,6 +141,8 @@ class LinkUser: UIViewController {
                     print("Woohoo, the user is linked with Facebook!", terminator: "")
                     self.performSegueWithIdentifier("next2", sender: self)
 
+                } else {
+                    alertUser(self, title: "You already have an Account", message: "Please use another one")
                 }
             })
         }
