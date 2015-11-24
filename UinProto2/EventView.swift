@@ -324,11 +324,11 @@ class postEvent: UIViewController {
             }
         })
         
-        let attendace = AttendanceVC()
-        attendace.eventID = eventId
+       // let attendace = AttendanceVC()
+        //attendace.eventID = eventId
       
 
-        self.navigationController?.pushViewController(attendace, animated: true)
+        //self.navigationController?.pushViewController(attendace, animated: true)
         
        // self.presentViewController(register, animated: true, completion: nil)
     }
