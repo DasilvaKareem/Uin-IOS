@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		28277E3C1A4B115E001CCB02 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 28277E3B1A4B115E001CCB02 /* Images.xcassets */; };
 		28277E3F1A4B115E001CCB02 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28277E3D1A4B115E001CCB02 /* LaunchScreen.xib */; };
 		28277E4B1A4B115E001CCB02 /* UinProto2Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28277E4A1A4B115E001CCB02 /* UinProto2Tests.swift */; };
 		28277E6E1A4B161C001CCB02 /* UInProto.m in Sources */ = {isa = PBXBuildFile; fileRef = 28277E6D1A4B161C001CCB02 /* UInProto.m */; };
@@ -41,6 +40,7 @@
 		61ECD36E1BDD6E88007310A8 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 61ECD36D1BDD6E88007310A8 /* libsqlite3.tbd */; };
 		61ECD3701BDD6E91007310A8 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 61ECD36F1BDD6E91007310A8 /* libsqlite3.0.tbd */; };
 		61FD40DA1BCB3C31000F0EAB /* FeedSB.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 61FD40D91BCB3C31000F0EAB /* FeedSB.storyboard */; };
+		E1B422991C05210100F72C23 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E1B422981C05210100F72C23 /* Images.xcassets */; };
 		EDC850721BDC8BDE00D2ADB5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28277E341A4B115E001CCB02 /* AppDelegate.swift */; };
 		EDC850731BDC8BED00D2ADB5 /* LogInVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61D5BD0A1BC73036007DC0AA /* LogInVC.swift */; };
 		EDC850741BDC8BED00D2ADB5 /* register.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28277E771A4B1D0E001CCB02 /* register.swift */; };
@@ -74,7 +74,6 @@
 		28277E2F1A4B115E001CCB02 /* UinProto2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UinProto2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		28277E331A4B115E001CCB02 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		28277E341A4B115E001CCB02 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		28277E3B1A4B115E001CCB02 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		28277E3E1A4B115E001CCB02 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		28277E441A4B115E001CCB02 /* UinProto2Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UinProto2Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		28277E491A4B115E001CCB02 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -138,6 +137,7 @@
 		61FD40D91BCB3C31000F0EAB /* FeedSB.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = FeedSB.storyboard; sourceTree = "<group>"; };
 		BFF64F43CD26D75E1C820539 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "UinProto2/Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		D15603B83CDC98572D79F2CD /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "UinProto2/Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		E1B422981C05210100F72C23 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = UinProto2/Images.xcassets; sourceTree = "<group>"; };
 		EE09DD841AFDC18300809E3E /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		F467345FDC2BFB81380BB809 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -176,6 +176,7 @@
 		28277E261A4B115E001CCB02 = {
 			isa = PBXGroup;
 			children = (
+				E1B422981C05210100F72C23 /* Images.xcassets */,
 				6199B0BF1A97E3C40091F9A6 /* profileCell.swift */,
 				28277E661A4B1186001CCB02 /* libsqlite3.dylib */,
 				28277E581A4B1175001CCB02 /* libz.dylib */,
@@ -224,7 +225,6 @@
 				61268C1D1A910AB300009E07 /* dateCell.swift */,
 				28F8364A1A4FB25D00F45A0B /* customcell.swift */,
 				28277E6D1A4B161C001CCB02 /* UInProto.m */,
-				28277E3B1A4B115E001CCB02 /* Images.xcassets */,
 				28277E3D1A4B115E001CCB02 /* LaunchScreen.xib */,
 				28277E6C1A4B161B001CCB02 /* UinProto2-Bridging-Header.h */,
 				28277E321A4B115E001CCB02 /* Supporting Files */,
@@ -457,8 +457,8 @@
 			files = (
 				28277E3F1A4B115E001CCB02 /* LaunchScreen.xib in Resources */,
 				61D5BD091BC2D88B007DC0AA /* EventFlowSB.storyboard in Resources */,
+				E1B422991C05210100F72C23 /* Images.xcassets in Resources */,
 				EE09DD851AFDC18300809E3E /* Main.storyboard in Resources */,
-				28277E3C1A4B115E001CCB02 /* Images.xcassets in Resources */,
 				61874C971BEC35AD009190AE /* User.storyboard in Resources */,
 				61FD40DA1BCB3C31000F0EAB /* FeedSB.storyboard in Resources */,
 				61C7001B1C03B21A007BB614 /* CreateEventSB.storyboard in Resources */,
