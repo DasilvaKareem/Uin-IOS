@@ -40,6 +40,7 @@ class LogInVC: UIViewController {
                 self.presentViewController(register, animated: true, completion: nil)
             }
             else {
+                alertUser(self, title: "Oops!", message: "You were logged out incorrectly. Please try again or contact support@areuin.co")
                 print(error)
             }
         })
@@ -63,7 +64,7 @@ class LogInVC: UIViewController {
                         self.performSegueWithIdentifier("next1", sender: self)
                   
                 } else {
-                    alertUser(self, title: "You do not have a memphis.edu", message: "Please enter a memphis edu")
+                    alertUser(self, title: "Where do you go to school?", message: "Please enter an @memphis.edu email address.")
                     print("you do not have a memphis.edu")
                 }
             } else {
@@ -119,6 +120,8 @@ class LinkUser: UIViewController {
                 self.presentViewController(register, animated: true, completion: nil)
             }
             else {
+                alertUser(self, title: "Oops!", message: "You were logged out incorrectly. Please try again or contact support@areuin.co")
+
                 print(error)
             }
         })
@@ -179,6 +182,7 @@ class basicSignUp: UIViewController {
                 self.presentViewController(register, animated: true, completion: nil)
             }
             else {
+                alertUser(self, title: "Oops!", message: "You were logged out incorrectly. Please try again or contact support@areuin.co")
                 print(error)
             }
         })
@@ -214,17 +218,20 @@ class basicSignUp: UIViewController {
         
         
     }
+    
+    //This function and error set ensures the user inputs a first and last name field
     @IBAction func submitData(sender : AnyObject) {
         let user = PFUser.currentUser()!
         user["firstName"] = fName.text!.capitalizedString
-        user["lName"] = lName.text!.capitalizedString
+        user["lastName"] = lName.text!.capitalizedString
         user.saveInBackgroundWithBlock({
             (success:Bool, error:NSError?) -> Void in
             if error == nil {
                 print("updated username fields")
                 self.performSegueWithIdentifier("next3", sender: self)
             } else {
-                print("Not sucessfuk")
+                alertUser(self, title: "Oops!", message: "Make sure you fill out a first and last name so we know you're real!")
+                print("Not sucessful")
             }
         })
     }
@@ -243,7 +250,7 @@ class extraSignUp: UIViewController, UIPickerViewDataSource, UIPickerViewDelegat
     @IBOutlet weak var classifcation: UIPickerView!
     
     @IBOutlet weak var age: UITextField!
-    var classes = ["Freshman", "Sophmore", "Junior","Senior", "Graduate", "N/A"]
+    var classes = ["Freshman", "Sophomore", "Junior","Senior", "Graduate"]
     var userClass = "Freshman"
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -275,6 +282,7 @@ class extraSignUp: UIViewController, UIPickerViewDataSource, UIPickerViewDelegat
                 self.presentViewController(register, animated: true, completion: nil)
             }
             else {
+                alertUser(self, title: "Oops!", message: "You were logged out incorrectly. Please try again or contact support@areuin.co")
                 print(error)
             }
         })
@@ -318,6 +326,8 @@ class extraSignUp: UIViewController, UIPickerViewDataSource, UIPickerViewDelegat
                 }
             })
             
+        } else {
+            alertUser(self, title: "Oops!", message: "Please enter a valid numerical age.")
         }
     }
 }
