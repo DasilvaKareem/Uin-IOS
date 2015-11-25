@@ -142,7 +142,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             send.saveInBackgroundWithBlock({
                 (success:Bool, error:NSError?) -> Void in
                 if error == nil {
-                    print("succes and stop updating location")
+                    print("succes and stop updatiqng location")
                     locationmgr.stopUpdatingLocation()
                                            
                 } else {

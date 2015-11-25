@@ -10,10 +10,11 @@ import UIKit
 import EventKit
 
 
-class eventFeedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, CLLocationManagerDelegate, UITextFieldDelegate {
+class eventFeedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, CLLocationManagerDelegate, UITextFieldDelegate, UICollectionViewDataSource, UICollectionViewDelegate {
     
 
     @IBOutlet weak var theFeed: UITableView!
+    @IBOutlet weak var attendingCollection: UICollectionView!
     
     @IBOutlet var eventCreate: UIBarButtonItem!
     @IBOutlet var menuTrigger: UIBarButtonItem!
@@ -574,6 +575,28 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         return image
     }
     
+    //Collection view fofr wigo
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        
+        return 1
+    }
+    
+    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+        
+        return 1
+    }
+    
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        
+        let cell:AttendanceCollectionCell = attendingCollection.dequeueReusableCellWithReuseIdentifier("icon", forIndexPath: indexPath) as! AttendanceCollectionCell
+        
+        cell.profilePic.layer.cornerRadius = cell.profilePic.frame.size.width / 2
+        cell.profilePic.clipsToBounds = true
+        let event = getEventIndex(indexPath.section, row: indexPath.row)
+        
+        return cell
+    }
+    
     func followButton(sender: UIButton){
         // Adds the event to calendar
         let que = PFQuery(className: "UserCalendar")
@@ -690,4 +713,8 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
        
         
     }
+}
+class AttendanceCollectionCell: UICollectionViewCell {
+    
+    @IBOutlet weak var profilePic: UIImageView!
 }
