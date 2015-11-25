@@ -87,56 +87,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView autoresizesSubviews="NO" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="70" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="qcV-YZ-zmg">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
-                                <animations/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <searchBar key="tableHeaderView" contentMode="redraw" id="4dV-2I-Ie4">
-                                    <rect key="frame" x="0.0" y="64" width="414" height="44"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                    <animations/>
-                                    <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                    <textInputTraits key="textInputTraits" returnKeyType="done"/>
-                                    <scopeButtonTitles>
-                                        <string>Title</string>
-                                        <string>Title</string>
-                                    </scopeButtonTitles>
-                                </searchBar>
-                                <prototypes>
-                                    <tableViewCell autoresizesSubviews="NO" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="dateCell" rowHeight="25" id="k8c-PB-WAY" customClass="dateCell" customModule="UinProto2" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="130" width="414" height="25"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <tableViewCellContentView key="contentView" autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="k8c-PB-WAY" id="mpP-Jq-eO3">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="24.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qk1-iD-Lwg">
-                                                    <rect key="frame" x="4" y="6" width="33" height="15"/>
-                                                    <animations/>
-                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="12"/>
-                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <animations/>
-                                            <constraints>
-                                                <constraint firstItem="qk1-iD-Lwg" firstAttribute="leading" secondItem="mpP-Jq-eO3" secondAttribute="leadingMargin" constant="-4" id="Ifn-Ko-2gA"/>
-                                                <constraint firstItem="qk1-iD-Lwg" firstAttribute="top" secondItem="mpP-Jq-eO3" secondAttribute="topMargin" constant="-2" id="YcZ-8E-UHf"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                        <animations/>
-                                        <color key="backgroundColor" red="0.92549019607843142" green="0.92549019607843142" blue="0.92549019607843142" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <inset key="separatorInset" minX="9" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                        <connections>
-                                            <outlet property="dateItem" destination="qk1-iD-Lwg" id="54K-jc-arP"/>
-                                        </connections>
-                                    </tableViewCell>
-                                </prototypes>
-                                <connections>
-                                    <outlet property="dataSource" destination="Fbc-Ey-Gr7" id="WeJ-a1-5OY"/>
-                                    <outlet property="delegate" destination="Fbc-Ey-Gr7" id="yFo-Sb-tSQ"/>
-                                </connections>
-                            </tableView>
                             <tableViewCell autoresizesSubviews="NO" contentMode="scaleToFill" fixedFrame="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell2" rowHeight="202" translatesAutoresizingMaskIntoConstraints="NO" id="jmM-dJ-0eA" customClass="eventCell" customModule="UinProto2" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="165" width="414" height="202"/>
                                 <tableViewCellContentView key="contentView" autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jmM-dJ-0eA" id="L8j-4Z-nNt">
@@ -264,7 +214,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="MgD-x9-8Mg">
-                                            <rect key="frame" x="43" y="79" width="248" height="85.5"/>
+                                            <rect key="frame" x="43" y="79" width="320" height="72.5"/>
                                             <animations/>
                                             <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="n7c-BX-usf">
                                                 <size key="itemSize" width="77.5" height="46"/>
@@ -280,7 +230,7 @@
                                                         <rect key="frame" x="0.0" y="0.0" width="77.5" height="46"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <subviews>
-                                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mKr-x1-BVC">
+                                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="MPDismissKeyboard.png" translatesAutoresizingMaskIntoConstraints="NO" id="mKr-x1-BVC">
                                                                 <rect key="frame" x="12" y="8" width="45.5" height="30.5"/>
                                                                 <animations/>
                                                             </imageView>
@@ -353,6 +303,56 @@
                                     <outlet property="uinBtn" destination="1QH-D4-qkU" id="3go-h8-wo5"/>
                                 </connections>
                             </tableViewCell>
+                            <tableView autoresizesSubviews="NO" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="70" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="qcV-YZ-zmg">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                                <animations/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <searchBar key="tableHeaderView" contentMode="redraw" id="4dV-2I-Ie4">
+                                    <rect key="frame" x="0.0" y="64" width="414" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                    <animations/>
+                                    <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <textInputTraits key="textInputTraits" returnKeyType="done"/>
+                                    <scopeButtonTitles>
+                                        <string>Title</string>
+                                        <string>Title</string>
+                                    </scopeButtonTitles>
+                                </searchBar>
+                                <prototypes>
+                                    <tableViewCell autoresizesSubviews="NO" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="dateCell" rowHeight="25" id="k8c-PB-WAY" customClass="dateCell" customModule="UinProto2" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="130" width="414" height="25"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <tableViewCellContentView key="contentView" autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="k8c-PB-WAY" id="mpP-Jq-eO3">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="24.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qk1-iD-Lwg">
+                                                    <rect key="frame" x="4" y="6" width="33" height="15"/>
+                                                    <animations/>
+                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="12"/>
+                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <animations/>
+                                            <constraints>
+                                                <constraint firstItem="qk1-iD-Lwg" firstAttribute="leading" secondItem="mpP-Jq-eO3" secondAttribute="leadingMargin" constant="-4" id="Ifn-Ko-2gA"/>
+                                                <constraint firstItem="qk1-iD-Lwg" firstAttribute="top" secondItem="mpP-Jq-eO3" secondAttribute="topMargin" constant="-2" id="YcZ-8E-UHf"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <animations/>
+                                        <color key="backgroundColor" red="0.92549019607843142" green="0.92549019607843142" blue="0.92549019607843142" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <inset key="separatorInset" minX="9" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        <connections>
+                                            <outlet property="dateItem" destination="qk1-iD-Lwg" id="54K-jc-arP"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="Fbc-Ey-Gr7" id="WeJ-a1-5OY"/>
+                                    <outlet property="delegate" destination="Fbc-Ey-Gr7" id="yFo-Sb-tSQ"/>
+                                </connections>
+                            </tableView>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -3444,6 +3444,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="MPDismissKeyboard.png" width="30" height="14"/>
         <image name="add" width="21" height="20"/>
         <image name="addLocation" width="415" height="66"/>
         <image name="addToCalendarBig" width="114" height="119"/>

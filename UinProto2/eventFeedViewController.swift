@@ -576,9 +576,10 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     //Collection view fofr wigo
+    var images = [UIImage]()
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        return 1
+        return images.count
     }
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
@@ -594,6 +595,10 @@ class eventFeedViewController: UIViewController, UITableViewDelegate, UITableVie
         cell.profilePic.clipsToBounds = true
         let event = getEventIndex(indexPath.section, row: indexPath.row)
         
+        if cell.profilePic.image?.size == nil {
+            //load image from parse
+           
+        }
         return cell
     }
     
