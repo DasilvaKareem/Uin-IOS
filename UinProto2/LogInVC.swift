@@ -26,6 +26,9 @@ class LogInVC: UIViewController {
         textField.resignFirstResponder()
         return true
     }
+ 
+    
+    
     
     @IBAction func cancel(sender: AnyObject) {
         let user = PFUser.currentUser()
@@ -77,6 +80,20 @@ class LogInVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        
+        //Looks for single or multiple taps.
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
+        view.addGestureRecognizer(tap)
+    }
+    
+    //Calls this function when the tap is recognized.
+    func dismissKeyboard() {
+        //Causes the view (or one of its embedded text fields) to resign the first responder status.
+        view.endEditing(true)
+        
+        
         PFUser.logOut()
         // Do any additional setup after loading the view.
     }
@@ -85,6 +102,7 @@ class LogInVC: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
     
 
     /*
@@ -151,6 +169,20 @@ class LinkUser: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        
+        
+        //Looks for single or multiple taps.
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
+        view.addGestureRecognizer(tap)
+    }
+    
+    //Calls this function when the tap is recognized.
+    func dismissKeyboard() {
+        //Causes the view (or one of its embedded text fields) to resign the first responder status.
+        view.endEditing(true)
+    
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -189,6 +221,17 @@ class basicSignUp: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //Looks for single or multiple taps.
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
+        view.addGestureRecognizer(tap)
+    }
+    
+    //Calls this function when the tap is recognized.
+    func dismissKeyboard() {
+        //Causes the view (or one of its embedded text fields) to resign the first responder status.
+        view.endEditing(true)
+        
         //queryData()
         // Do any additional setup after loading the view.
     }
@@ -254,6 +297,17 @@ class extraSignUp: UIViewController, UIPickerViewDataSource, UIPickerViewDelegat
     var userClass = "Freshman"
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //Looks for single or multiple taps.
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
+        view.addGestureRecognizer(tap)
+    }
+    
+    //Calls this function when the tap is recognized.
+    func dismissKeyboard() {
+        //Causes the view (or one of its embedded text fields) to resign the first responder status.
+        view.endEditing(true)
+        
         
         // Do any additional setup after loading the view.
     }
