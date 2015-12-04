@@ -32,21 +32,29 @@ class LogInVC: UIViewController {
     
     @IBAction func cancel(sender: AnyObject) {
         let user = PFUser.currentUser()
-        user!.deleteInBackgroundWithBlock({
-            
-            (succes:Bool, error:NSError?) -> Void in
-            if error == nil {
-                PFUser.logOut()
-                let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                let register:UIViewController = storyboard.instantiateInitialViewController()!
+        if user != nil {
+            user!.deleteInBackgroundWithBlock({
                 
-                self.presentViewController(register, animated: true, completion: nil)
-            }
-            else {
-                alertUser(self, title: "Oops!", message: "You were logged out incorrectly. Please try again or contact support@areuin.co")
-                print(error)
-            }
-        })
+                (succes:Bool, error:NSError?) -> Void in
+                if error == nil {
+                    PFUser.logOut()
+                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                    let register:UIViewController = storyboard.instantiateInitialViewController()!
+                    
+                    self.presentViewController(register, animated: true, completion: nil)
+                }
+                else {
+                    alertUser(self, title: "Oops!", message: "You were logged out incorrectly. Please try again or contact support@areuin.co")
+                    print(error)
+                }
+            })
+        } else {
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let register:UIViewController = storyboard.instantiateInitialViewController()!
+            
+            self.presentViewController(register, animated: true, completion: nil)
+
+        }
         
     }
 
@@ -71,6 +79,7 @@ class LogInVC: UIViewController {
                     print("you do not have a memphis.edu")
                 }
             } else {
+                alertUser(self, title: "This account is already taken.", message: "Please try to log in to your account or use new credentials.")
                 print("this guy messed up somewhere", terminator: "")
             }
         })
@@ -81,22 +90,27 @@ class LogInVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        
-        //Looks for single or multiple taps.
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
-        view.addGestureRecognizer(tap)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name:UIKeyboardWillShowNotification, object: nil);
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillHide:"), name:UIKeyboardWillHideNotification, object: nil);
     }
+        func keyboardWillShow(sender: NSNotification) {
+            
+            self.view.frame.origin.y = -150
+            print("apperaed")
+            print(self.view.frame.origin.y)
+        }
+        func keyboardWillHide(sender: NSNotification) {
+            self.view.frame.origin.y = 0.0
+            print("disappeared")
+            
+            print(self.view.frame.origin.y)
+        
+
+    }
+ 
     
     //Calls this function when the tap is recognized.
-    func dismissKeyboard() {
-        //Causes the view (or one of its embedded text fields) to resign the first responder status.
-        view.endEditing(true)
-        
-        
-        PFUser.logOut()
-        // Do any additional setup after loading the view.
-    }
+   
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -222,6 +236,21 @@ class basicSignUp: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name:UIKeyboardWillShowNotification, object: nil);
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillHide:"), name:UIKeyboardWillHideNotification, object: nil);
+    }
+    func keyboardWillShow(sender: NSNotification) {
+        
+        self.view.frame.origin.y = -200
+        print("apperaed")
+        print(self.view.frame.origin.y)
+    }
+    func keyboardWillHide(sender: NSNotification) {
+        self.view.frame.origin.y = 0.0
+        print("disappeared")
+        
+        print(self.view.frame.origin.y)
+        
         //Looks for single or multiple taps.
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
         view.addGestureRecognizer(tap)
@@ -297,6 +326,21 @@ class extraSignUp: UIViewController, UIPickerViewDataSource, UIPickerViewDelegat
     var userClass = "Freshman"
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name:UIKeyboardWillShowNotification, object: nil);
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillHide:"), name:UIKeyboardWillHideNotification, object: nil);
+    }
+    func keyboardWillShow(sender: NSNotification) {
+        
+        self.view.frame.origin.y = -50
+        print("apperaed")
+        print(self.view.frame.origin.y)
+    }
+    func keyboardWillHide(sender: NSNotification) {
+        self.view.frame.origin.y = 0.0
+        print("disappeared")
+        
+        print(self.view.frame.origin.y)
         
         //Looks for single or multiple taps.
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
