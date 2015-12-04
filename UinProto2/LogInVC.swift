@@ -61,11 +61,11 @@ class LogInVC: UIViewController {
         user.email = email
         user.username = email
         user.password = password
-        if (email?.isEmpty == false || password?.isEmpty == false) {
+        if (email?.isEmpty == true || password?.isEmpty == true) {
             alertUser(self, title: "Enter in all the fields", message: "pls")
-            if cPassword != password {
-                alertUser(self, title: "Passwords do not match", message: "make them match")
-            } else {
+            
+        } else {
+            if cPassword == password {
                 user.signUpInBackgroundWithBlock({
                     success,error in
                     if error == nil {
@@ -82,10 +82,14 @@ class LogInVC: UIViewController {
                         print("this guy messed up somewhere", terminator: "")
                     }
                 })
-
+                
+                
+            } else {
+                alertUser(self, title: "Passwords do not match", message: "make them match")
             }
-            
+
         }
+        
         
         
                 //Only allows users who have memphis.edu proceed
@@ -189,7 +193,7 @@ class LinkUser: UIViewController {
         super.didReceiveMemoryWarning()
     }
 }
-class basicSignUp: UIViewController {
+class basicSignUp: UIViewController, UIImagePickerControllerDelegate  {
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         self.view.endEditing(true)
     }
@@ -202,6 +206,11 @@ class basicSignUp: UIViewController {
     @IBOutlet weak var profilePic: UIImageView!
     
     @IBOutlet weak var lName: UITextField!
+    
+  
+    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
+        dismissViewControllerAnimated(true, completion: nil)
+    }
     @IBAction func cancel(sender: AnyObject) {
         let user = PFUser.currentUser()
         user!.deleteInBackgroundWithBlock({
