@@ -74,8 +74,23 @@ class LogInVC: UIViewController {
             if cPassword != password {
                 alertUser(self, title: "Passwords do not match", message: "make them match")
             } else {
-                alertUser(self, title: "This account is already taken.", message: "Please try to log in to your account or use new credentials.")
-                print("this guy messed up somewhere", terminator: "")
+                user.signUpInBackgroundWithBlock({
+                    success,error in
+                    if error == nil {
+                        if ( PFUser.currentUser()!.email!.lowercaseString.rangeOfString("memphis.edu") != nil) {
+                            
+                            print("This guy is ready to procreed")
+                            self.performSegueWithIdentifier("next1", sender: self)
+                            
+                        } else {
+                            alertUser(self, title: "Where do you go to school?", message: "Please enter an @memphis.edu email address.")
+                            print("you do not have a memphis.edu")
+                        }
+                    } else {
+                        print("this guy messed up somewhere", terminator: "")
+                    }
+                })
+
             }
             
         }
