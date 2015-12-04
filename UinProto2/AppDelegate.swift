@@ -145,6 +145,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
                     print("succes and stop updating location")
                     locationmgr.stopUpdatingLocation()
                                            
+                } else {
+                    print("you did not add it")
                 }
             })
         }
