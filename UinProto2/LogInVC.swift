@@ -52,26 +52,40 @@ class LogInVC: UIViewController {
    
         //Signs in user
         let user = PFUser()
-        user.email = registerEmail.text
-        user.username = registerEmail.text
-        user.password = registerPassword.text
-        user.signUpInBackgroundWithBlock({
-            success,error in
-            if error == nil {
-                if ( PFUser.currentUser()!.email!.lowercaseString.rangeOfString("memphis.edu") != nil) {
-                 
-                        print("This guy is ready to procreed")
-                        self.performSegueWithIdentifier("next1", sender: self)
-                  
-                } else {
-                    alertUser(self, title: "Where do you go to school?", message: "Please enter an @memphis.edu email address.")
-                    print("you do not have a memphis.edu")
-                }
+        let email = registerEmail.text
+        let password = registerPassword.text
+        let cPassword =  registerConfirmPassword.text
+        user.email = email
+        user.username = email
+        user.password = password
+        if (email?.isEmpty == false || password?.isEmpty == false) {
+            alertUser(self, title: "Enter in all the fields", message: "pls")
+            if cPassword != password {
+                alertUser(self, title: "Passwords do not match", message: "make them match")
             } else {
-                print("this guy messed up somewhere", terminator: "")
+                user.signUpInBackgroundWithBlock({
+                    success,error in
+                    if error == nil {
+                        if ( PFUser.currentUser()!.email!.lowercaseString.rangeOfString("memphis.edu") != nil) {
+                            
+                            print("This guy is ready to procreed")
+                            self.performSegueWithIdentifier("next1", sender: self)
+                            
+                        } else {
+                            alertUser(self, title: "Where do you go to school?", message: "Please enter an @memphis.edu email address.")
+                            print("you do not have a memphis.edu")
+                        }
+                    } else {
+                        print("this guy messed up somewhere", terminator: "")
+                    }
+                })
+
             }
-        })
-        //Only allows users who have memphis.edu proceed
+            
+        }
+        
+        
+                //Only allows users who have memphis.edu proceed
        
     }
     
@@ -85,18 +99,6 @@ class LogInVC: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
 class LinkUser: UIViewController {
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -224,16 +226,21 @@ class basicSignUp: UIViewController {
         let user = PFUser.currentUser()!
         user["firstName"] = fName.text!.capitalizedString
         user["lastName"] = lName.text!.capitalizedString
-        user.saveInBackgroundWithBlock({
-            (success:Bool, error:NSError?) -> Void in
-            if error == nil {
-                print("updated username fields")
-                self.performSegueWithIdentifier("next3", sender: self)
-            } else {
-                alertUser(self, title: "Oops!", message: "Make sure you fill out a first and last name so we know you're real!")
-                print("Not sucessful")
-            }
-        })
+        if fName.text?.isEmpty == false || lName.text?.isEmpty == false {
+             alertUser(self, title: "Oops!", message: "Make sure you fill out a first and last name so we know you're real!")
+        } else {
+            user.saveInBackgroundWithBlock({
+                (success:Bool, error:NSError?) -> Void in
+                if error == nil {
+                    print("updated username fields")
+                    self.performSegueWithIdentifier("next3", sender: self)
+                } else {
+                    
+                    print("Not sucessful")
+                }
+            })
+        }
+ 
     }
 }
 class extraSignUp: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
