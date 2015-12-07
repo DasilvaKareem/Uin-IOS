@@ -298,6 +298,7 @@ class basicSignUp: UIViewController, UIImagePickerControllerDelegate, UINavigati
         imagePicker.delegate = self
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name:UIKeyboardWillShowNotification, object: nil);
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillHide:"), name:UIKeyboardWillHideNotification, object: nil);
+        queryData() // gets data from facebook that was saved in parse
     }
     func keyboardWillShow(sender: NSNotification) {
         
@@ -339,13 +340,13 @@ class basicSignUp: UIViewController, UIImagePickerControllerDelegate, UINavigati
         if query["lasttName"] != nil {
             lName.text = query["lastName"] as? String
         }
-       /* var file = query["profilePicture"] as! PFFile
+        var file = query["profilePicture"] as! PFFile
         file.getDataInBackgroundWithBlock({
-            (data:NSData!, error:NSError?) -> Void in
+            (data:NSData?, error:NSError?) -> Void in
             if error == nil {
-                self.profilePic.image = UIImage(data: data)
+                self.profilePic.image = UIImage(data: data!)
             }
-        })*/
+        })
         
         
         
@@ -356,6 +357,7 @@ class basicSignUp: UIViewController, UIImagePickerControllerDelegate, UINavigati
         let user = PFUser.currentUser()!
         user["firstName"] = fName.text!.capitalizedString
         user["lastName"] = lName.text!.capitalizedString
+        user["profilePicture"] = profilePic.image
         if fName.text?.isEmpty == true || lName.text?.isEmpty == true {
              alertUser(self, title: "Oops!", message: "Make sure you fill out a first and last name so we know you're real!")
         } else {
