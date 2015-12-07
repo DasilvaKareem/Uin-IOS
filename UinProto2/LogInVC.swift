@@ -305,7 +305,7 @@ class basicSignUp: UIViewController, UIImagePickerControllerDelegate  {
         let user = PFUser.currentUser()!
         user["firstName"] = fName.text!.capitalizedString
         user["lastName"] = lName.text!.capitalizedString
-        if fName.text?.isEmpty == false || lName.text?.isEmpty == false {
+        if fName.text?.isEmpty == true || lName.text?.isEmpty == true {
              alertUser(self, title: "Oops!", message: "Make sure you fill out a first and last name so we know you're real!")
         } else {
             user.saveInBackgroundWithBlock({
