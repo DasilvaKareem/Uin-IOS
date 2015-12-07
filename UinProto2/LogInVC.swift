@@ -238,6 +238,8 @@ class LinkUser: UIViewController {
         super.didReceiveMemoryWarning()
     }
 }
+
+
 class basicSignUp: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate  {
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         self.view.endEditing(true)
@@ -340,13 +342,16 @@ class basicSignUp: UIViewController, UIImagePickerControllerDelegate, UINavigati
         if query["lasttName"] != nil {
             lName.text = query["lastName"] as? String
         }
-        var file = query["profilePicture"] as! PFFile
-        file.getDataInBackgroundWithBlock({
-            (data:NSData?, error:NSError?) -> Void in
-            if error == nil {
-                self.profilePic.image = UIImage(data: data!)
-            }
-        })
+        if query["profilePictuer"] != nil {
+            let file = query["profilePicture"] as! PFFile
+            file.getDataInBackgroundWithBlock({
+                (data:NSData?, error:NSError?) -> Void in
+                if error == nil {
+                    self.profilePic.image = UIImage(data: data!)
+                }
+            })
+        }
+      
         
         
         
