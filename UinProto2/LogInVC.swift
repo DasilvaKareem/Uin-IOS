@@ -175,7 +175,39 @@ class LinkUser: UIViewController {
                 succeeded, error in
                 if succeeded {
                     print("Woohoo, the user is linked with Facebook!", terminator: "")
-                    self.performSegueWithIdentifier("next2", sender: self)
+                    FBRequestConnection.startForMeWithCompletionHandler({
+                        connection, result, error in
+                        if error == nil {
+                            print(result)
+                            self.user!["firstName"] = result["first_name"]
+                            self.user!["lastName"] = result["last_name"]
+                            self.user!["gender"] = result["gender"]
+                            let fbSession = PFFacebookUtils.session()
+                            let accessToken = fbSession!.accessTokenData.accessToken
+                            let url = NSURL(string: "https://graph.facebook.com/me/picture?type=large&return_ssl_resources=1&access_token="+accessToken)
+                            let urlRequest = NSURLRequest(URL: url!)
+                            
+                            NSURLConnection.sendAsynchronousRequest(urlRequest, queue: NSOperationQueue.mainQueue()) { (response:NSURLResponse?, data:NSData?, error:NSError?) -> Void in
+                                
+                                // Display the image
+                                
+                                self.user!["profilePicture"] = PFFile(name: "profilepic.jpg", data: data!)
+                                
+                            }
+                            self.user!.saveInBackgroundWithBlock({
+                                (success:Bool, error:NSError?) -> Void in
+                                if error == nil {
+                                    print("The user is saved")
+                                    self.performSegueWithIdentifier("next2", sender: self)
+                                }
+                                
+                            })
+                        }
+                        
+                        
+                        
+                    })
+                    
 
                 } else {
                     alertUser(self, title: "You already have an Account", message: "Please use another one")
@@ -206,7 +238,7 @@ class LinkUser: UIViewController {
         super.didReceiveMemoryWarning()
     }
 }
-class basicSignUp: UIViewController, UIImagePickerControllerDelegate  {
+class basicSignUp: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate  {
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         self.view.endEditing(true)
     }
@@ -220,10 +252,29 @@ class basicSignUp: UIViewController, UIImagePickerControllerDelegate  {
     
     @IBOutlet weak var lName: UITextField!
     
-  
+    let imagePicker = UIImagePickerController()
+
     func imagePickerControllerDidCancel(picker: UIImagePickerController) {
         dismissViewControllerAnimated(true, completion: nil)
     }
+    
+    @IBAction func changeImage(sender: AnyObject) {
+        imagePicker.allowsEditing = false
+        imagePicker.sourceType = .PhotoLibrary
+        
+        presentViewController(imagePicker, animated: true, completion: nil)
+    }
+    
+  
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+        if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
+            profilePic.contentMode = .ScaleAspectFit
+            profilePic.image = pickedImage
+        }
+        
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+    
     @IBAction func cancel(sender: AnyObject) {
         let user = PFUser.currentUser()
         user!.deleteInBackgroundWithBlock({
@@ -244,9 +295,10 @@ class basicSignUp: UIViewController, UIImagePickerControllerDelegate  {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        imagePicker.delegate = self
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name:UIKeyboardWillShowNotification, object: nil);
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillHide:"), name:UIKeyboardWillHideNotification, object: nil);
+        queryData() // gets data from facebook that was saved in parse
     }
     func keyboardWillShow(sender: NSNotification) {
         
@@ -288,13 +340,13 @@ class basicSignUp: UIViewController, UIImagePickerControllerDelegate  {
         if query["lasttName"] != nil {
             lName.text = query["lastName"] as? String
         }
-       /* var file = query["profilePicture"] as! PFFile
+        var file = query["profilePicture"] as! PFFile
         file.getDataInBackgroundWithBlock({
-            (data:NSData!, error:NSError?) -> Void in
+            (data:NSData?, error:NSError?) -> Void in
             if error == nil {
-                self.profilePic.image = UIImage(data: data)
+                self.profilePic.image = UIImage(data: data!)
             }
-        })*/
+        })
         
         
         
