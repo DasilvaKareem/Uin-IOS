@@ -25,7 +25,10 @@ class LoadingView: UIViewController {
         if PFUser.currentUser() == nil {
            print("not logged in")
         } else {
-            self.performSegueWithIdentifier("login", sender: self)
+            let storyboard = UIStoryboard(name: "CreateEventSB", bundle: nil)
+            let register:UIViewController = storyboard.instantiateInitialViewController()!
+            
+            self.presentViewController(register, animated: true, completion: nil)
         }
         
        
