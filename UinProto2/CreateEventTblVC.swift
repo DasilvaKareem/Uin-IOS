@@ -31,7 +31,7 @@ var poop = ["example"]
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return poop.count
+        return 4
     }
     
     

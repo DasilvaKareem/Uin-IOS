@@ -66,13 +66,6 @@
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="115.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <datePicker contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="2NZ-pE-QV8">
-                                            <rect key="frame" x="138" y="15" width="272" height="68"/>
-                                            <animations/>
-                                            <date key="date" timeIntervalSinceReferenceDate="471890718.51746702">
-                                                <!--2015-12-15 16:45:18 +0000-->
-                                            </date>
-                                        </datePicker>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mLz-wv-ZHy">
                                             <rect key="frame" x="8" y="0.0" width="42" height="21"/>
                                             <animations/>
@@ -80,6 +73,13 @@
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <datePicker contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="2NZ-pE-QV8">
+                                            <rect key="frame" x="8" y="29" width="410" height="68"/>
+                                            <animations/>
+                                            <date key="date" timeIntervalSinceReferenceDate="471890718.51746702">
+                                                <!--2015-12-15 16:45:18 +0000-->
+                                            </date>
+                                        </datePicker>
                                     </subviews>
                                     <animations/>
                                 </tableViewCellContentView>
