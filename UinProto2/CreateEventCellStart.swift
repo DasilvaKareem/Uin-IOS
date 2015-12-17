@@ -14,7 +14,7 @@ class CreateEventCellStart: UITableViewCell {
     class var defaultHeight: CGFloat  { get { return 44  } }
     @IBOutlet weak var datePickerStart: UIDatePicker!
     func checkHeight() {
-        datePickerStart.hidden = (frame.size.height < CreateEventCellStart.expandedHeight)
+        //datePickerStart.hidden = (frame.size.height < CreateEventCellStart.expandedHeight)
     }
     
     func watchFrameChanges() {
@@ -68,6 +68,31 @@ class CreateEventCellEnd: UITableViewCell {
 class CreateEventCellTitle: UITableViewCell {
     
     @IBOutlet weak var eventTitle: UITextField!
+    var isObserving = false;
+    class var expandedHeight: CGFloat { get { return 150 } }
+    class var defaultHeight: CGFloat  { get { return 20  } }
+    /*func checkHeight() {
+        eventTitle.hidden = (frame.size.height < CreateEventCellTitle.expandedHeight)
+    }
+    func watchFrameChanges() {
+        if !isObserving {
+            addObserver(self, forKeyPath: "frame", options: [NSKeyValueObservingOptions.New, NSKeyValueObservingOptions.Initial], context: nil)
+            isObserving = true;
+        }
+    }
+    
+    func ignoreFrameChanges() {
+        if isObserving {
+            removeObserver(self, forKeyPath: "frame")
+            isObserving = false;
+        }
+    }
+    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+        if keyPath == "frame" {
+            checkHeight()
+        }
+    }*/
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

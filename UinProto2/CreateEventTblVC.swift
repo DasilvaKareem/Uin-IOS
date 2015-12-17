@@ -26,22 +26,30 @@ var poop = ["example"]
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 1
+        return 2
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 4
+        return 2
     }
     
     
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell:CreateEventCellStart = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! CreateEventCellStart
+     
+   
+        if indexPath.section == 1 {
+            let cell2:CreateEventCellStart = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! CreateEventCellStart
+            
+            return cell2
+        } else {
+               let cell:CreateEventCellTitle = tableView.dequeueReusableCellWithIdentifier("title", forIndexPath: indexPath) as! CreateEventCellTitle
+               return cell
+        }
 
-        
 
-        return cell
+     
     }
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let previousIndexPath = selectedIndexPath
@@ -64,26 +72,38 @@ var poop = ["example"]
     }
     
     override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        (cell as! CreateEventCellStart).watchFrameChanges()
+        /*if indexPath.row == 1 || indexPath.row == 2 {
+            (cell as! CreateEventCellStart).watchFrameChanges()
+        }*/
+        
     }
     
     override func tableView(tableView: UITableView, didEndDisplayingCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        (cell as! CreateEventCellStart).ignoreFrameChanges()
+        if indexPath.section == 1  {
+            (cell as! CreateEventCellStart).ignoreFrameChanges()
+            
+        }
     }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        for cell in tableView.visibleCells as! [CreateEventCellStart] {
-            cell.ignoreFrameChanges()
-        }
+        
+       /*for cell in tableView.visibleCells as! [CreateEventCellStart] {
+           cell.ignoreFrameChanges()
+       }*/
     }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if indexPath == selectedIndexPath {
-            return 200
-        } else {
-            return 50
+        if indexPath.section == 1 {
+            if indexPath == selectedIndexPath  {
+                print("hey")
+                return 200
+            } else {
+                print("efde")
+                return 44
+            }
         }
+      return 50
     }
     
 }
