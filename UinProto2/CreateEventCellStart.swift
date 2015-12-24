@@ -123,6 +123,11 @@ class CreateEventCellDescription: UITableViewCell {
 }
 class CreateEventCellIcon: UITableViewCell {
     
+    @IBOutlet var tag1: UIImageView!
+    @IBOutlet var tag2: UIImageView!
+    @IBOutlet var tag3: UIImageView!
+    
+    @IBOutlet var tagView: UICollectionView!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -133,6 +138,10 @@ class CreateEventCellIcon: UITableViewCell {
         
         // Configure the view for the selected state
     }
+    
+}
+class iconCollectionCell: UICollectionViewCell {
+    
     
 }
 class CreateEventPrivacy: UITableViewCell {
