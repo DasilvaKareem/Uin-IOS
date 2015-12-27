@@ -31,11 +31,11 @@ var poop = ["example"]
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        if section != 1 || section != 0 {
-            return 1
+        if section == 1 || section == 0 {
+            return 2
 
         } else {
-            return 2
+            return 1
         }
     }
     
@@ -115,6 +115,11 @@ var poop = ["example"]
             } else {
                 print("efde")
                 return 44
+            }
+        }
+        if indexPath.section == 0 {
+            if indexPath.row == 1 {
+                return 100
             }
         }
       return 50
