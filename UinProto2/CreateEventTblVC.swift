@@ -26,7 +26,7 @@ var poop = ["example"]
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 4
+        return 5
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -54,7 +54,10 @@ var poop = ["example"]
 
             let cell2:CreateEventCellStart = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! CreateEventCellStart
             return cell2
-        } else if (indexPath.section == 2) {
+        }else if (indexPath.section == 2) {
+            let cell:CreateEventLocation = tableView.dequeueReusableCellWithIdentifier("location", forIndexPath: indexPath) as! CreateEventLocation
+            return cell
+        }else if (indexPath.section == 3) {
             let cell:CreateEventCellIcon = tableView.dequeueReusableCellWithIdentifier("icon", forIndexPath: indexPath) as! CreateEventCellIcon
             return cell
         } else {
