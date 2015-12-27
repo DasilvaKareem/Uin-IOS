@@ -26,26 +26,40 @@ var poop = ["example"]
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 2
+        return 4
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 2
+        if section != 1 || section != 0 {
+            return 1
+
+        } else {
+            return 2
+        }
     }
     
     
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
      
-   
-        if indexPath.section == 1 {
+        if indexPath.section == 0 {
+            if indexPath.row == 1 {
+                let cell2:CreateEventCellDescription = tableView.dequeueReusableCellWithIdentifier("description", forIndexPath: indexPath) as! CreateEventCellDescription
+                return cell2
+            }
+            let cell:CreateEventCellTitle = tableView.dequeueReusableCellWithIdentifier("title", forIndexPath: indexPath) as! CreateEventCellTitle
+            return cell
+        } else if (indexPath.section == 1) {
+
             let cell2:CreateEventCellStart = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! CreateEventCellStart
-            
             return cell2
+        } else if (indexPath.section == 2) {
+            let cell:CreateEventCellIcon = tableView.dequeueReusableCellWithIdentifier("icon", forIndexPath: indexPath) as! CreateEventCellIcon
+            return cell
         } else {
-               let cell:CreateEventCellTitle = tableView.dequeueReusableCellWithIdentifier("title", forIndexPath: indexPath) as! CreateEventCellTitle
-               return cell
+            let cell:CreateEventPrivacy = tableView.dequeueReusableCellWithIdentifier("public", forIndexPath: indexPath) as! CreateEventPrivacy
+            return cell
         }
 
 
