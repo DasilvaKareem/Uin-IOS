@@ -9,17 +9,34 @@
 import UIKit
 
 class CreateEventTblVC: UITableViewController {
-var poop = ["example"]
     var selectedIndexPath : NSIndexPath?
-
+    
+    struct Event {
+        var title = (String)()
+        var description = (String)()
+        var isPublic = (Bool)()
+        var user = (String)()
+        var tag1 = ""
+        var tag2 = ""
+        var tag3 = ""
+        var location = (PFGeoPoint)()
+        var address = (String)()
+        var start = (NSDate)()
+        var end = (NSDate)()
+    }
+    var event = (Event)()
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    @IBAction func createEvent(sender: AnyObject) {
+        print(event)
     }
 
     // MARK: - Table view data source
@@ -45,6 +62,7 @@ var poop = ["example"]
      
         if indexPath.section == 0 {
             if indexPath.row == 1 {
+                //Description cell
                 let cell2:CreateEventCellDescription = tableView.dequeueReusableCellWithIdentifier("description", forIndexPath: indexPath) as! CreateEventCellDescription
                 return cell2
             }
@@ -70,6 +88,7 @@ var poop = ["example"]
     }
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let previousIndexPath = selectedIndexPath
+        print("hey")
         if indexPath == selectedIndexPath {
             selectedIndexPath = nil
         } else {
@@ -94,6 +113,8 @@ var poop = ["example"]
         }*/
         
     }
+   
+    
     
     override func tableView(tableView: UITableView, didEndDisplayingCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
         if indexPath.section == 1  {
@@ -101,6 +122,7 @@ var poop = ["example"]
             
         }
     }
+
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
